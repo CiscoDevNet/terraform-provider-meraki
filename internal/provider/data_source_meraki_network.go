@@ -141,6 +141,7 @@ func (d *NetworkDataSource) Read(ctx context.Context, req datasource.ReadRequest
 				if config.Name.ValueString() == v.Get("name").String() {
 					config.Id = types.StringValue(v.Get("id").String())
 					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
+					res = v
 					return false
 				}
 				return true
