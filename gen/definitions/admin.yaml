@@ -1,0 +1,70 @@
+---
+name: Admin
+rest_endpoint: /organizations/%v/admins
+get_from_all: true
+data_source_name_query: true
+doc_category: Organizations
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: 123456
+    test_value: data.meraki_organization.test.id
+  - model_name: email
+    type: String
+    mandatory: true
+    description: The email of the dashboard administrator. This attribute can not be updated.
+    example: miles@meraki.com
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the dashboard administrator
+    example: Miles Meraki
+  - model_name: orgAccess
+    type: String
+    mandatory: true
+    description: The privilege of the dashboard administrator on the organization. Can be one of `full`, `read-only`, `enterprise` or `none`
+    enum_values: [full, read-only, enterprise, none]
+    example: none
+    minimum_test_value: '"full"'
+  - model_name: networks
+    type: List
+    description: The list of networks that the dashboard administrator has privileges on
+    attributes:
+      - model_name: access
+        type: String
+        mandatory: true
+        description: The privilege of the dashboard administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
+        enum_values: [full, read-only, guest-ambassador, monitor-only]
+        example: full
+      - model_name: id
+        type: String
+        mandatory: true
+        description: The network ID
+        example: N_24329156
+        test_value: meraki_network.test.id
+  - model_name: tags
+    type: List
+    description: The list of tags that the dashboard administrator has privileges on
+    attributes:
+      - model_name: access
+        type: String
+        mandatory: true
+        description: The privilege of the dashboard administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
+        enum_values: [full, read-only, guest-ambassador, monitor-only]
+        example: read-only
+      - model_name: tag
+        type: String
+        mandatory: true
+        description: The name of the tag
+        example: west
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "TF Test"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch"]
+  }

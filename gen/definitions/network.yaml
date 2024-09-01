@@ -1,0 +1,40 @@
+---
+name: Network
+rest_endpoint: /organizations/%v/networks
+data_source_name_query: true
+doc_category: Networks
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: 123456
+    test_value: data.meraki_organization.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the new network
+    example: Main Office
+  - model_name: notes
+    type: String
+    description: Add any notes or additional information about this network here.
+    example: Additional description of the network
+  - model_name: timeZone
+    type: String
+    description: The timezone of the network. For a list of allowed timezones, please see the 'TZ' column in the table in this article.
+    example: America/Los_Angeles
+  - model_name: productTypes
+    type: List
+    element_type: String
+    mandatory: true
+    description: The product type(s) of the new network. If more than one type is included, the network will be a combined network.
+    example: switch
+  - model_name: tags
+    type: List
+    element_type: String
+    description: A list of tags to be applied to the network
+    example: tag1
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "TF Test"
+  }
