@@ -45,7 +45,7 @@ go install
 
 ### Acceptance Tests
 
-In order to run the full suite of Acceptance tests, run `make testacc`. Make sure the respective environment variables are set (e.g., `MERAKI_DASHBOARD_API_KEY`).
+In order to run the full suite of Acceptance tests, run `make testacc`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
 
 Note: Acceptance tests create real resources.
 
