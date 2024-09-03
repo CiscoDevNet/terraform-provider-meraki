@@ -29,25 +29,19 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiOrganization(t *testing.T) {
+func TestAccMerakiNetworkSettings(t *testing.T) {
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization.test", "name", "Dev"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization.test", "management_details.0.name", "MSP ID"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization.test", "management_details.0.value", "123456"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "local_status_page_enabled", "false"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiOrganizationConfig_minimum(),
+			Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationConfig_all(),
+		Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
-	})
-	steps = append(steps, resource.TestStep{
-		ResourceName: "meraki_organization.test",
-		ImportState:  true,
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -60,13 +54,26 @@ func TestAccMerakiOrganization(t *testing.T) {
 // End of section. //template:end testAcc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
+
+const testAccMerakiNetworkSettingsPrerequisitesConfig = `
+data "meraki_organization" "test" {
+  name = "Dev"
+}
+resource "meraki_network" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = "Network1"
+  product_types   = ["switch"]
+}
+
+`
+
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiOrganizationConfig_minimum() string {
-	config := `resource "meraki_organization" "test" {` + "\n"
-	config += `	name = "Dev"` + "\n"
+func testAccMerakiNetworkSettingsConfig_minimum() string {
+	config := `resource "meraki_network_settings" "test" {` + "\n"
+	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -75,13 +82,10 @@ func testAccMerakiOrganizationConfig_minimum() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-func testAccMerakiOrganizationConfig_all() string {
-	config := `resource "meraki_organization" "test" {` + "\n"
-	config += `	name = "Dev"` + "\n"
-	config += `	management_details = [{` + "\n"
-	config += `		name = "MSP ID"` + "\n"
-	config += `		value = "123456"` + "\n"
-	config += `	}]` + "\n"
+func testAccMerakiNetworkSettingsConfig_all() string {
+	config := `resource "meraki_network_settings" "test" {` + "\n"
+	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	local_status_page_enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }

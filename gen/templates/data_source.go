@@ -181,9 +181,9 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
 
-	{{- if .DataSourceNameQuery}}
 	var res gjson.Result
 	var err error
+	{{- if .DataSourceNameQuery}}
 	if config.Id.IsNull() && !config.Name.IsNull() {
 			res, err = d.client.Get(config.getPath())
 			if err != nil {

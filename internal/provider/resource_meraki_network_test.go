@@ -61,7 +61,7 @@ func TestAccMerakiNetwork(t *testing.T) {
 
 const testAccMerakiNetworkPrerequisitesConfig = `
 data "meraki_organization" "test" {
-  name = "TF Test"
+  name = "Dev"
 }
 
 `

@@ -14,7 +14,7 @@ This resource can manage the `Organization` configuration.
 
 ```terraform
 resource "meraki_organization" "example" {
-  name = "My organization"
+  name = "Dev"
   management_details = [
     {
       name  = "MSP ID"

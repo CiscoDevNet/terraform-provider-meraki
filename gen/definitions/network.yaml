@@ -36,5 +36,5 @@ attributes:
     example: tag1
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "TF Test"
+    name = "Dev"
   }

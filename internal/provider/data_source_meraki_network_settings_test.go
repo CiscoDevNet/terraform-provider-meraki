@@ -28,21 +28,15 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiOrganization(t *testing.T) {
+func TestAccDataSourceMerakiNetworkSettings(t *testing.T) {
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization.test", "name", "Dev"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization.test", "management_details.0.name", "MSP ID"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization.test", "management_details.0.value", "123456"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiOrganizationConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
-			{
-				Config: testAccNamedDataSourceMerakiOrganizationConfig(),
+				Config: testAccDataSourceMerakiNetworkSettingsPrerequisitesConfig + testAccDataSourceMerakiNetworkSettingsConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
@@ -52,39 +46,33 @@ func TestAccDataSourceMerakiOrganization(t *testing.T) {
 // End of section. //template:end testAccDataSource
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
+
+const testAccDataSourceMerakiNetworkSettingsPrerequisitesConfig = `
+data "meraki_organization" "test" {
+  name = "Dev"
+}
+resource "meraki_network" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = "Network1"
+  product_types   = ["switch"]
+}
+
+`
+
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiOrganizationConfig() string {
-	config := `resource "meraki_organization" "test" {` + "\n"
-	config += `	name = "Dev"` + "\n"
-	config += `	management_details = [{` + "\n"
-	config += `		name = "MSP ID"` + "\n"
-	config += `		value = "123456"` + "\n"
-	config += `	}]` + "\n"
+func testAccDataSourceMerakiNetworkSettingsConfig() string {
+	config := `resource "meraki_network_settings" "test" {` + "\n"
+	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	local_status_page_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `
-		data "meraki_organization" "test" {
-			id = meraki_organization.test.id
-		}
-	`
-	return config
-}
-
-func testAccNamedDataSourceMerakiOrganizationConfig() string {
-	config := `resource "meraki_organization" "test" {` + "\n"
-	config += `	name = "Dev"` + "\n"
-	config += `	management_details = [{` + "\n"
-	config += `		name = "MSP ID"` + "\n"
-	config += `		value = "123456"` + "\n"
-	config += `	}]` + "\n"
-	config += `}` + "\n"
-
-	config += `
-		data "meraki_organization" "test" {
-			name = meraki_organization.test.name
+		data "meraki_network_settings" "test" {
+			id = meraki_network_settings.test.id
+			network_id = meraki_network.test.id
 		}
 	`
 	return config

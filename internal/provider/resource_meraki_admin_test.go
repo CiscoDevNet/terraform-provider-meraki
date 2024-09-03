@@ -62,7 +62,7 @@ func TestAccMerakiAdmin(t *testing.T) {
 
 const testAccMerakiAdminPrerequisitesConfig = `
 data "meraki_organization" "test" {
-  name = "TF Test"
+  name = "Dev"
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id

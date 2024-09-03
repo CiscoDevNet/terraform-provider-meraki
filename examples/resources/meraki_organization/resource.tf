@@ -1,5 +1,5 @@
 resource "meraki_organization" "example" {
-  name = "My organization"
+  name = "Dev"
   management_details = [
     {
       name  = "MSP ID"
