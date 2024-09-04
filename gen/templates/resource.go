@@ -416,33 +416,6 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	{{- if .PutCreate}}
-	tflog.Debug(ctx, fmt.Sprintf("%s: considering object name %s", plan.Id, plan.Name))
-
-	if plan.Id.ValueString() == "" && plan.Name.ValueString() != "" {
-		res, err := r.client.Get(plan.getPath())
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve objects, got error: %s", err))
-			return
-		}
-		if len(res.Array()) > 0 {
-			res.ForEach(func(k, v gjson.Result) bool {
-				if plan.Name.ValueString() == v.Get("name").String() {
-					plan.Id = types.StringValue(v.Get("id").String())
-					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%s', id: %s", plan.Id, plan.Name.ValueString(), plan.Id))
-					return false
-				}
-				return true
-			})
-		}
-
-		if plan.Id.ValueString() == "" {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to find object with name: %s", plan.Name.ValueString()))
-			return
-		}
-	}
-	{{- end}}
-
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
 	// Create object

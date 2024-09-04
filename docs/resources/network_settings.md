@@ -24,11 +24,8 @@ resource "meraki_network_settings" "example" {
 
 ### Required
 
-- `network_id` (String) Network ID
-
-### Optional
-
 - `local_status_page_enabled` (Boolean) asdasdas
+- `network_id` (String) Network ID
 
 ### Read-Only
 

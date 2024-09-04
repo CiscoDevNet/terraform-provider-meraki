@@ -74,6 +74,7 @@ resource "meraki_network" "test" {
 func testAccMerakiNetworkSettingsConfig_minimum() string {
 	config := `resource "meraki_network_settings" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	local_status_page_enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }

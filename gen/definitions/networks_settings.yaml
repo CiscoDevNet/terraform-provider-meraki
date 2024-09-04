@@ -4,7 +4,6 @@ rest_endpoint: /networks/%v/settings
 no_delete: true
 put_create: true
 doc_category: Networks
-get_from_all: true
 attributes:
   - tf_name: network_id
     type: String
@@ -16,6 +15,7 @@ attributes:
     type: Bool
     description: asdasdas
     example: false
+    mandatory: true
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = "Dev"

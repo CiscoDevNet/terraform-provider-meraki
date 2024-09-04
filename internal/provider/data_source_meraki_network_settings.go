@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -101,20 +102,11 @@ func (d *NetworkSettingsDataSource) Read(ctx context.Context, req datasource.Rea
 	var err error
 
 	if !res.Exists() {
-		res, err = d.client.Get(config.getPath())
+		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
 			return
 		}
-	}
-	if len(res.Array()) > 0 {
-		res.ForEach(func(k, v gjson.Result) bool {
-			if config.Id.ValueString() == v.Get("id").String() {
-				res = v
-				return false
-			}
-			return true
-		})
 	}
 
 	config.fromBody(ctx, res)

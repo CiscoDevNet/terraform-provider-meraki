@@ -33,7 +33,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 	"github.com/netascode/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -80,7 +79,7 @@ func (r *NetworkSettingsResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"local_status_page_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("asdasdas").String,
-				Optional:            true,
+				Required:            true,
 			},
 		},
 	}
@@ -105,30 +104,6 @@ func (r *NetworkSettingsResource) Create(ctx context.Context, req resource.Creat
 	diags := req.Plan.Get(ctx, &plan)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
-	}
-	tflog.Debug(ctx, fmt.Sprintf("%s: considering object name %s", plan.Id, plan.Name))
-
-	if plan.Id.ValueString() == "" && plan.Name.ValueString() != "" {
-		res, err := r.client.Get(plan.getPath())
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve objects, got error: %s", err))
-			return
-		}
-		if len(res.Array()) > 0 {
-			res.ForEach(func(k, v gjson.Result) bool {
-				if plan.Name.ValueString() == v.Get("name").String() {
-					plan.Id = types.StringValue(v.Get("id").String())
-					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%s', id: %s", plan.Id, plan.Name.ValueString(), plan.Id))
-					return false
-				}
-				return true
-			})
-		}
-
-		if plan.Id.ValueString() == "" {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to find object with name: %s", plan.Name.ValueString()))
-			return
-		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
@@ -164,22 +139,13 @@ func (r *NetworkSettingsResource) Read(ctx context.Context, req resource.ReadReq
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath())
+	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
 		return
-	}
-	if len(res.Array()) > 0 {
-		res.ForEach(func(k, v gjson.Result) bool {
-			if state.Id.ValueString() == v.Get("id").String() {
-				res = v
-				return false
-			}
-			return true
-		})
 	}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
