@@ -111,6 +111,7 @@ type YamlConfig struct {
 	Attributes          []YamlConfigAttribute `yaml:"attributes"`
 	TestTags            []string              `yaml:"test_tags"`
 	TestPrerequisites   string                `yaml:"test_prerequisites"`
+	IdName              string                `yaml:"id_name"`
 }
 
 type YamlConfigAttribute struct {
@@ -175,6 +176,11 @@ func CamelCase(s string) string {
 		g = append(g, strings.Title(value))
 	}
 	return strings.Join(g, "")
+}
+
+func DromedaryCase(s string) string {
+	s = ToGoName(s)
+	return strings.ToLower(string(s[0])) + s[1:]
 }
 
 // Templating helper function to convert string to snake case
@@ -345,6 +351,7 @@ func Subtract(a, b int) int {
 // Map of templating functions
 var functions = template.FuncMap{
 	"toGoName":           ToGoName,
+	"dromedaryCase":      DromedaryCase,
 	"camelCase":          CamelCase,
 	"snakeCase":          SnakeCase,
 	"sprintf":            fmt.Sprintf,
@@ -450,6 +457,9 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 	}
 	if config.TfName == "" {
 		config.TfName = strings.Replace(config.Name, " ", "_", -1)
+	}
+	if config.IdName == "" {
+		config.IdName = "id"
 	}
 
 	return config, nil

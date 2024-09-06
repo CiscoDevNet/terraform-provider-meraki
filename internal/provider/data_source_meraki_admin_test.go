@@ -63,7 +63,7 @@ data "meraki_organization" "test" {
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = "Network1"
-  product_types   = ["switch"]
+  product_types   = ["switch", "wireless"]
 }
 
 `

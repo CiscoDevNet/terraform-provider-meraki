@@ -29,23 +29,22 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiAdmin(t *testing.T) {
+func TestAccMerakiNetworkGroupPolicies(t *testing.T) {
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "email", "miles@meraki.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "name", "Miles Meraki"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "org_access", "none"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "networks.0.access", "full"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "tags.0.access", "read-only"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "tags.0.tag", "west"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policies.test", "name", "test_group_policy"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policies.test", "bonjour_forwarding_settings", "custom"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policies.test", "bonjour_forwarding_rules.0.description", "a simple bonjour rule"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policies.test", "bonjour_forwarding_rules.0.services.0", "All Services"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policies.test", "bonjour_forwarding_rules.0.vlan_id", "2"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiAdminPrerequisitesConfig + testAccMerakiAdminConfig_minimum(),
+			Config: testAccMerakiNetworkGroupPoliciesPrerequisitesConfig + testAccMerakiNetworkGroupPoliciesConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiAdminPrerequisitesConfig + testAccMerakiAdminConfig_all(),
+		Config: testAccMerakiNetworkGroupPoliciesPrerequisitesConfig + testAccMerakiNetworkGroupPoliciesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -60,7 +59,7 @@ func TestAccMerakiAdmin(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccMerakiAdminPrerequisitesConfig = `
+const testAccMerakiNetworkGroupPoliciesPrerequisitesConfig = `
 data "meraki_organization" "test" {
   name = "Dev"
 }
@@ -76,12 +75,10 @@ resource "meraki_network" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiAdminConfig_minimum() string {
-	config := `resource "meraki_admin" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	email = "miles@meraki.com"` + "\n"
-	config += `	name = "Miles Meraki"` + "\n"
-	config += `	org_access = "full"` + "\n"
+func testAccMerakiNetworkGroupPoliciesConfig_minimum() string {
+	config := `resource "meraki_network_group_policies" "test" {` + "\n"
+	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	name = "test_group_policy"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -90,19 +87,15 @@ func testAccMerakiAdminConfig_minimum() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-func testAccMerakiAdminConfig_all() string {
-	config := `resource "meraki_admin" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	email = "miles@meraki.com"` + "\n"
-	config += `	name = "Miles Meraki"` + "\n"
-	config += `	org_access = "none"` + "\n"
-	config += `	networks = [{` + "\n"
-	config += `		access = "full"` + "\n"
-	config += `		id = meraki_network.test.id` + "\n"
-	config += `	}]` + "\n"
-	config += `	tags = [{` + "\n"
-	config += `		access = "read-only"` + "\n"
-	config += `		tag = "west"` + "\n"
+func testAccMerakiNetworkGroupPoliciesConfig_all() string {
+	config := `resource "meraki_network_group_policies" "test" {` + "\n"
+	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	name = "test_group_policy"` + "\n"
+	config += `	bonjour_forwarding_settings = "custom"` + "\n"
+	config += `	bonjour_forwarding_rules = [{` + "\n"
+	config += `		description = "a simple bonjour rule"` + "\n"
+	config += `		services = ["All Services"]` + "\n"
+	config += `		vlan_id = "2"` + "\n"
 	config += `	}]` + "\n"
 	config += `}` + "\n"
 	return config

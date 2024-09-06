@@ -234,7 +234,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 
 	config += `
 		data "meraki_{{snakeCase .Name}}" "test" {
-			id = meraki_{{snakeCase $name}}.test.id
+			{{ .IdName }} = meraki_{{snakeCase $name}}.test.{{ .IdName }}
 			{{- range  .Attributes}}
 			{{- if .Reference}}
 			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}

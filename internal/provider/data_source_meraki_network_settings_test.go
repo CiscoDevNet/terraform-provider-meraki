@@ -31,6 +31,10 @@ import (
 func TestAccDataSourceMerakiNetworkSettings(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "remote_status_page_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_authentication_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "named_vlans_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "secure_port_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -54,7 +58,7 @@ data "meraki_organization" "test" {
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = "Network1"
-  product_types   = ["switch"]
+  product_types   = ["switch", "wireless"]
 }
 
 `
@@ -67,6 +71,11 @@ func testAccDataSourceMerakiNetworkSettingsConfig() string {
 	config := `resource "meraki_network_settings" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `	local_status_page_enabled = false` + "\n"
+	config += `	remote_status_page_enabled = false` + "\n"
+	config += `	local_status_page_authentication_enabled = false` + "\n"
+	config += `	local_status_page_authentication_password = "miles123"` + "\n"
+	config += `	named_vlans_enabled = false` + "\n"
+	config += `	secure_port_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

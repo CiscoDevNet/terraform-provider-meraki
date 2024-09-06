@@ -4,9 +4,11 @@ rest_endpoint: /networks/%v/settings
 no_delete: true
 put_create: true
 doc_category: Networks
+id_from_attribute: true
 attributes:
   - tf_name: network_id
     type: String
+    id: true
     reference: true
     description: Network ID
     example: L_123456
@@ -16,6 +18,28 @@ attributes:
     description: asdasdas
     example: false
     mandatory: true
+  - model_name: remoteStatusPageEnabled
+    type: Bool
+    example: false
+  - model_name: enabled
+    data_path: [localStatusPage, authentication]
+    type: Bool
+    example: false
+  - model_name: password
+    data_path: [localStatusPage, authentication]
+    type: String
+    example: miles123
+    write_only: true
+  - model_name: enabled
+    data_path: [namedVlans]
+    type: Bool
+    example: false
+  - model_name: enabled
+    data_path: [securePort]
+    type: Bool
+    example: false
+  
+
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = "Dev"
@@ -23,5 +47,5 @@ test_prerequisites: |
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
     name            = "Network1"
-    product_types   = ["switch"]
+    product_types   = ["switch", "wireless"]
   }

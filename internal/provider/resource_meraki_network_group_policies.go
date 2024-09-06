@@ -41,29 +41,29 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &NetworkSettingsResource{}
-	_ resource.ResourceWithImportState = &NetworkSettingsResource{}
+	_ resource.Resource                = &NetworkGroupPoliciesResource{}
+	_ resource.ResourceWithImportState = &NetworkGroupPoliciesResource{}
 )
 
-func NewNetworkSettingsResource() resource.Resource {
-	return &NetworkSettingsResource{}
+func NewNetworkGroupPoliciesResource() resource.Resource {
+	return &NetworkGroupPoliciesResource{}
 }
 
-type NetworkSettingsResource struct {
+type NetworkGroupPoliciesResource struct {
 	client *meraki.Client
 }
 
-func (r *NetworkSettingsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_network_settings"
+func (r *NetworkGroupPoliciesResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_network_group_policies"
 }
 
-func (r *NetworkSettingsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *NetworkGroupPoliciesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Network Settings` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Network Group Policies` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
+			"group_policy_id": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
 				Computed:            true,
 				PlanModifiers: []planmodifier.String{
@@ -77,35 +77,40 @@ func (r *NetworkSettingsResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"local_status_page_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("asdasdas").String,
+			"name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
 				Required:            true,
 			},
-			"remote_status_page_enabled": schema.BoolAttribute{
+			"bonjour_forwarding_settings": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("").String,
 				Optional:            true,
 			},
-			"local_status_page_authentication_enabled": schema.BoolAttribute{
+			"bonjour_forwarding_rules": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("").String,
 				Optional:            true,
-			},
-			"local_status_page_authentication_password": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").String,
-				Optional:            true,
-			},
-			"named_vlans_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").String,
-				Optional:            true,
-			},
-			"secure_port_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").String,
-				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"description": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("").String,
+							Optional:            true,
+						},
+						"services": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("").String,
+							ElementType:         types.StringType,
+							Optional:            true,
+						},
+						"vlan_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("").String,
+							Optional:            true,
+						},
+					},
+				},
 			},
 		},
 	}
 }
 
-func (r *NetworkSettingsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *NetworkGroupPoliciesResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -117,8 +122,8 @@ func (r *NetworkSettingsResource) Configure(_ context.Context, req resource.Conf
 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
-func (r *NetworkSettingsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan NetworkSettings
+func (r *NetworkGroupPoliciesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan NetworkGroupPolicies
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -126,18 +131,18 @@ func (r *NetworkSettingsResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.GroupPolicyId.ValueString()))
 
 	// Create object
-	body := plan.toBody(ctx, NetworkSettings{})
-	res, err := r.client.Put(plan.getPath()+"/"+url.PathEscape(plan.Id.ValueString()), body)
+	body := plan.toBody(ctx, NetworkGroupPolicies{})
+	res, err := r.client.Post(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
-	plan.Id = types.StringValue(res.Get("id").String())
+	plan.GroupPolicyId = types.StringValue(res.Get("groupPolicyId").String())
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.GroupPolicyId.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -149,8 +154,8 @@ func (r *NetworkSettingsResource) Create(ctx context.Context, req resource.Creat
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (r *NetworkSettingsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state NetworkSettings
+func (r *NetworkGroupPoliciesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state NetworkGroupPolicies
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -158,8 +163,8 @@ func (r *NetworkSettingsResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.GroupPolicyId.String()))
+	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.GroupPolicyId.ValueString()))
 	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
 		resp.State.RemoveResource(ctx)
 		return
@@ -180,7 +185,7 @@ func (r *NetworkSettingsResource) Read(ctx context.Context, req resource.ReadReq
 		state.fromBodyPartial(ctx, res)
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.GroupPolicyId.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -192,8 +197,8 @@ func (r *NetworkSettingsResource) Read(ctx context.Context, req resource.ReadReq
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
-func (r *NetworkSettingsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state NetworkSettings
+func (r *NetworkGroupPoliciesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state NetworkGroupPolicies
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -207,16 +212,16 @@ func (r *NetworkSettingsResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.GroupPolicyId.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.GroupPolicyId.ValueString()), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.GroupPolicyId.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -226,8 +231,8 @@ func (r *NetworkSettingsResource) Update(ctx context.Context, req resource.Updat
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *NetworkSettingsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state NetworkSettings
+func (r *NetworkGroupPoliciesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state NetworkGroupPolicies
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -235,9 +240,14 @@ func (r *NetworkSettingsResource) Delete(ctx context.Context, req resource.Delet
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.GroupPolicyId.ValueString()))
+	res, err := r.client.Delete(state.getPath() + "/" + url.QueryEscape(state.GroupPolicyId.ValueString()))
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete object (DELETE), got error: %s, %s", err, res.String()))
+		return
+	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.GroupPolicyId.ValueString()))
 
 	resp.State.RemoveResource(ctx)
 }
@@ -246,7 +256,7 @@ func (r *NetworkSettingsResource) Delete(ctx context.Context, req resource.Delet
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 
-func (r *NetworkSettingsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *NetworkGroupPoliciesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
 	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
@@ -257,7 +267,7 @@ func (r *NetworkSettingsResource) ImportState(ctx context.Context, req resource.
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("group_policy_id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

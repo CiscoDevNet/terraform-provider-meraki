@@ -14,7 +14,7 @@ This data source can read the `Network Settings` configuration.
 
 ```terraform
 data "meraki_network_settings" "example" {
-  id         = "12345678"
+  id         = "L_123456"
   network_id = "L_123456"
 }
 ```
@@ -29,4 +29,9 @@ data "meraki_network_settings" "example" {
 
 ### Read-Only
 
+- `local_status_page_authentication_enabled` (Boolean)
+- `local_status_page_authentication_password` (String)
 - `local_status_page_enabled` (Boolean) asdasdas
+- `named_vlans_enabled` (Boolean)
+- `remote_status_page_enabled` (Boolean)
+- `secure_port_enabled` (Boolean)

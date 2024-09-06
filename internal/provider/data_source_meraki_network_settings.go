@@ -70,6 +70,26 @@ func (d *NetworkSettingsDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "asdasdas",
 				Computed:            true,
 			},
+			"remote_status_page_enabled": schema.BoolAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
+			"local_status_page_authentication_enabled": schema.BoolAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
+			"local_status_page_authentication_password": schema.StringAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
+			"named_vlans_enabled": schema.BoolAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
+			"secure_port_enabled": schema.BoolAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
 		},
 	}
 }

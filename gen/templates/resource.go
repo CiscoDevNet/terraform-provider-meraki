@@ -71,7 +71,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 		MarkdownDescription: helpers.NewAttributeDescription("{{.ResDescription}}").String,
 
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
+			"{{.IdName}}": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
 				Computed:            true,
 				PlanModifiers: []planmodifier.String{
@@ -416,13 +416,13 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.{{toGoName .IdName}}.ValueString()))
 
 	// Create object
 	body := plan.toBody(ctx, {{camelCase .Name}}{})
 
 	{{- if .PutCreate}}
-	res, err := r.client.Put(plan.getPath()+"/"+url.PathEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath()+"/"+url.PathEscape(plan.{{toGoName .IdName}}.ValueString()), body)
 	{{- else}}
 	res, err := r.client.Post(plan.getPath(), body)
 	{{- end}}
@@ -430,10 +430,10 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
-	plan.Id = types.StringValue(res.Get("id").String())
+	plan.{{toGoName .IdName}} = types.StringValue(res.Get("{{dromedaryCase .IdName}}").String())
 
 	{{- if hasResourceId .Attributes}}
-	res, err = r.client.Get(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()))
+	res, err = r.client.Get(plan.getPath() + "/" + url.QueryEscape(plan.{{toGoName .IdName}}.ValueString()))
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
 		return
@@ -441,7 +441,7 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 	plan.fromBodyUnknowns(ctx, res)
 	{{- end}}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.{{toGoName .IdName}}.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -462,12 +462,12 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.{{toGoName .IdName}}.String()))
 
 	{{- if .GetFromAll}}
 	res, err := r.client.Get(state.getPath())
 	{{- else}}
-	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
+	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.{{toGoName .IdName}}.ValueString()))
 	{{- end}}
 	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
 		resp.State.RemoveResource(ctx)
@@ -479,7 +479,7 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	{{- if .GetFromAll}}
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
-			if state.Id.ValueString() == v.Get("id").String() {
+			if state.{{toGoName .IdName}}.ValueString() == v.Get("{{dromedaryCase .IdName}}").String() {
 				res = v
 				return false
 			}
@@ -500,7 +500,7 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 		state.fromBodyPartial(ctx, res)
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.{{toGoName .IdName}}.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -527,18 +527,18 @@ func (r *{{camelCase .Name}}Resource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.{{toGoName .IdName}}.ValueString()))
 	{{- if not .NoUpdate}}
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.{{toGoName .IdName}}.ValueString()), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
 	}
 
 	{{- if hasResourceId .Attributes}}
-	res, err = r.client.Get(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()))
+	res, err = r.client.Get(plan.getPath() + "/" + url.QueryEscape(plan.{{toGoName .IdName}}.ValueString()))
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
 		return
@@ -547,7 +547,7 @@ func (r *{{camelCase .Name}}Resource) Update(ctx context.Context, req resource.U
 	{{- end}}
 	{{- end}}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.{{toGoName .IdName}}.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -566,17 +566,17 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.{{toGoName .IdName}}.ValueString()))
 
 	{{- if not .NoDelete}}
-	res, err := r.client.Delete(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
+	res, err := r.client.Delete(state.getPath() + "/" + url.QueryEscape(state.{{toGoName .IdName}}.ValueString()))
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete object (DELETE), got error: %s, %s", err, res.String()))
 		return
 	}
 	{{- end}}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.{{toGoName .IdName}}.ValueString()))
 
 	resp.State.RemoveResource(ctx)
 }
@@ -602,9 +602,9 @@ func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resou
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{$attr.TfName}}"), idParts[{{$index}}])...)
 	{{- end}}
 	{{- end}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{subtract (importParts .Attributes) 1}}])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.IdName}}"), idParts[{{subtract (importParts .Attributes) 1}}])...)
 	{{- else}}
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	resource.ImportStatePassthroughID(ctx, path.Root("{{.IdName}}"), req, resp)
 	{{- end}}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

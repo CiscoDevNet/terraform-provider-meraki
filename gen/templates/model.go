@@ -37,7 +37,7 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type {{camelCase .Name}} struct {
-	Id types.String `tfsdk:"id"`
+	{{ toGoName .IdName }} types.String `tfsdk:"{{.IdName}}"`
 {{- range .Attributes}}
 {{- if not .Value}}
 {{- if isNestedListSet .}}
@@ -141,8 +141,8 @@ func (data {{camelCase .Name}}) getPath() string {
 
 func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .Name}}) string {
 	body := ""
-	if data.Id.ValueString() != "" {
-		body, _ = sjson.Set(body, "id", data.Id.ValueString())
+	if data.{{toGoName .IdName}}.ValueString() != "" {
+		body, _ = sjson.Set(body, "{{dromedaryCase .IdName}}", data.{{toGoName .IdName}}.ValueString())
 	}
 	{{- range .Attributes}}
 	{{- if .Value}}
@@ -292,7 +292,7 @@ func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res gjson.Result)
 
 		parentRes.{{if .ModelName}}Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").{{end}}ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("id").String() == data.Id.ValueString() && data.Id.ValueString() != "" {
+				if v.Get("{{dromedaryCase .IdName}}").String() == data.{{toGoName .IdName}}.ValueString() && data.{{toGoName .IdName}}.ValueString() != "" {
 					res = v
 					return false // break ForEach
 				}
@@ -300,7 +300,7 @@ func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res gjson.Result)
 			},
 		)
 		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("subresource not found, removing: uuid=%s, key=%v", data.Id, k))
+			tflog.Debug(ctx, fmt.Sprintf("subresource not found, removing: uuid=%s, key=%v", data.{{toGoName .IdName}}, k))
 			delete((*parent).{{toGoName .TfName}}, k)
 		}
 		{{- template "fromBodyTemplate" .}}
@@ -348,7 +348,7 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res gjson.
 
 		parentRes.{{if .ModelName}}Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").{{end}}ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("id").String() == data.Id.ValueString() && data.Id.ValueString() != "" {
+				if v.Get("{{dromedaryCase .IdName}}").String() == data.{{toGoName .IdName}}.ValueString() && data.{{toGoName .IdName}}.ValueString() != "" {
 					res = v
 					return false // break ForEach
 				}
@@ -474,13 +474,13 @@ func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res gjson
 		var r gjson.Result
 		res.{{if .ModelName}}Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").{{end}}ForEach(
 			func(_, v gjson.Result) bool {
-				if val.Id.IsUnknown() {
+				if val.{{toGoName .IdName}}.IsUnknown() {
 					if v.Get("name").String() == i {
 						r = v
 						return false // break ForEach
 					}
 				} else {
-					if v.Get("id").String() == val.Id.ValueString() && val.Id.ValueString() != "" {
+					if v.Get("{{dromedaryCase .IdName}}").String() == val.{{toGoName .IdName}}.ValueString() && val.{{toGoName .IdName}}.ValueString() != "" {
 						r = v
 						return false // break ForEach
 					}

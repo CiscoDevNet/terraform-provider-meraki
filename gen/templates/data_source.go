@@ -64,7 +64,7 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 		MarkdownDescription: "{{.DsDescription}}",
 
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
+			"{{ .IdName }}": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
 				{{- if not .DataSourceNameQuery}}
 				Required:            true,
@@ -150,7 +150,7 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 func (d *{{camelCase .Name}}DataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
     return []datasource.ConfigValidator{
         datasourcevalidator.ExactlyOneOf(
-            path.MatchRoot("id"),
+            path.MatchRoot("{{ .IdName }}"),
             path.MatchRoot("name"),
         ),
     }
@@ -179,12 +179,12 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.{{ toGoName .IdName }}.String()))
 
 	var res gjson.Result
 	var err error
 	{{- if .DataSourceNameQuery}}
-	if config.Id.IsNull() && !config.Name.IsNull() {
+	if config.{{toGoName .IdName}}.IsNull() && !config.Name.IsNull() {
 			res, err = d.client.Get(config.getPath())
 			if err != nil {
 				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve objects, got error: %s", err))
@@ -193,8 +193,8 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 			if len(res.Array()) > 0 {
 				res.ForEach(func(k, v gjson.Result) bool {
 					if config.Name.ValueString() == v.Get("name").String() {
-						config.Id = types.StringValue(v.Get("id").String())
-						tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
+						config.{{toGoName .IdName}} = types.StringValue(v.Get("{{dromedaryCase .IdName}}").String())
+						tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.{{toGoName .IdName}}.String(), config.Name.ValueString(), config.{{toGoName .IdName}}.String()))
 						res = v
 						return false
 					}
@@ -202,7 +202,7 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 				})
 			}
 
-		if config.Id.IsNull() {
+		if config.{{toGoName .IdName}}.IsNull() {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to find object with name: %s", config.Name.ValueString()))
 			return
 		}
@@ -213,7 +213,7 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 		{{- if .GetFromAll}}
 		res, err = d.client.Get(config.getPath())
 		{{- else}}
-		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))
+		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.{{toGoName .IdName}}.ValueString()))
 		{{- end}}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
@@ -223,7 +223,7 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 	{{- if .GetFromAll}}
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
-			if config.Id.ValueString() == v.Get("id").String() {
+			if config.{{toGoName .IdName}}.ValueString() == v.Get("{{dromedaryCase .IdName}}").String() {
 				res = v
 				return false
 			}
@@ -234,7 +234,7 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 
 	config.fromBody(ctx, res)
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", config.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", config.{{toGoName .IdName}}.ValueString()))
 
 	diags = resp.State.Set(ctx, &config)
 	resp.Diagnostics.Append(diags...)
