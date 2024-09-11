@@ -1,10 +1,13 @@
 ---
 name: str() # Name of the resource
+no_data_source: bool(required=False) # Set to true if no data source should be created
+no_resource: bool(required=False) # Set to true if no resource should be created
 rest_endpoint: str(required=False) # REST endpoint path
 put_create: bool(required=False) # Set to true if the PUT request is used for create
 get_from_all: bool(required=False) # Set to true if GET does not support querying individual objects
 no_update: bool(required=False) # Set to true if the PUT request is not supported
 no_delete: bool(required=False) # Set to true if the DELETE request is not supported
+no_import: bool(required=False) # Set to true if the resource does not support importing
 data_source_name_query: bool(required=False) # Set to true if the data source supports name queries
 minimum_version: str(required=False) # Define a minimum supported version
 ds_description: str(required=False) # Define a data source description

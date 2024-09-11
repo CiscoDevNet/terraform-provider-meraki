@@ -96,11 +96,14 @@ var templates = []t{
 type YamlConfig struct {
 	Name                string                `yaml:"name"`
 	TfName              string                `yaml:"tf_name"`
+	NoDataSource        bool                  `yaml:"no_data_source"`
+	NoResource          bool                  `yaml:"no_resource"`
 	RestEndpoint        string                `yaml:"rest_endpoint"`
 	PutCreate           bool                  `yaml:"put_create"`
 	GetFromAll          bool                  `yaml:"get_from_all"`
 	NoUpdate            bool                  `yaml:"no_update"`
 	NoDelete            bool                  `yaml:"no_delete"`
+	NoImport            bool                  `yaml:"no_import"`
 	DataSourceNameQuery bool                  `yaml:"data_source_name_query"`
 	MinimumVersion      string                `yaml:"minimum_version"`
 	DsDescription       string                `yaml:"ds_description"`
@@ -544,13 +547,23 @@ func main() {
 	for i := range configs {
 		// Iterate over templates and render files
 		for _, t := range templates {
+			if (configs[i].NoImport && t.path == "./gen/templates/import.sh") ||
+				(configs[i].NoDataSource && t.path == "./gen/templates/data_source.go") ||
+				(configs[i].NoDataSource && t.path == "./gen/templates/data_source_test.go") ||
+				(configs[i].NoDataSource && t.path == "./gen/templates/data-source.tf") ||
+				(configs[i].NoResource && t.path == "./gen/templates/resource.go") ||
+				(configs[i].NoResource && t.path == "./gen/templates/resource_test.go") ||
+				(configs[i].NoResource && t.path == "./gen/templates/resource.tf") ||
+				(configs[i].NoResource && t.path == "./gen/templates/import.sh") {
+				continue
+			}
 			renderTemplate(t.path, t.prefix+SnakeCase(configs[i].Name)+t.suffix, configs[i])
 		}
 		providerConfig = append(providerConfig, configs[i].Name)
 	}
 
 	// render provider.go
-	renderTemplate(providerTemplate, providerLocation, providerConfig)
+	renderTemplate(providerTemplate, providerLocation, configs)
 
 	changelog, err := os.ReadFile(changelogOriginal)
 	if err != nil {

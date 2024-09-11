@@ -219,7 +219,9 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		{{- range .}}
-		New{{camelCase .}}Resource,
+		{{- if not .NoResource}}
+		New{{camelCase .Name}}Resource,
+		{{- end}}
 		{{- end}}
 	}
 }
@@ -227,7 +229,9 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		{{- range .}}
-		New{{camelCase .}}DataSource,
+		{{- if not .NoDataSource}}
+		New{{camelCase .Name}}DataSource,
+		{{- end}}
 		{{- end}}
 	}
 }
