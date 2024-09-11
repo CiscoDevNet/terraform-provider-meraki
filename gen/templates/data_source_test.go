@@ -226,11 +226,16 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 
 	config += `
 		data "meraki_{{snakeCase .Name}}" "test" {
+			{{- if not (hasId .Attributes)}}
 			id = meraki_{{snakeCase $name}}.test.id
+			{{- end}}
 			{{- range  .Attributes}}
 			{{- if .Reference}}
 			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}
 			{{- end}}
+			{{- end}}
+			{{- if hasId .Attributes}}
+			depends_on = [meraki_{{snakeCase $name}}.test]
 			{{- end}}
 		}
 	`

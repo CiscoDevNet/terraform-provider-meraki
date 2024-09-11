@@ -66,11 +66,13 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
-				{{- if not .DataSourceNameQuery}}
-				Required:            true,
-				{{- else}}
+				{{- if .DataSourceNameQuery}}
 				Optional:            true,
 				Computed:            true,
+				{{- else if .PutCreate}}
+				Computed:            true,
+				{{- else}}
+				Required:            true,
 				{{- end}}
 			},
 			{{- range  .Attributes}}
@@ -233,6 +235,10 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 	{{- end}}
 
 	config.fromBody(ctx, res)
+
+	{{- if hasId .Attributes}}
+	config.Id = config.{{toGoName (getId .Attributes).TfName}}
+	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", config.Id.ValueString()))
 

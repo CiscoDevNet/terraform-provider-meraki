@@ -425,7 +425,11 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
+	{{- if hasId .Attributes}}
+	plan.Id = plan.{{toGoName (getId .Attributes).TfName}}
+	{{- else}}
 	plan.Id = types.StringValue(res.Get("id").String())
+	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
