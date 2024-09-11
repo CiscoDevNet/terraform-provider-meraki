@@ -27,6 +27,7 @@ website/node_modules
 
 website/vendor
 terraform-provider-meraki
+openapiconverter/openapiconverter
 
 # Test exclusions
 !command/test-fixtures/**/*.tfstate
