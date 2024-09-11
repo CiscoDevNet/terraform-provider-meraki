@@ -217,6 +217,16 @@ func HasId(attributes []YamlConfigAttribute) bool {
 	return false
 }
 
+// Templating helper function to return the id
+func GetId(attributes []YamlConfigAttribute) YamlConfigAttribute {
+	for _, attr := range attributes {
+		if attr.Id {
+			return attr
+		}
+	}
+	return YamlConfigAttribute{}
+}
+
 // Templating helper function to return true if reference included in attributes
 func HasReference(attributes []YamlConfigAttribute) bool {
 	for _, attr := range attributes {
@@ -319,6 +329,7 @@ var functions = template.FuncMap{
 	"toLower":         strings.ToLower,
 	"path":            BuildPath,
 	"hasId":           HasId,
+	"getId":           GetId,
 	"hasReference":    HasReference,
 	"isListSet":       IsListSet,
 	"isList":          IsList,
