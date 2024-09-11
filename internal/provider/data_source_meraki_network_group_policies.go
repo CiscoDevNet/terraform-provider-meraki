@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/datasourcevalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -38,26 +39,26 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &AdminDataSource{}
-	_ datasource.DataSourceWithConfigure = &AdminDataSource{}
+	_ datasource.DataSource              = &NetworkGroupPoliciesDataSource{}
+	_ datasource.DataSourceWithConfigure = &NetworkGroupPoliciesDataSource{}
 )
 
-func NewAdminDataSource() datasource.DataSource {
-	return &AdminDataSource{}
+func NewNetworkGroupPoliciesDataSource() datasource.DataSource {
+	return &NetworkGroupPoliciesDataSource{}
 }
 
-type AdminDataSource struct {
+type NetworkGroupPoliciesDataSource struct {
 	client *meraki.Client
 }
 
-func (d *AdminDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_admin"
+func (d *NetworkGroupPoliciesDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_network_group_policies"
 }
 
-func (d *AdminDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *NetworkGroupPoliciesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "This data source can read the `Admin` configuration.",
+		MarkdownDescription: "This data source can read the `Network Group Policies` configuration.",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -65,59 +66,78 @@ func (d *AdminDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Optional:            true,
 				Computed:            true,
 			},
-			"organization_id": schema.StringAttribute{
-				MarkdownDescription: "Organization ID",
+			"network_id": schema.StringAttribute{
+				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"email": schema.StringAttribute{
-				MarkdownDescription: "The email of the dashboard administrator. This attribute can not be updated.",
-				Computed:            true,
-			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: "The name of the dashboard administrator",
+				MarkdownDescription: "",
 				Optional:            true,
 				Computed:            true,
 			},
-			"org_access": schema.StringAttribute{
-				MarkdownDescription: "The privilege of the dashboard administrator on the organization. Can be one of `full`, `read-only`, `enterprise` or `none`",
+			"bonjour_forwarding_settings": schema.StringAttribute{
+				MarkdownDescription: "",
 				Computed:            true,
 			},
-			"networks": schema.ListNestedAttribute{
-				MarkdownDescription: "The list of networks that the dashboard administrator has privileges on",
+			"bonjour_forwarding_rules": schema.ListNestedAttribute{
+				MarkdownDescription: "",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"access": schema.StringAttribute{
-							MarkdownDescription: "The privilege of the dashboard administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`",
+						"description": schema.StringAttribute{
+							MarkdownDescription: "",
 							Computed:            true,
 						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "The network ID",
+						"services": schema.ListAttribute{
+							MarkdownDescription: "",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"vlan_id": schema.StringAttribute{
+							MarkdownDescription: "",
 							Computed:            true,
 						},
 					},
 				},
 			},
-			"tags": schema.ListNestedAttribute{
-				MarkdownDescription: "The list of tags that the dashboard administrator has privileges on",
+			"bandwidth_bandwidth_limits_limit_down": schema.Int64Attribute{
+				MarkdownDescription: "",
 				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"access": schema.StringAttribute{
-							MarkdownDescription: "The privilege of the dashboard administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`",
-							Computed:            true,
-						},
-						"tag": schema.StringAttribute{
-							MarkdownDescription: "The name of the tag",
-							Computed:            true,
-						},
-					},
-				},
+			},
+			"bandwidth_bandwidth_limits_limit_up": schema.Int64Attribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
+			"bandwidth_settings": schema.StringAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
+			"content_filtering_allowed_url_patterns_settings": schema.StringAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
+			"content_filtering_blocked_url_categories_categories": schema.ListAttribute{
+				MarkdownDescription: "",
+				ElementType:         types.StringType,
+				Computed:            true,
+			},
+			"content_filtering_blocked_url_categories_settings": schema.StringAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
+			},
+			"content_filtering_blocked_url_patterns_patterns": schema.ListAttribute{
+				MarkdownDescription: "",
+				ElementType:         types.StringType,
+				Computed:            true,
+			},
+			"content_filtering_blocked_url_patterns_settings": schema.StringAttribute{
+				MarkdownDescription: "",
+				Computed:            true,
 			},
 		},
 	}
 }
-func (d *AdminDataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
+func (d *NetworkGroupPoliciesDataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
 	return []datasource.ConfigValidator{
 		datasourcevalidator.ExactlyOneOf(
 			path.MatchRoot("id"), // is this correct?
@@ -126,7 +146,7 @@ func (d *AdminDataSource) ConfigValidators(ctx context.Context) []datasource.Con
 	}
 }
 
-func (d *AdminDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *NetworkGroupPoliciesDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -138,8 +158,8 @@ func (d *AdminDataSource) Configure(_ context.Context, req datasource.ConfigureR
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (d *AdminDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config Admin
+func (d *NetworkGroupPoliciesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config NetworkGroupPolicies
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
@@ -161,7 +181,7 @@ func (d *AdminDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		if len(res.Array()) > 0 {
 			res.ForEach(func(k, v gjson.Result) bool {
 				if config.Name.ValueString() == v.Get("name").String() {
-					config.Id = types.StringValue(v.Get("id").String())
+					config.Id = types.StringValue(v.Get("groupPolicyId").String())
 					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
 					res = v
 					return false
@@ -177,20 +197,11 @@ func (d *AdminDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	}
 
 	if !res.Exists() {
-		res, err = d.client.Get(config.getPath())
+		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
 			return
 		}
-	}
-	if len(res.Array()) > 0 {
-		res.ForEach(func(k, v gjson.Result) bool {
-			if config.Id.ValueString() == v.Get("id").String() {
-				res = v
-				return false
-			}
-			return true
-		})
 	}
 
 	config.fromBody(ctx, res)

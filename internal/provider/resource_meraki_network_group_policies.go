@@ -24,18 +24,15 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 	"github.com/netascode/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -44,26 +41,26 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &AdminResource{}
-	_ resource.ResourceWithImportState = &AdminResource{}
+	_ resource.Resource                = &NetworkGroupPoliciesResource{}
+	_ resource.ResourceWithImportState = &NetworkGroupPoliciesResource{}
 )
 
-func NewAdminResource() resource.Resource {
-	return &AdminResource{}
+func NewNetworkGroupPoliciesResource() resource.Resource {
+	return &NetworkGroupPoliciesResource{}
 }
 
-type AdminResource struct {
+type NetworkGroupPoliciesResource struct {
 	client *meraki.Client
 }
 
-func (r *AdminResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_admin"
+func (r *NetworkGroupPoliciesResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_network_group_policies"
 }
 
-func (r *AdminResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *NetworkGroupPoliciesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Admin` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Network Group Policies` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -73,71 +70,81 @@ func (r *AdminResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"organization_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Organization ID").String,
+			"network_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"email": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The email of the dashboard administrator. This attribute can not be updated.").String,
-				Required:            true,
-			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The name of the dashboard administrator").String,
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
 				Required:            true,
 			},
-			"org_access": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The privilege of the dashboard administrator on the organization. Can be one of `full`, `read-only`, `enterprise` or `none`").AddStringEnumDescription("full", "read-only", "enterprise", "none").String,
-				Required:            true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("full", "read-only", "enterprise", "none"),
-				},
+			"bonjour_forwarding_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
+				Optional:            true,
 			},
-			"networks": schema.ListNestedAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The list of networks that the dashboard administrator has privileges on").String,
+			"bonjour_forwarding_rules": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"access": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the dashboard administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`").AddStringEnumDescription("full", "read-only", "guest-ambassador", "monitor-only").String,
-							Required:            true,
-							Validators: []validator.String{
-								stringvalidator.OneOf("full", "read-only", "guest-ambassador", "monitor-only"),
-							},
+						"description": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("").String,
+							Optional:            true,
 						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The network ID").String,
-							Required:            true,
+						"services": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("").String,
+							ElementType:         types.StringType,
+							Optional:            true,
+						},
+						"vlan_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("").String,
+							Optional:            true,
 						},
 					},
 				},
 			},
-			"tags": schema.ListNestedAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The list of tags that the dashboard administrator has privileges on").String,
+			"bandwidth_bandwidth_limits_limit_down": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
 				Optional:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"access": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the dashboard administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`").AddStringEnumDescription("full", "read-only", "guest-ambassador", "monitor-only").String,
-							Required:            true,
-							Validators: []validator.String{
-								stringvalidator.OneOf("full", "read-only", "guest-ambassador", "monitor-only"),
-							},
-						},
-						"tag": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The name of the tag").String,
-							Required:            true,
-						},
-					},
-				},
+			},
+			"bandwidth_bandwidth_limits_limit_up": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
+				Optional:            true,
+			},
+			"bandwidth_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
+				Optional:            true,
+			},
+			"content_filtering_allowed_url_patterns_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
+				Optional:            true,
+			},
+			"content_filtering_blocked_url_categories_categories": schema.ListAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
+				ElementType:         types.StringType,
+				Optional:            true,
+			},
+			"content_filtering_blocked_url_categories_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
+				Optional:            true,
+			},
+			"content_filtering_blocked_url_patterns_patterns": schema.ListAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
+				ElementType:         types.StringType,
+				Optional:            true,
+			},
+			"content_filtering_blocked_url_patterns_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("").String,
+				Optional:            true,
 			},
 		},
 	}
 }
 
-func (r *AdminResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *NetworkGroupPoliciesResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -149,8 +156,8 @@ func (r *AdminResource) Configure(_ context.Context, req resource.ConfigureReque
 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
-func (r *AdminResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan Admin
+func (r *NetworkGroupPoliciesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan NetworkGroupPolicies
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -161,13 +168,13 @@ func (r *AdminResource) Create(ctx context.Context, req resource.CreateRequest, 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
 	// Create object
-	body := plan.toBody(ctx, Admin{})
+	body := plan.toBody(ctx, NetworkGroupPolicies{})
 	res, err := r.client.Post(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
-	plan.Id = types.StringValue(res.Get("id").String())
+	plan.Id = types.StringValue(res.Get("groupPolicyId").String())
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
@@ -181,8 +188,8 @@ func (r *AdminResource) Create(ctx context.Context, req resource.CreateRequest, 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (r *AdminResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state Admin
+func (r *NetworkGroupPoliciesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state NetworkGroupPolicies
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -191,22 +198,13 @@ func (r *AdminResource) Read(ctx context.Context, req resource.ReadRequest, resp
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath())
+	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
 		return
-	}
-	if len(res.Array()) > 0 {
-		res.ForEach(func(k, v gjson.Result) bool {
-			if state.Id.ValueString() == v.Get("id").String() {
-				res = v
-				return false
-			}
-			return true
-		})
 	}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
@@ -233,8 +231,8 @@ func (r *AdminResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
-func (r *AdminResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state Admin
+func (r *NetworkGroupPoliciesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state NetworkGroupPolicies
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -267,8 +265,8 @@ func (r *AdminResource) Update(ctx context.Context, req resource.UpdateRequest, 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *AdminResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state Admin
+func (r *NetworkGroupPoliciesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state NetworkGroupPolicies
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -292,17 +290,17 @@ func (r *AdminResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 
-func (r *AdminResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *NetworkGroupPoliciesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
 	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <organization_id>,<id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: <network_id>,<id>. Got: %q", req.ID),
 		)
 		return
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...) // is this correct?
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

@@ -220,6 +220,8 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewAdminResource,
 		NewNetworkResource,
 		NewNetworkSNMPResource,
+		NewNetworkGroupPoliciesResource,
+		NewNetworkSettingsResource,
 		NewOrganizationResource,
 	}
 }
@@ -229,6 +231,8 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewAdminDataSource,
 		NewNetworkDataSource,
 		NewNetworkSNMPDataSource,
+		NewNetworkGroupPoliciesDataSource,
+		NewNetworkSettingsDataSource,
 		NewOrganizationDataSource,
 	}
 }

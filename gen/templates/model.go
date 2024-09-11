@@ -136,7 +136,7 @@ func (data {{camelCase .Name}}) getPath() string {
 func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .Name}}) string {
 	body := ""
 	if data.Id.ValueString() != "" {
-		body, _ = sjson.Set(body, "id", data.Id.ValueString())
+		body, _ = sjson.Set(body, "{{.IdName}}", data.Id.ValueString())
 	}
 	{{- range .Attributes}}
 	{{- if .Value}}

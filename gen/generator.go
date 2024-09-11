@@ -111,6 +111,7 @@ type YamlConfig struct {
 	Attributes          []YamlConfigAttribute `yaml:"attributes"`
 	TestTags            []string              `yaml:"test_tags"`
 	TestPrerequisites   string                `yaml:"test_prerequisites"`
+	IdName              string                `yaml:"id_name"`
 }
 
 type YamlConfigAttribute struct {
@@ -425,6 +426,9 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 	}
 	if config.TfName == "" {
 		config.TfName = strings.Replace(config.Name, " ", "_", -1)
+	}
+	if config.IdName == "" {
+		config.IdName = "id"
 	}
 
 	return config, nil
