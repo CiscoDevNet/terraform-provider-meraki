@@ -38,7 +38,7 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	{{- $name := .Name }}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .ResourceId)}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue)}}
 	{{- if isNestedListSet .}}
 	{{- $list := .TfName }}
 	{{- if len .TestTags}}
@@ -72,7 +72,7 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- if len .TestTags}}
 	}
 	{{- end}}
-	{{- else if not (or (isSet .) (isNestedMap .))}}
+	{{- else if not (isSet .)}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{$clist}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
@@ -86,7 +86,7 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- if len .TestTags}}
 	}
 	{{- end}}
-	{{- else if not (or (isSet .) (isNestedMap .))}}
+	{{- else if not (isSet .)}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
@@ -100,7 +100,7 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- if len .TestTags}}
 	}
 	{{- end}}
-	{{- else if not (or (isSet .) (isNestedMap .))}}
+	{{- else if not (isSet .)}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
@@ -242,16 +242,12 @@ func testAccMeraki{{camelCase .Name}}Config_minimum() string {
 func testAccMeraki{{camelCase .Name}}Config_all() string {
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
-	{{- if and (not .ExcludeTest) (not .Value) (not .ResourceId)}}
-	{{- if isNestedListMapSet .}}
+	{{- if and (not .ExcludeTest) (not .Value)}}
+	{{- if isNestedListSet .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
-	{{- if isNestedListSet .}}
 	config += `	{{.TfName}} = [{` + "\n"
-	{{- else if isNestedMap .}}
-	config += `	{{.TfName}} = { "{{.MapKeyExample}}" = {` + "\n"
-	{{- end}}
 		{{- range  .Attributes}}
 		{{- if and (not .ExcludeTest) (not .Value)}}
 		{{- if isNestedListSet .}}
@@ -307,11 +303,7 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 		{{- end}}
 		{{- end}}
 		{{- end}}
-	{{- if isNestedListSet .}}
 	config += `	}]` + "\n"
-	{{- else if isNestedMap .}}
-	config += `	}}` + "\n"
-	{{- end}}
 		{{- if len .TestTags}}
 	}
 		{{- end}}

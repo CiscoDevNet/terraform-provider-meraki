@@ -123,17 +123,17 @@ func (data *Network) fromBody(ctx context.Context, res gjson.Result) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *Network) fromBodyPartial(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get("name"); value.Exists() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("notes"); value.Exists() && !data.Notes.IsNull() {
+	if value := res.Get("notes"); value.Exists() {
 		data.Notes = types.StringValue(value.String())
 	} else {
 		data.Notes = types.StringNull()
 	}
-	if value := res.Get("timeZone"); value.Exists() && !data.TimeZone.IsNull() {
+	if value := res.Get("timeZone"); value.Exists() {
 		data.TimeZone = types.StringValue(value.String())
 	} else {
 		data.TimeZone = types.StringNull()
@@ -151,12 +151,3 @@ func (data *Network) fromBodyPartial(ctx context.Context, res gjson.Result) {
 }
 
 // End of section. //template:end fromBodyPartial
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
-
-// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
-// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
-func (data *Network) fromBodyUnknowns(ctx context.Context, res gjson.Result) {
-}
-
-// End of section. //template:end fromBodyUnknowns

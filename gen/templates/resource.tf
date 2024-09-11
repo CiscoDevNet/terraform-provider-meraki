@@ -1,15 +1,9 @@
 resource "meraki_{{snakeCase .Name}}" "example" {
 {{- range  .Attributes}}
-{{- if and (not .ExcludeExample) (not .Value) (not .ResourceId)}}
-{{- if isNestedListMapSet .}}
-  {{.TfName}} =
-  {{- if isNestedListSet . -}}
-  [
+{{- if and (not .ExcludeExample) (not .Value)}}
+{{- if isNestedListSet .}}
+  {{.TfName}} = [
     {
-  {{- else -}}
-  {
-    {{.MapKeyExample}} = {
-  {{- end}}
       {{- range  .Attributes}}
       {{- if and (not .ExcludeExample) (not .Value)}}
       {{- if isNestedListSet .}}

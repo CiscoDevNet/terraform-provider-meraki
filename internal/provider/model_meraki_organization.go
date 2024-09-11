@@ -120,7 +120,7 @@ func (data *Organization) fromBody(ctx context.Context, res gjson.Result) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *Organization) fromBodyPartial(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
+	if value := res.Get("name"); value.Exists() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
@@ -161,12 +161,12 @@ func (data *Organization) fromBodyPartial(ctx context.Context, res gjson.Result)
 
 			continue
 		}
-		if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
+		if value := res.Get("name"); value.Exists() {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("value"); value.Exists() && !data.Value.IsNull() {
+		if value := res.Get("value"); value.Exists() {
 			data.Value = types.StringValue(value.String())
 		} else {
 			data.Value = types.StringNull()
@@ -176,12 +176,3 @@ func (data *Organization) fromBodyPartial(ctx context.Context, res gjson.Result)
 }
 
 // End of section. //template:end fromBodyPartial
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
-
-// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
-// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
-func (data *Organization) fromBodyUnknowns(ctx context.Context, res gjson.Result) {
-}
-
-// End of section. //template:end fromBodyUnknowns

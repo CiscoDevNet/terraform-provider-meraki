@@ -122,6 +122,7 @@ func (d *OrganizationDataSource) Read(ctx context.Context, req datasource.ReadRe
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
+
 	var res gjson.Result
 	var err error
 	if config.Id.IsNull() && !config.Name.IsNull() {

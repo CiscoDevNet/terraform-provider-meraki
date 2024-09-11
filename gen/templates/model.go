@@ -42,8 +42,6 @@ type {{camelCase .Name}} struct {
 {{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
-{{- else if isNestedMap .}}
-	{{toGoName .TfName}} map[string]{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -53,14 +51,12 @@ type {{camelCase .Name}} struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListMapSet .}}
+{{- if isNestedListSet .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
-{{- else if isNestedMap .}}
-	{{toGoName .TfName}} map[string]{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -73,17 +69,15 @@ type {{.GoTypeName}} struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListMapSet .}}
+{{- if isNestedListSet .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListMapSet .}}
+{{- if isNestedListSet .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
-{{- else if isNestedMap .}}
-	{{toGoName .TfName}} map[string]{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -99,13 +93,13 @@ type {{.GoTypeName}} struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListMapSet .}}
+{{- if isNestedListSet .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListMapSet .}}
+{{- if isNestedListSet .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListMapSet .}}
+{{- if isNestedListSet .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
@@ -147,10 +141,6 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 	{{- range .Attributes}}
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
-	{{- else if .ResourceId}}
-	if state.{{toGoName .TfName}}.ValueString() != "" {
-		body, _ = sjson.Set(body, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", state.{{toGoName .TfName}}.ValueString())
-	}
 	{{- else if not .Reference}}
 	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if !data.{{toGoName .TfName}}.IsNull() {{if .WriteChangesOnly}}&& data.{{toGoName .TfName}} != state.{{toGoName .TfName}}{{end}} {
@@ -162,22 +152,17 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 		data.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", values)
 	}
-	{{- else if isNestedListMapSet .}}
+	{{- else if isNestedListSet .}}
 	if len(data.{{toGoName .TfName}}) > 0 {
 		body, _ = sjson.Set(body, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", []interface{}{})
-		{{- if isNestedMap .}}
-		for key, item := range data.{{toGoName .TfName}} {
-			itemBody, _ := sjson.Set("{}", "name", key)
-		{{- else}}
 		for _, item := range data.{{toGoName .TfName}} {
 			itemBody := ""
-		{{- end}}
 			{{- range .Attributes}}
 			{{- if .Value}}
 			itemBody, _ = sjson.Set(itemBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 			{{- else if not .Reference}}
 			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
-			if !item.{{toGoName .TfName}}.IsNull() {{ if .ResourceId -}} && !item.{{toGoName .TfName}}.IsUnknown() {{- end}} {
+			if !item.{{toGoName .TfName}}.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", item.{{toGoName .TfName}}.Value{{.Type}}())
 			}
 			{{- else if isListSet .}}
@@ -283,29 +268,6 @@ func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res gjson.Result)
 			return true
 		})
 	}
-	{{- else if isNestedMap .}}
-	for k := range data.{{toGoName .TfName}} {
-		parent := &data
-		data := (*parent).{{toGoName .TfName}}[k]
-		parentRes := &res
-		var res gjson.Result
-
-		parentRes.{{if .ModelName}}Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").{{end}}ForEach(
-			func(_, v gjson.Result) bool {
-				if v.Get("id").String() == data.Id.ValueString() && data.Id.ValueString() != "" {
-					res = v
-					return false // break ForEach
-				}
-				return true
-			},
-		)
-		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("subresource not found, removing: uuid=%s, key=%v", data.Id, k))
-			delete((*parent).{{toGoName .TfName}}, k)
-		}
-		{{- template "fromBodyTemplate" .}}
-		(*parent).{{toGoName .TfName}}[k] = data
-	}
 	{{- end}}
 	{{- end}}
 	{{- end}}
@@ -326,7 +288,7 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res gjson.
 	{{- range .Attributes}}
 	{{- if and (not .Value) (not .WriteOnly) (not .Reference)}}
 	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
-	if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists(){{if not .ResourceId}} && !data.{{toGoName .TfName}}.IsNull(){{end}} {
+	if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() {
 		data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
 	} else {{if .DefaultValue}}if data.{{toGoName .TfName}}.Value{{.Type}}() != {{if eq .Type "String"}}"{{end}}{{.DefaultValue}}{{if eq .Type "String"}}"{{end}} {{end}}{
 		data.{{toGoName .TfName}} = types.{{.Type}}Null()
@@ -337,25 +299,9 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res gjson.
 	} else {
 		data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
 	}
-	{{- else if isNestedListMapSet .}}
+	{{- else if isNestedListSet .}}
 	{{- $list := (toGoName .TfName)}}
-	{{- if isNestedMap .}}
-	for i := range data.{{toGoName .TfName}} {
-		parent := &data
-		data := (*parent).{{toGoName .TfName}}[i]
-		parentRes := &res
-		var res gjson.Result
-
-		parentRes.{{if .ModelName}}Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").{{end}}ForEach(
-			func(_, v gjson.Result) bool {
-				if v.Get("id").String() == data.Id.ValueString() && data.Id.ValueString() != "" {
-					res = v
-					return false // break ForEach
-				}
-				return true
-			},
-		)
-	{{- else if .OrderedList }}
+	{{- if .OrderedList }}
 	{
 		l := len(res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").Array())
 		tflog.Debug(ctx, fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}} array resizing from %d to %d", len(data.{{toGoName .TfName}}), l))
@@ -422,141 +368,20 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res gjson.
 
 // End of section. //template:end fromBodyPartial
 
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
-
-// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
-// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
-func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res gjson.Result) {
-	{{- range .Attributes}}
-	{{- if and .ResourceId (not .Reference)}}
-	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
-	if data.{{toGoName .TfName}}.IsUnknown() {
-		if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() {
-			data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
-		} else {
-			data.{{toGoName .TfName}} = types.{{.Type}}Null()
-		}
-	}
-	{{- else}}
-	{{- errorf "resource_id is not yet implemented for type %v" .Type}}
-	{{- end}}
-	{{- else if isNestedListMapSet .}}
-	{{- if hasResourceId .Attributes}}
-	{{- $list := (toGoName .TfName)}}
-	{{- if .OrderedList }}
-	for i := range data.{{toGoName .TfName}} {
-		r := res.Get(fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}.%d", i))
-	{{- else if isNestedListSet .}}
-	for i := range data.{{toGoName .TfName}} {
-		keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{end}}{{end}}{{end}} }
-		keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
-
-		var r gjson.Result
-		res.{{if .ModelName}}Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").{{end}}ForEach(
-			func(_, v gjson.Result) bool {
-				found := false
-				for ik := range keys {
-					if v.Get(keys[ik]).String() != keyValues[ik] {
-						found = false
-						break
-					}
-					found = true
-				}
-				if found {
-					r = v
-					return false
-				}
-				return true
-			},
-		)
-	{{- else if isNestedMap .}}
-	for i, val := range data.{{toGoName .TfName}} {
-		var r gjson.Result
-		res.{{if .ModelName}}Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").{{end}}ForEach(
-			func(_, v gjson.Result) bool {
-				if val.Id.IsUnknown() {
-					if v.Get("name").String() == i {
-						r = v
-						return false // break ForEach
-					}
-				} else {
-					if v.Get("id").String() == val.Id.ValueString() && val.Id.ValueString() != "" {
-						r = v
-						return false // break ForEach
-					}
-				}
-
-				return true
-			},
-		)
-	{{- end}}
-
-		{{- range .Attributes}}
-		{{- if and .ResourceId (not .Reference)}}
-		{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
-		if v := data.{{$list}}[i]; v.{{toGoName .TfName}}.IsUnknown() {
-			if value := r.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() {
-				v.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
-			} else {
-				v.{{toGoName .TfName}} = types.{{.Type}}Null()
-			}
-			data.{{$list}}[i] = v
-		}
-		{{- else}}
-		{{- errorf "resource_id is not yet implemented for type %v" .Type}}
-		{{- end}}
-		{{- end}}
-		{{- end}}
-	}
-	{{- end}}
-	{{- end}}
-	{{- end}}
-}
-
-// End of section. //template:end fromBodyUnknowns
 {{- range .Attributes}}
-	{{- if isNestedMap .}}
-		{{- $found := false }}
-		{{- range .Attributes }}
-			{{- if and (eq .ModelName "id") (eq .TfName "id") .ResourceId}}
-				{{- $found = true }}
-			{{- end}}
-		{{- end}}
-		{{- if not $found }}
-			{{- errorf "type Map with attributes has a limitation for now: it must always contain attribute with `model_name: id` and `tf_name: id` and `resource_id: true`, because it must always be used to track subresources."}}
-		{{- end}}
-	{{- end}}
 	{{- range .Attributes}}
-		{{- if isNestedMap .}}
-			{{- errorf "Map not yet implemented at this depth"}}
-		{{- end}}
 		{{- if .OrderedList }}
 			{{- errorf "ordered_list not yet implemented at this depth"}}
 		{{- end}}
-		{{- if hasResourceId .Attributes}}
-			{{- errorf "resource_id not yet implemented at this depth"}}
-		{{- end}}
 
 		{{- range .Attributes}}
-			{{- if isNestedMap .}}
-				{{- errorf "Map not yet implemented at this depth"}}
-			{{- end}}
 			{{- if .OrderedList }}
 				{{- errorf "ordered_list not yet implemented at this depth"}}
 			{{- end}}
-			{{- if hasResourceId .Attributes}}
-				{{- errorf "resource_id not yet implemented at this depth"}}
-			{{- end}}
 
 			{{- range .Attributes}}
-				{{- if isNestedMap .}}
-					{{- errorf "Map not yet implemented at this depth"}}
-				{{- end}}
 				{{- if .OrderedList }}
 					{{- errorf "ordered_list not yet implemented at this depth"}}
-				{{- end}}
-				{{- if hasResourceId .Attributes}}
-					{{- errorf "resource_id not yet implemented at this depth"}}
 				{{- end}}
 				{{- range .Attributes}}
 					{{- errorf "attributes not yet implemented at this depth"}}

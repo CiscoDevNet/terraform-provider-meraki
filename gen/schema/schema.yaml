@@ -22,7 +22,6 @@ attribute:
   element_type: enum('String', 'Int64', required=False) # only relevant if type is either 'List' or 'Set'
   data_path: list(str(), required=False) # Path to the attribute in the model structure
   id: bool(required=False) # Set to true if the attribute is part of the ID
-  resource_id: bool(required=False) # Set to true if the attribute is a resource ID (and needs to be included in PUT payload)
   reference: bool(required=False) # Set to true if the attribute is a reference being used in the path (URL) of the REST endpoint
   requires_replace: bool(required=False) # Set to true if the attribute update forces Terraform to destroy/recreate the entire resource
   mandatory: bool(required=False) # Set to true if the attribute is mandatory
@@ -39,7 +38,6 @@ attribute:
   max_int: int(required=False) # Maximum value of an integer, only relevant if type is "Int64"
   min_float: num(required=False) # Minimum value of a float, only relevant if type is "Float"
   max_float: num(required=False) # Maximum value of a float, only relevant if type is "Float"
-  map_key_example: str(required=False) # Example value of the map key, only relevant if type is "Map"
   ordered_list: bool(required=False) # Treat `type: List` as strictly ordered. If API ever returns different order, destroy and re-create elements.
   string_patterns: list(str(), required=False) # List of regular expressions that the string must match, only relevant if type is "String"
   string_min_length: int(required=False) # Minimum length of a string, only relevant if type is "String"

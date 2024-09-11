@@ -120,7 +120,6 @@ type YamlConfigAttribute struct {
 	ElementType      string                `yaml:"element_type"`
 	DataPath         []string              `yaml:"data_path"`
 	Id               bool                  `yaml:"id"`
-	ResourceId       bool                  `yaml:"resource_id"`
 	Reference        bool                  `yaml:"reference"`
 	RequiresReplace  bool                  `yaml:"requires_replace"`
 	Mandatory        bool                  `yaml:"mandatory"`
@@ -137,7 +136,6 @@ type YamlConfigAttribute struct {
 	MaxInt           int64                 `yaml:"max_int"`
 	MinFloat         float64               `yaml:"min_float"`
 	MaxFloat         float64               `yaml:"max_float"`
-	MapKeyExample    string                `yaml:"map_key_example"`
 	OrderedList      bool                  `yaml:"ordered_list"`
 	StringPatterns   []string              `yaml:"string_patterns"`
 	StringMinLength  int64                 `yaml:"string_min_length"`
@@ -229,21 +227,6 @@ func HasReference(attributes []YamlConfigAttribute) bool {
 	return false
 }
 
-// Templating helper function to return true if reference included in attributes
-func HasResourceId(attributes []YamlConfigAttribute) bool {
-	for _, attr := range attributes {
-		if attr.ResourceId {
-			return true
-		}
-		if len(attr.Attributes) > 0 {
-			if HasResourceId(attr.Attributes) {
-				return true
-			}
-		}
-	}
-	return false
-}
-
 // Templating helper function to return true if type is a list or set without nested elements
 func IsListSet(attribute YamlConfigAttribute) bool {
 	if (attribute.Type == "List" || attribute.Type == "Set") && attribute.ElementType != "" {
@@ -284,14 +267,6 @@ func IsInt64ListSet(attribute YamlConfigAttribute) bool {
 	return false
 }
 
-// Templating helper function to return true if type is a list or a map or a set, anyway with nested elements
-func IsNestedListMapSet(attribute YamlConfigAttribute) bool {
-	if (attribute.Type == "List" || attribute.Type == "Map" || attribute.Type == "Set") && attribute.ElementType == "" {
-		return true
-	}
-	return false
-}
-
 // Templating helper function to return true if type is a list or set with nested elements
 func IsNestedListSet(attribute YamlConfigAttribute) bool {
 	if (attribute.Type == "List" || attribute.Type == "Set") && attribute.ElementType == "" {
@@ -303,14 +278,6 @@ func IsNestedListSet(attribute YamlConfigAttribute) bool {
 // Templating helper function to return true if type is a list with nested elements
 func IsNestedList(attribute YamlConfigAttribute) bool {
 	if attribute.Type == "List" && attribute.ElementType == "" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a map with nested elements
-func IsNestedMap(attribute YamlConfigAttribute) bool {
-	if attribute.Type == "Map" && attribute.ElementType == "" {
 		return true
 	}
 	return false
@@ -344,28 +311,25 @@ func Subtract(a, b int) int {
 
 // Map of templating functions
 var functions = template.FuncMap{
-	"toGoName":           ToGoName,
-	"camelCase":          CamelCase,
-	"snakeCase":          SnakeCase,
-	"sprintf":            fmt.Sprintf,
-	"errorf":             Errorf,
-	"toLower":            strings.ToLower,
-	"path":               BuildPath,
-	"hasId":              HasId,
-	"hasReference":       HasReference,
-	"hasResourceId":      HasResourceId,
-	"isListSet":          IsListSet,
-	"isList":             IsList,
-	"isSet":              IsSet,
-	"isStringListSet":    IsStringListSet,
-	"isInt64ListSet":     IsInt64ListSet,
-	"isNestedListMapSet": IsNestedListMapSet,
-	"isNestedListSet":    IsNestedListSet,
-	"isNestedList":       IsNestedList,
-	"isNestedMap":        IsNestedMap,
-	"isNestedSet":        IsNestedSet,
-	"importParts":        ImportParts,
-	"subtract":           Subtract,
+	"toGoName":        ToGoName,
+	"camelCase":       CamelCase,
+	"snakeCase":       SnakeCase,
+	"sprintf":         fmt.Sprintf,
+	"errorf":          Errorf,
+	"toLower":         strings.ToLower,
+	"path":            BuildPath,
+	"hasId":           HasId,
+	"hasReference":    HasReference,
+	"isListSet":       IsListSet,
+	"isList":          IsList,
+	"isSet":           IsSet,
+	"isStringListSet": IsStringListSet,
+	"isInt64ListSet":  IsInt64ListSet,
+	"isNestedListSet": IsNestedListSet,
+	"isNestedList":    IsNestedList,
+	"isNestedSet":     IsNestedSet,
+	"importParts":     ImportParts,
+	"subtract":        Subtract,
 }
 
 func (attr *YamlConfigAttribute) init(parentGoTypeName string) error {
