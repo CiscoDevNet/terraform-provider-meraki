@@ -123,17 +123,17 @@ func (data *Network) fromBody(ctx context.Context, res gjson.Result) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *Network) fromBodyPartial(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("notes"); value.Exists() {
+	if value := res.Get("notes"); value.Exists() && !data.Notes.IsNull() {
 		data.Notes = types.StringValue(value.String())
 	} else {
 		data.Notes = types.StringNull()
 	}
-	if value := res.Get("timeZone"); value.Exists() {
+	if value := res.Get("timeZone"); value.Exists() && !data.TimeZone.IsNull() {
 		data.TimeZone = types.StringValue(value.String())
 	} else {
 		data.TimeZone = types.StringNull()

@@ -178,17 +178,17 @@ func (data *Admin) fromBody(ctx context.Context, res gjson.Result) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *Admin) fromBodyPartial(ctx context.Context, res gjson.Result) {
-	if value := res.Get("email"); value.Exists() {
+	if value := res.Get("email"); value.Exists() && !data.Email.IsNull() {
 		data.Email = types.StringValue(value.String())
 	} else {
 		data.Email = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("orgAccess"); value.Exists() {
+	if value := res.Get("orgAccess"); value.Exists() && !data.OrgAccess.IsNull() {
 		data.OrgAccess = types.StringValue(value.String())
 	} else {
 		data.OrgAccess = types.StringNull()
@@ -229,12 +229,12 @@ func (data *Admin) fromBodyPartial(ctx context.Context, res gjson.Result) {
 
 			continue
 		}
-		if value := res.Get("access"); value.Exists() {
+		if value := res.Get("access"); value.Exists() && !data.Access.IsNull() {
 			data.Access = types.StringValue(value.String())
 		} else {
 			data.Access = types.StringNull()
 		}
-		if value := res.Get("id"); value.Exists() {
+		if value := res.Get("id"); value.Exists() && !data.Id.IsNull() {
 			data.Id = types.StringValue(value.String())
 		} else {
 			data.Id = types.StringNull()
@@ -277,12 +277,12 @@ func (data *Admin) fromBodyPartial(ctx context.Context, res gjson.Result) {
 
 			continue
 		}
-		if value := res.Get("access"); value.Exists() {
+		if value := res.Get("access"); value.Exists() && !data.Access.IsNull() {
 			data.Access = types.StringValue(value.String())
 		} else {
 			data.Access = types.StringNull()
 		}
-		if value := res.Get("tag"); value.Exists() {
+		if value := res.Get("tag"); value.Exists() && !data.Tag.IsNull() {
 			data.Tag = types.StringValue(value.String())
 		} else {
 			data.Tag = types.StringNull()
