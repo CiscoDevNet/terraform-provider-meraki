@@ -1,4 +1,4 @@
-module github.com/netascode/terraform-provider-meraki
+module github.com/CiscoDevNet/terraform-provider-meraki
 
 go 1.22.0
 

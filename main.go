@@ -21,8 +21,8 @@ import (
 	"context"
 	"log"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"github.com/netascode/terraform-provider-meraki/internal/provider"
 )
 
 // Run "go generate" to format example terraform files and generate the docs for the registry/website
@@ -55,7 +55,7 @@ var (
 
 func main() {
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/netascode/meraki",
+		Address: "registry.terraform.io/CiscoDevNet/meraki",
 	}
 
 	err := providerserver.Serve(context.Background(), provider.New(version), opts)
