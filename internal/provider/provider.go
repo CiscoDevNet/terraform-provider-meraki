@@ -219,8 +219,10 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 	return []func() resource.Resource{
 		NewAdminResource,
 		NewNetworkResource,
+		NewNetworkDeviceClaimResource,
 		NewNetworkSNMPResource,
 		NewOrganizationResource,
+		NewOrganizationInventoryClaimResource,
 	}
 }
 

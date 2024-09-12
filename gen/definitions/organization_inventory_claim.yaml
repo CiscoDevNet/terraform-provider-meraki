@@ -1,0 +1,31 @@
+---
+name: Organization Inventory Claim
+rest_endpoint: /organizations/%v/inventory/claim
+no_data_source: true
+no_import: true
+doc_category: Organizations
+test_tags: [TF_VAR_CLAIM_SERIAL_1, TF_VAR_CLAIM_SERIAL_2]
+res_description: This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`.
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    id: true
+    description: Organization ID
+    example: 123456
+    test_value: data.meraki_organization.test.id
+  - model_name: serials
+    type: Set
+    element_type: String
+    mandatory: true
+    description: The list of serials to be claimed to the organization
+    example: 1234-1234-1234
+    test_value: "[var.CLAIM_SERIAL_1]"
+
+test_prerequisites: |
+  variable "CLAIM_SERIAL_1" {}
+  variable "CLAIM_SERIAL_2" {}
+
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
