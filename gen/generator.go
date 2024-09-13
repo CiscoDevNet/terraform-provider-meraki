@@ -33,7 +33,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/gen"
+	"github.com/CiscoDevNet/terraform-provider-meraki/gen/yamlconfig"
 )
 
 const (
@@ -94,16 +94,16 @@ var templates = []t{
 	},
 }
 
-func NewYamlConfig(bytes []byte) (gen.YamlConfig, error) {
-	var config gen.YamlConfig
+func NewYamlConfig(bytes []byte) (yamlconfig.YamlConfig, error) {
+	var config yamlconfig.YamlConfig
 
 	if err := yaml.Unmarshal(bytes, &config); err != nil {
 		return config, err
 	}
 
 	for i := range config.Attributes {
-		if err := config.Attributes[i].Init(gen.CamelCase(config.Name)); err != nil {
-			return gen.YamlConfig{}, err
+		if err := config.Attributes[i].Init(yamlconfig.CamelCase(config.Name)); err != nil {
+			return yamlconfig.YamlConfig{}, err
 		}
 	}
 	if config.DsDescription == "" {
@@ -164,7 +164,7 @@ func renderTemplate(templatePath, outputPath string, config interface{}) {
 		temp = temp + scanner.Text() + "\n"
 	}
 
-	template, err := template.New(path.Base(templatePath)).Funcs(gen.Functions).Parse(temp)
+	template, err := template.New(path.Base(templatePath)).Funcs(yamlconfig.Functions).Parse(temp)
 	if err != nil {
 		log.Fatalf("Error parsing template: %v", err)
 	}
@@ -215,7 +215,7 @@ func renderTemplate(templatePath, outputPath string, config interface{}) {
 
 func main() {
 	// Load configs
-	var configs []gen.YamlConfig
+	var configs []yamlconfig.YamlConfig
 	files, _ := os.ReadDir(definitionsPath)
 
 	for _, filename := range files {
@@ -246,7 +246,7 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/import.sh") {
 				continue
 			}
-			renderTemplate(t.path, t.prefix+gen.SnakeCase(configs[i].Name)+t.suffix, configs[i])
+			renderTemplate(t.path, t.prefix+yamlconfig.SnakeCase(configs[i].Name)+t.suffix, configs[i])
 		}
 		providerConfig = append(providerConfig, configs[i].Name)
 	}

@@ -1,3 +1,22 @@
+// Copyright © 2024 Cisco Systems, Inc. and its affiliates.
+// All rights reserved.
+//
+// Licensed under the Mozilla Public License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://mozilla.org/MPL/2.0/
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// SPDX-License-Identifier: MPL-2.0
+
+//go:build ignore
+
 package main
 
 import (
@@ -7,32 +26,32 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/gen"
+	"github.com/CiscoDevNet/terraform-provider-meraki/gen/yamlconfig"
 	"github.com/tidwall/gjson"
 	"gopkg.in/yaml.v3"
 )
 
+const specPath = "./gen/models/spec3.json"
+
 const usage = `
-Usage: openapiconverter <openapi_spec> <endpoint> <resource_name>
+Usage: go run gen/definition.go <endpoint> <resource_name>
 
 Arguments:
-  openapi_spec  Path to the file containing the OpenAPI specification (YAML or JSON)
   endpoint      The specific endpoint that is to be converted to generator specification
   resource_name The name that will be given to the resource
 
 Example:
-  openapiconverter ./api-spec.yaml "/networks/{networkId}/groupPolicies/{groupPolicyId}" "Network Group Policy"`
+  go run gen/definition.go "/networks/{networkId}/groupPolicies/{groupPolicyId}" "Network Group Policy"`
 
 func main() {
-	if len(os.Args) < 4 {
+	if len(os.Args) < 3 {
 		fmt.Println("Error: Insufficient number of arguments")
 		fmt.Println(usage)
 		os.Exit(1)
 	}
 
-	specPath := os.Args[1]
-	endpointPath := os.Args[2]
-	resourceName := os.Args[3]
+	endpointPath := os.Args[1]
+	resourceName := os.Args[2]
 
 	specData, err := os.ReadFile(specPath)
 	if err != nil {
@@ -60,7 +79,7 @@ func main() {
 	}
 
 	attributes := traverseProperties(schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr))
-	config := gen.YamlConfig{}
+	config := yamlconfig.YamlConfig{}
 	urlResult := parseUrl(endpointPath)
 	if urlResult.resultPath[len(urlResult.resultPath)-1] == '/' {
 		urlResult.resultPath = urlResult.resultPath[:len(urlResult.resultPath)-1]
@@ -70,8 +89,8 @@ func main() {
 		config.IdName = urlResult.idName[1 : len(urlResult.idName)-1]
 	}
 	for i, r := range urlResult.references {
-		attr := gen.YamlConfigAttribute{}
-		attr.TfName = gen.CamelToSnake(r[1 : len(r)-1])
+		attr := yamlconfig.YamlConfigAttribute{}
+		attr.TfName = yamlconfig.CamelToSnake(r[1 : len(r)-1])
 		attr.Type = "String"
 		attr.Reference = true
 		if urlResult.oneToOne && i == len(urlResult.references)-1 {
@@ -133,8 +152,8 @@ func parseUrl(url string) parseUrlResult {
 	return ret
 }
 
-func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string) []gen.YamlConfigAttribute {
-	ret := []gen.YamlConfigAttribute{}
+func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string) []yamlconfig.YamlConfigAttribute {
+	ret := []yamlconfig.YamlConfigAttribute{}
 	for propName, v := range m {
 		propMap := v.(map[string]interface{})
 		if propMap["type"] == "object" {
@@ -143,7 +162,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			children := traverseProperties(propMap["properties"].(map[string]interface{}), childPath, childGjsonPath, exampleStr)
 			ret = append(ret, children...)
 		} else if propMap["type"] == "array" {
-			attr := gen.YamlConfigAttribute{}
+			attr := yamlconfig.YamlConfigAttribute{}
 			attr.DataPath = path
 			attr.Type = "List"
 			attr.ModelName = propName
@@ -165,7 +184,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			ret = append(ret, attr)
 		} else {
 			// primitive value
-			attr := gen.YamlConfigAttribute{}
+			attr := yamlconfig.YamlConfigAttribute{}
 			attr.DataPath = path
 			attr.Type = jsonTypes[propMap["type"].(string)]
 			attr.ModelName = propName

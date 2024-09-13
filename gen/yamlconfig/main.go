@@ -1,4 +1,4 @@
-package gen
+package yamlconfig
 
 import (
 	"fmt"
@@ -36,7 +36,7 @@ type YamlConfigAttribute struct {
 	TfName           string                `yaml:"tf_name,omitempty"`
 	Type             string                `yaml:"type,omitempty"`
 	ElementType      string                `yaml:"element_type,omitempty"`
-	DataPath         []string              `yaml:"data_path,omitempty"`
+	DataPath         []string              `yaml:"data_path,omitempty,flow"`
 	Id               bool                  `yaml:"id,omitempty"`
 	Reference        bool                  `yaml:"reference,omitempty"`
 	RequiresReplace  bool                  `yaml:"requires_replace,omitempty"`
@@ -47,7 +47,7 @@ type YamlConfigAttribute struct {
 	ExcludeExample   bool                  `yaml:"exclude_example,omitempty"`
 	Description      string                `yaml:"description,omitempty"`
 	Example          string                `yaml:"example,omitempty"`
-	EnumValues       []string              `yaml:"enum_values,omitempty"`
+	EnumValues       []string              `yaml:"enum_values,omitempty,flow"`
 	MinList          int64                 `yaml:"min_list,omitempty"`
 	MaxList          int64                 `yaml:"max_list,omitempty"`
 	MinInt           int64                 `yaml:"min_int,omitempty"`
@@ -55,14 +55,14 @@ type YamlConfigAttribute struct {
 	MinFloat         float64               `yaml:"min_float,omitempty"`
 	MaxFloat         float64               `yaml:"max_float,omitempty"`
 	OrderedList      bool                  `yaml:"ordered_list,omitempty"`
-	StringPatterns   []string              `yaml:"string_patterns,omitempty"`
+	StringPatterns   []string              `yaml:"string_patterns,omitempty,flow"`
 	StringMinLength  int64                 `yaml:"string_min_length,omitempty"`
 	StringMaxLength  int64                 `yaml:"string_max_length,omitempty"`
 	DefaultValue     string                `yaml:"default_value,omitempty"`
 	Value            string                `yaml:"value,omitempty"`
 	TestValue        string                `yaml:"test_value,omitempty"`
 	MinimumTestValue string                `yaml:"minimum_test_value,omitempty"`
-	TestTags         []string              `yaml:"test_tags,omitempty"`
+	TestTags         []string              `yaml:"test_tags,omitempty,flow"`
 	Attributes       []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	GoTypeName       string                `yaml:"gotypename,omitempty"`
 }
