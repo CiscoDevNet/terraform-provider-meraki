@@ -61,33 +61,33 @@ func (d *NetworkSettingsDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "The id of the object",
 				Computed:            true,
 			},
-			"network_id": schema.StringAttribute{
-				MarkdownDescription: "Network ID",
-				Required:            true,
-			},
-			"local_status_page_enabled": schema.BoolAttribute{
-				MarkdownDescription: "asdasdas",
-				Computed:            true,
-			},
 			"remote_status_page_enabled": schema.BoolAttribute{
-				MarkdownDescription: "",
+				MarkdownDescription: "Enables / disables access to the device status page (<a target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set if localStatusPageEnabled is set to true",
 				Computed:            true,
 			},
 			"local_status_page_authentication_enabled": schema.BoolAttribute{
-				MarkdownDescription: "",
+				MarkdownDescription: "Enables / disables the authentication on Local Status page(s).",
 				Computed:            true,
 			},
 			"local_status_page_authentication_password": schema.StringAttribute{
-				MarkdownDescription: "",
-				Computed:            true,
-			},
-			"named_vlans_enabled": schema.BoolAttribute{
-				MarkdownDescription: "",
+				MarkdownDescription: "The password used for Local Status Page(s). Set this to null to clear the password.",
 				Computed:            true,
 			},
 			"secure_port_enabled": schema.BoolAttribute{
-				MarkdownDescription: "",
+				MarkdownDescription: "Enables / disables SecureConnect on the network. Optional.",
 				Computed:            true,
+			},
+			"named_vlans_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Enables / disables Named VLANs on the Network.",
+				Computed:            true,
+			},
+			"local_status_page_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Enables / disables the local device status pages (<a target='_blank' href='http://my.meraki.com/'>my.meraki.com, </a><a target='_blank' href='http://ap.meraki.com/'>ap.meraki.com, </a><a target='_blank' href='http://switch.meraki.com/'>switch.meraki.com, </a><a target='_blank' href='http://wired.meraki.com/'>wired.meraki.com</a>). Optional (defaults to false)",
+				Computed:            true,
+			},
+			"network_id": schema.StringAttribute{
+				MarkdownDescription: "Network ID",
+				Required:            true,
 			},
 		},
 	}

@@ -69,11 +69,14 @@ func main() {
 	if urlResult.idName != "" {
 		config.IdName = urlResult.idName[1 : len(urlResult.idName)-1]
 	}
-	for _, r := range urlResult.references {
+	for i, r := range urlResult.references {
 		attr := gen.YamlConfigAttribute{}
 		attr.TfName = gen.CamelToSnake(r[1 : len(r)-1])
 		attr.Type = "String"
 		attr.Reference = true
+		if urlResult.oneToOne && i == len(urlResult.references)-1 {
+			attr.Id = true
+		}
 		attributes = append(attributes, attr)
 	}
 	config.Attributes = attributes
@@ -106,6 +109,7 @@ type parseUrlResult struct {
 	resultPath string
 	references []string
 	category   string
+	oneToOne   bool
 }
 
 func parseUrl(url string) parseUrlResult {
@@ -122,6 +126,7 @@ func parseUrl(url string) parseUrlResult {
 		// one to one
 		ret.resultPath = strings.Join(parts, "%v")
 		ret.references = ids
+		ret.oneToOne = true
 	}
 	ret.category = parts[0][1 : len(parts[0])-1]
 	ret.category = strings.ToUpper(string(ret.category[0])) + ret.category[1:]

@@ -14,13 +14,13 @@ This resource can manage the `Network Settings` configuration.
 
 ```terraform
 resource "meraki_network_settings" "example" {
-  network_id                                = "L_123456"
-  local_status_page_enabled                 = false
-  remote_status_page_enabled                = false
+  remote_status_page_enabled                = true
   local_status_page_authentication_enabled  = false
   local_status_page_authentication_password = "miles123"
-  named_vlans_enabled                       = false
   secure_port_enabled                       = false
+  named_vlans_enabled                       = true
+  local_status_page_enabled                 = true
+  network_id                                = "L_123456"
 }
 ```
 
@@ -33,12 +33,12 @@ resource "meraki_network_settings" "example" {
 
 ### Optional
 
-- `local_status_page_authentication_enabled` (Boolean)
-- `local_status_page_authentication_password` (String)
-- `local_status_page_enabled` (Boolean) asdasdas
-- `named_vlans_enabled` (Boolean)
-- `remote_status_page_enabled` (Boolean)
-- `secure_port_enabled` (Boolean)
+- `local_status_page_authentication_enabled` (Boolean) Enables / disables the authentication on Local Status page(s).
+- `local_status_page_authentication_password` (String) The password used for Local Status Page(s). Set this to null to clear the password.
+- `local_status_page_enabled` (Boolean) Enables / disables the local device status pages (<a target='_blank' href='http://my.meraki.com/'>my.meraki.com, </a><a target='_blank' href='http://ap.meraki.com/'>ap.meraki.com, </a><a target='_blank' href='http://switch.meraki.com/'>switch.meraki.com, </a><a target='_blank' href='http://wired.meraki.com/'>wired.meraki.com</a>). Optional (defaults to false)
+- `named_vlans_enabled` (Boolean) Enables / disables Named VLANs on the Network.
+- `remote_status_page_enabled` (Boolean) Enables / disables access to the device status page (<a target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set if localStatusPageEnabled is set to true
+- `secure_port_enabled` (Boolean) Enables / disables SecureConnect on the network. Optional.
 
 ### Read-Only
 
