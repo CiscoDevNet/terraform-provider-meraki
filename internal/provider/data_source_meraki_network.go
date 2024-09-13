@@ -99,7 +99,7 @@ func (d *NetworkDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 func (d *NetworkDataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
 	return []datasource.ConfigValidator{
 		datasourcevalidator.ExactlyOneOf(
-			path.MatchRoot("id"), // is this correct?
+			path.MatchRoot("id"),
 			path.MatchRoot("name"),
 		),
 	}

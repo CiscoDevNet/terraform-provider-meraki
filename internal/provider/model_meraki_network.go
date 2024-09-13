@@ -57,9 +57,6 @@ func (data Network) getPath() string {
 
 func (data Network) toBody(ctx context.Context, state Network) string {
 	body := ""
-	if data.Id.ValueString() != "" {
-		body, _ = sjson.Set(body, "id", data.Id.ValueString())
-	}
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}

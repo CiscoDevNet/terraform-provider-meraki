@@ -131,9 +131,6 @@ func (data NetworkGroupPolicy) getPath() string {
 
 func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPolicy) string {
 	body := ""
-	if data.Id.ValueString() != "" {
-		body, _ = sjson.Set(body, "groupPolicyId", data.Id.ValueString())
-	}
 	if !data.SplashAuthSettings.IsNull() {
 		body, _ = sjson.Set(body, "splashAuthSettings", data.SplashAuthSettings.ValueString())
 	}

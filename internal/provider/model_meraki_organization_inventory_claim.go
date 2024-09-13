@@ -61,9 +61,6 @@ func (data OrganizationInventoryClaim) getDevicesPath() string {
 
 func (data OrganizationInventoryClaim) toBody(ctx context.Context, state OrganizationInventoryClaim) string {
 	body := ""
-	if data.Id.ValueString() != "" {
-		body, _ = sjson.Set(body, "id", data.Id.ValueString())
-	}
 	if !data.Serials.IsNull() {
 		var values []string
 		data.Serials.ElementsAs(ctx, &values, false)

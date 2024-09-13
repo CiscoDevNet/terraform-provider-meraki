@@ -590,9 +590,9 @@ func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resou
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{$attr.TfName}}"), idParts[{{$index}}])...)
 	{{- end}}
 	{{- end}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{subtract (importParts .Attributes) 1}}])...) // is this correct?
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{subtract (importParts .Attributes) 1}}])...)
 	{{- else}}
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp) // is this correct?
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 	{{- end}}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

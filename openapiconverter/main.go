@@ -9,7 +9,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/gen"
 	"github.com/tidwall/gjson"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 const usage = `

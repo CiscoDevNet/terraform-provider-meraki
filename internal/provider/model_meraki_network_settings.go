@@ -57,9 +57,6 @@ func (data NetworkSettings) getPath() string {
 
 func (data NetworkSettings) toBody(ctx context.Context, state NetworkSettings) string {
 	body := ""
-	if data.Id.ValueString() != "" {
-		body, _ = sjson.Set(body, "id", data.Id.ValueString())
-	}
 	if !data.RemoteStatusPageEnabled.IsNull() {
 		body, _ = sjson.Set(body, "remoteStatusPageEnabled", data.RemoteStatusPageEnabled.ValueBool())
 	}

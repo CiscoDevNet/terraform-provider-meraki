@@ -345,7 +345,7 @@ func (d *NetworkGroupPolicyDataSource) Schema(ctx context.Context, req datasourc
 func (d *NetworkGroupPolicyDataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
 	return []datasource.ConfigValidator{
 		datasourcevalidator.ExactlyOneOf(
-			path.MatchRoot("id"), // is this correct?
+			path.MatchRoot("id"),
 			path.MatchRoot("name"),
 		),
 	}
