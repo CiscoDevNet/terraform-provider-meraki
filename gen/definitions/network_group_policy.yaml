@@ -1,0 +1,392 @@
+---
+name: Network Group Policy
+rest_endpoint: /networks/%v/groupPolicies
+data_source_name_query: true
+doc_category: Networks
+attributes:
+- model_name: splashAuthSettings
+  type: String
+  description: Whether clients bound to your policy will bypass splash authorization or behave according to the network's rules. Can be one of 'network default' or 'bypass'. Only available if your network has a wireless configuration.
+  example: bypass
+- model_name: settings
+  type: String
+  data_path:
+  - vlanTagging
+  description: How VLAN tagging is applied. Can be 'network default', 'ignore' or 'custom'.
+  example: custom
+- model_name: vlanId
+  type: String
+  data_path:
+  - vlanTagging
+  description: The ID of the vlan you want to tag. This only applies if 'settings' is set to 'custom'.
+  example: "1"
+- model_name: settings
+  type: String
+  data_path:
+  - bonjourForwarding
+  description: How Bonjour rules are applied. Can be 'network default', 'ignore' or 'custom'.
+  example: custom
+- model_name: rules
+  type: List
+  data_path:
+  - bonjourForwarding
+  description: A list of the Bonjour forwarding rules for your group policy. If 'settings' is set to 'custom', at least one rule must be specified.
+  attributes:
+  - model_name: description
+    type: String
+    description: A description for your Bonjour forwarding rule. Optional.
+    example: A simple bonjour rule
+  - model_name: vlanId
+    type: String
+    description: The ID of the service VLAN. Required.
+    example: "1"
+  - model_name: services
+    type: List
+    element_type: String
+    description: A list of Bonjour services. At least one service must be specified. Available services are 'All Services', 'AirPlay', 'AFP', 'BitTorrent', 'FTP', 'iChat', 'iTunes', 'Printers', 'Samba', 'Scanners' and 'SSH'
+    example: All Services
+- model_name: name
+  mandatory: true
+  type: String
+  description: The name for your group policy.
+  example: No video streaming
+- model_name: to
+  type: String
+  data_path:
+  - scheduling
+  - monday
+  description: The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.
+  example: "17:00"
+- model_name: active
+  type: Bool
+  data_path:
+  - scheduling
+  - monday
+  description: Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.
+  example: "true"
+- model_name: from
+  type: String
+  data_path:
+  - scheduling
+  - monday
+  description: The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.
+  example: "09:00"
+- model_name: active
+  type: Bool
+  data_path:
+  - scheduling
+  - tuesday
+  description: Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.
+  example: "true"
+- model_name: from
+  type: String
+  data_path:
+  - scheduling
+  - tuesday
+  description: The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.
+  example: "09:00"
+- model_name: to
+  type: String
+  data_path:
+  - scheduling
+  - tuesday
+  description: The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.
+  example: "17:00"
+- model_name: to
+  type: String
+  data_path:
+  - scheduling
+  - wednesday
+  description: The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.
+  example: "17:00"
+- model_name: active
+  type: Bool
+  data_path:
+  - scheduling
+  - wednesday
+  description: Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.
+  example: "true"
+- model_name: from
+  type: String
+  data_path:
+  - scheduling
+  - wednesday
+  description: The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.
+  example: "09:00"
+- model_name: active
+  type: Bool
+  data_path:
+  - scheduling
+  - thursday
+  description: Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.
+  example: "true"
+- model_name: from
+  type: String
+  data_path:
+  - scheduling
+  - thursday
+  description: The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.
+  example: "09:00"
+- model_name: to
+  type: String
+  data_path:
+  - scheduling
+  - thursday
+  description: The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.
+  example: "17:00"
+- model_name: active
+  type: Bool
+  data_path:
+  - scheduling
+  - friday
+  description: Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.
+  example: "true"
+- model_name: from
+  type: String
+  data_path:
+  - scheduling
+  - friday
+  description: The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.
+  example: "09:00"
+- model_name: to
+  type: String
+  data_path:
+  - scheduling
+  - friday
+  description: The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.
+  example: "17:00"
+- model_name: to
+  type: String
+  data_path:
+  - scheduling
+  - saturday
+  description: The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.
+  example: "17:00"
+- model_name: active
+  type: Bool
+  data_path:
+  - scheduling
+  - saturday
+  description: Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.
+  example: "true"
+- model_name: from
+  type: String
+  data_path:
+  - scheduling
+  - saturday
+  description: The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.
+  example: "09:00"
+- model_name: from
+  type: String
+  data_path:
+  - scheduling
+  - sunday
+  description: The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.
+  example: "09:00"
+- model_name: to
+  type: String
+  data_path:
+  - scheduling
+  - sunday
+  description: The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.
+  example: "17:00"
+- model_name: active
+  type: Bool
+  data_path:
+  - scheduling
+  - sunday
+  description: Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.
+  example: "true"
+- model_name: enabled
+  type: Bool
+  data_path:
+  - scheduling
+  description: Whether scheduling is enabled (true) or disabled (false). Defaults to false. If true, the schedule objects for each day of the week (monday - sunday) are parsed.
+  example: "true"
+- model_name: settings
+  type: String
+  data_path:
+  - bandwidth
+  description: How bandwidth limits are enforced. Can be 'network default', 'ignore' or 'custom'.
+  example: custom
+- model_name: limitUp
+  type: Int64
+  data_path:
+  - bandwidth
+  - bandwidthLimits
+  description: The maximum upload limit (integer, in Kbps). null indicates no limit
+  example: "1000000"
+- model_name: limitDown
+  type: Int64
+  data_path:
+  - bandwidth
+  - bandwidthLimits
+  description: The maximum download limit (integer, in Kbps). null indicates no limit
+  example: "1000000"
+- model_name: l7FirewallRules
+  type: List
+  data_path:
+  - firewallAndTrafficShaping
+  description: An ordered array of L7 firewall rules
+  attributes:
+  - model_name: policy
+    type: String
+    description: The policy applied to matching traffic. Must be 'deny'.
+    example: deny
+  - model_name: type
+    type: String
+    description: Type of the L7 Rule. Must be 'application', 'applicationCategory', 'host', 'port' or 'ipRange'
+    example: host
+  - model_name: value
+    type: String
+    description: The 'value' of what you want to block. If 'type' is 'host', 'port' or 'ipRange', 'value' must be a string matching either a hostname (e.g. somewhere.com), a port (e.g. 8080), or an IP range (e.g. 192.1.0.0/16). If 'type' is 'application' or 'applicationCategory', then 'value' must be an object with an ID for the application.
+    example: google.com
+- model_name: settings
+  type: String
+  data_path:
+  - firewallAndTrafficShaping
+  description: How firewall and traffic shaping rules are enforced. Can be 'network default', 'ignore' or 'custom'.
+  example: custom
+- model_name: trafficShapingRules
+  type: List
+  data_path:
+  - firewallAndTrafficShaping
+  description: '    An array of traffic shaping rules. Rules are applied in the order that     they are specified in. An empty list (or null) means no rules. Note that     you are allowed a maximum of 8 rules. '
+  attributes:
+  - model_name: definitions
+    type: List
+    description: '    A list of objects describing the definitions of your traffic shaping rule. At least one definition is required. '
+    attributes:
+    - model_name: type
+      type: String
+      description: The type of definition. Can be one of 'application', 'applicationCategory', 'host', 'port', 'ipRange' or 'localNet'.
+      example: host
+    - model_name: value
+      type: String
+      description: '    If ''type'' is ''host'', ''port'', ''ipRange'' or ''localNet'', then ''value'' must be a string, matching either     a hostname (e.g. ''somesite.com''), a port (e.g. 8080), or an IP range (''192.1.0.0'',     ''192.1.0.0/16'', or ''10.1.0.0/16:80''). ''localNet'' also supports CIDR notation, excluding     custom ports.      If ''type'' is ''application'' or ''applicationCategory'', then ''value'' must be an object     with the structure { ''id'': ''meraki:layer7/...'' }, where ''id'' is the application category or     application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories     endpoint). '
+      example: google.com
+  - model_name: settings
+    type: String
+    data_path:
+    - perClientBandwidthLimits
+    description: How bandwidth limits are applied by your rule. Can be one of 'network default', 'ignore' or 'custom'.
+    example: custom
+  - model_name: limitUp
+    type: Int64
+    data_path:
+    - perClientBandwidthLimits
+    - bandwidthLimits
+    description: The maximum upload limit (integer, in Kbps).
+    example: "1000000"
+  - model_name: limitDown
+    type: Int64
+    data_path:
+    - perClientBandwidthLimits
+    - bandwidthLimits
+    description: The maximum download limit (integer, in Kbps).
+    example: "1000000"
+  - model_name: dscpTagValue
+    type: Int64
+    description: '    The DSCP tag applied by your rule. null means ''Do not change DSCP tag''.     For a list of possible tag values, use the trafficShaping/dscpTaggingOptions endpoint. '
+    example: "0"
+  - model_name: pcpTagValue
+    type: Int64
+    description: '    The PCP tag applied by your rule. Can be 0 (lowest priority) through 7 (highest priority).     null means ''Do not set PCP tag''. '
+    example: "0"
+  - model_name: priority
+    type: String
+    description: '    A string, indicating the priority level for packets bound to your rule.     Can be ''low'', ''normal'' or ''high''. '
+    example: normal
+- model_name: l3FirewallRules
+  type: List
+  data_path:
+  - firewallAndTrafficShaping
+  description: An ordered array of the L3 firewall rules
+  attributes:
+  - model_name: protocol
+    type: String
+    description: The type of protocol (must be 'tcp', 'udp', 'icmp', 'icmp6' or 'any')
+    example: tcp
+  - model_name: destPort
+    type: String
+    description: Destination port (integer in the range 1-65535), a port range (e.g. 8080-9090), or 'any'
+    example: "443"
+  - model_name: destCidr
+    type: String
+    description: Destination IP address (in IP or CIDR notation), a fully-qualified domain name (FQDN, if your network supports it) or 'any'.
+    example: 192.168.1.0/24
+  - model_name: comment
+    type: String
+    description: Description of the rule (optional)
+    example: Allow TCP traffic to subnet with HTTP servers.
+  - model_name: policy
+    type: String
+    description: '''allow'' or ''deny'' traffic specified by this rule'
+    example: allow
+- model_name: settings
+  type: String
+  data_path:
+  - contentFiltering
+  - allowedUrlPatterns
+  description: How URL patterns are applied. Can be 'network default', 'append' or 'override'.
+  example: network default
+  exclude_test: true
+- model_name: patterns
+  type: List
+  element_type: String
+  data_path:
+  - contentFiltering
+  - allowedUrlPatterns
+  description: A list of URL patterns that are allowed
+  example: http://www.example.com
+  exclude_test: true
+- model_name: settings
+  type: String
+  data_path:
+  - contentFiltering
+  - blockedUrlPatterns
+  description: How URL patterns are applied. Can be 'network default', 'append' or 'override'.
+  example: append
+  exclude_test: true
+- model_name: patterns
+  type: List
+  element_type: String
+  data_path:
+  - contentFiltering
+  - blockedUrlPatterns
+  description: A list of URL patterns that are blocked
+  example: http://www.example.com
+  exclude_test: true
+- model_name: settings
+  type: String
+  data_path:
+  - contentFiltering
+  - blockedUrlCategories
+  description: How URL categories are applied. Can be 'network default', 'append' or 'override'.
+  example: override
+  exclude_test: true
+- model_name: categories
+  type: List
+  element_type: String
+  data_path:
+  - contentFiltering
+  - blockedUrlCategories
+  description: A list of URL categories to block
+  example: meraki:contentFiltering/category/1
+  exclude_test: true
+- tf_name: network_id
+  type: String
+  reference: true
+  test_value: meraki_network.test.id
+id_name: groupPolicyId
+
+
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }

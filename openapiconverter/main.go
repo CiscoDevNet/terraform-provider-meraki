@@ -8,21 +8,23 @@ import (
 	"strings"
 
 	"github.com/netascode/terraform-provider-meraki/gen"
+	"github.com/tidwall/gjson"
 	"gopkg.in/yaml.v2"
 )
 
 const usage = `
-Usage: openapiconverter <openapi_spec> <endpoint>
+Usage: openapiconverter <openapi_spec> <endpoint> <resource_name>
 
 Arguments:
   openapi_spec  Path to the file containing the OpenAPI specification (YAML or JSON)
   endpoint      The specific endpoint that is to be converted to generator specification
+  resource_name The name that will be given to the resource
 
 Example:
-  openapiconverter ./api-spec.yaml "/networks/{networkId}/groupPolicies/{groupPolicyId}"`
+  openapiconverter ./api-spec.yaml "/networks/{networkId}/groupPolicies/{groupPolicyId}" "Network Group Policy"`
 
 func main() {
-	if len(os.Args) < 3 {
+	if len(os.Args) < 4 {
 		fmt.Println("Error: Insufficient number of arguments")
 		fmt.Println(usage)
 		os.Exit(1)
@@ -30,6 +32,7 @@ func main() {
 
 	specPath := os.Args[1]
 	endpointPath := os.Args[2]
+	resourceName := os.Args[3]
 
 	specData, err := os.ReadFile(specPath)
 	if err != nil {
@@ -50,8 +53,13 @@ func main() {
 
 	endpoint := spec.(map[string]interface{})["paths"].(map[string]interface{})[endpointPath].(map[string]interface{})
 	schema := endpoint["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+	example := schema["schema"].(map[string]interface{})["example"].(map[string]interface{})
+	exampleStr, err := json.Marshal(&example)
+	if err != nil {
+		panic(err)
+	}
 
-	attributes := traverseProperties(schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, false)
+	attributes := traverseProperties(schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr))
 	config := gen.YamlConfig{}
 	urlResult := parseUrl(endpointPath)
 	if urlResult.resultPath[len(urlResult.resultPath)-1] == '/' {
@@ -78,6 +86,7 @@ func main() {
 		}
 	}
 	config.DataSourceNameQuery = dataSourceNameQuery
+	config.Name = resourceName
 	yamlStr, err := yaml.Marshal(&config)
 	if err != nil {
 		panic(err)
@@ -119,34 +128,34 @@ func parseUrl(url string) parseUrlResult {
 	return ret
 }
 
-func traverseProperties(m map[string]interface{}, path []string, isList bool) []gen.YamlConfigAttribute {
+func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string) []gen.YamlConfigAttribute {
 	ret := []gen.YamlConfigAttribute{}
 	for propName, v := range m {
 		propMap := v.(map[string]interface{})
 		if propMap["type"] == "object" {
 			childPath := append(path, propName)
-			children := traverseProperties(propMap["properties"].(map[string]interface{}), childPath, isList)
+			childGjsonPath := gjsonPath + "." + propName
+			children := traverseProperties(propMap["properties"].(map[string]interface{}), childPath, childGjsonPath, exampleStr)
 			ret = append(ret, children...)
 		} else if propMap["type"] == "array" {
 			attr := gen.YamlConfigAttribute{}
 			attr.DataPath = path
 			attr.Type = "List"
 			attr.ModelName = propName
+			items := propMap["items"].(map[string]interface{})
 			desc, ok := propMap["description"]
 			if ok {
-				attr.Description = desc.(string)
+				attr.Description = sanitizeDescription(desc.(string))
 			}
-			if isList {
+			if items["type"].(string) == "string" {
 				attr.ElementType = "String"
-			} else {
-				items := propMap["items"].(map[string]interface{})
-				if items["type"].(string) == "object" {
-					children := traverseProperties(items["properties"].(map[string]interface{}), []string{}, true)
-					attr.Attributes = children
-				} else {
-					attr.ElementType = "String"
-				}
-
+				childGjsonPath := (gjsonPath + "." + propName + ".0")[1:]
+				res := gjson.Get(exampleStr, childGjsonPath)
+				attr.Example = res.String()
+			} else if items["type"].(string) == "object" {
+				childGjsonPath := gjsonPath + "." + propName + ".0"
+				children := traverseProperties(items["properties"].(map[string]interface{}), []string{}, childGjsonPath, exampleStr)
+				attr.Attributes = children
 			}
 			ret = append(ret, attr)
 		} else {
@@ -155,12 +164,21 @@ func traverseProperties(m map[string]interface{}, path []string, isList bool) []
 			attr.DataPath = path
 			attr.Type = jsonTypes[propMap["type"].(string)]
 			attr.ModelName = propName
+			childGjsonPath := (gjsonPath + "." + propName)[1:]
+			res := gjson.Get(exampleStr, childGjsonPath)
+			attr.Example = res.String()
 			desc, ok := propMap["description"]
 			if ok {
-				attr.Description = desc.(string)
+				attr.Description = sanitizeDescription(desc.(string))
 			}
 			ret = append(ret, attr)
 		}
 	}
 	return ret
+}
+
+func sanitizeDescription(desc string) string {
+	desc = strings.ReplaceAll(desc, "\n", " ")
+	desc = strings.ReplaceAll(desc, "\"", "'")
+	return desc
 }
