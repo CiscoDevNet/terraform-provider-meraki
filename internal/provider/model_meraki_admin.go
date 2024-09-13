@@ -68,6 +68,9 @@ func (data Admin) getPath() string {
 
 func (data Admin) toBody(ctx context.Context, state Admin) string {
 	body := ""
+	if data.Id.ValueString() != "" {
+		body, _ = sjson.Set(body, "id", data.Id.ValueString())
+	}
 	if !data.Email.IsNull() {
 		body, _ = sjson.Set(body, "email", data.Email.ValueString())
 	}

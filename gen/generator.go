@@ -33,7 +33,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/netascode/terraform-provider-meraki/gen"
+	"github.com/CiscoDevNet/terraform-provider-meraki/gen"
 )
 
 const (

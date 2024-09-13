@@ -58,6 +58,9 @@ func (data Organization) getPath() string {
 
 func (data Organization) toBody(ctx context.Context, state Organization) string {
 	body := ""
+	if data.Id.ValueString() != "" {
+		body, _ = sjson.Set(body, "id", data.Id.ValueString())
+	}
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}

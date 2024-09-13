@@ -61,6 +61,9 @@ func (data NetworkSNMP) getPath() string {
 
 func (data NetworkSNMP) toBody(ctx context.Context, state NetworkSNMP) string {
 	body := ""
+	if data.Id.ValueString() != "" {
+		body, _ = sjson.Set(body, "id", data.Id.ValueString())
+	}
 	if !data.Access.IsNull() {
 		body, _ = sjson.Set(body, "access", data.Access.ValueString())
 	}

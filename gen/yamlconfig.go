@@ -26,6 +26,9 @@ type YamlConfig struct {
 	TestTags            []string              `yaml:"test_tags,omitempty"`
 	TestPrerequisites   string                `yaml:"test_prerequisites,omitempty"`
 	IdName              string                `yaml:"id_name,omitempty"`
+	NoDataSource        bool                  `yaml:"no_data_source"`
+	NoResource          bool                  `yaml:"no_resource"`
+	NoImport            bool                  `yaml:"no_import"`
 }
 
 type YamlConfigAttribute struct {

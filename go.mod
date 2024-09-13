@@ -20,6 +20,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 )
 
+replace github.com/netascode/go-meraki v0.0.0-20240901102824-a67592c39438 => /Users/maparafi/go-meraki
+
 require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
 	github.com/Kunde21/markdownfmt/v3 v3.1.0 // indirect

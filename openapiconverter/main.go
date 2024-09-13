@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/netascode/terraform-provider-meraki/gen"
+	"github.com/CiscoDevNet/terraform-provider-meraki/gen"
 	"github.com/tidwall/gjson"
 	"gopkg.in/yaml.v2"
 )

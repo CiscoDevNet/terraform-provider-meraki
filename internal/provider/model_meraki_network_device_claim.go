@@ -61,6 +61,9 @@ func (data NetworkDeviceClaim) getDevicesPath() string {
 
 func (data NetworkDeviceClaim) toBody(ctx context.Context, state NetworkDeviceClaim) string {
 	body := ""
+	if data.Id.ValueString() != "" {
+		body, _ = sjson.Set(body, "id", data.Id.ValueString())
+	}
 	if !data.Serials.IsNull() {
 		var values []string
 		data.Serials.ElementsAs(ctx, &values, false)
