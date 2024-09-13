@@ -605,11 +605,6 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 			} else {
 				data.PcpTagValue = types.Int64Null()
 			}
-			if value := res.Get("priority"); value.Exists() {
-				data.Priority = types.StringValue(value.String())
-			} else {
-				data.Priority = types.StringNull()
-			}
 			(*parent).FirewallAndTrafficShapingTrafficShapingRules = append((*parent).FirewallAndTrafficShapingTrafficShapingRules, data)
 			return true
 		})
@@ -951,8 +946,8 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 		data.FirewallAndTrafficShapingSettings = types.StringNull()
 	}
 	for i := 0; i < len(data.FirewallAndTrafficShapingTrafficShapingRules); i++ {
-		keys := [...]string{"perClientBandwidthLimits.settings", "perClientBandwidthLimits.bandwidthLimits.limitUp", "perClientBandwidthLimits.bandwidthLimits.limitDown", "dscpTagValue", "pcpTagValue", "priority"}
-		keyValues := [...]string{data.FirewallAndTrafficShapingTrafficShapingRules[i].PerClientBandwidthLimitsSettings.ValueString(), strconv.FormatInt(data.FirewallAndTrafficShapingTrafficShapingRules[i].PerClientBandwidthLimitsBandwidthLimitsLimitUp.ValueInt64(), 10), strconv.FormatInt(data.FirewallAndTrafficShapingTrafficShapingRules[i].PerClientBandwidthLimitsBandwidthLimitsLimitDown.ValueInt64(), 10), strconv.FormatInt(data.FirewallAndTrafficShapingTrafficShapingRules[i].DscpTagValue.ValueInt64(), 10), strconv.FormatInt(data.FirewallAndTrafficShapingTrafficShapingRules[i].PcpTagValue.ValueInt64(), 10), data.FirewallAndTrafficShapingTrafficShapingRules[i].Priority.ValueString()}
+		keys := [...]string{"perClientBandwidthLimits.settings", "perClientBandwidthLimits.bandwidthLimits.limitUp", "perClientBandwidthLimits.bandwidthLimits.limitDown", "dscpTagValue", "pcpTagValue"}
+		keyValues := [...]string{data.FirewallAndTrafficShapingTrafficShapingRules[i].PerClientBandwidthLimitsSettings.ValueString(), strconv.FormatInt(data.FirewallAndTrafficShapingTrafficShapingRules[i].PerClientBandwidthLimitsBandwidthLimitsLimitUp.ValueInt64(), 10), strconv.FormatInt(data.FirewallAndTrafficShapingTrafficShapingRules[i].PerClientBandwidthLimitsBandwidthLimitsLimitDown.ValueInt64(), 10), strconv.FormatInt(data.FirewallAndTrafficShapingTrafficShapingRules[i].DscpTagValue.ValueInt64(), 10), strconv.FormatInt(data.FirewallAndTrafficShapingTrafficShapingRules[i].PcpTagValue.ValueInt64(), 10)}
 
 		parent := &data
 		data := (*parent).FirewallAndTrafficShapingTrafficShapingRules[i]
@@ -1058,11 +1053,6 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 			data.PcpTagValue = types.Int64Value(value.Int())
 		} else {
 			data.PcpTagValue = types.Int64Null()
-		}
-		if value := res.Get("priority"); value.Exists() && !data.Priority.IsNull() {
-			data.Priority = types.StringValue(value.String())
-		} else {
-			data.Priority = types.StringNull()
 		}
 		(*parent).FirewallAndTrafficShapingTrafficShapingRules[i] = data
 	}

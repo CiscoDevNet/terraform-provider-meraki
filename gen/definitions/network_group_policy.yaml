@@ -297,6 +297,7 @@ attributes:
     type: String
     description: '    A string, indicating the priority level for packets bound to your rule.     Can be ''low'', ''normal'' or ''high''. '
     example: normal
+    write_only: true
 - model_name: l3FirewallRules
   type: List
   data_path:

@@ -74,7 +74,6 @@ func TestAccDataSourceMerakiNetworkGroupPolicy(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.per_client_bandwidth_limits_bandwidth_limits_limit_down", "1000000"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.dscp_tag_value", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.pcp_tag_value", "0"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.priority", "normal"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "firewall_and_traffic_shaping_l3_firewall_rules.0.protocol", "tcp"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "firewall_and_traffic_shaping_l3_firewall_rules.0.dest_port", "443"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "firewall_and_traffic_shaping_l3_firewall_rules.0.dest_cidr", "192.168.1.0/24"))
