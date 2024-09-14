@@ -20,18 +20,24 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/gen/yamlconfig"
 	"github.com/tidwall/gjson"
 	"gopkg.in/yaml.v3"
+
+	"golang.org/x/exp/maps"
 )
 
 const specPath = "./gen/models/spec3.json"
+const definitionsPath = "./gen/definitions/"
 
 const usage = `
 Usage: go run gen/definition.go <endpoint> <resource_name>
@@ -78,8 +84,8 @@ func main() {
 		panic(err)
 	}
 
-	attributes := traverseProperties(schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr))
 	config := yamlconfig.YamlConfig{}
+
 	urlResult := parseUrl(endpointPath)
 	if urlResult.resultPath[len(urlResult.resultPath)-1] == '/' {
 		urlResult.resultPath = urlResult.resultPath[:len(urlResult.resultPath)-1]
@@ -88,17 +94,6 @@ func main() {
 	if urlResult.idName != "" {
 		config.IdName = urlResult.idName[1 : len(urlResult.idName)-1]
 	}
-	for i, r := range urlResult.references {
-		attr := yamlconfig.YamlConfigAttribute{}
-		attr.TfName = yamlconfig.CamelToSnake(r[1 : len(r)-1])
-		attr.Type = "String"
-		attr.Reference = true
-		if urlResult.oneToOne && i == len(urlResult.references)-1 {
-			attr.Id = true
-		}
-		attributes = append(attributes, attr)
-	}
-	config.Attributes = attributes
 	config.DocCategory = urlResult.category
 	dataSourceNameQuery := false
 	for _, a := range config.Attributes {
@@ -109,16 +104,45 @@ func main() {
 	}
 	config.DataSourceNameQuery = dataSourceNameQuery
 	config.Name = resourceName
-	yamlStr, err := yaml.Marshal(&config)
+	if urlResult.oneToOne {
+		config.PutCreate = true
+		config.NoDelete = true
+	}
+
+	attributes := []yamlconfig.YamlConfigAttribute{}
+	for i, r := range urlResult.references {
+		attr := yamlconfig.YamlConfigAttribute{}
+		attr.TfName = yamlconfig.CamelToSnake(r[1 : len(r)-1])
+		attr.Type = "String"
+		attr.Reference = true
+		if urlResult.oneToOne && i == len(urlResult.references)-1 {
+			attr.Id = true
+		}
+		attr.Description = "<<Description>>"
+		attr.TestValue = "<<TestValue>>"
+		attr.Example = "<<Example>>"
+		attributes = append(attributes, attr)
+	}
+	attributes = append(attributes, traverseProperties(schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr))...)
+	config.Attributes = attributes
+
+	var yamlBytes bytes.Buffer
+	yamlEncoder := yaml.NewEncoder(&yamlBytes)
+	yamlEncoder.SetIndent(2)
+	err = yamlEncoder.Encode(&config)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("---")
-	fmt.Println(string(yamlStr))
+	outputPath := definitionsPath + yamlconfig.SnakeCase(resourceName) + ".yaml"
+	// Only write the file if it doesn't exist
+	if _, err := os.Stat(outputPath); errors.Is(err, os.ErrNotExist) {
+		os.WriteFile(outputPath, []byte("---\n"+string(yamlBytes.Bytes())), 0644)
+	}
 }
 
 var jsonTypes = map[string]string{
 	"integer": "Int64",
+	"number":  "Float",
 	"boolean": "Bool",
 	"string":  "String",
 }
@@ -154,25 +178,68 @@ func parseUrl(url string) parseUrlResult {
 
 func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string) []yamlconfig.YamlConfigAttribute {
 	ret := []yamlconfig.YamlConfigAttribute{}
-	for propName, v := range m {
-		propMap := v.(map[string]interface{})
+
+	keys := maps.Keys(m)
+	sort.Strings(keys)
+
+	for _, propName := range keys {
+		propMap := m[propName].(map[string]interface{})
+		if propMap["type"] != "object" && propMap["type"] != "array" {
+			// primitive value
+			attr := yamlconfig.YamlConfigAttribute{}
+			attr.DataPath = path
+			attr.Type = jsonTypes[propMap["type"].(string)]
+			attr.ModelName = propName
+			childGjsonPath := (gjsonPath + "." + propName)[1:]
+			res := gjson.Get(exampleStr, childGjsonPath)
+			attr.Example = res.String()
+			if desc, ok := propMap["description"]; ok {
+				attr.Description = sanitizeDescription(desc.(string))
+			}
+			if enums, ok := propMap["enum"]; ok {
+				for _, r := range enums.([]interface{}) {
+					attr.EnumValues = append(attr.EnumValues, r.(string))
+				}
+			}
+			if min, ok := propMap["minimum"]; ok {
+				if attr.Type == "Int64" {
+					attr.MinInt = min.(int64)
+				} else if attr.Type == "Float" {
+					attr.MinFloat = min.(float64)
+				}
+			}
+			if max, ok := propMap["maximum"]; ok {
+				if attr.Type == "Int64" {
+					attr.MaxInt = max.(int64)
+				} else if attr.Type == "Float" {
+					attr.MaxFloat = max.(float64)
+				}
+			}
+			ret = append(ret, attr)
+		}
+	}
+	for _, propName := range keys {
+		propMap := m[propName].(map[string]interface{})
 		if propMap["type"] == "object" {
 			childPath := append(path, propName)
 			childGjsonPath := gjsonPath + "." + propName
 			children := traverseProperties(propMap["properties"].(map[string]interface{}), childPath, childGjsonPath, exampleStr)
 			ret = append(ret, children...)
-		} else if propMap["type"] == "array" {
+		}
+	}
+	for _, propName := range keys {
+		propMap := m[propName].(map[string]interface{})
+		if propMap["type"] == "array" {
 			attr := yamlconfig.YamlConfigAttribute{}
 			attr.DataPath = path
 			attr.Type = "List"
 			attr.ModelName = propName
 			items := propMap["items"].(map[string]interface{})
-			desc, ok := propMap["description"]
-			if ok {
+			if desc, ok := propMap["description"]; ok {
 				attr.Description = sanitizeDescription(desc.(string))
 			}
-			if items["type"].(string) == "string" {
-				attr.ElementType = "String"
+			if t, ok := jsonTypes[items["type"].(string)]; ok {
+				attr.ElementType = t
 				childGjsonPath := (gjsonPath + "." + propName + ".0")[1:]
 				res := gjson.Get(exampleStr, childGjsonPath)
 				attr.Example = res.String()
@@ -182,20 +249,6 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 				attr.Attributes = children
 			}
 			ret = append(ret, attr)
-		} else {
-			// primitive value
-			attr := yamlconfig.YamlConfigAttribute{}
-			attr.DataPath = path
-			attr.Type = jsonTypes[propMap["type"].(string)]
-			attr.ModelName = propName
-			childGjsonPath := (gjsonPath + "." + propName)[1:]
-			res := gjson.Get(exampleStr, childGjsonPath)
-			attr.Example = res.String()
-			desc, ok := propMap["description"]
-			if ok {
-				attr.Description = sanitizeDescription(desc.(string))
-			}
-			ret = append(ret, attr)
 		}
 	}
 	return ret
@@ -203,6 +256,10 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 
 func sanitizeDescription(desc string) string {
 	desc = strings.ReplaceAll(desc, "\n", " ")
+	r := regexp.MustCompile("<.*?>")
+	desc = r.ReplaceAllString(desc, "")
+	desc = strings.ReplaceAll(desc, "'", "`")
 	desc = strings.ReplaceAll(desc, "\"", "'")
+	desc = strings.Join(strings.Fields(desc), " ") // Remove extra spaces
 	return desc
 }

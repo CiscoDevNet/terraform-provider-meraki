@@ -11,10 +11,14 @@ type YamlConfig struct {
 	Name                string                `yaml:"name,omitempty"`
 	TfName              string                `yaml:"tf_name,omitempty"`
 	RestEndpoint        string                `yaml:"rest_endpoint,omitempty"`
+	NoDataSource        bool                  `yaml:"no_data_source,omitempty"`
+	NoResource          bool                  `yaml:"no_resource,omitempty"`
 	PutCreate           bool                  `yaml:"put_create,omitempty"`
 	GetFromAll          bool                  `yaml:"get_from_all,omitempty"`
 	NoUpdate            bool                  `yaml:"no_update,omitempty"`
 	NoDelete            bool                  `yaml:"no_delete,omitempty"`
+	NoImport            bool                  `yaml:"no_import,omitempty"`
+	IdName              string                `yaml:"id_name,omitempty"`
 	DataSourceNameQuery bool                  `yaml:"data_source_name_query,omitempty"`
 	MinimumVersion      string                `yaml:"minimum_version,omitempty"`
 	DsDescription       string                `yaml:"ds_description,omitempty"`
@@ -22,13 +26,9 @@ type YamlConfig struct {
 	DocCategory         string                `yaml:"doc_category,omitempty"`
 	ExcludeTest         bool                  `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest     bool                  `yaml:"skip_minimum_test,omitempty"`
-	Attributes          []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	TestTags            []string              `yaml:"test_tags,omitempty"`
+	Attributes          []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	TestPrerequisites   string                `yaml:"test_prerequisites,omitempty"`
-	IdName              string                `yaml:"id_name,omitempty"`
-	NoDataSource        bool                  `yaml:"no_data_source,omitempty"`
-	NoResource          bool                  `yaml:"no_resource,omitempty"`
-	NoImport            bool                  `yaml:"no_import,omitempty"`
 }
 
 type YamlConfigAttribute struct {
