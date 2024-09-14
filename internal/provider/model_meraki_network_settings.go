@@ -34,13 +34,13 @@ import (
 
 type NetworkSettings struct {
 	Id                                    types.String `tfsdk:"id"`
+	NetworkId                             types.String `tfsdk:"network_id"`
+	LocalStatusPageEnabled                types.Bool   `tfsdk:"local_status_page_enabled"`
 	RemoteStatusPageEnabled               types.Bool   `tfsdk:"remote_status_page_enabled"`
 	LocalStatusPageAuthenticationEnabled  types.Bool   `tfsdk:"local_status_page_authentication_enabled"`
 	LocalStatusPageAuthenticationPassword types.String `tfsdk:"local_status_page_authentication_password"`
-	SecurePortEnabled                     types.Bool   `tfsdk:"secure_port_enabled"`
 	NamedVlansEnabled                     types.Bool   `tfsdk:"named_vlans_enabled"`
-	LocalStatusPageEnabled                types.Bool   `tfsdk:"local_status_page_enabled"`
-	NetworkId                             types.String `tfsdk:"network_id"`
+	SecurePortEnabled                     types.Bool   `tfsdk:"secure_port_enabled"`
 }
 
 // End of section. //template:end types
@@ -57,6 +57,9 @@ func (data NetworkSettings) getPath() string {
 
 func (data NetworkSettings) toBody(ctx context.Context, state NetworkSettings) string {
 	body := ""
+	if !data.LocalStatusPageEnabled.IsNull() {
+		body, _ = sjson.Set(body, "localStatusPageEnabled", data.LocalStatusPageEnabled.ValueBool())
+	}
 	if !data.RemoteStatusPageEnabled.IsNull() {
 		body, _ = sjson.Set(body, "remoteStatusPageEnabled", data.RemoteStatusPageEnabled.ValueBool())
 	}
@@ -66,14 +69,11 @@ func (data NetworkSettings) toBody(ctx context.Context, state NetworkSettings) s
 	if !data.LocalStatusPageAuthenticationPassword.IsNull() {
 		body, _ = sjson.Set(body, "localStatusPage.authentication.password", data.LocalStatusPageAuthenticationPassword.ValueString())
 	}
-	if !data.SecurePortEnabled.IsNull() {
-		body, _ = sjson.Set(body, "securePort.enabled", data.SecurePortEnabled.ValueBool())
-	}
 	if !data.NamedVlansEnabled.IsNull() {
 		body, _ = sjson.Set(body, "namedVlans.enabled", data.NamedVlansEnabled.ValueBool())
 	}
-	if !data.LocalStatusPageEnabled.IsNull() {
-		body, _ = sjson.Set(body, "localStatusPageEnabled", data.LocalStatusPageEnabled.ValueBool())
+	if !data.SecurePortEnabled.IsNull() {
+		body, _ = sjson.Set(body, "securePort.enabled", data.SecurePortEnabled.ValueBool())
 	}
 	return body
 }
@@ -83,6 +83,11 @@ func (data NetworkSettings) toBody(ctx context.Context, state NetworkSettings) s
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkSettings) fromBody(ctx context.Context, res gjson.Result) {
+	if value := res.Get("localStatusPageEnabled"); value.Exists() {
+		data.LocalStatusPageEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.LocalStatusPageEnabled = types.BoolNull()
+	}
 	if value := res.Get("remoteStatusPageEnabled"); value.Exists() {
 		data.RemoteStatusPageEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -93,20 +98,15 @@ func (data *NetworkSettings) fromBody(ctx context.Context, res gjson.Result) {
 	} else {
 		data.LocalStatusPageAuthenticationEnabled = types.BoolNull()
 	}
-	if value := res.Get("securePort.enabled"); value.Exists() {
-		data.SecurePortEnabled = types.BoolValue(value.Bool())
-	} else {
-		data.SecurePortEnabled = types.BoolNull()
-	}
 	if value := res.Get("namedVlans.enabled"); value.Exists() {
 		data.NamedVlansEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.NamedVlansEnabled = types.BoolNull()
 	}
-	if value := res.Get("localStatusPageEnabled"); value.Exists() {
-		data.LocalStatusPageEnabled = types.BoolValue(value.Bool())
+	if value := res.Get("securePort.enabled"); value.Exists() {
+		data.SecurePortEnabled = types.BoolValue(value.Bool())
 	} else {
-		data.LocalStatusPageEnabled = types.BoolNull()
+		data.SecurePortEnabled = types.BoolNull()
 	}
 }
 
@@ -119,6 +119,11 @@ func (data *NetworkSettings) fromBody(ctx context.Context, res gjson.Result) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *NetworkSettings) fromBodyPartial(ctx context.Context, res gjson.Result) {
+	if value := res.Get("localStatusPageEnabled"); value.Exists() && !data.LocalStatusPageEnabled.IsNull() {
+		data.LocalStatusPageEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.LocalStatusPageEnabled = types.BoolNull()
+	}
 	if value := res.Get("remoteStatusPageEnabled"); value.Exists() && !data.RemoteStatusPageEnabled.IsNull() {
 		data.RemoteStatusPageEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -129,20 +134,15 @@ func (data *NetworkSettings) fromBodyPartial(ctx context.Context, res gjson.Resu
 	} else {
 		data.LocalStatusPageAuthenticationEnabled = types.BoolNull()
 	}
-	if value := res.Get("securePort.enabled"); value.Exists() && !data.SecurePortEnabled.IsNull() {
-		data.SecurePortEnabled = types.BoolValue(value.Bool())
-	} else {
-		data.SecurePortEnabled = types.BoolNull()
-	}
 	if value := res.Get("namedVlans.enabled"); value.Exists() && !data.NamedVlansEnabled.IsNull() {
 		data.NamedVlansEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.NamedVlansEnabled = types.BoolNull()
 	}
-	if value := res.Get("localStatusPageEnabled"); value.Exists() && !data.LocalStatusPageEnabled.IsNull() {
-		data.LocalStatusPageEnabled = types.BoolValue(value.Bool())
+	if value := res.Get("securePort.enabled"); value.Exists() && !data.SecurePortEnabled.IsNull() {
+		data.SecurePortEnabled = types.BoolValue(value.Bool())
 	} else {
-		data.LocalStatusPageEnabled = types.BoolNull()
+		data.SecurePortEnabled = types.BoolNull()
 	}
 }
 

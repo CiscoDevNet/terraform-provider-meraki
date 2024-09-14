@@ -68,8 +68,19 @@ func (r *NetworkSettingsResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"network_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
+				Required:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"local_status_page_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Enables / disables the local device status pages (my.meraki.com, ap.meraki.com, switch.meraki.com, wired.meraki.com). Optional (defaults to false)").String,
+				Optional:            true,
+			},
 			"remote_status_page_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Enables / disables access to the device status page (<a target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set if localStatusPageEnabled is set to true").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Enables / disables access to the device status page (http://[device`s LAN IP]). Optional. Can only be set if localStatusPageEnabled is set to true").String,
 				Optional:            true,
 			},
 			"local_status_page_authentication_enabled": schema.BoolAttribute{
@@ -80,24 +91,13 @@ func (r *NetworkSettingsResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: helpers.NewAttributeDescription("The password used for Local Status Page(s). Set this to null to clear the password.").String,
 				Optional:            true,
 			},
-			"secure_port_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Enables / disables SecureConnect on the network. Optional.").String,
-				Optional:            true,
-			},
 			"named_vlans_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Enables / disables Named VLANs on the Network.").String,
 				Optional:            true,
 			},
-			"local_status_page_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Enables / disables the local device status pages (<a target='_blank' href='http://my.meraki.com/'>my.meraki.com, </a><a target='_blank' href='http://ap.meraki.com/'>ap.meraki.com, </a><a target='_blank' href='http://switch.meraki.com/'>switch.meraki.com, </a><a target='_blank' href='http://wired.meraki.com/'>wired.meraki.com</a>). Optional (defaults to false)").String,
+			"secure_port_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Enables / disables SecureConnect on the network. Optional.").String,
 				Optional:            true,
-			},
-			"network_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
-				Required:            true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
 			},
 		},
 	}
@@ -246,14 +246,14 @@ func (r *NetworkSettingsResource) Delete(ctx context.Context, req resource.Delet
 func (r *NetworkSettingsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 2 || idParts[6] == "" || idParts[1] == "" {
+	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: ,<network_id>,<id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: <network_id>,<id>. Got: %q", req.ID),
 		)
 		return
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[6])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

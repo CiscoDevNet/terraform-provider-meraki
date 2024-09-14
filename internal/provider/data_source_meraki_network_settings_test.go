@@ -30,11 +30,11 @@ import (
 
 func TestAccDataSourceMerakiNetworkSettings(t *testing.T) {
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "remote_status_page_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_authentication_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "secure_port_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "named_vlans_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "secure_port_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -60,6 +60,7 @@ resource "meraki_network" "test" {
   name            = "Network1"
   product_types   = ["switch", "wireless"]
 }
+
 `
 
 // End of section. //template:end testPrerequisites
@@ -68,13 +69,13 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiNetworkSettingsConfig() string {
 	config := `resource "meraki_network_settings" "test" {` + "\n"
+	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	local_status_page_enabled = true` + "\n"
 	config += `	remote_status_page_enabled = true` + "\n"
 	config += `	local_status_page_authentication_enabled = false` + "\n"
 	config += `	local_status_page_authentication_password = "miles123"` + "\n"
-	config += `	secure_port_enabled = false` + "\n"
 	config += `	named_vlans_enabled = true` + "\n"
-	config += `	local_status_page_enabled = true` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	secure_port_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `
