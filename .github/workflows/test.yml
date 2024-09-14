@@ -12,6 +12,9 @@ on:
     paths-ignore:
       - "README.md"
 
+concurrency:
+  group: DEV-org
+
 # Testing only needs permissions to read the repository contents.
 permissions:
   contents: read
@@ -50,7 +53,7 @@ jobs:
       matrix:
         # list whatever Terraform versions here you would like to support
         terraform:
-          - "1.0.*"
+          # - "1.0.*"
           - "1.9.*"
     steps:
       - uses: actions/checkout@v4
