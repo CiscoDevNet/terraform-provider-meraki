@@ -1,0 +1,48 @@
+name: Switch DHCP Server Policy
+rest_endpoint: /networks/%v/switch/dhcpServerPolicy
+put_create: true
+no_delete: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: defaultPolicy
+    type: String
+    description: "`allow` or `block` new DHCP servers. Default value is `allow`."
+    example: block
+    enum_values: [allow, block]
+    minimum_test_value: '"allow"'
+  - model_name: enabled
+    type: Bool
+    data_path: [alerts, email]
+    description: When enabled, send an email if a new DHCP server is seen. Default value is false.
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [arpInspection]
+    description: Enable or disable Dynamic ARP Inspection on the network. Default value is false.
+    example: "true"
+  - model_name: allowedServers
+    type: List
+    element_type: String
+    description: List the MAC addresses of DHCP servers to permit on the network when defaultPolicy is set to block. An empty array will clear the entries.
+    example: "00:50:56:00:00:01"
+  - model_name: blockedServers
+    type: List
+    element_type: String
+    description: List the MAC addresses of DHCP servers to block on the network when defaultPolicy is set to allow. An empty array will clear the entries.
+    example: "00:50:56:00:00:03"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
