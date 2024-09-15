@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationLoginSecurity(t *testing.T) {
+	if os.Getenv("ORGANIZATION") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_login_security.test", "account_lockout_attempts", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_login_security.test", "enforce_account_lockout", "true"))

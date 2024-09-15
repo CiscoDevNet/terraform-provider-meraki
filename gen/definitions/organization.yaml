@@ -2,6 +2,7 @@ name: Organization
 rest_endpoint: /organizations
 data_source_name_query: true
 doc_category: Organizations
+test_tags: [ORGANIZATION]
 attributes:
   - model_name: name
     type: String

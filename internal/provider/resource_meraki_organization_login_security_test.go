@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
+	if os.Getenv("ORGANIZATION") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "account_lockout_attempts", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_account_lockout", "true"))

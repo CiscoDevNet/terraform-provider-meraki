@@ -27,7 +27,7 @@ type YamlConfig struct {
 	DocCategory         string                `yaml:"doc_category,omitempty"`
 	ExcludeTest         bool                  `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest     bool                  `yaml:"skip_minimum_test,omitempty"`
-	TestTags            []string              `yaml:"test_tags,omitempty"`
+	TestTags            []string              `yaml:"test_tags,omitempty,flow"`
 	Attributes          []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	TestPrerequisites   string                `yaml:"test_prerequisites,omitempty"`
 }
