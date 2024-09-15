@@ -1,0 +1,69 @@
+name: Switch Alternate Management Interface
+rest_endpoint: /networks/%v/switch/alternateManagementInterface
+put_create: true
+no_delete: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: enabled
+    type: Bool
+    description: Boolean value to enable or disable AMI configuration. If enabled, VLAN and protocols must be set
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: vlanId
+    type: Int64
+    write_only: true
+    description: Alternate management VLAN, must be between 1 and 4094
+    example: "100"
+    minimum_test_value: "100"
+  - model_name: protocols
+    type: List
+    element_type: String
+    write_only: true
+    description: 'Can be one or more of the following values: `radius`, `snmp` or `syslog`'
+    example: radius
+    minimum_test_value: '["radius"]'
+  - model_name: switches
+    type: List
+    description: 'Array of switch serial number and IP assignment. If parameter is present, it cannot have empty body. Note: switches parameter is not applicable for template networks, in other words, do not put `switches` in the body when updating template networks. Also, an empty `switches` array will remove all previous assignments'
+    attributes:
+      - model_name: alternateManagementIp
+        type: String
+        mandatory: true
+        description: Switch alternative management IP. To remove a prior IP setting, provide an empty string
+        example: 1.2.3.4
+      - model_name: gateway
+        type: String
+        exclude_test: true
+        description: Switch gateway must be in IP format. Only and must be specified for Polaris switches
+        example: 1.2.3.5
+      - model_name: serial
+        type: String
+        mandatory: true
+        description: Switch serial number
+        example: Q234-ABCD-5678
+        test_value: tolist(meraki_network_device_claim.test.serials)[0]
+      - model_name: subnetMask
+        type: String
+        exclude_test: true
+        description: Switch subnet mask must be in IP format. Only and must be specified for Polaris switches
+        example: 255.255.255.0
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q3LN-KJJ5-45ZR"]
+  }

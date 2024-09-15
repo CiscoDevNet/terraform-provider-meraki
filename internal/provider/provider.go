@@ -228,6 +228,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewOrganizationLoginSecurityResource,
 		NewSwitchAccessControlListsResource,
 		NewSwitchAccessPolicyResource,
+		NewSwitchAlternateManagementInterfaceResource,
 	}
 }
 
@@ -242,6 +243,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewOrganizationLoginSecurityDataSource,
 		NewSwitchAccessControlListsDataSource,
 		NewSwitchAccessPolicyDataSource,
+		NewSwitchAlternateManagementInterfaceDataSource,
 	}
 }
 
