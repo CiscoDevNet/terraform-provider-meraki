@@ -1,0 +1,131 @@
+name: Switch Port Schedule
+rest_endpoint: /networks/%v/switch/portSchedules
+get_from_all: true
+data_source_name_query: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name for your port schedule. Required
+    example: Weekdays schedule
+  - model_name: active
+    type: Bool
+    data_path: [portSchedule, friday]
+    description: Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.
+    example: "true"
+  - model_name: from
+    type: String
+    data_path: [portSchedule, friday]
+    description: The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.
+    example: "09:00"
+  - model_name: to
+    type: String
+    data_path: [portSchedule, friday]
+    description: The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.
+    example: "17:00"
+  - model_name: active
+    type: Bool
+    data_path: [portSchedule, monday]
+    description: Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.
+    example: "true"
+  - model_name: from
+    type: String
+    data_path: [portSchedule, monday]
+    description: The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.
+    example: "09:00"
+  - model_name: to
+    type: String
+    data_path: [portSchedule, monday]
+    description: The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.
+    example: "17:00"
+  - model_name: active
+    type: Bool
+    data_path: [portSchedule, saturday]
+    description: Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.
+    example: "false"
+  - model_name: from
+    type: String
+    data_path: [portSchedule, saturday]
+    description: The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.
+    example: "00:00"
+  - model_name: to
+    type: String
+    data_path: [portSchedule, saturday]
+    description: The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.
+    example: "24:00"
+  - model_name: active
+    type: Bool
+    data_path: [portSchedule, sunday]
+    description: Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.
+    example: "false"
+  - model_name: from
+    type: String
+    data_path: [portSchedule, sunday]
+    description: The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.
+    example: "00:00"
+  - model_name: to
+    type: String
+    data_path: [portSchedule, sunday]
+    description: The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.
+    example: "24:00"
+  - model_name: active
+    type: Bool
+    data_path: [portSchedule, thursday]
+    description: Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.
+    example: "true"
+  - model_name: from
+    type: String
+    data_path: [portSchedule, thursday]
+    description: The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.
+    example: "09:00"
+  - model_name: to
+    type: String
+    data_path: [portSchedule, thursday]
+    description: The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.
+    example: "17:00"
+  - model_name: active
+    type: Bool
+    data_path: [portSchedule, tuesday]
+    description: Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.
+    example: "true"
+  - model_name: from
+    type: String
+    data_path: [portSchedule, tuesday]
+    description: The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.
+    example: "09:00"
+  - model_name: to
+    type: String
+    data_path: [portSchedule, tuesday]
+    description: The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.
+    example: "17:00"
+  - model_name: active
+    type: Bool
+    data_path: [portSchedule, wednesday]
+    description: Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.
+    example: "true"
+  - model_name: from
+    type: String
+    data_path: [portSchedule, wednesday]
+    description: The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.
+    example: "09:00"
+  - model_name: to
+    type: String
+    data_path: [portSchedule, wednesday]
+    description: The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.
+    example: "17:00"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
