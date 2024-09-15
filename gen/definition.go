@@ -22,10 +22,10 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
 	"regexp"
+	"slices"
 	"sort"
 	"strings"
 
@@ -76,8 +76,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	endpoint := spec.(map[string]interface{})["paths"].(map[string]interface{})[endpointPath].(map[string]interface{})
-	schema := endpoint["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+	parts := strings.Split(endpointPath, "/")
+	if len(parts) > 0 {
+		parts = parts[:len(parts)-1]
+	}
+	shortEndpointPath := strings.Join(parts, "/")
+	var schema map[string]interface{}
+	paths := spec.(map[string]interface{})["paths"].(map[string]interface{})
+	// use POST schema if it exists, otherwise fall back to PUT schema
+	if endpoint, ok := paths[shortEndpointPath].(map[string]interface{})["post"]; ok {
+		schema = endpoint.(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+	} else {
+		schema = paths[endpointPath].(map[string]interface{})["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+	}
 	example := schema["schema"].(map[string]interface{})["example"].(map[string]interface{})
 	exampleStr, err := json.Marshal(&example)
 	if err != nil {
@@ -95,14 +106,6 @@ func main() {
 		config.IdName = urlResult.idName[1 : len(urlResult.idName)-1]
 	}
 	config.DocCategory = urlResult.category
-	dataSourceNameQuery := false
-	for _, a := range config.Attributes {
-		if a.ModelName == "name" {
-			dataSourceNameQuery = true
-			break
-		}
-	}
-	config.DataSourceNameQuery = dataSourceNameQuery
 	config.Name = resourceName
 	if urlResult.oneToOne {
 		config.PutCreate = true
@@ -123,21 +126,52 @@ func main() {
 		attr.Example = "<<Example>>"
 		attributes = append(attributes, attr)
 	}
-	attributes = append(attributes, traverseProperties(schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr))...)
+	required := []string{}
+	if r, ok := schema["schema"].(map[string]interface{})["required"]; ok {
+		required = toStringSlice(r.([]interface{}))
+	}
+	attributes = append(attributes, traverseProperties(schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr), required)...)
 	config.Attributes = attributes
+
+	dataSourceNameQuery := false
+	for _, a := range config.Attributes {
+		if a.ModelName == "name" {
+			dataSourceNameQuery = true
+			break
+		}
+	}
+	config.DataSourceNameQuery = dataSourceNameQuery
+
+	outputPath := definitionsPath + yamlconfig.SnakeCase(resourceName) + ".yaml"
+
+	existingConfig := yamlconfig.YamlConfig{}
+	if yamlFile, err := os.ReadFile(outputPath); err == nil {
+		existingConfig = yamlconfig.YamlConfig{}
+		err = yaml.Unmarshal(yamlFile, &existingConfig)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	newConfig := yamlconfig.MergeYamlConfig(config, existingConfig)
 
 	var yamlBytes bytes.Buffer
 	yamlEncoder := yaml.NewEncoder(&yamlBytes)
 	yamlEncoder.SetIndent(2)
-	err = yamlEncoder.Encode(&config)
+	err = yamlEncoder.Encode(&newConfig)
 	if err != nil {
 		panic(err)
 	}
-	outputPath := definitionsPath + yamlconfig.SnakeCase(resourceName) + ".yaml"
-	// Only write the file if it doesn't exist
-	if _, err := os.Stat(outputPath); errors.Is(err, os.ErrNotExist) {
-		os.WriteFile(outputPath, []byte("---\n"+string(yamlBytes.Bytes())), 0644)
+
+	os.WriteFile(outputPath, yamlBytes.Bytes(), 0644)
+}
+
+func toStringSlice(i []interface{}) []string {
+	ret := []string{}
+	for _, v := range i {
+		ret = append(ret, v.(string))
 	}
+	return ret
 }
 
 var jsonTypes = map[string]string{
@@ -176,7 +210,7 @@ func parseUrl(url string) parseUrlResult {
 	return ret
 }
 
-func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string) []yamlconfig.YamlConfigAttribute {
+func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string, requiredProperties []string) []yamlconfig.YamlConfigAttribute {
 	ret := []yamlconfig.YamlConfigAttribute{}
 
 	keys := maps.Keys(m)
@@ -215,6 +249,9 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 					attr.MaxFloat = max.(float64)
 				}
 			}
+			if slices.Contains(requiredProperties, propName) {
+				attr.Mandatory = true
+			}
 			ret = append(ret, attr)
 		}
 	}
@@ -223,7 +260,11 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 		if propMap["type"] == "object" {
 			childPath := append(path, propName)
 			childGjsonPath := gjsonPath + "." + propName
-			children := traverseProperties(propMap["properties"].(map[string]interface{}), childPath, childGjsonPath, exampleStr)
+			childRequired := []string{}
+			if rp, ok := propMap["required"]; ok {
+				childRequired = toStringSlice(rp.([]interface{}))
+			}
+			children := traverseProperties(propMap["properties"].(map[string]interface{}), childPath, childGjsonPath, exampleStr, childRequired)
 			ret = append(ret, children...)
 		}
 	}
@@ -245,7 +286,11 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 				attr.Example = res.String()
 			} else if items["type"].(string) == "object" {
 				childGjsonPath := gjsonPath + "." + propName + ".0"
-				children := traverseProperties(items["properties"].(map[string]interface{}), []string{}, childGjsonPath, exampleStr)
+				childRequired := []string{}
+				if rp, ok := items["required"]; ok {
+					childRequired = toStringSlice(rp.([]interface{}))
+				}
+				children := traverseProperties(items["properties"].(map[string]interface{}), []string{}, childGjsonPath, exampleStr, childRequired)
 				attr.Attributes = children
 			}
 			ret = append(ret, attr)

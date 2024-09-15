@@ -31,55 +31,55 @@ import (
 
 func TestAccMerakiNetworkGroupPolicy(t *testing.T) {
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "name", "No video streaming"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "splash_auth_settings", "bypass"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "vlan_tagging_settings", "custom"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "vlan_tagging_vlan_id", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bandwidth_settings", "custom"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bandwidth_limit_down", "1000000"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bandwidth_limit_up", "1000000"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bonjour_forwarding_settings", "custom"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bonjour_forwarding_rules.0.description", "A simple bonjour rule"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bonjour_forwarding_rules.0.vlan_id", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bonjour_forwarding_rules.0.services.0", "All Services"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "name", "No video streaming"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_monday_to", "17:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_monday_active", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_monday_from", "09:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_tuesday_active", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_tuesday_from", "09:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_tuesday_to", "17:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_wednesday_to", "17:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_wednesday_active", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_wednesday_from", "09:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_thursday_active", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_thursday_from", "09:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_thursday_to", "17:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_settings", "custom"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l3_firewall_rules.0.comment", "Allow TCP traffic to subnet with HTTP servers."))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l3_firewall_rules.0.dest_cidr", "192.168.1.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l3_firewall_rules.0.dest_port", "443"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l3_firewall_rules.0.policy", "allow"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l3_firewall_rules.0.protocol", "tcp"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l7_firewall_rules.0.policy", "deny"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l7_firewall_rules.0.type", "host"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l7_firewall_rules.0.value", "google.com"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "traffic_shaping_rules.0.dscp_tag_value", "0"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "traffic_shaping_rules.0.pcp_tag_value", "0"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "traffic_shaping_rules.0.per_client_bandwidth_limits_settings", "custom"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "traffic_shaping_rules.0.per_client_bandwidth_limits_bandwidth_limits_limit_down", "1000000"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "traffic_shaping_rules.0.per_client_bandwidth_limits_bandwidth_limits_limit_up", "1000000"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "traffic_shaping_rules.0.definitions.0.type", "host"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "traffic_shaping_rules.0.definitions.0.value", "google.com"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_friday_active", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_friday_from", "09:00"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_friday_to", "17:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_saturday_to", "17:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_monday_active", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_monday_from", "09:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_monday_to", "17:00"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_saturday_active", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_saturday_from", "09:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_saturday_to", "17:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_sunday_active", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_sunday_from", "09:00"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_sunday_to", "17:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_sunday_active", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bandwidth_settings", "custom"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bandwidth_bandwidth_limits_limit_up", "1000000"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bandwidth_bandwidth_limits_limit_down", "1000000"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_l7_firewall_rules.0.policy", "deny"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_l7_firewall_rules.0.type", "host"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_l7_firewall_rules.0.value", "google.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_settings", "custom"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.definitions.0.type", "host"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.definitions.0.value", "google.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.per_client_bandwidth_limits_settings", "custom"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.per_client_bandwidth_limits_bandwidth_limits_limit_up", "1000000"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.per_client_bandwidth_limits_bandwidth_limits_limit_down", "1000000"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.dscp_tag_value", "0"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_traffic_shaping_rules.0.pcp_tag_value", "0"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_l3_firewall_rules.0.protocol", "tcp"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_l3_firewall_rules.0.dest_port", "443"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_l3_firewall_rules.0.dest_cidr", "192.168.1.0/24"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_l3_firewall_rules.0.comment", "Allow TCP traffic to subnet with HTTP servers."))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_l3_firewall_rules.0.policy", "allow"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_thursday_active", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_thursday_from", "09:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_thursday_to", "17:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_tuesday_active", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_tuesday_from", "09:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_tuesday_to", "17:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_wednesday_active", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_wednesday_from", "09:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_wednesday_to", "17:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "vlan_tagging_settings", "custom"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "vlan_tagging_vlan_id", "1"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -112,6 +112,7 @@ resource "meraki_network" "test" {
   name            = "Network1"
   product_types   = ["switch", "wireless"]
 }
+
 `
 
 // End of section. //template:end testPrerequisites
@@ -120,8 +121,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkGroupPolicyConfig_minimum() string {
 	config := `resource "meraki_network_group_policy" "test" {` + "\n"
-	config += `	name = "No video streaming"` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	name = "No video streaming"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -132,67 +133,67 @@ func testAccMerakiNetworkGroupPolicyConfig_minimum() string {
 
 func testAccMerakiNetworkGroupPolicyConfig_all() string {
 	config := `resource "meraki_network_group_policy" "test" {` + "\n"
+	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	name = "No video streaming"` + "\n"
 	config += `	splash_auth_settings = "bypass"` + "\n"
-	config += `	vlan_tagging_settings = "custom"` + "\n"
-	config += `	vlan_tagging_vlan_id = "1"` + "\n"
+	config += `	bandwidth_settings = "custom"` + "\n"
+	config += `	bandwidth_limit_down = 1000000` + "\n"
+	config += `	bandwidth_limit_up = 1000000` + "\n"
 	config += `	bonjour_forwarding_settings = "custom"` + "\n"
 	config += `	bonjour_forwarding_rules = [{` + "\n"
 	config += `		description = "A simple bonjour rule"` + "\n"
 	config += `		vlan_id = "1"` + "\n"
 	config += `		services = ["All Services"]` + "\n"
 	config += `	}]` + "\n"
-	config += `	name = "No video streaming"` + "\n"
-	config += `	scheduling_monday_to = "17:00"` + "\n"
-	config += `	scheduling_monday_active = true` + "\n"
-	config += `	scheduling_monday_from = "09:00"` + "\n"
-	config += `	scheduling_tuesday_active = true` + "\n"
-	config += `	scheduling_tuesday_from = "09:00"` + "\n"
-	config += `	scheduling_tuesday_to = "17:00"` + "\n"
-	config += `	scheduling_wednesday_to = "17:00"` + "\n"
-	config += `	scheduling_wednesday_active = true` + "\n"
-	config += `	scheduling_wednesday_from = "09:00"` + "\n"
-	config += `	scheduling_thursday_active = true` + "\n"
-	config += `	scheduling_thursday_from = "09:00"` + "\n"
-	config += `	scheduling_thursday_to = "17:00"` + "\n"
-	config += `	scheduling_friday_active = true` + "\n"
-	config += `	scheduling_friday_from = "09:00"` + "\n"
-	config += `	scheduling_friday_to = "17:00"` + "\n"
-	config += `	scheduling_saturday_to = "17:00"` + "\n"
-	config += `	scheduling_saturday_active = true` + "\n"
-	config += `	scheduling_saturday_from = "09:00"` + "\n"
-	config += `	scheduling_sunday_from = "09:00"` + "\n"
-	config += `	scheduling_sunday_to = "17:00"` + "\n"
-	config += `	scheduling_sunday_active = true` + "\n"
-	config += `	scheduling_enabled = true` + "\n"
-	config += `	bandwidth_settings = "custom"` + "\n"
-	config += `	bandwidth_bandwidth_limits_limit_up = 1000000` + "\n"
-	config += `	bandwidth_bandwidth_limits_limit_down = 1000000` + "\n"
-	config += `	firewall_and_traffic_shaping_l7_firewall_rules = [{` + "\n"
+	config += `	firewall_and_traffic_shaping_settings = "custom"` + "\n"
+	config += `	l3_firewall_rules = [{` + "\n"
+	config += `		comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
+	config += `		dest_cidr = "192.168.1.0/24"` + "\n"
+	config += `		dest_port = "443"` + "\n"
+	config += `		policy = "allow"` + "\n"
+	config += `		protocol = "tcp"` + "\n"
+	config += `	}]` + "\n"
+	config += `	l7_firewall_rules = [{` + "\n"
 	config += `		policy = "deny"` + "\n"
 	config += `		type = "host"` + "\n"
 	config += `		value = "google.com"` + "\n"
 	config += `	}]` + "\n"
-	config += `	firewall_and_traffic_shaping_settings = "custom"` + "\n"
-	config += `	firewall_and_traffic_shaping_traffic_shaping_rules = [{` + "\n"
+	config += `	traffic_shaping_rules = [{` + "\n"
+	config += `		dscp_tag_value = 0` + "\n"
+	config += `		pcp_tag_value = 0` + "\n"
+	config += `		priority = "normal"` + "\n"
+	config += `		per_client_bandwidth_limits_settings = "custom"` + "\n"
+	config += `		per_client_bandwidth_limits_bandwidth_limits_limit_down = 1000000` + "\n"
+	config += `		per_client_bandwidth_limits_bandwidth_limits_limit_up = 1000000` + "\n"
 	config += `		definitions = [{` + "\n"
 	config += `			type = "host"` + "\n"
 	config += `			value = "google.com"` + "\n"
 	config += `		}]` + "\n"
-	config += `		per_client_bandwidth_limits_settings = "custom"` + "\n"
-	config += `		per_client_bandwidth_limits_bandwidth_limits_limit_up = 1000000` + "\n"
-	config += `		per_client_bandwidth_limits_bandwidth_limits_limit_down = 1000000` + "\n"
-	config += `		dscp_tag_value = 0` + "\n"
-	config += `		pcp_tag_value = 0` + "\n"
-	config += `		priority = "normal"` + "\n"
 	config += `	}]` + "\n"
-	config += `	firewall_and_traffic_shaping_l3_firewall_rules = [{` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		dest_port = "443"` + "\n"
-	config += `		dest_cidr = "192.168.1.0/24"` + "\n"
-	config += `		comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
-	config += `		policy = "allow"` + "\n"
-	config += `	}]` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `	scheduling_enabled = true` + "\n"
+	config += `	scheduling_friday_active = true` + "\n"
+	config += `	scheduling_friday_from = "09:00"` + "\n"
+	config += `	scheduling_friday_to = "17:00"` + "\n"
+	config += `	scheduling_monday_active = true` + "\n"
+	config += `	scheduling_monday_from = "09:00"` + "\n"
+	config += `	scheduling_monday_to = "17:00"` + "\n"
+	config += `	scheduling_saturday_active = true` + "\n"
+	config += `	scheduling_saturday_from = "09:00"` + "\n"
+	config += `	scheduling_saturday_to = "17:00"` + "\n"
+	config += `	scheduling_sunday_active = true` + "\n"
+	config += `	scheduling_sunday_from = "09:00"` + "\n"
+	config += `	scheduling_sunday_to = "17:00"` + "\n"
+	config += `	scheduling_thursday_active = true` + "\n"
+	config += `	scheduling_thursday_from = "09:00"` + "\n"
+	config += `	scheduling_thursday_to = "17:00"` + "\n"
+	config += `	scheduling_tuesday_active = true` + "\n"
+	config += `	scheduling_tuesday_from = "09:00"` + "\n"
+	config += `	scheduling_tuesday_to = "17:00"` + "\n"
+	config += `	scheduling_wednesday_active = true` + "\n"
+	config += `	scheduling_wednesday_from = "09:00"` + "\n"
+	config += `	scheduling_wednesday_to = "17:00"` + "\n"
+	config += `	vlan_tagging_settings = "custom"` + "\n"
+	config += `	vlan_tagging_vlan_id = "1"` + "\n"
 	config += `}` + "\n"
 	return config
 }

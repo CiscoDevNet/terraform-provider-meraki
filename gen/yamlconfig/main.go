@@ -3,6 +3,7 @@ package yamlconfig
 import (
 	"fmt"
 	"regexp"
+	"slices"
 	"strings"
 	"text/template"
 )
@@ -331,4 +332,203 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName string) error {
 	}
 
 	return nil
+}
+
+func MergeYamlConfig(a, b YamlConfig) YamlConfig {
+	// Merge b into a
+	if b.Name != "" {
+		a.Name = b.Name
+	}
+	if b.TfName != "" {
+		a.TfName = b.TfName
+	}
+	if b.RestEndpoint != "" {
+		a.RestEndpoint = b.RestEndpoint
+	}
+	if b.NoDataSource {
+		a.NoDataSource = b.NoDataSource
+	}
+	if b.NoResource {
+		a.NoResource = b.NoResource
+	}
+	if b.PutCreate {
+		a.PutCreate = b.PutCreate
+	}
+	if b.GetFromAll {
+		a.GetFromAll = b.GetFromAll
+	}
+	if b.NoUpdate {
+		a.NoUpdate = b.NoUpdate
+	}
+	if b.NoDelete {
+		a.NoDelete = b.NoDelete
+	}
+	if b.NoImport {
+		a.NoImport = b.NoImport
+	}
+	if b.IdName != "" {
+		a.IdName = b.IdName
+	}
+	if b.DataSourceNameQuery {
+		a.DataSourceNameQuery = b.DataSourceNameQuery
+	}
+	if b.MinimumVersion != "" {
+		a.MinimumVersion = b.MinimumVersion
+	}
+	if b.DsDescription != "" {
+		a.DsDescription = b.DsDescription
+	}
+	if b.ResDescription != "" {
+		a.ResDescription = b.ResDescription
+	}
+	if b.DocCategory != "" {
+		a.DocCategory = b.DocCategory
+	}
+	if b.ExcludeTest {
+		a.ExcludeTest = b.ExcludeTest
+	}
+	if b.SkipMinimumTest {
+		a.SkipMinimumTest = b.SkipMinimumTest
+	}
+	if b.TestTags != nil {
+		a.TestTags = b.TestTags
+	}
+	if b.Attributes != nil {
+		a.Attributes = MergeYamlConfigAttributes(a.Attributes, b.Attributes)
+	}
+	if b.TestPrerequisites != "" {
+		a.TestPrerequisites = b.TestPrerequisites
+	}
+	return a
+}
+
+func MergeYamlConfigAttributes(a, b []YamlConfigAttribute) []YamlConfigAttribute {
+	// Merge b into a
+	var c []YamlConfigAttribute
+	for _, attr := range b {
+		found := false
+		for i := range a {
+			if a[i].ModelName != "" && attr.ModelName != "" && slices.Equal(a[i].DataPath, attr.DataPath) {
+				if a[i].ModelName == attr.ModelName {
+					c = append(c, MergeYamlConfigAttribute(a[i], attr))
+					found = true
+					break
+				}
+			} else if a[i].TfName != "" && attr.TfName != "" {
+				if a[i].TfName == attr.TfName {
+					c = append(c, MergeYamlConfigAttribute(a[i], attr))
+					found = true
+					break
+				}
+			}
+		}
+		if !found {
+			c = append(c, attr)
+		}
+	}
+	return c
+}
+
+func MergeYamlConfigAttribute(a, b YamlConfigAttribute) YamlConfigAttribute {
+	// Merge b into a
+	if b.ModelName != "" {
+		a.ModelName = b.ModelName
+	}
+	if b.TfName != "" {
+		a.TfName = b.TfName
+	}
+	if b.Type != "" {
+		a.Type = b.Type
+	}
+	if b.ElementType != "" {
+		a.ElementType = b.ElementType
+	}
+	if b.DataPath != nil {
+		a.DataPath = b.DataPath
+	}
+	if b.Id {
+		a.Id = b.Id
+	}
+	if b.Reference {
+		a.Reference = b.Reference
+	}
+	if b.RequiresReplace {
+		a.RequiresReplace = b.RequiresReplace
+	}
+	if b.Mandatory {
+		a.Mandatory = b.Mandatory
+	}
+	if b.WriteOnly {
+		a.WriteOnly = b.WriteOnly
+	}
+	if b.WriteChangesOnly {
+		a.WriteChangesOnly = b.WriteChangesOnly
+	}
+	if b.ExcludeTest {
+		a.ExcludeTest = b.ExcludeTest
+	}
+	if b.ExcludeExample {
+		a.ExcludeExample = b.ExcludeExample
+	}
+	if b.Description != "" {
+		a.Description = b.Description
+	}
+	if b.Example != "" {
+		a.Example = b.Example
+	}
+	if b.EnumValues != nil {
+		a.EnumValues = b.EnumValues
+	}
+	if b.MinList != 0 {
+		a.MinList = b.MinList
+	}
+	if b.MaxList != 0 {
+		a.MaxList = b.MaxList
+	}
+	if b.MinInt != 0 {
+		a.MinInt = b.MinInt
+	}
+	if b.MaxInt != 0 {
+		a.MaxInt = b.MaxInt
+	}
+	if b.MinFloat != 0 {
+		a.MinFloat = b.MinFloat
+	}
+	if b.MaxFloat != 0 {
+		a.MaxFloat = b.MaxFloat
+	}
+	if b.OrderedList {
+		a.OrderedList = b.OrderedList
+	}
+	if b.StringPatterns != nil {
+		a.StringPatterns = b.StringPatterns
+	}
+	if b.StringMinLength != 0 {
+		a.StringMinLength = b.StringMinLength
+	}
+	if b.StringMaxLength != 0 {
+		a.StringMaxLength = b.StringMaxLength
+	}
+	if b.DefaultValue != "" {
+		a.DefaultValue = b.DefaultValue
+	}
+	if b.Value != "" {
+		a.Value = b.Value
+	}
+	if b.TestValue != "" {
+		a.TestValue = b.TestValue
+	}
+	if b.MinimumTestValue != "" {
+		a.MinimumTestValue = b.MinimumTestValue
+	}
+	if b.TestTags != nil {
+		a.TestTags = b.TestTags
+	}
+	if b.Attributes != nil {
+		a.Attributes = MergeYamlConfigAttributes(a.Attributes, b.Attributes)
+	}
+	if b.GoTypeName != "" {
+		a.GoTypeName = b.GoTypeName
+	}
+	return a
 }

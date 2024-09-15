@@ -25,11 +25,13 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -70,24 +72,48 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"network_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
+				Required:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The name for your group policy. Required.").String,
+				Required:            true,
+			},
 			"splash_auth_settings": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether clients bound to your policy will bypass splash authorization or behave according to the network's rules. Can be one of 'network default' or 'bypass'. Only available if your network has a wireless configuration.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Whether clients bound to your policy will bypass splash authorization or behave according to the network`s rules. Can be one of `network default` or `bypass`. Only available if your network has a wireless configuration.").AddStringEnumDescription("bypass", "network default").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("bypass", "network default"),
+				},
+			},
+			"bandwidth_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How bandwidth limits are enforced. Can be `network default`, `ignore` or `custom`.").AddStringEnumDescription("custom", "ignore", "network default").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("custom", "ignore", "network default"),
+				},
+			},
+			"bandwidth_limit_down": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The maximum download limit (integer, in Kbps). null indicates no limit").String,
 				Optional:            true,
 			},
-			"vlan_tagging_settings": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How VLAN tagging is applied. Can be 'network default', 'ignore' or 'custom'.").String,
-				Optional:            true,
-			},
-			"vlan_tagging_vlan_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The ID of the vlan you want to tag. This only applies if 'settings' is set to 'custom'.").String,
+			"bandwidth_limit_up": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The maximum upload limit (integer, in Kbps). null indicates no limit").String,
 				Optional:            true,
 			},
 			"bonjour_forwarding_settings": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How Bonjour rules are applied. Can be 'network default', 'ignore' or 'custom'.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("How Bonjour rules are applied. Can be `network default`, `ignore` or `custom`.").AddStringEnumDescription("custom", "ignore", "network default").String,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("custom", "ignore", "network default"),
+				},
 			},
 			"bonjour_forwarding_rules": schema.ListNestedAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("A list of the Bonjour forwarding rules for your group policy. If 'settings' is set to 'custom', at least one rule must be specified.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("A list of the Bonjour forwarding rules for your group policy. If `settings` is set to `custom`, at least one rule must be specified.").String,
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -97,253 +123,262 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 						},
 						"vlan_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The ID of the service VLAN. Required.").String,
-							Optional:            true,
+							Required:            true,
 						},
 						"services": schema.ListAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("A list of Bonjour services. At least one service must be specified. Available services are 'All Services', 'AirPlay', 'AFP', 'BitTorrent', 'FTP', 'iChat', 'iTunes', 'Printers', 'Samba', 'Scanners' and 'SSH'").String,
+							MarkdownDescription: helpers.NewAttributeDescription("A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`").String,
 							ElementType:         types.StringType,
 							Optional:            true,
 						},
 					},
 				},
 			},
-			"name": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The name for your group policy.").String,
-				Required:            true,
+			"content_filtering_allowed_url_patterns_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How URL patterns are applied. Can be `network default`, `append` or `override`.").AddStringEnumDescription("append", "network default", "override").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("append", "network default", "override"),
+				},
 			},
-			"scheduling_monday_to": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.").String,
+			"content_filtering_allowed_url_patterns": schema.ListAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("A list of URL patterns that are allowed").String,
+				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"scheduling_monday_active": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.").String,
+			"content_filtering_blocked_url_categories_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How URL categories are applied. Can be `network default`, `append` or `override`.").AddStringEnumDescription("append", "network default", "override").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("append", "network default", "override"),
+				},
+			},
+			"content_filtering_blocked_url_categories": schema.ListAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("A list of URL categories to block").String,
+				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"scheduling_monday_from": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.").String,
+			"content_filtering_blocked_url_patterns_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How URL patterns are applied. Can be `network default`, `append` or `override`.").AddStringEnumDescription("append", "network default", "override").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("append", "network default", "override"),
+				},
+			},
+			"content_filtering_blocked_url_patterns": schema.ListAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("A list of URL patterns that are blocked").String,
+				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"scheduling_tuesday_active": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.").String,
+			"firewall_and_traffic_shaping_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How firewall and traffic shaping rules are enforced. Can be `network default`, `ignore` or `custom`.").AddStringEnumDescription("custom", "ignore", "network default").String,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("custom", "ignore", "network default"),
+				},
 			},
-			"scheduling_tuesday_from": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.").String,
+			"l3_firewall_rules": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("An ordered array of the L3 firewall rules").String,
 				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"comment": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Description of the rule (optional)").String,
+							Optional:            true,
+						},
+						"dest_cidr": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Destination IP address (in IP or CIDR notation), a fully-qualified domain name (FQDN, if your network supports it) or `any`.").String,
+							Required:            true,
+						},
+						"dest_port": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Destination port (integer in the range 1-65535), a port range (e.g. 8080-9090), or `any`").String,
+							Optional:            true,
+						},
+						"policy": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("`allow` or `deny` traffic specified by this rule").String,
+							Required:            true,
+						},
+						"protocol": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)").String,
+							Required:            true,
+						},
+					},
+				},
 			},
-			"scheduling_tuesday_to": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_wednesday_to": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_wednesday_active": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.").String,
-				Optional:            true,
-			},
-			"scheduling_wednesday_from": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_thursday_active": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.").String,
-				Optional:            true,
-			},
-			"scheduling_thursday_from": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_thursday_to": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_friday_active": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.").String,
-				Optional:            true,
-			},
-			"scheduling_friday_from": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_friday_to": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_saturday_to": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_saturday_active": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.").String,
-				Optional:            true,
-			},
-			"scheduling_saturday_from": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_sunday_from": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be less than the time specified in 'to'. Defaults to '00:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_sunday_to": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The time, from '00:00' to '24:00'. Must be greater than the time specified in 'from'. Defaults to '24:00'. Only 30 minute increments are allowed.").String,
-				Optional:            true,
-			},
-			"scheduling_sunday_active": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between 'from' and 'to'. Defaults to true.").String,
-				Optional:            true,
-			},
-			"scheduling_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether scheduling is enabled (true) or disabled (false). Defaults to false. If true, the schedule objects for each day of the week (monday - sunday) are parsed.").String,
-				Optional:            true,
-			},
-			"bandwidth_settings": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How bandwidth limits are enforced. Can be 'network default', 'ignore' or 'custom'.").String,
-				Optional:            true,
-			},
-			"bandwidth_bandwidth_limits_limit_up": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The maximum upload limit (integer, in Kbps). null indicates no limit").String,
-				Optional:            true,
-			},
-			"bandwidth_bandwidth_limits_limit_down": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The maximum download limit (integer, in Kbps). null indicates no limit").String,
-				Optional:            true,
-			},
-			"firewall_and_traffic_shaping_l7_firewall_rules": schema.ListNestedAttribute{
+			"l7_firewall_rules": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("An ordered array of L7 firewall rules").String,
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"policy": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The policy applied to matching traffic. Must be 'deny'.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The policy applied to matching traffic. Must be `deny`.").AddStringEnumDescription("deny").String,
 							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("deny"),
+							},
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Type of the L7 Rule. Must be 'application', 'applicationCategory', 'host', 'port' or 'ipRange'").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Type of the L7 Rule. Must be `application`, `applicationCategory`, `host`, `port` or `ipRange`").AddStringEnumDescription("application", "applicationCategory", "host", "ipRange", "port").String,
 							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "port"),
+							},
 						},
 						"value": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The 'value' of what you want to block. If 'type' is 'host', 'port' or 'ipRange', 'value' must be a string matching either a hostname (e.g. somewhere.com), a port (e.g. 8080), or an IP range (e.g. 192.1.0.0/16). If 'type' is 'application' or 'applicationCategory', then 'value' must be an object with an ID for the application.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The `value` of what you want to block. If `type` is `host`, `port` or `ipRange`, `value` must be a string matching either a hostname (e.g. somewhere.com), a port (e.g. 8080), or an IP range (e.g. 192.1.0.0/16). If `type` is `application` or `applicationCategory`, then `value` must be an object with an ID for the application.").String,
 							Optional:            true,
 						},
 					},
 				},
 			},
-			"firewall_and_traffic_shaping_settings": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How firewall and traffic shaping rules are enforced. Can be 'network default', 'ignore' or 'custom'.").String,
-				Optional:            true,
-			},
-			"firewall_and_traffic_shaping_traffic_shaping_rules": schema.ListNestedAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("    An array of traffic shaping rules. Rules are applied in the order that     they are specified in. An empty list (or null) means no rules. Note that     you are allowed a maximum of 8 rules. ").String,
+			"traffic_shaping_rules": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("An array of traffic shaping rules. Rules are applied in the order that they are specified in. An empty list (or null) means no rules. Note that you are allowed a maximum of 8 rules.").String,
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"definitions": schema.ListNestedAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("    A list of objects describing the definitions of your traffic shaping rule. At least one definition is required. ").String,
+						"dscp_tag_value": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The DSCP tag applied by your rule. null means `Do not change DSCP tag`. For a list of possible tag values, use the trafficShaping/dscpTaggingOptions endpoint.").String,
 							Optional:            true,
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: map[string]schema.Attribute{
-									"type": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("The type of definition. Can be one of 'application', 'applicationCategory', 'host', 'port', 'ipRange' or 'localNet'.").String,
-										Optional:            true,
-									},
-									"value": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("    If 'type' is 'host', 'port', 'ipRange' or 'localNet', then 'value' must be a string, matching either     a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0',     '192.1.0.0/16', or '10.1.0.0/16:80'). 'localNet' also supports CIDR notation, excluding     custom ports.      If 'type' is 'application' or 'applicationCategory', then 'value' must be an object     with the structure { 'id': 'meraki:layer7/...' }, where 'id' is the application category or     application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories     endpoint). ").String,
-										Optional:            true,
-									},
-								},
-							},
+						},
+						"pcp_tag_value": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The PCP tag applied by your rule. Can be 0 (lowest priority) through 7 (highest priority). null means `Do not set PCP tag`.").String,
+							Optional:            true,
+						},
+						"priority": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("A string, indicating the priority level for packets bound to your rule. Can be `low`, `normal` or `high`.").String,
+							Optional:            true,
 						},
 						"per_client_bandwidth_limits_settings": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("How bandwidth limits are applied by your rule. Can be one of 'network default', 'ignore' or 'custom'.").String,
-							Optional:            true,
-						},
-						"per_client_bandwidth_limits_bandwidth_limits_limit_up": schema.Int64Attribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The maximum upload limit (integer, in Kbps).").String,
+							MarkdownDescription: helpers.NewAttributeDescription("How bandwidth limits are applied by your rule. Can be one of `network default`, `ignore` or `custom`.").String,
 							Optional:            true,
 						},
 						"per_client_bandwidth_limits_bandwidth_limits_limit_down": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The maximum download limit (integer, in Kbps).").String,
 							Optional:            true,
 						},
-						"dscp_tag_value": schema.Int64Attribute{
-							MarkdownDescription: helpers.NewAttributeDescription("    The DSCP tag applied by your rule. null means 'Do not change DSCP tag'.     For a list of possible tag values, use the trafficShaping/dscpTaggingOptions endpoint. ").String,
+						"per_client_bandwidth_limits_bandwidth_limits_limit_up": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The maximum upload limit (integer, in Kbps).").String,
 							Optional:            true,
 						},
-						"pcp_tag_value": schema.Int64Attribute{
-							MarkdownDescription: helpers.NewAttributeDescription("    The PCP tag applied by your rule. Can be 0 (lowest priority) through 7 (highest priority).     null means 'Do not set PCP tag'. ").String,
+						"definitions": schema.ListNestedAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("A list of objects describing the definitions of your traffic shaping rule. At least one definition is required.").String,
 							Optional:            true,
-						},
-						"priority": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("    A string, indicating the priority level for packets bound to your rule.     Can be 'low', 'normal' or 'high'. ").String,
-							Optional:            true,
-						},
-					},
-				},
-			},
-			"firewall_and_traffic_shaping_l3_firewall_rules": schema.ListNestedAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("An ordered array of the L3 firewall rules").String,
-				Optional:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"protocol": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The type of protocol (must be 'tcp', 'udp', 'icmp', 'icmp6' or 'any')").String,
-							Optional:            true,
-						},
-						"dest_port": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Destination port (integer in the range 1-65535), a port range (e.g. 8080-9090), or 'any'").String,
-							Optional:            true,
-						},
-						"dest_cidr": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Destination IP address (in IP or CIDR notation), a fully-qualified domain name (FQDN, if your network supports it) or 'any'.").String,
-							Optional:            true,
-						},
-						"comment": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Description of the rule (optional)").String,
-							Optional:            true,
-						},
-						"policy": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("'allow' or 'deny' traffic specified by this rule").String,
-							Optional:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"type": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("The type of definition. Can be one of `application`, `applicationCategory`, `host`, `port`, `ipRange` or `localNet`.").AddStringEnumDescription("application", "applicationCategory", "host", "ipRange", "localNet", "port").String,
+										Required:            true,
+										Validators: []validator.String{
+											stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "localNet", "port"),
+										},
+									},
+									"value": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("If 'type' is `host`, `port`, `ipRange` or `localNet`, then 'value' must be a string, matching either a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0', '192.1.0.0/16', or '10.1.0.0/16:80'). `localNet` also supports CIDR notation, excluding custom ports. If 'type' is `application` or `applicationCategory`, then 'value' must be an object with the structure { 'id': 'meraki:layer7/...' }, where 'id' is the application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).").String,
+										Required:            true,
+									},
+								},
+							},
 						},
 					},
 				},
 			},
-			"content_filtering_allowed_url_patterns_settings": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How URL patterns are applied. Can be 'network default', 'append' or 'override'.").String,
+			"scheduling_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether scheduling is enabled (true) or disabled (false). Defaults to false. If true, the schedule objects for each day of the week (monday - sunday) are parsed.").String,
 				Optional:            true,
 			},
-			"content_filtering_allowed_url_patterns_patterns": schema.ListAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("A list of URL patterns that are allowed").String,
-				ElementType:         types.StringType,
+			"scheduling_friday_active": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.").String,
 				Optional:            true,
 			},
-			"content_filtering_blocked_url_patterns_settings": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How URL patterns are applied. Can be 'network default', 'append' or 'override'.").String,
+			"scheduling_friday_from": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.").String,
 				Optional:            true,
 			},
-			"content_filtering_blocked_url_patterns_patterns": schema.ListAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("A list of URL patterns that are blocked").String,
-				ElementType:         types.StringType,
+			"scheduling_friday_to": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.").String,
 				Optional:            true,
 			},
-			"content_filtering_blocked_url_categories_settings": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How URL categories are applied. Can be 'network default', 'append' or 'override'.").String,
+			"scheduling_monday_active": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.").String,
 				Optional:            true,
 			},
-			"content_filtering_blocked_url_categories_categories": schema.ListAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("A list of URL categories to block").String,
-				ElementType:         types.StringType,
+			"scheduling_monday_from": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.").String,
 				Optional:            true,
 			},
-			"network_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("").String,
-				Required:            true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
+			"scheduling_monday_to": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_saturday_active": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.").String,
+				Optional:            true,
+			},
+			"scheduling_saturday_from": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_saturday_to": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_sunday_active": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.").String,
+				Optional:            true,
+			},
+			"scheduling_sunday_from": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_sunday_to": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_thursday_active": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.").String,
+				Optional:            true,
+			},
+			"scheduling_thursday_from": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_thursday_to": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_tuesday_active": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.").String,
+				Optional:            true,
+			},
+			"scheduling_tuesday_from": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_tuesday_to": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_wednesday_active": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the schedule is active (true) or inactive (false) during the time specified between `from` and `to`. Defaults to true.").String,
+				Optional:            true,
+			},
+			"scheduling_wednesday_from": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be less than the time specified in `to`. Defaults to `00:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"scheduling_wednesday_to": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time, from `00:00` to `24:00`. Must be greater than the time specified in `from`. Defaults to `24:00`. Only 30 minute increments are allowed.").String,
+				Optional:            true,
+			},
+			"vlan_tagging_settings": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How VLAN tagging is applied. Can be `network default`, `ignore` or `custom`.").AddStringEnumDescription("custom", "ignore", "network default").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("custom", "ignore", "network default"),
 				},
+			},
+			"vlan_tagging_vlan_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The ID of the vlan you want to tag. This only applies if `settings` is set to `custom`.").String,
+				Optional:            true,
 			},
 		},
 	}
@@ -497,14 +532,14 @@ func (r *NetworkGroupPolicyResource) Delete(ctx context.Context, req resource.De
 func (r *NetworkGroupPolicyResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 2 || idParts[41] == "" || idParts[1] == "" {
+	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: ,<network_id>,<id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: <network_id>,<id>. Got: %q", req.ID),
 		)
 		return
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[41])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
