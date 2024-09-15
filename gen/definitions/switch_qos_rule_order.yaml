@@ -1,0 +1,34 @@
+name: Switch QoS Rule Order
+rest_endpoint: /networks/%v/switch/qosRules/order
+put_create: true
+no_delete: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: ruleIds
+    type: List
+    element_type: String
+    mandatory: true
+    description: A list of quality of service rule IDs arranged in order in which they should be processed by the switch.
+    example: "1284392014819"
+    test_value: "[meraki_switch_qos_rule.test.id]"
+
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_switch_qos_rule" "test" {
+    network_id = meraki_network.test.id
+    vlan = 100
+  }
