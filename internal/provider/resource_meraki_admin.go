@@ -80,6 +80,13 @@ func (r *AdminResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"authentication_method": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("No longer used as of Cisco SecureX end-of-life. Can be one of `Email`. The default is Email authentication.").AddStringEnumDescription("Email").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Email"),
+				},
+			},
 			"email": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The email of the dashboard administrator. This attribute can not be updated.").String,
 				Required:            true,
@@ -89,10 +96,10 @@ func (r *AdminResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				Required:            true,
 			},
 			"org_access": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The privilege of the dashboard administrator on the organization. Can be one of `full`, `read-only`, `enterprise` or `none`").AddStringEnumDescription("full", "read-only", "enterprise", "none").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The privilege of the dashboard administrator on the organization. Can be one of `full`, `read-only`, `enterprise` or `none`").AddStringEnumDescription("enterprise", "full", "none", "read-only").String,
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("full", "read-only", "enterprise", "none"),
+					stringvalidator.OneOf("enterprise", "full", "none", "read-only"),
 				},
 			},
 			"networks": schema.ListNestedAttribute{
@@ -120,10 +127,10 @@ func (r *AdminResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"access": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the dashboard administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`").AddStringEnumDescription("full", "read-only", "guest-ambassador", "monitor-only").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the dashboard administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`").AddStringEnumDescription("full", "guest-ambassador", "monitor-only", "read-only").String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("full", "read-only", "guest-ambassador", "monitor-only"),
+								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only"),
 							},
 						},
 						"tag": schema.StringAttribute{

@@ -33,6 +33,7 @@ data "meraki_admin" "example" {
 
 ### Read-Only
 
+- `authentication_method` (String) No longer used as of Cisco SecureX end-of-life. Can be one of `Email`. The default is Email authentication.
 - `email` (String) The email of the dashboard administrator. This attribute can not be updated.
 - `networks` (Attributes List) The list of networks that the dashboard administrator has privileges on (see [below for nested schema](#nestedatt--networks))
 - `org_access` (String) The privilege of the dashboard administrator on the organization. Can be one of `full`, `read-only`, `enterprise` or `none`

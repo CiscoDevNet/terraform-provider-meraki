@@ -102,9 +102,6 @@ func main() {
 		urlResult.resultPath = urlResult.resultPath[:len(urlResult.resultPath)-1]
 	}
 	config.RestEndpoint = urlResult.resultPath
-	if urlResult.idName != "" {
-		config.IdName = urlResult.idName[1 : len(urlResult.idName)-1]
-	}
 	config.DocCategory = urlResult.category
 	config.Name = resourceName
 	if urlResult.oneToOne {
@@ -182,7 +179,6 @@ var jsonTypes = map[string]string{
 }
 
 type parseUrlResult struct {
-	idName     string
 	resultPath string
 	references []string
 	category   string
@@ -196,7 +192,6 @@ func parseUrl(url string) parseUrlResult {
 	ids := r.FindAllString(url, -1)
 	if url[len(url)-1] == '}' {
 		// one to many
-		ret.idName = ids[len(ids)-1]
 		ret.resultPath = strings.Join(parts[:len(parts)-1], "%v")
 		ret.references = ids[:len(ids)-1]
 	} else {

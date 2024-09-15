@@ -35,13 +35,14 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type Admin struct {
-	Id             types.String    `tfsdk:"id"`
-	OrganizationId types.String    `tfsdk:"organization_id"`
-	Email          types.String    `tfsdk:"email"`
-	Name           types.String    `tfsdk:"name"`
-	OrgAccess      types.String    `tfsdk:"org_access"`
-	Networks       []AdminNetworks `tfsdk:"networks"`
-	Tags           []AdminTags     `tfsdk:"tags"`
+	Id                   types.String    `tfsdk:"id"`
+	OrganizationId       types.String    `tfsdk:"organization_id"`
+	AuthenticationMethod types.String    `tfsdk:"authentication_method"`
+	Email                types.String    `tfsdk:"email"`
+	Name                 types.String    `tfsdk:"name"`
+	OrgAccess            types.String    `tfsdk:"org_access"`
+	Networks             []AdminNetworks `tfsdk:"networks"`
+	Tags                 []AdminTags     `tfsdk:"tags"`
 }
 
 type AdminNetworks struct {
@@ -68,6 +69,9 @@ func (data Admin) getPath() string {
 
 func (data Admin) toBody(ctx context.Context, state Admin) string {
 	body := ""
+	if !data.AuthenticationMethod.IsNull() {
+		body, _ = sjson.Set(body, "authenticationMethod", data.AuthenticationMethod.ValueString())
+	}
 	if !data.Email.IsNull() {
 		body, _ = sjson.Set(body, "email", data.Email.ValueString())
 	}
@@ -111,6 +115,11 @@ func (data Admin) toBody(ctx context.Context, state Admin) string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *Admin) fromBody(ctx context.Context, res gjson.Result) {
+	if value := res.Get("authenticationMethod"); value.Exists() {
+		data.AuthenticationMethod = types.StringValue(value.String())
+	} else {
+		data.AuthenticationMethod = types.StringNull()
+	}
 	if value := res.Get("email"); value.Exists() {
 		data.Email = types.StringValue(value.String())
 	} else {
@@ -175,6 +184,11 @@ func (data *Admin) fromBody(ctx context.Context, res gjson.Result) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *Admin) fromBodyPartial(ctx context.Context, res gjson.Result) {
+	if value := res.Get("authenticationMethod"); value.Exists() && !data.AuthenticationMethod.IsNull() {
+		data.AuthenticationMethod = types.StringValue(value.String())
+	} else {
+		data.AuthenticationMethod = types.StringNull()
+	}
 	if value := res.Get("email"); value.Exists() && !data.Email.IsNull() {
 		data.Email = types.StringValue(value.String())
 	} else {
