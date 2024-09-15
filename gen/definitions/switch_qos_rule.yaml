@@ -1,0 +1,51 @@
+name: Switch QoS Rule
+rest_endpoint: /networks/%v/switch/qosRules
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: dscp
+    type: Int64
+    description: DSCP tag for the incoming packet. Set this to -1 to trust incoming DSCP. Default value is 0
+    example: "0"
+  - model_name: dstPort
+    type: Int64
+    description: The destination port of the incoming packet. Applicable only if protocol is TCP or UDP.
+    example: "3000"
+    exclude_test: true
+  - model_name: dstPortRange
+    type: String
+    description: The destination port range of the incoming packet. Applicable only if protocol is set to TCP or UDP.
+    example: 3000-3100
+  - model_name: protocol
+    type: String
+    description: The protocol of the incoming packet. Default value is 'ANY'
+    example: TCP
+    enum_values: [ANY, TCP, UDP]
+  - model_name: srcPort
+    type: Int64
+    description: The source port of the incoming packet. Applicable only if protocol is TCP or UDP.
+    example: "2000"
+  - model_name: srcPortRange
+    type: String
+    description: The source port range of the incoming packet. Applicable only if protocol is set to TCP or UDP.
+    example: 70-80
+    exclude_test: true
+  - model_name: vlan
+    type: Int64
+    mandatory: true
+    description: The VLAN of the incoming packet. A null value will match any VLAN.
+    example: "100"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
