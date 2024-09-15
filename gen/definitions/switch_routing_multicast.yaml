@@ -1,0 +1,70 @@
+name: Switch Routing Multicast
+rest_endpoint: /networks/%v/switch/routing/multicast
+put_create: true
+no_delete: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: floodUnknownMulticastTrafficEnabled
+    type: Bool
+    data_path: [defaultSettings]
+    description: Flood unknown multicast traffic setting for entire network
+    example: "true"
+    minimum_test_value: "true"
+  - model_name: igmpSnoopingEnabled
+    type: Bool
+    data_path: [defaultSettings]
+    description: IGMP snooping setting for entire network
+    example: "true"
+    minimum_test_value: "true"
+  - model_name: overrides
+    type: List
+    description: Array of paired switches/stacks/profiles and corresponding multicast settings. An empty array will clear the multicast settings.
+    attributes:
+      - model_name: floodUnknownMulticastTrafficEnabled
+        type: Bool
+        mandatory: true
+        description: Flood unknown multicast traffic setting for switches, switch stacks or switch templates
+        example: "true"
+      - model_name: igmpSnoopingEnabled
+        type: Bool
+        mandatory: true
+        description: IGMP snooping setting for switches, switch stacks or switch templates
+        example: "true"
+      - model_name: stacks
+        type: List
+        element_type: String
+        description: List of switch stack ids for non-template network
+        example: "789102"
+        exclude_test: true
+      - model_name: switchProfiles
+        type: List
+        element_type: String
+        description: List of switch templates ids for template network
+        example: "1234"
+        exclude_test: true
+      - model_name: switches
+        type: List
+        element_type: String
+        description: List of switch serials for non-template network
+        example: Q234-ABCD-0001
+        test_value: "[tolist(meraki_network_device_claim.test.serials)[0]]"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q3LN-KJJ5-45ZR"]
+  }
