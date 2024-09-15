@@ -577,10 +577,10 @@ func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resou
 	{{- if hasReference .Attributes}}
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != {{importParts .Attributes}}{{range $index, $attr := .Attributes}}{{if $attr.Reference}} || idParts[{{$index}}] == ""{{end}}{{end}}  || idParts[{{subtract (importParts .Attributes) 1}}] == "" {
+	if len(idParts) != {{importParts .}}{{range $index, $attr := .Attributes}}{{if $attr.Reference}} || idParts[{{$index}}] == ""{{end}}{{end}} {{if not .PutCreate}}|| idParts[{{subtract (importParts .) 1}}] == ""{{end}} {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: {{range $index, $attr := .Attributes}}{{if $attr.Reference}}{{if $index}},{{end}}<{{$attr.TfName}}>{{end}}{{end}},<id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: {{range $index, $attr := .Attributes}}{{if $attr.Reference}}{{if $index}},{{end}}<{{$attr.TfName}}>{{end}}{{end}}{{if not .PutCreate}},<id>{{end}}. Got: %q", req.ID),
 		)
 		return
 	}
@@ -590,7 +590,9 @@ func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resou
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{$attr.TfName}}"), idParts[{{$index}}])...)
 	{{- end}}
 	{{- end}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{subtract (importParts .Attributes) 1}}])...)
+	{{- if not .PutCreate}}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{subtract (importParts .) 1}}])...)
+	{{- end}}
 	{{- else}}
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 	{{- end}}

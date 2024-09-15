@@ -221,14 +221,17 @@ func IsNestedSet(attribute YamlConfigAttribute) bool {
 }
 
 // Templating helper function to return number of import parts
-func ImportParts(attributes []YamlConfigAttribute) int {
+func ImportParts(config YamlConfig) int {
 	parts := 1
-	for _, attr := range attributes {
+	for _, attr := range config.Attributes {
 		if attr.Reference {
 			parts += 1
 		} else if attr.Id {
 			parts += 1
 		}
+	}
+	if config.PutCreate {
+		parts -= 1
 	}
 	return parts
 }
