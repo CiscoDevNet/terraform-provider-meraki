@@ -78,12 +78,12 @@ func (d *NetworkSNMPDataSource) Schema(ctx context.Context, req datasource.Schem
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"username": schema.StringAttribute{
-							MarkdownDescription: "The username for the SNMP user. Required.",
-							Computed:            true,
-						},
 						"passphrase": schema.StringAttribute{
 							MarkdownDescription: "The passphrase for the SNMP user. Required.",
+							Computed:            true,
+						},
+						"username": schema.StringAttribute{
+							MarkdownDescription: "The username for the SNMP user. Required.",
 							Computed:            true,
 						},
 					},

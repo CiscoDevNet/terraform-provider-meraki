@@ -43,8 +43,8 @@ type NetworkSNMP struct {
 }
 
 type NetworkSNMPUsers struct {
-	Username   types.String `tfsdk:"username"`
 	Passphrase types.String `tfsdk:"passphrase"`
+	Username   types.String `tfsdk:"username"`
 }
 
 // End of section. //template:end types
@@ -71,11 +71,11 @@ func (data NetworkSNMP) toBody(ctx context.Context, state NetworkSNMP) string {
 		body, _ = sjson.Set(body, "users", []interface{}{})
 		for _, item := range data.Users {
 			itemBody := ""
-			if !item.Username.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "username", item.Username.ValueString())
-			}
 			if !item.Passphrase.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "passphrase", item.Passphrase.ValueString())
+			}
+			if !item.Username.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "username", item.Username.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "users.-1", itemBody)
 		}
@@ -103,15 +103,15 @@ func (data *NetworkSNMP) fromBody(ctx context.Context, res gjson.Result) {
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkSNMPUsers{}
-			if value := res.Get("username"); value.Exists() {
-				data.Username = types.StringValue(value.String())
-			} else {
-				data.Username = types.StringNull()
-			}
 			if value := res.Get("passphrase"); value.Exists() {
 				data.Passphrase = types.StringValue(value.String())
 			} else {
 				data.Passphrase = types.StringNull()
+			}
+			if value := res.Get("username"); value.Exists() {
+				data.Username = types.StringValue(value.String())
+			} else {
+				data.Username = types.StringNull()
 			}
 			(*parent).Users = append((*parent).Users, data)
 			return true
@@ -174,15 +174,15 @@ func (data *NetworkSNMP) fromBodyPartial(ctx context.Context, res gjson.Result) 
 
 			continue
 		}
-		if value := res.Get("username"); value.Exists() && !data.Username.IsNull() {
-			data.Username = types.StringValue(value.String())
-		} else {
-			data.Username = types.StringNull()
-		}
 		if value := res.Get("passphrase"); value.Exists() && !data.Passphrase.IsNull() {
 			data.Passphrase = types.StringValue(value.String())
 		} else {
 			data.Passphrase = types.StringNull()
+		}
+		if value := res.Get("username"); value.Exists() && !data.Username.IsNull() {
+			data.Username = types.StringValue(value.String())
+		} else {
+			data.Username = types.StringNull()
 		}
 		(*parent).Users[i] = data
 	}

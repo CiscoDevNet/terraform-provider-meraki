@@ -78,10 +78,10 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 				},
 			},
 			"access": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).").AddStringEnumDescription("none", "community", "users").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).").AddStringEnumDescription("community", "none", "users").String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("none", "community", "users"),
+					stringvalidator.OneOf("community", "none", "users"),
 				},
 			},
 			"community_string": schema.StringAttribute{
@@ -93,12 +93,12 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"username": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The username for the SNMP user. Required.").String,
-							Required:            true,
-						},
 						"passphrase": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The passphrase for the SNMP user. Required.").String,
+							Required:            true,
+						},
+						"username": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The username for the SNMP user. Required.").String,
 							Required:            true,
 						},
 					},

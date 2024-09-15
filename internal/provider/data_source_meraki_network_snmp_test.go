@@ -31,8 +31,8 @@ import (
 func TestAccDataSourceMerakiNetworkSNMP(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "access", "users"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "users.0.username", "User1"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "users.0.passphrase", "Password123"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "users.0.passphrase", "hunter2"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "users.0.username", "AzureDiamond"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -70,8 +70,8 @@ func testAccDataSourceMerakiNetworkSNMPConfig() string {
 	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `	access = "users"` + "\n"
 	config += `	users = [{` + "\n"
-	config += `		username = "User1"` + "\n"
-	config += `		passphrase = "Password123"` + "\n"
+	config += `		passphrase = "hunter2"` + "\n"
+	config += `		username = "AzureDiamond"` + "\n"
 	config += `	}]` + "\n"
 	config += `}` + "\n"
 

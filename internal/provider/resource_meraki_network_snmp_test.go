@@ -32,8 +32,8 @@ import (
 func TestAccMerakiNetworkSNMP(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "access", "users"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.username", "User1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.passphrase", "Password123"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.passphrase", "hunter2"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.username", "AzureDiamond"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -77,7 +77,7 @@ func testAccMerakiNetworkSNMPConfig_minimum() string {
 	config := `resource "meraki_network_snmp" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `	access = "community"` + "\n"
-	config += `	community_string = "MerakiCommunity"` + "\n"
+	config += `	community_string = "sample"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -91,8 +91,8 @@ func testAccMerakiNetworkSNMPConfig_all() string {
 	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `	access = "users"` + "\n"
 	config += `	users = [{` + "\n"
-	config += `		username = "User1"` + "\n"
-	config += `		passphrase = "Password123"` + "\n"
+	config += `		passphrase = "hunter2"` + "\n"
+	config += `		username = "AzureDiamond"` + "\n"
 	config += `	}]` + "\n"
 	config += `}` + "\n"
 	return config
