@@ -195,7 +195,7 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 			if len(res.Array()) > 0 {
 				res.ForEach(func(k, v gjson.Result) bool {
 					if config.Name.ValueString() == v.Get("name").String() {
-						config.Id = types.StringValue(v.Get("id").String())
+						config.Id = types.StringValue(v.Get("{{.IdName}}").String())
 						tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
 						res = v
 						return false
@@ -225,7 +225,7 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 	{{- if .GetFromAll}}
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
-			if config.Id.ValueString() == v.Get("id").String() {
+			if config.Id.ValueString() == v.Get("{{.IdName}}").String() {
 				res = v
 				return false
 			}

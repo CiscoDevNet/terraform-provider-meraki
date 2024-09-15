@@ -30,9 +30,10 @@ import (
 	"regexp"
 	"strings"
 	"text/template"
-	"unicode"
 
 	"gopkg.in/yaml.v3"
+
+	"github.com/CiscoDevNet/terraform-provider-meraki/gen/yamlconfig"
 )
 
 const (
@@ -93,331 +94,16 @@ var templates = []t{
 	},
 }
 
-type YamlConfig struct {
-	Name                string                `yaml:"name"`
-	TfName              string                `yaml:"tf_name"`
-	NoDataSource        bool                  `yaml:"no_data_source"`
-	NoResource          bool                  `yaml:"no_resource"`
-	RestEndpoint        string                `yaml:"rest_endpoint"`
-	PutCreate           bool                  `yaml:"put_create"`
-	GetFromAll          bool                  `yaml:"get_from_all"`
-	NoUpdate            bool                  `yaml:"no_update"`
-	NoDelete            bool                  `yaml:"no_delete"`
-	NoImport            bool                  `yaml:"no_import"`
-	DataSourceNameQuery bool                  `yaml:"data_source_name_query"`
-	MinimumVersion      string                `yaml:"minimum_version"`
-	DsDescription       string                `yaml:"ds_description"`
-	ResDescription      string                `yaml:"res_description"`
-	DocCategory         string                `yaml:"doc_category"`
-	ExcludeTest         bool                  `yaml:"exclude_test"`
-	SkipMinimumTest     bool                  `yaml:"skip_minimum_test"`
-	Attributes          []YamlConfigAttribute `yaml:"attributes"`
-	TestTags            []string              `yaml:"test_tags"`
-	TestPrerequisites   string                `yaml:"test_prerequisites"`
-}
-
-type YamlConfigAttribute struct {
-	ModelName        string                `yaml:"model_name"`
-	TfName           string                `yaml:"tf_name"`
-	Type             string                `yaml:"type"`
-	ElementType      string                `yaml:"element_type"`
-	DataPath         []string              `yaml:"data_path"`
-	Id               bool                  `yaml:"id"`
-	Reference        bool                  `yaml:"reference"`
-	RequiresReplace  bool                  `yaml:"requires_replace"`
-	Mandatory        bool                  `yaml:"mandatory"`
-	WriteOnly        bool                  `yaml:"write_only"`
-	WriteChangesOnly bool                  `yaml:"write_changes_only"`
-	ExcludeTest      bool                  `yaml:"exclude_test"`
-	ExcludeExample   bool                  `yaml:"exclude_example"`
-	Description      string                `yaml:"description"`
-	Example          string                `yaml:"example"`
-	EnumValues       []string              `yaml:"enum_values"`
-	MinList          int64                 `yaml:"min_list"`
-	MaxList          int64                 `yaml:"max_list"`
-	MinInt           int64                 `yaml:"min_int"`
-	MaxInt           int64                 `yaml:"max_int"`
-	MinFloat         float64               `yaml:"min_float"`
-	MaxFloat         float64               `yaml:"max_float"`
-	OrderedList      bool                  `yaml:"ordered_list"`
-	StringPatterns   []string              `yaml:"string_patterns"`
-	StringMinLength  int64                 `yaml:"string_min_length"`
-	StringMaxLength  int64                 `yaml:"string_max_length"`
-	DefaultValue     string                `yaml:"default_value"`
-	Value            string                `yaml:"value"`
-	TestValue        string                `yaml:"test_value"`
-	MinimumTestValue string                `yaml:"minimum_test_value"`
-	TestTags         []string              `yaml:"test_tags"`
-	Attributes       []YamlConfigAttribute `yaml:"attributes"`
-	GoTypeName       string
-}
-
-// Templating helper function to convert TF name to GO name
-func ToGoName(s string) string {
-	var g []string
-
-	p := strings.Split(s, "_")
-
-	for _, value := range p {
-		g = append(g, strings.Title(value))
-	}
-	s = strings.Join(g, "")
-	return s
-}
-
-// Templating helper function to convert string to camel case
-func CamelCase(s string) string {
-	var g []string
-
-	s = strings.ReplaceAll(s, "-", " ")
-	p := strings.Fields(s)
-
-	for _, value := range p {
-		g = append(g, strings.Title(value))
-	}
-	return strings.Join(g, "")
-}
-
-// Templating helper function to convert string to snake case
-func SnakeCase(s string) string {
-	var g []string
-
-	s = strings.ReplaceAll(s, "-", " ")
-	p := strings.Fields(s)
-
-	for _, value := range p {
-		g = append(g, strings.ToLower(value))
-	}
-	return strings.Join(g, "_")
-}
-
-// Templating helper function to fail a template mid-way
-func Errorf(s string, args ...any) (struct{}, error) {
-	return struct{}{}, fmt.Errorf(s, args...)
-}
-
-// Templating helper function to build a SJSON path
-func BuildPath(s []string) string {
-	return strings.Join(s, ".")
-}
-
-func contains(s []string, str string) bool {
-	for _, v := range s {
-		if v == str {
-			return true
-		}
-	}
-	return false
-}
-
-// Templating helper function to return true if id included in attributes
-func HasId(attributes []YamlConfigAttribute) bool {
-	for _, attr := range attributes {
-		if attr.Id {
-			return true
-		}
-	}
-	return false
-}
-
-// Templating helper function to return the id
-func GetId(attributes []YamlConfigAttribute) YamlConfigAttribute {
-	for _, attr := range attributes {
-		if attr.Id {
-			return attr
-		}
-	}
-	return YamlConfigAttribute{}
-}
-
-// Templating helper function to return true if reference included in attributes
-func HasReference(attributes []YamlConfigAttribute) bool {
-	for _, attr := range attributes {
-		if attr.Reference {
-			return true
-		}
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a list or set without nested elements
-func IsListSet(attribute YamlConfigAttribute) bool {
-	if (attribute.Type == "List" || attribute.Type == "Set") && attribute.ElementType != "" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a list without nested elements
-func IsList(attribute YamlConfigAttribute) bool {
-	if attribute.Type == "List" && attribute.ElementType != "" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a set without nested elements
-func IsSet(attribute YamlConfigAttribute) bool {
-	if attribute.Type == "Set" && attribute.ElementType != "" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a list or set of strings without nested elements
-func IsStringListSet(attribute YamlConfigAttribute) bool {
-	if (attribute.Type == "List" || attribute.Type == "Set") && attribute.ElementType == "String" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a list or set of integers without nested elements
-func IsInt64ListSet(attribute YamlConfigAttribute) bool {
-	if (attribute.Type == "List" || attribute.Type == "Set") && attribute.ElementType == "Int64" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a list or set with nested elements
-func IsNestedListSet(attribute YamlConfigAttribute) bool {
-	if (attribute.Type == "List" || attribute.Type == "Set") && attribute.ElementType == "" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a list with nested elements
-func IsNestedList(attribute YamlConfigAttribute) bool {
-	if attribute.Type == "List" && attribute.ElementType == "" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return true if type is a set with nested elements
-func IsNestedSet(attribute YamlConfigAttribute) bool {
-	if attribute.Type == "Set" && attribute.ElementType == "" {
-		return true
-	}
-	return false
-}
-
-// Templating helper function to return number of import parts
-func ImportParts(attributes []YamlConfigAttribute) int {
-	parts := 1
-	for _, attr := range attributes {
-		if attr.Reference {
-			parts += 1
-		} else if attr.Id {
-			parts += 1
-		}
-	}
-	return parts
-}
-
-// Templating helper function to subtract one number from another
-func Subtract(a, b int) int {
-	return a - b
-}
-
-// Map of templating functions
-var functions = template.FuncMap{
-	"toGoName":        ToGoName,
-	"camelCase":       CamelCase,
-	"snakeCase":       SnakeCase,
-	"sprintf":         fmt.Sprintf,
-	"errorf":          Errorf,
-	"toLower":         strings.ToLower,
-	"path":            BuildPath,
-	"hasId":           HasId,
-	"getId":           GetId,
-	"hasReference":    HasReference,
-	"isListSet":       IsListSet,
-	"isList":          IsList,
-	"isSet":           IsSet,
-	"isStringListSet": IsStringListSet,
-	"isInt64ListSet":  IsInt64ListSet,
-	"isNestedListSet": IsNestedListSet,
-	"isNestedList":    IsNestedList,
-	"isNestedSet":     IsNestedSet,
-	"importParts":     ImportParts,
-	"subtract":        Subtract,
-}
-
-func (attr *YamlConfigAttribute) init(parentGoTypeName string) error {
-	// Augument
-	if attr.TfName == "" {
-		var words []string
-		fullString := ""
-		for _, s := range attr.DataPath {
-			fullString += strings.ToUpper(string(s[0])) + s[1:]
-		}
-		fullString += strings.ToUpper(string(attr.ModelName[0])) + attr.ModelName[1:]
-		l := 0
-		for s := fullString; s != ""; s = s[l:] {
-			l = strings.IndexFunc(s[1:], unicode.IsUpper) + 1
-			if l <= 0 {
-				l = len(s)
-			}
-			words = append(words, strings.ToLower(s[:l]))
-		}
-		attr.TfName = strings.Join(words, "_")
-	}
-
-	attr.GoTypeName = parentGoTypeName + ToGoName(attr.TfName)
-
-	// Validate
-	if len(attr.Attributes) > 0 && attr.Type != "List" && attr.Type != "Map" && attr.Type != "Set" {
-		return fmt.Errorf("%q has type %q which cannot have `attributes`: instead use type List, Map, Set",
-			attr.TfName, attr.Type)
-	}
-
-	if len(attr.Attributes) > 0 && attr.ElementType != "" {
-		return fmt.Errorf("%q: either `attributes` or `element_type` can be specified, but not both", attr.TfName)
-	}
-
-	if attr.Type == "Map" && attr.ElementType != "" {
-		return fmt.Errorf("%q: the `element_type` is not yet implemented for type Map", attr.TfName)
-	}
-
-	if attr.OrderedList {
-		if attr.Type != "List" {
-			return fmt.Errorf("%q has type %q which cannot use `ordered_list`: instead use type List",
-				attr.TfName, attr.Type)
-		}
-		if HasId(attr.Attributes) {
-			return fmt.Errorf("%q: the `ordered_list: true` conflicts with sub-attributes having `id: true`, as it treats list index ([i]) as the only unique id",
-				attr.TfName)
-		}
-	}
-
-	if attr.Type == "Map" && HasId(attr.Attributes) {
-		return fmt.Errorf("Map %q cannot contain sub-attributes with `id: true`, as it treats map key ([k]) as the only unique id",
-			attr.TfName)
-	}
-
-	// Recurse
-	for i := range attr.Attributes {
-		if err := attr.Attributes[i].init(attr.GoTypeName); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func NewYamlConfig(bytes []byte) (YamlConfig, error) {
-	var config YamlConfig
+func NewYamlConfig(bytes []byte) (yamlconfig.YamlConfig, error) {
+	var config yamlconfig.YamlConfig
 
 	if err := yaml.Unmarshal(bytes, &config); err != nil {
 		return config, err
 	}
 
 	for i := range config.Attributes {
-		if err := config.Attributes[i].init(CamelCase(config.Name)); err != nil {
-			return YamlConfig{}, err
+		if err := config.Attributes[i].Init(yamlconfig.CamelCase(config.Name)); err != nil {
+			return yamlconfig.YamlConfig{}, err
 		}
 	}
 	if config.DsDescription == "" {
@@ -428,6 +114,9 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 	}
 	if config.TfName == "" {
 		config.TfName = strings.Replace(config.Name, " ", "_", -1)
+	}
+	if config.IdName == "" {
+		config.IdName = "id"
 	}
 
 	return config, nil
@@ -475,7 +164,7 @@ func renderTemplate(templatePath, outputPath string, config interface{}) {
 		temp = temp + scanner.Text() + "\n"
 	}
 
-	template, err := template.New(path.Base(templatePath)).Funcs(functions).Parse(temp)
+	template, err := template.New(path.Base(templatePath)).Funcs(yamlconfig.Functions).Parse(temp)
 	if err != nil {
 		log.Fatalf("Error parsing template: %v", err)
 	}
@@ -526,7 +215,7 @@ func renderTemplate(templatePath, outputPath string, config interface{}) {
 
 func main() {
 	// Load configs
-	var configs []YamlConfig
+	var configs []yamlconfig.YamlConfig
 	files, _ := os.ReadDir(definitionsPath)
 
 	for _, filename := range files {
@@ -557,7 +246,7 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/import.sh") {
 				continue
 			}
-			renderTemplate(t.path, t.prefix+SnakeCase(configs[i].Name)+t.suffix, configs[i])
+			renderTemplate(t.path, t.prefix+yamlconfig.SnakeCase(configs[i].Name)+t.suffix, configs[i])
 		}
 		providerConfig = append(providerConfig, configs[i].Name)
 	}

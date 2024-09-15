@@ -30,6 +30,7 @@ import (
 
 func TestAccDataSourceMerakiAdmin(t *testing.T) {
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "authentication_method", "Email"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "email", "miles@meraki.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "name", "Miles Meraki"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "org_access", "none"))
@@ -75,6 +76,7 @@ resource "meraki_network" "test" {
 func testAccDataSourceMerakiAdminConfig() string {
 	config := `resource "meraki_admin" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
+	config += `	authentication_method = "Email"` + "\n"
 	config += `	email = "miles@meraki.com"` + "\n"
 	config += `	name = "Miles Meraki"` + "\n"
 	config += `	org_access = "none"` + "\n"
@@ -100,6 +102,7 @@ func testAccDataSourceMerakiAdminConfig() string {
 func testAccNamedDataSourceMerakiAdminConfig() string {
 	config := `resource "meraki_admin" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
+	config += `	authentication_method = "Email"` + "\n"
 	config += `	email = "miles@meraki.com"` + "\n"
 	config += `	name = "Miles Meraki"` + "\n"
 	config += `	org_access = "none"` + "\n"

@@ -31,6 +31,7 @@ import (
 
 func TestAccMerakiAdmin(t *testing.T) {
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "authentication_method", "Email"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "email", "miles@meraki.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "name", "Miles Meraki"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "org_access", "none"))
@@ -93,6 +94,7 @@ func testAccMerakiAdminConfig_minimum() string {
 func testAccMerakiAdminConfig_all() string {
 	config := `resource "meraki_admin" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
+	config += `	authentication_method = "Email"` + "\n"
 	config += `	email = "miles@meraki.com"` + "\n"
 	config += `	name = "Miles Meraki"` + "\n"
 	config += `	org_access = "none"` + "\n"

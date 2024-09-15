@@ -14,10 +14,11 @@ This resource can manage the `Admin` configuration.
 
 ```terraform
 resource "meraki_admin" "example" {
-  organization_id = "123456"
-  email           = "miles@meraki.com"
-  name            = "Miles Meraki"
-  org_access      = "none"
+  organization_id       = "123456"
+  authentication_method = "Email"
+  email                 = "miles@meraki.com"
+  name                  = "Miles Meraki"
+  org_access            = "none"
   networks = [
     {
       access = "full"
@@ -41,11 +42,13 @@ resource "meraki_admin" "example" {
 - `email` (String) The email of the dashboard administrator. This attribute can not be updated.
 - `name` (String) The name of the dashboard administrator
 - `org_access` (String) The privilege of the dashboard administrator on the organization. Can be one of `full`, `read-only`, `enterprise` or `none`
-  - Choices: `full`, `read-only`, `enterprise`, `none`
+  - Choices: `enterprise`, `full`, `none`, `read-only`
 - `organization_id` (String) Organization ID
 
 ### Optional
 
+- `authentication_method` (String) No longer used as of Cisco SecureX end-of-life. Can be one of `Email`. The default is Email authentication.
+  - Choices: `Email`
 - `networks` (Attributes List) The list of networks that the dashboard administrator has privileges on (see [below for nested schema](#nestedatt--networks))
 - `tags` (Attributes List) The list of tags that the dashboard administrator has privileges on (see [below for nested schema](#nestedatt--tags))
 
@@ -69,7 +72,7 @@ Required:
 Required:
 
 - `access` (String) The privilege of the dashboard administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
-  - Choices: `full`, `read-only`, `guest-ambassador`, `monitor-only`
+  - Choices: `full`, `guest-ambassador`, `monitor-only`, `read-only`
 - `tag` (String) The name of the tag
 
 ## Import

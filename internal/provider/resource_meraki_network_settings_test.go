@@ -29,20 +29,22 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiNetworkSNMP(t *testing.T) {
+func TestAccMerakiNetworkSettings(t *testing.T) {
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "access", "users"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.passphrase", "hunter2"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.username", "AzureDiamond"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "local_status_page_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "remote_status_page_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "local_status_page_authentication_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "named_vlans_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "secure_port_enabled", "false"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiNetworkSNMPPrerequisitesConfig + testAccMerakiNetworkSNMPConfig_minimum(),
+			Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkSNMPPrerequisitesConfig + testAccMerakiNetworkSNMPConfig_all(),
+		Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -57,7 +59,7 @@ func TestAccMerakiNetworkSNMP(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccMerakiNetworkSNMPPrerequisitesConfig = `
+const testAccMerakiNetworkSettingsPrerequisitesConfig = `
 data "meraki_organization" "test" {
   name = "Dev"
 }
@@ -73,11 +75,10 @@ resource "meraki_network" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiNetworkSNMPConfig_minimum() string {
-	config := `resource "meraki_network_snmp" "test" {` + "\n"
+func testAccMerakiNetworkSettingsConfig_minimum() string {
+	config := `resource "meraki_network_settings" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	access = "community"` + "\n"
-	config += `	community_string = "sample"` + "\n"
+	config += `	local_status_page_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -86,14 +87,15 @@ func testAccMerakiNetworkSNMPConfig_minimum() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-func testAccMerakiNetworkSNMPConfig_all() string {
-	config := `resource "meraki_network_snmp" "test" {` + "\n"
+func testAccMerakiNetworkSettingsConfig_all() string {
+	config := `resource "meraki_network_settings" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	access = "users"` + "\n"
-	config += `	users = [{` + "\n"
-	config += `		passphrase = "hunter2"` + "\n"
-	config += `		username = "AzureDiamond"` + "\n"
-	config += `	}]` + "\n"
+	config += `	local_status_page_enabled = true` + "\n"
+	config += `	remote_status_page_enabled = true` + "\n"
+	config += `	local_status_page_authentication_enabled = false` + "\n"
+	config += `	local_status_page_authentication_password = "miles123"` + "\n"
+	config += `	named_vlans_enabled = true` + "\n"
+	config += `	secure_port_enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }

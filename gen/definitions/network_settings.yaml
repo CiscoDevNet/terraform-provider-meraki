@@ -1,0 +1,52 @@
+name: Network Settings
+rest_endpoint: /networks/%v/settings
+put_create: true
+no_delete: true
+doc_category: Networks
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: localStatusPageEnabled
+    type: Bool
+    description: Enables / disables the local device status pages (my.meraki.com, ap.meraki.com, switch.meraki.com, wired.meraki.com). Optional (defaults to false)
+    example: "true"
+    minimum_test_value: "true"
+  - model_name: remoteStatusPageEnabled
+    type: Bool
+    description: Enables / disables access to the device status page (http://[device`s LAN IP]). Optional. Can only be set if localStatusPageEnabled is set to true
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [localStatusPage, authentication]
+    description: Enables / disables the authentication on Local Status page(s).
+    example: "false"
+  - model_name: password
+    type: String
+    data_path: [localStatusPage, authentication]
+    write_only: true
+    description: The password used for Local Status Page(s). Set this to null to clear the password.
+    example: miles123
+  - model_name: enabled
+    type: Bool
+    data_path: [namedVlans]
+    description: Enables / disables Named VLANs on the Network.
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [securePort]
+    description: Enables / disables SecureConnect on the network. Optional.
+    example: "false"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }

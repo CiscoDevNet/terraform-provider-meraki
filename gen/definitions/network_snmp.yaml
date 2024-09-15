@@ -1,8 +1,7 @@
----
 name: Network SNMP
 rest_endpoint: /networks/%v/snmp
-no_delete: true
 put_create: true
+no_delete: true
 doc_category: Networks
 attributes:
   - tf_name: network_id
@@ -14,32 +13,31 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: access
     type: String
-    enum_values: [none, community, users]
     description: The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).
     example: users
+    enum_values: [community, none, users]
     minimum_test_value: '"community"'
   - model_name: communityString
     type: String
-    description: The SNMP community string. Only relevant if `access` is set to `community`.
-    example: MerakiCommunity
-    minimum_test_value: '"MerakiCommunity"'
     exclude_test: true
+    description: The SNMP community string. Only relevant if `access` is set to `community`.
+    example: sample
+    minimum_test_value: '"sample"'
   - model_name: users
     type: List
     description: The list of SNMP users. Only relevant if `access` is set to `users`.
     attributes:
-      - model_name: username
-        type: String
-        description: The username for the SNMP user. Required.
-        mandatory: true
-        id: true
-        example: User1
       - model_name: passphrase
         type: String
-        description: The passphrase for the SNMP user. Required.
         mandatory: true
-        example: Password123
-
+        description: The passphrase for the SNMP user. Required.
+        example: hunter2
+      - model_name: username
+        type: String
+        id: true
+        mandatory: true
+        description: The username for the SNMP user. Required.
+        example: AzureDiamond
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = "Dev"

@@ -1,4 +1,3 @@
----
 name: Admin
 rest_endpoint: /organizations/%v/admins
 get_from_all: true
@@ -9,8 +8,13 @@ attributes:
     type: String
     reference: true
     description: Organization ID
-    example: 123456
+    example: "123456"
     test_value: data.meraki_organization.test.id
+  - model_name: authenticationMethod
+    type: String
+    description: No longer used as of Cisco SecureX end-of-life. Can be one of `Email`. The default is Email authentication.
+    example: Email
+    enum_values: [Email]
   - model_name: email
     type: String
     mandatory: true
@@ -25,8 +29,8 @@ attributes:
     type: String
     mandatory: true
     description: The privilege of the dashboard administrator on the organization. Can be one of `full`, `read-only`, `enterprise` or `none`
-    enum_values: [full, read-only, enterprise, none]
     example: none
+    enum_values: [enterprise, full, none, read-only]
     minimum_test_value: '"full"'
   - model_name: networks
     type: List
@@ -36,8 +40,8 @@ attributes:
         type: String
         mandatory: true
         description: The privilege of the dashboard administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
-        enum_values: [full, read-only, guest-ambassador, monitor-only]
         example: full
+        enum_values: [full, read-only, guest-ambassador, monitor-only]
       - model_name: id
         type: String
         mandatory: true
@@ -52,8 +56,8 @@ attributes:
         type: String
         mandatory: true
         description: The privilege of the dashboard administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
-        enum_values: [full, read-only, guest-ambassador, monitor-only]
         example: read-only
+        enum_values: [full, guest-ambassador, monitor-only, read-only]
       - model_name: tag
         type: String
         mandatory: true

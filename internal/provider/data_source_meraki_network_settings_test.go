@@ -28,17 +28,19 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiNetworkSNMP(t *testing.T) {
+func TestAccDataSourceMerakiNetworkSettings(t *testing.T) {
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "access", "users"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "users.0.passphrase", "hunter2"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "users.0.username", "AzureDiamond"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "remote_status_page_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_authentication_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "named_vlans_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "secure_port_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiNetworkSNMPPrerequisitesConfig + testAccDataSourceMerakiNetworkSNMPConfig(),
+				Config: testAccDataSourceMerakiNetworkSettingsPrerequisitesConfig + testAccDataSourceMerakiNetworkSettingsConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
@@ -49,7 +51,7 @@ func TestAccDataSourceMerakiNetworkSNMP(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiNetworkSNMPPrerequisitesConfig = `
+const testAccDataSourceMerakiNetworkSettingsPrerequisitesConfig = `
 data "meraki_organization" "test" {
   name = "Dev"
 }
@@ -65,20 +67,21 @@ resource "meraki_network" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiNetworkSNMPConfig() string {
-	config := `resource "meraki_network_snmp" "test" {` + "\n"
+func testAccDataSourceMerakiNetworkSettingsConfig() string {
+	config := `resource "meraki_network_settings" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	access = "users"` + "\n"
-	config += `	users = [{` + "\n"
-	config += `		passphrase = "hunter2"` + "\n"
-	config += `		username = "AzureDiamond"` + "\n"
-	config += `	}]` + "\n"
+	config += `	local_status_page_enabled = true` + "\n"
+	config += `	remote_status_page_enabled = true` + "\n"
+	config += `	local_status_page_authentication_enabled = false` + "\n"
+	config += `	local_status_page_authentication_password = "miles123"` + "\n"
+	config += `	named_vlans_enabled = true` + "\n"
+	config += `	secure_port_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `
-		data "meraki_network_snmp" "test" {
+		data "meraki_network_settings" "test" {
 			network_id = meraki_network.test.id
-			depends_on = [meraki_network_snmp.test]
+			depends_on = [meraki_network_settings.test]
 		}
 	`
 	return config

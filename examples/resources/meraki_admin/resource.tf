@@ -1,8 +1,9 @@
 resource "meraki_admin" "example" {
-  organization_id = "123456"
-  email           = "miles@meraki.com"
-  name            = "Miles Meraki"
-  org_access      = "none"
+  organization_id       = "123456"
+  authentication_method = "Email"
+  email                 = "miles@meraki.com"
+  name                  = "Miles Meraki"
+  org_access            = "none"
   networks = [
     {
       access = "full"

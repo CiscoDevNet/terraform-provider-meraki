@@ -26,18 +26,13 @@ import (
 	"strings"
 
 	"gopkg.in/yaml.v3"
+
+	"github.com/CiscoDevNet/terraform-provider-meraki/gen/yamlconfig"
 )
 
 const (
 	definitionsPath = "./gen/definitions/"
 )
-
-type YamlConfig struct {
-	Name         string `yaml:"name"`
-	DocCategory  string `yaml:"doc_category"`
-	NoResource   bool   `yaml:"no_resource"`
-	NoDataSource bool   `yaml:"no_data_source"`
-}
 
 var docPaths = []string{"./docs/data-sources/", "./docs/resources/"}
 
@@ -56,7 +51,7 @@ func SnakeCase(s string) string {
 
 func main() {
 	files, _ := os.ReadDir(definitionsPath)
-	configs := make([]YamlConfig, len(files))
+	configs := make([]yamlconfig.YamlConfig, len(files))
 
 	// Load configs
 	for i, filename := range files {
@@ -65,7 +60,7 @@ func main() {
 			log.Fatalf("Error reading file: %v", err)
 		}
 
-		config := YamlConfig{}
+		config := yamlconfig.YamlConfig{}
 		err = yaml.Unmarshal(yamlFile, &config)
 		if err != nil {
 			log.Fatalf("Error parsing yaml: %v", err)

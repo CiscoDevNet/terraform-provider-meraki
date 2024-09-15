@@ -1,4 +1,3 @@
----
 name: Organization
 rest_endpoint: /organizations
 data_source_name_query: true
@@ -10,18 +9,18 @@ attributes:
     description: The name of the organization
     example: My organization
   - model_name: details
+    type: List
     data_path: [management]
     description: Details related to organization management, possibly empty
-    type: List
     attributes:
       - model_name: name
         type: String
-        mandatory: true
         id: true
+        mandatory: true
         description: Name of management data
         example: MSP ID
       - model_name: value
         type: String
         mandatory: true
         description: Value of management data
-        example: 123456
+        example: "123456"

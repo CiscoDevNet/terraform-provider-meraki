@@ -16,11 +16,11 @@ This resource can manage the `Network SNMP` configuration.
 resource "meraki_network_snmp" "example" {
   network_id       = "L_123456"
   access           = "users"
-  community_string = "MerakiCommunity"
+  community_string = "sample"
   users = [
     {
-      username   = "User1"
-      passphrase = "Password123"
+      passphrase = "hunter2"
+      username   = "AzureDiamond"
     }
   ]
 }
@@ -36,7 +36,7 @@ resource "meraki_network_snmp" "example" {
 ### Optional
 
 - `access` (String) The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).
-  - Choices: `none`, `community`, `users`
+  - Choices: `community`, `none`, `users`
 - `community_string` (String) The SNMP community string. Only relevant if `access` is set to `community`.
 - `users` (Attributes List) The list of SNMP users. Only relevant if `access` is set to `users`. (see [below for nested schema](#nestedatt--users))
 

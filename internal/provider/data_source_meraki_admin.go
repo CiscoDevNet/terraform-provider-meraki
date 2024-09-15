@@ -69,6 +69,10 @@ func (d *AdminDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
+			"authentication_method": schema.StringAttribute{
+				MarkdownDescription: "No longer used as of Cisco SecureX end-of-life. Can be one of `Email`. The default is Email authentication.",
+				Computed:            true,
+			},
 			"email": schema.StringAttribute{
 				MarkdownDescription: "The email of the dashboard administrator. This attribute can not be updated.",
 				Computed:            true,

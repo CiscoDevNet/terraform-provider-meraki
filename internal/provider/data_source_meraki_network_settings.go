@@ -35,26 +35,26 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &NetworkSNMPDataSource{}
-	_ datasource.DataSourceWithConfigure = &NetworkSNMPDataSource{}
+	_ datasource.DataSource              = &NetworkSettingsDataSource{}
+	_ datasource.DataSourceWithConfigure = &NetworkSettingsDataSource{}
 )
 
-func NewNetworkSNMPDataSource() datasource.DataSource {
-	return &NetworkSNMPDataSource{}
+func NewNetworkSettingsDataSource() datasource.DataSource {
+	return &NetworkSettingsDataSource{}
 }
 
-type NetworkSNMPDataSource struct {
+type NetworkSettingsDataSource struct {
 	client *meraki.Client
 }
 
-func (d *NetworkSNMPDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_network_snmp"
+func (d *NetworkSettingsDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_network_settings"
 }
 
-func (d *NetworkSNMPDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *NetworkSettingsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "This data source can read the `Network SNMP` configuration.",
+		MarkdownDescription: "This data source can read the `Network Settings` configuration.",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -65,35 +65,35 @@ func (d *NetworkSNMPDataSource) Schema(ctx context.Context, req datasource.Schem
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"access": schema.StringAttribute{
-				MarkdownDescription: "The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).",
+			"local_status_page_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Enables / disables the local device status pages (my.meraki.com, ap.meraki.com, switch.meraki.com, wired.meraki.com). Optional (defaults to false)",
 				Computed:            true,
 			},
-			"community_string": schema.StringAttribute{
-				MarkdownDescription: "The SNMP community string. Only relevant if `access` is set to `community`.",
+			"remote_status_page_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Enables / disables access to the device status page (http://[device`s LAN IP]). Optional. Can only be set if localStatusPageEnabled is set to true",
 				Computed:            true,
 			},
-			"users": schema.ListNestedAttribute{
-				MarkdownDescription: "The list of SNMP users. Only relevant if `access` is set to `users`.",
+			"local_status_page_authentication_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Enables / disables the authentication on Local Status page(s).",
 				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"passphrase": schema.StringAttribute{
-							MarkdownDescription: "The passphrase for the SNMP user. Required.",
-							Computed:            true,
-						},
-						"username": schema.StringAttribute{
-							MarkdownDescription: "The username for the SNMP user. Required.",
-							Computed:            true,
-						},
-					},
-				},
+			},
+			"local_status_page_authentication_password": schema.StringAttribute{
+				MarkdownDescription: "The password used for Local Status Page(s). Set this to null to clear the password.",
+				Computed:            true,
+			},
+			"named_vlans_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Enables / disables Named VLANs on the Network.",
+				Computed:            true,
+			},
+			"secure_port_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Enables / disables SecureConnect on the network. Optional.",
+				Computed:            true,
 			},
 		},
 	}
 }
 
-func (d *NetworkSNMPDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *NetworkSettingsDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -105,8 +105,8 @@ func (d *NetworkSNMPDataSource) Configure(_ context.Context, req datasource.Conf
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (d *NetworkSNMPDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkSNMP
+func (d *NetworkSettingsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config NetworkSettings
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

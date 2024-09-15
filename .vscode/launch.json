@@ -11,6 +11,18 @@
             "mode": "auto",
             "program": "gen/generator.go",
             "cwd": "./"
+        },
+        {
+            "name": "Launch definition generator",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "gen/definition.go",
+            "cwd": "./",
+            "args": [
+                "/networks/{networkId}/groupPolicies/{groupPolicyId}",
+                "Network Group Policy"
+            ]
         }
     ]
 }
