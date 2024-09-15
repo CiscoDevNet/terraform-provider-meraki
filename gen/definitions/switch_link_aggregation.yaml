@@ -1,0 +1,59 @@
+name: Switch Link Aggregation
+rest_endpoint: /networks/%v/switch/linkAggregations
+get_from_all: true
+doc_category: Switches
+skip_minimum_test: true
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: switchPorts
+    type: List
+    description: Array of switch or stack ports for creating aggregation group. Minimum 2 and maximum 8 ports are supported.
+    attributes:
+      - model_name: portId
+        type: String
+        id: true
+        mandatory: true
+        description: 'Port identifier of switch port. For modules, the identifier is ''SlotNumber_ModuleType_PortNumber'' (Ex: ''1_8X10G_1''), otherwise it is just the port number (Ex: ''8'').'
+        example: "1"
+      - model_name: serial
+        type: String
+        id: true
+        mandatory: true
+        description: Serial number of the switch.
+        example: Q234-ABCD-0001
+        test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: switchProfilePorts
+    type: List
+    exclude_test: true
+    description: Array of switch profile ports for creating aggregation group. Minimum 2 and maximum 8 ports are supported.
+    attributes:
+      - model_name: portId
+        type: String
+        id: true
+        mandatory: true
+        description: 'Port identifier of switch port. For modules, the identifier is ''SlotNumber_ModuleType_PortNumber'' (Ex: ''1_8X10G_1''), otherwise it is just the port number (Ex: ''8'').'
+        example: "2"
+      - model_name: profile
+        type: String
+        id: true
+        mandatory: true
+        description: Profile identifier.
+        example: "1234"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q3LN-KJJ5-45ZR"]
+  }
