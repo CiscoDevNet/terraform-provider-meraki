@@ -1,0 +1,177 @@
+name: Switch Access Policy
+rest_endpoint: /networks/%v/switch/accessPolicies
+id_name: accessPolicyNumber
+data_source_name_query: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: accessPolicyType
+    type: String
+    description: Access Type of the policy. Automatically `Hybrid authentication` when hostMode is `Multi-Domain`.
+    example: Hybrid authentication
+    enum_values: [802.1x, Hybrid authentication, MAC authentication bypass]
+  - model_name: guestPortBouncing
+    type: Bool
+    description: If enabled, Meraki devices will periodically send access-request messages to these RADIUS servers
+    example: "true"
+  - model_name: guestVlanId
+    type: Int64
+    description: ID for the guest VLAN allow unauthorized devices access to limited network resources
+    example: "100"
+  - model_name: hostMode
+    type: String
+    mandatory: true
+    description: Choose the Host Mode for the access policy.
+    example: Single-Host
+    enum_values: [Multi-Auth, Multi-Domain, Multi-Host, Single-Host]
+  - model_name: increaseAccessSpeed
+    type: Bool
+    description: Enabling this option will make switches execute 802.1X and MAC-bypass authentication simultaneously so that clients authenticate faster. Only required when accessPolicyType is `Hybrid Authentication.
+    example: "false"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the access policy
+    example: 'Access policy #1'
+  - model_name: radiusAccountingEnabled
+    type: Bool
+    mandatory: true
+    description: Enable to send start, interim-update and stop messages to a configured RADIUS accounting server for tracking connected clients
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: radiusCoaSupportEnabled
+    type: Bool
+    mandatory: true
+    description: Change of authentication for RADIUS re-authentication and disconnection
+    example: "false"
+  - model_name: radiusGroupAttribute
+    type: String
+    description: Acceptable values are `''` for None, or `'11'` for Group Policies ACL
+    example: "11"
+  - model_name: radiusTestingEnabled
+    type: Bool
+    mandatory: true
+    description: If enabled, Meraki devices will periodically send access-request messages to these RADIUS servers
+    example: "true"
+  - model_name: urlRedirectWalledGardenEnabled
+    type: Bool
+    mandatory: true
+    description: Enable to restrict access for clients to a specific set of IP addresses or hostnames prior to authentication
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: voiceVlanClients
+    type: Bool
+    description: CDP/LLDP capable voice clients will be able to use this VLAN. Automatically true when hostMode is `Multi-Domain`.
+    example: "true"
+  - model_name: controlDirection
+    type: String
+    data_path: [dot1x]
+    description: Supports either `both` or `inbound`. Set to `inbound` to allow unauthorized egress on the switchport. Set to `both` to control both traffic directions with authorization. Defaults to `both`
+    example: inbound
+    enum_values: [both, inbound]
+  - model_name: failedAuthVlanId
+    type: Int64
+    data_path: [radius]
+    description: VLAN that clients will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth
+    example: "100"
+  - model_name: reAuthenticationInterval
+    type: Int64
+    data_path: [radius]
+    description: Re-authentication period in seconds. Will be null if hostMode is Multi-Auth
+    example: "120"
+  - model_name: enabled
+    type: Bool
+    data_path: [radius, cache]
+    write_only: true
+    description: Enable to cache authorization and authentication responses on the RADIUS server
+    example: "false"
+  - model_name: timeout
+    type: Int64
+    data_path: [radius, cache]
+    write_only: true
+    description: If RADIUS caching is enabled, this value dictates how long the cache will remain in the RADIUS server, in hours, to allow network access without authentication
+    example: "24"
+  - model_name: dataVlanId
+    type: Int64
+    data_path: [radius, criticalAuth]
+    description: VLAN that clients who use data will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth
+    example: "100"
+  - model_name: suspendPortBounce
+    type: Bool
+    data_path: [radius, criticalAuth]
+    description: Enable to suspend port bounce when RADIUS servers are unreachable
+    example: "true"
+  - model_name: voiceVlanId
+    type: Int64
+    data_path: [radius, criticalAuth]
+    description: VLAN that clients who use voice will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth
+    example: "101"
+  - model_name: radiusAccountingServers
+    type: List
+    description: List of RADIUS accounting servers to require connecting devices to authenticate against before granting network access
+    ordered_list: true
+    attributes:
+      - model_name: host
+        type: String
+        description: Public IP address of the RADIUS accounting server
+        example: 1.2.3.4
+      - model_name: organizationRadiusServerId
+        type: String
+        exclude_test: true
+        description: Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
+        example: "42"
+      - model_name: port
+        type: Int64
+        description: UDP port that the RADIUS Accounting server listens on for access requests
+        example: "22"
+      - model_name: secret
+        type: String
+        write_only: true
+        description: RADIUS client shared secret
+        example: secret
+  - model_name: radiusServers
+    type: List
+    mandatory: true
+    description: List of RADIUS servers to require connecting devices to authenticate against before granting network access
+    ordered_list: true
+    attributes:
+      - model_name: host
+        type: String
+        description: Public IP address of the RADIUS server
+        example: 1.2.3.4
+        minimum_test_value: '"1.2.3.4"'
+      - model_name: organizationRadiusServerId
+        type: String
+        exclude_test: true
+        description: Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
+        example: "42"
+      - model_name: port
+        type: Int64
+        description: UDP port that the RADIUS server listens on for access requests
+        example: "22"
+        minimum_test_value: "22"
+      - model_name: secret
+        type: String
+        write_only: true
+        description: RADIUS client shared secret
+        example: secret
+        minimum_test_value: '"secret"'
+  - model_name: urlRedirectWalledGardenRanges
+    type: Set
+    element_type: String
+    description: IP address ranges, in CIDR notation, to restrict access for clients to a specific set of IP addresses or hostnames prior to authentication
+    example: 192.168.1.0/24
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
