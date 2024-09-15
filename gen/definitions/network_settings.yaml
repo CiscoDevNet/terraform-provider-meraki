@@ -1,4 +1,3 @@
----
 name: Network Settings
 rest_endpoint: /networks/%v/settings
 put_create: true
@@ -29,9 +28,9 @@ attributes:
   - model_name: password
     type: String
     data_path: [localStatusPage, authentication]
+    write_only: true
     description: The password used for Local Status Page(s). Set this to null to clear the password.
     example: miles123
-    write_only: true
   - model_name: enabled
     type: Bool
     data_path: [namedVlans]
@@ -42,7 +41,6 @@ attributes:
     data_path: [securePort]
     description: Enables / disables SecureConnect on the network. Optional.
     example: "false"
-
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = "Dev"
