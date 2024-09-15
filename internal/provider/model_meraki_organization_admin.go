@@ -34,23 +34,23 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type Admin struct {
-	Id                   types.String    `tfsdk:"id"`
-	OrganizationId       types.String    `tfsdk:"organization_id"`
-	AuthenticationMethod types.String    `tfsdk:"authentication_method"`
-	Email                types.String    `tfsdk:"email"`
-	Name                 types.String    `tfsdk:"name"`
-	OrgAccess            types.String    `tfsdk:"org_access"`
-	Networks             []AdminNetworks `tfsdk:"networks"`
-	Tags                 []AdminTags     `tfsdk:"tags"`
+type OrganizationAdmin struct {
+	Id                   types.String                `tfsdk:"id"`
+	OrganizationId       types.String                `tfsdk:"organization_id"`
+	AuthenticationMethod types.String                `tfsdk:"authentication_method"`
+	Email                types.String                `tfsdk:"email"`
+	Name                 types.String                `tfsdk:"name"`
+	OrgAccess            types.String                `tfsdk:"org_access"`
+	Networks             []OrganizationAdminNetworks `tfsdk:"networks"`
+	Tags                 []OrganizationAdminTags     `tfsdk:"tags"`
 }
 
-type AdminNetworks struct {
+type OrganizationAdminNetworks struct {
 	Access types.String `tfsdk:"access"`
 	Id     types.String `tfsdk:"id"`
 }
 
-type AdminTags struct {
+type OrganizationAdminTags struct {
 	Access types.String `tfsdk:"access"`
 	Tag    types.String `tfsdk:"tag"`
 }
@@ -59,7 +59,7 @@ type AdminTags struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data Admin) getPath() string {
+func (data OrganizationAdmin) getPath() string {
 	return fmt.Sprintf("/organizations/%v/admins", url.QueryEscape(data.OrganizationId.ValueString()))
 }
 
@@ -67,7 +67,7 @@ func (data Admin) getPath() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data Admin) toBody(ctx context.Context, state Admin) string {
+func (data OrganizationAdmin) toBody(ctx context.Context, state OrganizationAdmin) string {
 	body := ""
 	if !data.AuthenticationMethod.IsNull() {
 		body, _ = sjson.Set(body, "authenticationMethod", data.AuthenticationMethod.ValueString())
@@ -114,7 +114,7 @@ func (data Admin) toBody(ctx context.Context, state Admin) string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *Admin) fromBody(ctx context.Context, res gjson.Result) {
+func (data *OrganizationAdmin) fromBody(ctx context.Context, res gjson.Result) {
 	if value := res.Get("authenticationMethod"); value.Exists() {
 		data.AuthenticationMethod = types.StringValue(value.String())
 	} else {
@@ -136,10 +136,10 @@ func (data *Admin) fromBody(ctx context.Context, res gjson.Result) {
 		data.OrgAccess = types.StringNull()
 	}
 	if value := res.Get("networks"); value.Exists() {
-		data.Networks = make([]AdminNetworks, 0)
+		data.Networks = make([]OrganizationAdminNetworks, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
-			data := AdminNetworks{}
+			data := OrganizationAdminNetworks{}
 			if value := res.Get("access"); value.Exists() {
 				data.Access = types.StringValue(value.String())
 			} else {
@@ -155,10 +155,10 @@ func (data *Admin) fromBody(ctx context.Context, res gjson.Result) {
 		})
 	}
 	if value := res.Get("tags"); value.Exists() {
-		data.Tags = make([]AdminTags, 0)
+		data.Tags = make([]OrganizationAdminTags, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
-			data := AdminTags{}
+			data := OrganizationAdminTags{}
 			if value := res.Get("access"); value.Exists() {
 				data.Access = types.StringValue(value.String())
 			} else {
@@ -183,7 +183,7 @@ func (data *Admin) fromBody(ctx context.Context, res gjson.Result) {
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *Admin) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *OrganizationAdmin) fromBodyPartial(ctx context.Context, res gjson.Result) {
 	if value := res.Get("authenticationMethod"); value.Exists() && !data.AuthenticationMethod.IsNull() {
 		data.AuthenticationMethod = types.StringValue(value.String())
 	} else {

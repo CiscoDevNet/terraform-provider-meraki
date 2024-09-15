@@ -44,26 +44,26 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &AdminResource{}
-	_ resource.ResourceWithImportState = &AdminResource{}
+	_ resource.Resource                = &OrganizationAdminResource{}
+	_ resource.ResourceWithImportState = &OrganizationAdminResource{}
 )
 
-func NewAdminResource() resource.Resource {
-	return &AdminResource{}
+func NewOrganizationAdminResource() resource.Resource {
+	return &OrganizationAdminResource{}
 }
 
-type AdminResource struct {
+type OrganizationAdminResource struct {
 	client *meraki.Client
 }
 
-func (r *AdminResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_admin"
+func (r *OrganizationAdminResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_organization_admin"
 }
 
-func (r *AdminResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *OrganizationAdminResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Admin` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Admin` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -144,7 +144,7 @@ func (r *AdminResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 	}
 }
 
-func (r *AdminResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *OrganizationAdminResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -156,8 +156,8 @@ func (r *AdminResource) Configure(_ context.Context, req resource.ConfigureReque
 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
-func (r *AdminResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan Admin
+func (r *OrganizationAdminResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan OrganizationAdmin
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -168,7 +168,7 @@ func (r *AdminResource) Create(ctx context.Context, req resource.CreateRequest, 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
 	// Create object
-	body := plan.toBody(ctx, Admin{})
+	body := plan.toBody(ctx, OrganizationAdmin{})
 	res, err := r.client.Post(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
@@ -188,8 +188,8 @@ func (r *AdminResource) Create(ctx context.Context, req resource.CreateRequest, 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (r *AdminResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state Admin
+func (r *OrganizationAdminResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state OrganizationAdmin
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -240,8 +240,8 @@ func (r *AdminResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
-func (r *AdminResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state Admin
+func (r *OrganizationAdminResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state OrganizationAdmin
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -274,8 +274,8 @@ func (r *AdminResource) Update(ctx context.Context, req resource.UpdateRequest, 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *AdminResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state Admin
+func (r *OrganizationAdminResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state OrganizationAdmin
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -298,7 +298,7 @@ func (r *AdminResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 // End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
-func (r *AdminResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *OrganizationAdminResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
 	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {

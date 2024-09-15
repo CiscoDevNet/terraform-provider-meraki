@@ -38,26 +38,26 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &AdminDataSource{}
-	_ datasource.DataSourceWithConfigure = &AdminDataSource{}
+	_ datasource.DataSource              = &OrganizationAdminDataSource{}
+	_ datasource.DataSourceWithConfigure = &OrganizationAdminDataSource{}
 )
 
-func NewAdminDataSource() datasource.DataSource {
-	return &AdminDataSource{}
+func NewOrganizationAdminDataSource() datasource.DataSource {
+	return &OrganizationAdminDataSource{}
 }
 
-type AdminDataSource struct {
+type OrganizationAdminDataSource struct {
 	client *meraki.Client
 }
 
-func (d *AdminDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_admin"
+func (d *OrganizationAdminDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_organization_admin"
 }
 
-func (d *AdminDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *OrganizationAdminDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "This data source can read the `Admin` configuration.",
+		MarkdownDescription: "This data source can read the `Organization Admin` configuration.",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -121,7 +121,7 @@ func (d *AdminDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 		},
 	}
 }
-func (d *AdminDataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
+func (d *OrganizationAdminDataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
 	return []datasource.ConfigValidator{
 		datasourcevalidator.ExactlyOneOf(
 			path.MatchRoot("id"),
@@ -130,7 +130,7 @@ func (d *AdminDataSource) ConfigValidators(ctx context.Context) []datasource.Con
 	}
 }
 
-func (d *AdminDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *OrganizationAdminDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -142,8 +142,8 @@ func (d *AdminDataSource) Configure(_ context.Context, req datasource.ConfigureR
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (d *AdminDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config Admin
+func (d *OrganizationAdminDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config OrganizationAdmin
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -1,4 +1,4 @@
-name: Admin
+name: Organization Admin
 rest_endpoint: /organizations/%v/admins
 get_from_all: true
 data_source_name_query: true

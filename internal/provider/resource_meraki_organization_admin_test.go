@@ -29,24 +29,24 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiAdmin(t *testing.T) {
+func TestAccMerakiOrganizationAdmin(t *testing.T) {
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "authentication_method", "Email"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "email", "miles@meraki.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "name", "Miles Meraki"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "org_access", "none"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "networks.0.access", "full"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "tags.0.access", "read-only"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_admin.test", "tags.0.tag", "west"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "authentication_method", "Email"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "email", "miles@meraki.com"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "name", "Miles Meraki"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "org_access", "none"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "networks.0.access", "full"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "tags.0.access", "read-only"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "tags.0.tag", "west"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiAdminPrerequisitesConfig + testAccMerakiAdminConfig_minimum(),
+			Config: testAccMerakiOrganizationAdminPrerequisitesConfig + testAccMerakiOrganizationAdminConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiAdminPrerequisitesConfig + testAccMerakiAdminConfig_all(),
+		Config: testAccMerakiOrganizationAdminPrerequisitesConfig + testAccMerakiOrganizationAdminConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -61,7 +61,7 @@ func TestAccMerakiAdmin(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccMerakiAdminPrerequisitesConfig = `
+const testAccMerakiOrganizationAdminPrerequisitesConfig = `
 data "meraki_organization" "test" {
   name = "Dev"
 }
@@ -77,8 +77,8 @@ resource "meraki_network" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiAdminConfig_minimum() string {
-	config := `resource "meraki_admin" "test" {` + "\n"
+func testAccMerakiOrganizationAdminConfig_minimum() string {
+	config := `resource "meraki_organization_admin" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
 	config += `	email = "miles@meraki.com"` + "\n"
 	config += `	name = "Miles Meraki"` + "\n"
@@ -91,8 +91,8 @@ func testAccMerakiAdminConfig_minimum() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-func testAccMerakiAdminConfig_all() string {
-	config := `resource "meraki_admin" "test" {` + "\n"
+func testAccMerakiOrganizationAdminConfig_all() string {
+	config := `resource "meraki_organization_admin" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
 	config += `	authentication_method = "Email"` + "\n"
 	config += `	email = "miles@meraki.com"` + "\n"

@@ -28,25 +28,25 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiAdmin(t *testing.T) {
+func TestAccDataSourceMerakiOrganizationAdmin(t *testing.T) {
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "authentication_method", "Email"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "email", "miles@meraki.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "name", "Miles Meraki"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "org_access", "none"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "networks.0.access", "full"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "tags.0.access", "read-only"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_admin.test", "tags.0.tag", "west"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "authentication_method", "Email"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "email", "miles@meraki.com"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "name", "Miles Meraki"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "org_access", "none"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "networks.0.access", "full"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "tags.0.access", "read-only"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "tags.0.tag", "west"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiAdminPrerequisitesConfig + testAccDataSourceMerakiAdminConfig(),
+				Config: testAccDataSourceMerakiOrganizationAdminPrerequisitesConfig + testAccDataSourceMerakiOrganizationAdminConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 			{
-				Config: testAccDataSourceMerakiAdminPrerequisitesConfig + testAccNamedDataSourceMerakiAdminConfig(),
+				Config: testAccDataSourceMerakiOrganizationAdminPrerequisitesConfig + testAccNamedDataSourceMerakiOrganizationAdminConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
@@ -57,7 +57,7 @@ func TestAccDataSourceMerakiAdmin(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiAdminPrerequisitesConfig = `
+const testAccDataSourceMerakiOrganizationAdminPrerequisitesConfig = `
 data "meraki_organization" "test" {
   name = "Dev"
 }
@@ -73,8 +73,8 @@ resource "meraki_network" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiAdminConfig() string {
-	config := `resource "meraki_admin" "test" {` + "\n"
+func testAccDataSourceMerakiOrganizationAdminConfig() string {
+	config := `resource "meraki_organization_admin" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
 	config += `	authentication_method = "Email"` + "\n"
 	config += `	email = "miles@meraki.com"` + "\n"
@@ -91,16 +91,16 @@ func testAccDataSourceMerakiAdminConfig() string {
 	config += `}` + "\n"
 
 	config += `
-		data "meraki_admin" "test" {
-			id = meraki_admin.test.id
+		data "meraki_organization_admin" "test" {
+			id = meraki_organization_admin.test.id
 			organization_id = data.meraki_organization.test.id
 		}
 	`
 	return config
 }
 
-func testAccNamedDataSourceMerakiAdminConfig() string {
-	config := `resource "meraki_admin" "test" {` + "\n"
+func testAccNamedDataSourceMerakiOrganizationAdminConfig() string {
+	config := `resource "meraki_organization_admin" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
 	config += `	authentication_method = "Email"` + "\n"
 	config += `	email = "miles@meraki.com"` + "\n"
@@ -117,8 +117,8 @@ func testAccNamedDataSourceMerakiAdminConfig() string {
 	config += `}` + "\n"
 
 	config += `
-		data "meraki_admin" "test" {
-			name = meraki_admin.test.name
+		data "meraki_organization_admin" "test" {
+			name = meraki_organization_admin.test.name
 			organization_id = data.meraki_organization.test.id
 		}
 	`

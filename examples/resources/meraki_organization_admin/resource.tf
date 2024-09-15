@@ -1,4 +1,4 @@
-resource "meraki_admin" "example" {
+resource "meraki_organization_admin" "example" {
   organization_id       = "123456"
   authentication_method = "Email"
   email                 = "miles@meraki.com"
