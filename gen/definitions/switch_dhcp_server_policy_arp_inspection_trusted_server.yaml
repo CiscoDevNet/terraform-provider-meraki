@@ -1,0 +1,37 @@
+name: Switch DHCP Server Policy ARP Inspection Trusted Server
+rest_endpoint: /networks/%v/switch/dhcpServerPolicy/arpInspection/trustedServers
+get_from_all: true
+id_name: trustedServerId
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: mac
+    type: String
+    mandatory: true
+    description: The mac address of the trusted server being added
+    example: "00:11:22:33:44:55"
+  - model_name: vlan
+    type: Int64
+    mandatory: true
+    description: The VLAN of the trusted server being added. It must be between 1 and 4094
+    example: "100"
+  - model_name: address
+    type: String
+    data_path: [ipv4]
+    mandatory: true
+    description: The IPv4 address of the trusted server being added
+    example: 1.2.3.4
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }

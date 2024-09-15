@@ -230,6 +230,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewSwitchAccessPolicyResource,
 		NewSwitchAlternateManagementInterfaceResource,
 		NewSwitchDHCPServerPolicyResource,
+		NewSwitchDHCPServerPolicyARPInspectionTrustedServerResource,
 	}
 }
 
@@ -246,6 +247,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewSwitchAccessPolicyDataSource,
 		NewSwitchAlternateManagementInterfaceDataSource,
 		NewSwitchDHCPServerPolicyDataSource,
+		NewSwitchDHCPServerPolicyARPInspectionTrustedServerDataSource,
 	}
 }
 
