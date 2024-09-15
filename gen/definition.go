@@ -76,11 +76,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	parts := strings.Split(endpointPath, "/")
-	if len(parts) > 0 {
-		parts = parts[:len(parts)-1]
+	shortEndpointPath := ""
+	if endpointPath[len(endpointPath)-1] == '}' {
+		parts := strings.Split(endpointPath, "/")
+		if len(parts) > 0 {
+			parts = parts[:len(parts)-1]
+		}
+		shortEndpointPath = strings.Join(parts, "/")
+	} else {
+		shortEndpointPath = endpointPath
+
 	}
-	shortEndpointPath := strings.Join(parts, "/")
 	var schema map[string]interface{}
 	paths := spec.(map[string]interface{})["paths"].(map[string]interface{})
 	// use POST schema if it exists, otherwise fall back to PUT schema
@@ -200,8 +206,18 @@ func parseUrl(url string) parseUrlResult {
 		ret.references = ids
 		ret.oneToOne = true
 	}
-	ret.category = parts[0][1 : len(parts[0])-1]
-	ret.category = strings.ToUpper(string(ret.category[0])) + ret.category[1:]
+	if parts[0] == "organizations" {
+		ret.category = "Organization"
+	} else if parts[0] == "networks" {
+		ret.category = "Network"
+	}
+	if len(parts) > 0 {
+		if strings.Contains(parts[1], "/switch") {
+			ret.category = "Switches"
+		} else if strings.Contains(parts[1], "/wireless") {
+			ret.category = "Wireless"
+		}
+	}
 	return ret
 }
 
@@ -270,6 +286,9 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			attr.DataPath = path
 			attr.Type = "List"
 			attr.ModelName = propName
+			if slices.Contains(requiredProperties, propName) {
+				attr.Mandatory = true
+			}
 			items := propMap["items"].(map[string]interface{})
 			if desc, ok := propMap["description"]; ok {
 				attr.Description = sanitizeDescription(desc.(string))

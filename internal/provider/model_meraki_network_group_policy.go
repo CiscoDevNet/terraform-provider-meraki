@@ -801,9 +801,6 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 	{
 		l := len(res.Get("firewallAndTrafficShaping.l3FirewallRules").Array())
 		tflog.Debug(ctx, fmt.Sprintf("firewallAndTrafficShaping.l3FirewallRules array resizing from %d to %d", len(data.L3FirewallRules), l))
-		for i := len(data.L3FirewallRules); i < l; i++ {
-			data.L3FirewallRules = append(data.L3FirewallRules, NetworkGroupPolicyL3FirewallRules{})
-		}
 		if len(data.L3FirewallRules) > l {
 			data.L3FirewallRules = data.L3FirewallRules[:l]
 		}
@@ -843,9 +840,6 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 	{
 		l := len(res.Get("firewallAndTrafficShaping.l7FirewallRules").Array())
 		tflog.Debug(ctx, fmt.Sprintf("firewallAndTrafficShaping.l7FirewallRules array resizing from %d to %d", len(data.L7FirewallRules), l))
-		for i := len(data.L7FirewallRules); i < l; i++ {
-			data.L7FirewallRules = append(data.L7FirewallRules, NetworkGroupPolicyL7FirewallRules{})
-		}
 		if len(data.L7FirewallRules) > l {
 			data.L7FirewallRules = data.L7FirewallRules[:l]
 		}
@@ -875,9 +869,6 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 	{
 		l := len(res.Get("firewallAndTrafficShaping.trafficShapingRules").Array())
 		tflog.Debug(ctx, fmt.Sprintf("firewallAndTrafficShaping.trafficShapingRules array resizing from %d to %d", len(data.TrafficShapingRules), l))
-		for i := len(data.TrafficShapingRules); i < l; i++ {
-			data.TrafficShapingRules = append(data.TrafficShapingRules, NetworkGroupPolicyTrafficShapingRules{})
-		}
 		if len(data.TrafficShapingRules) > l {
 			data.TrafficShapingRules = data.TrafficShapingRules[:l]
 		}

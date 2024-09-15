@@ -302,9 +302,6 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res gjson.
 	{
 		l := len(res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").Array())
 		tflog.Debug(ctx, fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}} array resizing from %d to %d", len(data.{{toGoName .TfName}}), l))
-		for i := len(data.{{toGoName .TfName}}); i < l; i++ {
-			data.{{toGoName .TfName}} = append(data.{{toGoName .TfName}}, {{.GoTypeName}}{})
-		}
 		if len(data.{{toGoName .TfName}}) > l {
 			data.{{toGoName .TfName}} = data.{{toGoName .TfName}}[:l]
 		}
