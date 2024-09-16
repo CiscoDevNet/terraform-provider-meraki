@@ -1,0 +1,86 @@
+name: Network VLAN Profile
+rest_endpoint: /networks/%v/vlanProfiles
+data_source_name_query: true
+res_description: This resource can manage the Network VLAN Profile configuration. It can be also be used to manage the default VLAN profile by specifying the `iname` as `Default`.
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network_vlan_profile.default.network_id
+  - model_name: iname
+    type: String
+    id: true
+    mandatory: true
+    description: IName of the profile
+    example: Profile1
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the profile, string length must be from 1 to 255 characters
+    example: My VLAN profile name
+  - model_name: vlanGroups
+    type: List
+    mandatory: true
+    description: An array of VLAN groups
+    attributes:
+      - model_name: name
+        type: String
+        id: true
+        mandatory: true
+        description: Name of the VLAN, string length must be from 1 to 32 characters
+        example: named-group-1
+      - model_name: vlanIds
+        type: String
+        mandatory: true
+        description: Comma-separated VLAN IDs or ID ranges
+        example: 2,5-7
+  - model_name: vlanNames
+    type: List
+    mandatory: true
+    description: An array of named VLANs
+    attributes:
+      - model_name: name
+        type: String
+        id: true
+        mandatory: true
+        description: Name of the VLAN, string length must be from 1 to 32 characters
+        example: named-1
+      - model_name: vlanId
+        type: String
+        mandatory: true
+        description: VLAN ID
+        example: "1"
+      - model_name: id
+        type: String
+        data_path: [adaptivePolicyGroup]
+        exclude_test: true
+        description: Adaptive Policy Group ID
+        example: "791"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_vlan_profile" "default" {
+    network_id = meraki_network.test.id
+    iname      = "Default"
+    name       = "Default Profile"
+    vlan_names = [
+      {
+        name = "named-1"
+        vlan_id = "1"
+      }
+    ]
+    vlan_groups = [
+      {
+        name = "named-group-1"
+        vlan_ids = "2,5-7"
+      }
+    ]
+  }

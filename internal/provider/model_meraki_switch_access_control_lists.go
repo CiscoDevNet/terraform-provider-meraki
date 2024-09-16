@@ -65,7 +65,7 @@ func (data SwitchAccessControlLists) getPath() string {
 
 func (data SwitchAccessControlLists) toBody(ctx context.Context, state SwitchAccessControlLists) string {
 	body := ""
-	if len(data.Rules) > 0 {
+	{
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""

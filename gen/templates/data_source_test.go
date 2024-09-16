@@ -226,7 +226,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 
 	config += `
 		data "meraki_{{snakeCase .Name}}" "test" {
-			{{- if not (hasId .Attributes)}}
+			{{- if not .PutCreate}}
 			id = meraki_{{snakeCase $name}}.test.id
 			{{- end}}
 			{{- range  .Attributes}}

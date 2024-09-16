@@ -169,7 +169,7 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 			body, _ = sjson.SetRaw(body, "radiusAccountingServers.-1", itemBody)
 		}
 	}
-	if len(data.RadiusServers) > 0 {
+	{
 		body, _ = sjson.Set(body, "radiusServers", []interface{}{})
 		for _, item := range data.RadiusServers {
 			itemBody := ""

@@ -61,7 +61,7 @@ func (data SwitchDSCPToCoSMappings) getPath() string {
 
 func (data SwitchDSCPToCoSMappings) toBody(ctx context.Context, state SwitchDSCPToCoSMappings) string {
 	body := ""
-	if len(data.Mappings) > 0 {
+	{
 		body, _ = sjson.Set(body, "mappings", []interface{}{})
 		for _, item := range data.Mappings {
 			itemBody := ""
