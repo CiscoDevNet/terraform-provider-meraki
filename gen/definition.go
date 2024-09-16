@@ -20,6 +20,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -148,7 +149,18 @@ func main() {
 	outputPath := definitionsPath + yamlconfig.SnakeCase(resourceName) + ".yaml"
 
 	existingConfig := yamlconfig.YamlConfig{}
+	comments := ""
 	if yamlFile, err := os.ReadFile(outputPath); err == nil {
+		// retain comments at the beginning of the definition file
+		scanner := bufio.NewScanner(bytes.NewReader(yamlFile))
+		for scanner.Scan() {
+			line := scanner.Text()
+			if line[0] == '#' {
+				comments += line + "\n"
+			} else {
+				break
+			}
+		}
 		existingConfig = yamlconfig.YamlConfig{}
 		err = yaml.Unmarshal(yamlFile, &existingConfig)
 		if err != nil {
@@ -165,8 +177,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	os.WriteFile(outputPath, yamlBytes.Bytes(), 0644)
+	writeBytes := []byte(comments + yamlBytes.String())
+	os.WriteFile(outputPath, writeBytes, 0644)
 }
 
 func toStringSlice(i []interface{}) []string {
