@@ -1,0 +1,43 @@
+name: Network Syslog Servers
+rest_endpoint: /networks/%v/syslogServers
+put_create: true
+no_delete: true
+doc_category: Networks
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: servers
+    type: List
+    mandatory: true
+    description: A list of the syslog servers for this network
+    attributes:
+      - model_name: host
+        type: String
+        mandatory: true
+        description: The IP address of the syslog server
+        example: 1.2.3.4
+      - model_name: port
+        type: Int64
+        mandatory: true
+        description: The port of the syslog server
+        example: "443"
+      - model_name: roles
+        type: List
+        element_type: String
+        mandatory: true
+        description: 'A list of roles for the syslog server. Options (case-insensitive): `Wireless event log`, `Appliance event log`, `Switch event log`, `Air Marshal events`, `Flows`, `URLs`, `IDS alerts`, `Security events`'
+        example: Wireless event log
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }

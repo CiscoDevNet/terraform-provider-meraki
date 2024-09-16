@@ -218,10 +218,10 @@ func parseUrl(url string) parseUrlResult {
 		ret.references = ids
 		ret.oneToOne = true
 	}
-	if parts[0] == "organizations" {
-		ret.category = "Organization"
-	} else if parts[0] == "networks" {
-		ret.category = "Network"
+	if strings.Contains(parts[0], "/organizations") {
+		ret.category = "Organizations"
+	} else if strings.Contains(parts[0], "/networks") {
+		ret.category = "Networks"
 	}
 	if len(parts) > 0 {
 		if strings.Contains(parts[1], "/switch") {
