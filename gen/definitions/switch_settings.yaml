@@ -14,37 +14,37 @@ attributes:
   - model_name: useCombinedPower
     type: Bool
     description: The use Combined Power as the default behavior of secondary power supplies on supported devices.
-    example: false
+    example: "false"
   - model_name: vlan
     type: Int64
     description: Management VLAN
-    example: 1
-    minimum_test_value: 1
+    example: "1"
+    minimum_test_value: "1"
   - model_name: enabled
     type: Bool
     data_path: [macBlocklist]
     description: Enable MAC blocklist
-    example: true
+    example: "true"
   - model_name: enabled
     type: Bool
     data_path: [uplinkClientSampling]
     description: Enable uplink client sampling
-    example: false
+    example: "false"
   - model_name: powerExceptions
     type: List
-    description: Exceptions on a per switch basis to 'useCombinedPower'
     exclude_test: true
+    description: Exceptions on a per switch basis to 'useCombinedPower'
     attributes:
       - model_name: powerType
         type: String
         mandatory: true
         description: Per switch exception (combined, redundant, useNetworkSetting)
-        enum_values: [combined, redundant, useNetworkSetting]
         example: useNetworkSetting
+        enum_values: [combined, redundant, useNetworkSetting]
       - model_name: serial
         type: String
-        mandatory: true
         id: true
+        mandatory: true
         description: Serial number of the switch
         example: Q234-ABCD-5678
 test_prerequisites: |
