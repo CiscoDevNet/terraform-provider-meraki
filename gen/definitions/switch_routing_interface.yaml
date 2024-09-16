@@ -1,0 +1,94 @@
+name: Switch Routing Interface
+rest_endpoint: /devices/%v/switch/routing/interfaces
+id_name: interfaceId
+data_source_name_query: true
+doc_category: Switches
+attributes:
+  - tf_name: serial
+    type: String
+    reference: true
+    description: Switch serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: defaultGateway
+    type: String
+    description: The next hop for any traffic that isn`t going to a directly connected subnet or over a static route. This IP address must exist in a subnet with a routed interface. Required if this is the first IPv4 interface.
+    example: 192.168.1.1
+    minimum_test_value: '"192.168.1.1"'
+    write_changes_only: true
+  - model_name: interfaceIp
+    type: String
+    description: The IP address this switch will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.
+    example: 192.168.1.2
+    minimum_test_value: '"192.168.1.2"'
+  - model_name: multicastRouting
+    type: String
+    description: "Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`."
+    example: disabled
+    enum_values: [IGMP snooping querier, disabled, enabled]
+  - model_name: name
+    type: String
+    description: A friendly name or description for the interface or VLAN.
+    example: L3 interface
+    minimum_test_value: '"L3 interface"'
+  - model_name: subnet
+    type: String
+    description: The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).
+    example: 192.168.1.0/24
+    minimum_test_value: '"192.168.1.0/24"'
+  - model_name: vlanId
+    type: Int64
+    description: The VLAN this routed interface is on. VLAN must be between 1 and 4094.
+    example: "100"
+    minimum_test_value: "100"
+  - model_name: address
+    type: String
+    data_path: [ipv6]
+    description: The IPv6 address of the interface. Required if assignmentMode is `static`. Must not be included if assignmentMode is `eui-64`.
+    example: 1:2:3:4::1
+  - model_name: assignmentMode
+    type: String
+    data_path: [ipv6]
+    description: The IPv6 assignment mode for the interface. Can be either `eui-64` or `static`.
+    example: static
+  - model_name: gateway
+    type: String
+    data_path: [ipv6]
+    description: The IPv6 default gateway of the interface. Required if prefix is defined and this is the first interface with IPv6 configured for the switch.
+    example: 1:2:3:4::2
+  - model_name: prefix
+    type: String
+    data_path: [ipv6]
+    description: The IPv6 prefix of the interface. Required if IPv6 object is included.
+    example: 1:2:3:4::/64
+  - model_name: area
+    type: String
+    data_path: [ospfSettings]
+    description: The OSPF area to which this interface should belong. Can be either `disabled` or the identifier of an existing OSPF area. Defaults to `disabled`.
+    example: "0"
+    exclude_test: true
+  - model_name: cost
+    type: Int64
+    data_path: [ospfSettings]
+    description: The path cost for this interface. Defaults to 1, but can be increased up to 65535 to give lower priority.
+    example: "1"
+    exclude_test: true
+  - model_name: isPassiveEnabled
+    type: Bool
+    data_path: [ospfSettings]
+    description: When enabled, OSPF will not run on the interface, but the subnet will still be advertised.
+    example: "true"
+    exclude_test: true
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q5KD-PCG4-HB8R"]
+  }
