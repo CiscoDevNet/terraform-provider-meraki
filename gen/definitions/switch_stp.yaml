@@ -1,0 +1,59 @@
+name: Switch STP
+rest_endpoint: /networks/%v/switch/stp
+put_create: true
+no_delete: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: rstpEnabled
+    type: Bool
+    description: The spanning tree protocol status in network
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: stpBridgePriority
+    type: List
+    description: STP bridge priority for switches/stacks or switch templates. An empty array will clear the STP bridge priority settings.
+    ordered_list: true
+    attributes:
+      - model_name: stpPriority
+        type: Int64
+        mandatory: true
+        description: STP priority for switch, stacks, or switch templates
+        example: "4096"
+      - model_name: stacks
+        type: List
+        element_type: String
+        exclude_test: true
+        description: List of stack IDs
+        example: "789102"
+      - model_name: switchProfiles
+        type: List
+        element_type: String
+        exclude_test: true
+        description: List of switch template IDs
+        example: "1098"
+      - model_name: switches
+        type: List
+        element_type: String
+        description: List of switch serial numbers
+        example: Q234-ABCD-0001
+        test_value: '[tolist(meraki_network_device_claim.test.serials)[0]]'
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q5KD-PCG4-HB8R"]
+  }
