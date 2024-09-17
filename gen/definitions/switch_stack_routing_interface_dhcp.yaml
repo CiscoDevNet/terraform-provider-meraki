@@ -1,0 +1,152 @@
+name: Switch Stack Routing Interface DHCP
+rest_endpoint: /networks/%v/switch/stacks/%v/routing/interfaces/%v/dhcp
+put_create: true
+no_delete: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: switch_stack_id
+    type: String
+    reference: true
+    description: Switch stack ID
+    example: "1234"
+    test_value: meraki_switch_stack.test.id
+  - tf_name: interface_id
+    type: String
+    id: true
+    reference: true
+    description: Interface ID
+    example: "1234"
+    test_value: meraki_switch_stack_routing_interface.test.id
+  - model_name: bootFileName
+    type: String
+    description: The PXE boot server file name for the DHCP server running on the switch stack interface
+    example: home_boot_file
+  - model_name: bootNextServer
+    type: String
+    description: The PXE boot server IP for the DHCP server running on the switch stack interface
+    example: 1.2.3.4
+  - model_name: bootOptionsEnabled
+    type: Bool
+    description: Enable DHCP boot options to provide PXE boot options configs for the dhcp server running on the switch stack interface
+    example: "true"
+  - model_name: dhcpLeaseTime
+    type: String
+    description: The DHCP lease time config for the dhcp server running on switch stack interface (`30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`)
+    example: 1 day
+    enum_values: [1 day, 1 hour, 1 week, 12 hours, 30 minutes, 4 hours]
+  - model_name: dhcpMode
+    type: String
+    description: The DHCP mode options for the switch stack interface (`dhcpDisabled`, `dhcpRelay` or `dhcpServer`)
+    example: dhcpServer
+    enum_values: [dhcpDisabled, dhcpRelay, dhcpServer]
+    minimum_test_value: '"dhcpDisabled"'
+  - model_name: dnsNameserversOption
+    type: String
+    description: The DHCP name server option for the dhcp server running on the switch stack interface (`googlePublicDns`, `openDns` or `custom`)
+    example: custom
+    enum_values: [custom, googlePublicDns, openDns]
+  - model_name: dhcpOptions
+    type: List
+    description: Array of DHCP options consisting of code, type and value for the DHCP server running on the switch stack interface
+    attributes:
+      - model_name: code
+        type: String
+        id: true
+        mandatory: true
+        description: The code for DHCP option which should be from 2 to 254
+        example: "5"
+      - model_name: type
+        type: String
+        mandatory: true
+        description: The type of the DHCP option which should be one of (`text`, `ip`, `integer` or `hex`)
+        example: text
+        enum_values: [hex, integer, ip, text]
+      - model_name: value
+        type: String
+        mandatory: true
+        description: The value of the DHCP option
+        example: five
+  - model_name: dhcpRelayServerIps
+    type: List
+    element_type: String
+    description: The DHCP relay server IPs to which DHCP packets would get relayed for the switch stack interface
+    example: 1.2.3.4
+    exclude_test: true
+  - model_name: dnsCustomNameservers
+    type: List
+    element_type: String
+    description: The DHCP name server IPs when DHCP name server option is ` custom`
+    example: 8.8.8.8
+  - model_name: fixedIpAssignments
+    type: List
+    description: Array of DHCP fixed IP assignments for the DHCP server running on the switch stack interface
+    attributes:
+      - model_name: ip
+        type: String
+        id: true
+        mandatory: true
+        description: The IP address of the client which has fixed IP address assigned to it
+        example: 192.168.1.12
+      - model_name: mac
+        type: String
+        mandatory: true
+        description: The MAC address of the client which has fixed IP address
+        example: 22:33:44:55:66:77
+      - model_name: name
+        type: String
+        mandatory: true
+        description: The name of the client which has fixed IP address
+        example: Cisco Meraki valued client
+  - model_name: reservedIpRanges
+    type: List
+    description: Array of DHCP reserved IP assignments for the DHCP server running on the switch stack interface
+    attributes:
+      - model_name: comment
+        type: String
+        description: The comment for the reserved IP range
+        example: A reserved IP range
+      - model_name: end
+        type: String
+        id: true
+        mandatory: true
+        description: The ending IP address of the reserved IP range
+        example: 192.168.1.10
+      - model_name: start
+        type: String
+        id: true
+        mandatory: true
+        description: The starting IP address of the reserved IP range
+        example: 192.168.1.1
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q5KD-PCG4-HB8R", "Q5KD-CU8N-DEDR"]
+  }
+  resource "meraki_switch_stack" "test" {
+    network_id = meraki_network.test.id
+    name      = "A cool stack"
+    serials   = meraki_network_device_claim.test.serials
+  }
+  resource "meraki_switch_stack_routing_interface" "test" {
+    network_id = meraki_network.test.id
+    switch_stack_id = meraki_switch_stack.test.id
+    default_gateway = "192.168.1.1"
+    interface_ip = "192.168.1.2"
+    name = "L3 interface"
+    subnet = "192.168.1.0/24"
+    vlan_id = 100
+  }

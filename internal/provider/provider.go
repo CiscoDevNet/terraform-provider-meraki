@@ -246,6 +246,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewSwitchSettingsResource,
 		NewSwitchStackResource,
 		NewSwitchStackRoutingInterfaceResource,
+		NewSwitchStackRoutingInterfaceDHCPResource,
 		NewSwitchStormControlResource,
 		NewSwitchSTPResource,
 	}
@@ -280,6 +281,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewSwitchSettingsDataSource,
 		NewSwitchStackDataSource,
 		NewSwitchStackRoutingInterfaceDataSource,
+		NewSwitchStackRoutingInterfaceDHCPDataSource,
 		NewSwitchStormControlDataSource,
 		NewSwitchSTPDataSource,
 	}
