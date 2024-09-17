@@ -21,12 +21,6 @@ resource "meraki_switch_link_aggregation" "example" {
       serial  = "Q234-ABCD-0001"
     }
   ]
-  switch_profile_ports = [
-    {
-      port_id = "2"
-      profile = "1234"
-    }
-  ]
 }
 ```
 

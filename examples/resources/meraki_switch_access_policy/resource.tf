@@ -22,18 +22,16 @@ resource "meraki_switch_access_policy" "example" {
   radius_critical_auth_voice_vlan_id       = 101
   radius_accounting_servers = [
     {
-      host                          = "1.2.3.4"
-      organization_radius_server_id = "42"
-      port                          = 22
-      secret                        = "secret"
+      host   = "1.2.3.4"
+      port   = 22
+      secret = "secret"
     }
   ]
   radius_servers = [
     {
-      host                          = "1.2.3.4"
-      organization_radius_server_id = "42"
-      port                          = 22
-      secret                        = "secret"
+      host   = "1.2.3.4"
+      port   = 22
+      secret = "secret"
     }
   ]
   url_redirect_walled_garden_ranges = ["192.168.1.0/24"]

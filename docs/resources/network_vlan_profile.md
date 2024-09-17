@@ -25,9 +25,8 @@ resource "meraki_network_vlan_profile" "example" {
   ]
   vlan_names = [
     {
-      name                     = "named-1"
-      vlan_id                  = "1"
-      adaptive_policy_group_id = "791"
+      name    = "named-1"
+      vlan_id = "1"
     }
   ]
 }

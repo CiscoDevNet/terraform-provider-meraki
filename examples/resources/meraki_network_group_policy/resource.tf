@@ -13,13 +13,7 @@ resource "meraki_network_group_policy" "example" {
       services    = ["All Services"]
     }
   ]
-  content_filtering_allowed_url_patterns_settings   = "network default"
-  content_filtering_allowed_url_patterns            = [""]
-  content_filtering_blocked_url_categories_settings = "override"
-  content_filtering_blocked_url_categories          = ["meraki:contentFiltering/category/1"]
-  content_filtering_blocked_url_patterns_settings   = "append"
-  content_filtering_blocked_url_patterns            = ["http://www.example.com"]
-  firewall_and_traffic_shaping_settings             = "custom"
+  firewall_and_traffic_shaping_settings = "custom"
   l3_firewall_rules = [
     {
       comment   = "Allow TCP traffic to subnet with HTTP servers."
