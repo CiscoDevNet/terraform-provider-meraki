@@ -1,0 +1,258 @@
+// Copyright © 2024 Cisco Systems, Inc. and its affiliates.
+// All rights reserved.
+//
+// Licensed under the Mozilla Public License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://mozilla.org/MPL/2.0/
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// SPDX-License-Identifier: MPL-2.0
+
+package provider
+
+// Section below is generated&owned by "gen/generator.go". //template:begin imports
+import (
+	"context"
+	"fmt"
+	"net/url"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/tidwall/gjson"
+	"github.com/tidwall/sjson"
+)
+
+// End of section. //template:end imports
+
+// Section below is generated&owned by "gen/generator.go". //template:begin types
+
+type SwitchStackRoutingInterface struct {
+	Id                           types.String `tfsdk:"id"`
+	NetworkId                    types.String `tfsdk:"network_id"`
+	SwitchStackId                types.String `tfsdk:"switch_stack_id"`
+	DefaultGateway               types.String `tfsdk:"default_gateway"`
+	InterfaceIp                  types.String `tfsdk:"interface_ip"`
+	MulticastRouting             types.String `tfsdk:"multicast_routing"`
+	Name                         types.String `tfsdk:"name"`
+	Subnet                       types.String `tfsdk:"subnet"`
+	VlanId                       types.Int64  `tfsdk:"vlan_id"`
+	Ipv6Address                  types.String `tfsdk:"ipv6_address"`
+	Ipv6AssignmentMode           types.String `tfsdk:"ipv6_assignment_mode"`
+	Ipv6Gateway                  types.String `tfsdk:"ipv6_gateway"`
+	Ipv6Prefix                   types.String `tfsdk:"ipv6_prefix"`
+	OspfSettingsArea             types.String `tfsdk:"ospf_settings_area"`
+	OspfSettingsCost             types.Int64  `tfsdk:"ospf_settings_cost"`
+	OspfSettingsIsPassiveEnabled types.Bool   `tfsdk:"ospf_settings_is_passive_enabled"`
+}
+
+// End of section. //template:end types
+
+// Section below is generated&owned by "gen/generator.go". //template:begin getPath
+
+func (data SwitchStackRoutingInterface) getPath() string {
+	return fmt.Sprintf("/networks/%v/switch/stacks/%v/routing/interfaces", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(data.SwitchStackId.ValueString()))
+}
+
+// End of section. //template:end getPath
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBody
+
+func (data SwitchStackRoutingInterface) toBody(ctx context.Context, state SwitchStackRoutingInterface) string {
+	body := ""
+	if !data.DefaultGateway.IsNull() && data.DefaultGateway != state.DefaultGateway {
+		body, _ = sjson.Set(body, "defaultGateway", data.DefaultGateway.ValueString())
+	}
+	if !data.InterfaceIp.IsNull() {
+		body, _ = sjson.Set(body, "interfaceIp", data.InterfaceIp.ValueString())
+	}
+	if !data.MulticastRouting.IsNull() {
+		body, _ = sjson.Set(body, "multicastRouting", data.MulticastRouting.ValueString())
+	}
+	if !data.Name.IsNull() {
+		body, _ = sjson.Set(body, "name", data.Name.ValueString())
+	}
+	if !data.Subnet.IsNull() {
+		body, _ = sjson.Set(body, "subnet", data.Subnet.ValueString())
+	}
+	if !data.VlanId.IsNull() {
+		body, _ = sjson.Set(body, "vlanId", data.VlanId.ValueInt64())
+	}
+	if !data.Ipv6Address.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.address", data.Ipv6Address.ValueString())
+	}
+	if !data.Ipv6AssignmentMode.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.assignmentMode", data.Ipv6AssignmentMode.ValueString())
+	}
+	if !data.Ipv6Gateway.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.gateway", data.Ipv6Gateway.ValueString())
+	}
+	if !data.Ipv6Prefix.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.prefix", data.Ipv6Prefix.ValueString())
+	}
+	if !data.OspfSettingsArea.IsNull() {
+		body, _ = sjson.Set(body, "ospfSettings.area", data.OspfSettingsArea.ValueString())
+	}
+	if !data.OspfSettingsCost.IsNull() {
+		body, _ = sjson.Set(body, "ospfSettings.cost", data.OspfSettingsCost.ValueInt64())
+	}
+	if !data.OspfSettingsIsPassiveEnabled.IsNull() {
+		body, _ = sjson.Set(body, "ospfSettings.isPassiveEnabled", data.OspfSettingsIsPassiveEnabled.ValueBool())
+	}
+	return body
+}
+
+// End of section. //template:end toBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
+
+func (data *SwitchStackRoutingInterface) fromBody(ctx context.Context, res gjson.Result) {
+	if value := res.Get("defaultGateway"); value.Exists() {
+		data.DefaultGateway = types.StringValue(value.String())
+	} else {
+		data.DefaultGateway = types.StringNull()
+	}
+	if value := res.Get("interfaceIp"); value.Exists() {
+		data.InterfaceIp = types.StringValue(value.String())
+	} else {
+		data.InterfaceIp = types.StringNull()
+	}
+	if value := res.Get("multicastRouting"); value.Exists() {
+		data.MulticastRouting = types.StringValue(value.String())
+	} else {
+		data.MulticastRouting = types.StringNull()
+	}
+	if value := res.Get("name"); value.Exists() {
+		data.Name = types.StringValue(value.String())
+	} else {
+		data.Name = types.StringNull()
+	}
+	if value := res.Get("subnet"); value.Exists() {
+		data.Subnet = types.StringValue(value.String())
+	} else {
+		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("vlanId"); value.Exists() {
+		data.VlanId = types.Int64Value(value.Int())
+	} else {
+		data.VlanId = types.Int64Null()
+	}
+	if value := res.Get("ipv6.address"); value.Exists() {
+		data.Ipv6Address = types.StringValue(value.String())
+	} else {
+		data.Ipv6Address = types.StringNull()
+	}
+	if value := res.Get("ipv6.assignmentMode"); value.Exists() {
+		data.Ipv6AssignmentMode = types.StringValue(value.String())
+	} else {
+		data.Ipv6AssignmentMode = types.StringNull()
+	}
+	if value := res.Get("ipv6.gateway"); value.Exists() {
+		data.Ipv6Gateway = types.StringValue(value.String())
+	} else {
+		data.Ipv6Gateway = types.StringNull()
+	}
+	if value := res.Get("ipv6.prefix"); value.Exists() {
+		data.Ipv6Prefix = types.StringValue(value.String())
+	} else {
+		data.Ipv6Prefix = types.StringNull()
+	}
+	if value := res.Get("ospfSettings.area"); value.Exists() {
+		data.OspfSettingsArea = types.StringValue(value.String())
+	} else {
+		data.OspfSettingsArea = types.StringNull()
+	}
+	if value := res.Get("ospfSettings.cost"); value.Exists() {
+		data.OspfSettingsCost = types.Int64Value(value.Int())
+	} else {
+		data.OspfSettingsCost = types.Int64Null()
+	}
+	if value := res.Get("ospfSettings.isPassiveEnabled"); value.Exists() {
+		data.OspfSettingsIsPassiveEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.OspfSettingsIsPassiveEnabled = types.BoolNull()
+	}
+}
+
+// End of section. //template:end fromBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
+
+// fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
+// uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
+// easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
+// "managed" elements, instead of all elements.
+func (data *SwitchStackRoutingInterface) fromBodyPartial(ctx context.Context, res gjson.Result) {
+	if value := res.Get("defaultGateway"); value.Exists() && !data.DefaultGateway.IsNull() {
+		data.DefaultGateway = types.StringValue(value.String())
+	} else {
+		data.DefaultGateway = types.StringNull()
+	}
+	if value := res.Get("interfaceIp"); value.Exists() && !data.InterfaceIp.IsNull() {
+		data.InterfaceIp = types.StringValue(value.String())
+	} else {
+		data.InterfaceIp = types.StringNull()
+	}
+	if value := res.Get("multicastRouting"); value.Exists() && !data.MulticastRouting.IsNull() {
+		data.MulticastRouting = types.StringValue(value.String())
+	} else {
+		data.MulticastRouting = types.StringNull()
+	}
+	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
+		data.Name = types.StringValue(value.String())
+	} else {
+		data.Name = types.StringNull()
+	}
+	if value := res.Get("subnet"); value.Exists() && !data.Subnet.IsNull() {
+		data.Subnet = types.StringValue(value.String())
+	} else {
+		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("vlanId"); value.Exists() && !data.VlanId.IsNull() {
+		data.VlanId = types.Int64Value(value.Int())
+	} else {
+		data.VlanId = types.Int64Null()
+	}
+	if value := res.Get("ipv6.address"); value.Exists() && !data.Ipv6Address.IsNull() {
+		data.Ipv6Address = types.StringValue(value.String())
+	} else {
+		data.Ipv6Address = types.StringNull()
+	}
+	if value := res.Get("ipv6.assignmentMode"); value.Exists() && !data.Ipv6AssignmentMode.IsNull() {
+		data.Ipv6AssignmentMode = types.StringValue(value.String())
+	} else {
+		data.Ipv6AssignmentMode = types.StringNull()
+	}
+	if value := res.Get("ipv6.gateway"); value.Exists() && !data.Ipv6Gateway.IsNull() {
+		data.Ipv6Gateway = types.StringValue(value.String())
+	} else {
+		data.Ipv6Gateway = types.StringNull()
+	}
+	if value := res.Get("ipv6.prefix"); value.Exists() && !data.Ipv6Prefix.IsNull() {
+		data.Ipv6Prefix = types.StringValue(value.String())
+	} else {
+		data.Ipv6Prefix = types.StringNull()
+	}
+	if value := res.Get("ospfSettings.area"); value.Exists() && !data.OspfSettingsArea.IsNull() {
+		data.OspfSettingsArea = types.StringValue(value.String())
+	} else {
+		data.OspfSettingsArea = types.StringNull()
+	}
+	if value := res.Get("ospfSettings.cost"); value.Exists() && !data.OspfSettingsCost.IsNull() {
+		data.OspfSettingsCost = types.Int64Value(value.Int())
+	} else {
+		data.OspfSettingsCost = types.Int64Null()
+	}
+	if value := res.Get("ospfSettings.isPassiveEnabled"); value.Exists() && !data.OspfSettingsIsPassiveEnabled.IsNull() {
+		data.OspfSettingsIsPassiveEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.OspfSettingsIsPassiveEnabled = types.BoolNull()
+	}
+}
+
+// End of section. //template:end fromBodyPartial
