@@ -14,7 +14,6 @@ This data source can read the `Organization Login Security` configuration.
 
 ```terraform
 data "meraki_organization_login_security" "example" {
-  id              = "123456"
   organization_id = "123456"
 }
 ```

@@ -14,7 +14,6 @@ This data source can read the `Network Settings` configuration.
 
 ```terraform
 data "meraki_network_settings" "example" {
-  id         = "L_123456"
   network_id = "L_123456"
 }
 ```

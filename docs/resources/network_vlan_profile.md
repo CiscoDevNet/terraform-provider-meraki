@@ -74,5 +74,5 @@ Optional:
 Import is supported using the following syntax:
 
 ```shell
-terraform import meraki_network_vlan_profile.example "<iname>"
+terraform import meraki_network_vlan_profile.example "<network_id>,<iname>"
 ```

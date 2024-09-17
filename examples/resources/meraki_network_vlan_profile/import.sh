@@ -1,1 +1,1 @@
-terraform import meraki_network_vlan_profile.example "<iname>"
+terraform import meraki_network_vlan_profile.example "<network_id>,<iname>"

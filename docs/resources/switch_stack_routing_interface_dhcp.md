@@ -117,5 +117,5 @@ Optional:
 Import is supported using the following syntax:
 
 ```shell
-terraform import meraki_switch_stack_routing_interface_dhcp.example "<interface_id>"
+terraform import meraki_switch_stack_routing_interface_dhcp.example "<network_id>,<switch_stack_id>,<interface_id>"
 ```

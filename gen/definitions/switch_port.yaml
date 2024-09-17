@@ -1,0 +1,166 @@
+name: Switch Port
+rest_endpoint: /devices/%v/switch/ports/%v
+put_create: true
+no_delete: true
+doc_category: Switches
+attributes:
+  - tf_name: serial
+    type: String
+    reference: true
+    description: Switch serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - tf_name: port_id
+    type: String
+    id: true
+    reference: true
+    description: Port ID
+    example: "1"
+  - model_name: accessPolicyNumber
+    type: Int64
+    exclude_test: true
+    description: The number of a custom access policy to configure on the switch port. Only applicable when `accessPolicyType` is `Custom access policy`.
+    example: "2"
+  - model_name: accessPolicyType
+    type: String
+    description: The type of the access policy of the switch port. Only applicable to access ports. Can be one of `Open`, `Custom access policy`, `MAC allow list` or `Sticky MAC allow list`.
+    example: Sticky MAC allow list
+    enum_values:
+      [Custom access policy, MAC allow list, Open, Sticky MAC allow list]
+  - model_name: adaptivePolicyGroupId
+    type: String
+    exclude_test: true
+    description: The adaptive policy group ID that will be used to tag traffic through this switch port. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API. Cannot be applied to a port on a switch bound to profile.
+    example: "123"
+  - model_name: allowedVlans
+    type: String
+    description: The VLANs allowed on the switch port. Only applicable to trunk ports.
+    example: 1,3,5-10
+  - model_name: daiTrusted
+    type: Bool
+    description: If true, ARP packets for this port will be considered trusted, and Dynamic ARP Inspection will allow the traffic.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    description: The status of the switch port.
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: flexibleStackingEnabled
+    type: Bool
+    exclude_test: true
+    description: For supported switches (e.g. MS420/MS425), whether or not the port has flexible stacking enabled.
+    example: "true"
+  - model_name: isolationEnabled
+    type: Bool
+    description: The isolation status of the switch port.
+    example: "false"
+  - model_name: linkNegotiation
+    type: String
+    description: The link speed for the switch port.
+    example: Auto negotiate
+  - model_name: name
+    type: String
+    description: The name of the switch port.
+    example: My switch port
+  - model_name: peerSgtCapable
+    type: Bool
+    exclude_test: true
+    description: If true, Peer SGT is enabled for traffic through this switch port. Applicable to trunk port only, not access port. Cannot be applied to a port on a switch bound to profile.
+    example: "false"
+  - model_name: poeEnabled
+    type: Bool
+    description: The PoE status of the switch port.
+    example: "true"
+  - model_name: portScheduleId
+    type: String
+    exclude_test: true
+    description: The ID of the port schedule. A value of null will clear the port schedule.
+    example: "1234"
+  - model_name: rstpEnabled
+    type: Bool
+    description: The rapid spanning tree protocol status.
+    example: "true"
+  - model_name: stickyMacAllowListLimit
+    type: Int64
+    description: The maximum number of MAC addresses for sticky MAC allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
+    example: "5"
+  - model_name: stormControlEnabled
+    type: Bool
+    exclude_test: true
+    description: The storm control status of the switch port.
+    example: "true"
+  - model_name: stpGuard
+    type: String
+    description: The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).
+    example: disabled
+    enum_values: [bpdu guard, disabled, loop guard, root guard]
+  - model_name: type
+    type: String
+    description: The type of the switch port (`trunk`, `access` or `stack`).
+    example: access
+    enum_values: [access, stack, trunk]
+  - model_name: udld
+    type: String
+    description: The action to take when Unidirectional Link is detected (Alert only, Enforce). Default configuration is Alert only.
+    example: Alert only
+    enum_values: [Alert only, Enforce]
+  - model_name: vlan
+    type: Int64
+    description: The VLAN of the switch port. For a trunk port, this is the native VLAN. A null value will clear the value set for trunk ports.
+    example: "10"
+  - model_name: voiceVlan
+    type: Int64
+    description: The voice VLAN of the switch port. Only applicable to access ports.
+    example: "20"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot3az]
+    exclude_test: true
+    description: The Energy Efficient Ethernet status of the switch port.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [profile]
+    description: When enabled, override this port`s configuration with a port profile.
+    example: "false"
+  - model_name: id
+    type: String
+    data_path: [profile]
+    exclude_test: true
+    description: When enabled, the ID of the port profile used to override the port`s configuration.
+    example: "1284392014819"
+  - model_name: iname
+    type: String
+    data_path: [profile]
+    exclude_test: true
+    description: When enabled, the IName of the profile.
+    example: iname
+  - model_name: macAllowList
+    type: List
+    element_type: String
+    exclude_test: true
+    description: Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.
+    example: 34:56:fe:ce:8e:a0
+  - model_name: stickyMacAllowList
+    type: List
+    element_type: String
+    description: The initial list of MAC addresses for sticky Mac allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
+    example: 34:56:fe:ce:8e:b0
+  - model_name: tags
+    type: List
+    element_type: String
+    description: The list of tags of the switch port.
+    example: tag1
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q5KD-PCG4-HB8R"]
+  }
