@@ -1,0 +1,33 @@
+resource "meraki_switch_routing_interface_dhcp" "example" {
+  serial                 = "1234-ABCD-1234"
+  interface_id           = "1234"
+  boot_file_name         = "home_boot_file"
+  boot_next_server       = "1.2.3.4"
+  boot_options_enabled   = true
+  dhcp_lease_time        = "1 day"
+  dhcp_mode              = "dhcpServer"
+  dns_nameservers_option = "custom"
+  dhcp_options = [
+    {
+      code  = "5"
+      type  = "text"
+      value = "five"
+    }
+  ]
+  dhcp_relay_server_ips  = ["1.2.3.4"]
+  dns_custom_nameservers = ["8.8.8.8"]
+  fixed_ip_assignments = [
+    {
+      ip   = "192.168.1.12"
+      mac  = "22:33:44:55:66:77"
+      name = "Cisco Meraki valued client"
+    }
+  ]
+  reserved_ip_ranges = [
+    {
+      comment = "A reserved IP range"
+      end     = "192.168.1.10"
+      start   = "192.168.1.1"
+    }
+  ]
+}
