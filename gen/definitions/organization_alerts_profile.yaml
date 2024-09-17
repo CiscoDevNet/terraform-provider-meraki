@@ -1,0 +1,99 @@
+name: Organization Alerts Profile
+rest_endpoint: /organizations/%v/alerts/profiles
+get_from_all: true
+doc_category: Organizations
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: User supplied description of the alert
+    example: WAN 1 high utilization
+  - model_name: type
+    type: String
+    mandatory: true
+    description: The alert type
+    example: wanUtilization
+    enum_values: [appOutage, voipJitter, voipMos, voipPacketLoss, wanLatency, wanPacketLoss, wanStatus, wanUtilization]
+  - model_name: bit_rate_bps
+    type: Int64
+    data_path: [alertCondition]
+    description: The threshold the metric must cross to be valid for alerting. Used only for WAN Utilization alerts.
+    example: "10000"
+    minimum_test_value: "1000"
+  - model_name: duration
+    type: Int64
+    data_path: [alertCondition]
+    description: The total duration in seconds that the threshold should be crossed before alerting
+    example: "60"
+    minimum_test_value: "120"
+  - model_name: interface
+    type: String
+    data_path: [alertCondition]
+    description: 'The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, cellular'
+    example: wan1
+    enum_values: [cellular, wan1, wan2, wan3]
+    minimum_test_value: '"wan2"'
+  - model_name: jitter_ms
+    type: Int64
+    data_path: [alertCondition]
+    exclude_test: true
+    description: The threshold the metric must cross to be valid for alerting. Used only for VoIP Jitter alerts.
+    example: "100"
+  - model_name: latency_ms
+    type: Int64
+    data_path: [alertCondition]
+    exclude_test: true
+    description: The threshold the metric must cross to be valid for alerting. Used only for WAN Latency alerts.
+    example: "100"
+  - model_name: loss_ratio
+    type: Float64
+    data_path: [alertCondition]
+    exclude_test: true
+    description: The threshold the metric must cross to be valid for alerting. Used only for Packet Loss alerts.
+    example: "0.1"
+  - model_name: mos
+    type: Float64
+    data_path: [alertCondition]
+    exclude_test: true
+    description: The threshold the metric must drop below to be valid for alerting. Used only for VoIP MOS alerts.
+    example: "3.5"
+  - model_name: window
+    type: Int64
+    data_path: [alertCondition]
+    description: The look back period in seconds for sensing the alert
+    example: "600"
+    minimum_test_value: "300"
+  - model_name: emails
+    type: List
+    element_type: String
+    data_path: [recipients]
+    description: A list of emails that will receive information about the alert
+    example: admin@example.org
+    minimum_test_value: '["admin2@example.org"]'
+  - model_name: httpServerIds
+    type: List
+    element_type: String
+    data_path: [recipients]
+    exclude_test: true
+    description: A list base64 encoded urls of webhook endpoints that will receive information about the alert
+    example: aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vcGF0aA==
+  - model_name: networkTags
+    type: List
+    element_type: String
+    mandatory: true
+    description: Networks with these tags will be monitored for the alert
+    example: tag1
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch"]
+  }

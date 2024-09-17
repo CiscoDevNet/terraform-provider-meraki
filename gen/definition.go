@@ -191,7 +191,7 @@ func toStringSlice(i []interface{}) []string {
 
 var jsonTypes = map[string]string{
 	"integer": "Int64",
-	"number":  "Float",
+	"number":  "Float64",
 	"boolean": "Bool",
 	"string":  "String",
 }
@@ -261,14 +261,14 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			if min, ok := propMap["minimum"]; ok {
 				if attr.Type == "Int64" {
 					attr.MinInt = min.(int64)
-				} else if attr.Type == "Float" {
+				} else if attr.Type == "Float64" {
 					attr.MinFloat = min.(float64)
 				}
 			}
 			if max, ok := propMap["maximum"]; ok {
 				if attr.Type == "Int64" {
 					attr.MaxInt = max.(int64)
-				} else if attr.Type == "Float" {
+				} else if attr.Type == "Float64" {
 					attr.MaxFloat = max.(float64)
 				}
 			}
