@@ -1,0 +1,69 @@
+name: Switch Stack Routing Static Route
+rest_endpoint: /networks/%v/switch/stacks/%v/routing/staticRoutes
+id_name: staticRouteId
+data_source_name_query: true
+doc_category: Switches
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: switch_stack_id
+    type: String
+    reference: true
+    description: Switch stack ID
+    example: "1234"
+    test_value: meraki_switch_stack_routing_interface.test.switch_stack_id
+  - model_name: advertiseViaOspfEnabled
+    type: Bool
+    exclude_test: true
+    description: Option to advertise static route via OSPF
+    example: "false"
+  - model_name: name
+    type: String
+    description: Name or description for layer 3 static route
+    example: My route
+  - model_name: nextHopIp
+    type: String
+    mandatory: true
+    description: IP address of the next hop device to which the device sends its traffic for the subnet
+    example: 192.168.1.1
+  - model_name: preferOverOspfRoutesEnabled
+    type: Bool
+    exclude_test: true
+    description: Option to prefer static route over OSPF routes
+    example: "false"
+  - model_name: subnet
+    type: String
+    mandatory: true
+    description: The subnet which is routed via this static route and should be specified in CIDR notation (ex. 1.2.3.0/24)
+    example: 192.168.2.0/24
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q5KD-PCG4-HB8R", "Q5KD-CU8N-DEDR"]
+  }
+  resource "meraki_switch_stack" "test" {
+    network_id = meraki_network.test.id
+    name      = "A cool stack"
+    serials   = meraki_network_device_claim.test.serials
+  }
+  resource "meraki_switch_stack_routing_interface" "test" {
+    network_id = meraki_network.test.id
+    switch_stack_id = meraki_switch_stack.test.id
+    default_gateway = "192.168.1.1"
+    interface_ip = "192.168.1.2"
+    name = "L3 interface"
+    subnet = "192.168.1.0/24"
+    vlan_id = 100
+  }
