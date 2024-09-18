@@ -1,0 +1,524 @@
+name: Wireless SSID
+rest_endpoint: /networks/%v/wireless/ssids
+data_source_name_query: true
+doc_category: Wireless
+id_name: number
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+  - model_name: adultContentFilteringEnabled
+    type: Bool
+    exclude_test: true
+    description: Boolean indicating whether or not adult content will be blocked
+    example: "false"
+  - model_name: authMode
+    type: String
+    description: The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)
+    example: psk
+    enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, open, open-enhanced, open-with-nac, open-with-radius, psk]
+  - model_name: availableOnAllAps
+    type: Bool
+    description: Boolean indicating whether all APs should broadcast the SSID or if it should be restricted to APs matching any availability tags. Can only be false if the SSID has availability tags.
+    example: "false"
+  - model_name: bandSelection
+    type: String
+    description: The client-serving radio frequencies of this SSID in the default indoor RF profile. (`Dual band operation`, `5 GHz band only` or `Dual band operation with Band Steering`)
+    example: 5 GHz band only
+  - model_name: concentratorNetworkId
+    type: String
+    exclude_test: true
+    description: The concentrator to use when the ipAssignmentMode is `Layer 3 roaming with a concentrator` or `VPN`.
+    example: N_24329156
+  - model_name: defaultVlanId
+    type: Int64
+    exclude_test: true
+    description: The default VLAN ID used for `all other APs`. This param is only valid when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
+    example: "1"
+  - model_name: disassociateClientsOnVpnFailover
+    type: Bool
+    exclude_test: true
+    description: Disassociate clients when `VPN` concentrator failover occurs in order to trigger clients to re-associate and generate new DHCP requests. This param is only valid if ipAssignmentMode is `VPN`.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    description: Whether or not the SSID is enabled
+    example: "false"
+  - model_name: encryptionMode
+    type: String
+    description: The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`
+    example: wpa
+    enum_values: [open, wep, wpa, wpa-eap]
+  - model_name: enterpriseAdminAccess
+    type: String
+    exclude_test: true
+    description: Whether or not an SSID is accessible by `enterprise` administrators (`access disabled` or `access enabled`)
+    example: access enabled
+    enum_values: [access disabled, access enabled]
+  - model_name: ipAssignmentMode
+    type: String
+    description: The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)
+    example: Bridge mode
+  - model_name: lanIsolationEnabled
+    type: Bool
+    description: Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
+    example: "false"
+  - model_name: mandatoryDhcpEnabled
+    type: Bool
+    description: If true, Mandatory DHCP will enforce that clients connecting to this SSID must use the IP address assigned by the DHCP server. Clients who use a static IP address won`t be able to associate.
+    example: "false"
+  - model_name: minBitrate
+    type: Float64
+    description: The minimum bitrate in Mbps of this SSID in the default indoor RF profile. (`1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`)
+    example: "5.5"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the SSID
+    example: My SSID
+  - model_name: perClientBandwidthLimitDown
+    type: Int64
+    description: The download bandwidth limit in Kbps. (0 represents no limit.)
+    example: "0"
+  - model_name: perClientBandwidthLimitUp
+    type: Int64
+    description: The upload bandwidth limit in Kbps. (0 represents no limit.)
+    example: "0"
+  - model_name: perSsidBandwidthLimitDown
+    type: Int64
+    description: The total download bandwidth limit in Kbps. (0 represents no limit.)
+    example: "0"
+  - model_name: perSsidBandwidthLimitUp
+    type: Int64
+    description: The total upload bandwidth limit in Kbps. (0 represents no limit.)
+    example: "0"
+  - model_name: psk
+    type: String
+    description: The passkey for the SSID. This param is only valid if the authMode is `psk`
+    example: deadbeef
+  - model_name: radiusAccountingEnabled
+    type: Bool
+    exclude_test: true
+    description: Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`
+    example: "false"
+  - model_name: radiusAccountingInterimInterval
+    type: Int64
+    exclude_test: true
+    description: The interval (in seconds) in which accounting information is updated and sent to the RADIUS accounting server.
+    example: "5"
+  - model_name: radiusAttributeForGroupPolicies
+    type: String
+    exclude_test: true
+    description: Specify the RADIUS attribute used to look up group policies (`Filter-Id`, `Reply-Message`, `Airespace-ACL-Name` or `Aruba-User-Role`). Access points must receive this attribute in the RADIUS Access-Accept message
+    example: Filter-Id
+    enum_values: [Airespace-ACL-Name, Aruba-User-Role, Filter-Id, Reply-Message]
+  - model_name: radiusAuthenticationNasId
+    type: String
+    exclude_test: true
+    description: The template of the NAS identifier to be used for RADIUS authentication (ex. $NODE_MAC$:$VAP_NUM$).
+    example: 00-11-22-33-44-55:AP1
+  - model_name: radiusCalledStationId
+    type: String
+    exclude_test: true
+    description: The template of the called station identifier to be used for RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
+    example: 00-11-22-33-44-55:AP1
+  - model_name: radiusCoaEnabled
+    type: Bool
+    exclude_test: true
+    description: If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server.
+    example: "false"
+  - model_name: radiusFailoverPolicy
+    type: String
+    exclude_test: true
+    description: This policy determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable (`Deny access` or `Allow access`)
+    example: Deny access
+    enum_values: [Allow access, Deny access]
+  - model_name: radiusFallbackEnabled
+    type: Bool
+    exclude_test: true
+    description: Whether or not higher priority RADIUS servers should be retried after 60 seconds.
+    example: "false"
+  - model_name: radiusGuestVlanEnabled
+    type: Bool
+    exclude_test: true
+    description: Whether or not RADIUS Guest VLAN is enabled. This param is only valid if the authMode is `open-with-radius` and addressing mode is not set to `isolated` or `nat` mode
+    example: "false"
+  - model_name: radiusGuestVlanId
+    type: Int64
+    exclude_test: true
+    description: VLAN ID of the RADIUS Guest VLAN. This param is only valid if the authMode is `open-with-radius` and addressing mode is not set to `isolated` or `nat` mode
+    example: "1"
+  - model_name: radiusLoadBalancingPolicy
+    type: String
+    exclude_test: true
+    description: This policy determines which RADIUS server will be contacted first in an authentication attempt and the ordering of any necessary retry attempts (`Strict priority order` or `Round robin`)
+    example: Round robin
+    enum_values: [Round robin, Strict priority order]
+  - model_name: radiusOverride
+    type: Bool
+    exclude_test: true
+    description: If true, the RADIUS response can override VLAN tag. This is not valid when ipAssignmentMode is `NAT mode`.
+    example: "false"
+  - model_name: radiusProxyEnabled
+    type: Bool
+    exclude_test: true
+    description: If true, Meraki devices will proxy RADIUS messages through the Meraki cloud to the configured RADIUS auth and accounting servers.
+    example: "false"
+  - model_name: radiusServerAttemptsLimit
+    type: Int64
+    exclude_test: true
+    description: The maximum number of transmit attempts after which a RADIUS server is failed over (must be between 1-5).
+    example: "5"
+  - model_name: radiusServerTimeout
+    type: Int64
+    exclude_test: true
+    description: The amount of time for which a RADIUS client waits for a reply from the RADIUS server (must be between 1-10 seconds).
+    example: "5"
+  - model_name: radiusTestingEnabled
+    type: Bool
+    exclude_test: true
+    description: If true, Meraki devices will periodically send Access-Request messages to configured RADIUS servers using identity `meraki_8021x_test` to ensure that the RADIUS servers are reachable.
+    example: "false"
+  - model_name: secondaryConcentratorNetworkId
+    type: String
+    exclude_test: true
+    description: The secondary concentrator to use when the ipAssignmentMode is `VPN`. If configured, the APs will switch to using this concentrator if the primary concentrator is unreachable. This param is optional. (`disabled` represents no secondary concentrator.)
+    example: disabled
+  - model_name: splashPage
+    type: String
+    description: The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.
+    example: Click-through splash page
+    enum_values: [Billing, Cisco ISE, Click-through splash page, Facebook Wi-Fi, Google Apps domain, Google OAuth, Microsoft Entra ID, None, Password-protected with Active Directory, Password-protected with LDAP, Password-protected with Meraki RADIUS, Password-protected with custom RADIUS, SMS authentication, Sponsored guest, Systems Manager Sentry]
+  - model_name: useVlanTagging
+    type: Bool
+    description: Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
+    example: "false"
+  - model_name: visible
+    type: Bool
+    description: Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true
+    example: "false"
+  - model_name: vlanId
+    type: Int64
+    exclude_test: true
+    description: The VLAN ID used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Layer 3 roaming with a concentrator` or `VPN`
+    example: "10"
+  - model_name: walledGardenEnabled
+    type: Bool
+    description: Allow access to a configurable list of IP ranges, which users may access prior to sign-on.
+    example: "false"
+  - model_name: wpaEncryptionMode
+    type: String
+    description: The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)
+    example: WPA2 only
+    enum_values: [WPA1 and WPA2, WPA1 only, WPA2 only, WPA3 192-bit Security, WPA3 Transition Mode, WPA3 only]
+  - model_name: logonName
+    type: String
+    data_path: [activeDirectory, credentials]
+    exclude_test: true
+    description: The logon name of the Active Directory account.
+    example: user
+  - model_name: password
+    type: String
+    data_path: [activeDirectory, credentials]
+    exclude_test: true
+    description: The password to the Active Directory user account.
+    example: password
+  - model_name: servers
+    type: List
+    data_path: [activeDirectory]
+    exclude_test: true
+    description: The Active Directory servers to be used for authentication.
+    attributes:
+      - model_name: host
+        type: String
+        mandatory: true
+        description: IP address (or FQDN) of your Active Directory server.
+        example: 127.0.0.1
+      - model_name: port
+        type: Int64
+        description: (Optional) UDP port the Active Directory server listens on. By default, uses port 3268.
+        example: "3268"
+  - model_name: enabled
+    type: Bool
+    data_path: [dnsRewrite]
+    exclude_test: true
+    description: Boolean indicating whether or not DNS server rewrite is enabled. If disabled, upstream DNS will be used
+    example: "false"
+  - model_name: dnsCustomNameservers
+    type: List
+    element_type: String
+    data_path: [dnsRewrite]
+    exclude_test: true
+    description: User specified DNS servers (up to two servers)
+    example: 8.8.8.8
+  - model_name: adaptive
+    type: Bool
+    data_path: [dot11r]
+    description: (Optional) Whether 802.11r is adaptive or not.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11r]
+    description: Whether 802.11r is enabled or not.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11w]
+    description: Whether 802.11w is enabled or not.
+    example: "false"
+  - model_name: required
+    type: Bool
+    data_path: [dot11w]
+    description: (Optional) Whether 802.11w is required or not.
+    example: "false"
+  - model_name: key
+    type: Int64
+    data_path: [gre]
+    exclude_test: true
+    description: Optional numerical identifier that will add the GRE key field to the GRE header. Used to identify an individual traffic flow within a tunnel.
+    example: "5"
+  - model_name: host
+    type: String
+    data_path: [gre, concentrator]
+    exclude_test: true
+    description: The EoGRE concentrator`s IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
+    example: 192.168.1.1
+  - model_name: baseDistinguishedName
+    type: String
+    data_path: [ldap]
+    exclude_test: true
+    description: The base distinguished name of users on the LDAP server.
+    example: dc=example,dc=com
+  - model_name: distinguishedName
+    type: String
+    data_path: [ldap, credentials]
+    exclude_test: true
+    description: 'The distinguished name of the LDAP user account (example: cn=user,dc=meraki,dc=com).'
+    example: cn=user,dc=example,dc=com
+  - model_name: password
+    type: String
+    data_path: [ldap, credentials]
+    exclude_test: true
+    description: The password of the LDAP user account.
+    example: password
+  - model_name: contents
+    type: String
+    data_path: [ldap, serverCaCertificate]
+    exclude_test: true
+    description: The contents of the CA certificate. Must be in PEM or DER format.
+    example: '-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----'
+  - model_name: servers
+    type: List
+    data_path: [ldap]
+    exclude_test: true
+    description: The LDAP servers to be used for authentication.
+    attributes:
+      - model_name: host
+        type: String
+        mandatory: true
+        description: IP address (or FQDN) of your LDAP server.
+        example: 127.0.0.1
+      - model_name: port
+        type: Int64
+        mandatory: true
+        description: UDP port the LDAP server listens on.
+        example: "389"
+  - model_name: cacheTimeout
+    type: Int64
+    data_path: [localRadius]
+    exclude_test: true
+    description: The duration (in seconds) for which LDAP and OCSP lookups are cached.
+    example: "60"
+  - model_name: enabled
+    type: Bool
+    data_path: [localRadius, certificateAuthentication]
+    exclude_test: true
+    description: Whether or not to use EAP-TLS certificate-based authentication to validate wireless clients.
+    example: "false"
+  - model_name: ocspResponderUrl
+    type: String
+    data_path: [localRadius, certificateAuthentication]
+    exclude_test: true
+    description: (Optional) The URL of the OCSP responder to verify client certificate status.
+    example: http://ocsp-server.example.com
+  - model_name: useLdap
+    type: Bool
+    data_path: [localRadius, certificateAuthentication]
+    exclude_test: true
+    description: Whether or not to verify the certificate with LDAP.
+    example: "false"
+  - model_name: useOcsp
+    type: Bool
+    data_path: [localRadius, certificateAuthentication]
+    exclude_test: true
+    description: Whether or not to verify the certificate with OCSP.
+    example: "false"
+  - model_name: contents
+    type: String
+    data_path: [localRadius, certificateAuthentication, clientRootCaCertificate]
+    exclude_test: true
+    description: The contents of the Client CA Certificate. Must be in PEM or DER format.
+    example: '-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----'
+  - model_name: enabled
+    type: Bool
+    data_path: [localRadius, passwordAuthentication]
+    exclude_test: true
+    description: Whether or not to use EAP-TTLS/PAP or PEAP-GTC password-based authentication via LDAP lookup.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [namedVlans, radius, guestVlan]
+    exclude_test: true
+    description: Whether or not RADIUS guest named VLAN is enabled.
+    example: "false"
+  - model_name: name
+    type: String
+    data_path: [namedVlans, radius, guestVlan]
+    exclude_test: true
+    description: RADIUS guest VLAN name.
+    example: Guest VLAN
+  - model_name: defaultVlanName
+    type: String
+    data_path: [namedVlans, tagging]
+    exclude_test: true
+    description: The default VLAN name used to tag traffic in the absence of a matching AP tag.
+    example: My VLAN
+  - model_name: enabled
+    type: Bool
+    data_path: [namedVlans, tagging]
+    exclude_test: true
+    description: Whether or not traffic should be directed to use specific VLAN names.
+    example: "false"
+  - model_name: byApTags
+    type: List
+    data_path: [namedVlans, tagging]
+    exclude_test: true
+    description: The list of AP tags and VLAN names used for named VLAN tagging. If an AP has a tag matching one in the list, then traffic on this SSID will be directed to use the VLAN name associated to the tag.
+    attributes:
+      - model_name: vlanName
+        type: String
+        description: VLAN name that will be used to tag traffic.
+        example: My VLAN
+      - model_name: tags
+        type: List
+        element_type: String
+        description: List of AP tags.
+        example: tag1
+  - model_name: allowedDomains
+    type: List
+    element_type: String
+    data_path: [oauth]
+    exclude_test: true
+    description: (Optional) The list of domains allowed access to the network.
+    example: example.com
+  - model_name: enabled
+    type: Bool
+    data_path: [speedBurst]
+    description: Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.
+    example: "false"
+  - model_name: apTagsAndVlanIds
+    type: List
+    exclude_test: true
+    description: The list of tags and VLAN IDs used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
+    attributes:
+      - model_name: vlanId
+        type: Int64
+        description: Numerical identifier that is assigned to the VLAN
+        example: "100"
+      - model_name: tags
+        type: List
+        element_type: String
+        description: Array of AP tags
+        example: tag1
+  - model_name: availabilityTags
+    type: List
+    element_type: String
+    description: Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
+    example: tag1
+  - model_name: radiusAccountingServers
+    type: List
+    exclude_test: true
+    description: The RADIUS accounting 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` and radiusAccountingEnabled is `true`
+    attributes:
+      - model_name: caCertificate
+        type: String
+        description: Certificate used for authorization for the RADSEC Server
+        example: '-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----'
+      - model_name: host
+        type: String
+        mandatory: true
+        description: IP address (or FQDN) to which the APs will send RADIUS accounting messages
+        example: 0.0.0.0
+      - model_name: port
+        type: Int64
+        description: Port on the RADIUS server that is listening for accounting messages
+        example: "3000"
+      - model_name: radsecEnabled
+        type: Bool
+        description: Use RADSEC (TLS over TCP) to connect to this RADIUS accounting server. Requires radiusProxyEnabled.
+        example: "false"
+      - model_name: secret
+        type: String
+        description: Shared key used to authenticate messages between the APs and RADIUS server
+        example: secret-string
+  - model_name: radiusServers
+    type: List
+    exclude_test: true
+    description: The RADIUS 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`
+    attributes:
+      - model_name: caCertificate
+        type: String
+        description: Certificate used for authorization for the RADSEC Server
+        example: '-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----'
+      - model_name: host
+        type: String
+        mandatory: true
+        description: IP address (or FQDN) of your RADIUS server
+        example: 0.0.0.0
+      - model_name: openRoamingCertificateId
+        type: Int64
+        exclude_test: true
+        description: The ID of the Openroaming Certificate attached to radius server.
+        example: "2"
+      - model_name: port
+        type: Int64
+        description: UDP port the RADIUS server listens on for Access-requests
+        example: "3000"
+      - model_name: radsecEnabled
+        type: Bool
+        description: Use RADSEC (TLS over TCP) to connect to this RADIUS server. Requires radiusProxyEnabled.
+        example: "false"
+      - model_name: secret
+        type: String
+        description: RADIUS client shared secret
+        example: secret-string
+  - model_name: splashGuestSponsorDomains
+    type: List
+    element_type: String
+    exclude_test: true
+    description: Array of valid sponsor email domains for sponsored guest splash type.
+    example: example.com
+  - model_name: walledGardenRanges
+    type: List
+    element_type: String
+    exclude_test: true
+    description: Specify your walled garden by entering an array of addresses, ranges using CIDR notation, domain names, and domain wildcards (e.g. `192.168.1.1/24`, `192.168.37.10/32`, `www.yahoo.com`, `*.google.com`]). Meraki`s splash page is automatically included in your walled garden.
+    example: example.com
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
