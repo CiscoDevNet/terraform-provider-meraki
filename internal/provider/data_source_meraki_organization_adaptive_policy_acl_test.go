@@ -61,11 +61,6 @@ const testAccDataSourceMerakiOrganizationAdaptivePolicyACLPrerequisitesConfig = 
 data "meraki_organization" "test" {
   name = "Dev"
 }
-resource "meraki_network" "test" {
-  organization_id = data.meraki_organization.test.id
-  name            = "Network1"
-  product_types   = ["switch"]
-}
 
 `
 

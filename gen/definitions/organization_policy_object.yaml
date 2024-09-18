@@ -1,0 +1,56 @@
+name: Organization Policy Object
+rest_endpoint: /organizations/%v/policyObjects
+data_source_name_query: true
+doc_category: Organizations
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: category
+    type: String
+    mandatory: true
+    description: "Category of a policy object (one of: adaptivePolicy, network)"
+    example: network
+  - model_name: cidr
+    type: String
+    description: CIDR Value of a policy object (e.g. 10.11.12.1/24')
+    example: 10.0.0.0/24
+    minimum_test_value: '"10.0.1.0/24"'
+  - model_name: fqdn
+    type: String
+    exclude_test: true
+    description: Fully qualified domain name of policy object (e.g. 'example.com')
+    example: example.com
+  - model_name: ip
+    type: String
+    exclude_test: true
+    description: IP Address of a policy object (e.g. '1.2.3.4')
+    example: 1.2.3.4
+  - model_name: mask
+    type: String
+    exclude_test: true
+    description: Mask of a policy object (e.g. '255.255.0.0')
+    example: 255.255.0.0
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
+    example: Web Servers - Datacenter 10
+  - model_name: type
+    type: String
+    mandatory: true
+    description: "Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)"
+    example: cidr
+  - model_name: groupIds
+    type: List
+    element_type: String
+    exclude_test: true
+    description: The IDs of policy object groups the policy object belongs to
+    example: "8"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }

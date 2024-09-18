@@ -17,7 +17,7 @@ attributes:
   - model_name: ipVersion
     type: String
     mandatory: true
-    description: 'IP version of adpative policy ACL. One of: `any`, `ipv4` or `ipv6`'
+    description: "IP version of adpative policy ACL. One of: `any`, `ipv4` or `ipv6`"
     example: ipv6
     enum_values: [any, ipv4, ipv6]
   - model_name: name
@@ -33,12 +33,12 @@ attributes:
     attributes:
       - model_name: dstPort
         type: String
-        description: 'Destination port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.'
+        description: "Destination port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`."
         example: 22-30
       - model_name: policy
         type: String
         mandatory: true
-        description: '`allow` or `deny` traffic specified by this rule.'
+        description: "`allow` or `deny` traffic specified by this rule."
         example: deny
         enum_values: [allow, deny]
       - model_name: protocol
@@ -49,14 +49,9 @@ attributes:
         enum_values: [any, icmp, tcp, udp]
       - model_name: srcPort
         type: String
-        description: 'Source port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.'
+        description: "Source port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`."
         example: 1,33
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = "Dev"
-  }
-  resource "meraki_network" "test" {
-    organization_id = data.meraki_organization.test.id
-    name            = "Network1"
-    product_types   = ["switch"]
   }
