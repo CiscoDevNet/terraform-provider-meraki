@@ -1,0 +1,30 @@
+name: Organization Adaptive Policy Settings
+rest_endpoint: /organizations/%v/adaptivePolicy/settings
+put_create: true
+no_delete: true
+doc_category: Organizations
+test_tags: [ADAPTIVE_POLICY]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: enabledNetworks
+    type: List
+    element_type: String
+    description: List of network IDs with adaptive policy enabled
+    example: L_11111111
+    test_value: '[meraki_network.test.id]'
+    minimum_test_value: '[meraki_network.test.id]'
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch"]
+  }
