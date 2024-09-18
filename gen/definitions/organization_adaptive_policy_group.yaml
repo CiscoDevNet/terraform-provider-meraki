@@ -1,0 +1,55 @@
+name: Organization Adaptive Policy Group
+rest_endpoint: /organizations/%v/adaptivePolicy/groups
+id_name: groupId
+data_source_name_query: true
+doc_category: Organizations
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: "Description of the group (default: '')"
+    example: Group of XYZ Corp Employees
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the group
+    example: Employee Group
+  - model_name: sgt
+    type: Int64
+    mandatory: true
+    description: SGT value of the group
+    example: "1000"
+  - model_name: policyObjects
+    type: List
+    description: "The policy objects that belong to this group; traffic from addresses specified by these policy objects will be tagged with this group`s SGT value if no other tagging scheme is being used (each requires one unique attribute) (default: [])"
+    attributes:
+      - model_name: id
+        type: String
+        id: true
+        mandatory: true
+        description: The ID of the policy object
+        example: "2345"
+        test_value: meraki_organization_policy_object.test.id
+      - model_name: name
+        type: String
+        id: true
+        mandatory: true
+        description: The name of the policy object
+        example: Example Policy Object
+        test_value: meraki_organization_policy_object.test.name
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_organization_policy_object" "test" {
+    organization_id = data.meraki_organization.test.id
+    category        = "adaptivePolicy"
+    cidr            = "10.0.0.0/24"
+    name            = "Web Servers - Datacenter 10"
+    type            = "adaptivePolicyIpv4Cidr"
+  }
