@@ -1,0 +1,107 @@
+name: Organization Adaptive Policy
+rest_endpoint: /organizations/%v/adaptivePolicy/policies
+id_name: adaptivePolicyId
+doc_category: Organizations
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: lastEntryRule
+    type: String
+    description: 'The rule to apply if there is no matching ACL (default: ''default'')'
+    example: allow
+    enum_values: [allow, default, deny]
+  - model_name: id
+    type: String
+    data_path: [destinationGroup]
+    description: The ID of the destination adaptive policy group
+    example: "333"
+    test_value: meraki_organization_adaptive_policy_group.test.id
+    minimum_test_value: meraki_organization_adaptive_policy_group.test.id
+  - model_name: name
+    type: String
+    data_path: [destinationGroup]
+    description: The name of the destination adaptive policy group
+    example: IoT Servers
+    test_value: meraki_organization_adaptive_policy_group.test.name
+    minimum_test_value: meraki_organization_adaptive_policy_group.test.name
+  - model_name: sgt
+    type: Int64
+    data_path: [destinationGroup]
+    description: The SGT of the destination adaptive policy group
+    example: "51"
+    test_value: meraki_organization_adaptive_policy_group.test.sgt
+    minimum_test_value: meraki_organization_adaptive_policy_group.test.sgt
+  - model_name: id
+    type: String
+    data_path: [sourceGroup]
+    description: The ID of the source adaptive policy group
+    example: "222"
+    test_value: meraki_organization_adaptive_policy_group.test.id
+    minimum_test_value: meraki_organization_adaptive_policy_group.test.id
+  - model_name: name
+    type: String
+    data_path: [sourceGroup]
+    description: The name of the source adaptive policy group
+    example: IoT Devices
+    test_value: meraki_organization_adaptive_policy_group.test.name
+    minimum_test_value: meraki_organization_adaptive_policy_group.test.name
+  - model_name: sgt
+    type: Int64
+    data_path: [sourceGroup]
+    description: The SGT of the source adaptive policy group
+    example: "50"
+    test_value: meraki_organization_adaptive_policy_group.test.sgt
+    minimum_test_value: meraki_organization_adaptive_policy_group.test.sgt
+  - model_name: acls
+    type: List
+    description: 'An ordered array of adaptive policy ACLs (each requires one unique attribute) that apply to this policy (default: [])'
+    ordered_list: true
+    attributes:
+      - model_name: id
+        type: String
+        description: The ID of the adaptive policy ACL
+        example: "444"
+        test_value: meraki_organization_adaptive_policy_acl.test.id
+      - model_name: name
+        type: String
+        description: The name of the adaptive policy ACL
+        example: Block web
+        test_value: meraki_organization_adaptive_policy_acl.test.name
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_organization_policy_object" "test" {
+    organization_id = data.meraki_organization.test.id
+    category        = "adaptivePolicy"
+    cidr            = "10.0.0.0/24"
+    name            = "Web Servers - Datacenter 10"
+    type            = "adaptivePolicyIpv4Cidr"
+  }
+  resource "meraki_organization_adaptive_policy_group" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Employee Group"
+    sgt             = 1000
+    policy_objects = [
+      {
+        id   = meraki_organization_policy_object.test.id
+        name = meraki_organization_policy_object.test.name
+      }
+    ]
+  }
+  resource "meraki_organization_adaptive_policy_acl" "test" {
+    organization_id = data.meraki_organization.test.id
+    ip_version      = "ipv4"
+    name            = "Block sensitive web traffic"
+    rules = [
+      {
+        dst_port = "80"
+        policy   = "deny"
+        protocol = "tcp"
+      }
+    ]
+  }

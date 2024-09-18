@@ -139,7 +139,7 @@ func main() {
 
 	dataSourceNameQuery := false
 	for _, a := range config.Attributes {
-		if a.ModelName == "name" {
+		if a.ModelName == "name" && len(a.DataPath) == 0 {
 			dataSourceNameQuery = true
 			break
 		}
