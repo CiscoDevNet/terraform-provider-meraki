@@ -1,0 +1,38 @@
+name: Network Client Policy
+rest_endpoint: /networks/%v/clients/%v/policy
+put_create: true
+no_delete: true
+doc_category: Networks
+test_tags: [NETWORK_CLIENT]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network_vlan_profile.default.network_id
+  - tf_name: client_id
+    type: String
+    id: true
+    reference: true
+    description: Client ID. Clients can be identified by a client key or either the MAC or IP depending on whether the network uses Track-by-IP.
+    example: 1.2.3.4
+    test_value: 1.2.3.4
+  - model_name: devicePolicy
+    type: String
+    mandatory: true
+    description: The policy to assign. Can be `Whitelisted`, `Blocked`, `Normal` or `Group policy`. Required.
+    example: Group policy
+  - model_name: groupPolicyId
+    type: String
+    description: '[Optional] If `devicePolicy` is set to `Group policy` this param is used to specify the group policy ID.'
+    example: "101"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }

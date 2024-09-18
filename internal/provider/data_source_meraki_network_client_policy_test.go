@@ -29,17 +29,19 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiOrganizationAdaptivePolicySettings(t *testing.T) {
-	if os.Getenv("ADAPTIVE_POLICY") == "" {
-		t.Skip("skipping test, set environment variable ADAPTIVE_POLICY")
+func TestAccDataSourceMerakiNetworkClientPolicy(t *testing.T) {
+	if os.Getenv("NETWORK_CLIENT") == "" {
+		t.Skip("skipping test, set environment variable NETWORK_CLIENT")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_client_policy.test", "device_policy", "Group policy"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_client_policy.test", "group_policy_id", "101"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiOrganizationAdaptivePolicySettingsPrerequisitesConfig + testAccDataSourceMerakiOrganizationAdaptivePolicySettingsConfig(),
+				Config: testAccDataSourceMerakiNetworkClientPolicyPrerequisitesConfig + testAccDataSourceMerakiNetworkClientPolicyConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
@@ -50,14 +52,14 @@ func TestAccDataSourceMerakiOrganizationAdaptivePolicySettings(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiOrganizationAdaptivePolicySettingsPrerequisitesConfig = `
+const testAccDataSourceMerakiNetworkClientPolicyPrerequisitesConfig = `
 data "meraki_organization" "test" {
   name = "Dev"
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = "Network1"
-  product_types   = ["switch"]
+  product_types   = ["switch", "wireless"]
 }
 
 `
@@ -66,16 +68,19 @@ resource "meraki_network" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiOrganizationAdaptivePolicySettingsConfig() string {
-	config := `resource "meraki_organization_adaptive_policy_settings" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	enabled_networks = [meraki_network.test.id]` + "\n"
+func testAccDataSourceMerakiNetworkClientPolicyConfig() string {
+	config := `resource "meraki_network_client_policy" "test" {` + "\n"
+	config += `	network_id = meraki_network_vlan_profile.default.network_id` + "\n"
+	config += `	client_id = 1.2.3.4` + "\n"
+	config += `	device_policy = "Group policy"` + "\n"
+	config += `	group_policy_id = "101"` + "\n"
 	config += `}` + "\n"
 
 	config += `
-		data "meraki_organization_adaptive_policy_settings" "test" {
-			organization_id = data.meraki_organization.test.id
-			depends_on = [meraki_organization_adaptive_policy_settings.test]
+		data "meraki_network_client_policy" "test" {
+			network_id = meraki_network_vlan_profile.default.network_id
+			client_id = 1.2.3.4
+			depends_on = [meraki_network_client_policy.test]
 		}
 	`
 	return config
