@@ -305,6 +305,9 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			if desc, ok := propMap["description"]; ok {
 				attr.Description = sanitizeDescription(desc.(string))
 			}
+			if strings.Contains(attr.Description, "ordered array") {
+				attr.OrderedList = true
+			}
 			if t, ok := jsonTypes[items["type"].(string)]; ok {
 				attr.ElementType = t
 				childGjsonPath := (gjsonPath + "." + propName + ".0")[1:]
