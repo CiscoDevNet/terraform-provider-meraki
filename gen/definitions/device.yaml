@@ -1,0 +1,66 @@
+name: Device
+rest_endpoint: /devices/%v
+put_create: true
+no_delete: true
+doc_category: Devices
+attributes:
+  - tf_name: serial
+    type: String
+    reference: true
+    description: Switch serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: address
+    type: String
+    description: The address of a device
+    example: 1600 Pennsylvania Ave
+  - model_name: floorPlanId
+    type: String
+    exclude_test: true
+    description: The floor plan to associate to this device. null disassociates the device from the floorplan.
+    example: g_2176982374
+  - model_name: lat
+    type: Float64
+    description: The latitude of a device
+    example: "37.4180951010362"
+  - model_name: lng
+    type: Float64
+    description: The longitude of a device
+    example: "-122.098531723022"
+  - model_name: moveMapMarker
+    type: Bool
+    exclude_test: true
+    description: Whether or not to set the latitude and longitude of a device based on the new address. Only applies when lat and lng are not specified.
+    example: "true"
+  - model_name: name
+    type: String
+    description: The name of a device
+    example: My AP
+    minimum_test_value: '"My AP1"'
+  - model_name: notes
+    type: String
+    description: The notes for the device. String. Limited to 255 characters.
+    example: My AP's note
+  - model_name: switchProfileId
+    type: String
+    exclude_test: true
+    description: The ID of a switch template to bind to the device (for available switch templates, see the `Switch Templates` endpoint). Use null to unbind the switch device from the current profile. For a device to be bindable to a switch template, it must (1) be a switch, and (2) belong to a network that is bound to a configuration template.
+    example: "1234"
+  - model_name: tags
+    type: List
+    element_type: String
+    description: The list of tags of a device
+    example: recently-added
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = ["Q5KD-PCG4-HB8R"]
+  }

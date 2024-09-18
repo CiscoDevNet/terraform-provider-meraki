@@ -77,6 +77,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	config := yamlconfig.YamlConfig{}
+
 	shortEndpointPath := ""
 	if endpointPath[len(endpointPath)-1] == '}' {
 		parts := strings.Split(endpointPath, "/")
@@ -91,18 +93,20 @@ func main() {
 	var schema map[string]interface{}
 	paths := spec.(map[string]interface{})["paths"].(map[string]interface{})
 	// use POST schema if it exists, otherwise fall back to PUT schema
-	if endpoint, ok := paths[shortEndpointPath].(map[string]interface{})["post"]; ok {
-		schema = endpoint.(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
-	} else {
+	if sep, ok := paths[shortEndpointPath]; ok {
+		if endpoint, ok := sep.(map[string]interface{})["post"]; ok {
+			schema = endpoint.(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+		}
+	}
+	if schema == nil {
 		schema = paths[endpointPath].(map[string]interface{})["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+		config.PutCreate = true
 	}
 	example := schema["schema"].(map[string]interface{})["example"].(map[string]interface{})
 	exampleStr, err := json.Marshal(&example)
 	if err != nil {
 		panic(err)
 	}
-
-	config := yamlconfig.YamlConfig{}
 
 	urlResult := parseUrl(endpointPath)
 	if urlResult.resultPath[len(urlResult.resultPath)-1] == '/' {
@@ -139,7 +143,7 @@ func main() {
 
 	dataSourceNameQuery := false
 	for _, a := range config.Attributes {
-		if a.ModelName == "name" && len(a.DataPath) == 0 {
+		if a.ModelName == "name" && len(a.DataPath) == 0 && !config.PutCreate {
 			dataSourceNameQuery = true
 			break
 		}
@@ -222,6 +226,8 @@ func parseUrl(url string) parseUrlResult {
 		ret.category = "Organizations"
 	} else if strings.Contains(parts[0], "/networks") {
 		ret.category = "Networks"
+	} else if strings.Contains(parts[0], "/devices") {
+		ret.category = "Devices"
 	}
 	if len(parts) > 0 {
 		if strings.Contains(parts[1], "/switch") {

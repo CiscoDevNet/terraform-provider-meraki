@@ -217,6 +217,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 
 func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
+		NewDeviceResource,
 		NewNetworkResource,
 		NewNetworkClientPolicyResource,
 		NewNetworkDeviceClaimResource,
@@ -266,6 +267,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 
 func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
+		NewDeviceDataSource,
 		NewNetworkDataSource,
 		NewNetworkClientPolicyDataSource,
 		NewNetworkGroupPolicyDataSource,
