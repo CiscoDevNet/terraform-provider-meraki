@@ -22,9 +22,11 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"flag"
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"path"
 	"path/filepath"
 	"regexp"
@@ -213,7 +215,53 @@ func renderTemplate(templatePath, outputPath string, config interface{}) {
 	f.Write(output.Bytes())
 }
 
+func updateDefinitions() {
+	files, _ := os.ReadDir(definitionsPath)
+
+	for _, filename := range files {
+		path := filepath.Join(definitionsPath, filename.Name())
+		fileBytes, err := os.ReadFile(path)
+		if err != nil {
+			log.Fatalf("Error reading file %q: %v", path, err)
+		}
+
+		commentsEndpoint := ""
+		scanner := bufio.NewScanner(bytes.NewReader(fileBytes))
+		for scanner.Scan() {
+			line := scanner.Text()
+			if line[0] == '#' {
+				if strings.Contains(line, yamlconfig.EndpointToken) {
+					commentsEndpoint = strings.Trim(strings.Split(line, yamlconfig.EndpointToken)[1], " ")
+				}
+			} else {
+				break
+			}
+		}
+		if commentsEndpoint == "" {
+			continue
+		}
+
+		config, err := NewYamlConfig(fileBytes)
+		if err != nil {
+			log.Fatalf("Error parsing %q: %v", path, err)
+		}
+		cmd := exec.Command("go", "run", "gen/definition.go", commentsEndpoint, config.Name)
+		if out, err := cmd.Output(); err != nil {
+			log.Fatal(out, err)
+		}
+	}
+}
+
 func main() {
+	var allFlag bool
+	flag.BoolVar(&allFlag, "a", false, "Update all existing definitions from OpenAPI spec")
+	flag.Parse()
+
+	if allFlag {
+		updateDefinitions()
+		return
+	}
+
 	// Load configs
 	var configs []yamlconfig.YamlConfig
 	files, _ := os.ReadDir(definitionsPath)

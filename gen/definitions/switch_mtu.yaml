@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/mtu
 name: Switch MTU
 rest_endpoint: /networks/%v/switch/mtu
 put_create: true
@@ -18,8 +19,8 @@ attributes:
     minimum_test_value: "9578"
   - model_name: overrides
     type: List
-    ordered_list: true
     description: Override MTU size for individual switches or switch templates. An empty array will clear overrides.
+    ordered_list: true
     attributes:
       - model_name: mtuSize
         type: Int64
@@ -29,15 +30,15 @@ attributes:
       - model_name: switchProfiles
         type: List
         element_type: String
+        exclude_test: true
         description: List of switch template IDs. Applicable only for template network.
         example: "1284392014819"
-        exclude_test: true
       - model_name: switches
         type: List
         element_type: String
         description: List of switch serials. Applicable only for switch network.
         example: Q234-ABCD-0001
-        test_value: "[tolist(meraki_network_device_claim.test.serials)[0]]"
+        test_value: '[tolist(meraki_network_device_claim.test.serials)[0]]'
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = "Dev"

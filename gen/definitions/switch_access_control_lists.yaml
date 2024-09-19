@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/accessControlLists
 name: Switch Access Control Lists
 rest_endpoint: /networks/%v/switch/accessControlLists
 put_create: true
@@ -38,7 +39,7 @@ attributes:
       - model_name: policy
         type: String
         mandatory: true
-        description: "`allow` or `deny` traffic specified by this rule."
+        description: '`allow` or `deny` traffic specified by this rule.'
         example: deny
         enum_values: [allow, deny]
       - model_name: protocol

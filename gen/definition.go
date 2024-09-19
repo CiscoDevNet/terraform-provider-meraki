@@ -60,6 +60,10 @@ func main() {
 	endpointPath := os.Args[1]
 	resourceName := os.Args[2]
 
+	generateDefinition(endpointPath, resourceName)
+}
+
+func generateDefinition(endpointPath, resourceName string) {
 	specData, err := os.ReadFile(specPath)
 	if err != nil {
 		fmt.Printf("Error reading OpenAPI spec file: %v\n", err)
@@ -154,13 +158,18 @@ func main() {
 
 	existingConfig := yamlconfig.YamlConfig{}
 	comments := ""
+	commentsEndpoint := ""
 	if yamlFile, err := os.ReadFile(outputPath); err == nil {
 		// retain comments at the beginning of the definition file
 		scanner := bufio.NewScanner(bytes.NewReader(yamlFile))
 		for scanner.Scan() {
 			line := scanner.Text()
 			if line[0] == '#' {
-				comments += line + "\n"
+				if strings.Contains(line, yamlconfig.EndpointToken) {
+					commentsEndpoint = strings.Trim(strings.Split(line, yamlconfig.EndpointToken)[1], " ")
+				} else {
+					comments += line + "\n"
+				}
 			} else {
 				break
 			}
@@ -170,6 +179,9 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
+	}
+	if commentsEndpoint == "" {
+		commentsEndpoint = endpointPath
 	}
 
 	newConfig := yamlconfig.MergeYamlConfig(config, existingConfig)
@@ -181,8 +193,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	writeBytes := []byte(comments + yamlBytes.String())
-	os.WriteFile(outputPath, writeBytes, 0644)
+	writeString := fmt.Sprintf("# %s %s\n%s%s", yamlconfig.EndpointToken, commentsEndpoint, comments, yamlBytes.String())
+	os.WriteFile(outputPath, []byte(writeString), 0644)
 }
 
 func toStringSlice(i []interface{}) []string {
@@ -229,7 +241,7 @@ func parseUrl(url string) parseUrlResult {
 	} else if strings.Contains(parts[0], "/devices") {
 		ret.category = "Devices"
 	}
-	if len(parts) > 0 {
+	if len(parts) > 1 {
 		if strings.Contains(parts[1], "/switch") {
 			ret.category = "Switches"
 		} else if strings.Contains(parts[1], "/wireless") {

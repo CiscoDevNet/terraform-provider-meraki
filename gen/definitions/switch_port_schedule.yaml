@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/portSchedules/{portScheduleId}
 name: Switch Port Schedule
 rest_endpoint: /networks/%v/switch/portSchedules
 get_from_all: true

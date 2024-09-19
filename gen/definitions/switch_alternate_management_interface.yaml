@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/alternateManagementInterface
 name: Switch Alternate Management Interface
 rest_endpoint: /networks/%v/switch/alternateManagementInterface
 put_create: true

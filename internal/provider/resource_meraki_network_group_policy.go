@@ -128,7 +128,7 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 						"services": schema.ListAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`").String,
 							ElementType:         types.StringType,
-							Optional:            true,
+							Required:            true,
 						},
 					},
 				},
@@ -261,7 +261,7 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 						},
 						"definitions": schema.ListNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A list of objects describing the definitions of your traffic shaping rule. At least one definition is required.").String,
-							Optional:            true,
+							Required:            true,
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"type": schema.StringAttribute{

@@ -1,3 +1,4 @@
+# @endpoint: /devices/{serial}/switch/warmSpare
 name: Switch Warm Spare
 rest_endpoint: /devices/%v/switch/warmSpare
 put_create: true

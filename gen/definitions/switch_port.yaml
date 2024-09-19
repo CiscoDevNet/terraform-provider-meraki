@@ -1,3 +1,4 @@
+# @endpoint: /devices/{serial}/switch/ports/{portId}
 name: Switch Port
 rest_endpoint: /devices/%v/switch/ports/%v
 put_create: true
@@ -25,8 +26,7 @@ attributes:
     type: String
     description: The type of the access policy of the switch port. Only applicable to access ports. Can be one of `Open`, `Custom access policy`, `MAC allow list` or `Sticky MAC allow list`.
     example: Sticky MAC allow list
-    enum_values:
-      [Custom access policy, MAC allow list, Open, Sticky MAC allow list]
+    enum_values: [Custom access policy, MAC allow list, Open, Sticky MAC allow list]
   - model_name: adaptivePolicyGroupId
     type: String
     exclude_test: true

@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/dhcpServerPolicy
 name: Switch DHCP Server Policy
 rest_endpoint: /networks/%v/switch/dhcpServerPolicy
 put_create: true
@@ -13,7 +14,7 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: defaultPolicy
     type: String
-    description: "`allow` or `block` new DHCP servers. Default value is `allow`."
+    description: '`allow` or `block` new DHCP servers. Default value is `allow`.'
     example: block
     enum_values: [allow, block]
     minimum_test_value: '"allow"'

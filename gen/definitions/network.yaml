@@ -7,7 +7,7 @@ attributes:
     type: String
     reference: true
     description: Organization ID
-    example: 123456
+    example: "123456"
     test_value: data.meraki_organization.test.id
   - model_name: name
     type: String

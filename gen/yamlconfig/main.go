@@ -8,6 +8,8 @@ import (
 	"text/template"
 )
 
+const EndpointToken = "@endpoint:"
+
 type YamlConfig struct {
 	Name                string                `yaml:"name,omitempty"`
 	TfName              string                `yaml:"tf_name,omitempty"`

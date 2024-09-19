@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}/dhcp
 name: Switch Stack Routing Interface DHCP
 rest_endpoint: /networks/%v/switch/stacks/%v/routing/interfaces/%v/dhcp
 put_create: true
@@ -75,9 +76,9 @@ attributes:
   - model_name: dhcpRelayServerIps
     type: List
     element_type: String
+    exclude_test: true
     description: The DHCP relay server IPs to which DHCP packets would get relayed for the switch stack interface
     example: 1.2.3.4
-    exclude_test: true
   - model_name: dnsCustomNameservers
     type: List
     element_type: String

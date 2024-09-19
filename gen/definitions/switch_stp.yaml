@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/stp
 name: Switch STP
 rest_endpoint: /networks/%v/switch/stp
 put_create: true

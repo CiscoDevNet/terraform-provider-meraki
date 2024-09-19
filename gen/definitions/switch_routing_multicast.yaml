@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/routing/multicast
 name: Switch Routing Multicast
 rest_endpoint: /networks/%v/switch/routing/multicast
 put_create: true
@@ -40,21 +41,21 @@ attributes:
       - model_name: stacks
         type: List
         element_type: String
+        exclude_test: true
         description: List of switch stack ids for non-template network
         example: "789102"
-        exclude_test: true
       - model_name: switchProfiles
         type: List
         element_type: String
+        exclude_test: true
         description: List of switch templates ids for template network
         example: "1234"
-        exclude_test: true
       - model_name: switches
         type: List
         element_type: String
         description: List of switch serials for non-template network
         example: Q234-ABCD-0001
-        test_value: "[tolist(meraki_network_device_claim.test.serials)[0]]"
+        test_value: '[tolist(meraki_network_device_claim.test.serials)[0]]'
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = "Dev"

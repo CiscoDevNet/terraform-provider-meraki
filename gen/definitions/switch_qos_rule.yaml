@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/qosRules/{qosRuleId}
 name: Switch QoS Rule
 rest_endpoint: /networks/%v/switch/qosRules
 doc_category: Switches
@@ -14,9 +15,9 @@ attributes:
     example: "0"
   - model_name: dstPort
     type: Int64
+    exclude_test: true
     description: The destination port of the incoming packet. Applicable only if protocol is TCP or UDP.
     example: "3000"
-    exclude_test: true
   - model_name: dstPortRange
     type: String
     description: The destination port range of the incoming packet. Applicable only if protocol is set to TCP or UDP.
@@ -32,9 +33,9 @@ attributes:
     example: "2000"
   - model_name: srcPortRange
     type: String
+    exclude_test: true
     description: The source port range of the incoming packet. Applicable only if protocol is set to TCP or UDP.
     example: 70-80
-    exclude_test: true
   - model_name: vlan
     type: Int64
     mandatory: true

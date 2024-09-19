@@ -253,7 +253,7 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 			if !item.PerClientBandwidthLimitsBandwidthLimitsLimitUp.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "perClientBandwidthLimits.bandwidthLimits.limitUp", item.PerClientBandwidthLimitsBandwidthLimitsLimitUp.ValueInt64())
 			}
-			if len(item.Definitions) > 0 {
+			{
 				itemBody, _ = sjson.Set(itemBody, "definitions", []interface{}{})
 				for _, childItem := range item.Definitions {
 					itemChildBody := ""

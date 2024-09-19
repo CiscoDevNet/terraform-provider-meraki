@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/switch/qosRules/order
 name: Switch QoS Rule Order
 rest_endpoint: /networks/%v/switch/qosRules/order
 put_create: true
@@ -17,8 +18,7 @@ attributes:
     mandatory: true
     description: A list of quality of service rule IDs arranged in order in which they should be processed by the switch.
     example: "1284392014819"
-    test_value: "[meraki_switch_qos_rule.test.id]"
-
+    test_value: '[meraki_switch_qos_rule.test.id]'
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = "Dev"

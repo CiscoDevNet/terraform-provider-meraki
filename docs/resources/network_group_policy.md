@@ -156,12 +156,12 @@ resource "meraki_network_group_policy" "example" {
 
 Required:
 
+- `services` (List of String) A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`
 - `vlan_id` (String) The ID of the service VLAN. Required.
 
 Optional:
 
 - `description` (String) A description for your Bonjour forwarding rule. Optional.
-- `services` (List of String) A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`
 
 
 <a id="nestedatt--l3_firewall_rules"></a>
@@ -194,9 +194,12 @@ Optional:
 <a id="nestedatt--traffic_shaping_rules"></a>
 ### Nested Schema for `traffic_shaping_rules`
 
-Optional:
+Required:
 
 - `definitions` (Attributes List) A list of objects describing the definitions of your traffic shaping rule. At least one definition is required. (see [below for nested schema](#nestedatt--traffic_shaping_rules--definitions))
+
+Optional:
+
 - `dscp_tag_value` (Number) The DSCP tag applied by your rule. null means `Do not change DSCP tag`. For a list of possible tag values, use the trafficShaping/dscpTaggingOptions endpoint.
 - `pcp_tag_value` (Number) The PCP tag applied by your rule. Can be 0 (lowest priority) through 7 (highest priority). null means `Do not set PCP tag`.
 - `per_client_bandwidth_limits_bandwidth_limits_limit_down` (Number) The maximum download limit (integer, in Kbps).

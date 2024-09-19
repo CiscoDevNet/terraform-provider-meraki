@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/syslogServers
 name: Network Syslog Servers
 rest_endpoint: /networks/%v/syslogServers
 put_create: true
