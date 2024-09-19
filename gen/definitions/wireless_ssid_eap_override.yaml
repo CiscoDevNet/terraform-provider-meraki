@@ -1,0 +1,66 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/eapOverride
+name: Wireless SSID EAP override
+rest_endpoint: /networks/%v/wireless/ssids/%v/eapOverride
+put_create: true
+no_delete: true
+doc_category: Wireless
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: maxRetries
+    type: Int64
+    description: Maximum number of general EAP retries.
+    minimum_test_value: "5"
+    example: "5"
+  - model_name: timeout
+    type: Int64
+    description: General EAP timeout in seconds.
+    example: "5"
+  - model_name: retries
+    type: Int64
+    data_path: [eapolKey]
+    description: Maximum number of EAPOL key retries.
+    example: "4"
+  - model_name: timeoutInMs
+    type: Int64
+    data_path: [eapolKey]
+    description: EAPOL Key timeout in milliseconds.
+    example: "5000"
+  - model_name: retries
+    type: Int64
+    data_path: [identity]
+    description: Maximum number of EAP retries.
+    example: "5"
+  - model_name: timeout
+    type: Int64
+    data_path: [identity]
+    description: EAP timeout in seconds.
+    example: "5"
+
+
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = "Dev"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Network1"
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    number = "0"
+    name = "My SSID"
+    network_id = meraki_network.test.id
+    ip_assignment_mode = "Bridge mode"
+  }
