@@ -23,10 +23,8 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/datasourcevalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -63,8 +61,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
-				Optional:            true,
-				Computed:            true,
+				Required:            true,
 			},
 			"network_id": schema.StringAttribute{
 				MarkdownDescription: "Network ID",
@@ -132,7 +129,6 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: "The name of the SSID",
-				Optional:            true,
 				Computed:            true,
 			},
 			"per_client_bandwidth_limit_down": schema.Int64Attribute{
@@ -370,7 +366,6 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			},
 			"named_vlans_radius_guest_vlan_name": schema.StringAttribute{
 				MarkdownDescription: "RADIUS guest VLAN name.",
-				Optional:            true,
 				Computed:            true,
 			},
 			"named_vlans_tagging_default_vlan_name": schema.StringAttribute{
@@ -502,14 +497,6 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 		},
 	}
 }
-func (d *WirelessSSIDDataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
-	return []datasource.ConfigValidator{
-		datasourcevalidator.ExactlyOneOf(
-			path.MatchRoot("id"),
-			path.MatchRoot("name"),
-		),
-	}
-}
 
 func (d *WirelessSSIDDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
@@ -537,29 +524,6 @@ func (d *WirelessSSIDDataSource) Read(ctx context.Context, req datasource.ReadRe
 
 	var res gjson.Result
 	var err error
-	if config.Id.IsNull() && !config.Name.IsNull() {
-		res, err = d.client.Get(config.getPath())
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve objects, got error: %s", err))
-			return
-		}
-		if len(res.Array()) > 0 {
-			res.ForEach(func(k, v gjson.Result) bool {
-				if config.Name.ValueString() == v.Get("name").String() {
-					config.Id = types.StringValue(v.Get("number").String())
-					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
-					res = v
-					return false
-				}
-				return true
-			})
-		}
-
-		if config.Id.IsNull() {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to find object with name: %s", config.Name.ValueString()))
-			return
-		}
-	}
 
 	if !res.Exists() {
 		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))

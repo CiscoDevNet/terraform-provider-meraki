@@ -1259,8 +1259,8 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 		data.ActiveDirectoryCredentialsPassword = types.StringNull()
 	}
 	for i := 0; i < len(data.ActiveDirectoryServers); i++ {
-		keys := [...]string{"host", "port"}
-		keyValues := [...]string{data.ActiveDirectoryServers[i].Host.ValueString(), strconv.FormatInt(data.ActiveDirectoryServers[i].Port.ValueInt64(), 10)}
+		keys := [...]string{"host"}
+		keyValues := [...]string{data.ActiveDirectoryServers[i].Host.ValueString()}
 
 		parent := &data
 		data := (*parent).ActiveDirectoryServers[i]
@@ -1366,42 +1366,18 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 	} else {
 		data.LdapServerCaCertificateContents = types.StringNull()
 	}
-	for i := 0; i < len(data.LdapServers); i++ {
-		keys := [...]string{"host", "port"}
-		keyValues := [...]string{data.LdapServers[i].Host.ValueString(), strconv.FormatInt(data.LdapServers[i].Port.ValueInt64(), 10)}
-
+	{
+		l := len(res.Get("ldap.servers").Array())
+		tflog.Debug(ctx, fmt.Sprintf("ldap.servers array resizing from %d to %d", len(data.LdapServers), l))
+		if len(data.LdapServers) > l {
+			data.LdapServers = data.LdapServers[:l]
+		}
+	}
+	for i := range data.LdapServers {
 		parent := &data
 		data := (*parent).LdapServers[i]
 		parentRes := &res
-		var res gjson.Result
-
-		parentRes.Get("ldap.servers").ForEach(
-			func(_, v gjson.Result) bool {
-				found := false
-				for ik := range keys {
-					if v.Get(keys[ik]).String() != keyValues[ik] {
-						found = false
-						break
-					}
-					found = true
-				}
-				if found {
-					res = v
-					return false
-				}
-				return true
-			},
-		)
-		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("removing LdapServers[%d] = %+v",
-				i,
-				(*parent).LdapServers[i],
-			))
-			(*parent).LdapServers = slices.Delete((*parent).LdapServers, i, i+1)
-			i--
-
-			continue
-		}
+		res := parentRes.Get(fmt.Sprintf("ldap.servers.%d", i))
 		if value := res.Get("host"); value.Exists() && !data.Host.IsNull() {
 			data.Host = types.StringValue(value.String())
 		} else {
@@ -1580,42 +1556,18 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 	} else {
 		data.AvailabilityTags = types.ListNull(types.StringType)
 	}
-	for i := 0; i < len(data.RadiusAccountingServers); i++ {
-		keys := [...]string{"caCertificate", "host", "port", "radsecEnabled", "secret"}
-		keyValues := [...]string{data.RadiusAccountingServers[i].CaCertificate.ValueString(), data.RadiusAccountingServers[i].Host.ValueString(), strconv.FormatInt(data.RadiusAccountingServers[i].Port.ValueInt64(), 10), strconv.FormatBool(data.RadiusAccountingServers[i].RadsecEnabled.ValueBool()), data.RadiusAccountingServers[i].Secret.ValueString()}
-
+	{
+		l := len(res.Get("radiusAccountingServers").Array())
+		tflog.Debug(ctx, fmt.Sprintf("radiusAccountingServers array resizing from %d to %d", len(data.RadiusAccountingServers), l))
+		if len(data.RadiusAccountingServers) > l {
+			data.RadiusAccountingServers = data.RadiusAccountingServers[:l]
+		}
+	}
+	for i := range data.RadiusAccountingServers {
 		parent := &data
 		data := (*parent).RadiusAccountingServers[i]
 		parentRes := &res
-		var res gjson.Result
-
-		parentRes.Get("radiusAccountingServers").ForEach(
-			func(_, v gjson.Result) bool {
-				found := false
-				for ik := range keys {
-					if v.Get(keys[ik]).String() != keyValues[ik] {
-						found = false
-						break
-					}
-					found = true
-				}
-				if found {
-					res = v
-					return false
-				}
-				return true
-			},
-		)
-		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("removing RadiusAccountingServers[%d] = %+v",
-				i,
-				(*parent).RadiusAccountingServers[i],
-			))
-			(*parent).RadiusAccountingServers = slices.Delete((*parent).RadiusAccountingServers, i, i+1)
-			i--
-
-			continue
-		}
+		res := parentRes.Get(fmt.Sprintf("radiusAccountingServers.%d", i))
 		if value := res.Get("caCertificate"); value.Exists() && !data.CaCertificate.IsNull() {
 			data.CaCertificate = types.StringValue(value.String())
 		} else {
@@ -1643,42 +1595,18 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 		}
 		(*parent).RadiusAccountingServers[i] = data
 	}
-	for i := 0; i < len(data.RadiusServers); i++ {
-		keys := [...]string{"caCertificate", "host", "openRoamingCertificateId", "port", "radsecEnabled", "secret"}
-		keyValues := [...]string{data.RadiusServers[i].CaCertificate.ValueString(), data.RadiusServers[i].Host.ValueString(), strconv.FormatInt(data.RadiusServers[i].OpenRoamingCertificateId.ValueInt64(), 10), strconv.FormatInt(data.RadiusServers[i].Port.ValueInt64(), 10), strconv.FormatBool(data.RadiusServers[i].RadsecEnabled.ValueBool()), data.RadiusServers[i].Secret.ValueString()}
-
+	{
+		l := len(res.Get("radiusServers").Array())
+		tflog.Debug(ctx, fmt.Sprintf("radiusServers array resizing from %d to %d", len(data.RadiusServers), l))
+		if len(data.RadiusServers) > l {
+			data.RadiusServers = data.RadiusServers[:l]
+		}
+	}
+	for i := range data.RadiusServers {
 		parent := &data
 		data := (*parent).RadiusServers[i]
 		parentRes := &res
-		var res gjson.Result
-
-		parentRes.Get("radiusServers").ForEach(
-			func(_, v gjson.Result) bool {
-				found := false
-				for ik := range keys {
-					if v.Get(keys[ik]).String() != keyValues[ik] {
-						found = false
-						break
-					}
-					found = true
-				}
-				if found {
-					res = v
-					return false
-				}
-				return true
-			},
-		)
-		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("removing RadiusServers[%d] = %+v",
-				i,
-				(*parent).RadiusServers[i],
-			))
-			(*parent).RadiusServers = slices.Delete((*parent).RadiusServers, i, i+1)
-			i--
-
-			continue
-		}
+		res := parentRes.Get(fmt.Sprintf("radiusServers.%d", i))
 		if value := res.Get("caCertificate"); value.Exists() && !data.CaCertificate.IsNull() {
 			data.CaCertificate = types.StringValue(value.String())
 		} else {

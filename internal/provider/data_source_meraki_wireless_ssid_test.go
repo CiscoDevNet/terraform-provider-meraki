@@ -65,10 +65,6 @@ func TestAccDataSourceMerakiWirelessSSID(t *testing.T) {
 				Config: testAccDataSourceMerakiWirelessSSIDPrerequisitesConfig + testAccDataSourceMerakiWirelessSSIDConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiWirelessSSIDPrerequisitesConfig + testAccNamedDataSourceMerakiWirelessSSIDConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }
@@ -131,48 +127,6 @@ func testAccDataSourceMerakiWirelessSSIDConfig() string {
 			network_id = meraki_network.test.id
 			number = "0"
 			depends_on = [meraki_wireless_ssid.test]
-		}
-	`
-	return config
-}
-
-func testAccNamedDataSourceMerakiWirelessSSIDConfig() string {
-	config := `resource "meraki_wireless_ssid" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = "0"` + "\n"
-	config += `	auth_mode = "psk"` + "\n"
-	config += `	available_on_all_aps = false` + "\n"
-	config += `	band_selection = "5 GHz band only"` + "\n"
-	config += `	enabled = false` + "\n"
-	config += `	encryption_mode = "wpa"` + "\n"
-	config += `	ip_assignment_mode = "Bridge mode"` + "\n"
-	config += `	lan_isolation_enabled = false` + "\n"
-	config += `	mandatory_dhcp_enabled = false` + "\n"
-	config += `	min_bitrate = 5.5` + "\n"
-	config += `	name = "My SSID"` + "\n"
-	config += `	per_client_bandwidth_limit_down = 0` + "\n"
-	config += `	per_client_bandwidth_limit_up = 0` + "\n"
-	config += `	per_ssid_bandwidth_limit_down = 0` + "\n"
-	config += `	per_ssid_bandwidth_limit_up = 0` + "\n"
-	config += `	psk = "deadbeef"` + "\n"
-	config += `	splash_page = "Click-through splash page"` + "\n"
-	config += `	use_vlan_tagging = false` + "\n"
-	config += `	visible = false` + "\n"
-	config += `	walled_garden_enabled = false` + "\n"
-	config += `	wpa_encryption_mode = "WPA2 only"` + "\n"
-	config += `	dot11r_adaptive = false` + "\n"
-	config += `	dot11r_enabled = false` + "\n"
-	config += `	dot11w_enabled = false` + "\n"
-	config += `	dot11w_required = false` + "\n"
-	config += `	speed_burst_enabled = false` + "\n"
-	config += `	availability_tags = ["tag1"]` + "\n"
-	config += `}` + "\n"
-
-	config += `
-		data "meraki_wireless_ssid" "test" {
-			name = meraki_wireless_ssid.test.name
-			network_id = meraki_network.test.id
-			number = "0"
 		}
 	`
 	return config

@@ -24,14 +24,9 @@ data "meraki_wireless_ssid" "example" {
 
 ### Required
 
+- `id` (String) The id of the object
 - `network_id` (String) Network ID
 - `number` (String) Wireless SSID number
-
-### Optional
-
-- `id` (String) The id of the object
-- `name` (String) The name of the SSID
-- `named_vlans_radius_guest_vlan_name` (String) RADIUS guest VLAN name.
 
 ### Read-Only
 
@@ -74,7 +69,9 @@ data "meraki_wireless_ssid" "example" {
 - `local_radius_password_authentication_enabled` (Boolean) Whether or not to use EAP-TTLS/PAP or PEAP-GTC password-based authentication via LDAP lookup.
 - `mandatory_dhcp_enabled` (Boolean) If true, Mandatory DHCP will enforce that clients connecting to this SSID must use the IP address assigned by the DHCP server. Clients who use a static IP address won`t be able to associate.
 - `min_bitrate` (Number) The minimum bitrate in Mbps of this SSID in the default indoor RF profile. (`1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`)
+- `name` (String) The name of the SSID
 - `named_vlans_radius_guest_vlan_enabled` (Boolean) Whether or not RADIUS guest named VLAN is enabled.
+- `named_vlans_radius_guest_vlan_name` (String) RADIUS guest VLAN name.
 - `named_vlans_tagging_by_ap_tags` (Attributes List) The list of AP tags and VLAN names used for named VLAN tagging. If an AP has a tag matching one in the list, then traffic on this SSID will be directed to use the VLAN name associated to the tag. (see [below for nested schema](#nestedatt--named_vlans_tagging_by_ap_tags))
 - `named_vlans_tagging_default_vlan_name` (String) The default VLAN name used to tag traffic in the absence of a matching AP tag.
 - `named_vlans_tagging_enabled` (Boolean) Whether or not traffic should be directed to use specific VLAN names.
