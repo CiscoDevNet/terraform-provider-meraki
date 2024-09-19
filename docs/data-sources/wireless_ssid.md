@@ -24,7 +24,6 @@ data "meraki_wireless_ssid" "example" {
 
 ### Required
 
-- `id` (String) The id of the object
 - `network_id` (String) Network ID
 - `number` (String) Wireless SSID number
 
@@ -51,8 +50,9 @@ data "meraki_wireless_ssid" "example" {
 - `enabled` (Boolean) Whether or not the SSID is enabled
 - `encryption_mode` (String) The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`
 - `enterprise_admin_access` (String) Whether or not an SSID is accessible by `enterprise` administrators (`access disabled` or `access enabled`)
-- `gre_concentrator_host` (String) The EoGRE concentrator`s IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
+- `gre_concentrator_host` (String) The EoGRE concentrator's IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
 - `gre_key` (Number) Optional numerical identifier that will add the GRE key field to the GRE header. Used to identify an individual traffic flow within a tunnel.
+- `id` (String) The id of the object
 - `ip_assignment_mode` (String) The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)
 - `lan_isolation_enabled` (Boolean) Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
 - `ldap_base_distinguished_name` (String) The base distinguished name of users on the LDAP server.

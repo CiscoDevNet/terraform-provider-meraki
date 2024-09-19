@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -61,7 +60,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
-				Required:            true,
+				Computed:            true,
 			},
 			"network_id": schema.StringAttribute{
 				MarkdownDescription: "Network ID",
@@ -297,7 +296,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				Computed:            true,
 			},
 			"gre_concentrator_host": schema.StringAttribute{
-				MarkdownDescription: "The EoGRE concentrator`s IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.",
+				MarkdownDescription: "The EoGRE concentrator's IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.",
 				Computed:            true,
 			},
 			"ldap_base_distinguished_name": schema.StringAttribute{
@@ -526,7 +525,7 @@ func (d *WirelessSSIDDataSource) Read(ctx context.Context, req datasource.ReadRe
 	var err error
 
 	if !res.Exists() {
-		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))
+		res, err = d.client.Get(config.getPath())
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
 			return

@@ -293,7 +293,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 					attr.MaxFloat = max.(float64)
 				}
 			}
-			if slices.Contains(requiredProperties, propName) {
+			if slices.Contains(requiredProperties, propName) && len(path) == 0 {
 				attr.Mandatory = true
 			}
 			ret = append(ret, attr)
@@ -319,7 +319,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			attr.DataPath = path
 			attr.Type = "List"
 			attr.ModelName = propName
-			if slices.Contains(requiredProperties, propName) {
+			if slices.Contains(requiredProperties, propName) && len(path) == 0 {
 				attr.Mandatory = true
 			}
 			items := propMap["items"].(map[string]interface{})

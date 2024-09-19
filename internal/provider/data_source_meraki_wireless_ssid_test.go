@@ -123,7 +123,6 @@ func testAccDataSourceMerakiWirelessSSIDConfig() string {
 
 	config += `
 		data "meraki_wireless_ssid" "test" {
-			id = meraki_wireless_ssid.test.id
 			network_id = meraki_network.test.id
 			number = "0"
 			depends_on = [meraki_wireless_ssid.test]
