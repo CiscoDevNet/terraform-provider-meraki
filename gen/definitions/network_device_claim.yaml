@@ -1,3 +1,4 @@
+# @endpoint: /networks/{networkId}/devices/claim
 name: Network Device Claim
 rest_endpoint: /networks/%v/devices/claim
 no_data_source: true
@@ -19,7 +20,7 @@ attributes:
     mandatory: true
     description: A list of serials of devices to claim
     example: 1234-1234-1234
-    test_value: "[var.CLAIM_SERIAL_1]"
+    test_value: '[var.CLAIM_SERIAL_1]'
 test_prerequisites: |
   variable "CLAIM_SERIAL_1" {}
   variable "CLAIM_SERIAL_2" {}

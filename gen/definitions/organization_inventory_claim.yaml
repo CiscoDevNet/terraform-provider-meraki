@@ -1,3 +1,4 @@
+# @endpoint: /organizations/{organizationId}/inventory/claim
 name: Organization Inventory Claim
 rest_endpoint: /organizations/%v/inventory/claim
 no_data_source: true
@@ -19,7 +20,7 @@ attributes:
     mandatory: true
     description: The list of serials to be claimed to the organization
     example: 1234-1234-1234
-    test_value: "[var.CLAIM_SERIAL_1]"
+    test_value: '[var.CLAIM_SERIAL_1]'
 test_prerequisites: |
   variable "CLAIM_SERIAL_1" {}
   variable "CLAIM_SERIAL_2" {}

@@ -101,6 +101,10 @@ func generateDefinition(endpointPath, resourceName string) {
 		if endpoint, ok := sep.(map[string]interface{})["post"]; ok {
 			schema = endpoint.(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 		}
+	} else if sep, ok := paths[endpointPath]; ok {
+		if endpoint, ok := sep.(map[string]interface{})["post"]; ok {
+			schema = endpoint.(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+		}
 	}
 	if schema == nil {
 		schema = paths[endpointPath].(map[string]interface{})["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
@@ -119,8 +123,7 @@ func generateDefinition(endpointPath, resourceName string) {
 	config.RestEndpoint = urlResult.resultPath
 	config.DocCategory = urlResult.category
 	config.Name = resourceName
-	if urlResult.oneToOne {
-		config.PutCreate = true
+	if urlResult.oneToOne && config.PutCreate {
 		config.NoDelete = true
 	}
 

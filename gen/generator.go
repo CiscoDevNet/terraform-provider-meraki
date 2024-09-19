@@ -238,7 +238,7 @@ func updateDefinitions() {
 			}
 		}
 		if commentsEndpoint == "" {
-			continue
+			log.Fatalf("Error parsing %q: missing endpoint", path)
 		}
 
 		config, err := NewYamlConfig(fileBytes)
