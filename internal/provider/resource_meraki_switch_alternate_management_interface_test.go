@@ -30,12 +30,14 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiSwitchAlternateManagementInterface(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_3_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_3_serial")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_alternate_management_interface.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_alternate_management_interface.test", "switches.0.alternate_management_ip", "1.2.3.4"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_alternate_management_interface.test", "switches.0.gateway", "1.2.3.5"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_alternate_management_interface.test", "switches.0.subnet_mask", "255.255.255.0"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -62,7 +64,7 @@ func TestAccMerakiSwitchAlternateManagementInterface(t *testing.T) {
 const testAccMerakiSwitchAlternateManagementInterfacePrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
-variable "test_switch_3_serial" {}
+variable "test_switch_1_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
@@ -73,7 +75,7 @@ resource "meraki_network" "test" {
 }
 resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
-  serials    = [var.test_switch_3_serial]
+  serials    = [var.test_switch_1_serial]
 }
 
 `
@@ -104,7 +106,9 @@ func testAccMerakiSwitchAlternateManagementInterfaceConfig_all() string {
 	config += `	protocols = ["radius"]` + "\n"
 	config += `	switches = [{` + "\n"
 	config += `		alternate_management_ip = "1.2.3.4"` + "\n"
+	config += `		gateway = "1.2.3.5"` + "\n"
 	config += `		serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `		subnet_mask = "255.255.255.0"` + "\n"
 	config += `	}]` + "\n"
 	config += `}` + "\n"
 	return config

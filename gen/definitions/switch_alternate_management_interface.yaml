@@ -4,7 +4,7 @@ rest_endpoint: /networks/%v/switch/alternateManagementInterface
 put_create: true
 no_delete: true
 doc_category: Switches
-test_variables: [test_org, test_network, test_switch_3_serial]
+test_variables: [test_org, test_network, test_switch_1_serial]
 attributes:
   - tf_name: network_id
     type: String
@@ -42,7 +42,6 @@ attributes:
         example: 1.2.3.4
       - model_name: gateway
         type: String
-        exclude_test: true
         description: Switch gateway must be in IP format. Only and must be specified for Polaris switches
         example: 1.2.3.5
       - model_name: serial
@@ -53,7 +52,6 @@ attributes:
         test_value: tolist(meraki_network_device_claim.test.serials)[0]
       - model_name: subnetMask
         type: String
-        exclude_test: true
         description: Switch subnet mask must be in IP format. Only and must be specified for Polaris switches
         example: 255.255.255.0
 test_prerequisites: |
@@ -67,5 +65,5 @@ test_prerequisites: |
   }
   resource "meraki_network_device_claim" "test" {
     network_id = meraki_network.test.id
-    serials    = [var.test_switch_3_serial]
+    serials    = [var.test_switch_1_serial]
   }
