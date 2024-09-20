@@ -1,0 +1,508 @@
+# @endpoint: /networks/{networkId}/wireless/rfProfiles/{rfProfileId}
+name: Wireless RF profile
+rest_endpoint: /networks/%v/wireless/rfProfiles
+data_source_name_query: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: bandSelectionType
+    type: String
+    mandatory: true
+    description: Band selection can be set to either `ssid` or `ap`. This param is required on creation.
+    example: ap
+    enum_values: [ap, ssid]
+  - model_name: clientBalancingEnabled
+    type: Bool
+    description: Steers client to best available access point. Can be either true or false. Defaults to true.
+    example: "true"
+  - model_name: minBitrateType
+    type: String
+    description: Minimum bitrate can be set to either `band` or `ssid`. Defaults to band.
+    example: band
+    enum_values: [band, ssid]
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the new profile. Must be unique. This param is required on creation.
+    example: Main Office
+  - model_name: bandOperationMode
+    type: String
+    data_path: [apBandSettings]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`. Defaults to dual.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [apBandSettings]
+    description: Steers client to most open band. Can be either true or false. Defaults to true.
+    example: "true"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [apBandSettings, bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: channelWidth
+    type: String
+    data_path: [fiveGhzSettings]
+    description: Sets channel width (MHz) for 5Ghz band. Can be one of `auto`, `20`, `40` or `80`. Defaults to auto.
+    example: auto
+  - model_name: maxPower
+    type: Int64
+    data_path: [fiveGhzSettings]
+    description: Sets max power (dBm) of 5Ghz band. Can be integer between 2 and 30. Defaults to 30.
+    example: "30"
+  - model_name: minBitrate
+    type: Int64
+    data_path: [fiveGhzSettings]
+    description: Sets min bitrate (Mbps) of 5Ghz band. Can be one of `6`, `9`, `12`, `18`, `24`, `36`, `48` or `54`. Defaults to 12.
+    example: "12"
+  - model_name: minPower
+    type: Int64
+    data_path: [fiveGhzSettings]
+    description: Sets min power (dBm) of 5Ghz band. Can be integer between 2 and 30. Defaults to 8.
+    example: "8"
+  - model_name: rxsop
+    type: Int64
+    data_path: [fiveGhzSettings]
+    description: The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
+    example: "-95"
+  - model_name: validAutoChannels
+    type: List
+    element_type: Int64
+    data_path: [fiveGhzSettings]
+    description: Sets valid auto channels for 5Ghz band. Can be one of `36`, `40`, `44`, `48`, `52`, `56`, `60`, `64`, `100`, `104`, `108`, `112`, `116`, `120`, `124`, `128`, `132`, `136`, `140`, `144`, `149`, `153`, `157`, `161` or `165`.Defaults to [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165].
+    example: "36"
+  - model_name: byModel
+    type: List
+    data_path: [flexRadios]
+    exclude_test: true
+    description: Flex radios by model.
+    attributes:
+      - model_name: model
+        type: String
+        description: Model of the AP
+        example: MR34
+      - model_name: bands
+        type: List
+        element_type: String
+        description: Band to use for each flex radio. For example, [`6`] will set the AP`s first flex radio to 6 GHz
+        example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "0"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "0"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "0"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "0", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "1"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "1"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "1"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "1", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "10"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "10"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "10"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "10", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "11"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "11"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "11"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "11", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "12"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "12"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "12"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "12", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "13"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "13"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "13"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "13", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "14"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "14"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "14"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "14", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "2"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "2"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "2"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "2", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "3"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "3"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "3"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "3", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "4"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "4"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "4"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "4", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "5"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "5"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "5"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "5", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "6"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "6"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "6"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "6", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "7"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "7"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "7"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "7", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "8"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "8"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "8"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "8", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "9"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: 5ghz
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "9"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [perSsidSettings, "9"]
+    description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
+    example: "11"
+  - model_name: enabled
+    type: List
+    element_type: String
+    data_path: [perSsidSettings, "9", bands]
+    description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
+    example: "5"
+  - model_name: channelWidth
+    type: String
+    data_path: [sixGhzSettings]
+    exclude_test: true
+    description: Sets channel width (MHz) for 6Ghz band. Can be one of `0`, `20`, `40`, `80` or `160`. Defaults to 0.
+    example: auto
+  - model_name: maxPower
+    type: Int64
+    data_path: [sixGhzSettings]
+    exclude_test: true
+    description: Sets max power (dBm) of 6Ghz band. Can be integer between 2 and 30. Defaults to 30.
+    example: "30"
+  - model_name: minBitrate
+    type: Int64
+    data_path: [sixGhzSettings]
+    exclude_test: true
+    description: Sets min bitrate (Mbps) of 6Ghz band. Can be one of `6`, `9`, `12`, `18`, `24`, `36`, `48` or `54`. Defaults to 12.
+    example: "12"
+  - model_name: minPower
+    type: Int64
+    data_path: [sixGhzSettings]
+    exclude_test: true
+    description: Sets min power (dBm) of 6Ghz band. Can be integer between 2 and 30. Defaults to 8.
+    example: "8"
+  - model_name: rxsop
+    type: Int64
+    data_path: [sixGhzSettings]
+    exclude_test: true
+    description: The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
+    example: "-95"
+  - model_name: validAutoChannels
+    type: List
+    element_type: Int64
+    data_path: [sixGhzSettings]
+    exclude_test: true
+    description: Sets valid auto channels for 6Ghz band. Can be one of `1`, `5`, `9`, `13`, `17`, `21`, `25`, `29`, `33`, `37`, `41`, `45`, `49`, `53`, `57`, `61`, `65`, `69`, `73`, `77`, `81`, `85`, `89`, `93`, `97`, `101`, `105`, `109`, `113`, `117`, `121`, `125`, `129`, `133`, `137`, `141`, `145`, `149`, `153`, `157`, `161`, `165`, `169`, `173`, `177`, `181`, `185`, `189`, `193`, `197`, `201`, `205`, `209`, `213`, `217`, `221`, `225`, `229` or `233`.Defaults to [1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233].
+    example: "1"
+  - model_name: enabled
+    type: Bool
+    data_path: [transmission]
+    description: Toggle for radio transmission. When false, radios will not transmit at all.
+    example: "true"
+  - model_name: axEnabled
+    type: Bool
+    data_path: [twoFourGhzSettings]
+    description: Determines whether ax radio on 2.4Ghz band is on or off. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.
+    example: "true"
+  - model_name: maxPower
+    type: Int64
+    data_path: [twoFourGhzSettings]
+    description: Sets max power (dBm) of 2.4Ghz band. Can be integer between 2 and 30. Defaults to 30.
+    example: "30"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [twoFourGhzSettings]
+    description: Sets min bitrate (Mbps) of 2.4Ghz band. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`. Defaults to 11.
+    example: "11"
+  - model_name: minPower
+    type: Int64
+    data_path: [twoFourGhzSettings]
+    description: Sets min power (dBm) of 2.4Ghz band. Can be integer between 2 and 30. Defaults to 5.
+    example: "5"
+  - model_name: rxsop
+    type: Int64
+    data_path: [twoFourGhzSettings]
+    description: The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
+    example: "-95"
+  - model_name: validAutoChannels
+    type: List
+    element_type: Int64
+    data_path: [twoFourGhzSettings]
+    description: Sets valid auto channels for 2.4Ghz band. Can be one of `1`, `6` or `11`. Defaults to [1, 6, 11].
+    example: "1"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
