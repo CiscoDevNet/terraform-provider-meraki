@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,8 +30,10 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiNetwork(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network.test", "name", "Main Office"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network.test", "notes", "Additional description of the network"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network.test", "time_zone", "America/Los_Angeles"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network.test", "product_types.0", "switch"))
@@ -56,8 +59,10 @@ func TestAccDataSourceMerakiNetwork(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiNetworkPrerequisitesConfig = `
+variable "test_org" {}
+variable "test_network" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 
 `
@@ -69,7 +74,7 @@ data "meraki_organization" "test" {
 func testAccDataSourceMerakiNetworkConfig() string {
 	config := `resource "meraki_network" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "Main Office"` + "\n"
+	config += `	name = "${var.test_network}-TEST"` + "\n"
 	config += `	notes = "Additional description of the network"` + "\n"
 	config += `	time_zone = "America/Los_Angeles"` + "\n"
 	config += `	product_types = ["switch"]` + "\n"
@@ -80,6 +85,7 @@ func testAccDataSourceMerakiNetworkConfig() string {
 		data "meraki_network" "test" {
 			id = meraki_network.test.id
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_network.test]
 		}
 	`
 	return config
@@ -88,7 +94,7 @@ func testAccDataSourceMerakiNetworkConfig() string {
 func testAccNamedDataSourceMerakiNetworkConfig() string {
 	config := `resource "meraki_network" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "Main Office"` + "\n"
+	config += `	name = "${var.test_network}-TEST"` + "\n"
 	config += `	notes = "Additional description of the network"` + "\n"
 	config += `	time_zone = "America/Los_Angeles"` + "\n"
 	config += `	product_types = ["switch"]` + "\n"
@@ -99,6 +105,7 @@ func testAccNamedDataSourceMerakiNetworkConfig() string {
 		data "meraki_network" "test" {
 			name = meraki_network.test.name
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_network.test]
 		}
 	`
 	return config

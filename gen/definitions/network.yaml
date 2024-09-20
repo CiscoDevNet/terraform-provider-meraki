@@ -3,6 +3,7 @@ name: Network
 rest_endpoint: /organizations/%v/networks
 data_source_name_query: true
 doc_category: Networks
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: organization_id
     type: String
@@ -15,6 +16,7 @@ attributes:
     mandatory: true
     description: The name of the new network
     example: Main Office
+    test_value: '"${var.test_network}-TEST"'
   - model_name: notes
     type: String
     description: Add any notes or additional information about this network here.
@@ -36,5 +38,5 @@ attributes:
     example: tag1
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }

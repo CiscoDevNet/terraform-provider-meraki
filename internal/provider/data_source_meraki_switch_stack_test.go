@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiSwitchStack(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" || os.Getenv("TF_VAR_test_switch_2_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack.test", "name", "A cool stack"))
 	resource.Test(t, resource.TestCase{
@@ -52,17 +56,21 @@ func TestAccDataSourceMerakiSwitchStack(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiSwitchStackPrerequisitesConfig = `
+variable "test_org" {}
+variable "test_network" {}
+variable "test_switch_1_serial" {}
+variable "test_switch_2_serial" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
-  name            = "Network1"
+  name            = var.test_network
   product_types   = ["switch", "wireless"]
 }
 resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
-  serials    = ["Q5KD-PCG4-HB8R", "Q5KD-CU8N-DEDR"]
+  serials    = [var.test_switch_1_serial, var.test_switch_2_serial]
 }
 
 `
@@ -82,6 +90,7 @@ func testAccDataSourceMerakiSwitchStackConfig() string {
 		data "meraki_switch_stack" "test" {
 			id = meraki_switch_stack.test.id
 			network_id = meraki_network.test.id
+			depends_on = [meraki_switch_stack.test]
 		}
 	`
 	return config
@@ -98,6 +107,7 @@ func testAccNamedDataSourceMerakiSwitchStackConfig() string {
 		data "meraki_switch_stack" "test" {
 			name = meraki_switch_stack.test.name
 			network_id = meraki_network.test.id
+			depends_on = [meraki_switch_stack.test]
 		}
 	`
 	return config

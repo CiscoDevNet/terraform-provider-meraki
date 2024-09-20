@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationAdmin(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "authentication_method", "Email"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_admin.test", "email", "miles@meraki.com"))
@@ -58,12 +62,14 @@ func TestAccDataSourceMerakiOrganizationAdmin(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiOrganizationAdminPrerequisitesConfig = `
+variable "test_org" {}
+variable "test_network" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
-  name            = "Network1"
+  name            = var.test_network
   product_types   = ["switch"]
 }
 
@@ -94,6 +100,7 @@ func testAccDataSourceMerakiOrganizationAdminConfig() string {
 		data "meraki_organization_admin" "test" {
 			id = meraki_organization_admin.test.id
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_organization_admin.test]
 		}
 	`
 	return config
@@ -120,6 +127,7 @@ func testAccNamedDataSourceMerakiOrganizationAdminConfig() string {
 		data "meraki_organization_admin" "test" {
 			name = meraki_organization_admin.test.name
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_organization_admin.test]
 		}
 	`
 	return config

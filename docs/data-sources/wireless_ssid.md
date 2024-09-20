@@ -24,7 +24,6 @@ data "meraki_wireless_ssid" "example" {
 
 ### Required
 
-- `id` (String) The id of the object
 - `network_id` (String) Network ID
 - `number` (String) Wireless SSID number
 
@@ -51,8 +50,9 @@ data "meraki_wireless_ssid" "example" {
 - `enabled` (Boolean) Whether or not the SSID is enabled
 - `encryption_mode` (String) The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`
 - `enterprise_admin_access` (String) Whether or not an SSID is accessible by `enterprise` administrators (`access disabled` or `access enabled`)
-- `gre_concentrator_host` (String) The EoGRE concentrator`s IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
+- `gre_concentrator_host` (String) The EoGRE concentrator's IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
 - `gre_key` (Number) Optional numerical identifier that will add the GRE key field to the GRE header. Used to identify an individual traffic flow within a tunnel.
+- `id` (String) The id of the object
 - `ip_assignment_mode` (String) The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)
 - `lan_isolation_enabled` (Boolean) Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
 - `ldap_base_distinguished_name` (String) The base distinguished name of users on the LDAP server.
@@ -111,6 +111,7 @@ data "meraki_wireless_ssid" "example" {
 - `wpa_encryption_mode` (String) The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)
 
 <a id="nestedatt--active_directory_servers"></a>
+
 ### Nested Schema for `active_directory_servers`
 
 Read-Only:
@@ -118,8 +119,8 @@ Read-Only:
 - `host` (String) IP address (or FQDN) of your Active Directory server.
 - `port` (Number) (Optional) UDP port the Active Directory server listens on. By default, uses port 3268.
 
-
 <a id="nestedatt--ap_tags_and_vlan_ids"></a>
+
 ### Nested Schema for `ap_tags_and_vlan_ids`
 
 Read-Only:
@@ -127,8 +128,8 @@ Read-Only:
 - `tags` (List of String) Array of AP tags
 - `vlan_id` (Number) Numerical identifier that is assigned to the VLAN
 
-
 <a id="nestedatt--ldap_servers"></a>
+
 ### Nested Schema for `ldap_servers`
 
 Read-Only:
@@ -136,8 +137,8 @@ Read-Only:
 - `host` (String) IP address (or FQDN) of your LDAP server.
 - `port` (Number) UDP port the LDAP server listens on.
 
-
 <a id="nestedatt--named_vlans_tagging_by_ap_tags"></a>
+
 ### Nested Schema for `named_vlans_tagging_by_ap_tags`
 
 Read-Only:
@@ -145,8 +146,8 @@ Read-Only:
 - `tags` (List of String) List of AP tags.
 - `vlan_name` (String) VLAN name that will be used to tag traffic.
 
-
 <a id="nestedatt--radius_accounting_servers"></a>
+
 ### Nested Schema for `radius_accounting_servers`
 
 Read-Only:
@@ -157,8 +158,8 @@ Read-Only:
 - `radsec_enabled` (Boolean) Use RADSEC (TLS over TCP) to connect to this RADIUS accounting server. Requires radiusProxyEnabled.
 - `secret` (String) Shared key used to authenticate messages between the APs and RADIUS server
 
-
 <a id="nestedatt--radius_servers"></a>
+
 ### Nested Schema for `radius_servers`
 
 Read-Only:

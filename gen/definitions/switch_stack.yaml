@@ -3,6 +3,7 @@ name: Switch Stack
 rest_endpoint: /networks/%v/switch/stacks
 data_source_name_query: true
 doc_category: Switches
+test_variables: [test_org, test_network, test_switch_1_serial, test_switch_2_serial]
 attributes:
   - tf_name: network_id
     type: String
@@ -24,14 +25,14 @@ attributes:
     test_value: meraki_network_device_claim.test.serials
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch", "wireless"]
   }
   resource "meraki_network_device_claim" "test" {
     network_id = meraki_network.test.id
-    serials    = ["Q5KD-PCG4-HB8R", "Q5KD-CU8N-DEDR"]
+    serials    = [var.test_switch_1_serial, var.test_switch_2_serial]
   }

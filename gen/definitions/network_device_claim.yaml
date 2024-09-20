@@ -5,7 +5,7 @@ no_data_source: true
 no_import: true
 res_description: This resource allows claiming and removing serials to a network. It will not not touch any existing serials already claimed and not included in `serials`. Removing a serial from a network will return it to the organization inventory.
 doc_category: Networks
-test_tags: [TF_VAR_CLAIM_SERIAL_1, TF_VAR_CLAIM_SERIAL_2]
+test_variables: [test_org, test_network, test_claim_serial_1, test_claim_serial_2]
 attributes:
   - tf_name: network_id
     type: String
@@ -20,17 +20,13 @@ attributes:
     mandatory: true
     description: A list of serials of devices to claim
     example: 1234-1234-1234
-    test_value: '[var.CLAIM_SERIAL_1]'
+    test_value: '[var.test_claim_serial_1]'
 test_prerequisites: |
-  variable "CLAIM_SERIAL_1" {}
-  variable "CLAIM_SERIAL_2" {}
-
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
-
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["appliance", "switch", "wireless"]
   }
