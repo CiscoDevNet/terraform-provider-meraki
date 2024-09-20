@@ -30,6 +30,7 @@ type YamlConfig struct {
 	ExcludeTest         bool                  `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest     bool                  `yaml:"skip_minimum_test,omitempty"`
 	TestTags            []string              `yaml:"test_tags,omitempty,flow"`
+	TestVariables       []string              `yaml:"test_variables,omitempty,flow"`
 	Attributes          []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	TestPrerequisites   string                `yaml:"test_prerequisites,omitempty"`
 }
@@ -397,6 +398,9 @@ func MergeYamlConfig(a, b YamlConfig) YamlConfig {
 	}
 	if b.TestTags != nil {
 		a.TestTags = b.TestTags
+	}
+	if b.TestVariables != nil {
+		a.TestVariables = b.TestVariables
 	}
 	if b.Attributes != nil {
 		a.Attributes = MergeYamlConfigAttributes(a.Attributes, b.Attributes)

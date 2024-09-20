@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -228,7 +229,7 @@ func (r *OrganizationInventoryClaimResource) Update(ctx context.Context, req res
 	if len(releaseSerials) > 0 {
 		body, _ := sjson.Set("", "serials", releaseSerials)
 		res, err := r.client.Post(plan.getReleasePath(), body)
-		if err != nil {
+		if err != nil && !strings.Contains(err.Error(), "StatusCode 404") {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to release inventory, got error: %s, %s", err, res.String()))
 			return
 		}
@@ -253,7 +254,7 @@ func (r *OrganizationInventoryClaimResource) Delete(ctx context.Context, req res
 
 	body := state.toBody(ctx, OrganizationInventoryClaim{})
 	res, err := r.client.Post(state.getReleasePath(), body)
-	if err != nil {
+	if err != nil && !strings.Contains(err.Error(), "StatusCode 404") {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to release inventory, got error: %s, %s", err, res.String()))
 		return
 	}

@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiNetworkGroupPolicy(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "name", "No video streaming"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_group_policy.test", "splash_auth_settings", "bypass"))
@@ -100,12 +104,14 @@ func TestAccDataSourceMerakiNetworkGroupPolicy(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiNetworkGroupPolicyPrerequisitesConfig = `
+variable "test_org" {}
+variable "test_network" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
-  name            = "Network1"
+  name            = var.test_network
   product_types   = ["switch", "wireless"]
 }
 
@@ -184,6 +190,7 @@ func testAccDataSourceMerakiNetworkGroupPolicyConfig() string {
 		data "meraki_network_group_policy" "test" {
 			id = meraki_network_group_policy.test.id
 			network_id = meraki_network.test.id
+			depends_on = [meraki_network_group_policy.test]
 		}
 	`
 	return config
@@ -258,6 +265,7 @@ func testAccNamedDataSourceMerakiNetworkGroupPolicyConfig() string {
 		data "meraki_network_group_policy" "test" {
 			name = meraki_network_group_policy.test.name
 			network_id = meraki_network.test.id
+			depends_on = [meraki_network_group_policy.test]
 		}
 	`
 	return config

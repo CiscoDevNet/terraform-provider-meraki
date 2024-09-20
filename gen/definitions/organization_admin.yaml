@@ -4,6 +4,7 @@ rest_endpoint: /organizations/%v/admins
 get_from_all: true
 data_source_name_query: true
 doc_category: Organizations
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: organization_id
     type: String
@@ -66,10 +67,10 @@ attributes:
         example: west
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch"]
   }

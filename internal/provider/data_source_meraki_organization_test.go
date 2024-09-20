@@ -72,6 +72,7 @@ func testAccDataSourceMerakiOrganizationConfig() string {
 	config += `
 		data "meraki_organization" "test" {
 			id = meraki_organization.test.id
+			depends_on = [meraki_organization.test]
 		}
 	`
 	return config
@@ -89,6 +90,7 @@ func testAccNamedDataSourceMerakiOrganizationConfig() string {
 	config += `
 		data "meraki_organization" "test" {
 			name = meraki_organization.test.name
+			depends_on = [meraki_organization.test]
 		}
 	`
 	return config
