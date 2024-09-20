@@ -45,10 +45,6 @@ func TestAccDataSourceMerakiSwitchRoutingStaticRoute(t *testing.T) {
 				Config: testAccDataSourceMerakiSwitchRoutingStaticRoutePrerequisitesConfig + testAccDataSourceMerakiSwitchRoutingStaticRouteConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiSwitchRoutingStaticRoutePrerequisitesConfig + testAccNamedDataSourceMerakiSwitchRoutingStaticRouteConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

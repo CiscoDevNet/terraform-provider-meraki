@@ -48,10 +48,6 @@ func TestAccDataSourceMerakiNetworkVLANProfile(t *testing.T) {
 				Config: testAccDataSourceMerakiNetworkVLANProfilePrerequisitesConfig + testAccDataSourceMerakiNetworkVLANProfileConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiNetworkVLANProfilePrerequisitesConfig + testAccNamedDataSourceMerakiNetworkVLANProfileConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

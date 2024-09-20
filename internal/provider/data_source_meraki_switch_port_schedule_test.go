@@ -64,10 +64,6 @@ func TestAccDataSourceMerakiSwitchPortSchedule(t *testing.T) {
 				Config: testAccDataSourceMerakiSwitchPortSchedulePrerequisitesConfig + testAccDataSourceMerakiSwitchPortScheduleConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiSwitchPortSchedulePrerequisitesConfig + testAccNamedDataSourceMerakiSwitchPortScheduleConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

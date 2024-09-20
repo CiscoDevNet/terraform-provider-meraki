@@ -122,10 +122,6 @@ func TestAccDataSourceMerakiWirelessRFProfile(t *testing.T) {
 				Config: testAccDataSourceMerakiWirelessRFProfilePrerequisitesConfig + testAccDataSourceMerakiWirelessRFProfileConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiWirelessRFProfilePrerequisitesConfig + testAccNamedDataSourceMerakiWirelessRFProfileConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

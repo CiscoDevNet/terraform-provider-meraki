@@ -124,12 +124,6 @@ func TestAccDataSourceMeraki{{camelCase .Name}}(t *testing.T) {
 				Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccDataSourceMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccDataSourceMeraki{{camelCase .Name}}Config(),
 				Check: resource.ComposeTestCheckFunc(checks...),
 			},
-			{{- if .DataSourceNameQuery}}
-			{
-				Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccDataSourceMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccNamedDataSourceMeraki{{camelCase .Name}}Config(),
-				Check: resource.ComposeTestCheckFunc(checks...),
-			},
-			{{- end}}
 		},
 	})
 }

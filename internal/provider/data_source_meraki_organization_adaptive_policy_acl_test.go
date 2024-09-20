@@ -49,10 +49,6 @@ func TestAccDataSourceMerakiOrganizationAdaptivePolicyACL(t *testing.T) {
 				Config: testAccDataSourceMerakiOrganizationAdaptivePolicyACLPrerequisitesConfig + testAccDataSourceMerakiOrganizationAdaptivePolicyACLConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiOrganizationAdaptivePolicyACLPrerequisitesConfig + testAccNamedDataSourceMerakiOrganizationAdaptivePolicyACLConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

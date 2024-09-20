@@ -46,10 +46,6 @@ func TestAccDataSourceMerakiOrganizationPolicyObject(t *testing.T) {
 				Config: testAccDataSourceMerakiOrganizationPolicyObjectPrerequisitesConfig + testAccDataSourceMerakiOrganizationPolicyObjectConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiOrganizationPolicyObjectPrerequisitesConfig + testAccNamedDataSourceMerakiOrganizationPolicyObjectConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

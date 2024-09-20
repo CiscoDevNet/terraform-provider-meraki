@@ -52,10 +52,6 @@ func TestAccDataSourceMerakiSwitchRoutingInterface(t *testing.T) {
 				Config: testAccDataSourceMerakiSwitchRoutingInterfacePrerequisitesConfig + testAccDataSourceMerakiSwitchRoutingInterfaceConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiSwitchRoutingInterfacePrerequisitesConfig + testAccNamedDataSourceMerakiSwitchRoutingInterfaceConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

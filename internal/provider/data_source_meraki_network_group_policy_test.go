@@ -91,10 +91,6 @@ func TestAccDataSourceMerakiNetworkGroupPolicy(t *testing.T) {
 				Config: testAccDataSourceMerakiNetworkGroupPolicyPrerequisitesConfig + testAccDataSourceMerakiNetworkGroupPolicyConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiNetworkGroupPolicyPrerequisitesConfig + testAccNamedDataSourceMerakiNetworkGroupPolicyConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

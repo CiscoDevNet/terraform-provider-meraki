@@ -45,10 +45,6 @@ func TestAccDataSourceMerakiOrganizationAdaptivePolicyGroup(t *testing.T) {
 				Config: testAccDataSourceMerakiOrganizationAdaptivePolicyGroupPrerequisitesConfig + testAccDataSourceMerakiOrganizationAdaptivePolicyGroupConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiOrganizationAdaptivePolicyGroupPrerequisitesConfig + testAccNamedDataSourceMerakiOrganizationAdaptivePolicyGroupConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

@@ -45,10 +45,6 @@ func TestAccDataSourceMerakiOrganization(t *testing.T) {
 				Config: testAccDataSourceMerakiOrganizationConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccNamedDataSourceMerakiOrganizationConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

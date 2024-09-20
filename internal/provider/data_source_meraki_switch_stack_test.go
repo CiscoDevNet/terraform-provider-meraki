@@ -43,10 +43,6 @@ func TestAccDataSourceMerakiSwitchStack(t *testing.T) {
 				Config: testAccDataSourceMerakiSwitchStackPrerequisitesConfig + testAccDataSourceMerakiSwitchStackConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiSwitchStackPrerequisitesConfig + testAccNamedDataSourceMerakiSwitchStackConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

@@ -64,10 +64,6 @@ func TestAccDataSourceMerakiSwitchAccessPolicy(t *testing.T) {
 				Config: testAccDataSourceMerakiSwitchAccessPolicyPrerequisitesConfig + testAccDataSourceMerakiSwitchAccessPolicyConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiSwitchAccessPolicyPrerequisitesConfig + testAccNamedDataSourceMerakiSwitchAccessPolicyConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }

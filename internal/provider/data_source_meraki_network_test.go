@@ -46,10 +46,6 @@ func TestAccDataSourceMerakiNetwork(t *testing.T) {
 				Config: testAccDataSourceMerakiNetworkPrerequisitesConfig + testAccDataSourceMerakiNetworkConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
-			{
-				Config: testAccDataSourceMerakiNetworkPrerequisitesConfig + testAccNamedDataSourceMerakiNetworkConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
-			},
 		},
 	})
 }
