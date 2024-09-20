@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiSwitchQoSRule(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_qos_rule.test", "dscp", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_qos_rule.test", "dst_port_range", "3000-3100"))
@@ -52,12 +56,14 @@ func TestAccDataSourceMerakiSwitchQoSRule(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiSwitchQoSRulePrerequisitesConfig = `
+variable "test_org" {}
+variable "test_network" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
-  name            = "Network1"
+  name            = var.test_network
   product_types   = ["switch", "wireless"]
 }
 
@@ -81,6 +87,7 @@ func testAccDataSourceMerakiSwitchQoSRuleConfig() string {
 		data "meraki_switch_qos_rule" "test" {
 			id = meraki_switch_qos_rule.test.id
 			network_id = meraki_network.test.id
+			depends_on = [meraki_switch_qos_rule.test]
 		}
 	`
 	return config

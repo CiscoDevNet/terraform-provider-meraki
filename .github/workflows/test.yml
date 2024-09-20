@@ -69,5 +69,10 @@ jobs:
       - env:
           TF_ACC: "1"
           MERAKI_API_KEY: ${{ secrets.MERAKI_API_KEY }}
+          TF_VAR_test_org: ${{ secrets.TF_VAR_test_org }}
+          TF_VAR_test_network: ${{ secrets.TF_VAR_test_network }}
+          TF_VAR_test_switch_1_serial: ${{ secrets.TF_VAR_test_switch_1_serial }}
+          TF_VAR_test_switch_2_serial: ${{ secrets.TF_VAR_test_switch_2_serial }}
+          TF_VAR_test_switch_3_serial: ${{ secrets.TF_VAR_test_switch_3_serial }}
         run: go test -v -cover -timeout 45m ./internal/provider/
         timeout-minutes: 45

@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationAdaptivePolicy(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_adaptive_policy.test", "last_entry_rule", "allow"))
 
@@ -56,8 +59,9 @@ func TestAccMerakiOrganizationAdaptivePolicy(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccMerakiOrganizationAdaptivePolicyPrerequisitesConfig = `
+variable "test_org" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 resource "meraki_organization_policy_object" "test" {
   organization_id = data.meraki_organization.test.id

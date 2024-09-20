@@ -32,7 +32,12 @@ import (
 func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") == ""{{end}} {
-        t.Skip("skipping test, set environment variable {{range $i, $e := .TestTags}}{{if $i}} or {{end}}{{$e}}{{end}}")
+        t.Skip("skipping test, set environment variable {{range $i, $e := .TestTags}}{{if $i}} and {{end}}{{$e}}{{end}}")
+	}
+	{{- end}}
+	{{- if len .TestVariables}}
+	if {{range $i, $e := .TestVariables}}{{if $i}} || {{end}}os.Getenv("TF_VAR_{{$e}}") == ""{{end}} {
+        t.Skip("skipping test, set environment variable {{range $i, $e := .TestVariables}}{{if $i}} and {{end}}TF_VAR_{{$e}}{{end}}")
 	}
 	{{- end}}
 	var checks []resource.TestCheckFunc
@@ -116,12 +121,12 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- if not .SkipMinimumTest}}
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: {{if .TestPrerequisites}}testAccMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccMeraki{{camelCase .Name}}Config_minimum(),
+			Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccMeraki{{camelCase .Name}}Config_minimum(),
 		})
 	}
 	{{- end}}
 	steps = append(steps, resource.TestStep{
-		Config: {{if .TestPrerequisites}}testAccMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccMeraki{{camelCase .Name}}Config_all(),
+		Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccMeraki{{camelCase .Name}}Config_all(),
 		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	{{- if not (hasReference .Attributes)}}
@@ -141,9 +146,12 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 // End of section. //template:end testAcc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
-{{- if .TestPrerequisites}}
+{{- if or .TestPrerequisites (len .TestVariables)}}
 
 const testAccMeraki{{camelCase .Name}}PrerequisitesConfig = `
+{{- range .TestVariables}}
+variable "{{.}}" {}
+{{- end}}
 {{.TestPrerequisites}}
 `
 

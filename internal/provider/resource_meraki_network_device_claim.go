@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -228,7 +229,7 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 	for _, serial := range removeSerials {
 		body, _ := sjson.Set("", "serial", serial)
 		res, err := r.client.Post(plan.getRemovePath(), body)
-		if err != nil {
+		if err != nil && !strings.Contains(err.Error(), "StatusCode 404") {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to remove device from network, got error: %s, %s", err, res.String()))
 			return
 		}
@@ -257,7 +258,7 @@ func (r *NetworkDeviceClaimResource) Delete(ctx context.Context, req resource.De
 	for _, serial := range stateSerials {
 		body, _ := sjson.Set("", "serial", serial)
 		res, err := r.client.Post(state.getRemovePath(), body)
-		if err != nil {
+		if err != nil && !strings.Contains(err.Error(), "StatusCode 404") {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to remove device from network, got error: %s, %s", err, res.String()))
 			return
 		}

@@ -30,8 +30,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationInventoryClaim(t *testing.T) {
-	if os.Getenv("TF_VAR_CLAIM_SERIAL_1") == "" || os.Getenv("TF_VAR_CLAIM_SERIAL_2") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_CLAIM_SERIAL_1 or TF_VAR_CLAIM_SERIAL_2")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_claim_serial_1") == "" || os.Getenv("TF_VAR_test_claim_serial_2") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_claim_serial_1 and TF_VAR_test_claim_serial_2")
 	}
 	var checks []resource.TestCheckFunc
 
@@ -58,11 +58,11 @@ func TestAccMerakiOrganizationInventoryClaim(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccMerakiOrganizationInventoryClaimPrerequisitesConfig = `
-variable "CLAIM_SERIAL_1" {}
-variable "CLAIM_SERIAL_2" {}
-
+variable "test_org" {}
+variable "test_claim_serial_1" {}
+variable "test_claim_serial_2" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 
 `
@@ -74,7 +74,7 @@ data "meraki_organization" "test" {
 func testAccMerakiOrganizationInventoryClaimConfig_minimum() string {
 	config := `resource "meraki_organization_inventory_claim" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	serials = [var.CLAIM_SERIAL_1]` + "\n"
+	config += `	serials = [var.test_claim_serial_1]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -84,7 +84,7 @@ func testAccMerakiOrganizationInventoryClaimConfig_minimum() string {
 func testAccMerakiOrganizationInventoryClaimConfig_all() string {
 	config := `resource "meraki_organization_inventory_claim" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	serials = [var.CLAIM_SERIAL_1, var.CLAIM_SERIAL_2]` + "\n"
+	config += `	serials = [var.test_claim_serial_1, var.test_claim_serial_2]` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -4,6 +4,7 @@ rest_endpoint: /devices/%v
 put_create: true
 no_delete: true
 doc_category: Devices
+test_variables: [test_org, test_network, test_switch_1_serial]
 attributes:
   - tf_name: serial
     type: String
@@ -54,14 +55,14 @@ attributes:
     example: recently-added
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch", "wireless"]
   }
   resource "meraki_network_device_claim" "test" {
     network_id = meraki_network.test.id
-    serials    = ["Q5KD-PCG4-HB8R"]
+    serials    = [var.test_switch_1_serial]
   }

@@ -3,6 +3,7 @@ name: Organization Adaptive Policy
 rest_endpoint: /organizations/%v/adaptivePolicy/policies
 id_name: adaptivePolicyId
 doc_category: Organizations
+test_variables: [test_org]
 attributes:
   - tf_name: organization_id
     type: String
@@ -74,7 +75,7 @@ attributes:
         test_value: meraki_organization_adaptive_policy_acl.test.name
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_organization_policy_object" "test" {
     organization_id = data.meraki_organization.test.id
