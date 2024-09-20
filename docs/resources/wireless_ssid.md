@@ -62,7 +62,7 @@ resource "meraki_wireless_ssid" "example" {
 - `adult_content_filtering_enabled` (Boolean) Boolean indicating whether or not adult content will be blocked
 - `ap_tags_and_vlan_ids` (Attributes List) The list of tags and VLAN IDs used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming` (see [below for nested schema](#nestedatt--ap_tags_and_vlan_ids))
 - `auth_mode` (String) The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)
-    - Choices: `8021x-entra`, `8021x-google`, `8021x-localradius`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `ipsk-with-nac`, `ipsk-with-radius`, `ipsk-without-radius`, `open`, `open-enhanced`, `open-with-nac`, `open-with-radius`, `psk`
+  - Choices: `8021x-entra`, `8021x-google`, `8021x-localradius`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `ipsk-with-nac`, `ipsk-with-radius`, `ipsk-without-radius`, `open`, `open-enhanced`, `open-with-nac`, `open-with-radius`, `psk`
 - `availability_tags` (List of String) Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
 - `available_on_all_aps` (Boolean) Boolean indicating whether all APs should broadcast the SSID or if it should be restricted to APs matching any availability tags. Can only be false if the SSID has availability tags.
 - `band_selection` (String) The client-serving radio frequencies of this SSID in the default indoor RF profile. (`Dual band operation`, `5 GHz band only` or `Dual band operation with Band Steering`)
@@ -77,9 +77,9 @@ resource "meraki_wireless_ssid" "example" {
 - `dot11w_required` (Boolean) (Optional) Whether 802.11w is required or not.
 - `enabled` (Boolean) Whether or not the SSID is enabled
 - `encryption_mode` (String) The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`
-    - Choices: `open`, `wep`, `wpa`, `wpa-eap`
+  - Choices: `open`, `wep`, `wpa`, `wpa-eap`
 - `enterprise_admin_access` (String) Whether or not an SSID is accessible by `enterprise` administrators (`access disabled` or `access enabled`)
-    - Choices: `access disabled`, `access enabled`
+  - Choices: `access disabled`, `access enabled`
 - `gre_concentrator_host` (String) The EoGRE concentrator's IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
 - `gre_key` (Number) Optional numerical identifier that will add the GRE key field to the GRE header. Used to identify an individual traffic flow within a tunnel.
 - `ip_assignment_mode` (String) The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)
@@ -113,17 +113,17 @@ resource "meraki_wireless_ssid" "example" {
 - `radius_accounting_interim_interval` (Number) The interval (in seconds) in which accounting information is updated and sent to the RADIUS accounting server.
 - `radius_accounting_servers` (Attributes List) The RADIUS accounting 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` and radiusAccountingEnabled is `true` (see [below for nested schema](#nestedatt--radius_accounting_servers))
 - `radius_attribute_for_group_policies` (String) Specify the RADIUS attribute used to look up group policies (`Filter-Id`, `Reply-Message`, `Airespace-ACL-Name` or `Aruba-User-Role`). Access points must receive this attribute in the RADIUS Access-Accept message
-    - Choices: `Airespace-ACL-Name`, `Aruba-User-Role`, `Filter-Id`, `Reply-Message`
+  - Choices: `Airespace-ACL-Name`, `Aruba-User-Role`, `Filter-Id`, `Reply-Message`
 - `radius_authentication_nas_id` (String) The template of the NAS identifier to be used for RADIUS authentication (ex. $NODE_MAC$:$VAP_NUM$).
 - `radius_called_station_id` (String) The template of the called station identifier to be used for RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
 - `radius_coa_enabled` (Boolean) If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server.
 - `radius_failover_policy` (String) This policy determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable (`Deny access` or `Allow access`)
-    - Choices: `Allow access`, `Deny access`
+  - Choices: `Allow access`, `Deny access`
 - `radius_fallback_enabled` (Boolean) Whether or not higher priority RADIUS servers should be retried after 60 seconds.
 - `radius_guest_vlan_enabled` (Boolean) Whether or not RADIUS Guest VLAN is enabled. This param is only valid if the authMode is `open-with-radius` and addressing mode is not set to `isolated` or `nat` mode
 - `radius_guest_vlan_id` (Number) VLAN ID of the RADIUS Guest VLAN. This param is only valid if the authMode is `open-with-radius` and addressing mode is not set to `isolated` or `nat` mode
 - `radius_load_balancing_policy` (String) This policy determines which RADIUS server will be contacted first in an authentication attempt and the ordering of any necessary retry attempts (`Strict priority order` or `Round robin`)
-    - Choices: `Round robin`, `Strict priority order`
+  - Choices: `Round robin`, `Strict priority order`
 - `radius_override` (Boolean) If true, the RADIUS response can override VLAN tag. This is not valid when ipAssignmentMode is `NAT mode`.
 - `radius_proxy_enabled` (Boolean) If true, Meraki devices will proxy RADIUS messages through the Meraki cloud to the configured RADIUS auth and accounting servers.
 - `radius_server_attempts_limit` (Number) The maximum number of transmit attempts after which a RADIUS server is failed over (must be between 1-5).
@@ -134,21 +134,20 @@ resource "meraki_wireless_ssid" "example" {
 - `speed_burst_enabled` (Boolean) Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.
 - `splash_guest_sponsor_domains` (List of String) Array of valid sponsor email domains for sponsored guest splash type.
 - `splash_page` (String) The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.
-    - Choices: `Billing`, `Cisco ISE`, `Click-through splash page`, `Facebook Wi-Fi`, `Google Apps domain`, `Google OAuth`, `Microsoft Entra ID`, `None`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `SMS authentication`, `Sponsored guest`, `Systems Manager Sentry`
+  - Choices: `Billing`, `Cisco ISE`, `Click-through splash page`, `Facebook Wi-Fi`, `Google Apps domain`, `Google OAuth`, `Microsoft Entra ID`, `None`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `SMS authentication`, `Sponsored guest`, `Systems Manager Sentry`
 - `use_vlan_tagging` (Boolean) Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
 - `visible` (Boolean) Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true
 - `vlan_id` (Number) The VLAN ID used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Layer 3 roaming with a concentrator` or `VPN`
 - `walled_garden_enabled` (Boolean) Allow access to a configurable list of IP ranges, which users may access prior to sign-on.
 - `walled_garden_ranges` (List of String) Specify your walled garden by entering an array of addresses, ranges using CIDR notation, domain names, and domain wildcards (e.g. `192.168.1.1/24`, `192.168.37.10/32`, `www.yahoo.com`, `*.google.com`]). Meraki`s splash page is automatically included in your walled garden.
 - `wpa_encryption_mode` (String) The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)
-    - Choices: `WPA1 and WPA2`, `WPA1 only`, `WPA2 only`, `WPA3 192-bit Security`, `WPA3 Transition Mode`, `WPA3 only`
+  - Choices: `WPA1 and WPA2`, `WPA1 only`, `WPA2 only`, `WPA3 192-bit Security`, `WPA3 Transition Mode`, `WPA3 only`
 
 ### Read-Only
 
 - `id` (String) The id of the object
 
 <a id="nestedatt--active_directory_servers"></a>
-
 ### Nested Schema for `active_directory_servers`
 
 Required:
@@ -159,8 +158,8 @@ Optional:
 
 - `port` (Number) (Optional) UDP port the Active Directory server listens on. By default, uses port 3268.
 
-<a id="nestedatt--ap_tags_and_vlan_ids"></a>
 
+<a id="nestedatt--ap_tags_and_vlan_ids"></a>
 ### Nested Schema for `ap_tags_and_vlan_ids`
 
 Optional:
@@ -168,8 +167,8 @@ Optional:
 - `tags` (List of String) Array of AP tags
 - `vlan_id` (Number) Numerical identifier that is assigned to the VLAN
 
-<a id="nestedatt--ldap_servers"></a>
 
+<a id="nestedatt--ldap_servers"></a>
 ### Nested Schema for `ldap_servers`
 
 Required:
@@ -177,8 +176,8 @@ Required:
 - `host` (String) IP address (or FQDN) of your LDAP server.
 - `port` (Number) UDP port the LDAP server listens on.
 
-<a id="nestedatt--named_vlans_tagging_by_ap_tags"></a>
 
+<a id="nestedatt--named_vlans_tagging_by_ap_tags"></a>
 ### Nested Schema for `named_vlans_tagging_by_ap_tags`
 
 Optional:
@@ -186,8 +185,8 @@ Optional:
 - `tags` (List of String) List of AP tags.
 - `vlan_name` (String) VLAN name that will be used to tag traffic.
 
-<a id="nestedatt--radius_accounting_servers"></a>
 
+<a id="nestedatt--radius_accounting_servers"></a>
 ### Nested Schema for `radius_accounting_servers`
 
 Required:
@@ -201,8 +200,8 @@ Optional:
 - `radsec_enabled` (Boolean) Use RADSEC (TLS over TCP) to connect to this RADIUS accounting server. Requires radiusProxyEnabled.
 - `secret` (String) Shared key used to authenticate messages between the APs and RADIUS server
 
-<a id="nestedatt--radius_servers"></a>
 
+<a id="nestedatt--radius_servers"></a>
 ### Nested Schema for `radius_servers`
 
 Required:
