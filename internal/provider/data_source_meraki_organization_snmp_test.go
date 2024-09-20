@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationSNMP(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_snmp.test", "v2c_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_snmp.test", "v3_auth_mode", "SHA"))
@@ -52,8 +56,9 @@ func TestAccDataSourceMerakiOrganizationSNMP(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiOrganizationSNMPPrerequisitesConfig = `
+variable "test_org" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 
 `

@@ -247,7 +247,7 @@ func updateDefinitions() {
 		}
 		cmd := exec.Command("go", "run", "gen/definition.go", commentsEndpoint, config.Name)
 		if out, err := cmd.Output(); err != nil {
-			log.Fatal(out, err)
+			log.Fatal(string(out), err)
 		}
 	}
 }

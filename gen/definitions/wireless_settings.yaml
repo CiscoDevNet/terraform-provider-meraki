@@ -15,7 +15,7 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: ipv6BridgeEnabled
     type: Bool
-    description: "Toggle for enabling or disabling IPv6 bridging in a network (Note: if enabled, SSIDs must also be configured to use bridge mode)"
+    description: 'Toggle for enabling or disabling IPv6 bridging in a network (Note: if enabled, SSIDs must also be configured to use bridge mode)'
     example: "true"
     minimum_test_value: "true"
   - model_name: ledLightsOn

@@ -4,6 +4,7 @@ rest_endpoint: /organizations/%v/snmp
 put_create: true
 no_delete: true
 doc_category: Organizations
+test_variables: [test_org]
 attributes:
   - tf_name: organization_id
     type: String
@@ -24,9 +25,9 @@ attributes:
     enum_values: [MD5, SHA]
   - model_name: v3AuthPass
     type: String
+    write_only: true
     description: The SNMP version 3 authentication password. Must be at least 8 characters if specified.
     example: password
-    write_only: true
   - model_name: v3Enabled
     type: Bool
     description: Boolean indicating whether SNMP version 3 is enabled for the organization.
@@ -38,9 +39,9 @@ attributes:
     enum_values: [AES128, DES]
   - model_name: v3PrivPass
     type: String
+    write_only: true
     description: The SNMP version 3 privacy password. Must be at least 8 characters if specified.
     example: password
-    write_only: true
   - model_name: peerIps
     type: List
     element_type: String
@@ -48,5 +49,5 @@ attributes:
     example: 123.123.123.1
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }

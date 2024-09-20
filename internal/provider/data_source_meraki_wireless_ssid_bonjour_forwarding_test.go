@@ -71,6 +71,7 @@ resource "meraki_wireless_ssid" "test" {
   network_id = meraki_network.test.id
   ip_assignment_mode = "Bridge mode"
 }
+
 `
 
 // End of section. //template:end testPrerequisites

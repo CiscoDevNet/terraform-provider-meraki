@@ -111,7 +111,6 @@ data "meraki_wireless_ssid" "example" {
 - `wpa_encryption_mode` (String) The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)
 
 <a id="nestedatt--active_directory_servers"></a>
-
 ### Nested Schema for `active_directory_servers`
 
 Read-Only:
@@ -119,8 +118,8 @@ Read-Only:
 - `host` (String) IP address (or FQDN) of your Active Directory server.
 - `port` (Number) (Optional) UDP port the Active Directory server listens on. By default, uses port 3268.
 
-<a id="nestedatt--ap_tags_and_vlan_ids"></a>
 
+<a id="nestedatt--ap_tags_and_vlan_ids"></a>
 ### Nested Schema for `ap_tags_and_vlan_ids`
 
 Read-Only:
@@ -128,8 +127,8 @@ Read-Only:
 - `tags` (List of String) Array of AP tags
 - `vlan_id` (Number) Numerical identifier that is assigned to the VLAN
 
-<a id="nestedatt--ldap_servers"></a>
 
+<a id="nestedatt--ldap_servers"></a>
 ### Nested Schema for `ldap_servers`
 
 Read-Only:
@@ -137,8 +136,8 @@ Read-Only:
 - `host` (String) IP address (or FQDN) of your LDAP server.
 - `port` (Number) UDP port the LDAP server listens on.
 
-<a id="nestedatt--named_vlans_tagging_by_ap_tags"></a>
 
+<a id="nestedatt--named_vlans_tagging_by_ap_tags"></a>
 ### Nested Schema for `named_vlans_tagging_by_ap_tags`
 
 Read-Only:
@@ -146,8 +145,8 @@ Read-Only:
 - `tags` (List of String) List of AP tags.
 - `vlan_name` (String) VLAN name that will be used to tag traffic.
 
-<a id="nestedatt--radius_accounting_servers"></a>
 
+<a id="nestedatt--radius_accounting_servers"></a>
 ### Nested Schema for `radius_accounting_servers`
 
 Read-Only:
@@ -158,8 +157,8 @@ Read-Only:
 - `radsec_enabled` (Boolean) Use RADSEC (TLS over TCP) to connect to this RADIUS accounting server. Requires radiusProxyEnabled.
 - `secret` (String) Shared key used to authenticate messages between the APs and RADIUS server
 
-<a id="nestedatt--radius_servers"></a>
 
+<a id="nestedatt--radius_servers"></a>
 ### Nested Schema for `radius_servers`
 
 Read-Only:

@@ -27,23 +27,7 @@ attributes:
     type: String
     description: The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)
     example: psk
-    enum_values:
-      [
-        8021x-entra,
-        8021x-google,
-        8021x-localradius,
-        8021x-meraki,
-        8021x-nac,
-        8021x-radius,
-        ipsk-with-nac,
-        ipsk-with-radius,
-        ipsk-without-radius,
-        open,
-        open-enhanced,
-        open-with-nac,
-        open-with-radius,
-        psk,
-      ]
+    enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, open, open-enhanced, open-with-nac, open-with-radius, psk]
   - model_name: availableOnAllAps
     type: Bool
     description: Boolean indicating whether all APs should broadcast the SSID or if it should be restricted to APs matching any availability tags. Can only be false if the SSID has availability tags.
@@ -215,24 +199,7 @@ attributes:
     type: String
     description: The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.
     example: Click-through splash page
-    enum_values:
-      [
-        Billing,
-        Cisco ISE,
-        Click-through splash page,
-        Facebook Wi-Fi,
-        Google Apps domain,
-        Google OAuth,
-        Microsoft Entra ID,
-        None,
-        Password-protected with Active Directory,
-        Password-protected with LDAP,
-        Password-protected with Meraki RADIUS,
-        Password-protected with custom RADIUS,
-        SMS authentication,
-        Sponsored guest,
-        Systems Manager Sentry,
-      ]
+    enum_values: [Billing, Cisco ISE, Click-through splash page, Facebook Wi-Fi, Google Apps domain, Google OAuth, Microsoft Entra ID, None, Password-protected with Active Directory, Password-protected with LDAP, Password-protected with Meraki RADIUS, Password-protected with custom RADIUS, SMS authentication, Sponsored guest, Systems Manager Sentry]
   - model_name: useVlanTagging
     type: Bool
     description: Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
@@ -254,15 +221,7 @@ attributes:
     type: String
     description: The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)
     example: WPA2 only
-    enum_values:
-      [
-        WPA1 and WPA2,
-        WPA1 only,
-        WPA2 only,
-        WPA3 192-bit Security,
-        WPA3 Transition Mode,
-        WPA3 only,
-      ]
+    enum_values: [WPA1 and WPA2, WPA1 only, WPA2 only, WPA3 192-bit Security, WPA3 Transition Mode, WPA3 only]
   - model_name: logonName
     type: String
     data_path: [activeDirectory, credentials]
@@ -346,7 +305,7 @@ attributes:
     type: String
     data_path: [ldap, credentials]
     exclude_test: true
-    description: "The distinguished name of the LDAP user account (example: cn=user,dc=meraki,dc=com)."
+    description: 'The distinguished name of the LDAP user account (example: cn=user,dc=meraki,dc=com).'
     example: cn=user,dc=example,dc=com
   - model_name: password
     type: String
