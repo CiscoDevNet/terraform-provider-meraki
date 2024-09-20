@@ -52,5 +52,5 @@ resource "meraki_wireless_settings" "example" {
 Import is supported using the following syntax:
 
 ```shell
-terraform import meraki_wireless_settings.example "<network_id>,<id>"
+terraform import meraki_wireless_settings.example "<network_id>"
 ```
