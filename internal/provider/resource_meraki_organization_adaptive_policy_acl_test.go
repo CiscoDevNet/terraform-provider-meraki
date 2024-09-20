@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationAdaptivePolicyACL(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_adaptive_policy_acl.test", "description", "Blocks sensitive web traffic"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_adaptive_policy_acl.test", "ip_version", "ipv6"))
@@ -62,8 +65,9 @@ func TestAccMerakiOrganizationAdaptivePolicyACL(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccMerakiOrganizationAdaptivePolicyACLPrerequisitesConfig = `
+variable "test_org" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 
 `

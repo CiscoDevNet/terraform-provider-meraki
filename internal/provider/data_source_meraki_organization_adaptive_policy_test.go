@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationAdaptivePolicy(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy.test", "last_entry_rule", "allow"))
 	resource.Test(t, resource.TestCase{
@@ -48,8 +52,9 @@ func TestAccDataSourceMerakiOrganizationAdaptivePolicy(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiOrganizationAdaptivePolicyPrerequisitesConfig = `
+variable "test_org" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 resource "meraki_organization_policy_object" "test" {
   organization_id = data.meraki_organization.test.id
@@ -108,6 +113,7 @@ func testAccDataSourceMerakiOrganizationAdaptivePolicyConfig() string {
 		data "meraki_organization_adaptive_policy" "test" {
 			id = meraki_organization_adaptive_policy.test.id
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_organization_adaptive_policy.test]
 		}
 	`
 	return config

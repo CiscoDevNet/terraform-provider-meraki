@@ -4,6 +4,7 @@ rest_endpoint: /networks/%v/wireless/ssids/%v/bonjourForwarding
 put_create: true
 no_delete: true
 doc_category: Wireless
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id
     type: String
@@ -26,8 +27,8 @@ attributes:
   - model_name: enabled
     type: Bool
     data_path: [exception]
-    description: If true, Bonjour forwarding exception is enabled on this SSID. Exception is required to enable L2 isolation and Bonjour forwarding to work together.
     exclude_test: true
+    description: If true, Bonjour forwarding exception is enabled on this SSID. Exception is required to enable L2 isolation and Bonjour forwarding to work together.
     example: "true"
   - model_name: rules
     type: List
@@ -39,24 +40,23 @@ attributes:
         example: A simple bonjour rule
       - model_name: vlanId
         type: String
+        id: true
         mandatory: true
         description: The ID of the service VLAN. Required.
         example: "1"
-        id: true
       - model_name: services
         type: List
         element_type: String
         mandatory: true
         description: A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`
         example: All Services
-
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch", "wireless"]
   }
   resource "meraki_wireless_ssid" "test" {

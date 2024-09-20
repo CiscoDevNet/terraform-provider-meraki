@@ -3,6 +3,7 @@ name: Wireless RF profile
 rest_endpoint: /networks/%v/wireless/rfProfiles
 data_source_name_query: true
 doc_category: Wireless
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id
     type: String
@@ -81,8 +82,8 @@ attributes:
   - model_name: byModel
     type: List
     data_path: [flexRadios]
-    description: Flex radios by model.
     exclude_test: true
+    description: Flex radios by model.
     attributes:
       - model_name: model
         type: String
@@ -498,10 +499,10 @@ attributes:
     example: "1"
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch", "wireless"]
   }

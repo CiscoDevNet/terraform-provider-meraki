@@ -4,18 +4,20 @@ rest_endpoint: /networks/%v/wireless/settings
 put_create: true
 no_delete: true
 doc_category: Wireless
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id
     type: String
+    id: true
     reference: true
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
   - model_name: ipv6BridgeEnabled
     type: Bool
-    description: 'Toggle for enabling or disabling IPv6 bridging in a network (Note: if enabled, SSIDs must also be configured to use bridge mode)'
-    minimum_test_value: "true"
+    description: "Toggle for enabling or disabling IPv6 bridging in a network (Note: if enabled, SSIDs must also be configured to use bridge mode)"
     example: "true"
+    minimum_test_value: "true"
   - model_name: ledLightsOn
     type: Bool
     description: Toggle for enabling or disabling LED lights on all APs in the network (making them run dark)
@@ -45,10 +47,10 @@ attributes:
     example: "false"
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch", "wireless"]
   }

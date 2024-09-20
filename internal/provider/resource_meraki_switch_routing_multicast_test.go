@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiSwitchRoutingMulticast(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_multicast.test", "default_settings_flood_unknown_multicast_traffic_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_multicast.test", "default_settings_igmp_snooping_enabled", "true"))
@@ -59,17 +62,20 @@ func TestAccMerakiSwitchRoutingMulticast(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccMerakiSwitchRoutingMulticastPrerequisitesConfig = `
+variable "test_org" {}
+variable "test_network" {}
+variable "test_switch_1_serial" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
-  name            = "Network1"
+  name            = var.test_network
   product_types   = ["switch", "wireless"]
 }
 resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
-  serials    = ["Q3LN-KJJ5-45ZR"]
+  serials    = [var.test_switch_1_serial]
 }
 
 `

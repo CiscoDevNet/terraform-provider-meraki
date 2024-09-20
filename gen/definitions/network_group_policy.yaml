@@ -4,6 +4,7 @@ rest_endpoint: /networks/%v/groupPolicies
 id_name: groupPolicyId
 data_source_name_query: true
 doc_category: Networks
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id
     type: String
@@ -343,10 +344,10 @@ attributes:
     example: "1"
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch", "wireless"]
   }

@@ -32,7 +32,12 @@ import (
 func TestAccDataSourceMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") == ""{{end}} {
-        t.Skip("skipping test, set environment variable {{range $i, $e := .TestTags}}{{if $i}} or {{end}}{{$e}}{{end}}")
+        t.Skip("skipping test, set environment variable {{range $i, $e := .TestTags}}{{if $i}} and {{end}}{{$e}}{{end}}")
+	}
+	{{- end}}
+	{{- if len .TestVariables}}
+	if {{range $i, $e := .TestVariables}}{{if $i}} || {{end}}os.Getenv("TF_VAR_{{$e}}") == ""{{end}} {
+        t.Skip("skipping test, set environment variable {{range $i, $e := .TestVariables}}{{if $i}} and {{end}}TF_VAR_{{$e}}{{end}}")
 	}
 	{{- end}}
 	var checks []resource.TestCheckFunc
@@ -116,12 +121,12 @@ func TestAccDataSourceMeraki{{camelCase .Name}}(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: {{if .TestPrerequisites}}testAccDataSourceMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccDataSourceMeraki{{camelCase .Name}}Config(),
+				Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccDataSourceMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccDataSourceMeraki{{camelCase .Name}}Config(),
 				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{{- if .DataSourceNameQuery}}
 			{
-				Config: {{if .TestPrerequisites}}testAccDataSourceMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccNamedDataSourceMeraki{{camelCase .Name}}Config(),
+				Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccDataSourceMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccNamedDataSourceMeraki{{camelCase .Name}}Config(),
 				Check: resource.ComposeTestCheckFunc(checks...),
 			},
 			{{- end}}
@@ -132,9 +137,12 @@ func TestAccDataSourceMeraki{{camelCase .Name}}(t *testing.T) {
 // End of section. //template:end testAccDataSource
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
-{{- if .TestPrerequisites}}
+{{- if or .TestPrerequisites (len .TestVariables)}}
 
 const testAccDataSourceMeraki{{camelCase .Name}}PrerequisitesConfig = `
+{{- range .TestVariables}}
+variable "{{.}}" {}
+{{- end}}
 {{.TestPrerequisites}}
 `
 
@@ -234,9 +242,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}
 			{{- end}}
 			{{- end}}
-			{{- if hasId .Attributes}}
 			depends_on = [meraki_{{snakeCase $name}}.test]
-			{{- end}}
 		}
 	`
 	return config
@@ -332,6 +338,7 @@ func testAccNamedDataSourceMeraki{{camelCase .Name}}Config() string {
 			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}
 			{{- end}}
 			{{- end}}
+			depends_on = [meraki_{{snakeCase $name}}.test]
 		}
 	`
 	return config

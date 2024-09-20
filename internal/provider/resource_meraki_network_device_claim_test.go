@@ -30,8 +30,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
-	if os.Getenv("TF_VAR_CLAIM_SERIAL_1") == "" || os.Getenv("TF_VAR_CLAIM_SERIAL_2") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_CLAIM_SERIAL_1 or TF_VAR_CLAIM_SERIAL_2")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_claim_serial_1") == "" || os.Getenv("TF_VAR_test_claim_serial_2") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_claim_serial_1 and TF_VAR_test_claim_serial_2")
 	}
 	var checks []resource.TestCheckFunc
 
@@ -58,16 +58,16 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccMerakiNetworkDeviceClaimPrerequisitesConfig = `
-variable "CLAIM_SERIAL_1" {}
-variable "CLAIM_SERIAL_2" {}
-
+variable "test_org" {}
+variable "test_network" {}
+variable "test_claim_serial_1" {}
+variable "test_claim_serial_2" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
-
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
-  name            = "Network1"
+  name            = var.test_network
   product_types   = ["appliance", "switch", "wireless"]
 }
 
@@ -80,7 +80,7 @@ resource "meraki_network" "test" {
 func testAccMerakiNetworkDeviceClaimConfig_minimum() string {
 	config := `resource "meraki_network_device_claim" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	serials = [var.CLAIM_SERIAL_1]` + "\n"
+	config += `	serials = [var.test_claim_serial_1]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -90,7 +90,7 @@ func testAccMerakiNetworkDeviceClaimConfig_minimum() string {
 func testAccMerakiNetworkDeviceClaimConfig_all() string {
 	config := `resource "meraki_network_device_claim" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	serials = [var.CLAIM_SERIAL_1, var.CLAIM_SERIAL_2]` + "\n"
+	config += `	serials = [var.test_claim_serial_1, var.test_claim_serial_2]` + "\n"
 	config += `}` + "\n"
 	return config
 }

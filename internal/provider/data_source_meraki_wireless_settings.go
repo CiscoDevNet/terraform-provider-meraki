@@ -133,6 +133,7 @@ func (d *WirelessSettingsDataSource) Read(ctx context.Context, req datasource.Re
 	}
 
 	config.fromBody(ctx, res)
+	config.Id = config.NetworkId
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", config.Id.ValueString()))
 

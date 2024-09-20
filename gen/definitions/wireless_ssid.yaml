@@ -1,7 +1,10 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}
 name: Wireless SSID
-rest_endpoint: /networks/%v/wireless/ssids
+rest_endpoint: /networks/%v/wireless/ssids/%v
+put_create: true
+no_delete: true
 doc_category: Wireless
-id_name: number
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id
     type: String
@@ -24,7 +27,23 @@ attributes:
     type: String
     description: The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)
     example: psk
-    enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, open, open-enhanced, open-with-nac, open-with-radius, psk]
+    enum_values:
+      [
+        8021x-entra,
+        8021x-google,
+        8021x-localradius,
+        8021x-meraki,
+        8021x-nac,
+        8021x-radius,
+        ipsk-with-nac,
+        ipsk-with-radius,
+        ipsk-without-radius,
+        open,
+        open-enhanced,
+        open-with-nac,
+        open-with-radius,
+        psk,
+      ]
   - model_name: availableOnAllAps
     type: Bool
     description: Boolean indicating whether all APs should broadcast the SSID or if it should be restricted to APs matching any availability tags. Can only be false if the SSID has availability tags.
@@ -196,7 +215,24 @@ attributes:
     type: String
     description: The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.
     example: Click-through splash page
-    enum_values: [Billing, Cisco ISE, Click-through splash page, Facebook Wi-Fi, Google Apps domain, Google OAuth, Microsoft Entra ID, None, Password-protected with Active Directory, Password-protected with LDAP, Password-protected with Meraki RADIUS, Password-protected with custom RADIUS, SMS authentication, Sponsored guest, Systems Manager Sentry]
+    enum_values:
+      [
+        Billing,
+        Cisco ISE,
+        Click-through splash page,
+        Facebook Wi-Fi,
+        Google Apps domain,
+        Google OAuth,
+        Microsoft Entra ID,
+        None,
+        Password-protected with Active Directory,
+        Password-protected with LDAP,
+        Password-protected with Meraki RADIUS,
+        Password-protected with custom RADIUS,
+        SMS authentication,
+        Sponsored guest,
+        Systems Manager Sentry,
+      ]
   - model_name: useVlanTagging
     type: Bool
     description: Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
@@ -218,7 +254,15 @@ attributes:
     type: String
     description: The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)
     example: WPA2 only
-    enum_values: [WPA1 and WPA2, WPA1 only, WPA2 only, WPA3 192-bit Security, WPA3 Transition Mode, WPA3 only]
+    enum_values:
+      [
+        WPA1 and WPA2,
+        WPA1 only,
+        WPA2 only,
+        WPA3 192-bit Security,
+        WPA3 Transition Mode,
+        WPA3 only,
+      ]
   - model_name: logonName
     type: String
     data_path: [activeDirectory, credentials]
@@ -239,8 +283,8 @@ attributes:
     attributes:
       - model_name: host
         type: String
-        mandatory: true
         id: true
+        mandatory: true
         description: IP address (or FQDN) of your Active Directory server.
         example: 127.0.0.1
       - model_name: port
@@ -290,7 +334,7 @@ attributes:
     type: String
     data_path: [gre, concentrator]
     exclude_test: true
-    description: The EoGRE concentrator`s IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
+    description: The EoGRE concentrator's IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
     example: 192.168.1.1
   - model_name: baseDistinguishedName
     type: String
@@ -302,7 +346,7 @@ attributes:
     type: String
     data_path: [ldap, credentials]
     exclude_test: true
-    description: 'The distinguished name of the LDAP user account (example: cn=user,dc=meraki,dc=com).'
+    description: "The distinguished name of the LDAP user account (example: cn=user,dc=meraki,dc=com)."
     example: cn=user,dc=example,dc=com
   - model_name: password
     type: String
@@ -318,10 +362,10 @@ attributes:
     example: '-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----'
   - model_name: servers
     type: List
-    ordered_list: true
     data_path: [ldap]
     exclude_test: true
     description: The LDAP servers to be used for authentication.
+    ordered_list: true
     attributes:
       - model_name: host
         type: String
@@ -407,9 +451,9 @@ attributes:
     attributes:
       - model_name: vlanName
         type: String
+        id: true
         description: VLAN name that will be used to tag traffic.
         example: My VLAN
-        id: true
       - model_name: tags
         type: List
         element_type: String
@@ -448,9 +492,9 @@ attributes:
     example: tag1
   - model_name: radiusAccountingServers
     type: List
-    ordered_list: true
     exclude_test: true
     description: The RADIUS accounting 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` and radiusAccountingEnabled is `true`
+    ordered_list: true
     attributes:
       - model_name: caCertificate
         type: String
@@ -476,8 +520,8 @@ attributes:
   - model_name: radiusServers
     type: List
     exclude_test: true
-    ordered_list: true
     description: The RADIUS 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`
+    ordered_list: true
     attributes:
       - model_name: caCertificate
         type: String
@@ -519,10 +563,10 @@ attributes:
     example: example.com
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch", "wireless"]
   }
