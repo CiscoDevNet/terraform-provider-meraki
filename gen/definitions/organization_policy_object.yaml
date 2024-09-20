@@ -3,6 +3,7 @@ name: Organization Policy Object
 rest_endpoint: /organizations/%v/policyObjects
 data_source_name_query: true
 doc_category: Organizations
+test_variables: [test_org]
 attributes:
   - tf_name: organization_id
     type: String
@@ -53,5 +54,5 @@ attributes:
     example: "8"
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }

@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiSwitchDHCPServerPolicy(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_dhcp_server_policy.test", "default_policy", "block"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_dhcp_server_policy.test", "alerts_email_enabled", "true"))
@@ -60,12 +63,14 @@ func TestAccMerakiSwitchDHCPServerPolicy(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccMerakiSwitchDHCPServerPolicyPrerequisitesConfig = `
+variable "test_org" {}
+variable "test_network" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
-  name            = "Network1"
+  name            = var.test_network
   product_types   = ["switch", "wireless"]
 }
 

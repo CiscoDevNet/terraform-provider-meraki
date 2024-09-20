@@ -16,6 +16,7 @@ doc_category: str(required=False) # Define a documentation category
 skip_minimum_test: bool(required=False) # Do not perform a "minimum" (only mandatory attributes) test
 attributes: list(include('attribute'), required=False) # List of attributes
 test_tags: list(str(), required=False) # List of test tags, tests are only executed if an environment variable with for each of these tags is configured
+test_variables: list(str(), required=False) # List of Terraform test variables, which need to be configured as env vars (TF_VAR_<var_name>)
 test_prerequisites: str(required=False) # HCL code that is included in the acceptance tests to define prerequisites
 id_name: str(required=False) # the identifier field name of the resource as seen in the request body
 ---

@@ -5,6 +5,7 @@ put_create: true
 no_delete: true
 doc_category: Organizations
 test_tags: [ADAPTIVE_POLICY]
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: organization_id
     type: String
@@ -22,10 +23,10 @@ attributes:
     minimum_test_value: '[meraki_network.test.id]'
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch"]
   }

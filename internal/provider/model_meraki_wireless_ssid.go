@@ -160,9 +160,13 @@ type WirelessSSIDRadiusServers struct {
 
 // End of section. //template:end types
 
+// Section below is generated&owned by "gen/generator.go". //template:begin getPath
+
 func (data WirelessSSID) getPath() string {
-	return fmt.Sprintf("/networks/%v/wireless/ssids", url.QueryEscape(data.NetworkId.ValueString()))
+	return fmt.Sprintf("/networks/%v/wireless/ssids/%v", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(data.Number.ValueString()))
 }
+
+// End of section. //template:end getPath
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 

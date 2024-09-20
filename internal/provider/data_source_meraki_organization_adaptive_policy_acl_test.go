@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationAdaptivePolicyACL(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "description", "Blocks sensitive web traffic"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "ip_version", "ipv6"))
@@ -58,8 +62,9 @@ func TestAccDataSourceMerakiOrganizationAdaptivePolicyACL(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiOrganizationAdaptivePolicyACLPrerequisitesConfig = `
+variable "test_org" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 
 `
@@ -86,6 +91,7 @@ func testAccDataSourceMerakiOrganizationAdaptivePolicyACLConfig() string {
 		data "meraki_organization_adaptive_policy_acl" "test" {
 			id = meraki_organization_adaptive_policy_acl.test.id
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_organization_adaptive_policy_acl.test]
 		}
 	`
 	return config
@@ -109,6 +115,7 @@ func testAccNamedDataSourceMerakiOrganizationAdaptivePolicyACLConfig() string {
 		data "meraki_organization_adaptive_policy_acl" "test" {
 			name = meraki_organization_adaptive_policy_acl.test.name
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_organization_adaptive_policy_acl.test]
 		}
 	`
 	return config

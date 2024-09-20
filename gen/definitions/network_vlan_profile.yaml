@@ -4,6 +4,7 @@ rest_endpoint: /networks/%v/vlanProfiles
 data_source_name_query: true
 res_description: This resource can manage the Network VLAN Profile configuration. It can be also be used to manage the default VLAN profile by specifying the `iname` as `Default`.
 doc_category: Networks
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id
     type: String
@@ -62,11 +63,11 @@ attributes:
         example: "791"
 test_prerequisites: |
   data "meraki_organization" "test" {
-    name = "Dev"
+    name = var.test_org
   }
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = "Network1"
+    name            = var.test_network
     product_types   = ["switch", "wireless"]
   }
   resource "meraki_network_vlan_profile" "default" {
