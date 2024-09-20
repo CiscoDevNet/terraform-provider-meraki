@@ -30,8 +30,10 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiNetwork(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network.test", "name", "Main Office"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network.test", "notes", "Additional description of the network"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network.test", "time_zone", "America/Los_Angeles"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network.test", "product_types.0", "switch"))
@@ -60,8 +62,10 @@ func TestAccMerakiNetwork(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccMerakiNetworkPrerequisitesConfig = `
+variable "test_org" {}
+variable "test_network" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 
 `
@@ -73,7 +77,7 @@ data "meraki_organization" "test" {
 func testAccMerakiNetworkConfig_minimum() string {
 	config := `resource "meraki_network" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "Main Office"` + "\n"
+	config += `	name = "${var.test_network}-TEST"` + "\n"
 	config += `	product_types = ["switch"]` + "\n"
 	config += `}` + "\n"
 	return config
@@ -86,7 +90,7 @@ func testAccMerakiNetworkConfig_minimum() string {
 func testAccMerakiNetworkConfig_all() string {
 	config := `resource "meraki_network" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "Main Office"` + "\n"
+	config += `	name = "${var.test_network}-TEST"` + "\n"
 	config += `	notes = "Additional description of the network"` + "\n"
 	config += `	time_zone = "America/Los_Angeles"` + "\n"
 	config += `	product_types = ["switch"]` + "\n"

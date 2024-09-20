@@ -21,8 +21,8 @@ attributes:
   - model_name: maxRetries
     type: Int64
     description: Maximum number of general EAP retries.
-    minimum_test_value: "5"
     example: "5"
+    minimum_test_value: "5"
   - model_name: timeout
     type: Int64
     description: General EAP timeout in seconds.
@@ -47,9 +47,7 @@ attributes:
     data_path: [identity]
     description: EAP timeout in seconds.
     example: "5"
-
-
-test_prerequisites: |
+test_prerequisites: |-
   data "meraki_organization" "test" {
     name = "Dev"
   }

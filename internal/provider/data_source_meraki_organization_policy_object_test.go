@@ -19,6 +19,7 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -29,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationPolicyObject(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object.test", "category", "network"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object.test", "cidr", "10.0.0.0/24"))
@@ -55,8 +59,9 @@ func TestAccDataSourceMerakiOrganizationPolicyObject(t *testing.T) {
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
 const testAccDataSourceMerakiOrganizationPolicyObjectPrerequisitesConfig = `
+variable "test_org" {}
 data "meraki_organization" "test" {
-  name = "Dev"
+  name = var.test_org
 }
 
 `
@@ -78,6 +83,7 @@ func testAccDataSourceMerakiOrganizationPolicyObjectConfig() string {
 		data "meraki_organization_policy_object" "test" {
 			id = meraki_organization_policy_object.test.id
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_organization_policy_object.test]
 		}
 	`
 	return config
@@ -96,6 +102,7 @@ func testAccNamedDataSourceMerakiOrganizationPolicyObjectConfig() string {
 		data "meraki_organization_policy_object" "test" {
 			name = meraki_organization_policy_object.test.name
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_organization_policy_object.test]
 		}
 	`
 	return config

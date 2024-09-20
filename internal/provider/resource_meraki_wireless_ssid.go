@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
@@ -336,7 +335,7 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 			},
 			"gre_concentrator_host": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The EoGRE concentrator`s IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The EoGRE concentrator's IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.").String,
 				Optional:            true,
 			},
 			"ldap_base_distinguished_name": schema.StringAttribute{
@@ -547,6 +546,8 @@ func (r *WirelessSSIDResource) Configure(_ context.Context, req resource.Configu
 
 // End of section. //template:end model
 
+// Section below is generated&owned by "gen/generator.go". //template:begin create
+
 func (r *WirelessSSIDResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan WirelessSSID
 
@@ -558,15 +559,14 @@ func (r *WirelessSSIDResource) Create(ctx context.Context, req resource.CreateRe
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
-	plan.Id = plan.Number
-
 	// Create object
 	body := plan.toBody(ctx, WirelessSSID{})
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
+	plan.Id = plan.Number
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
@@ -575,6 +575,8 @@ func (r *WirelessSSIDResource) Create(ctx context.Context, req resource.CreateRe
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
+
+// End of section. //template:end create
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
@@ -588,7 +590,7 @@ func (r *WirelessSSIDResource) Read(ctx context.Context, req resource.ReadReques
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
+	res, err := r.client.Get(state.getPath())
 	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
 		resp.State.RemoveResource(ctx)
 		return
@@ -639,7 +641,7 @@ func (r *WirelessSSIDResource) Update(ctx context.Context, req resource.UpdateRe
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -653,6 +655,8 @@ func (r *WirelessSSIDResource) Update(ctx context.Context, req resource.UpdateRe
 
 // End of section. //template:end update
 
+// Section below is generated&owned by "gen/generator.go". //template:begin delete
+
 func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state WirelessSSID
 
@@ -662,25 +666,28 @@ func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: skipping Delete", state.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 
 	resp.State.RemoveResource(ctx)
 }
+
+// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *WirelessSSIDResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 3 || idParts[0] == "" || idParts[1] == "" || idParts[2] == "" {
+	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <network_id>,<number>,<id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: <network_id>,<number>. Got: %q", req.ID),
 		)
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("number"), idParts[1])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[2])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
