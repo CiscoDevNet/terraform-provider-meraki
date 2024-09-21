@@ -1,0 +1,42 @@
+# @endpoint: /networks/{networkId}/wireless/airMarshal/rules/{ruleId}
+name: Wireless Air Marshal Rule
+rest_endpoint: /networks/%v/wireless/airMarshal/rules
+get_from_all: true
+id_name: ruleId
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: type
+    type: String
+    mandatory: true
+    description: Indicates if this rule will allow, block, or alert.
+    example: allow
+    enum_values: [alert, allow, block]
+  - model_name: string
+    type: String
+    data_path: [match]
+    description: The string used to match.
+    example: "00:11:22:33:44:55"
+    minimum_test_value: '"test"'
+  - model_name: type
+    type: String
+    data_path: [match]
+    description: The type of match.
+    example: bssid
+    enum_values: [bssid, contains, exact, wildcard]
+    minimum_test_value: '"contains"'
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
