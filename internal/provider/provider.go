@@ -270,6 +270,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewWirelessDeviceBluetoothSettingsResource,
 		NewWirelessDeviceElectronicShelfLabelResource,
 		NewWirelessEthernetPortProfileResource,
+		NewWirelessEthernetPortProfileAssignResource,
 		NewWirelessNetworkBluetoothSettingsResource,
 		NewWirelessNetworkElectronicShelfLabelResource,
 		NewWirelessRFProfileResource,

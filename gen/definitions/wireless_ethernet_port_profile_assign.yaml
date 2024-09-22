@@ -1,0 +1,53 @@
+# @endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/assign
+name: Wireless Ethernet Port Profile Assign
+rest_endpoint: /networks/%v/wireless/ethernet/ports/profiles/assign
+no_data_source: true
+no_delete: true
+no_import: true
+doc_category: Wireless
+test_tags: [WIRELESS_ETHERNET_PORT_PROFILE_ASSIGN]
+test_variables: [test_org, test_network, test_ap_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: profileId
+    type: String
+    mandatory: true
+    description: AP profile ID
+    example: "1001"
+    test_value: meraki_wireless_ethernet_port_profile.test.id
+  - model_name: serials
+    type: Set
+    element_type: String
+    mandatory: true
+    description: List of AP serials
+    example: Q234-ABCD-0001
+    test_value: meraki_network_device_claim.test.serials
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_ap_1_serial]
+  }
+  resource "meraki_wireless_ethernet_port_profile" "test" {
+    network_id = meraki_network.test.id
+    name       = "test"
+    ports = [
+      {
+        enabled = true
+        name    = "port"
+      }
+    ]
+  }
