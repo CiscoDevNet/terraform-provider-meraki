@@ -1,0 +1,33 @@
+# @endpoint: /networks/{networkId}/wireless/electronicShelfLabel
+name: Wireless Network Electronic Shelf Label
+rest_endpoint: /networks/%v/wireless/electronicShelfLabel
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: enabled
+    type: Bool
+    description: Turn ESL features on and off for this network
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: hostname
+    type: String
+    description: Desired ESL hostname of the network
+    example: N_24329156
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
