@@ -1,0 +1,43 @@
+# @endpoint: /devices/{serial}/wireless/electronicShelfLabel
+name: Wireless Device Electronic Shelf Label
+rest_endpoint: /devices/%v/wireless/electronicShelfLabel
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network, test_ap_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Wireless AP serial
+    example: 1234-1234-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: channel
+    type: String
+    description: Desired ESL channel for the device, or `Auto` (case insensitive) to use the recommended channel
+    example: "1"
+    minimum_test_value: '"1"'
+  - model_name: enabled
+    type: Bool
+    description: Turn ESL features on and off for this device
+    example: "true"
+    minimum_test_value: "false"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_network_electronic_shelf_label" "test" {
+    network_id = meraki_network.test.id
+    enabled    = true
+    hostname   = "N_24329156"
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_wireless_network_electronic_shelf_label.test.network_id
+    serials    = [var.test_ap_1_serial]
+  }
