@@ -274,7 +274,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			if desc, ok := propMap["description"]; ok {
 				attr.Description = sanitizeDescription(desc.(string))
 			}
-			if enums, ok := propMap["enum"]; ok {
+			if enums, ok := propMap["enum"]; ok && attr.Type == "String" {
 				for _, r := range enums.([]interface{}) {
 					attr.EnumValues = append(attr.EnumValues, r.(string))
 				}
