@@ -1,0 +1,46 @@
+# @endpoint: /devices/{serial}/wireless/bluetooth/settings
+name: Wireless Device Bluetooth Settings
+rest_endpoint: /devices/%v/wireless/bluetooth/settings
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network, test_ap_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Wireless AP serial
+    example: 1234-1234-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: major
+    type: Int64
+    description: Desired major value of the beacon. If the value is set to null it will reset to Dashboard`s automatically generated value.
+    example: "13"
+  - model_name: minor
+    type: Int64
+    description: Desired minor value of the beacon. If the value is set to null it will reset to Dashboard`s automatically generated value.
+    example: "125"
+  - model_name: uuid
+    type: String
+    description: Desired UUID of the beacon. If the value is set to null it will reset to Dashboard`s automatically generated value.
+    example: 00000000-0000-0000-0000-000000000000
+    minimum_test_value: '"00000000-0000-0000-0000-000000000000"'
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_network_bluetooth_settings" "test" {
+    network_id          = meraki_network.test.id
+    advertising_enabled = true
+    uuid                = "00000000-0000-0000-0000-000000000000"
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_wireless_network_bluetooth_settings.test.network_id
+    serials    = [var.test_ap_1_serial]
+  }
