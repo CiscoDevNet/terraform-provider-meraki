@@ -1,0 +1,71 @@
+# @endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}
+name: Wireless Ethernet Port Profile
+rest_endpoint: /networks/%v/wireless/ethernet/ports/profiles
+id_name: profileId
+data_source_name_query: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: AP port profile name
+    example: name
+  - model_name: ports
+    type: List
+    mandatory: true
+    description: AP ports configuration
+    attributes:
+      - model_name: enabled
+        type: Bool
+        description: AP port enabled
+        example: "true"
+        minimum_test_value: "false"
+      - model_name: name
+        type: String
+        id: true
+        mandatory: true
+        description: AP port name
+        example: port
+      - model_name: pskGroupId
+        type: String
+        exclude_test: true
+        description: AP port PSK Group ID
+        example: "2"
+      - model_name: ssid
+        type: Int64
+        description: AP port ssid number
+        example: "1"
+  - model_name: usbPorts
+    type: List
+    description: AP usb ports configuration
+    attributes:
+      - model_name: enabled
+        type: Bool
+        description: AP usb port enabled
+        example: "true"
+      - model_name: name
+        type: String
+        id: true
+        mandatory: true
+        description: AP usb port name
+        example: usb port
+      - model_name: ssid
+        type: Int64
+        description: AP usb port ssid number
+        example: "2"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
