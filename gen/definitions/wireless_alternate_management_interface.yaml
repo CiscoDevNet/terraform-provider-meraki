@@ -1,0 +1,74 @@
+# @endpoint: /networks/{networkId}/wireless/alternateManagementInterface
+name: Wireless Alternate Management Interface
+rest_endpoint: /networks/%v/wireless/alternateManagementInterface
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network, test_ap_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: enabled
+    type: Bool
+    description: Boolean value to enable or disable alternate management interface
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: vlanId
+    type: Int64
+    description: Alternate management interface VLAN, must be between 1 and 4094
+    example: "100"
+  - model_name: accessPoints
+    type: List
+    description: "Array of access point serial number and IP assignment. Note: accessPoints IP assignment is not applicable for template networks, in other words, do not put `accessPoints` in the body when updating template networks. Also, an empty `accessPoints` array will remove all previous static IP assignments"
+    attributes:
+      - model_name: alternateManagementIp
+        type: String
+        mandatory: true
+        description: Wireless alternate management interface device IP. Provide an empty string to remove alternate management IP assignment
+        example: 1.2.3.4
+      - model_name: dns1
+        type: String
+        description: Primary DNS must be in IP format
+        example: 8.8.8.8
+      - model_name: dns2
+        type: String
+        description: Optional secondary DNS must be in IP format
+        example: 8.8.4.4
+      - model_name: gateway
+        type: String
+        description: Gateway must be in IP format
+        example: 1.2.3.5
+      - model_name: serial
+        type: String
+        id: true
+        mandatory: true
+        description: Serial number of access point to be configured with alternate management IP
+        example: Q234-ABCD-5678
+        test_value: tolist(meraki_network_device_claim.test.serials)[0]
+      - model_name: subnetMask
+        type: String
+        description: Subnet mask must be in IP format
+        example: 255.255.255.0
+  - model_name: protocols
+    type: List
+    element_type: String
+    description: "Can be one or more of the following values: `radius`, `snmp`, `syslog` or `ldap`"
+    example: radius
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_ap_1_serial]
+  }

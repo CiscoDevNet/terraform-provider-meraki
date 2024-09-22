@@ -24,6 +24,7 @@ import (
 	"net/url"
 	"slices"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/tidwall/gjson"
@@ -34,17 +35,19 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type SwitchAlternateManagementInterface struct {
-	Id        types.String                                 `tfsdk:"id"`
-	NetworkId types.String                                 `tfsdk:"network_id"`
-	Enabled   types.Bool                                   `tfsdk:"enabled"`
-	VlanId    types.Int64                                  `tfsdk:"vlan_id"`
-	Protocols types.List                                   `tfsdk:"protocols"`
-	Switches  []SwitchAlternateManagementInterfaceSwitches `tfsdk:"switches"`
+type WirelessAlternateManagementInterface struct {
+	Id           types.String                                       `tfsdk:"id"`
+	NetworkId    types.String                                       `tfsdk:"network_id"`
+	Enabled      types.Bool                                         `tfsdk:"enabled"`
+	VlanId       types.Int64                                        `tfsdk:"vlan_id"`
+	AccessPoints []WirelessAlternateManagementInterfaceAccessPoints `tfsdk:"access_points"`
+	Protocols    types.List                                         `tfsdk:"protocols"`
 }
 
-type SwitchAlternateManagementInterfaceSwitches struct {
+type WirelessAlternateManagementInterfaceAccessPoints struct {
 	AlternateManagementIp types.String `tfsdk:"alternate_management_ip"`
+	Dns1                  types.String `tfsdk:"dns1"`
+	Dns2                  types.String `tfsdk:"dns2"`
 	Gateway               types.String `tfsdk:"gateway"`
 	Serial                types.String `tfsdk:"serial"`
 	SubnetMask            types.String `tfsdk:"subnet_mask"`
@@ -54,15 +57,15 @@ type SwitchAlternateManagementInterfaceSwitches struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data SwitchAlternateManagementInterface) getPath() string {
-	return fmt.Sprintf("/networks/%v/switch/alternateManagementInterface", url.QueryEscape(data.NetworkId.ValueString()))
+func (data WirelessAlternateManagementInterface) getPath() string {
+	return fmt.Sprintf("/networks/%v/wireless/alternateManagementInterface", url.QueryEscape(data.NetworkId.ValueString()))
 }
 
 // End of section. //template:end getPath
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data SwitchAlternateManagementInterface) toBody(ctx context.Context, state SwitchAlternateManagementInterface) string {
+func (data WirelessAlternateManagementInterface) toBody(ctx context.Context, state WirelessAlternateManagementInterface) string {
 	body := ""
 	if !data.Enabled.IsNull() {
 		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
@@ -70,17 +73,18 @@ func (data SwitchAlternateManagementInterface) toBody(ctx context.Context, state
 	if !data.VlanId.IsNull() {
 		body, _ = sjson.Set(body, "vlanId", data.VlanId.ValueInt64())
 	}
-	if !data.Protocols.IsNull() {
-		var values []string
-		data.Protocols.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "protocols", values)
-	}
-	if len(data.Switches) > 0 {
-		body, _ = sjson.Set(body, "switches", []interface{}{})
-		for _, item := range data.Switches {
+	if len(data.AccessPoints) > 0 {
+		body, _ = sjson.Set(body, "accessPoints", []interface{}{})
+		for _, item := range data.AccessPoints {
 			itemBody := ""
 			if !item.AlternateManagementIp.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "alternateManagementIp", item.AlternateManagementIp.ValueString())
+			}
+			if !item.Dns1.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "dns1", item.Dns1.ValueString())
+			}
+			if !item.Dns2.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "dns2", item.Dns2.ValueString())
 			}
 			if !item.Gateway.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "gateway", item.Gateway.ValueString())
@@ -91,8 +95,13 @@ func (data SwitchAlternateManagementInterface) toBody(ctx context.Context, state
 			if !item.SubnetMask.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "subnetMask", item.SubnetMask.ValueString())
 			}
-			body, _ = sjson.SetRaw(body, "switches.-1", itemBody)
+			body, _ = sjson.SetRaw(body, "accessPoints.-1", itemBody)
 		}
+	}
+	if !data.Protocols.IsNull() {
+		var values []string
+		data.Protocols.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "protocols", values)
 	}
 	return body
 }
@@ -101,21 +110,36 @@ func (data SwitchAlternateManagementInterface) toBody(ctx context.Context, state
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *SwitchAlternateManagementInterface) fromBody(ctx context.Context, res gjson.Result) {
+func (data *WirelessAlternateManagementInterface) fromBody(ctx context.Context, res gjson.Result) {
 	if value := res.Get("enabled"); value.Exists() {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("switches"); value.Exists() {
-		data.Switches = make([]SwitchAlternateManagementInterfaceSwitches, 0)
+	if value := res.Get("vlanId"); value.Exists() {
+		data.VlanId = types.Int64Value(value.Int())
+	} else {
+		data.VlanId = types.Int64Null()
+	}
+	if value := res.Get("accessPoints"); value.Exists() {
+		data.AccessPoints = make([]WirelessAlternateManagementInterfaceAccessPoints, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
-			data := SwitchAlternateManagementInterfaceSwitches{}
+			data := WirelessAlternateManagementInterfaceAccessPoints{}
 			if value := res.Get("alternateManagementIp"); value.Exists() {
 				data.AlternateManagementIp = types.StringValue(value.String())
 			} else {
 				data.AlternateManagementIp = types.StringNull()
+			}
+			if value := res.Get("dns1"); value.Exists() {
+				data.Dns1 = types.StringValue(value.String())
+			} else {
+				data.Dns1 = types.StringNull()
+			}
+			if value := res.Get("dns2"); value.Exists() {
+				data.Dns2 = types.StringValue(value.String())
+			} else {
+				data.Dns2 = types.StringNull()
 			}
 			if value := res.Get("gateway"); value.Exists() {
 				data.Gateway = types.StringValue(value.String())
@@ -132,9 +156,14 @@ func (data *SwitchAlternateManagementInterface) fromBody(ctx context.Context, re
 			} else {
 				data.SubnetMask = types.StringNull()
 			}
-			(*parent).Switches = append((*parent).Switches, data)
+			(*parent).AccessPoints = append((*parent).AccessPoints, data)
 			return true
 		})
+	}
+	if value := res.Get("protocols"); value.Exists() {
+		data.Protocols = helpers.GetStringList(value.Array())
+	} else {
+		data.Protocols = types.ListNull(types.StringType)
 	}
 }
 
@@ -146,22 +175,27 @@ func (data *SwitchAlternateManagementInterface) fromBody(ctx context.Context, re
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *SwitchAlternateManagementInterface) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *WirelessAlternateManagementInterface) fromBodyPartial(ctx context.Context, res gjson.Result) {
 	if value := res.Get("enabled"); value.Exists() && !data.Enabled.IsNull() {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	for i := 0; i < len(data.Switches); i++ {
+	if value := res.Get("vlanId"); value.Exists() && !data.VlanId.IsNull() {
+		data.VlanId = types.Int64Value(value.Int())
+	} else {
+		data.VlanId = types.Int64Null()
+	}
+	for i := 0; i < len(data.AccessPoints); i++ {
 		keys := [...]string{"serial"}
-		keyValues := [...]string{data.Switches[i].Serial.ValueString()}
+		keyValues := [...]string{data.AccessPoints[i].Serial.ValueString()}
 
 		parent := &data
-		data := (*parent).Switches[i]
+		data := (*parent).AccessPoints[i]
 		parentRes := &res
 		var res gjson.Result
 
-		parentRes.Get("switches").ForEach(
+		parentRes.Get("accessPoints").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -179,11 +213,11 @@ func (data *SwitchAlternateManagementInterface) fromBodyPartial(ctx context.Cont
 			},
 		)
 		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("removing Switches[%d] = %+v",
+			tflog.Debug(ctx, fmt.Sprintf("removing AccessPoints[%d] = %+v",
 				i,
-				(*parent).Switches[i],
+				(*parent).AccessPoints[i],
 			))
-			(*parent).Switches = slices.Delete((*parent).Switches, i, i+1)
+			(*parent).AccessPoints = slices.Delete((*parent).AccessPoints, i, i+1)
 			i--
 
 			continue
@@ -192,6 +226,16 @@ func (data *SwitchAlternateManagementInterface) fromBodyPartial(ctx context.Cont
 			data.AlternateManagementIp = types.StringValue(value.String())
 		} else {
 			data.AlternateManagementIp = types.StringNull()
+		}
+		if value := res.Get("dns1"); value.Exists() && !data.Dns1.IsNull() {
+			data.Dns1 = types.StringValue(value.String())
+		} else {
+			data.Dns1 = types.StringNull()
+		}
+		if value := res.Get("dns2"); value.Exists() && !data.Dns2.IsNull() {
+			data.Dns2 = types.StringValue(value.String())
+		} else {
+			data.Dns2 = types.StringNull()
 		}
 		if value := res.Get("gateway"); value.Exists() && !data.Gateway.IsNull() {
 			data.Gateway = types.StringValue(value.String())
@@ -208,7 +252,12 @@ func (data *SwitchAlternateManagementInterface) fromBodyPartial(ctx context.Cont
 		} else {
 			data.SubnetMask = types.StringNull()
 		}
-		(*parent).Switches[i] = data
+		(*parent).AccessPoints[i] = data
+	}
+	if value := res.Get("protocols"); value.Exists() && !data.Protocols.IsNull() {
+		data.Protocols = helpers.GetStringList(value.Array())
+	} else {
+		data.Protocols = types.ListNull(types.StringType)
 	}
 }
 
