@@ -1,0 +1,50 @@
+# @endpoint: /networks/{networkId}/wireless/bluetooth/settings
+name: Wireless Network Bluetooth Settings
+rest_endpoint: /networks/%v/wireless/bluetooth/settings
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: advertisingEnabled
+    type: Bool
+    description: Whether APs will advertise beacons.
+    example: "true"
+  - model_name: major
+    type: Int64
+    description: The major number to be used in the beacon identifier. Only valid in `Non-unique` mode.
+    example: "1"
+  - model_name: majorMinorAssignmentMode
+    type: String
+    description: The way major and minor number should be assigned to nodes in the network. (`Unique`, `Non-unique`)
+    example: Non-unique
+    enum_values: [Non-unique, Unique]
+  - model_name: minor
+    type: Int64
+    description: The minor number to be used in the beacon identifier. Only valid in `Non-unique` mode.
+    example: "1"
+  - model_name: scanningEnabled
+    type: Bool
+    description: Whether APs will scan for Bluetooth enabled clients.
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: uuid
+    type: String
+    description: The UUID to be used in the beacon identifier.
+    example: 00000000-0000-0000-0000-000000000000
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
