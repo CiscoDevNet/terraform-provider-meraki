@@ -28,12 +28,12 @@ attributes:
     type: List
     element_type: String
     write_only: true
-    description: "Can be one or more of the following values: `radius`, `snmp` or `syslog`"
+    description: 'Can be one or more of the following values: `radius`, `snmp` or `syslog`'
     example: radius
     minimum_test_value: '["radius"]'
   - model_name: switches
     type: List
-    description: "Array of switch serial number and IP assignment. If parameter is present, it cannot have empty body. Note: switches parameter is not applicable for template networks, in other words, do not put `switches` in the body when updating template networks. Also, an empty `switches` array will remove all previous assignments"
+    description: 'Array of switch serial number and IP assignment. If parameter is present, it cannot have empty body. Note: switches parameter is not applicable for template networks, in other words, do not put `switches` in the body when updating template networks. Also, an empty `switches` array will remove all previous assignments'
     attributes:
       - model_name: alternateManagementIp
         type: String
