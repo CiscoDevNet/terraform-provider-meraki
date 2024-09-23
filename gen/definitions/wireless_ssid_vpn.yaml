@@ -1,0 +1,98 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/vpn
+name: Wireless SSID VPN
+rest_endpoint: /networks/%v/wireless/ssids/%v/vpn
+put_create: true
+no_delete: true
+doc_category: Wireless
+skip_minimum_test: true
+test_tags: [WIRELESS_SSID_VPN]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: networkId
+    type: String
+    data_path: [concentrator]
+    description: The NAT ID of the concentrator that should be set.
+    example: N_123
+    test_value: meraki_network.test.id
+  - model_name: vlanId
+    type: Int64
+    data_path: [concentrator]
+    description: The VLAN that should be tagged for the concentrator.
+    example: "44"
+  - model_name: heartbeatInterval
+    type: Int64
+    data_path: [failover]
+    description: Idle timer interval in seconds.
+    example: "10"
+  - model_name: idleTimeout
+    type: Int64
+    data_path: [failover]
+    description: Idle timer timeout in seconds.
+    example: "30"
+  - model_name: requestIp
+    type: String
+    data_path: [failover]
+    description: IP addressed reserved on DHCP server where SSID will terminate.
+    example: 1.1.1.1
+  - model_name: enabled
+    type: Bool
+    data_path: [splitTunnel]
+    description: If true, VPN split tunnel is enabled.
+    example: "true"
+  - model_name: rules
+    type: List
+    data_path: [splitTunnel]
+    description: List of VPN split tunnel rules.
+    ordered_list: true
+    attributes:
+      - model_name: comment
+        type: String
+        description: Description for this split tunnel rule (optional).
+        example: split tunnel rule 1
+      - model_name: destCidr
+        type: String
+        mandatory: true
+        description: Destination for this split tunnel rule. IP address, fully-qualified domain names (FQDN) or `any`.
+        example: 1.1.1.1/32
+      - model_name: destPort
+        type: String
+        description: Destination port for this split tunnel rule, (integer in the range 1-65535), or `any`.
+        example: any
+      - model_name: policy
+        type: String
+        mandatory: true
+        description: Traffic policy specified for this split tunnel rule, `allow` or `deny`.
+        example: allow
+      - model_name: protocol
+        type: String
+        description: Protocol for this split tunnel rule.
+        example: Any
+        enum_values: [Any, TCP, UDP]
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id         = meraki_network.test.id
+    number             = "0"
+    name               = "My SSID"
+    ip_assignment_mode = "VPN"
+  }

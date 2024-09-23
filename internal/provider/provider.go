@@ -288,6 +288,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewWirelessSSIDSchedulesResource,
 		NewWirelessSSIDSplashSettingsResource,
 		NewWirelessSSIDTrafficShapingRulesResource,
+		NewWirelessSSIDVPNResource,
 	}
 }
 
@@ -361,6 +362,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewWirelessSSIDSchedulesDataSource,
 		NewWirelessSSIDSplashSettingsDataSource,
 		NewWirelessSSIDTrafficShapingRulesDataSource,
+		NewWirelessSSIDVPNDataSource,
 	}
 }
 
