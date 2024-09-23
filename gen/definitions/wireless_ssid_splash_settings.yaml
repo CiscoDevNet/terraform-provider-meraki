@@ -1,0 +1,209 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/splash/settings
+name: Wireless SSID Splash Settings
+rest_endpoint: /networks/%v/wireless/ssids/%v/splash/settings
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: allowSimultaneousLogins
+    type: Bool
+    description: Whether or not to allow simultaneous logins from different devices.
+    example: "false"
+    minimum_test_value: "true"
+  - model_name: blockAllTrafficBeforeSignOn
+    type: Bool
+    description: How restricted allowing traffic should be. If true, all traffic types are blocked until the splash page is acknowledged. If false, all non-HTTP traffic is allowed before the splash page is acknowledged.
+    example: "false"
+  - model_name: controllerDisconnectionBehavior
+    type: String
+    description: How login attempts should be handled when the controller is unreachable. Can be either `open`, `restricted`, or `default`.
+    example: default
+    enum_values: [default, open, restricted]
+  - model_name: redirectUrl
+    type: String
+    description: The custom redirect URL where the users will go after the splash page.
+    example: https://example.com
+  - model_name: splashTimeout
+    type: Int64
+    description: Splash timeout in minutes. This will determine how often users will see the splash page.
+    example: "1440"
+  - model_name: splashUrl
+    type: String
+    exclude_test: true
+    description: '[optional] The custom splash URL of the click-through splash page. Note that the URL can be configured without necessarily being used. In order to enable the custom URL, see `useSplashUrl`'
+    example: https://www.custom_splash_url.com
+  - model_name: themeId
+    type: String
+    exclude_test: true
+    description: The id of the selected splash theme.
+    example: c3ddcb4f16785ee747ab5ffc10867d6c8ea704be
+  - model_name: useRedirectUrl
+    type: Bool
+    description: The Boolean indicating whether the the user will be redirected to the custom redirect URL after the splash page. A custom redirect URL must be set if this is true.
+    example: "true"
+  - model_name: useSplashUrl
+    type: Bool
+    exclude_test: true
+    description: '[optional] Boolean indicating whether the users will be redirected to the custom splash url. A custom splash URL must be set if this is true. Note that depending on your SSID`s access control settings, it may not be possible to use the custom splash URL.'
+    example: "true"
+  - model_name: welcomeMessage
+    type: String
+    description: The welcome message for the users on the splash page.
+    example: Welcome!
+  - model_name: prepaidAccessFastLoginEnabled
+    type: Bool
+    data_path: [billing]
+    exclude_test: true
+    description: Whether or not billing uses the fast login prepaid access option.
+    example: "true"
+  - model_name: replyToEmailAddress
+    type: String
+    data_path: [billing]
+    exclude_test: true
+    description: The email address that receives replies from clients.
+    example: user@email.com
+  - model_name: durationInMinutes
+    type: Int64
+    data_path: [billing, freeAccess]
+    exclude_test: true
+    description: How long a device can use a network for free.
+    example: "120"
+  - model_name: enabled
+    type: Bool
+    data_path: [billing, freeAccess]
+    exclude_test: true
+    description: Whether or not free access is enabled.
+    example: "true"
+  - model_name: durationInMinutes
+    type: Int64
+    data_path: [guestSponsorship]
+    description: Duration in minutes of sponsored guest authorization. Must be between 1 and 60480 (6 weeks)
+    example: "30"
+  - model_name: guestCanRequestTimeframe
+    type: Bool
+    data_path: [guestSponsorship]
+    description: Whether or not guests can specify how much time they are requesting.
+    example: "false"
+  - model_name: strength
+    type: String
+    data_path: [sentryEnrollment]
+    exclude_test: true
+    description: 'The strength of the enforcement of selected system types. Must be one of: `focused`, `click-through`, and `strict`.'
+    example: focused
+    enum_values: [click-through, focused, strict]
+  - model_name: id
+    type: String
+    data_path: [sentryEnrollment, systemsManagerNetwork]
+    exclude_test: true
+    description: The network ID of the Systems Manager network.
+    example: N_1234
+  - model_name: enforcedSystems
+    type: List
+    element_type: String
+    data_path: [sentryEnrollment]
+    exclude_test: true
+    description: 'The system types that the Sentry enforces. Must be included in: `iOS, `Android`, `macOS`, and `Windows`.'
+    example: iOS
+  - model_name: extension
+    type: String
+    data_path: [splashImage]
+    exclude_test: true
+    description: The extension of the image file.
+    example: jpg
+  - model_name: md5
+    type: String
+    data_path: [splashImage]
+    exclude_test: true
+    description: The MD5 value of the image file. Setting this to null will remove the image from the splash page.
+    example: 542cccac8d7dedee0f185311d154d194
+  - model_name: contents
+    type: String
+    data_path: [splashImage, image]
+    exclude_test: true
+    description: The file contents (a base 64 encoded string) of your new image.
+    example: Q2lzY28gTWVyYWtp
+  - model_name: format
+    type: String
+    data_path: [splashImage, image]
+    exclude_test: true
+    description: The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.
+    example: jpg
+    enum_values: [gif, jpg, png]
+  - model_name: extension
+    type: String
+    data_path: [splashLogo]
+    exclude_test: true
+    description: The extension of the logo file.
+    example: jpg
+  - model_name: md5
+    type: String
+    data_path: [splashLogo]
+    exclude_test: true
+    description: The MD5 value of the logo file. Setting this to null will remove the logo from the splash page.
+    example: abcd1234
+  - model_name: contents
+    type: String
+    data_path: [splashLogo, image]
+    exclude_test: true
+    description: The file contents (a base 64 encoded string) of your new logo.
+    example: Q2lzY28gTWVyYWtp
+  - model_name: format
+    type: String
+    data_path: [splashLogo, image]
+    exclude_test: true
+    description: The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.
+    example: jpg
+    enum_values: [gif, jpg, png]
+  - model_name: extension
+    type: String
+    data_path: [splashPrepaidFront]
+    exclude_test: true
+    description: The extension of the prepaid front image file.
+    example: jpg
+  - model_name: md5
+    type: String
+    data_path: [splashPrepaidFront]
+    exclude_test: true
+    description: The MD5 value of the prepaid front image file. Setting this to null will remove the prepaid front from the splash page.
+    example: 542cccac8d7dedee0f185311d154d194
+  - model_name: contents
+    type: String
+    data_path: [splashPrepaidFront, image]
+    exclude_test: true
+    description: The file contents (a base 64 encoded string) of your new prepaid front.
+    example: Q2lzY28gTWVyYWtp
+  - model_name: format
+    type: String
+    data_path: [splashPrepaidFront, image]
+    exclude_test: true
+    description: The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.
+    example: jpg
+    enum_values: [gif, jpg, png]
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id = meraki_network.test.id
+    number     = "0"
+    name       = "My SSID"
+  }
