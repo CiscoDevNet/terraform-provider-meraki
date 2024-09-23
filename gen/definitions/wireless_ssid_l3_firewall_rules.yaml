@@ -1,0 +1,71 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/firewall/l3FirewallRules
+name: Wireless SSID L3 Firewall Rules
+rest_endpoint: /networks/%v/wireless/ssids/%v/firewall/l3FirewallRules
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: allowLanAccess
+    type: Bool
+    write_only: true
+    description: Allow wireless client access to local LAN (boolean value - true allows access and false denies access) (optional)
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: rules
+    type: List
+    description: An ordered array of the firewall rules for this SSID (not including the local LAN access rule or the default rule).
+    ordered_list: true
+    attributes:
+      - model_name: comment
+        type: String
+        description: Description of the rule (optional)
+        example: Allow TCP traffic to subnet with HTTP servers.
+      - model_name: destCidr
+        type: String
+        mandatory: true
+        description: Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `Any`
+        example: Any
+      - model_name: destPort
+        type: String
+        description: Comma-separated list of destination port(s) (integer in the range 1-65535), or `any`
+        example: "443"
+      - model_name: policy
+        type: String
+        mandatory: true
+        description: '`allow` or `deny` traffic specified by this rule'
+        example: allow
+        enum_values: [allow, deny]
+      - model_name: protocol
+        type: String
+        mandatory: true
+        description: The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)
+        example: tcp
+        enum_values: [any, icmp, icmp6, tcp, udp]
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id = meraki_network.test.id
+    number     = "0"
+    name       = "My SSID"
+  }
