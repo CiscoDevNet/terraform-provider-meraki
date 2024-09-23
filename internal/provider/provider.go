@@ -279,6 +279,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewWirelessSettingsResource,
 		NewWirelessSSIDResource,
 		NewWirelessSSIDBonjourForwardingResource,
+		NewWirelessSSIDDeviceTypeGroupPoliciesResource,
 		NewWirelessSSIDEAPOverrideResource,
 	}
 }
@@ -344,6 +345,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewWirelessSettingsDataSource,
 		NewWirelessSSIDDataSource,
 		NewWirelessSSIDBonjourForwardingDataSource,
+		NewWirelessSSIDDeviceTypeGroupPoliciesDataSource,
 		NewWirelessSSIDEAPOverrideDataSource,
 	}
 }

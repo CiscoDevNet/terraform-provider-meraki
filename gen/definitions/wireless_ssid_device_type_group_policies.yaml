@@ -1,0 +1,62 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/deviceTypeGroupPolicies
+name: Wireless SSID Device Type Group Policies
+rest_endpoint: /networks/%v/wireless/ssids/%v/deviceTypeGroupPolicies
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: enabled
+    type: Bool
+    description: If true, the SSID device type group policies are enabled.
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: deviceTypePolicies
+    type: List
+    description: List of device type policies.
+    attributes:
+      - model_name: devicePolicy
+        type: String
+        id: true
+        mandatory: true
+        description: The device policy. Can be one of `Allowed`, `Blocked` or `Group policy`
+        example: Allowed
+        enum_values: [Allowed, Blocked, Group policy]
+      - model_name: deviceType
+        type: String
+        id: true
+        mandatory: true
+        description: The device type. Can be one of `Android`, `BlackBerry`, `Chrome OS`, `iPad`, `iPhone`, `iPod`, `Mac OS X`, `Windows`, `Windows Phone`, `B&N Nook` or `Other OS`
+        example: Android
+        enum_values: [Android, B&N Nook, BlackBerry, Chrome OS, Mac OS X, Other OS, Windows, Windows Phone, iPad, iPhone, iPod]
+      - model_name: groupPolicyId
+        type: Int64
+        exclude_test: true
+        description: ID of the group policy object.
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id = meraki_network.test.id
+    number     = "0"
+    name       = "My SSID"
+  }
