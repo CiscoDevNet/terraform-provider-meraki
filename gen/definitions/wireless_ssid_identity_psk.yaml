@@ -25,8 +25,8 @@ attributes:
     type: String
     mandatory: true
     description: The group policy to be applied to clients
-    test_value: meraki_network_group_policy.test.id
     example: "101"
+    test_value: meraki_network_group_policy.test.id
   - model_name: name
     type: String
     mandatory: true

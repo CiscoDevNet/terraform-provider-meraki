@@ -1,0 +1,85 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/schedules
+name: Wireless SSID Schedules
+rest_endpoint: /networks/%v/wireless/ssids/%v/schedules
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: enabled
+    type: Bool
+    description: If true, the SSID outage schedule is enabled.
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: ranges
+    type: List
+    description: List of outage ranges. Has a start date and time, and end date and time. If this parameter is passed in along with rangesInSeconds parameter, this will take precedence.
+    attributes:
+      - model_name: endDay
+        type: String
+        id: true
+        mandatory: true
+        description: Day of when the outage ends. Can be either full day name, or three letter abbreviation
+        example: Tuesday
+      - model_name: endTime
+        type: String
+        id: true
+        mandatory: true
+        description: 24 hour time when the outage ends.
+        example: "05:00:00"
+      - model_name: startDay
+        type: String
+        id: true
+        mandatory: true
+        description: Day of when the outage starts. Can be either full day name, or three letter abbreviation.
+        example: Tuesday
+      - model_name: startTime
+        type: String
+        id: true
+        mandatory: true
+        description: 24 hour time when the outage starts.
+        example: "01:00:00"
+  - model_name: rangesInSeconds
+    type: List
+    exclude_test: true
+    description: List of outage ranges in seconds since Sunday at Midnight. Has a start and end. If this parameter is passed in along with the ranges parameter, ranges will take precedence.
+    attributes:
+      - model_name: end
+        type: Int64
+        id: true
+        mandatory: true
+        description: Seconds since Sunday at midnight when that outage range ends.
+        example: "0"
+      - model_name: start
+        type: Int64
+        id: true
+        mandatory: true
+        description: Seconds since Sunday at midnight when the outage range starts.
+        example: "604800"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id = meraki_network.test.id
+    number     = "0"
+    name       = "My SSID"
+  }

@@ -285,6 +285,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewWirelessSSIDIdentityPSKResource,
 		NewWirelessSSIDL3FirewallRulesResource,
 		NewWirelessSSIDL7FirewallRulesResource,
+		NewWirelessSSIDSchedulesResource,
 	}
 }
 
@@ -355,6 +356,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewWirelessSSIDIdentityPSKDataSource,
 		NewWirelessSSIDL3FirewallRulesDataSource,
 		NewWirelessSSIDL7FirewallRulesDataSource,
+		NewWirelessSSIDSchedulesDataSource,
 	}
 }
 
