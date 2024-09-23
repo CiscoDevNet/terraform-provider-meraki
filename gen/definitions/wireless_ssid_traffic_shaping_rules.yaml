@@ -1,0 +1,89 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/trafficShaping/rules
+name: Wireless SSID Traffic Shaping Rules
+rest_endpoint: /networks/%v/wireless/ssids/%v/trafficShaping/rules
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: defaultRulesEnabled
+    type: Bool
+    description: Whether default traffic shaping rules are enabled (true) or disabled (false). There are 4 default rules, which can be seen on your network`s traffic shaping page. Note that default rules count against the rule limit of 8.
+    example: "true"
+  - model_name: trafficShapingEnabled
+    type: Bool
+    description: Whether traffic shaping rules are applied to clients on your SSID.
+    example: "true"
+  - model_name: rules
+    type: List
+    description: An array of traffic shaping rules. Rules are applied in the order that they are specified in. An empty list (or null) means no rules. Note that you are allowed a maximum of 8 rules.
+    ordered_list: true
+    attributes:
+      - model_name: dscpTagValue
+        type: Int64
+        description: The DSCP tag applied by your rule. null means `Do not change DSCP tag`. For a list of possible tag values, use the trafficShaping/dscpTaggingOptions endpoint.
+        example: "0"
+      - model_name: pcpTagValue
+        type: Int64
+        description: The PCP tag applied by your rule. Can be 0 (lowest priority) through 7 (highest priority). null means `Do not set PCP tag`.
+        example: "0"
+      - model_name: settings
+        type: String
+        data_path: [perClientBandwidthLimits]
+        description: How bandwidth limits are applied by your rule. Can be one of `network default`, `ignore` or `custom`.
+        example: custom
+      - model_name: limitDown
+        type: Int64
+        data_path: [perClientBandwidthLimits, bandwidthLimits]
+        description: The maximum download limit (integer, in Kbps).
+        example: "1000000"
+      - model_name: limitUp
+        type: Int64
+        data_path: [perClientBandwidthLimits, bandwidthLimits]
+        description: The maximum upload limit (integer, in Kbps).
+        example: "1000000"
+      - model_name: definitions
+        type: List
+        mandatory: true
+        description: A list of objects describing the definitions of your traffic shaping rule. At least one definition is required.
+        attributes:
+          - model_name: type
+            type: String
+            id: true
+            mandatory: true
+            description: The type of definition. Can be one of `application`, `applicationCategory`, `host`, `port`, `ipRange` or `localNet`.
+            example: host
+            enum_values: [application, applicationCategory, host, ipRange, localNet, port]
+          - model_name: value
+            type: String
+            id: true
+            mandatory: true
+            description: 'If ''type'' is `host`, `port`, `ipRange` or `localNet`, then ''value'' must be a string, matching either a hostname (e.g. ''somesite.com''), a port (e.g. 8080), or an IP range (''192.1.0.0'', ''192.1.0.0/16'', or ''10.1.0.0/16:80''). `localNet` also supports CIDR notation, excluding custom ports. If ''type'' is `application` or `applicationCategory`, then ''value'' must be an object with the structure { ''id'': ''meraki:layer7/...'' }, where ''id'' is the application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).'
+            example: google.com
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id = meraki_network.test.id
+    number     = "0"
+    name       = "My SSID"
+  }
