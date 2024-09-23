@@ -1,0 +1,56 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}
+name: Wireless SSID Identity PSK
+rest_endpoint: /networks/%v/wireless/ssids/%v/identityPsks
+data_source_name_query: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: expiresAt
+    type: String
+    description: Timestamp for when the Identity PSK expires. Will not expire if left blank.
+    example: "2018-02-11T00:00:00.090209Z"
+  - model_name: groupPolicyId
+    type: String
+    mandatory: true
+    description: The group policy to be applied to clients
+    test_value: meraki_network_group_policy.test.id
+    example: "101"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the Identity PSK
+    example: Sample Identity PSK
+  - model_name: passphrase
+    type: String
+    description: The passphrase for client authentication. If left blank, one will be auto-generated.
+    example: Cisco123
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id = meraki_network.test.id
+    number     = "0"
+    name       = "My SSID"
+  }
+  resource "meraki_network_group_policy" "test" {
+    network_id = meraki_network.test.id
+    name       = "No video streaming"
+  }
