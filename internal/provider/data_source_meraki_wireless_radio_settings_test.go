@@ -34,7 +34,7 @@ func TestAccDataSourceMerakiWirelessRadioSettings(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_radio_settings.test", "five_ghz_settings_channel", "64"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_radio_settings.test", "five_ghz_settings_channel", "40"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_radio_settings.test", "five_ghz_settings_channel_width", "20"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_radio_settings.test", "two_four_ghz_settings_channel", "11"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_radio_settings.test", "two_four_ghz_settings_target_power", "14"))
@@ -80,7 +80,7 @@ resource "meraki_network_device_claim" "test" {
 func testAccDataSourceMerakiWirelessRadioSettingsConfig() string {
 	config := `resource "meraki_wireless_radio_settings" "test" {` + "\n"
 	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	five_ghz_settings_channel = 64` + "\n"
+	config += `	five_ghz_settings_channel = 40` + "\n"
 	config += `	five_ghz_settings_channel_width = 20` + "\n"
 	config += `	two_four_ghz_settings_channel = 11` + "\n"
 	config += `	two_four_ghz_settings_target_power = 14` + "\n"
