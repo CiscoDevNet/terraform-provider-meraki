@@ -1,0 +1,55 @@
+# @endpoint: /networks/{networkId}/wireless/ssids/{number}/firewall/l7FirewallRules
+name: Wireless SSID L7 Firewall Rules
+rest_endpoint: /networks/%v/wireless/ssids/%v/firewall/l7FirewallRules
+put_create: true
+no_delete: true
+doc_category: Wireless
+skip_minimum_test: true
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "0"
+    test_value: meraki_wireless_ssid.test.id
+  - model_name: rules
+    type: List
+    description: An array of L7 firewall rules for this SSID. Rules will get applied in the same order user has specified in request. Empty array will clear the L7 firewall rule configuration.
+    ordered_list: true
+    attributes:
+      - model_name: policy
+        type: String
+        description: '`Deny` traffic specified by this rule'
+        example: deny
+        enum_values: [deny]
+      - model_name: type
+        type: String
+        description: 'Type of the L7 firewall rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`'
+        example: host
+        enum_values: [application, applicationCategory, host, ipRange, port]
+      - model_name: value
+        type: String
+        description: The value of what needs to get blocked. Format of the value varies depending on type of the firewall rule selected.
+        example: google.com
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id = meraki_network.test.id
+    number     = "0"
+    name       = "My SSID"
+  }
