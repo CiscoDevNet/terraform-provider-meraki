@@ -305,11 +305,25 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			childPath := append(path, propName)
 			childGjsonPath := gjsonPath + "." + propName
 			childRequired := []string{}
-			if rp, ok := propMap["required"]; ok {
-				childRequired = toStringSlice(rp.([]interface{}))
+			if prop, ok := propMap["properties"]; ok {
+				if rp, ok := propMap["required"]; ok {
+					childRequired = toStringSlice(rp.([]interface{}))
+				}
+				children := traverseProperties(prop.(map[string]interface{}), childPath, childGjsonPath, exampleStr, childRequired)
+				ret = append(ret, children...)
+			} else {
+				attr := yamlconfig.YamlConfigAttribute{}
+				attr.DataPath = path
+				attr.Type = "Map"
+				attr.ModelName = propName
+				if desc, ok := propMap["description"]; ok {
+					attr.Description = sanitizeDescription(desc.(string))
+				}
+				if slices.Contains(requiredProperties, propName) && len(path) == 0 {
+					attr.Mandatory = true
+				}
+				ret = append(ret, attr)
 			}
-			children := traverseProperties(propMap["properties"].(map[string]interface{}), childPath, childGjsonPath, exampleStr, childRequired)
-			ret = append(ret, children...)
 		}
 	}
 	for _, propName := range keys {

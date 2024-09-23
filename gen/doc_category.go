@@ -38,17 +38,6 @@ var docPaths = []string{"./docs/data-sources/", "./docs/resources/"}
 
 var extraDocs = map[string]string{}
 
-func SnakeCase(s string) string {
-	var g []string
-
-	p := strings.Fields(s)
-
-	for _, value := range p {
-		g = append(g, strings.ToLower(value))
-	}
-	return strings.Join(g, "_")
-}
-
 func main() {
 	files, _ := os.ReadDir(definitionsPath)
 	configs := make([]yamlconfig.YamlConfig, len(files))
@@ -75,7 +64,7 @@ func main() {
 				(configs[i].NoResource && path == "./docs/resources/") {
 				continue
 			}
-			filename := path + SnakeCase(configs[i].Name) + ".md"
+			filename := path + yamlconfig.SnakeCase(configs[i].Name) + ".md"
 			content, err := os.ReadFile(filename)
 			if err != nil {
 				log.Fatalf("Error opening documentation: %v", err)

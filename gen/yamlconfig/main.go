@@ -89,6 +89,7 @@ func CamelCase(s string) string {
 	var g []string
 
 	s = strings.ReplaceAll(s, "-", " ")
+	s = strings.ReplaceAll(s, ".", "")
 	p := strings.Fields(s)
 
 	for _, value := range p {
@@ -102,6 +103,7 @@ func SnakeCase(s string) string {
 	var g []string
 
 	s = strings.ReplaceAll(s, "-", " ")
+	s = strings.ReplaceAll(s, ".", "")
 	p := strings.Fields(s)
 
 	for _, value := range p {
