@@ -1,0 +1,24 @@
+# @endpoint: /organizations/{organizationId}/saml
+name: Organization SAML
+rest_endpoint: /organizations/%v/saml
+put_create: true
+no_delete: true
+doc_category: Organizations
+skip_minimum_test: true
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: enabled
+    type: Bool
+    description: Boolean for updating SAML SSO enabled settings.
+    example: "true"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
