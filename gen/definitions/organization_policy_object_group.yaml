@@ -1,0 +1,39 @@
+# @endpoint: /organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}
+name: Organization Policy Object Group
+rest_endpoint: /organizations/%v/policyObjects/groups
+data_source_name_query: true
+doc_category: Organizations
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: category
+    type: String
+    description: 'Category of a policy object group (one of: NetworkObjectGroup, GeoLocationGroup, PortObjectGroup, ApplicationGroup)'
+    example: NetworkObjectGroup
+  - model_name: name
+    type: String
+    mandatory: true
+    description: A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
+    example: Web Servers - Datacenter 10
+  - model_name: objectIds
+    type: List
+    element_type: Int64
+    description: 'A list of Policy Object ID`s that this NetworkObjectGroup should be associated to (note: these ID`s will replace the existing associated Policy Objects)'
+    example: "100"
+    test_value: '[meraki_organization_policy_object.test.id]'
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_organization_policy_object" "test" {
+    organization_id = data.meraki_organization.test.id
+    category = "network"
+    cidr = "10.0.1.0/24"
+    name = "Web Servers - Datacenter 10"
+    type = "cidr"
+  }
