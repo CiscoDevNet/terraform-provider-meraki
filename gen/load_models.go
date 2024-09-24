@@ -40,7 +40,7 @@ func main() {
 	for _, model := range models {
 		f := strings.Split(model, "/")
 		path := filepath.Join(modelsPath, f[len(f)-1])
-		if _, err := os.Stat(path); err != nil {
+		if _, e := os.Stat(path); e != nil {
 			err := downloadModel(path, model)
 			if err != nil {
 				panic(err)
