@@ -27,6 +27,9 @@ import (
 
 // Run "go generate" to format example terraform files and generate the docs for the registry/website
 
+// Load the models
+//go:generate go run gen/load_models.go
+
 // Run the resource and datasource generation tool.
 //go:generate go run gen/generator.go
 

@@ -262,6 +262,11 @@ func main() {
 		return
 	}
 
+	resourceName := ""
+	if len(os.Args) == 2 {
+		resourceName = os.Args[2]
+	}
+
 	// Load configs
 	var configs []yamlconfig.YamlConfig
 	files, _ := os.ReadDir(definitionsPath)
@@ -282,6 +287,10 @@ func main() {
 
 	var providerConfig []string
 	for i := range configs {
+		if resourceName != "" && configs[i].Name != resourceName {
+			continue
+		}
+		fmt.Printf("Generating: %s\n", configs[i].Name)
 		// Iterate over templates and render files
 		for _, t := range templates {
 			if (configs[i].NoImport && t.path == "./gen/templates/import.sh") ||
