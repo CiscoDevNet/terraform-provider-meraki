@@ -1,0 +1,98 @@
+# @endpoint: /networks/{networkId}/floorPlans/{floorPlanId}
+name: Network Floor Plan
+rest_endpoint: /networks/%v/floorPlans
+id_name: floorPlanId
+data_source_name_query: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: imageContents
+    type: String
+    mandatory: true
+    write_only: true
+    description: The file contents (a base 64 encoded string) of your image. Supported formats are PNG, GIF, and JPG. Note that all images are saved as PNG files, regardless of the format they are uploaded in.
+    example: R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw==
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of your floor plan.
+    example: HQ Floor Plan
+  - model_name: lat
+    type: Float64
+    data_path: [bottomLeftCorner]
+    write_only: true
+    description: Latitude
+    example: "37.770040510499996"
+  - model_name: lng
+    type: Float64
+    data_path: [bottomLeftCorner]
+    write_only: true
+    description: Longitude
+    example: "-122.38714009525"
+  - model_name: lat
+    type: Float64
+    data_path: [bottomRightCorner]
+    write_only: true
+    description: Latitude
+    example: "37.770040510499996"
+  - model_name: lng
+    type: Float64
+    data_path: [bottomRightCorner]
+    write_only: true
+    description: Longitude
+    example: "-121.38714009525"
+  - model_name: lat
+    type: Float64
+    data_path: [center]
+    write_only: true
+    exclude_test: true
+    description: Latitude
+    example: "37.770040510499996"
+    minimum_test_value: "37.770040510499996"
+  - model_name: lng
+    type: Float64
+    data_path: [center]
+    write_only: true
+    exclude_test: true
+    description: Longitude
+    example: "-122.38714009525"
+    minimum_test_value: "-122.38714009525"
+  - model_name: lat
+    type: Float64
+    data_path: [topLeftCorner]
+    write_only: true
+    description: Latitude
+    example: "38.770040510499996"
+  - model_name: lng
+    type: Float64
+    data_path: [topLeftCorner]
+    write_only: true
+    description: Longitude
+    example: "-122.38714009525"
+  - model_name: lat
+    type: Float64
+    data_path: [topRightCorner]
+    write_only: true
+    description: Latitude
+    example: "38.770040510499996"
+  - model_name: lng
+    type: Float64
+    data_path: [topRightCorner]
+    write_only: true
+    description: Longitude
+    example: "-121.38714009525"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
