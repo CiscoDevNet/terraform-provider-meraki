@@ -34,5 +34,3 @@ terraform-provider-meraki
 
 # Keep windows files with windows line endings
 *.winfile eol=crlf
-
-gen/models/*
