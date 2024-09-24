@@ -1,0 +1,37 @@
+# @endpoint: /organizations/{organizationId}/configTemplates/{configTemplateId}
+name: Organization Config Template
+rest_endpoint: /organizations/%v/configTemplates
+data_source_name_query: true
+doc_category: Organizations
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: copyFromNetworkId
+    type: String
+    write_only: true
+    description: The ID of the network or config template to copy configuration from. This attribute is only relevant when creating a new configuration template.
+    example: N_24329156
+    test_value: meraki_network.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the configuration template
+    example: My config template
+  - model_name: timeZone
+    type: String
+    description: The timezone of the configuration template. For a list of allowed timezones, please see the `TZ` column in the table in this article. Not applicable if copying from existing network or template
+    example: America/Los_Angeles
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch"]
+  }
