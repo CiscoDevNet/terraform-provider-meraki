@@ -1,0 +1,57 @@
+# @endpoint: /networks/{networkId}/webhooks/payloadTemplates/{payloadTemplateId}
+name: Network Webhook Payload Template
+rest_endpoint: /networks/%v/webhooks/payloadTemplates
+id_name: payloadTemplateId
+data_source_name_query: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: body
+    type: String
+    description: The liquid template used for the body of the webhook message. Either `body` or `bodyFile` must be specified.
+    example: '{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}'
+    minimum_test_value: '"{}"'
+  - model_name: bodyFile
+    type: String
+    exclude_test: true
+    description: A file containing liquid template used for the body of the webhook message. Either `body` or `bodyFile` must be specified.
+    example: Qm9keSBGaWxl
+  - model_name: headersFile
+    type: String
+    exclude_test: true
+    description: A file containing the liquid template used with the webhook headers.
+    example: SGVhZGVycyBGaWxl
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the new template
+    example: Custom Template
+  - model_name: headers
+    type: List
+    description: The liquid template used with the webhook headers.
+    attributes:
+      - model_name: name
+        type: String
+        id: true
+        mandatory: true
+        description: The name of the header template
+        example: Authorization
+      - model_name: template
+        type: String
+        description: The liquid template for the headers
+        example: Bearer {{sharedSecret}}
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
