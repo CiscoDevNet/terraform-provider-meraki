@@ -1,0 +1,48 @@
+# @endpoint: /networks/{networkId}/netflow
+name: Network Netflow
+rest_endpoint: /networks/%v/netflow
+put_create: true
+no_delete: true
+doc_category: Networks
+test_tags: [NETWORK_NETFLOW]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: collectorIp
+    type: String
+    description: The IPv4 address of the NetFlow collector.
+    example: 1.2.3.4
+  - model_name: collectorPort
+    type: Int64
+    description: The port that the NetFlow collector will be listening on.
+    example: "1234"
+  - model_name: etaDstPort
+    type: Int64
+    exclude_test: true
+    description: The port that the Encrypted Traffic Analytics collector will be listening on.
+    example: "1235"
+  - model_name: etaEnabled
+    type: Bool
+    exclude_test: true
+    description: Boolean indicating whether Encrypted Traffic Analytics is enabled (true) or disabled (false).
+    example: "true"
+  - model_name: reportingEnabled
+    type: Bool
+    description: Boolean indicating whether NetFlow traffic reporting is enabled (true) or disabled (false).
+    example: "true"
+    minimum_test_value: "false"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
