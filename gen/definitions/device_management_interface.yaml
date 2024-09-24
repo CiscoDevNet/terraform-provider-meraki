@@ -1,0 +1,111 @@
+# @endpoint: /devices/{serial}/managementInterface
+name: Device Management Interface
+rest_endpoint: /devices/%v/managementInterface
+put_create: true
+no_delete: true
+doc_category: Devices
+skip_minimum_test: true
+test_variables: [test_org, test_network, test_switch_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-1234-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: staticGatewayIp
+    type: String
+    data_path: [wan1]
+    description: The IP of the gateway on the WAN.
+    example: 1.2.3.1
+  - model_name: staticIp
+    type: String
+    data_path: [wan1]
+    description: The IP the device should use on the WAN.
+    example: 1.2.3.4
+  - model_name: staticSubnetMask
+    type: String
+    data_path: [wan1]
+    description: The subnet mask for the WAN.
+    example: 255.255.255.0
+  - model_name: usingStaticIp
+    type: Bool
+    data_path: [wan1]
+    description: Configure the interface to have static IP settings or use DHCP.
+    example: "true"
+  - model_name: vlan
+    type: Int64
+    data_path: [wan1]
+    description: The VLAN that management traffic should be tagged with. Applies whether usingStaticIp is true or false.
+    example: "7"
+  - model_name: wanEnabled
+    type: String
+    data_path: [wan1]
+    exclude_test: true
+    description: Enable or disable the interface (only for MX devices). Valid values are `enabled`, `disabled`, and `not configured`.
+    example: not configured
+    enum_values: [disabled, enabled, not configured]
+  - model_name: staticDns
+    type: List
+    element_type: String
+    data_path: [wan1]
+    description: Up to two DNS IPs.
+    example: 1.2.3.2
+  - model_name: staticGatewayIp
+    type: String
+    data_path: [wan2]
+    exclude_test: true
+    description: The IP of the gateway on the WAN.
+    example: 1.2.3.1
+  - model_name: staticIp
+    type: String
+    data_path: [wan2]
+    exclude_test: true
+    description: The IP the device should use on the WAN.
+    example: 1.2.3.4
+  - model_name: staticSubnetMask
+    type: String
+    data_path: [wan2]
+    exclude_test: true
+    description: The subnet mask for the WAN.
+    example: 255.255.255.0
+  - model_name: usingStaticIp
+    type: Bool
+    data_path: [wan2]
+    exclude_test: true
+    description: Configure the interface to have static IP settings or use DHCP.
+    example: "false"
+  - model_name: vlan
+    type: Int64
+    data_path: [wan2]
+    exclude_test: true
+    description: The VLAN that management traffic should be tagged with. Applies whether usingStaticIp is true or false.
+    example: "2"
+  - model_name: wanEnabled
+    type: String
+    data_path: [wan2]
+    exclude_test: true
+    description: Enable or disable the interface (only for MX devices). Valid values are `enabled`, `disabled`, and `not configured`.
+    example: enabled
+    enum_values: [disabled, enabled, not configured]
+  - model_name: staticDns
+    type: List
+    element_type: String
+    data_path: [wan2]
+    exclude_test: true
+    description: Up to two DNS IPs.
+    example: 1.2.3.2
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_switch_1_serial]
+  }
