@@ -249,6 +249,8 @@ func parseUrl(url string) parseUrlResult {
 			ret.category = "Switches"
 		} else if strings.Contains(parts[1], "/wireless") {
 			ret.category = "Wireless"
+		} else if strings.Contains(parts[1], "/appliance") {
+			ret.category = "Appliances"
 		}
 	}
 	return ret

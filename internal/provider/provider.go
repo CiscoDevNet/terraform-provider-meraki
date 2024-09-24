@@ -217,6 +217,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 
 func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
+		NewApplianceConnectivityMonitoringDestinationsResource,
 		NewDeviceResource,
 		NewDeviceCellularSIMsResource,
 		NewDeviceManagementInterfaceResource,
@@ -308,6 +309,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 
 func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
+		NewApplianceConnectivityMonitoringDestinationsDataSource,
 		NewDeviceDataSource,
 		NewDeviceCellularSIMsDataSource,
 		NewDeviceManagementInterfaceDataSource,
