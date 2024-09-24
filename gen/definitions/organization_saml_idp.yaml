@@ -1,0 +1,26 @@
+# @endpoint: /organizations/{organizationId}/saml/idps/{idpId}
+name: Organization SAML IdP
+rest_endpoint: /organizations/%v/saml/idps
+id_name: idpId
+doc_category: Organizations
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: sloLogoutUrl
+    type: String
+    description: Dashboard will redirect users to this URL when they sign out.
+    example: https://somewhere.com
+  - model_name: x509certSha1Fingerprint
+    type: String
+    mandatory: true
+    description: Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.
+    example: 00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
