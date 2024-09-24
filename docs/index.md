@@ -15,7 +15,13 @@ All resources and data sources have been tested with the following API releases.
 
 | API | Version |
 | ---------------- | ------- |
-| Meraki Dashboard | 1.49    |
+| Meraki Dashboard | 1.50    |
+
+## Getting Started
+
+The following guides with examples exist to demonstrate the use of the provider:
+
+- [Getting Started](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/getting_started)
 
 ## Example Usage
 
