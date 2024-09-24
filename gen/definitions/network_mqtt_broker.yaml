@@ -1,0 +1,64 @@
+# @endpoint: /networks/{networkId}/mqttBrokers/{mqttBrokerId}
+name: Network MQTT Broker
+rest_endpoint: /networks/%v/mqttBrokers
+data_source_name_query: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: host
+    type: String
+    mandatory: true
+    description: Host name/IP address where the MQTT broker runs.
+    example: 1.2.3.4
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the MQTT broker.
+    example: MQTT_Broker_1
+  - model_name: port
+    type: Int64
+    mandatory: true
+    description: Host port though which the MQTT broker can be reached.
+    example: "443"
+  - model_name: password
+    type: String
+    data_path: [authentication]
+    write_only: true
+    description: Password for the MQTT broker.
+    example: '*****'
+  - model_name: username
+    type: String
+    data_path: [authentication]
+    description: Username for the MQTT broker.
+    example: milesmeraki
+  - model_name: mode
+    type: String
+    data_path: [security]
+    description: Security protocol of the MQTT broker.
+    example: tls
+  - model_name: caCertificate
+    type: String
+    data_path: [security, tls]
+    write_only: true
+    description: CA Certificate of the MQTT broker.
+    example: '*****'
+  - model_name: verifyHostnames
+    type: Bool
+    data_path: [security, tls]
+    description: Whether the TLS hostname verification is enabled for the MQTT broker.
+    example: "true"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
