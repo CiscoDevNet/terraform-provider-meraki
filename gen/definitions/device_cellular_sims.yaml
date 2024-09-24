@@ -1,0 +1,94 @@
+# @endpoint: /devices/{serial}/cellular/sims
+name: Device Cellular SIMs
+rest_endpoint: /devices/%v/cellular/sims
+put_create: true
+no_delete: true
+doc_category: Devices
+test_tags: [DEVICE_CELLULAR_SIMS]
+test_variables: [test_org, test_network, test_switch_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-1234-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: enabled
+    type: Bool
+    data_path: [simFailover]
+    description: Failover to secondary SIM (optional)
+    example: "true"
+  - model_name: timeout
+    type: Int64
+    data_path: [simFailover]
+    description: Failover timeout in seconds (optional)
+    example: "300"
+  - model_name: simOrdering
+    type: List
+    element_type: String
+    description: 'Specifies the ordering of all SIMs for an MG: primary, secondary, and not-in-use (when applicable). It`s required for devices with 3 or more SIMs and can be used in place of `isPrimary` for dual-SIM devices. To indicate eSIM, use `sim3`. Sim failover will occur only between primary and secondary sim slots.'
+    example: sim1
+  - model_name: sims
+    type: List
+    description: List of SIMs. If a SIM was previously configured and not specified in this request, it will remain unchanged.
+    attributes:
+      - model_name: isPrimary
+        type: Bool
+        description: If true, this SIM is activated on platform bootup. It must be true on single-SIM devices and is a required field for dual-SIM MGs unless it is being configured using `simOrdering`.
+        example: "false"
+      - model_name: simOrder
+        type: Int64
+        description: Priority of SIM slot being configured. Use a value between 1 and total number of SIMs available. The value must be unique for each SIM.
+        example: "3"
+      - model_name: slot
+        type: String
+        id: true
+        mandatory: true
+        description: SIM slot being configured. Must be `sim1` on single-sim devices. Use `sim3` for eSIM.
+        example: sim1
+      - model_name: apns
+        type: List
+        description: APN configurations. If empty, the default APN will be used.
+        attributes:
+          - model_name: name
+            type: String
+            id: true
+            mandatory: true
+            description: APN name.
+            example: internet
+          - model_name: password
+            type: String
+            data_path: [authentication]
+            description: APN password, if type is set (if APN password is not supplied, the password is left unchanged).
+            example: secret
+          - model_name: type
+            type: String
+            data_path: [authentication]
+            description: APN auth type.
+            example: pap
+            enum_values: [chap, none, pap]
+          - model_name: username
+            type: String
+            data_path: [authentication]
+            description: APN username, if type is set.
+            example: milesmeraki
+          - model_name: allowedIpTypes
+            type: List
+            element_type: String
+            mandatory: true
+            description: IP versions to support (permitted values include `ipv4`, `ipv6`).
+            example: ipv4
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_switch_1_serial]
+  }
