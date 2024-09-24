@@ -1,0 +1,68 @@
+# @endpoint: /organizations/{organizationId}/samlRoles/{samlRoleId}
+name: Organization SAML Role
+rest_endpoint: /organizations/%v/samlRoles
+doc_category: Organizations
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: orgAccess
+    type: String
+    mandatory: true
+    description: The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise`
+    example: none
+    enum_values: [enterprise, full, none, read-only]
+    minimum_test_value: '"read-only"'
+  - model_name: role
+    type: String
+    mandatory: true
+    description: The role of the SAML administrator
+    example: myrole
+  - model_name: networks
+    type: List
+    description: The list of networks that the SAML administrator has privileges on
+    attributes:
+      - model_name: access
+        type: String
+        id: true
+        mandatory: true
+        description: The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only` or `ssid-admin`
+        example: full
+        enum_values: [full, guest-ambassador, monitor-only, read-only, ssid-admin]
+      - model_name: id
+        type: String
+        id: true
+        mandatory: true
+        description: The network ID
+        example: N_24329156
+        test_value: meraki_network.test.id
+  - model_name: tags
+    type: List
+    description: The list of tags that the SAML administrator has privileges on
+    attributes:
+      - model_name: access
+        type: String
+        id: true
+        mandatory: true
+        description: The privilege of the SAML administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
+        example: read-only
+        enum_values: [full, guest-ambassador, monitor-only, read-only]
+      - model_name: tag
+        type: String
+        id: true
+        mandatory: true
+        description: The name of the tag
+        example: west
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch"]
+  }
