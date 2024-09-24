@@ -1,0 +1,75 @@
+# @endpoint: /networks/{networkId}/merakiAuthUsers/{merakiAuthUserId}
+name: Network Meraki Auth User
+rest_endpoint: /networks/%v/merakiAuthUsers
+data_source_name_query: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: accountType
+    type: String
+    description: Authorization type for user. Can be `Guest` or `802.1X` for wireless networks, or `Client VPN` for MX networks. Defaults to `802.1X`.
+    example: 802.1X
+    enum_values: [802.1X, Client VPN, Guest]
+  - model_name: email
+    type: String
+    mandatory: true
+    description: Email address of the user
+    example: miles@meraki.com
+  - model_name: emailPasswordToUser
+    type: Bool
+    write_only: true
+    description: Whether or not Meraki should email the password to user. Default is false.
+    example: "false"
+  - model_name: isAdmin
+    type: Bool
+    description: Whether or not the user is a Dashboard administrator.
+    example: "false"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the user. Only required If the user is not a Dashboard administrator.
+    example: Miles Meraki
+  - model_name: password
+    type: String
+    mandatory: true
+    write_only: true
+    description: The password for this user account. Only required If the user is not a Dashboard administrator.
+    example: Cisco123&
+  - model_name: authorizations
+    type: List
+    mandatory: true
+    description: Authorization zones and expiration dates for the user.
+    attributes:
+      - model_name: expiresAt
+        type: String
+        description: Date for authorization to expire. Set to `Never` for the authorization to not expire, which is the default.
+        example: "2018-03-13T00:00:00.090210Z"
+      - model_name: ssidNumber
+        type: Int64
+        id: true
+        mandatory: true
+        description: Required for wireless networks. The SSID for which the user is being authorized, which must be configured for the user`s given accountType.
+        example: "1"
+        test_value: meraki_wireless_ssid.test.number
+        minimum_test_value: meraki_wireless_ssid.test.number
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_wireless_ssid" "test" {
+    network_id = meraki_network.test.id
+    number     = "1"
+    name       = "My SSID"
+    auth_mode  = "8021x-meraki"
+  }
