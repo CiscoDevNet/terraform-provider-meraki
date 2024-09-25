@@ -50,6 +50,38 @@ Arguments:
 Example:
   go run gen/definition.go "/networks/{networkId}/groupPolicies/{groupPolicyId}" "Network Group Policy"`
 
+const orgPrerequisites = `
+data "meraki_organization" "test" {
+  name = var.test_org
+}
+`
+
+const networkPrerequisites = `
+data "meraki_organization" "test" {
+  name = var.test_org
+}
+resource "meraki_network" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = var.test_network
+  product_types   = ["switch", "wireless", "appliance"]
+}
+`
+
+const devicePrerequisites = `
+data "meraki_organization" "test" {
+  name = var.test_org
+}
+resource "meraki_network" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = var.test_network
+  product_types   = ["switch", "wireless", "appliance"]
+}
+resource "meraki_network_device_claim" "test" {
+  network_id = meraki_network.test.id
+  serials    = [var.test_switch_1_serial]
+}
+`
+
 func main() {
 	if len(os.Args) < 3 {
 		fmt.Println("Error: Insufficient number of arguments")
@@ -70,6 +102,7 @@ func generateDefinition(endpointPath, resourceName string) {
 		os.Exit(1)
 	}
 
+	// Load the OpenAPI spec
 	var spec interface{}
 	if strings.HasSuffix(specPath, ".json") {
 		err = json.Unmarshal(specData, &spec)
@@ -82,50 +115,28 @@ func generateDefinition(endpointPath, resourceName string) {
 	}
 
 	config := yamlconfig.YamlConfig{}
+	urlResult := parseUrl(endpointPath, spec)
 
-	shortEndpointPath := ""
-	if endpointPath[len(endpointPath)-1] == '}' {
-		parts := strings.Split(endpointPath, "/")
-		if len(parts) > 0 {
-			parts = parts[:len(parts)-1]
-		}
-		shortEndpointPath = strings.Join(parts, "/")
-	} else {
-		shortEndpointPath = endpointPath
-
-	}
-	var schema map[string]interface{}
-	paths := spec.(map[string]interface{})["paths"].(map[string]interface{})
-	// use POST schema if it exists, otherwise fall back to PUT schema
-	if sep, ok := paths[shortEndpointPath]; ok {
-		if endpoint, ok := sep.(map[string]interface{})["post"]; ok {
-			schema = endpoint.(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
-		}
-	} else if sep, ok := paths[endpointPath]; ok {
-		if endpoint, ok := sep.(map[string]interface{})["post"]; ok {
-			schema = endpoint.(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
-		}
-	}
-	if schema == nil {
-		schema = paths[endpointPath].(map[string]interface{})["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
-		config.PutCreate = true
-	}
-	example := schema["schema"].(map[string]interface{})["example"].(map[string]interface{})
+	example := urlResult.schema["schema"].(map[string]interface{})["example"].(map[string]interface{})
 	exampleStr, err := json.Marshal(&example)
 	if err != nil {
 		panic(err)
 	}
 
-	urlResult := parseUrl(endpointPath)
 	if urlResult.resultPath[len(urlResult.resultPath)-1] == '/' {
 		urlResult.resultPath = urlResult.resultPath[:len(urlResult.resultPath)-1]
 	}
 	config.RestEndpoint = urlResult.resultPath
 	config.DocCategory = urlResult.category
 	config.Name = resourceName
-	if urlResult.oneToOne && config.PutCreate {
-		config.NoDelete = true
-	}
+	config.PutCreate = urlResult.putCreate
+	config.NoDelete = urlResult.noDelete
+	config.GetFromAll = urlResult.getFromAll
+	config.NoImport = urlResult.noImport
+	config.NoResource = urlResult.noResource
+	config.NoDataSource = urlResult.noDataSource
+	config.NoUpdate = urlResult.noUpdate
+	config.TestVariables = urlResult.testVariables
 
 	attributes := []yamlconfig.YamlConfigAttribute{}
 	for i, r := range urlResult.references {
@@ -133,19 +144,33 @@ func generateDefinition(endpointPath, resourceName string) {
 		attr.TfName = yamlconfig.CamelToSnake(r[1 : len(r)-1])
 		attr.Type = "String"
 		attr.Reference = true
-		if urlResult.oneToOne && i == len(urlResult.references)-1 {
+		if !urlResult.hasShortUrl && i == len(urlResult.references)-1 {
 			attr.Id = true
 		}
-		attr.Description = "<<Description>>"
-		attr.TestValue = "<<TestValue>>"
-		attr.Example = "<<Example>>"
+		if attr.TfName == "organization_id" {
+			attr.Description = "Organization ID"
+			attr.TestValue = "data.meraki_organization.test.id"
+			attr.Example = "123456"
+		} else if attr.TfName == "network_id" {
+			attr.Description = "Network ID"
+			attr.TestValue = "meraki_network.test.id"
+			attr.Example = "L_123456"
+		} else if attr.TfName == "serial" {
+			attr.Description = "Device serial"
+			attr.TestValue = "tolist(meraki_network_device_claim.test.serials)[0]"
+			attr.Example = "1234-ABCD-1234"
+		} else {
+			attr.Description = "<<Description>>"
+			attr.TestValue = "<<TestValue>>"
+			attr.Example = "<<Example>>"
+		}
 		attributes = append(attributes, attr)
 	}
 	required := []string{}
-	if r, ok := schema["schema"].(map[string]interface{})["required"]; ok {
+	if r, ok := urlResult.schema["schema"].(map[string]interface{})["required"]; ok {
 		required = toStringSlice(r.([]interface{}))
 	}
-	attributes = append(attributes, traverseProperties(schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr), required)...)
+	attributes = append(attributes, traverseProperties(urlResult.schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr), required)...)
 	config.Attributes = attributes
 
 	dataSourceNameQuery := false
@@ -156,6 +181,14 @@ func generateDefinition(endpointPath, resourceName string) {
 		}
 	}
 	config.DataSourceNameQuery = dataSourceNameQuery
+
+	if slices.Contains(config.TestVariables, "test_switch_1_serial") {
+		config.TestPrerequisites = devicePrerequisites
+	} else if slices.Contains(config.TestVariables, "test_network") {
+		config.TestPrerequisites = networkPrerequisites
+	} else if slices.Contains(config.TestVariables, "test_org") {
+		config.TestPrerequisites = orgPrerequisites
+	}
 
 	outputPath := definitionsPath + yamlconfig.SnakeCase(resourceName) + ".yaml"
 
@@ -216,27 +249,125 @@ var jsonTypes = map[string]string{
 }
 
 type parseUrlResult struct {
-	resultPath string
-	references []string
-	category   string
-	oneToOne   bool
+	resultPath    string
+	references    []string
+	category      string
+	schema        map[string]interface{}
+	putCreate     bool
+	noDelete      bool
+	getFromAll    bool
+	hasShortUrl   bool
+	noResource    bool
+	noDataSource  bool
+	noImport      bool
+	noUpdate      bool
+	testVariables []string
 }
 
-func parseUrl(url string) parseUrlResult {
+func parseUrl(url string, spec interface{}) parseUrlResult {
 	ret := parseUrlResult{}
+
+	shortUrl := ""
+	if url[len(url)-1] == '}' {
+		parts := strings.Split(url, "/")
+		if len(parts) > 0 {
+			parts = parts[:len(parts)-1]
+		}
+		shortUrl = strings.Join(parts, "/")
+	}
+	if shortUrl != "" {
+		ret.hasShortUrl = true
+	}
+
+	hasPost := false
+	hasShortPost := false
+	hasPut := false
+	hasShortPut := false
+	hasGet := false
+	hasShortGet := false
+	hasDelete := false
+	hasShortDelete := false
+
+	paths := spec.(map[string]interface{})["paths"].(map[string]interface{})
+	if p, ok := paths[shortUrl]; ok && shortUrl != "" {
+		if _, ok := p.(map[string]interface{})["post"]; ok {
+			hasShortPost = true
+		}
+		if _, ok := p.(map[string]interface{})["put"]; ok {
+			hasShortPut = true
+		}
+		if _, ok := p.(map[string]interface{})["get"]; ok {
+			hasShortGet = true
+		}
+		if _, ok := p.(map[string]interface{})["delete"]; ok {
+			hasShortDelete = true
+		}
+	}
+	if p, ok := paths[url]; ok {
+		if _, ok := p.(map[string]interface{})["post"]; ok {
+			hasPost = true
+		}
+		if _, ok := p.(map[string]interface{})["put"]; ok {
+			hasPut = true
+		}
+		if _, ok := p.(map[string]interface{})["get"]; ok {
+			hasGet = true
+		}
+		if _, ok := p.(map[string]interface{})["delete"]; ok {
+			hasDelete = true
+		}
+	}
+
+	if !hasPost && !hasShortPost {
+		if hasPut || hasShortPut {
+			ret.putCreate = true
+		} else {
+			ret.noResource = true
+		}
+	}
+	if !ret.noResource {
+		if !hasGet && hasShortGet {
+			ret.getFromAll = true
+		}
+		if !hasDelete && !hasShortDelete {
+			ret.noDelete = true
+		}
+		if !hasPut && !hasShortPut {
+			ret.noUpdate = true
+		}
+		if !hasGet && !hasShortGet {
+			ret.noDataSource = true
+			ret.noImport = true
+		}
+	}
+
+	var schema map[string]interface{}
+	if hasShortPost {
+		schema = paths[shortUrl].(map[string]interface{})["post"].(map[string]interface{})
+	} else if hasPost {
+		schema = paths[url].(map[string]interface{})["post"].(map[string]interface{})
+	} else if hasShortPut {
+		schema = paths[shortUrl].(map[string]interface{})["put"].(map[string]interface{})
+	} else if hasPut {
+		schema = paths[url].(map[string]interface{})["put"].(map[string]interface{})
+	} else if hasShortGet {
+		schema = paths[shortUrl].(map[string]interface{})["get"].(map[string]interface{})
+	} else if hasGet {
+		schema = paths[url].(map[string]interface{})["get"].(map[string]interface{})
+	}
+	ret.schema = schema["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+
 	r := regexp.MustCompile(`{[a-zA-Z]+}`)
 	parts := r.Split(url, -1)
 	ids := r.FindAllString(url, -1)
-	if url[len(url)-1] == '}' {
-		// one to many
+	if ret.hasShortUrl {
 		ret.resultPath = strings.Join(parts[:len(parts)-1], "%v")
 		ret.references = ids[:len(ids)-1]
 	} else {
-		// one to one
 		ret.resultPath = strings.Join(parts, "%v")
 		ret.references = ids
-		ret.oneToOne = true
 	}
+	// Derive category from URL
 	if strings.Contains(parts[0], "/organizations") {
 		ret.category = "Organizations"
 	} else if strings.Contains(parts[0], "/networks") {
@@ -251,7 +382,30 @@ func parseUrl(url string) parseUrlResult {
 			ret.category = "Wireless"
 		} else if strings.Contains(parts[1], "/appliance") {
 			ret.category = "Appliances"
+		} else if strings.Contains(parts[1], "/camera") {
+			ret.category = "Cameras"
+		} else if strings.Contains(parts[1], "/cellularGateway") {
+			ret.category = "Cellular Gateways"
+		} else if strings.Contains(parts[1], "/insight") {
+			ret.category = "Insight"
+		} else if strings.Contains(parts[1], "/licensing") {
+			ret.category = "Licensing"
+		} else if strings.Contains(parts[1], "/sensor") {
+			ret.category = "Sensors"
+		} else if strings.Contains(parts[1], "/sm") {
+			ret.category = "Systems Manager"
 		}
+	}
+
+	if strings.Contains(parts[0], "/organizations") {
+		ret.testVariables = append(ret.testVariables, "test_org")
+	} else if strings.Contains(parts[0], "/networks") {
+		ret.testVariables = append(ret.testVariables, "test_org")
+		ret.testVariables = append(ret.testVariables, "test_network")
+	} else if strings.Contains(parts[0], "/devices") {
+		ret.testVariables = append(ret.testVariables, "test_org")
+		ret.testVariables = append(ret.testVariables, "test_network")
+		ret.testVariables = append(ret.testVariables, "test_switch_1_serial")
 	}
 	return ret
 }
