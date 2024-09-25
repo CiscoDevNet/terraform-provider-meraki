@@ -474,6 +474,7 @@ attributes:
         example: "false"
       - model_name: secret
         type: String
+        write_only: true
         description: Shared key used to authenticate messages between the APs and RADIUS server
         example: secret-string
   - model_name: radiusServers
@@ -506,6 +507,7 @@ attributes:
         example: "false"
       - model_name: secret
         type: String
+        write_only: true
         description: RADIUS client shared secret
         example: secret-string
   - model_name: splashGuestSponsorDomains

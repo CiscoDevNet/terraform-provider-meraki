@@ -968,11 +968,6 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res gjson.Result) {
 			} else {
 				data.RadsecEnabled = types.BoolNull()
 			}
-			if value := res.Get("secret"); value.Exists() {
-				data.Secret = types.StringValue(value.String())
-			} else {
-				data.Secret = types.StringNull()
-			}
 			(*parent).RadiusAccountingServers = append((*parent).RadiusAccountingServers, data)
 			return true
 		})
@@ -1006,11 +1001,6 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res gjson.Result) {
 				data.RadsecEnabled = types.BoolValue(value.Bool())
 			} else {
 				data.RadsecEnabled = types.BoolNull()
-			}
-			if value := res.Get("secret"); value.Exists() {
-				data.Secret = types.StringValue(value.String())
-			} else {
-				data.Secret = types.StringNull()
 			}
 			(*parent).RadiusServers = append((*parent).RadiusServers, data)
 			return true
@@ -1592,11 +1582,6 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 		} else {
 			data.RadsecEnabled = types.BoolNull()
 		}
-		if value := res.Get("secret"); value.Exists() && !data.Secret.IsNull() {
-			data.Secret = types.StringValue(value.String())
-		} else {
-			data.Secret = types.StringNull()
-		}
 		(*parent).RadiusAccountingServers[i] = data
 	}
 	{
@@ -1635,11 +1620,6 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 			data.RadsecEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.RadsecEnabled = types.BoolNull()
-		}
-		if value := res.Get("secret"); value.Exists() && !data.Secret.IsNull() {
-			data.Secret = types.StringValue(value.String())
-		} else {
-			data.Secret = types.StringNull()
 		}
 		(*parent).RadiusServers[i] = data
 	}
