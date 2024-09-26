@@ -35,6 +35,31 @@ type YamlConfig struct {
 	TestPrerequisites   string                `yaml:"test_prerequisites,omitempty"`
 }
 
+type YamlConfigP struct {
+	Name                *string                 `yaml:"name,omitempty"`
+	TfName              *string                 `yaml:"tf_name,omitempty"`
+	RestEndpoint        *string                 `yaml:"rest_endpoint,omitempty"`
+	NoDataSource        *bool                   `yaml:"no_data_source,omitempty"`
+	NoResource          *bool                   `yaml:"no_resource,omitempty"`
+	PutCreate           *bool                   `yaml:"put_create,omitempty"`
+	GetFromAll          *bool                   `yaml:"get_from_all,omitempty"`
+	NoUpdate            *bool                   `yaml:"no_update,omitempty"`
+	NoDelete            *bool                   `yaml:"no_delete,omitempty"`
+	NoImport            *bool                   `yaml:"no_import,omitempty"`
+	IdName              *string                 `yaml:"id_name,omitempty"`
+	DataSourceNameQuery *bool                   `yaml:"data_source_name_query,omitempty"`
+	MinimumVersion      *string                 `yaml:"minimum_version,omitempty"`
+	DsDescription       *string                 `yaml:"ds_description,omitempty"`
+	ResDescription      *string                 `yaml:"res_description,omitempty"`
+	DocCategory         *string                 `yaml:"doc_category,omitempty"`
+	ExcludeTest         *bool                   `yaml:"exclude_test,omitempty"`
+	SkipMinimumTest     *bool                   `yaml:"skip_minimum_test,omitempty"`
+	TestTags            *[]string               `yaml:"test_tags,omitempty,flow"`
+	TestVariables       *[]string               `yaml:"test_variables,omitempty,flow"`
+	Attributes          *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
+	TestPrerequisites   *string                 `yaml:"test_prerequisites,omitempty"`
+}
+
 type YamlConfigAttribute struct {
 	ModelName        string                `yaml:"model_name,omitempty"`
 	TfName           string                `yaml:"tf_name,omitempty"`
@@ -69,6 +94,42 @@ type YamlConfigAttribute struct {
 	TestTags         []string              `yaml:"test_tags,omitempty,flow"`
 	Attributes       []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	GoTypeName       string                `yaml:"gotypename,omitempty"`
+}
+
+type YamlConfigAttributeP struct {
+	ModelName        *string                 `yaml:"model_name,omitempty"`
+	TfName           *string                 `yaml:"tf_name,omitempty"`
+	Type             *string                 `yaml:"type,omitempty"`
+	ElementType      *string                 `yaml:"element_type,omitempty"`
+	DataPath         *[]string               `yaml:"data_path,omitempty,flow"`
+	Id               *bool                   `yaml:"id,omitempty"`
+	Reference        *bool                   `yaml:"reference,omitempty"`
+	RequiresReplace  *bool                   `yaml:"requires_replace,omitempty"`
+	Mandatory        *bool                   `yaml:"mandatory,omitempty"`
+	WriteOnly        *bool                   `yaml:"write_only,omitempty"`
+	WriteChangesOnly *bool                   `yaml:"write_changes_only,omitempty"`
+	ExcludeTest      *bool                   `yaml:"exclude_test,omitempty"`
+	ExcludeExample   *bool                   `yaml:"exclude_example,omitempty"`
+	Description      *string                 `yaml:"description,omitempty"`
+	Example          *string                 `yaml:"example,omitempty"`
+	EnumValues       *[]string               `yaml:"enum_values,omitempty,flow"`
+	MinList          *int64                  `yaml:"min_list,omitempty"`
+	MaxList          *int64                  `yaml:"max_list,omitempty"`
+	MinInt           *int64                  `yaml:"min_int,omitempty"`
+	MaxInt           *int64                  `yaml:"max_int,omitempty"`
+	MinFloat         *float64                `yaml:"min_float,omitempty"`
+	MaxFloat         *float64                `yaml:"max_float,omitempty"`
+	OrderedList      *bool                   `yaml:"ordered_list,omitempty"`
+	StringPatterns   *[]string               `yaml:"string_patterns,omitempty,flow"`
+	StringMinLength  *int64                  `yaml:"string_min_length,omitempty"`
+	StringMaxLength  *int64                  `yaml:"string_max_length,omitempty"`
+	DefaultValue     *string                 `yaml:"default_value,omitempty"`
+	Value            *string                 `yaml:"value,omitempty"`
+	TestValue        *string                 `yaml:"test_value,omitempty"`
+	MinimumTestValue *string                 `yaml:"minimum_test_value,omitempty"`
+	TestTags         *[]string               `yaml:"test_tags,omitempty,flow"`
+	Attributes       *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
+	GoTypeName       *string                 `yaml:"gotypename,omitempty"`
 }
 
 // Templating helper function to convert TF name to GO name
@@ -342,204 +403,206 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName string) error {
 	return nil
 }
 
-func MergeYamlConfig(a, b YamlConfig) YamlConfig {
-	// Merge b into a
-	if b.Name != "" {
-		a.Name = b.Name
+func MergeYamlConfig(existing YamlConfigP, new YamlConfig) YamlConfigP {
+	// Merge new into existing
+	if existing.Name == nil && new.Name != "" {
+		existing.Name = &new.Name
 	}
-	if b.TfName != "" {
-		a.TfName = b.TfName
+	if existing.TfName == nil && new.TfName != "" {
+		existing.TfName = &new.TfName
 	}
-	if b.RestEndpoint != "" {
-		a.RestEndpoint = b.RestEndpoint
+	if existing.RestEndpoint == nil && new.RestEndpoint != "" {
+		existing.RestEndpoint = &new.RestEndpoint
 	}
-	if b.NoDataSource {
-		a.NoDataSource = b.NoDataSource
+	if existing.NoDataSource == nil && new.NoDataSource {
+		existing.NoDataSource = &new.NoDataSource
 	}
-	if b.NoResource {
-		a.NoResource = b.NoResource
+	if existing.NoResource == nil && new.NoResource {
+		existing.NoResource = &new.NoResource
 	}
-	if b.PutCreate {
-		a.PutCreate = b.PutCreate
+	if existing.PutCreate == nil && new.PutCreate {
+		existing.PutCreate = &new.PutCreate
 	}
-	if b.GetFromAll {
-		a.GetFromAll = b.GetFromAll
+	if existing.GetFromAll == nil && new.GetFromAll {
+		existing.GetFromAll = &new.GetFromAll
 	}
-	if b.NoUpdate {
-		a.NoUpdate = b.NoUpdate
+	if existing.NoUpdate == nil && new.NoUpdate {
+		existing.NoUpdate = &new.NoUpdate
 	}
-	if b.NoDelete {
-		a.NoDelete = b.NoDelete
+	if existing.NoDelete == nil && new.NoDelete {
+		existing.NoDelete = &new.NoDelete
 	}
-	if b.NoImport {
-		a.NoImport = b.NoImport
+	if existing.NoImport == nil && new.NoImport {
+		existing.NoImport = &new.NoImport
 	}
-	if b.IdName != "" {
-		a.IdName = b.IdName
+	if existing.IdName == nil && new.IdName != "" {
+		existing.IdName = &new.IdName
 	}
-	if b.DataSourceNameQuery {
-		a.DataSourceNameQuery = b.DataSourceNameQuery
+	if existing.DataSourceNameQuery == nil && new.DataSourceNameQuery {
+		existing.DataSourceNameQuery = &new.DataSourceNameQuery
 	}
-	if b.MinimumVersion != "" {
-		a.MinimumVersion = b.MinimumVersion
+	if existing.MinimumVersion == nil && new.MinimumVersion != "" {
+		existing.MinimumVersion = &new.MinimumVersion
 	}
-	if b.DsDescription != "" {
-		a.DsDescription = b.DsDescription
+	if existing.DsDescription == nil && new.DsDescription != "" {
+		existing.DsDescription = &new.DsDescription
 	}
-	if b.ResDescription != "" {
-		a.ResDescription = b.ResDescription
+	if existing.ResDescription == nil && new.ResDescription != "" {
+		existing.ResDescription = &new.ResDescription
 	}
-	if b.DocCategory != "" {
-		a.DocCategory = b.DocCategory
+	if existing.DocCategory == nil && new.DocCategory != "" {
+		existing.DocCategory = &new.DocCategory
 	}
-	if b.ExcludeTest {
-		a.ExcludeTest = b.ExcludeTest
+	if existing.ExcludeTest == nil && new.ExcludeTest {
+		existing.ExcludeTest = &new.ExcludeTest
 	}
-	if b.SkipMinimumTest {
-		a.SkipMinimumTest = b.SkipMinimumTest
+	if existing.SkipMinimumTest == nil && new.SkipMinimumTest {
+		existing.SkipMinimumTest = &new.SkipMinimumTest
 	}
-	if b.TestTags != nil {
-		a.TestTags = b.TestTags
+	if existing.TestTags == nil && len(new.TestTags) > 0 {
+		existing.TestTags = &new.TestTags
 	}
-	if b.TestVariables != nil {
-		a.TestVariables = b.TestVariables
+	if existing.TestVariables == nil && len(new.TestVariables) > 0 {
+		existing.TestVariables = &new.TestVariables
 	}
-	if b.Attributes != nil {
-		a.Attributes = MergeYamlConfigAttributes(a.Attributes, b.Attributes)
+	if existing.Attributes == nil && len(new.Attributes) > 0 {
+		attrs := MergeYamlConfigAttributes(*existing.Attributes, new.Attributes)
+		existing.Attributes = &attrs
 	}
-	if b.TestPrerequisites != "" {
-		a.TestPrerequisites = b.TestPrerequisites
+	if existing.TestPrerequisites == nil && new.TestPrerequisites != "" {
+		existing.TestPrerequisites = &new.TestPrerequisites
 	}
-	return a
+	return existing
 }
 
-func MergeYamlConfigAttributes(a, b []YamlConfigAttribute) []YamlConfigAttribute {
-	// Merge b into a
-	var c []YamlConfigAttribute
-	for _, attr := range b {
+func MergeYamlConfigAttributes(existing []YamlConfigAttributeP, new []YamlConfigAttribute) []YamlConfigAttributeP {
+	// Merge new into existing
+	var c []YamlConfigAttributeP
+	for _, existingAttr := range existing {
 		found := false
-		for i := range a {
-			if a[i].ModelName != "" && attr.ModelName != "" && slices.Equal(a[i].DataPath, attr.DataPath) {
-				if a[i].ModelName == attr.ModelName {
-					c = append(c, MergeYamlConfigAttribute(a[i], attr))
+		for _, attr := range new {
+			if existingAttr.ModelName != nil && existingAttr.DataPath != nil && *existingAttr.ModelName != "" && attr.ModelName != "" && slices.Equal(*existingAttr.DataPath, attr.DataPath) {
+				if *existingAttr.ModelName == attr.ModelName {
+					c = append(c, MergeYamlConfigAttribute(existingAttr, attr))
 					found = true
 					break
 				}
-			} else if a[i].TfName != "" && attr.TfName != "" {
-				if a[i].TfName == attr.TfName {
-					c = append(c, MergeYamlConfigAttribute(a[i], attr))
+			} else if existingAttr.TfName != nil && *existingAttr.TfName != "" && attr.TfName != "" {
+				if *existingAttr.TfName == attr.TfName {
+					c = append(c, MergeYamlConfigAttribute(existingAttr, attr))
 					found = true
 					break
 				}
 			}
 		}
 		if !found {
-			c = append(c, attr)
+			c = append(c, MergeYamlConfigAttribute(existingAttr, YamlConfigAttribute{}))
 		}
 	}
 	return c
 }
 
-func MergeYamlConfigAttribute(a, b YamlConfigAttribute) YamlConfigAttribute {
-	// Merge b into a
-	if b.ModelName != "" {
-		a.ModelName = b.ModelName
+func MergeYamlConfigAttribute(existing YamlConfigAttributeP, new YamlConfigAttribute) YamlConfigAttributeP {
+	// Merge new into existing
+	if existing.ModelName == nil && new.ModelName != "" {
+		existing.ModelName = &new.ModelName
 	}
-	if b.TfName != "" {
-		a.TfName = b.TfName
+	if existing.TfName == nil && new.TfName != "" {
+		existing.TfName = &new.TfName
 	}
-	if b.Type != "" {
-		a.Type = b.Type
+	if existing.Type == nil && new.Type != "" {
+		existing.Type = &new.Type
 	}
-	if b.ElementType != "" {
-		a.ElementType = b.ElementType
+	if existing.ElementType == nil && new.ElementType != "" {
+		existing.ElementType = &new.ElementType
 	}
-	if b.DataPath != nil {
-		a.DataPath = b.DataPath
+	if existing.DataPath == nil && len(new.DataPath) > 0 {
+		existing.DataPath = &new.DataPath
 	}
-	if b.Id {
-		a.Id = b.Id
+	if existing.Id == nil && new.Id {
+		existing.Id = &new.Id
 	}
-	if b.Reference {
-		a.Reference = b.Reference
+	if existing.Reference == nil && new.Reference {
+		existing.Reference = &new.Reference
 	}
-	if b.RequiresReplace {
-		a.RequiresReplace = b.RequiresReplace
+	if existing.RequiresReplace == nil && new.RequiresReplace {
+		existing.RequiresReplace = &new.RequiresReplace
 	}
-	if b.Mandatory {
-		a.Mandatory = b.Mandatory
+	if existing.Mandatory == nil && new.Mandatory {
+		existing.Mandatory = &new.Mandatory
 	}
-	if b.WriteOnly {
-		a.WriteOnly = b.WriteOnly
+	if existing.WriteOnly == nil && new.WriteOnly {
+		existing.WriteOnly = &new.WriteOnly
 	}
-	if b.WriteChangesOnly {
-		a.WriteChangesOnly = b.WriteChangesOnly
+	if existing.WriteChangesOnly == nil && new.WriteChangesOnly {
+		existing.WriteChangesOnly = &new.WriteChangesOnly
 	}
-	if b.ExcludeTest {
-		a.ExcludeTest = b.ExcludeTest
+	if existing.ExcludeTest == nil && new.ExcludeTest {
+		existing.ExcludeTest = &new.ExcludeTest
 	}
-	if b.ExcludeExample {
-		a.ExcludeExample = b.ExcludeExample
+	if existing.ExcludeExample == nil && new.ExcludeExample {
+		existing.ExcludeExample = &new.ExcludeExample
 	}
-	if b.Description != "" {
-		a.Description = b.Description
+	if existing.Description == nil && new.Description != "" {
+		existing.Description = &new.Description
 	}
-	if b.Example != "" {
-		a.Example = b.Example
+	if existing.Example == nil && new.Example != "" {
+		existing.Example = &new.Example
 	}
-	if b.EnumValues != nil {
-		a.EnumValues = b.EnumValues
+	if existing.EnumValues == nil && len(new.EnumValues) > 0 {
+		existing.EnumValues = &new.EnumValues
 	}
-	if b.MinList != 0 {
-		a.MinList = b.MinList
+	if existing.MinList == nil && new.MinList != 0 {
+		existing.MinList = &new.MinList
 	}
-	if b.MaxList != 0 {
-		a.MaxList = b.MaxList
+	if existing.MaxList == nil && new.MaxList != 0 {
+		existing.MaxList = &new.MaxList
 	}
-	if b.MinInt != 0 {
-		a.MinInt = b.MinInt
+	if existing.MinInt == nil && new.MinInt != 0 {
+		existing.MinInt = &new.MinInt
 	}
-	if b.MaxInt != 0 {
-		a.MaxInt = b.MaxInt
+	if existing.MaxInt == nil && new.MaxInt != 0 {
+		existing.MaxInt = &new.MaxInt
 	}
-	if b.MinFloat != 0 {
-		a.MinFloat = b.MinFloat
+	if existing.MinFloat == nil && new.MinFloat != 0 {
+		existing.MinFloat = &new.MinFloat
 	}
-	if b.MaxFloat != 0 {
-		a.MaxFloat = b.MaxFloat
+	if existing.MaxFloat == nil && new.MaxFloat != 0 {
+		existing.MaxFloat = &new.MaxFloat
 	}
-	if b.OrderedList {
-		a.OrderedList = b.OrderedList
+	if existing.OrderedList == nil && new.OrderedList {
+		existing.OrderedList = &new.OrderedList
 	}
-	if b.StringPatterns != nil {
-		a.StringPatterns = b.StringPatterns
+	if existing.StringPatterns == nil && len(new.StringPatterns) > 0 {
+		existing.StringPatterns = &new.StringPatterns
 	}
-	if b.StringMinLength != 0 {
-		a.StringMinLength = b.StringMinLength
+	if existing.StringMinLength == nil && new.StringMinLength != 0 {
+		existing.StringMinLength = &new.StringMinLength
 	}
-	if b.StringMaxLength != 0 {
-		a.StringMaxLength = b.StringMaxLength
+	if existing.StringMaxLength == nil && new.StringMaxLength != 0 {
+		existing.StringMaxLength = &new.StringMaxLength
 	}
-	if b.DefaultValue != "" {
-		a.DefaultValue = b.DefaultValue
+	if existing.DefaultValue == nil && new.DefaultValue != "" {
+		existing.DefaultValue = &new.DefaultValue
 	}
-	if b.Value != "" {
-		a.Value = b.Value
+	if existing.Value == nil && new.Value != "" {
+		existing.Value = &new.Value
 	}
-	if b.TestValue != "" {
-		a.TestValue = b.TestValue
+	if existing.TestValue == nil && new.TestValue != "" {
+		existing.TestValue = &new.TestValue
 	}
-	if b.MinimumTestValue != "" {
-		a.MinimumTestValue = b.MinimumTestValue
+	if existing.MinimumTestValue == nil && new.MinimumTestValue != "" {
+		existing.MinimumTestValue = &new.MinimumTestValue
 	}
-	if b.TestTags != nil {
-		a.TestTags = b.TestTags
+	if existing.TestTags == nil && len(new.TestTags) > 0 {
+		existing.TestTags = &new.TestTags
 	}
-	if b.Attributes != nil {
-		a.Attributes = MergeYamlConfigAttributes(a.Attributes, b.Attributes)
+	if existing.Attributes == nil && len(new.Attributes) > 0 {
+		attrs := MergeYamlConfigAttributes(*existing.Attributes, new.Attributes)
+		existing.Attributes = &attrs
 	}
-	if b.GoTypeName != "" {
-		a.GoTypeName = b.GoTypeName
+	if existing.GoTypeName == nil && new.GoTypeName != "" {
+		existing.GoTypeName = &new.GoTypeName
 	}
-	return a
+	return existing
 }

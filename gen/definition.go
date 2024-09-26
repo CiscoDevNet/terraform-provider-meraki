@@ -192,7 +192,7 @@ func generateDefinition(endpointPath, resourceName string) {
 
 	outputPath := definitionsPath + yamlconfig.SnakeCase(resourceName) + ".yaml"
 
-	existingConfig := yamlconfig.YamlConfig{}
+	existingConfig := yamlconfig.YamlConfigP{}
 	comments := ""
 	commentsEndpoint := ""
 	if yamlFile, err := os.ReadFile(outputPath); err == nil {
@@ -210,7 +210,6 @@ func generateDefinition(endpointPath, resourceName string) {
 				break
 			}
 		}
-		existingConfig = yamlconfig.YamlConfig{}
 		err = yaml.Unmarshal(yamlFile, &existingConfig)
 		if err != nil {
 			panic(err)
@@ -220,7 +219,7 @@ func generateDefinition(endpointPath, resourceName string) {
 		commentsEndpoint = endpointPath
 	}
 
-	newConfig := yamlconfig.MergeYamlConfig(config, existingConfig)
+	newConfig := yamlconfig.MergeYamlConfig(existingConfig, config)
 
 	var yamlBytes bytes.Buffer
 	yamlEncoder := yaml.NewEncoder(&yamlBytes)
