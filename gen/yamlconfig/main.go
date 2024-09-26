@@ -132,6 +132,10 @@ type YamlConfigAttributeP struct {
 	GoTypeName       *string                 `yaml:"gotypename,omitempty"`
 }
 
+func P[T any](v T) *T {
+	return &v
+}
+
 // Templating helper function to convert TF name to GO name
 func ToGoName(s string) string {
 	var g []string
@@ -403,206 +407,202 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName string) error {
 	return nil
 }
 
-func MergeYamlConfig(existing YamlConfigP, new YamlConfig) YamlConfigP {
-	// Merge new into existing
-	if existing.Name == nil && new.Name != "" {
-		existing.Name = &new.Name
+func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
+	// Merge existing into new
+	if existing.Name != nil {
+		new.Name = existing.Name
 	}
-	if existing.TfName == nil && new.TfName != "" {
-		existing.TfName = &new.TfName
+	if existing.TfName != nil {
+		new.TfName = existing.TfName
 	}
-	if existing.RestEndpoint == nil && new.RestEndpoint != "" {
-		existing.RestEndpoint = &new.RestEndpoint
+	if existing.RestEndpoint != nil {
+		new.RestEndpoint = existing.RestEndpoint
 	}
-	if existing.NoDataSource == nil && new.NoDataSource {
-		existing.NoDataSource = &new.NoDataSource
+	if existing.NoDataSource != nil {
+		new.NoDataSource = existing.NoDataSource
 	}
-	if existing.NoResource == nil && new.NoResource {
-		existing.NoResource = &new.NoResource
+	if existing.NoResource != nil {
+		new.NoResource = existing.NoResource
 	}
-	if existing.PutCreate == nil && new.PutCreate {
-		existing.PutCreate = &new.PutCreate
+	if existing.PutCreate != nil {
+		new.PutCreate = existing.PutCreate
 	}
-	if existing.GetFromAll == nil && new.GetFromAll {
-		existing.GetFromAll = &new.GetFromAll
+	if existing.GetFromAll != nil {
+		new.GetFromAll = existing.GetFromAll
 	}
-	if existing.NoUpdate == nil && new.NoUpdate {
-		existing.NoUpdate = &new.NoUpdate
+	if existing.NoUpdate != nil {
+		new.NoUpdate = existing.NoUpdate
 	}
-	if existing.NoDelete == nil && new.NoDelete {
-		existing.NoDelete = &new.NoDelete
+	if existing.NoDelete != nil {
+		new.NoDelete = existing.NoDelete
 	}
-	if existing.NoImport == nil && new.NoImport {
-		existing.NoImport = &new.NoImport
+	if existing.NoImport != nil {
+		new.NoImport = existing.NoImport
 	}
-	if existing.IdName == nil && new.IdName != "" {
-		existing.IdName = &new.IdName
+	if existing.IdName != nil {
+		new.IdName = existing.IdName
 	}
-	if existing.DataSourceNameQuery == nil && new.DataSourceNameQuery {
-		existing.DataSourceNameQuery = &new.DataSourceNameQuery
+	if existing.DataSourceNameQuery != nil {
+		new.DataSourceNameQuery = existing.DataSourceNameQuery
 	}
-	if existing.MinimumVersion == nil && new.MinimumVersion != "" {
-		existing.MinimumVersion = &new.MinimumVersion
+	if existing.MinimumVersion != nil {
+		new.MinimumVersion = existing.MinimumVersion
 	}
-	if existing.DsDescription == nil && new.DsDescription != "" {
-		existing.DsDescription = &new.DsDescription
+	if existing.DsDescription != nil {
+		new.DsDescription = existing.DsDescription
 	}
-	if existing.ResDescription == nil && new.ResDescription != "" {
-		existing.ResDescription = &new.ResDescription
+	if existing.ResDescription != nil {
+		new.ResDescription = existing.ResDescription
 	}
-	if existing.DocCategory == nil && new.DocCategory != "" {
-		existing.DocCategory = &new.DocCategory
+	if existing.DocCategory != nil {
+		new.DocCategory = existing.DocCategory
 	}
-	if existing.ExcludeTest == nil && new.ExcludeTest {
-		existing.ExcludeTest = &new.ExcludeTest
+	if existing.ExcludeTest != nil {
+		new.ExcludeTest = existing.ExcludeTest
 	}
-	if existing.SkipMinimumTest == nil && new.SkipMinimumTest {
-		existing.SkipMinimumTest = &new.SkipMinimumTest
+	if existing.SkipMinimumTest != nil {
+		new.SkipMinimumTest = existing.SkipMinimumTest
 	}
-	if existing.TestTags == nil && len(new.TestTags) > 0 {
-		existing.TestTags = &new.TestTags
+	if existing.TestTags != nil {
+		new.TestTags = existing.TestTags
 	}
-	if existing.TestVariables == nil && len(new.TestVariables) > 0 {
-		existing.TestVariables = &new.TestVariables
+	if existing.TestVariables != nil {
+		new.TestVariables = existing.TestVariables
 	}
-	if existing.Attributes == nil && len(new.Attributes) > 0 {
-		attrs := MergeYamlConfigAttributes(*existing.Attributes, new.Attributes)
-		existing.Attributes = &attrs
+	if existing.Attributes != nil {
+		new.Attributes = MergeYamlConfigAttributes(existing.Attributes, new.Attributes)
 	}
-	if existing.TestPrerequisites == nil && new.TestPrerequisites != "" {
-		existing.TestPrerequisites = &new.TestPrerequisites
+	if existing.TestPrerequisites != nil {
+		new.TestPrerequisites = existing.TestPrerequisites
 	}
-	return existing
+	return new
 }
 
-func MergeYamlConfigAttributes(existing []YamlConfigAttributeP, new []YamlConfigAttribute) []YamlConfigAttributeP {
-	// Merge new into existing
+func MergeYamlConfigAttributes(existing *[]YamlConfigAttributeP, new *[]YamlConfigAttributeP) *[]YamlConfigAttributeP {
+	// Merge existing into new
 	var c []YamlConfigAttributeP
-	for _, existingAttr := range existing {
+	for _, attr := range *new {
 		found := false
-		for _, attr := range new {
-			if existingAttr.ModelName != nil && existingAttr.DataPath != nil && *existingAttr.ModelName != "" && attr.ModelName != "" && slices.Equal(*existingAttr.DataPath, attr.DataPath) {
-				if *existingAttr.ModelName == attr.ModelName {
-					c = append(c, MergeYamlConfigAttribute(existingAttr, attr))
+		for _, existingAttr := range *existing {
+			if existingAttr.ModelName != nil && *existingAttr.ModelName != "" && attr.ModelName != nil && *attr.ModelName != "" && *existingAttr.ModelName == *attr.ModelName {
+				if (existingAttr.DataPath == nil || attr.DataPath == nil) || slices.Equal(*existingAttr.DataPath, *attr.DataPath) {
+					c = append(c, *MergeYamlConfigAttribute(&existingAttr, &attr))
 					found = true
 					break
 				}
-			} else if existingAttr.TfName != nil && *existingAttr.TfName != "" && attr.TfName != "" {
-				if *existingAttr.TfName == attr.TfName {
-					c = append(c, MergeYamlConfigAttribute(existingAttr, attr))
-					found = true
-					break
-				}
+			} else if existingAttr.TfName != nil && *existingAttr.TfName != "" && attr.TfName != nil && *attr.TfName != "" && *existingAttr.TfName == *attr.TfName {
+				c = append(c, *MergeYamlConfigAttribute(&existingAttr, &attr))
+				found = true
+				break
 			}
 		}
 		if !found {
-			c = append(c, MergeYamlConfigAttribute(existingAttr, YamlConfigAttribute{}))
+			c = append(c, *MergeYamlConfigAttribute(&YamlConfigAttributeP{}, &attr))
 		}
 	}
-	return c
+	return &c
 }
 
-func MergeYamlConfigAttribute(existing YamlConfigAttributeP, new YamlConfigAttribute) YamlConfigAttributeP {
-	// Merge new into existing
-	if existing.ModelName == nil && new.ModelName != "" {
-		existing.ModelName = &new.ModelName
+func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAttributeP) *YamlConfigAttributeP {
+	// Merge existing into new
+	if existing.ModelName != nil {
+		new.ModelName = existing.ModelName
 	}
-	if existing.TfName == nil && new.TfName != "" {
-		existing.TfName = &new.TfName
+	if existing.TfName != nil {
+		new.TfName = existing.TfName
 	}
-	if existing.Type == nil && new.Type != "" {
-		existing.Type = &new.Type
+	if existing.Type != nil {
+		new.Type = existing.Type
 	}
-	if existing.ElementType == nil && new.ElementType != "" {
-		existing.ElementType = &new.ElementType
+	if existing.ElementType != nil {
+		new.ElementType = existing.ElementType
 	}
-	if existing.DataPath == nil && len(new.DataPath) > 0 {
-		existing.DataPath = &new.DataPath
+	if existing.DataPath != nil {
+		new.DataPath = existing.DataPath
 	}
-	if existing.Id == nil && new.Id {
-		existing.Id = &new.Id
+	if existing.Id != nil {
+		new.Id = existing.Id
 	}
-	if existing.Reference == nil && new.Reference {
-		existing.Reference = &new.Reference
+	if existing.Reference != nil {
+		new.Reference = existing.Reference
 	}
-	if existing.RequiresReplace == nil && new.RequiresReplace {
-		existing.RequiresReplace = &new.RequiresReplace
+	if existing.RequiresReplace != nil {
+		new.RequiresReplace = existing.RequiresReplace
 	}
-	if existing.Mandatory == nil && new.Mandatory {
-		existing.Mandatory = &new.Mandatory
+	if existing.Mandatory != nil {
+		new.Mandatory = existing.Mandatory
 	}
-	if existing.WriteOnly == nil && new.WriteOnly {
-		existing.WriteOnly = &new.WriteOnly
+	if existing.WriteOnly != nil {
+		new.WriteOnly = existing.WriteOnly
 	}
-	if existing.WriteChangesOnly == nil && new.WriteChangesOnly {
-		existing.WriteChangesOnly = &new.WriteChangesOnly
+	if existing.WriteChangesOnly != nil {
+		new.WriteChangesOnly = existing.WriteChangesOnly
 	}
-	if existing.ExcludeTest == nil && new.ExcludeTest {
-		existing.ExcludeTest = &new.ExcludeTest
+	if existing.ExcludeTest != nil {
+		new.ExcludeTest = existing.ExcludeTest
 	}
-	if existing.ExcludeExample == nil && new.ExcludeExample {
-		existing.ExcludeExample = &new.ExcludeExample
+	if existing.ExcludeExample != nil {
+		new.ExcludeExample = existing.ExcludeExample
 	}
-	if existing.Description == nil && new.Description != "" {
-		existing.Description = &new.Description
+	if existing.Description != nil {
+		new.Description = existing.Description
 	}
-	if existing.Example == nil && new.Example != "" {
-		existing.Example = &new.Example
+	if existing.Example != nil {
+		new.Example = existing.Example
 	}
-	if existing.EnumValues == nil && len(new.EnumValues) > 0 {
-		existing.EnumValues = &new.EnumValues
+	if existing.EnumValues != nil {
+		new.EnumValues = existing.EnumValues
 	}
-	if existing.MinList == nil && new.MinList != 0 {
-		existing.MinList = &new.MinList
+	if existing.MinList != nil {
+		new.MinList = existing.MinList
 	}
-	if existing.MaxList == nil && new.MaxList != 0 {
-		existing.MaxList = &new.MaxList
+	if existing.MaxList != nil {
+		new.MaxList = existing.MaxList
 	}
-	if existing.MinInt == nil && new.MinInt != 0 {
-		existing.MinInt = &new.MinInt
+	if existing.MinInt != nil {
+		new.MinInt = existing.MinInt
 	}
-	if existing.MaxInt == nil && new.MaxInt != 0 {
-		existing.MaxInt = &new.MaxInt
+	if existing.MaxInt != nil {
+		new.MaxInt = existing.MaxInt
 	}
-	if existing.MinFloat == nil && new.MinFloat != 0 {
-		existing.MinFloat = &new.MinFloat
+	if existing.MinFloat != nil {
+		new.MinFloat = existing.MinFloat
 	}
-	if existing.MaxFloat == nil && new.MaxFloat != 0 {
-		existing.MaxFloat = &new.MaxFloat
+	if existing.MaxFloat != nil {
+		new.MaxFloat = existing.MaxFloat
 	}
-	if existing.OrderedList == nil && new.OrderedList {
-		existing.OrderedList = &new.OrderedList
+	if existing.OrderedList != nil {
+		new.OrderedList = existing.OrderedList
 	}
-	if existing.StringPatterns == nil && len(new.StringPatterns) > 0 {
-		existing.StringPatterns = &new.StringPatterns
+	if existing.StringPatterns != nil {
+		new.StringPatterns = existing.StringPatterns
 	}
-	if existing.StringMinLength == nil && new.StringMinLength != 0 {
-		existing.StringMinLength = &new.StringMinLength
+	if existing.StringMinLength != nil {
+		new.StringMinLength = existing.StringMinLength
 	}
-	if existing.StringMaxLength == nil && new.StringMaxLength != 0 {
-		existing.StringMaxLength = &new.StringMaxLength
+	if existing.StringMaxLength != nil {
+		new.StringMaxLength = existing.StringMaxLength
 	}
-	if existing.DefaultValue == nil && new.DefaultValue != "" {
-		existing.DefaultValue = &new.DefaultValue
+	if existing.DefaultValue != nil {
+		new.DefaultValue = existing.DefaultValue
 	}
-	if existing.Value == nil && new.Value != "" {
-		existing.Value = &new.Value
+	if existing.Value != nil {
+		new.Value = existing.Value
 	}
-	if existing.TestValue == nil && new.TestValue != "" {
-		existing.TestValue = &new.TestValue
+	if existing.TestValue != nil {
+		new.TestValue = existing.TestValue
 	}
-	if existing.MinimumTestValue == nil && new.MinimumTestValue != "" {
-		existing.MinimumTestValue = &new.MinimumTestValue
+	if existing.MinimumTestValue != nil {
+		new.MinimumTestValue = existing.MinimumTestValue
 	}
-	if existing.TestTags == nil && len(new.TestTags) > 0 {
-		existing.TestTags = &new.TestTags
+	if existing.TestTags != nil {
+		new.TestTags = existing.TestTags
 	}
-	if existing.Attributes == nil && len(new.Attributes) > 0 {
-		attrs := MergeYamlConfigAttributes(*existing.Attributes, new.Attributes)
-		existing.Attributes = &attrs
+	if existing.Attributes != nil {
+		new.Attributes = MergeYamlConfigAttributes(existing.Attributes, new.Attributes)
 	}
-	if existing.GoTypeName == nil && new.GoTypeName != "" {
-		existing.GoTypeName = &new.GoTypeName
+	if existing.GoTypeName != nil {
+		new.GoTypeName = existing.GoTypeName
 	}
-	return existing
+	return new
 }
