@@ -2,7 +2,7 @@ default: testall
 
 # Run all acceptance tests
 .PHONY: testall
-testacc:
+testall:
 	TF_ACC=1 go test -v $(TESTARGS) -timeout 120m ./internal/provider
 
 # Run a subset of tests by specifying a regex (NAME).
