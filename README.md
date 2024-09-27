@@ -8,7 +8,7 @@ All resources and data sources have been tested with the following API releases.
 
 | API | Version |
 | ---------------- | ------- |
-| Meraki Dashboard | 1.49    |
+| Meraki Dashboard | 1.50.0  |
 
 Documentation: <https://registry.terraform.io/providers/CiscoDevNet/meraki/latest>
 
@@ -59,10 +59,10 @@ To generate or update documentation, run `go generate`.
 
 ## Acceptance tests
 
-In order to run the full suite of Acceptance tests, run `make testacc`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
+In order to run the full suite of Acceptance tests, run `make testall`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
 
 Note: Acceptance tests create real resources.
 
 ```shell
-make testacc
+make testall
 ```
