@@ -36,7 +36,6 @@ func TestAccDataSourceMerakiNetworkSyslogServers(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_syslog_servers.test", "servers.0.host", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_syslog_servers.test", "servers.0.port", "443"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_syslog_servers.test", "servers.0.roles.0", "Wireless event log"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

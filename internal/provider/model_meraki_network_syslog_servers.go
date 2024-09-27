@@ -45,7 +45,7 @@ type NetworkSyslogServers struct {
 type NetworkSyslogServersServers struct {
 	Host  types.String `tfsdk:"host"`
 	Port  types.Int64  `tfsdk:"port"`
-	Roles types.List   `tfsdk:"roles"`
+	Roles types.Set    `tfsdk:"roles"`
 }
 
 // End of section. //template:end types
@@ -104,9 +104,9 @@ func (data *NetworkSyslogServers) fromBody(ctx context.Context, res gjson.Result
 				data.Port = types.Int64Null()
 			}
 			if value := res.Get("roles"); value.Exists() {
-				data.Roles = helpers.GetStringList(value.Array())
+				data.Roles = helpers.GetStringSet(value.Array())
 			} else {
-				data.Roles = types.ListNull(types.StringType)
+				data.Roles = types.SetNull(types.StringType)
 			}
 			(*parent).Servers = append((*parent).Servers, data)
 			return true
@@ -170,9 +170,9 @@ func (data *NetworkSyslogServers) fromBodyPartial(ctx context.Context, res gjson
 			data.Port = types.Int64Null()
 		}
 		if value := res.Get("roles"); value.Exists() && !data.Roles.IsNull() {
-			data.Roles = helpers.GetStringList(value.Array())
+			data.Roles = helpers.GetStringSet(value.Array())
 		} else {
-			data.Roles = types.ListNull(types.StringType)
+			data.Roles = types.SetNull(types.StringType)
 		}
 		(*parent).Servers[i] = data
 	}

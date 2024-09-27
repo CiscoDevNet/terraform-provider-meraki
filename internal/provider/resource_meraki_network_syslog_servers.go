@@ -89,7 +89,7 @@ func (r *NetworkSyslogServersResource) Schema(ctx context.Context, req resource.
 							MarkdownDescription: helpers.NewAttributeDescription("The port of the syslog server").String,
 							Required:            true,
 						},
-						"roles": schema.ListAttribute{
+						"roles": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A list of roles for the syslog server. Options (case-insensitive): `Wireless event log`, `Appliance event log`, `Switch event log`, `Air Marshal events`, `Flows`, `URLs`, `IDS alerts`, `Security events`").String,
 							ElementType:         types.StringType,
 							Required:            true,
