@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/appliance/firewall/cellularFirewallRules
 name: Appliance Cellular Firewall Rules
+spec_endpoint: /networks/{networkId}/appliance/firewall/cellularFirewallRules
 rest_endpoint: /networks/%v/appliance/firewall/cellularFirewallRules
 put_create: true
 no_delete: true

@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/adaptivePolicy/acls/{aclId}
 name: Organization Adaptive Policy ACL
+spec_endpoint: /organizations/{organizationId}/adaptivePolicy/acls/{aclId}
 rest_endpoint: /organizations/%v/adaptivePolicy/acls
 id_name: aclId
 data_source_name_query: true

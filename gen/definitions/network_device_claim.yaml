@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/devices/claim
 name: Network Device Claim
+spec_endpoint: /networks/{networkId}/devices/claim
 rest_endpoint: /networks/%v/devices/claim
 no_data_source: true
 no_import: true

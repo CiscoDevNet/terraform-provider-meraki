@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/saml/idps/{idpId}
 name: Organization SAML IdP
+spec_endpoint: /organizations/{organizationId}/saml/idps/{idpId}
 rest_endpoint: /organizations/%v/saml/idps
 id_name: idpId
 doc_category: Organizations

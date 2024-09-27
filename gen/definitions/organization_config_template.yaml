@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/configTemplates/{configTemplateId}
 name: Organization Config Template
+spec_endpoint: /organizations/{organizationId}/configTemplates/{configTemplateId}
 rest_endpoint: /organizations/%v/configTemplates
 data_source_name_query: true
 doc_category: Organizations

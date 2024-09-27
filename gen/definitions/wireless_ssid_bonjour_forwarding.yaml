@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/ssids/{number}/bonjourForwarding
 name: Wireless SSID Bonjour Forwarding
+spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/bonjourForwarding
 rest_endpoint: /networks/%v/wireless/ssids/%v/bonjourForwarding
 put_create: true
 no_delete: true

@@ -82,6 +82,10 @@ resource "meraki_network_device_claim" "test" {
 }
 `
 
+func P[T any](v T) *T {
+	return &v
+}
+
 func main() {
 	if len(os.Args) < 3 {
 		fmt.Println("Error: Insufficient number of arguments")
@@ -114,7 +118,7 @@ func generateDefinition(endpointPath, resourceName string) {
 		os.Exit(1)
 	}
 
-	config := yamlconfig.YamlConfig{}
+	config := yamlconfig.YamlConfigP{}
 	urlResult := parseUrl(endpointPath, spec)
 
 	example := urlResult.schema["schema"].(map[string]interface{})["example"].(map[string]interface{})
@@ -126,9 +130,9 @@ func generateDefinition(endpointPath, resourceName string) {
 	if urlResult.resultPath[len(urlResult.resultPath)-1] == '/' {
 		urlResult.resultPath = urlResult.resultPath[:len(urlResult.resultPath)-1]
 	}
-	config.RestEndpoint = urlResult.resultPath
-	config.DocCategory = urlResult.category
-	config.Name = resourceName
+	config.RestEndpoint = &urlResult.resultPath
+	config.DocCategory = &urlResult.category
+	config.Name = &resourceName
 	config.PutCreate = urlResult.putCreate
 	config.NoDelete = urlResult.noDelete
 	config.GetFromAll = urlResult.getFromAll
@@ -138,31 +142,31 @@ func generateDefinition(endpointPath, resourceName string) {
 	config.NoUpdate = urlResult.noUpdate
 	config.TestVariables = urlResult.testVariables
 
-	attributes := []yamlconfig.YamlConfigAttribute{}
+	attributes := []yamlconfig.YamlConfigAttributeP{}
 	for i, r := range urlResult.references {
-		attr := yamlconfig.YamlConfigAttribute{}
-		attr.TfName = yamlconfig.CamelToSnake(r[1 : len(r)-1])
-		attr.Type = "String"
-		attr.Reference = true
+		attr := yamlconfig.YamlConfigAttributeP{}
+		attr.TfName = P(yamlconfig.CamelToSnake(r[1 : len(r)-1]))
+		attr.Type = P("String")
+		attr.Reference = P(true)
 		if !urlResult.hasShortUrl && i == len(urlResult.references)-1 {
-			attr.Id = true
+			attr.Id = P(true)
 		}
-		if attr.TfName == "organization_id" {
-			attr.Description = "Organization ID"
-			attr.TestValue = "data.meraki_organization.test.id"
-			attr.Example = "123456"
-		} else if attr.TfName == "network_id" {
-			attr.Description = "Network ID"
-			attr.TestValue = "meraki_network.test.id"
-			attr.Example = "L_123456"
-		} else if attr.TfName == "serial" {
-			attr.Description = "Device serial"
-			attr.TestValue = "tolist(meraki_network_device_claim.test.serials)[0]"
-			attr.Example = "1234-ABCD-1234"
+		if *attr.TfName == "organization_id" {
+			attr.Description = P("Organization ID")
+			attr.TestValue = P("data.meraki_organization.test.id")
+			attr.Example = P("123456")
+		} else if *attr.TfName == "network_id" {
+			attr.Description = P("Network ID")
+			attr.TestValue = P("meraki_network.test.id")
+			attr.Example = P("L_123456")
+		} else if *attr.TfName == "serial" {
+			attr.Description = P("Device serial")
+			attr.TestValue = P("tolist(meraki_network_device_claim.test.serials)[0]")
+			attr.Example = P("1234-ABCD-1234")
 		} else {
-			attr.Description = "<<Description>>"
-			attr.TestValue = "<<TestValue>>"
-			attr.Example = "<<Example>>"
+			attr.Description = P("<<Description>>")
+			attr.TestValue = P("<<TestValue>>")
+			attr.Example = P("<<Example>>")
 		}
 		attributes = append(attributes, attr)
 	}
@@ -171,56 +175,54 @@ func generateDefinition(endpointPath, resourceName string) {
 		required = toStringSlice(r.([]interface{}))
 	}
 	attributes = append(attributes, traverseProperties(urlResult.schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr), required)...)
-	config.Attributes = attributes
+	config.Attributes = &attributes
 
-	dataSourceNameQuery := false
-	for _, a := range config.Attributes {
-		if a.ModelName == "name" && len(a.DataPath) == 0 && !config.PutCreate {
-			dataSourceNameQuery = true
+	var dataSourceNameQuery *bool
+	for _, a := range *config.Attributes {
+		if a.ModelName != nil && *a.ModelName == "name" && a.DataPath != nil && len(*a.DataPath) == 0 && !*config.PutCreate {
+			dataSourceNameQuery = P(true)
 			break
 		}
 	}
 	config.DataSourceNameQuery = dataSourceNameQuery
 
-	if slices.Contains(config.TestVariables, "test_switch_1_serial") {
-		config.TestPrerequisites = devicePrerequisites
-	} else if slices.Contains(config.TestVariables, "test_network") {
-		config.TestPrerequisites = networkPrerequisites
-	} else if slices.Contains(config.TestVariables, "test_org") {
-		config.TestPrerequisites = orgPrerequisites
+	if slices.Contains(*config.TestVariables, "test_switch_1_serial") {
+		config.TestPrerequisites = P(devicePrerequisites)
+	} else if slices.Contains(*config.TestVariables, "test_network") {
+		config.TestPrerequisites = P(networkPrerequisites)
+	} else if slices.Contains(*config.TestVariables, "test_org") {
+		config.TestPrerequisites = P(orgPrerequisites)
 	}
 
 	outputPath := definitionsPath + yamlconfig.SnakeCase(resourceName) + ".yaml"
 
-	existingConfig := yamlconfig.YamlConfig{}
+	existingConfig := yamlconfig.YamlConfigP{}
 	comments := ""
-	commentsEndpoint := ""
 	if yamlFile, err := os.ReadFile(outputPath); err == nil {
 		// retain comments at the beginning of the definition file
 		scanner := bufio.NewScanner(bytes.NewReader(yamlFile))
 		for scanner.Scan() {
 			line := scanner.Text()
 			if line[0] == '#' {
-				if strings.Contains(line, yamlconfig.EndpointToken) {
-					commentsEndpoint = strings.Trim(strings.Split(line, yamlconfig.EndpointToken)[1], " ")
-				} else {
-					comments += line + "\n"
-				}
+				comments += line + "\n"
 			} else {
 				break
 			}
 		}
-		existingConfig = yamlconfig.YamlConfig{}
 		err = yaml.Unmarshal(yamlFile, &existingConfig)
 		if err != nil {
 			panic(err)
 		}
 	}
-	if commentsEndpoint == "" {
-		commentsEndpoint = endpointPath
+	if existingConfig.SpecEndpoint == nil || *existingConfig.SpecEndpoint == "" {
+		*&existingConfig.SpecEndpoint = &endpointPath
 	}
 
-	newConfig := yamlconfig.MergeYamlConfig(config, existingConfig)
+	if existingConfig.IgnoreAttributes != nil {
+		removeIgnoredAttributes(config.Attributes, *existingConfig.IgnoreAttributes)
+	}
+
+	newConfig := yamlconfig.MergeYamlConfig(&existingConfig, &config)
 
 	var yamlBytes bytes.Buffer
 	yamlEncoder := yaml.NewEncoder(&yamlBytes)
@@ -229,7 +231,7 @@ func generateDefinition(endpointPath, resourceName string) {
 	if err != nil {
 		panic(err)
 	}
-	writeString := fmt.Sprintf("# %s %s\n%s%s", yamlconfig.EndpointToken, commentsEndpoint, comments, yamlBytes.String())
+	writeString := fmt.Sprint(comments + yamlBytes.String())
 	os.WriteFile(outputPath, []byte(writeString), 0644)
 }
 
@@ -253,15 +255,15 @@ type parseUrlResult struct {
 	references    []string
 	category      string
 	schema        map[string]interface{}
-	putCreate     bool
-	noDelete      bool
-	getFromAll    bool
+	putCreate     *bool
+	noDelete      *bool
+	getFromAll    *bool
 	hasShortUrl   bool
-	noResource    bool
-	noDataSource  bool
-	noImport      bool
-	noUpdate      bool
-	testVariables []string
+	noResource    *bool
+	noDataSource  *bool
+	noImport      *bool
+	noUpdate      *bool
+	testVariables *[]string
 }
 
 func parseUrl(url string, spec interface{}) parseUrlResult {
@@ -320,24 +322,24 @@ func parseUrl(url string, spec interface{}) parseUrlResult {
 
 	if !hasPost && !hasShortPost {
 		if hasPut || hasShortPut {
-			ret.putCreate = true
+			ret.putCreate = P(true)
 		} else {
-			ret.noResource = true
+			ret.noResource = P(true)
 		}
 	}
-	if !ret.noResource {
+	if ret.noResource != nil && !*ret.noResource {
 		if !hasGet && hasShortGet {
-			ret.getFromAll = true
+			ret.getFromAll = P(true)
 		}
 		if !hasDelete && !hasShortDelete {
-			ret.noDelete = true
+			ret.noDelete = P(true)
 		}
 		if !hasPut && !hasShortPut {
-			ret.noUpdate = true
+			ret.noUpdate = P(true)
 		}
 		if !hasGet && !hasShortGet {
-			ret.noDataSource = true
-			ret.noImport = true
+			ret.noDataSource = P(true)
+			ret.noImport = P(true)
 		}
 	}
 
@@ -398,20 +400,20 @@ func parseUrl(url string, spec interface{}) parseUrlResult {
 	}
 
 	if strings.Contains(parts[0], "/organizations") {
-		ret.testVariables = append(ret.testVariables, "test_org")
+		ret.testVariables = P(append([]string{}, "test_org"))
 	} else if strings.Contains(parts[0], "/networks") {
-		ret.testVariables = append(ret.testVariables, "test_org")
-		ret.testVariables = append(ret.testVariables, "test_network")
+		ret.testVariables = P(append([]string{}, "test_org"))
+		ret.testVariables = P(append(*ret.testVariables, "test_network"))
 	} else if strings.Contains(parts[0], "/devices") {
-		ret.testVariables = append(ret.testVariables, "test_org")
-		ret.testVariables = append(ret.testVariables, "test_network")
-		ret.testVariables = append(ret.testVariables, "test_switch_1_serial")
+		ret.testVariables = P(append([]string{}, "test_org"))
+		ret.testVariables = P(append(*ret.testVariables, "test_network"))
+		ret.testVariables = P(append(*ret.testVariables, "test_switch_1_serial"))
 	}
 	return ret
 }
 
-func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string, requiredProperties []string) []yamlconfig.YamlConfigAttribute {
-	ret := []yamlconfig.YamlConfigAttribute{}
+func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string, requiredProperties []string) []yamlconfig.YamlConfigAttributeP {
+	ret := []yamlconfig.YamlConfigAttributeP{}
 
 	keys := maps.Keys(m)
 	sort.Strings(keys)
@@ -420,37 +422,44 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 		propMap := m[propName].(map[string]interface{})
 		if propMap["type"] != "object" && propMap["type"] != "array" {
 			// primitive value
-			attr := yamlconfig.YamlConfigAttribute{}
-			attr.DataPath = path
-			attr.Type = jsonTypes[propMap["type"].(string)]
-			attr.ModelName = propName
+			attr := yamlconfig.YamlConfigAttributeP{}
+			if len(path) > 0 {
+				attr.DataPath = &path
+			}
+			attr.Type = P(jsonTypes[propMap["type"].(string)])
+			attr.ModelName = &propName
 			childGjsonPath := (gjsonPath + "." + propName)[1:]
 			res := gjson.Get(exampleStr, childGjsonPath)
-			attr.Example = res.String()
-			if desc, ok := propMap["description"]; ok {
-				attr.Description = sanitizeDescription(desc.(string))
+			if res.String() != "" {
+				attr.Example = P(res.String())
 			}
-			if enums, ok := propMap["enum"]; ok && attr.Type == "String" {
+			if desc, ok := propMap["description"]; ok {
+				attr.Description = P(sanitizeDescription(desc.(string)))
+			}
+			if enums, ok := propMap["enum"]; ok && *attr.Type == "String" {
 				for _, r := range enums.([]interface{}) {
-					attr.EnumValues = append(attr.EnumValues, r.(string))
+					if attr.EnumValues == nil {
+						attr.EnumValues = P([]string{})
+					}
+					attr.EnumValues = P(append(*attr.EnumValues, r.(string)))
 				}
 			}
 			if min, ok := propMap["minimum"]; ok {
-				if attr.Type == "Int64" {
-					attr.MinInt = min.(int64)
-				} else if attr.Type == "Float64" {
-					attr.MinFloat = min.(float64)
+				if *attr.Type == "Int64" {
+					attr.MinInt = P(min.(int64))
+				} else if *attr.Type == "Float64" {
+					attr.MinFloat = P(min.(float64))
 				}
 			}
 			if max, ok := propMap["maximum"]; ok {
-				if attr.Type == "Int64" {
-					attr.MaxInt = max.(int64)
-				} else if attr.Type == "Float64" {
-					attr.MaxFloat = max.(float64)
+				if *attr.Type == "Int64" {
+					attr.MaxInt = P(max.(int64))
+				} else if *attr.Type == "Float64" {
+					attr.MaxFloat = P(max.(float64))
 				}
 			}
 			if slices.Contains(requiredProperties, propName) && len(path) == 0 {
-				attr.Mandatory = true
+				attr.Mandatory = P(true)
 			}
 			ret = append(ret, attr)
 		}
@@ -468,15 +477,17 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 				children := traverseProperties(prop.(map[string]interface{}), childPath, childGjsonPath, exampleStr, childRequired)
 				ret = append(ret, children...)
 			} else {
-				attr := yamlconfig.YamlConfigAttribute{}
-				attr.DataPath = path
-				attr.Type = "Map"
-				attr.ModelName = propName
+				attr := yamlconfig.YamlConfigAttributeP{}
+				if len(path) > 0 {
+					attr.DataPath = &path
+				}
+				attr.Type = P("Map")
+				attr.ModelName = &propName
 				if desc, ok := propMap["description"]; ok {
-					attr.Description = sanitizeDescription(desc.(string))
+					attr.Description = P(sanitizeDescription(desc.(string)))
 				}
 				if slices.Contains(requiredProperties, propName) && len(path) == 0 {
-					attr.Mandatory = true
+					attr.Mandatory = P(true)
 				}
 				ret = append(ret, attr)
 			}
@@ -485,25 +496,29 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 	for _, propName := range keys {
 		propMap := m[propName].(map[string]interface{})
 		if propMap["type"] == "array" {
-			attr := yamlconfig.YamlConfigAttribute{}
-			attr.DataPath = path
-			attr.Type = "List"
-			attr.ModelName = propName
+			attr := yamlconfig.YamlConfigAttributeP{}
+			if len(path) > 0 {
+				attr.DataPath = &path
+			}
+			attr.Type = P("List")
+			attr.ModelName = &propName
 			if slices.Contains(requiredProperties, propName) && len(path) == 0 {
-				attr.Mandatory = true
+				attr.Mandatory = P(true)
 			}
 			items := propMap["items"].(map[string]interface{})
 			if desc, ok := propMap["description"]; ok {
-				attr.Description = sanitizeDescription(desc.(string))
+				attr.Description = P(sanitizeDescription(desc.(string)))
 			}
-			if strings.Contains(attr.Description, "ordered array") {
-				attr.OrderedList = true
+			if strings.Contains(*attr.Description, "ordered array") {
+				attr.OrderedList = P(true)
 			}
 			if t, ok := jsonTypes[items["type"].(string)]; ok {
-				attr.ElementType = t
+				attr.ElementType = &t
 				childGjsonPath := (gjsonPath + "." + propName + ".0")[1:]
 				res := gjson.Get(exampleStr, childGjsonPath)
-				attr.Example = res.String()
+				if res.String() != "" {
+					attr.Example = P(res.String())
+				}
 			} else if items["type"].(string) == "object" {
 				childGjsonPath := gjsonPath + "." + propName + ".0"
 				childRequired := []string{}
@@ -511,7 +526,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 					childRequired = toStringSlice(rp.([]interface{}))
 				}
 				children := traverseProperties(items["properties"].(map[string]interface{}), []string{}, childGjsonPath, exampleStr, childRequired)
-				attr.Attributes = children
+				attr.Attributes = &children
 			}
 			ret = append(ret, attr)
 		}
@@ -527,4 +542,23 @@ func sanitizeDescription(desc string) string {
 	desc = strings.ReplaceAll(desc, "\"", "'")
 	desc = strings.Join(strings.Fields(desc), " ") // Remove extra spaces
 	return desc
+}
+
+func removeIgnoredAttributes(attributes *[]yamlconfig.YamlConfigAttributeP, ignoreAttributes []string) {
+	for _, attr := range ignoreAttributes {
+		attrParts := strings.Split(attr, ".")
+		modelName := attrParts[len(attrParts)-1]
+		dataPath := attrParts[:len(attrParts)-1]
+		for i, a := range *attributes {
+			if a.ModelName != nil && *a.ModelName == modelName {
+				if (a.DataPath == nil && len(dataPath) == 0) || (a.DataPath != nil && slices.Equal(*a.DataPath, dataPath)) {
+					*attributes = append((*attributes)[:i], (*attributes)[i+1:]...)
+					break
+				}
+			}
+			if a.Attributes != nil && len(*a.Attributes) > 0 {
+				removeIgnoredAttributes(a.Attributes, ignoreAttributes)
+			}
+		}
+	}
 }

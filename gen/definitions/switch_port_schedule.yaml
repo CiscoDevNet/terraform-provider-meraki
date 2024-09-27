@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/portSchedules/{portScheduleId}
 name: Switch Port Schedule
+spec_endpoint: /networks/{networkId}/switch/portSchedules/{portScheduleId}
 rest_endpoint: /networks/%v/switch/portSchedules
 get_from_all: true
 data_source_name_query: true

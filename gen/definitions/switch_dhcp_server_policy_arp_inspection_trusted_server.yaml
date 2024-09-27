@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}
 name: Switch DHCP Server Policy ARP Inspection Trusted Server
+spec_endpoint: /networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}
 rest_endpoint: /networks/%v/switch/dhcpServerPolicy/arpInspection/trustedServers
 get_from_all: true
 id_name: trustedServerId

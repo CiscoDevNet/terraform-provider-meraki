@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}/switch/routing/interfaces/{interfaceId}/dhcp
 name: Switch Routing Interface DHCP
+spec_endpoint: /devices/{serial}/switch/routing/interfaces/{interfaceId}/dhcp
 rest_endpoint: /devices/%v/switch/routing/interfaces/%v/dhcp
 put_create: true
 no_delete: true

@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}/managementInterface
 name: Device Management Interface
+spec_endpoint: /devices/{serial}/managementInterface
 rest_endpoint: /devices/%v/managementInterface
 put_create: true
 no_delete: true

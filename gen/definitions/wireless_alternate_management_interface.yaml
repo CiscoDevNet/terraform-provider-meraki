@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/alternateManagementInterface
 name: Wireless Alternate Management Interface
+spec_endpoint: /networks/{networkId}/wireless/alternateManagementInterface
 rest_endpoint: /networks/%v/wireless/alternateManagementInterface
 put_create: true
 no_delete: true

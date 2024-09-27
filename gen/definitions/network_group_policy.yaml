@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/groupPolicies/{groupPolicyId}
 name: Network Group Policy
+spec_endpoint: /networks/{networkId}/groupPolicies/{groupPolicyId}
 rest_endpoint: /networks/%v/groupPolicies
 id_name: groupPolicyId
 data_source_name_query: true

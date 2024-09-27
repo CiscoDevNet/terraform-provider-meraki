@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/ssids/{number}/eapOverride
 name: Wireless SSID EAP override
+spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/eapOverride
 rest_endpoint: /networks/%v/wireless/ssids/%v/eapOverride
 put_create: true
 no_delete: true

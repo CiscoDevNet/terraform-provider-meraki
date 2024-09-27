@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/ssids/{number}/trafficShaping/rules
 name: Wireless SSID Traffic Shaping Rules
+spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/trafficShaping/rules
 rest_endpoint: /networks/%v/wireless/ssids/%v/trafficShaping/rules
 put_create: true
 no_delete: true

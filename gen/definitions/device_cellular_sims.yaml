@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}/cellular/sims
 name: Device Cellular SIMs
+spec_endpoint: /devices/{serial}/cellular/sims
 rest_endpoint: /devices/%v/cellular/sims
 put_create: true
 no_delete: true

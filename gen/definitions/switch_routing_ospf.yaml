@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/routing/ospf
 name: Switch Routing OSPF
+spec_endpoint: /networks/{networkId}/switch/routing/ospf
 rest_endpoint: /networks/%v/switch/routing/ospf
 put_create: true
 no_delete: true

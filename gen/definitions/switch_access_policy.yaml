@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}
 name: Switch Access Policy
+spec_endpoint: /networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}
 rest_endpoint: /networks/%v/switch/accessPolicies
 id_name: accessPolicyNumber
 data_source_name_query: true

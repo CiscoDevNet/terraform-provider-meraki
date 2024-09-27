@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/linkAggregations/{linkAggregationId}
 name: Switch Link Aggregation
+spec_endpoint: /networks/{networkId}/switch/linkAggregations/{linkAggregationId}
 rest_endpoint: /networks/%v/switch/linkAggregations
 get_from_all: true
 doc_category: Switches

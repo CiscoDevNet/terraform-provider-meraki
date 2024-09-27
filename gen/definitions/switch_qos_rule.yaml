@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/qosRules/{qosRuleId}
 name: Switch QoS Rule
+spec_endpoint: /networks/{networkId}/switch/qosRules/{qosRuleId}
 rest_endpoint: /networks/%v/switch/qosRules
 doc_category: Switches
 test_variables: [test_org, test_network]

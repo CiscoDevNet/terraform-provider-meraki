@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}/wireless/electronicShelfLabel
 name: Wireless Device Electronic Shelf Label
+spec_endpoint: /devices/{serial}/wireless/electronicShelfLabel
 rest_endpoint: /devices/%v/wireless/electronicShelfLabel
 put_create: true
 no_delete: true

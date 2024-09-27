@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/routing/multicast
 name: Switch Routing Multicast
+spec_endpoint: /networks/{networkId}/switch/routing/multicast
 rest_endpoint: /networks/%v/switch/routing/multicast
 put_create: true
 no_delete: true

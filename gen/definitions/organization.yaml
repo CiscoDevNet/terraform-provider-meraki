@@ -1,9 +1,10 @@
-# @endpoint: /organizations/{organizationId}
 name: Organization
+spec_endpoint: /organizations/{organizationId}
 rest_endpoint: /organizations
 data_source_name_query: true
 doc_category: Organizations
 test_tags: [ORGANIZATION]
+test_variables: []
 attributes:
   - model_name: name
     type: String
@@ -26,3 +27,4 @@ attributes:
         mandatory: true
         description: Value of management data
         example: "123456"
+test_prerequisites: ""

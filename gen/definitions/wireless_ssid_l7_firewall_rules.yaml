@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/ssids/{number}/firewall/l7FirewallRules
 name: Wireless SSID L7 Firewall Rules
+spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/firewall/l7FirewallRules
 rest_endpoint: /networks/%v/wireless/ssids/%v/firewall/l7FirewallRules
 put_create: true
 no_delete: true

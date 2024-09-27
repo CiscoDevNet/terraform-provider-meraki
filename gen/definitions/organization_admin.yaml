@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/admins/{adminId}
 name: Organization Admin
+spec_endpoint: /organizations/{organizationId}/admins/{adminId}
 rest_endpoint: /organizations/%v/admins
 get_from_all: true
 data_source_name_query: true

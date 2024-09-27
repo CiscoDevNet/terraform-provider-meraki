@@ -1,10 +1,11 @@
-# @endpoint: /organizations/{organizationId}/loginSecurity
 name: Organization Login Security
+spec_endpoint: /organizations/{organizationId}/loginSecurity
 rest_endpoint: /organizations/%v/loginSecurity
 put_create: true
 no_delete: true
 doc_category: Organizations
 test_tags: [ORGANIZATION]
+test_variables: []
 attributes:
   - tf_name: organization_id
     type: String

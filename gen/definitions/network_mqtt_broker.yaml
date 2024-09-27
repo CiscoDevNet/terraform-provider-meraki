@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/mqttBrokers/{mqttBrokerId}
 name: Network MQTT Broker
+spec_endpoint: /networks/{networkId}/mqttBrokers/{mqttBrokerId}
 rest_endpoint: /networks/%v/mqttBrokers
 data_source_name_query: true
 doc_category: Networks

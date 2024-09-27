@@ -24,11 +24,13 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -59,7 +61,7 @@ func (r *OrganizationInventoryClaimResource) Metadata(ctx context.Context, req r
 func (r *OrganizationInventoryClaimResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`. Licenses and orders can only be claimed but not released.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -75,6 +77,30 @@ func (r *OrganizationInventoryClaimResource) Schema(ctx context.Context, req res
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+			},
+			"licenses": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The licenses that should be claimed").String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"key": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The key of the license").String,
+							Required:            true,
+						},
+						"mode": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Co-term licensing only: either `renew` or `addDevices`. `addDevices` will increase the license limit, while `renew` will extend the amount of time until expiration. Defaults to `addDevices`. All licenses must be claimed with the same mode, and at most one renewal can be claimed at a time. Does not apply to organizations using per-device licensing model.").AddStringEnumDescription("addDevices", "renew").String,
+							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("addDevices", "renew"),
+							},
+						},
+					},
+				},
+			},
+			"orders": schema.ListAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The numbers of the orders that should be claimed").String,
+				ElementType:         types.StringType,
+				Optional:            true,
 			},
 			"serials": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of serials to be claimed to the organization").String,

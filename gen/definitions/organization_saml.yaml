@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/saml
 name: Organization SAML
+spec_endpoint: /organizations/{organizationId}/saml
 rest_endpoint: /organizations/%v/saml
 put_create: true
 no_delete: true

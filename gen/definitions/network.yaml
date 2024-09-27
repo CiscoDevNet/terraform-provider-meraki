@@ -1,9 +1,10 @@
-# @endpoint: /organizations/{organizationId}/networks/{networkId}
 name: Network
+spec_endpoint: /organizations/{organizationId}/networks/{networkId}
 rest_endpoint: /organizations/%v/networks
 data_source_name_query: true
 doc_category: Networks
 test_variables: [test_org, test_network]
+ignore_attributes: [copyFromNetworkId]
 attributes:
   - tf_name: organization_id
     type: String

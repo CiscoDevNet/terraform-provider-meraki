@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/clients/{clientId}/policy
 name: Network Client Policy
+spec_endpoint: /networks/{networkId}/clients/{clientId}/policy
 rest_endpoint: /networks/%v/clients/%v/policy
 put_create: true
 no_delete: true

@@ -1,9 +1,9 @@
-# @endpoint: /organizations/{organizationId}/inventory/claim
 name: Organization Inventory Claim
+spec_endpoint: /organizations/{organizationId}/inventory/claim
 rest_endpoint: /organizations/%v/inventory/claim
 no_data_source: true
 no_import: true
-res_description: This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`.
+res_description: This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`. Licenses and orders can only be claimed but not released.
 doc_category: Organizations
 test_variables: [test_org, test_claim_serial_1, test_claim_serial_2]
 attributes:
@@ -14,6 +14,26 @@ attributes:
     description: Organization ID
     example: "123456"
     test_value: data.meraki_organization.test.id
+  - model_name: licenses
+    type: List
+    description: The licenses that should be claimed
+    attributes:
+      - model_name: key
+        type: String
+        id: true
+        mandatory: true
+        description: The key of the license
+        example: Z2XXXXXXXXXX
+      - model_name: mode
+        type: String
+        description: 'Co-term licensing only: either `renew` or `addDevices`. `addDevices` will increase the license limit, while `renew` will extend the amount of time until expiration. Defaults to `addDevices`. All licenses must be claimed with the same mode, and at most one renewal can be claimed at a time. Does not apply to organizations using per-device licensing model.'
+        example: addDevices
+        enum_values: [addDevices, renew]
+  - model_name: orders
+    type: List
+    element_type: String
+    description: The numbers of the orders that should be claimed
+    example: 4CXXXXXXX
   - model_name: serials
     type: Set
     element_type: String

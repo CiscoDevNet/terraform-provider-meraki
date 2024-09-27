@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/mtu
 name: Switch MTU
+spec_endpoint: /networks/{networkId}/switch/mtu
 rest_endpoint: /networks/%v/switch/mtu
 put_create: true
 no_delete: true

@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/dhcpServerPolicy
 name: Switch DHCP Server Policy
+spec_endpoint: /networks/{networkId}/switch/dhcpServerPolicy
 rest_endpoint: /networks/%v/switch/dhcpServerPolicy
 put_create: true
 no_delete: true
