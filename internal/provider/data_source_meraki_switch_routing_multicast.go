@@ -87,17 +87,17 @@ func (d *SwitchRoutingMulticastDataSource) Schema(ctx context.Context, req datas
 							MarkdownDescription: "IGMP snooping setting for switches, switch stacks or switch templates",
 							Computed:            true,
 						},
-						"stacks": schema.ListAttribute{
+						"stacks": schema.SetAttribute{
 							MarkdownDescription: "List of switch stack ids for non-template network",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"switch_profiles": schema.ListAttribute{
+						"switch_profiles": schema.SetAttribute{
 							MarkdownDescription: "List of switch templates ids for template network",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"switches": schema.ListAttribute{
+						"switches": schema.SetAttribute{
 							MarkdownDescription: "List of switch serials for non-template network",
 							ElementType:         types.StringType,
 							Computed:            true,

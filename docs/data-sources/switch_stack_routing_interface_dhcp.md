@@ -37,7 +37,7 @@ data "meraki_switch_stack_routing_interface_dhcp" "example" {
 - `dhcp_lease_time` (String) The DHCP lease time config for the dhcp server running on switch stack interface (`30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`)
 - `dhcp_mode` (String) The DHCP mode options for the switch stack interface (`dhcpDisabled`, `dhcpRelay` or `dhcpServer`)
 - `dhcp_options` (Attributes List) Array of DHCP options consisting of code, type and value for the DHCP server running on the switch stack interface (see [below for nested schema](#nestedatt--dhcp_options))
-- `dhcp_relay_server_ips` (List of String) The DHCP relay server IPs to which DHCP packets would get relayed for the switch stack interface
+- `dhcp_relay_server_ips` (Set of String) The DHCP relay server IPs to which DHCP packets would get relayed for the switch stack interface
 - `dns_custom_nameservers` (List of String) The DHCP name server IPs when DHCP name server option is ` custom`
 - `dns_nameservers_option` (String) The DHCP name server option for the dhcp server running on the switch stack interface (`googlePublicDns`, `openDns` or `custom`)
 - `fixed_ip_assignments` (Attributes List) Array of DHCP fixed IP assignments for the DHCP server running on the switch stack interface (see [below for nested schema](#nestedatt--fixed_ip_assignments))

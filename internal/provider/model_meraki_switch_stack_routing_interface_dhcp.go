@@ -47,7 +47,7 @@ type SwitchStackRoutingInterfaceDHCP struct {
 	DhcpMode             types.String                                        `tfsdk:"dhcp_mode"`
 	DnsNameserversOption types.String                                        `tfsdk:"dns_nameservers_option"`
 	DhcpOptions          []SwitchStackRoutingInterfaceDHCPDhcpOptions        `tfsdk:"dhcp_options"`
-	DhcpRelayServerIps   types.List                                          `tfsdk:"dhcp_relay_server_ips"`
+	DhcpRelayServerIps   types.Set                                           `tfsdk:"dhcp_relay_server_ips"`
 	DnsCustomNameservers types.List                                          `tfsdk:"dns_custom_nameservers"`
 	FixedIpAssignments   []SwitchStackRoutingInterfaceDHCPFixedIpAssignments `tfsdk:"fixed_ip_assignments"`
 	ReservedIpRanges     []SwitchStackRoutingInterfaceDHCPReservedIpRanges   `tfsdk:"reserved_ip_ranges"`
@@ -224,9 +224,9 @@ func (data *SwitchStackRoutingInterfaceDHCP) fromBody(ctx context.Context, res g
 		})
 	}
 	if value := res.Get("dhcpRelayServerIps"); value.Exists() {
-		data.DhcpRelayServerIps = helpers.GetStringList(value.Array())
+		data.DhcpRelayServerIps = helpers.GetStringSet(value.Array())
 	} else {
-		data.DhcpRelayServerIps = types.ListNull(types.StringType)
+		data.DhcpRelayServerIps = types.SetNull(types.StringType)
 	}
 	if value := res.Get("dnsCustomNameservers"); value.Exists() {
 		data.DnsCustomNameservers = helpers.GetStringList(value.Array())
@@ -376,9 +376,9 @@ func (data *SwitchStackRoutingInterfaceDHCP) fromBodyPartial(ctx context.Context
 		(*parent).DhcpOptions[i] = data
 	}
 	if value := res.Get("dhcpRelayServerIps"); value.Exists() && !data.DhcpRelayServerIps.IsNull() {
-		data.DhcpRelayServerIps = helpers.GetStringList(value.Array())
+		data.DhcpRelayServerIps = helpers.GetStringSet(value.Array())
 	} else {
-		data.DhcpRelayServerIps = types.ListNull(types.StringType)
+		data.DhcpRelayServerIps = types.SetNull(types.StringType)
 	}
 	if value := res.Get("dnsCustomNameservers"); value.Exists() && !data.DnsCustomNameservers.IsNull() {
 		data.DnsCustomNameservers = helpers.GetStringList(value.Array())

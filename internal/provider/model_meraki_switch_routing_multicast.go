@@ -47,9 +47,9 @@ type SwitchRoutingMulticast struct {
 type SwitchRoutingMulticastOverrides struct {
 	FloodUnknownMulticastTrafficEnabled types.Bool `tfsdk:"flood_unknown_multicast_traffic_enabled"`
 	IgmpSnoopingEnabled                 types.Bool `tfsdk:"igmp_snooping_enabled"`
-	Stacks                              types.List `tfsdk:"stacks"`
-	SwitchProfiles                      types.List `tfsdk:"switch_profiles"`
-	Switches                            types.List `tfsdk:"switches"`
+	Stacks                              types.Set  `tfsdk:"stacks"`
+	SwitchProfiles                      types.Set  `tfsdk:"switch_profiles"`
+	Switches                            types.Set  `tfsdk:"switches"`
 }
 
 // End of section. //template:end types
@@ -134,19 +134,19 @@ func (data *SwitchRoutingMulticast) fromBody(ctx context.Context, res gjson.Resu
 				data.IgmpSnoopingEnabled = types.BoolNull()
 			}
 			if value := res.Get("stacks"); value.Exists() {
-				data.Stacks = helpers.GetStringList(value.Array())
+				data.Stacks = helpers.GetStringSet(value.Array())
 			} else {
-				data.Stacks = types.ListNull(types.StringType)
+				data.Stacks = types.SetNull(types.StringType)
 			}
 			if value := res.Get("switchProfiles"); value.Exists() {
-				data.SwitchProfiles = helpers.GetStringList(value.Array())
+				data.SwitchProfiles = helpers.GetStringSet(value.Array())
 			} else {
-				data.SwitchProfiles = types.ListNull(types.StringType)
+				data.SwitchProfiles = types.SetNull(types.StringType)
 			}
 			if value := res.Get("switches"); value.Exists() {
-				data.Switches = helpers.GetStringList(value.Array())
+				data.Switches = helpers.GetStringSet(value.Array())
 			} else {
-				data.Switches = types.ListNull(types.StringType)
+				data.Switches = types.SetNull(types.StringType)
 			}
 			(*parent).Overrides = append((*parent).Overrides, data)
 			return true
@@ -220,19 +220,19 @@ func (data *SwitchRoutingMulticast) fromBodyPartial(ctx context.Context, res gjs
 			data.IgmpSnoopingEnabled = types.BoolNull()
 		}
 		if value := res.Get("stacks"); value.Exists() && !data.Stacks.IsNull() {
-			data.Stacks = helpers.GetStringList(value.Array())
+			data.Stacks = helpers.GetStringSet(value.Array())
 		} else {
-			data.Stacks = types.ListNull(types.StringType)
+			data.Stacks = types.SetNull(types.StringType)
 		}
 		if value := res.Get("switchProfiles"); value.Exists() && !data.SwitchProfiles.IsNull() {
-			data.SwitchProfiles = helpers.GetStringList(value.Array())
+			data.SwitchProfiles = helpers.GetStringSet(value.Array())
 		} else {
-			data.SwitchProfiles = types.ListNull(types.StringType)
+			data.SwitchProfiles = types.SetNull(types.StringType)
 		}
 		if value := res.Get("switches"); value.Exists() && !data.Switches.IsNull() {
-			data.Switches = helpers.GetStringList(value.Array())
+			data.Switches = helpers.GetStringSet(value.Array())
 		} else {
-			data.Switches = types.ListNull(types.StringType)
+			data.Switches = types.SetNull(types.StringType)
 		}
 		(*parent).Overrides[i] = data
 	}

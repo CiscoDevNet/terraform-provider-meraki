@@ -39,6 +39,6 @@ Read-Only:
 
 - `flood_unknown_multicast_traffic_enabled` (Boolean) Flood unknown multicast traffic setting for switches, switch stacks or switch templates
 - `igmp_snooping_enabled` (Boolean) IGMP snooping setting for switches, switch stacks or switch templates
-- `stacks` (List of String) List of switch stack ids for non-template network
-- `switch_profiles` (List of String) List of switch templates ids for template network
-- `switches` (List of String) List of switch serials for non-template network
+- `stacks` (Set of String) List of switch stack ids for non-template network
+- `switch_profiles` (Set of String) List of switch templates ids for template network
+- `switches` (Set of String) List of switch serials for non-template network

@@ -40,19 +40,19 @@ attributes:
         description: IGMP snooping setting for switches, switch stacks or switch templates
         example: "true"
       - model_name: stacks
-        type: List
+        type: Set
         element_type: String
         exclude_test: true
         description: List of switch stack ids for non-template network
         example: "789102"
       - model_name: switchProfiles
-        type: List
+        type: Set
         element_type: String
         exclude_test: true
         description: List of switch templates ids for template network
         example: "1234"
       - model_name: switches
-        type: List
+        type: Set
         element_type: String
         description: List of switch serials for non-template network
         example: Q234-ABCD-0001

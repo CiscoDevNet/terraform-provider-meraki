@@ -97,17 +97,17 @@ func (r *SwitchRoutingMulticastResource) Schema(ctx context.Context, req resourc
 							MarkdownDescription: helpers.NewAttributeDescription("IGMP snooping setting for switches, switch stacks or switch templates").String,
 							Required:            true,
 						},
-						"stacks": schema.ListAttribute{
+						"stacks": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of switch stack ids for non-template network").String,
 							ElementType:         types.StringType,
 							Optional:            true,
 						},
-						"switch_profiles": schema.ListAttribute{
+						"switch_profiles": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of switch templates ids for template network").String,
 							ElementType:         types.StringType,
 							Optional:            true,
 						},
-						"switches": schema.ListAttribute{
+						"switches": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of switch serials for non-template network").String,
 							ElementType:         types.StringType,
 							Optional:            true,
