@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/qosRules/order
 name: Switch QoS Rule Order
+spec_endpoint: /networks/{networkId}/switch/qosRules/order
 rest_endpoint: /networks/%v/switch/qosRules/order
 put_create: true
 no_delete: true

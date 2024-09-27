@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/accessControlLists
 name: Switch Access Control Lists
+spec_endpoint: /networks/{networkId}/switch/accessControlLists
 rest_endpoint: /networks/%v/switch/accessControlLists
 put_create: true
 no_delete: true

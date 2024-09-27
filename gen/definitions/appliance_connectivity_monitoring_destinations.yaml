@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/appliance/connectivityMonitoringDestinations
 name: Appliance Connectivity Monitoring Destinations
+spec_endpoint: /networks/{networkId}/appliance/connectivityMonitoringDestinations
 rest_endpoint: /networks/%v/appliance/connectivityMonitoringDestinations
 put_create: true
 no_delete: true

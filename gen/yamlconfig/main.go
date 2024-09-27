@@ -13,6 +13,7 @@ const EndpointToken = "@endpoint:"
 type YamlConfig struct {
 	Name                string                `yaml:"name,omitempty"`
 	TfName              string                `yaml:"tf_name,omitempty"`
+	SpecEndpoint        string                `yaml:"spec_endpoint,omitempty"`
 	RestEndpoint        string                `yaml:"rest_endpoint,omitempty"`
 	NoDataSource        bool                  `yaml:"no_data_source,omitempty"`
 	NoResource          bool                  `yaml:"no_resource,omitempty"`
@@ -31,6 +32,7 @@ type YamlConfig struct {
 	SkipMinimumTest     bool                  `yaml:"skip_minimum_test,omitempty"`
 	TestTags            []string              `yaml:"test_tags,omitempty,flow"`
 	TestVariables       []string              `yaml:"test_variables,omitempty,flow"`
+	IgnoreAttributes    []string              `yaml:"ignore_attributes,omitempty,flow"`
 	Attributes          []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	TestPrerequisites   string                `yaml:"test_prerequisites,omitempty"`
 }
@@ -38,6 +40,7 @@ type YamlConfig struct {
 type YamlConfigP struct {
 	Name                *string                 `yaml:"name,omitempty"`
 	TfName              *string                 `yaml:"tf_name,omitempty"`
+	SpecEndpoint        *string                 `yaml:"spec_endpoint,omitempty"`
 	RestEndpoint        *string                 `yaml:"rest_endpoint,omitempty"`
 	NoDataSource        *bool                   `yaml:"no_data_source,omitempty"`
 	NoResource          *bool                   `yaml:"no_resource,omitempty"`
@@ -56,6 +59,7 @@ type YamlConfigP struct {
 	SkipMinimumTest     *bool                   `yaml:"skip_minimum_test,omitempty"`
 	TestTags            *[]string               `yaml:"test_tags,omitempty,flow"`
 	TestVariables       *[]string               `yaml:"test_variables,omitempty,flow"`
+	IgnoreAttributes    *[]string               `yaml:"ignore_attributes,omitempty,flow"`
 	Attributes          *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
 	TestPrerequisites   *string                 `yaml:"test_prerequisites,omitempty"`
 }
@@ -415,6 +419,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	if existing.TfName != nil {
 		new.TfName = existing.TfName
 	}
+	if existing.SpecEndpoint != nil {
+		new.SpecEndpoint = existing.SpecEndpoint
+	}
 	if existing.RestEndpoint != nil {
 		new.RestEndpoint = existing.RestEndpoint
 	}
@@ -469,6 +476,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	if existing.TestVariables != nil {
 		new.TestVariables = existing.TestVariables
 	}
+	if existing.IgnoreAttributes != nil {
+		new.IgnoreAttributes = existing.IgnoreAttributes
+	}
 	if existing.Attributes != nil {
 		new.Attributes = MergeYamlConfigAttributes(existing.Attributes, new.Attributes)
 	}
@@ -478,28 +488,67 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	return new
 }
 
+func cutYamlConfigAttribute(i int, attributes []YamlConfigAttributeP) []YamlConfigAttributeP {
+	cut := append(attributes[:i], attributes[i+1:]...)
+	return cut
+}
+
 func MergeYamlConfigAttributes(existing *[]YamlConfigAttributeP, new *[]YamlConfigAttributeP) *[]YamlConfigAttributeP {
 	// Merge existing into new
 	var c []YamlConfigAttributeP
-	for _, attr := range *new {
-		found := false
-		for _, existingAttr := range *existing {
+	for _, existingAttr := range *existing {
+		found := -1
+		for i, attr := range *new {
 			if existingAttr.ModelName != nil && *existingAttr.ModelName != "" && attr.ModelName != nil && *attr.ModelName != "" && *existingAttr.ModelName == *attr.ModelName {
-				if (existingAttr.DataPath == nil || attr.DataPath == nil) || slices.Equal(*existingAttr.DataPath, *attr.DataPath) {
+				if (existingAttr.DataPath == nil && attr.DataPath == nil) || (existingAttr.DataPath != nil && attr.DataPath != nil && slices.Equal(*existingAttr.DataPath, *attr.DataPath)) {
 					c = append(c, *MergeYamlConfigAttribute(&existingAttr, &attr))
-					found = true
+					found = i
 					break
 				}
 			} else if existingAttr.TfName != nil && *existingAttr.TfName != "" && attr.TfName != nil && *attr.TfName != "" && *existingAttr.TfName == *attr.TfName {
 				c = append(c, *MergeYamlConfigAttribute(&existingAttr, &attr))
-				found = true
+				found = i
 				break
 			}
 		}
-		if !found {
-			c = append(c, *MergeYamlConfigAttribute(&YamlConfigAttributeP{}, &attr))
+		if found > -1 {
+			// we have found a matching new attribute, so we remove it from the list
+			new = P(cutYamlConfigAttribute(found, *new))
+			// check if there are more elements from the new list and add them if there is no matching attribute in existing list
+			foundCount := 0
+			for _, attr := range *new {
+				foundExisting := false
+				for _, eAttr := range *existing {
+					if eAttr.ModelName != nil && *eAttr.ModelName != "" && attr.ModelName != nil && *attr.ModelName != "" && *eAttr.ModelName == *attr.ModelName {
+						if (eAttr.DataPath == nil && attr.DataPath == nil) || (eAttr.DataPath != nil && attr.DataPath != nil && slices.Equal(*eAttr.DataPath, *attr.DataPath)) {
+							foundExisting = true
+							break
+						}
+					} else if eAttr.TfName != nil && *eAttr.TfName != "" && attr.TfName != nil && *attr.TfName != "" && *eAttr.TfName == *attr.TfName {
+						foundExisting = true
+						break
+					}
+				}
+				if foundExisting {
+					// if there is a matching attribute in existing list, we stop as it will be added later
+					break
+				} else {
+					// if there is no matching attribute in existing list, it is a new element and we add it to the list
+					foundCount += 1
+					c = append(c, attr)
+				}
+			}
+			for i := 0; i < foundCount; i++ {
+				// if we have found a new elements that were not in the existing list, we remove them from the new list
+				new = P(cutYamlConfigAttribute(0, *new))
+			}
+		} else {
+			// we haven't found a matching new attribute, so we add the existing to the list
+			c = append(c, *MergeYamlConfigAttribute(&YamlConfigAttributeP{}, &existingAttr))
 		}
 	}
+	// add remaining elements from existing list
+	c = append(c, *new...)
 	return &c
 }
 

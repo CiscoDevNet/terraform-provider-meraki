@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/policyObjects/{policyObjectId}
 name: Organization Policy Object
+spec_endpoint: /organizations/{organizationId}/policyObjects/{policyObjectId}
 rest_endpoint: /organizations/%v/policyObjects
 data_source_name_query: true
 doc_category: Organizations

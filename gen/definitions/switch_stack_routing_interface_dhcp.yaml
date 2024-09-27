@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}/dhcp
 name: Switch Stack Routing Interface DHCP
+spec_endpoint: /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}/dhcp
 rest_endpoint: /networks/%v/switch/stacks/%v/routing/interfaces/%v/dhcp
 put_create: true
 no_delete: true

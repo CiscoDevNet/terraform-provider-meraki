@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}
 name: Switch Routing Multicast Rendezvous Point
+spec_endpoint: /networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}
 rest_endpoint: /networks/%v/switch/routing/multicast/rendezvousPoints
 id_name: rendezvousPointId
 doc_category: Switches

@@ -3,6 +3,7 @@ name: str() # Name of the resource
 no_data_source: bool(required=False) # Set to true if no data source should be created
 no_resource: bool(required=False) # Set to true if no resource should be created
 rest_endpoint: str(required=False) # REST endpoint path
+spec_endpoint: str(required=False) # this is the endpoint path from the OpenAPI spec in order to generate the definition
 put_create: bool(required=False) # Set to true if the PUT request is used for create
 get_from_all: bool(required=False) # Set to true if GET does not support querying individual objects
 no_update: bool(required=False) # Set to true if the PUT request is not supported
@@ -19,6 +20,7 @@ test_variables: list(str(), required=False) # List of Terraform test variables, 
 test_prerequisites: str(required=False) # HCL code that is included in the acceptance tests to define prerequisites
 id_name: str(required=False) # the identifier field name of the resource as seen in the request body
 attributes: list(include('attribute'), required=False) # List of attributes
+ignore_attributes: list(str(), required=False) # List of attribute paths (example: routing.ospf.areaId) to ignore when re-generating the definition
 ---
 attribute:
   model_name: str(required=False) # Name of the attribute in the model (payload)

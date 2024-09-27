@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/floorPlans/{floorPlanId}
 name: Network Floor Plan
+spec_endpoint: /networks/{networkId}/floorPlans/{floorPlanId}
 rest_endpoint: /networks/%v/floorPlans
 id_name: floorPlanId
 data_source_name_query: true

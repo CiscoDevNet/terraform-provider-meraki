@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}/wireless/bluetooth/settings
 name: Wireless Device Bluetooth Settings
+spec_endpoint: /devices/{serial}/wireless/bluetooth/settings
 rest_endpoint: /devices/%v/wireless/bluetooth/settings
 put_create: true
 no_delete: true

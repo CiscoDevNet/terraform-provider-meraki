@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/appliance/contentFiltering
 name: Appliance Content Filtering
+spec_endpoint: /networks/{networkId}/appliance/contentFiltering
 rest_endpoint: /networks/%v/appliance/contentFiltering
 put_create: true
 no_delete: true

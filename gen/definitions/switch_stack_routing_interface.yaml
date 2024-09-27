@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}
 name: Switch Stack Routing Interface
+spec_endpoint: /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}
 rest_endpoint: /networks/%v/switch/stacks/%v/routing/interfaces
 id_name: interfaceId
 data_source_name_query: true

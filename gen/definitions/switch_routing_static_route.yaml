@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}/switch/routing/staticRoutes/{staticRouteId}
 name: Switch Routing Static Route
+spec_endpoint: /devices/{serial}/switch/routing/staticRoutes/{staticRouteId}
 rest_endpoint: /devices/%v/switch/routing/staticRoutes
 id_name: staticRouteId
 data_source_name_query: true

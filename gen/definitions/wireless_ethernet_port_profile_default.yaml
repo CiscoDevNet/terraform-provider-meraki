@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/setDefault
 name: Wireless Ethernet Port Profile Default
+spec_endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/setDefault
 rest_endpoint: /networks/%v/wireless/ethernet/ports/profiles/setDefault
 doc_category: Wireless
 test_variables: [test_org, test_network]

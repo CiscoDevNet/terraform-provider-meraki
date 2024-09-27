@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/bluetooth/settings
 name: Wireless Network Bluetooth Settings
+spec_endpoint: /networks/{networkId}/wireless/bluetooth/settings
 rest_endpoint: /networks/%v/wireless/bluetooth/settings
 put_create: true
 no_delete: true

@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/snmp
 name: Network SNMP
+spec_endpoint: /networks/{networkId}/snmp
 rest_endpoint: /networks/%v/snmp
 put_create: true
 no_delete: true

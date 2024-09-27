@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/airMarshal/rules/{ruleId}
 name: Wireless Air Marshal Rule
+spec_endpoint: /networks/{networkId}/wireless/airMarshal/rules/{ruleId}
 rest_endpoint: /networks/%v/wireless/airMarshal/rules
 get_from_all: true
 id_name: ruleId

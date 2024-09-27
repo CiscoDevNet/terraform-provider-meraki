@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/syslogServers
 name: Network Syslog Servers
+spec_endpoint: /networks/{networkId}/syslogServers
 rest_endpoint: /networks/%v/syslogServers
 put_create: true
 no_delete: true

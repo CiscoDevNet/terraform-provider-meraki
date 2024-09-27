@@ -3,19 +3,26 @@
 page_title: "meraki_organization_inventory_claim Resource - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in serials.
+  This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in serials. Licenses and orders can only be claimed but not released.
 ---
 
 # meraki_organization_inventory_claim (Resource)
 
-This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`.
+This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`. Licenses and orders can only be claimed but not released.
 
 ## Example Usage
 
 ```terraform
 resource "meraki_organization_inventory_claim" "example" {
   organization_id = "123456"
-  serials         = ["1234-1234-1234"]
+  licenses = [
+    {
+      key  = "Z2XXXXXXXXXX"
+      mode = "addDevices"
+    }
+  ]
+  orders  = ["4CXXXXXXX"]
+  serials = ["1234-1234-1234"]
 }
 ```
 
@@ -27,6 +34,23 @@ resource "meraki_organization_inventory_claim" "example" {
 - `organization_id` (String) Organization ID
 - `serials` (Set of String) The list of serials to be claimed to the organization
 
+### Optional
+
+- `licenses` (Attributes List) The licenses that should be claimed (see [below for nested schema](#nestedatt--licenses))
+- `orders` (List of String) The numbers of the orders that should be claimed
+
 ### Read-Only
 
 - `id` (String) The id of the object
+
+<a id="nestedatt--licenses"></a>
+### Nested Schema for `licenses`
+
+Required:
+
+- `key` (String) The key of the license
+
+Optional:
+
+- `mode` (String) Co-term licensing only: either `renew` or `addDevices`. `addDevices` will increase the license limit, while `renew` will extend the amount of time until expiration. Defaults to `addDevices`. All licenses must be claimed with the same mode, and at most one renewal can be claimed at a time. Does not apply to organizations using per-device licensing model.
+  - Choices: `addDevices`, `renew`

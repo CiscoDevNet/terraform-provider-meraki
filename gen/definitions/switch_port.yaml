@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}/switch/ports/{portId}
 name: Switch Port
+spec_endpoint: /devices/{serial}/switch/ports/{portId}
 rest_endpoint: /devices/%v/switch/ports/%v
 put_create: true
 no_delete: true

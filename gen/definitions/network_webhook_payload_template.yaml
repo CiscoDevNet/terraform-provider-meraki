@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/webhooks/payloadTemplates/{payloadTemplateId}
 name: Network Webhook Payload Template
+spec_endpoint: /networks/{networkId}/webhooks/payloadTemplates/{payloadTemplateId}
 rest_endpoint: /networks/%v/webhooks/payloadTemplates
 id_name: payloadTemplateId
 data_source_name_query: true

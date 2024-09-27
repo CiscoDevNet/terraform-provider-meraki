@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/trafficAnalysis
 name: Network Traffic Analysis
+spec_endpoint: /networks/{networkId}/trafficAnalysis
 rest_endpoint: /networks/%v/trafficAnalysis
 put_create: true
 no_delete: true

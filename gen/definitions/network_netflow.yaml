@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/netflow
 name: Network Netflow
+spec_endpoint: /networks/{networkId}/netflow
 rest_endpoint: /networks/%v/netflow
 put_create: true
 no_delete: true

@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/snmp
 name: Organization SNMP
+spec_endpoint: /organizations/{organizationId}/snmp
 rest_endpoint: /organizations/%v/snmp
 put_create: true
 no_delete: true

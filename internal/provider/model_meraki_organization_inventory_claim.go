@@ -22,9 +22,11 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"slices"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -34,9 +36,16 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type OrganizationInventoryClaim struct {
-	Id             types.String `tfsdk:"id"`
-	OrganizationId types.String `tfsdk:"organization_id"`
-	Serials        types.Set    `tfsdk:"serials"`
+	Id             types.String                         `tfsdk:"id"`
+	OrganizationId types.String                         `tfsdk:"organization_id"`
+	Licenses       []OrganizationInventoryClaimLicenses `tfsdk:"licenses"`
+	Orders         types.List                           `tfsdk:"orders"`
+	Serials        types.Set                            `tfsdk:"serials"`
+}
+
+type OrganizationInventoryClaimLicenses struct {
+	Key  types.String `tfsdk:"key"`
+	Mode types.String `tfsdk:"mode"`
 }
 
 // End of section. //template:end types
@@ -61,6 +70,24 @@ func (data OrganizationInventoryClaim) getDevicesPath() string {
 
 func (data OrganizationInventoryClaim) toBody(ctx context.Context, state OrganizationInventoryClaim) string {
 	body := ""
+	if len(data.Licenses) > 0 {
+		body, _ = sjson.Set(body, "licenses", []interface{}{})
+		for _, item := range data.Licenses {
+			itemBody := ""
+			if !item.Key.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "key", item.Key.ValueString())
+			}
+			if !item.Mode.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "mode", item.Mode.ValueString())
+			}
+			body, _ = sjson.SetRaw(body, "licenses.-1", itemBody)
+		}
+	}
+	if !data.Orders.IsNull() {
+		var values []string
+		data.Orders.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "orders", values)
+	}
 	if !data.Serials.IsNull() {
 		var values []string
 		data.Serials.ElementsAs(ctx, &values, false)
@@ -74,6 +101,30 @@ func (data OrganizationInventoryClaim) toBody(ctx context.Context, state Organiz
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationInventoryClaim) fromBody(ctx context.Context, res gjson.Result) {
+	if value := res.Get("licenses"); value.Exists() {
+		data.Licenses = make([]OrganizationInventoryClaimLicenses, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := OrganizationInventoryClaimLicenses{}
+			if value := res.Get("key"); value.Exists() {
+				data.Key = types.StringValue(value.String())
+			} else {
+				data.Key = types.StringNull()
+			}
+			if value := res.Get("mode"); value.Exists() {
+				data.Mode = types.StringValue(value.String())
+			} else {
+				data.Mode = types.StringNull()
+			}
+			(*parent).Licenses = append((*parent).Licenses, data)
+			return true
+		})
+	}
+	if value := res.Get("orders"); value.Exists() {
+		data.Orders = helpers.GetStringList(value.Array())
+	} else {
+		data.Orders = types.ListNull(types.StringType)
+	}
 	if value := res.Get("serials"); value.Exists() {
 		data.Serials = helpers.GetStringSet(value.Array())
 	} else {
@@ -90,6 +141,59 @@ func (data *OrganizationInventoryClaim) fromBody(ctx context.Context, res gjson.
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *OrganizationInventoryClaim) fromBodyPartial(ctx context.Context, res gjson.Result) {
+	for i := 0; i < len(data.Licenses); i++ {
+		keys := [...]string{"key"}
+		keyValues := [...]string{data.Licenses[i].Key.ValueString()}
+
+		parent := &data
+		data := (*parent).Licenses[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.Get("licenses").ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing Licenses[%d] = %+v",
+				i,
+				(*parent).Licenses[i],
+			))
+			(*parent).Licenses = slices.Delete((*parent).Licenses, i, i+1)
+			i--
+
+			continue
+		}
+		if value := res.Get("key"); value.Exists() && !data.Key.IsNull() {
+			data.Key = types.StringValue(value.String())
+		} else {
+			data.Key = types.StringNull()
+		}
+		if value := res.Get("mode"); value.Exists() && !data.Mode.IsNull() {
+			data.Mode = types.StringValue(value.String())
+		} else {
+			data.Mode = types.StringNull()
+		}
+		(*parent).Licenses[i] = data
+	}
+	if value := res.Get("orders"); value.Exists() && !data.Orders.IsNull() {
+		data.Orders = helpers.GetStringList(value.Array())
+	} else {
+		data.Orders = types.ListNull(types.StringType)
+	}
 	if value := res.Get("serials"); value.Exists() && !data.Serials.IsNull() {
 		data.Serials = helpers.GetStringSet(value.Array())
 	} else {

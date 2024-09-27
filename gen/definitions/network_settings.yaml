@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/settings
 name: Network Settings
+spec_endpoint: /networks/{networkId}/settings
 rest_endpoint: /networks/%v/settings
 put_create: true
 no_delete: true

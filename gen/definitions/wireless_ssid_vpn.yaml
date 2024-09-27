@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/ssids/{number}/vpn
 name: Wireless SSID VPN
+spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/vpn
 rest_endpoint: /networks/%v/wireless/ssids/%v/vpn
 put_create: true
 no_delete: true

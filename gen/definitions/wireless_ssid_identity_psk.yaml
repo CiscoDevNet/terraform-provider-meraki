@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}
 name: Wireless SSID Identity PSK
+spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}
 rest_endpoint: /networks/%v/wireless/ssids/%v/identityPsks
 data_source_name_query: true
 doc_category: Wireless

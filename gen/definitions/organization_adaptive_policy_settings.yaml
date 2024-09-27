@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/adaptivePolicy/settings
 name: Organization Adaptive Policy Settings
+spec_endpoint: /organizations/{organizationId}/adaptivePolicy/settings
 rest_endpoint: /organizations/%v/adaptivePolicy/settings
 put_create: true
 no_delete: true

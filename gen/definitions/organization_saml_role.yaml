@@ -1,5 +1,5 @@
-# @endpoint: /organizations/{organizationId}/samlRoles/{samlRoleId}
 name: Organization SAML Role
+spec_endpoint: /organizations/{organizationId}/samlRoles/{samlRoleId}
 rest_endpoint: /organizations/%v/samlRoles
 doc_category: Organizations
 test_variables: [test_org, test_network]

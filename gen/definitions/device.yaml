@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}
 name: Device
+spec_endpoint: /devices/{serial}
 rest_endpoint: /devices/%v
 put_create: true
 no_delete: true

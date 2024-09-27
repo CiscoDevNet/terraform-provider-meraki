@@ -179,7 +179,7 @@ func generateDefinition(endpointPath, resourceName string) {
 
 	var dataSourceNameQuery *bool
 	for _, a := range *config.Attributes {
-		if a.ModelName != nil && *a.ModelName == "name" && len(*a.DataPath) == 0 && !*config.PutCreate {
+		if a.ModelName != nil && *a.ModelName == "name" && a.DataPath != nil && len(*a.DataPath) == 0 && !*config.PutCreate {
 			dataSourceNameQuery = P(true)
 			break
 		}
@@ -198,18 +198,13 @@ func generateDefinition(endpointPath, resourceName string) {
 
 	existingConfig := yamlconfig.YamlConfigP{}
 	comments := ""
-	commentsEndpoint := ""
 	if yamlFile, err := os.ReadFile(outputPath); err == nil {
 		// retain comments at the beginning of the definition file
 		scanner := bufio.NewScanner(bytes.NewReader(yamlFile))
 		for scanner.Scan() {
 			line := scanner.Text()
 			if line[0] == '#' {
-				if strings.Contains(line, yamlconfig.EndpointToken) {
-					commentsEndpoint = strings.Trim(strings.Split(line, yamlconfig.EndpointToken)[1], " ")
-				} else {
-					comments += line + "\n"
-				}
+				comments += line + "\n"
 			} else {
 				break
 			}
@@ -219,8 +214,12 @@ func generateDefinition(endpointPath, resourceName string) {
 			panic(err)
 		}
 	}
-	if commentsEndpoint == "" {
-		commentsEndpoint = endpointPath
+	if existingConfig.SpecEndpoint == nil || *existingConfig.SpecEndpoint == "" {
+		*&existingConfig.SpecEndpoint = &endpointPath
+	}
+
+	if existingConfig.IgnoreAttributes != nil {
+		removeIgnoredAttributes(config.Attributes, *existingConfig.IgnoreAttributes)
 	}
 
 	newConfig := yamlconfig.MergeYamlConfig(&existingConfig, &config)
@@ -232,7 +231,7 @@ func generateDefinition(endpointPath, resourceName string) {
 	if err != nil {
 		panic(err)
 	}
-	writeString := fmt.Sprintf("# %s %s\n%s%s", yamlconfig.EndpointToken, commentsEndpoint, comments, yamlBytes.String())
+	writeString := fmt.Sprint(comments + yamlBytes.String())
 	os.WriteFile(outputPath, []byte(writeString), 0644)
 }
 
@@ -431,7 +430,9 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			attr.ModelName = &propName
 			childGjsonPath := (gjsonPath + "." + propName)[1:]
 			res := gjson.Get(exampleStr, childGjsonPath)
-			attr.Example = P(res.String())
+			if res.String() != "" {
+				attr.Example = P(res.String())
+			}
 			if desc, ok := propMap["description"]; ok {
 				attr.Description = P(sanitizeDescription(desc.(string)))
 			}
@@ -515,7 +516,9 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 				attr.ElementType = &t
 				childGjsonPath := (gjsonPath + "." + propName + ".0")[1:]
 				res := gjson.Get(exampleStr, childGjsonPath)
-				attr.Example = P(res.String())
+				if res.String() != "" {
+					attr.Example = P(res.String())
+				}
 			} else if items["type"].(string) == "object" {
 				childGjsonPath := gjsonPath + "." + propName + ".0"
 				childRequired := []string{}
@@ -539,4 +542,23 @@ func sanitizeDescription(desc string) string {
 	desc = strings.ReplaceAll(desc, "\"", "'")
 	desc = strings.Join(strings.Fields(desc), " ") // Remove extra spaces
 	return desc
+}
+
+func removeIgnoredAttributes(attributes *[]yamlconfig.YamlConfigAttributeP, ignoreAttributes []string) {
+	for _, attr := range ignoreAttributes {
+		attrParts := strings.Split(attr, ".")
+		modelName := attrParts[len(attrParts)-1]
+		dataPath := attrParts[:len(attrParts)-1]
+		for i, a := range *attributes {
+			if a.ModelName != nil && *a.ModelName == modelName {
+				if (a.DataPath == nil && len(dataPath) == 0) || (a.DataPath != nil && slices.Equal(*a.DataPath, dataPath)) {
+					*attributes = append((*attributes)[:i], (*attributes)[i+1:]...)
+					break
+				}
+			}
+			if a.Attributes != nil && len(*a.Attributes) > 0 {
+				removeIgnoredAttributes(a.Attributes, ignoreAttributes)
+			}
+		}
+	}
 }

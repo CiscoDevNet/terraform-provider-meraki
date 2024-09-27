@@ -1,5 +1,5 @@
-# @endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}
 name: Wireless Ethernet Port Profile
+spec_endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}
 rest_endpoint: /networks/%v/wireless/ethernet/ports/profiles
 id_name: profileId
 data_source_name_query: true

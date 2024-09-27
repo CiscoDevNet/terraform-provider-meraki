@@ -1,5 +1,5 @@
-# @endpoint: /devices/{serial}/wireless/radio/settings
 name: Wireless Radio Settings
+spec_endpoint: /devices/{serial}/wireless/radio/settings
 rest_endpoint: /devices/%v/wireless/radio/settings
 put_create: true
 no_delete: true
