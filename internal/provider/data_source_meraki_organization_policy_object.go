@@ -99,7 +99,7 @@ func (d *OrganizationPolicyObjectDataSource) Schema(ctx context.Context, req dat
 				MarkdownDescription: "Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)",
 				Computed:            true,
 			},
-			"group_ids": schema.ListAttribute{
+			"group_ids": schema.SetAttribute{
 				MarkdownDescription: "The IDs of policy object groups the policy object belongs to",
 				ElementType:         types.StringType,
 				Computed:            true,

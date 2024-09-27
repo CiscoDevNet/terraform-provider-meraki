@@ -39,17 +39,11 @@ func TestAccMerakiWirelessSSIDHotspot20(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "operator_name", "Meraki Product Management"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "venue_name", "SF Branch"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "venue_type", "Unspecified Assembly"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "domains.0", "meraki.local"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "mcc_mncs.0.mcc", "123"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "mcc_mncs.0.mnc", "456"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.format", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.realm", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.methods.0.id", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.methods.0.authentication_types_non_eap_inner_authentication.0", "MSCHAPV2"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.methods.0.authentication_types_eap_inner_authentication.0", "EAP-TLS"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.methods.0.authentication_types_credentials.0", "SIM"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.methods.0.authentication_types_tunneled_eap_method_credentials.0", "USIM"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "roam_consort_ois.0", "ABC123"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {

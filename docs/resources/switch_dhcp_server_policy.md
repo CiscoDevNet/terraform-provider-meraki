@@ -33,9 +33,9 @@ resource "meraki_switch_dhcp_server_policy" "example" {
 ### Optional
 
 - `alerts_email_enabled` (Boolean) When enabled, send an email if a new DHCP server is seen. Default value is false.
-- `allowed_servers` (List of String) List the MAC addresses of DHCP servers to permit on the network when defaultPolicy is set to block. An empty array will clear the entries.
+- `allowed_servers` (Set of String) List the MAC addresses of DHCP servers to permit on the network when defaultPolicy is set to block. An empty array will clear the entries.
 - `arp_inspection_enabled` (Boolean) Enable or disable Dynamic ARP Inspection on the network. Default value is false.
-- `blocked_servers` (List of String) List the MAC addresses of DHCP servers to block on the network when defaultPolicy is set to allow. An empty array will clear the entries.
+- `blocked_servers` (Set of String) List the MAC addresses of DHCP servers to block on the network when defaultPolicy is set to allow. An empty array will clear the entries.
 - `default_policy` (String) `allow` or `block` new DHCP servers. Default value is `allow`.
   - Choices: `allow`, `block`
 

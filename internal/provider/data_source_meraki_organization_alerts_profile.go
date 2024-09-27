@@ -106,17 +106,17 @@ func (d *OrganizationAlertsProfileDataSource) Schema(ctx context.Context, req da
 				MarkdownDescription: "The look back period in seconds for sensing the alert",
 				Computed:            true,
 			},
-			"recipients_emails": schema.ListAttribute{
+			"recipients_emails": schema.SetAttribute{
 				MarkdownDescription: "A list of emails that will receive information about the alert",
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
-			"recipients_http_server_ids": schema.ListAttribute{
+			"recipients_http_server_ids": schema.SetAttribute{
 				MarkdownDescription: "A list base64 encoded urls of webhook endpoints that will receive information about the alert",
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
-			"network_tags": schema.ListAttribute{
+			"network_tags": schema.SetAttribute{
 				MarkdownDescription: "Networks with these tags will be monitored for the alert",
 				ElementType:         types.StringType,
 				Computed:            true,

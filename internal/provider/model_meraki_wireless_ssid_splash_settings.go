@@ -55,7 +55,7 @@ type WirelessSSIDSplashSettings struct {
 	GuestSponsorshipGuestCanRequestTimeframe types.Bool   `tfsdk:"guest_sponsorship_guest_can_request_timeframe"`
 	SentryEnrollmentStrength                 types.String `tfsdk:"sentry_enrollment_strength"`
 	SentryEnrollmentSystemsManagerNetworkId  types.String `tfsdk:"sentry_enrollment_systems_manager_network_id"`
-	SentryEnrollmentEnforcedSystems          types.List   `tfsdk:"sentry_enrollment_enforced_systems"`
+	SentryEnrollmentEnforcedSystems          types.Set    `tfsdk:"sentry_enrollment_enforced_systems"`
 	SplashImageExtension                     types.String `tfsdk:"splash_image_extension"`
 	SplashImageMd5                           types.String `tfsdk:"splash_image_md5"`
 	SplashImageImageContents                 types.String `tfsdk:"splash_image_image_contents"`
@@ -278,9 +278,9 @@ func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res gjson.
 		data.SentryEnrollmentSystemsManagerNetworkId = types.StringNull()
 	}
 	if value := res.Get("sentryEnrollment.enforcedSystems"); value.Exists() {
-		data.SentryEnrollmentEnforcedSystems = helpers.GetStringList(value.Array())
+		data.SentryEnrollmentEnforcedSystems = helpers.GetStringSet(value.Array())
 	} else {
-		data.SentryEnrollmentEnforcedSystems = types.ListNull(types.StringType)
+		data.SentryEnrollmentEnforcedSystems = types.SetNull(types.StringType)
 	}
 	if value := res.Get("splashImage.extension"); value.Exists() {
 		data.SplashImageExtension = types.StringValue(value.String())
@@ -444,9 +444,9 @@ func (data *WirelessSSIDSplashSettings) fromBodyPartial(ctx context.Context, res
 		data.SentryEnrollmentSystemsManagerNetworkId = types.StringNull()
 	}
 	if value := res.Get("sentryEnrollment.enforcedSystems"); value.Exists() && !data.SentryEnrollmentEnforcedSystems.IsNull() {
-		data.SentryEnrollmentEnforcedSystems = helpers.GetStringList(value.Array())
+		data.SentryEnrollmentEnforcedSystems = helpers.GetStringSet(value.Array())
 	} else {
-		data.SentryEnrollmentEnforcedSystems = types.ListNull(types.StringType)
+		data.SentryEnrollmentEnforcedSystems = types.SetNull(types.StringType)
 	}
 	if value := res.Get("splashImage.extension"); value.Exists() && !data.SplashImageExtension.IsNull() {
 		data.SplashImageExtension = types.StringValue(value.String())

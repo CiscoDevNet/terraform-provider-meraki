@@ -108,7 +108,7 @@ func (d *NetworkGroupPolicyDataSource) Schema(ctx context.Context, req datasourc
 							MarkdownDescription: "The ID of the service VLAN. Required.",
 							Computed:            true,
 						},
-						"services": schema.ListAttribute{
+						"services": schema.SetAttribute{
 							MarkdownDescription: "A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`",
 							ElementType:         types.StringType,
 							Computed:            true,
@@ -120,7 +120,7 @@ func (d *NetworkGroupPolicyDataSource) Schema(ctx context.Context, req datasourc
 				MarkdownDescription: "How URL patterns are applied. Can be `network default`, `append` or `override`.",
 				Computed:            true,
 			},
-			"content_filtering_allowed_url_patterns": schema.ListAttribute{
+			"content_filtering_allowed_url_patterns": schema.SetAttribute{
 				MarkdownDescription: "A list of URL patterns that are allowed",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -129,7 +129,7 @@ func (d *NetworkGroupPolicyDataSource) Schema(ctx context.Context, req datasourc
 				MarkdownDescription: "How URL categories are applied. Can be `network default`, `append` or `override`.",
 				Computed:            true,
 			},
-			"content_filtering_blocked_url_categories": schema.ListAttribute{
+			"content_filtering_blocked_url_categories": schema.SetAttribute{
 				MarkdownDescription: "A list of URL categories to block",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -138,7 +138,7 @@ func (d *NetworkGroupPolicyDataSource) Schema(ctx context.Context, req datasourc
 				MarkdownDescription: "How URL patterns are applied. Can be `network default`, `append` or `override`.",
 				Computed:            true,
 			},
-			"content_filtering_blocked_url_patterns": schema.ListAttribute{
+			"content_filtering_blocked_url_patterns": schema.SetAttribute{
 				MarkdownDescription: "A list of URL patterns that are blocked",
 				ElementType:         types.StringType,
 				Computed:            true,

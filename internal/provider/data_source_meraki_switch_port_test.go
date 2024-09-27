@@ -51,8 +51,6 @@ func TestAccDataSourceMerakiSwitchPort(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "vlan", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "voice_vlan", "20"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "profile_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "sticky_mac_allow_list.0", "34:56:fe:ce:8e:b0"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "tags.0", "tag1"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

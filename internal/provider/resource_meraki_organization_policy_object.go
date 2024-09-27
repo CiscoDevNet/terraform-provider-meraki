@@ -105,7 +105,7 @@ func (r *OrganizationPolicyObjectResource) Schema(ctx context.Context, req resou
 				MarkdownDescription: helpers.NewAttributeDescription("Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)").String,
 				Required:            true,
 			},
-			"group_ids": schema.ListAttribute{
+			"group_ids": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The IDs of policy object groups the policy object belongs to").String,
 				ElementType:         types.StringType,
 				Optional:            true,

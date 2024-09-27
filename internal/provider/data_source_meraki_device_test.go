@@ -39,7 +39,6 @@ func TestAccDataSourceMerakiDevice(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_device.test", "lng", "-122.098531723022"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_device.test", "name", "My AP"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_device.test", "notes", "My AP's note"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_device.test", "tags.0", "recently-added"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

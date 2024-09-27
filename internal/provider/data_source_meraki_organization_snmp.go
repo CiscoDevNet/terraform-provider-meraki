@@ -90,7 +90,7 @@ func (d *OrganizationSNMPDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "The SNMP version 3 privacy password. Must be at least 8 characters if specified.",
 				Computed:            true,
 			},
-			"peer_ips": schema.ListAttribute{
+			"peer_ips": schema.SetAttribute{
 				MarkdownDescription: "The list of IPv4 addresses that are allowed to access the SNMP server.",
 				ElementType:         types.StringType,
 				Computed:            true,

@@ -89,12 +89,12 @@ func (r *NetworkResource) Schema(ctx context.Context, req resource.SchemaRequest
 				MarkdownDescription: helpers.NewAttributeDescription("The timezone of the network. For a list of allowed timezones, please see the 'TZ' column in the table in this article.").String,
 				Optional:            true,
 			},
-			"product_types": schema.ListAttribute{
+			"product_types": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The product type(s) of the new network. If more than one type is included, the network will be a combined network.").String,
 				ElementType:         types.StringType,
 				Required:            true,
 			},
-			"tags": schema.ListAttribute{
+			"tags": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of tags to be applied to the network").String,
 				ElementType:         types.StringType,
 				Optional:            true,

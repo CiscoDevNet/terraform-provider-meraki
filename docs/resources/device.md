@@ -41,7 +41,7 @@ resource "meraki_device" "example" {
 - `name` (String) The name of a device
 - `notes` (String) The notes for the device. String. Limited to 255 characters.
 - `switch_profile_id` (String) The ID of a switch template to bind to the device (for available switch templates, see the `Switch Templates` endpoint). Use null to unbind the switch device from the current profile. For a device to be bindable to a switch template, it must (1) be a switch, and (2) belong to a network that is bound to a configuration template.
-- `tags` (List of String) The list of tags of a device
+- `tags` (Set of String) The list of tags of a device
 
 ### Read-Only
 

@@ -79,7 +79,7 @@ func (d *OrganizationPolicyObjectGroupDataSource) Schema(ctx context.Context, re
 				Optional:            true,
 				Computed:            true,
 			},
-			"object_ids": schema.ListAttribute{
+			"object_ids": schema.SetAttribute{
 				MarkdownDescription: "A list of Policy Object ID`s that this NetworkObjectGroup should be associated to (note: these ID`s will replace the existing associated Policy Objects)",
 				ElementType:         types.Int64Type,
 				Computed:            true,

@@ -60,7 +60,6 @@ func TestAccDataSourceMerakiWirelessSSID(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "dot11w_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "dot11w_required", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "speed_burst_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "availability_tags.0", "tag1"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

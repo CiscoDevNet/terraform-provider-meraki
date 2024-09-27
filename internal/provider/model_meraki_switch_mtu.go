@@ -43,8 +43,8 @@ type SwitchMTU struct {
 
 type SwitchMTUOverrides struct {
 	MtuSize        types.Int64 `tfsdk:"mtu_size"`
-	SwitchProfiles types.List  `tfsdk:"switch_profiles"`
-	Switches       types.List  `tfsdk:"switches"`
+	SwitchProfiles types.Set   `tfsdk:"switch_profiles"`
+	Switches       types.Set   `tfsdk:"switches"`
 }
 
 // End of section. //template:end types
@@ -108,14 +108,14 @@ func (data *SwitchMTU) fromBody(ctx context.Context, res gjson.Result) {
 				data.MtuSize = types.Int64Null()
 			}
 			if value := res.Get("switchProfiles"); value.Exists() {
-				data.SwitchProfiles = helpers.GetStringList(value.Array())
+				data.SwitchProfiles = helpers.GetStringSet(value.Array())
 			} else {
-				data.SwitchProfiles = types.ListNull(types.StringType)
+				data.SwitchProfiles = types.SetNull(types.StringType)
 			}
 			if value := res.Get("switches"); value.Exists() {
-				data.Switches = helpers.GetStringList(value.Array())
+				data.Switches = helpers.GetStringSet(value.Array())
 			} else {
-				data.Switches = types.ListNull(types.StringType)
+				data.Switches = types.SetNull(types.StringType)
 			}
 			(*parent).Overrides = append((*parent).Overrides, data)
 			return true
@@ -155,14 +155,14 @@ func (data *SwitchMTU) fromBodyPartial(ctx context.Context, res gjson.Result) {
 			data.MtuSize = types.Int64Null()
 		}
 		if value := res.Get("switchProfiles"); value.Exists() && !data.SwitchProfiles.IsNull() {
-			data.SwitchProfiles = helpers.GetStringList(value.Array())
+			data.SwitchProfiles = helpers.GetStringSet(value.Array())
 		} else {
-			data.SwitchProfiles = types.ListNull(types.StringType)
+			data.SwitchProfiles = types.SetNull(types.StringType)
 		}
 		if value := res.Get("switches"); value.Exists() && !data.Switches.IsNull() {
-			data.Switches = helpers.GetStringList(value.Array())
+			data.Switches = helpers.GetStringSet(value.Array())
 		} else {
-			data.Switches = types.ListNull(types.StringType)
+			data.Switches = types.SetNull(types.StringType)
 		}
 		(*parent).Overrides[i] = data
 	}

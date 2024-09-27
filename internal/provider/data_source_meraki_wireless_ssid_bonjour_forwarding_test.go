@@ -37,7 +37,6 @@ func TestAccDataSourceMerakiWirelessSSIDBonjourForwarding(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_bonjour_forwarding.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_bonjour_forwarding.test", "rules.0.description", "A simple bonjour rule"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_bonjour_forwarding.test", "rules.0.vlan_id", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_bonjour_forwarding.test", "rules.0.services.0", "All Services"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

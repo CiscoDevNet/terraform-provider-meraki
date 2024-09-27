@@ -25,7 +25,7 @@ attributes:
     example: "100"
     minimum_test_value: "100"
   - model_name: protocols
-    type: List
+    type: Set
     element_type: String
     write_only: true
     description: 'Can be one or more of the following values: `radius`, `snmp` or `syslog`'

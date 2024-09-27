@@ -47,7 +47,7 @@ attributes:
     description: 'Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)'
     example: cidr
   - model_name: groupIds
-    type: List
+    type: Set
     element_type: String
     exclude_test: true
     description: The IDs of policy object groups the policy object belongs to

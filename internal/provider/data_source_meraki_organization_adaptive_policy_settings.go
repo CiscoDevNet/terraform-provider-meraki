@@ -66,7 +66,7 @@ func (d *OrganizationAdaptivePolicySettingsDataSource) Schema(ctx context.Contex
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
-			"enabled_networks": schema.ListAttribute{
+			"enabled_networks": schema.SetAttribute{
 				MarkdownDescription: "List of network IDs with adaptive policy enabled",
 				ElementType:         types.StringType,
 				Computed:            true,

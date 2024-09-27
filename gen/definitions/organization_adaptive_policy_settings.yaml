@@ -15,7 +15,7 @@ attributes:
     example: "123456"
     test_value: data.meraki_organization.test.id
   - model_name: enabledNetworks
-    type: List
+    type: Set
     element_type: String
     description: List of network IDs with adaptive policy enabled
     example: L_11111111

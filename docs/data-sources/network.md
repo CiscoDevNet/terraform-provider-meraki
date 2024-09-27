@@ -34,6 +34,6 @@ data "meraki_network" "example" {
 ### Read-Only
 
 - `notes` (String) Add any notes or additional information about this network here.
-- `product_types` (List of String) The product type(s) of the new network. If more than one type is included, the network will be a combined network.
-- `tags` (List of String) A list of tags to be applied to the network
+- `product_types` (Set of String) The product type(s) of the new network. If more than one type is included, the network will be a combined network.
+- `tags` (Set of String) A list of tags to be applied to the network
 - `time_zone` (String) The timezone of the network. For a list of allowed timezones, please see the 'TZ' column in the table in this article.

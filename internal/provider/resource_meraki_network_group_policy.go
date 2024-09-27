@@ -125,7 +125,7 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 							MarkdownDescription: helpers.NewAttributeDescription("The ID of the service VLAN. Required.").String,
 							Required:            true,
 						},
-						"services": schema.ListAttribute{
+						"services": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`").String,
 							ElementType:         types.StringType,
 							Required:            true,
@@ -140,7 +140,7 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 					stringvalidator.OneOf("append", "network default", "override"),
 				},
 			},
-			"content_filtering_allowed_url_patterns": schema.ListAttribute{
+			"content_filtering_allowed_url_patterns": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of URL patterns that are allowed").String,
 				ElementType:         types.StringType,
 				Optional:            true,
@@ -152,7 +152,7 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 					stringvalidator.OneOf("append", "network default", "override"),
 				},
 			},
-			"content_filtering_blocked_url_categories": schema.ListAttribute{
+			"content_filtering_blocked_url_categories": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of URL categories to block").String,
 				ElementType:         types.StringType,
 				Optional:            true,
@@ -164,7 +164,7 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 					stringvalidator.OneOf("append", "network default", "override"),
 				},
 			},
-			"content_filtering_blocked_url_patterns": schema.ListAttribute{
+			"content_filtering_blocked_url_patterns": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of URL patterns that are blocked").String,
 				ElementType:         types.StringType,
 				Optional:            true,

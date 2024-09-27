@@ -40,8 +40,6 @@ func TestAccMerakiOrganizationAlertsProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_alerts_profile.test", "alert_condition_duration", "60"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_alerts_profile.test", "alert_condition_interface", "wan1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_alerts_profile.test", "alert_condition_window", "600"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_alerts_profile.test", "recipients_emails.0", "admin@example.org"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_alerts_profile.test", "network_tags.0", "tag1"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {

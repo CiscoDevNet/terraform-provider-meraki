@@ -39,8 +39,8 @@ type SwitchDHCPServerPolicy struct {
 	DefaultPolicy        types.String `tfsdk:"default_policy"`
 	AlertsEmailEnabled   types.Bool   `tfsdk:"alerts_email_enabled"`
 	ArpInspectionEnabled types.Bool   `tfsdk:"arp_inspection_enabled"`
-	AllowedServers       types.List   `tfsdk:"allowed_servers"`
-	BlockedServers       types.List   `tfsdk:"blocked_servers"`
+	AllowedServers       types.Set    `tfsdk:"allowed_servers"`
+	BlockedServers       types.Set    `tfsdk:"blocked_servers"`
 }
 
 // End of section. //template:end types
@@ -100,14 +100,14 @@ func (data *SwitchDHCPServerPolicy) fromBody(ctx context.Context, res gjson.Resu
 		data.ArpInspectionEnabled = types.BoolNull()
 	}
 	if value := res.Get("allowedServers"); value.Exists() {
-		data.AllowedServers = helpers.GetStringList(value.Array())
+		data.AllowedServers = helpers.GetStringSet(value.Array())
 	} else {
-		data.AllowedServers = types.ListNull(types.StringType)
+		data.AllowedServers = types.SetNull(types.StringType)
 	}
 	if value := res.Get("blockedServers"); value.Exists() {
-		data.BlockedServers = helpers.GetStringList(value.Array())
+		data.BlockedServers = helpers.GetStringSet(value.Array())
 	} else {
-		data.BlockedServers = types.ListNull(types.StringType)
+		data.BlockedServers = types.SetNull(types.StringType)
 	}
 }
 
@@ -136,14 +136,14 @@ func (data *SwitchDHCPServerPolicy) fromBodyPartial(ctx context.Context, res gjs
 		data.ArpInspectionEnabled = types.BoolNull()
 	}
 	if value := res.Get("allowedServers"); value.Exists() && !data.AllowedServers.IsNull() {
-		data.AllowedServers = helpers.GetStringList(value.Array())
+		data.AllowedServers = helpers.GetStringSet(value.Array())
 	} else {
-		data.AllowedServers = types.ListNull(types.StringType)
+		data.AllowedServers = types.SetNull(types.StringType)
 	}
 	if value := res.Get("blockedServers"); value.Exists() && !data.BlockedServers.IsNull() {
-		data.BlockedServers = helpers.GetStringList(value.Array())
+		data.BlockedServers = helpers.GetStringSet(value.Array())
 	} else {
-		data.BlockedServers = types.ListNull(types.StringType)
+		data.BlockedServers = types.SetNull(types.StringType)
 	}
 }
 

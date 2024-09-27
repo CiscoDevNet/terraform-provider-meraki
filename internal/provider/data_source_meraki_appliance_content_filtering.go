@@ -70,17 +70,17 @@ func (d *ApplianceContentFilteringDataSource) Schema(ctx context.Context, req da
 				MarkdownDescription: "URL category list size which is either `topSites` or `fullList`",
 				Computed:            true,
 			},
-			"allowed_url_patterns": schema.ListAttribute{
+			"allowed_url_patterns": schema.SetAttribute{
 				MarkdownDescription: "A list of URL patterns that are allowed",
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
-			"blocked_url_categories": schema.ListAttribute{
+			"blocked_url_categories": schema.SetAttribute{
 				MarkdownDescription: "A list of URL categories to block",
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
-			"blocked_url_patterns": schema.ListAttribute{
+			"blocked_url_patterns": schema.SetAttribute{
 				MarkdownDescription: "A list of URL patterns that are blocked",
 				ElementType:         types.StringType,
 				Computed:            true,

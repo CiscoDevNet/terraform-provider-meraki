@@ -38,7 +38,7 @@ type OrganizationPolicyObjectGroup struct {
 	OrganizationId types.String `tfsdk:"organization_id"`
 	Category       types.String `tfsdk:"category"`
 	Name           types.String `tfsdk:"name"`
-	ObjectIds      types.List   `tfsdk:"object_ids"`
+	ObjectIds      types.Set    `tfsdk:"object_ids"`
 }
 
 // End of section. //template:end types
@@ -85,9 +85,9 @@ func (data *OrganizationPolicyObjectGroup) fromBody(ctx context.Context, res gjs
 		data.Name = types.StringNull()
 	}
 	if value := res.Get("objectIds"); value.Exists() {
-		data.ObjectIds = helpers.GetInt64List(value.Array())
+		data.ObjectIds = helpers.GetInt64Set(value.Array())
 	} else {
-		data.ObjectIds = types.ListNull(types.Int64Type)
+		data.ObjectIds = types.SetNull(types.Int64Type)
 	}
 }
 
@@ -111,9 +111,9 @@ func (data *OrganizationPolicyObjectGroup) fromBodyPartial(ctx context.Context, 
 		data.Name = types.StringNull()
 	}
 	if value := res.Get("objectIds"); value.Exists() && !data.ObjectIds.IsNull() {
-		data.ObjectIds = helpers.GetInt64List(value.Array())
+		data.ObjectIds = helpers.GetInt64Set(value.Array())
 	} else {
-		data.ObjectIds = types.ListNull(types.Int64Type)
+		data.ObjectIds = types.SetNull(types.Int64Type)
 	}
 }
 

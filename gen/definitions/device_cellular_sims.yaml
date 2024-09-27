@@ -74,7 +74,7 @@ attributes:
             description: APN username, if type is set.
             example: milesmeraki
           - model_name: allowedIpTypes
-            type: List
+            type: Set
             element_type: String
             mandatory: true
             description: IP versions to support (permitted values include `ipv4`, `ipv6`).

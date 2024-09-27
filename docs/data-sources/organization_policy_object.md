@@ -36,7 +36,7 @@ data "meraki_organization_policy_object" "example" {
 - `category` (String) Category of a policy object (one of: adaptivePolicy, network)
 - `cidr` (String) CIDR Value of a policy object (e.g. 10.11.12.1/24')
 - `fqdn` (String) Fully qualified domain name of policy object (e.g. 'example.com')
-- `group_ids` (List of String) The IDs of policy object groups the policy object belongs to
+- `group_ids` (Set of String) The IDs of policy object groups the policy object belongs to
 - `ip` (String) IP Address of a policy object (e.g. '1.2.3.4')
 - `mask` (String) Mask of a policy object (e.g. '255.255.0.0')
 - `type` (String) Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)

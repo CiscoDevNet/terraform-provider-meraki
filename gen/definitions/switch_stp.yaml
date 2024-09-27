@@ -29,19 +29,19 @@ attributes:
         description: STP priority for switch, stacks, or switch templates
         example: "4096"
       - model_name: stacks
-        type: List
+        type: Set
         element_type: String
         exclude_test: true
         description: List of stack IDs
         example: "789102"
       - model_name: switchProfiles
-        type: List
+        type: Set
         element_type: String
         exclude_test: true
         description: List of switch template IDs
         example: "1098"
       - model_name: switches
-        type: List
+        type: Set
         element_type: String
         description: List of switch serial numbers
         example: Q234-ABCD-0001

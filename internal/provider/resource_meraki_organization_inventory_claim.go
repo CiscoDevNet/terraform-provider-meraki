@@ -97,7 +97,7 @@ func (r *OrganizationInventoryClaimResource) Schema(ctx context.Context, req res
 					},
 				},
 			},
-			"orders": schema.ListAttribute{
+			"orders": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The numbers of the orders that should be claimed").String,
 				ElementType:         types.StringType,
 				Optional:            true,

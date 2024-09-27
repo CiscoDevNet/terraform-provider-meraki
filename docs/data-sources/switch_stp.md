@@ -36,7 +36,7 @@ data "meraki_switch_stp" "example" {
 
 Read-Only:
 
-- `stacks` (List of String) List of stack IDs
+- `stacks` (Set of String) List of stack IDs
 - `stp_priority` (Number) STP priority for switch, stacks, or switch templates
-- `switch_profiles` (List of String) List of switch template IDs
-- `switches` (List of String) List of switch serial numbers
+- `switch_profiles` (Set of String) List of switch template IDs
+- `switches` (Set of String) List of switch serial numbers

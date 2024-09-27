@@ -132,7 +132,7 @@ func (r *DeviceCellularSIMsResource) Schema(ctx context.Context, req resource.Sc
 										MarkdownDescription: helpers.NewAttributeDescription("APN username, if type is set.").String,
 										Optional:            true,
 									},
-									"allowed_ip_types": schema.ListAttribute{
+									"allowed_ip_types": schema.SetAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("IP versions to support (permitted values include `ipv4`, `ipv6`).").String,
 										ElementType:         types.StringType,
 										Required:            true,

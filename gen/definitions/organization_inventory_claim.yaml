@@ -30,7 +30,7 @@ attributes:
         example: addDevices
         enum_values: [addDevices, renew]
   - model_name: orders
-    type: List
+    type: Set
     element_type: String
     description: The numbers of the orders that should be claimed
     example: 4CXXXXXXX

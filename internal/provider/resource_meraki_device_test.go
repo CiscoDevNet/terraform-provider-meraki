@@ -39,7 +39,6 @@ func TestAccMerakiDevice(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "lng", "-122.098531723022"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "name", "My AP"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "notes", "My AP's note"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "tags.0", "recently-added"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {

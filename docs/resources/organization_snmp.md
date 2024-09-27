@@ -34,7 +34,7 @@ resource "meraki_organization_snmp" "example" {
 
 ### Optional
 
-- `peer_ips` (List of String) The list of IPv4 addresses that are allowed to access the SNMP server.
+- `peer_ips` (Set of String) The list of IPv4 addresses that are allowed to access the SNMP server.
 - `v2c_enabled` (Boolean) Boolean indicating whether SNMP version 2c is enabled for the organization.
 - `v3_auth_mode` (String) The SNMP version 3 authentication mode. Can be either `MD5` or `SHA`.
   - Choices: `MD5`, `SHA`

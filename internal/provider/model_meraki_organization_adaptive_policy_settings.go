@@ -36,7 +36,7 @@ import (
 type OrganizationAdaptivePolicySettings struct {
 	Id              types.String `tfsdk:"id"`
 	OrganizationId  types.String `tfsdk:"organization_id"`
-	EnabledNetworks types.List   `tfsdk:"enabled_networks"`
+	EnabledNetworks types.Set    `tfsdk:"enabled_networks"`
 }
 
 // End of section. //template:end types
@@ -67,9 +67,9 @@ func (data OrganizationAdaptivePolicySettings) toBody(ctx context.Context, state
 
 func (data *OrganizationAdaptivePolicySettings) fromBody(ctx context.Context, res gjson.Result) {
 	if value := res.Get("enabledNetworks"); value.Exists() {
-		data.EnabledNetworks = helpers.GetStringList(value.Array())
+		data.EnabledNetworks = helpers.GetStringSet(value.Array())
 	} else {
-		data.EnabledNetworks = types.ListNull(types.StringType)
+		data.EnabledNetworks = types.SetNull(types.StringType)
 	}
 }
 
@@ -83,9 +83,9 @@ func (data *OrganizationAdaptivePolicySettings) fromBody(ctx context.Context, re
 // "managed" elements, instead of all elements.
 func (data *OrganizationAdaptivePolicySettings) fromBodyPartial(ctx context.Context, res gjson.Result) {
 	if value := res.Get("enabledNetworks"); value.Exists() && !data.EnabledNetworks.IsNull() {
-		data.EnabledNetworks = helpers.GetStringList(value.Array())
+		data.EnabledNetworks = helpers.GetStringSet(value.Array())
 	} else {
-		data.EnabledNetworks = types.ListNull(types.StringType)
+		data.EnabledNetworks = types.SetNull(types.StringType)
 	}
 }
 

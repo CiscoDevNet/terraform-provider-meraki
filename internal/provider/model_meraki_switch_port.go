@@ -62,9 +62,9 @@ type SwitchPort struct {
 	ProfileEnabled          types.Bool   `tfsdk:"profile_enabled"`
 	ProfileId               types.String `tfsdk:"profile_id"`
 	ProfileIname            types.String `tfsdk:"profile_iname"`
-	MacAllowList            types.List   `tfsdk:"mac_allow_list"`
-	StickyMacAllowList      types.List   `tfsdk:"sticky_mac_allow_list"`
-	Tags                    types.List   `tfsdk:"tags"`
+	MacAllowList            types.Set    `tfsdk:"mac_allow_list"`
+	StickyMacAllowList      types.Set    `tfsdk:"sticky_mac_allow_list"`
+	Tags                    types.Set    `tfsdk:"tags"`
 }
 
 // End of section. //template:end types
@@ -305,19 +305,19 @@ func (data *SwitchPort) fromBody(ctx context.Context, res gjson.Result) {
 		data.ProfileIname = types.StringNull()
 	}
 	if value := res.Get("macAllowList"); value.Exists() {
-		data.MacAllowList = helpers.GetStringList(value.Array())
+		data.MacAllowList = helpers.GetStringSet(value.Array())
 	} else {
-		data.MacAllowList = types.ListNull(types.StringType)
+		data.MacAllowList = types.SetNull(types.StringType)
 	}
 	if value := res.Get("stickyMacAllowList"); value.Exists() {
-		data.StickyMacAllowList = helpers.GetStringList(value.Array())
+		data.StickyMacAllowList = helpers.GetStringSet(value.Array())
 	} else {
-		data.StickyMacAllowList = types.ListNull(types.StringType)
+		data.StickyMacAllowList = types.SetNull(types.StringType)
 	}
 	if value := res.Get("tags"); value.Exists() {
-		data.Tags = helpers.GetStringList(value.Array())
+		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
-		data.Tags = types.ListNull(types.StringType)
+		data.Tags = types.SetNull(types.StringType)
 	}
 }
 
@@ -456,19 +456,19 @@ func (data *SwitchPort) fromBodyPartial(ctx context.Context, res gjson.Result) {
 		data.ProfileIname = types.StringNull()
 	}
 	if value := res.Get("macAllowList"); value.Exists() && !data.MacAllowList.IsNull() {
-		data.MacAllowList = helpers.GetStringList(value.Array())
+		data.MacAllowList = helpers.GetStringSet(value.Array())
 	} else {
-		data.MacAllowList = types.ListNull(types.StringType)
+		data.MacAllowList = types.SetNull(types.StringType)
 	}
 	if value := res.Get("stickyMacAllowList"); value.Exists() && !data.StickyMacAllowList.IsNull() {
-		data.StickyMacAllowList = helpers.GetStringList(value.Array())
+		data.StickyMacAllowList = helpers.GetStringSet(value.Array())
 	} else {
-		data.StickyMacAllowList = types.ListNull(types.StringType)
+		data.StickyMacAllowList = types.SetNull(types.StringType)
 	}
 	if value := res.Get("tags"); value.Exists() && !data.Tags.IsNull() {
-		data.Tags = helpers.GetStringList(value.Array())
+		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
-		data.Tags = types.ListNull(types.StringType)
+		data.Tags = types.SetNull(types.StringType)
 	}
 }
 

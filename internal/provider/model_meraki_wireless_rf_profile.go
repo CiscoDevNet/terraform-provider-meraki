@@ -44,92 +44,92 @@ type WirelessRFProfile struct {
 	Name                                 types.String                         `tfsdk:"name"`
 	ApBandSettingsBandOperationMode      types.String                         `tfsdk:"ap_band_settings_band_operation_mode"`
 	ApBandSettingsBandSteeringEnabled    types.Bool                           `tfsdk:"ap_band_settings_band_steering_enabled"`
-	ApBandSettingsBandsEnabled           types.List                           `tfsdk:"ap_band_settings_bands_enabled"`
+	ApBandSettingsBandsEnabled           types.Set                            `tfsdk:"ap_band_settings_bands_enabled"`
 	FiveGhzSettingsChannelWidth          types.String                         `tfsdk:"five_ghz_settings_channel_width"`
 	FiveGhzSettingsMaxPower              types.Int64                          `tfsdk:"five_ghz_settings_max_power"`
 	FiveGhzSettingsMinBitrate            types.Int64                          `tfsdk:"five_ghz_settings_min_bitrate"`
 	FiveGhzSettingsMinPower              types.Int64                          `tfsdk:"five_ghz_settings_min_power"`
 	FiveGhzSettingsRxsop                 types.Int64                          `tfsdk:"five_ghz_settings_rxsop"`
-	FiveGhzSettingsValidAutoChannels     types.List                           `tfsdk:"five_ghz_settings_valid_auto_channels"`
+	FiveGhzSettingsValidAutoChannels     types.Set                            `tfsdk:"five_ghz_settings_valid_auto_channels"`
 	FlexRadiosByModel                    []WirelessRFProfileFlexRadiosByModel `tfsdk:"flex_radios_by_model"`
 	PerSsidSettings0BandOperationMode    types.String                         `tfsdk:"per_ssid_settings0_band_operation_mode"`
 	PerSsidSettings0BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings0_band_steering_enabled"`
 	PerSsidSettings0MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings0_min_bitrate"`
-	PerSsidSettings0BandsEnabled         types.List                           `tfsdk:"per_ssid_settings0_bands_enabled"`
+	PerSsidSettings0BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings0_bands_enabled"`
 	PerSsidSettings1BandOperationMode    types.String                         `tfsdk:"per_ssid_settings1_band_operation_mode"`
 	PerSsidSettings1BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings1_band_steering_enabled"`
 	PerSsidSettings1MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings1_min_bitrate"`
-	PerSsidSettings1BandsEnabled         types.List                           `tfsdk:"per_ssid_settings1_bands_enabled"`
+	PerSsidSettings1BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings1_bands_enabled"`
 	PerSsidSettings10BandOperationMode   types.String                         `tfsdk:"per_ssid_settings10_band_operation_mode"`
 	PerSsidSettings10BandSteeringEnabled types.Bool                           `tfsdk:"per_ssid_settings10_band_steering_enabled"`
 	PerSsidSettings10MinBitrate          types.Float64                        `tfsdk:"per_ssid_settings10_min_bitrate"`
-	PerSsidSettings10BandsEnabled        types.List                           `tfsdk:"per_ssid_settings10_bands_enabled"`
+	PerSsidSettings10BandsEnabled        types.Set                            `tfsdk:"per_ssid_settings10_bands_enabled"`
 	PerSsidSettings11BandOperationMode   types.String                         `tfsdk:"per_ssid_settings11_band_operation_mode"`
 	PerSsidSettings11BandSteeringEnabled types.Bool                           `tfsdk:"per_ssid_settings11_band_steering_enabled"`
 	PerSsidSettings11MinBitrate          types.Float64                        `tfsdk:"per_ssid_settings11_min_bitrate"`
-	PerSsidSettings11BandsEnabled        types.List                           `tfsdk:"per_ssid_settings11_bands_enabled"`
+	PerSsidSettings11BandsEnabled        types.Set                            `tfsdk:"per_ssid_settings11_bands_enabled"`
 	PerSsidSettings12BandOperationMode   types.String                         `tfsdk:"per_ssid_settings12_band_operation_mode"`
 	PerSsidSettings12BandSteeringEnabled types.Bool                           `tfsdk:"per_ssid_settings12_band_steering_enabled"`
 	PerSsidSettings12MinBitrate          types.Float64                        `tfsdk:"per_ssid_settings12_min_bitrate"`
-	PerSsidSettings12BandsEnabled        types.List                           `tfsdk:"per_ssid_settings12_bands_enabled"`
+	PerSsidSettings12BandsEnabled        types.Set                            `tfsdk:"per_ssid_settings12_bands_enabled"`
 	PerSsidSettings13BandOperationMode   types.String                         `tfsdk:"per_ssid_settings13_band_operation_mode"`
 	PerSsidSettings13BandSteeringEnabled types.Bool                           `tfsdk:"per_ssid_settings13_band_steering_enabled"`
 	PerSsidSettings13MinBitrate          types.Float64                        `tfsdk:"per_ssid_settings13_min_bitrate"`
-	PerSsidSettings13BandsEnabled        types.List                           `tfsdk:"per_ssid_settings13_bands_enabled"`
+	PerSsidSettings13BandsEnabled        types.Set                            `tfsdk:"per_ssid_settings13_bands_enabled"`
 	PerSsidSettings14BandOperationMode   types.String                         `tfsdk:"per_ssid_settings14_band_operation_mode"`
 	PerSsidSettings14BandSteeringEnabled types.Bool                           `tfsdk:"per_ssid_settings14_band_steering_enabled"`
 	PerSsidSettings14MinBitrate          types.Float64                        `tfsdk:"per_ssid_settings14_min_bitrate"`
-	PerSsidSettings14BandsEnabled        types.List                           `tfsdk:"per_ssid_settings14_bands_enabled"`
+	PerSsidSettings14BandsEnabled        types.Set                            `tfsdk:"per_ssid_settings14_bands_enabled"`
 	PerSsidSettings2BandOperationMode    types.String                         `tfsdk:"per_ssid_settings2_band_operation_mode"`
 	PerSsidSettings2BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings2_band_steering_enabled"`
 	PerSsidSettings2MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings2_min_bitrate"`
-	PerSsidSettings2BandsEnabled         types.List                           `tfsdk:"per_ssid_settings2_bands_enabled"`
+	PerSsidSettings2BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings2_bands_enabled"`
 	PerSsidSettings3BandOperationMode    types.String                         `tfsdk:"per_ssid_settings3_band_operation_mode"`
 	PerSsidSettings3BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings3_band_steering_enabled"`
 	PerSsidSettings3MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings3_min_bitrate"`
-	PerSsidSettings3BandsEnabled         types.List                           `tfsdk:"per_ssid_settings3_bands_enabled"`
+	PerSsidSettings3BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings3_bands_enabled"`
 	PerSsidSettings4BandOperationMode    types.String                         `tfsdk:"per_ssid_settings4_band_operation_mode"`
 	PerSsidSettings4BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings4_band_steering_enabled"`
 	PerSsidSettings4MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings4_min_bitrate"`
-	PerSsidSettings4BandsEnabled         types.List                           `tfsdk:"per_ssid_settings4_bands_enabled"`
+	PerSsidSettings4BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings4_bands_enabled"`
 	PerSsidSettings5BandOperationMode    types.String                         `tfsdk:"per_ssid_settings5_band_operation_mode"`
 	PerSsidSettings5BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings5_band_steering_enabled"`
 	PerSsidSettings5MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings5_min_bitrate"`
-	PerSsidSettings5BandsEnabled         types.List                           `tfsdk:"per_ssid_settings5_bands_enabled"`
+	PerSsidSettings5BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings5_bands_enabled"`
 	PerSsidSettings6BandOperationMode    types.String                         `tfsdk:"per_ssid_settings6_band_operation_mode"`
 	PerSsidSettings6BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings6_band_steering_enabled"`
 	PerSsidSettings6MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings6_min_bitrate"`
-	PerSsidSettings6BandsEnabled         types.List                           `tfsdk:"per_ssid_settings6_bands_enabled"`
+	PerSsidSettings6BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings6_bands_enabled"`
 	PerSsidSettings7BandOperationMode    types.String                         `tfsdk:"per_ssid_settings7_band_operation_mode"`
 	PerSsidSettings7BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings7_band_steering_enabled"`
 	PerSsidSettings7MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings7_min_bitrate"`
-	PerSsidSettings7BandsEnabled         types.List                           `tfsdk:"per_ssid_settings7_bands_enabled"`
+	PerSsidSettings7BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings7_bands_enabled"`
 	PerSsidSettings8BandOperationMode    types.String                         `tfsdk:"per_ssid_settings8_band_operation_mode"`
 	PerSsidSettings8BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings8_band_steering_enabled"`
 	PerSsidSettings8MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings8_min_bitrate"`
-	PerSsidSettings8BandsEnabled         types.List                           `tfsdk:"per_ssid_settings8_bands_enabled"`
+	PerSsidSettings8BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings8_bands_enabled"`
 	PerSsidSettings9BandOperationMode    types.String                         `tfsdk:"per_ssid_settings9_band_operation_mode"`
 	PerSsidSettings9BandSteeringEnabled  types.Bool                           `tfsdk:"per_ssid_settings9_band_steering_enabled"`
 	PerSsidSettings9MinBitrate           types.Float64                        `tfsdk:"per_ssid_settings9_min_bitrate"`
-	PerSsidSettings9BandsEnabled         types.List                           `tfsdk:"per_ssid_settings9_bands_enabled"`
+	PerSsidSettings9BandsEnabled         types.Set                            `tfsdk:"per_ssid_settings9_bands_enabled"`
 	SixGhzSettingsChannelWidth           types.String                         `tfsdk:"six_ghz_settings_channel_width"`
 	SixGhzSettingsMaxPower               types.Int64                          `tfsdk:"six_ghz_settings_max_power"`
 	SixGhzSettingsMinBitrate             types.Int64                          `tfsdk:"six_ghz_settings_min_bitrate"`
 	SixGhzSettingsMinPower               types.Int64                          `tfsdk:"six_ghz_settings_min_power"`
 	SixGhzSettingsRxsop                  types.Int64                          `tfsdk:"six_ghz_settings_rxsop"`
-	SixGhzSettingsValidAutoChannels      types.List                           `tfsdk:"six_ghz_settings_valid_auto_channels"`
+	SixGhzSettingsValidAutoChannels      types.Set                            `tfsdk:"six_ghz_settings_valid_auto_channels"`
 	TransmissionEnabled                  types.Bool                           `tfsdk:"transmission_enabled"`
 	TwoFourGhzSettingsAxEnabled          types.Bool                           `tfsdk:"two_four_ghz_settings_ax_enabled"`
 	TwoFourGhzSettingsMaxPower           types.Int64                          `tfsdk:"two_four_ghz_settings_max_power"`
 	TwoFourGhzSettingsMinBitrate         types.Float64                        `tfsdk:"two_four_ghz_settings_min_bitrate"`
 	TwoFourGhzSettingsMinPower           types.Int64                          `tfsdk:"two_four_ghz_settings_min_power"`
 	TwoFourGhzSettingsRxsop              types.Int64                          `tfsdk:"two_four_ghz_settings_rxsop"`
-	TwoFourGhzSettingsValidAutoChannels  types.List                           `tfsdk:"two_four_ghz_settings_valid_auto_channels"`
+	TwoFourGhzSettingsValidAutoChannels  types.Set                            `tfsdk:"two_four_ghz_settings_valid_auto_channels"`
 }
 
 type WirelessRFProfileFlexRadiosByModel struct {
 	Model types.String `tfsdk:"model"`
-	Bands types.List   `tfsdk:"bands"`
+	Bands types.Set    `tfsdk:"bands"`
 }
 
 // End of section. //template:end types
@@ -493,9 +493,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.ApBandSettingsBandSteeringEnabled = types.BoolNull()
 	}
 	if value := res.Get("apBandSettings.bands.enabled"); value.Exists() {
-		data.ApBandSettingsBandsEnabled = helpers.GetStringList(value.Array())
+		data.ApBandSettingsBandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.ApBandSettingsBandsEnabled = types.ListNull(types.StringType)
+		data.ApBandSettingsBandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() {
 		data.FiveGhzSettingsChannelWidth = types.StringValue(value.String())
@@ -523,9 +523,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.FiveGhzSettingsRxsop = types.Int64Null()
 	}
 	if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() {
-		data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64List(value.Array())
+		data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 	} else {
-		data.FiveGhzSettingsValidAutoChannels = types.ListNull(types.Int64Type)
+		data.FiveGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 	}
 	if value := res.Get("flexRadios.byModel"); value.Exists() {
 		data.FlexRadiosByModel = make([]WirelessRFProfileFlexRadiosByModel, 0)
@@ -538,9 +538,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 				data.Model = types.StringNull()
 			}
 			if value := res.Get("bands"); value.Exists() {
-				data.Bands = helpers.GetStringList(value.Array())
+				data.Bands = helpers.GetStringSet(value.Array())
 			} else {
-				data.Bands = types.ListNull(types.StringType)
+				data.Bands = types.SetNull(types.StringType)
 			}
 			(*parent).FlexRadiosByModel = append((*parent).FlexRadiosByModel, data)
 			return true
@@ -562,9 +562,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings0MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.0.bands.enabled"); value.Exists() {
-		data.PerSsidSettings0BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings0BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings0BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings0BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.1.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings1BandOperationMode = types.StringValue(value.String())
@@ -582,9 +582,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings1MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.1.bands.enabled"); value.Exists() {
-		data.PerSsidSettings1BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings1BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings1BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings1BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.10.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings10BandOperationMode = types.StringValue(value.String())
@@ -602,9 +602,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings10MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.10.bands.enabled"); value.Exists() {
-		data.PerSsidSettings10BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings10BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings10BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings10BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.11.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings11BandOperationMode = types.StringValue(value.String())
@@ -622,9 +622,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings11MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.11.bands.enabled"); value.Exists() {
-		data.PerSsidSettings11BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings11BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings11BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings11BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.12.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings12BandOperationMode = types.StringValue(value.String())
@@ -642,9 +642,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings12MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.12.bands.enabled"); value.Exists() {
-		data.PerSsidSettings12BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings12BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings12BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings12BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.13.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings13BandOperationMode = types.StringValue(value.String())
@@ -662,9 +662,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings13MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.13.bands.enabled"); value.Exists() {
-		data.PerSsidSettings13BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings13BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings13BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings13BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.14.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings14BandOperationMode = types.StringValue(value.String())
@@ -682,9 +682,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings14MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.14.bands.enabled"); value.Exists() {
-		data.PerSsidSettings14BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings14BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings14BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings14BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.2.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings2BandOperationMode = types.StringValue(value.String())
@@ -702,9 +702,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings2MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.2.bands.enabled"); value.Exists() {
-		data.PerSsidSettings2BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings2BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings2BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings2BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.3.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings3BandOperationMode = types.StringValue(value.String())
@@ -722,9 +722,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings3MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.3.bands.enabled"); value.Exists() {
-		data.PerSsidSettings3BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings3BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings3BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings3BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.4.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings4BandOperationMode = types.StringValue(value.String())
@@ -742,9 +742,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings4MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.4.bands.enabled"); value.Exists() {
-		data.PerSsidSettings4BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings4BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings4BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings4BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.5.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings5BandOperationMode = types.StringValue(value.String())
@@ -762,9 +762,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings5MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.5.bands.enabled"); value.Exists() {
-		data.PerSsidSettings5BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings5BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings5BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings5BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.6.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings6BandOperationMode = types.StringValue(value.String())
@@ -782,9 +782,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings6MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.6.bands.enabled"); value.Exists() {
-		data.PerSsidSettings6BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings6BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings6BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings6BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.7.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings7BandOperationMode = types.StringValue(value.String())
@@ -802,9 +802,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings7MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.7.bands.enabled"); value.Exists() {
-		data.PerSsidSettings7BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings7BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings7BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings7BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.8.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings8BandOperationMode = types.StringValue(value.String())
@@ -822,9 +822,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings8MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.8.bands.enabled"); value.Exists() {
-		data.PerSsidSettings8BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings8BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings8BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings8BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.9.bandOperationMode"); value.Exists() {
 		data.PerSsidSettings9BandOperationMode = types.StringValue(value.String())
@@ -842,9 +842,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.PerSsidSettings9MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.9.bands.enabled"); value.Exists() {
-		data.PerSsidSettings9BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings9BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings9BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings9BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("sixGhzSettings.channelWidth"); value.Exists() {
 		data.SixGhzSettingsChannelWidth = types.StringValue(value.String())
@@ -872,9 +872,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.SixGhzSettingsRxsop = types.Int64Null()
 	}
 	if value := res.Get("sixGhzSettings.validAutoChannels"); value.Exists() {
-		data.SixGhzSettingsValidAutoChannels = helpers.GetInt64List(value.Array())
+		data.SixGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 	} else {
-		data.SixGhzSettingsValidAutoChannels = types.ListNull(types.Int64Type)
+		data.SixGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 	}
 	if value := res.Get("transmission.enabled"); value.Exists() {
 		data.TransmissionEnabled = types.BoolValue(value.Bool())
@@ -907,9 +907,9 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res gjson.Result) {
 		data.TwoFourGhzSettingsRxsop = types.Int64Null()
 	}
 	if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() {
-		data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64List(value.Array())
+		data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 	} else {
-		data.TwoFourGhzSettingsValidAutoChannels = types.ListNull(types.Int64Type)
+		data.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 	}
 }
 
@@ -953,9 +953,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.ApBandSettingsBandSteeringEnabled = types.BoolNull()
 	}
 	if value := res.Get("apBandSettings.bands.enabled"); value.Exists() && !data.ApBandSettingsBandsEnabled.IsNull() {
-		data.ApBandSettingsBandsEnabled = helpers.GetStringList(value.Array())
+		data.ApBandSettingsBandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.ApBandSettingsBandsEnabled = types.ListNull(types.StringType)
+		data.ApBandSettingsBandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() && !data.FiveGhzSettingsChannelWidth.IsNull() {
 		data.FiveGhzSettingsChannelWidth = types.StringValue(value.String())
@@ -983,9 +983,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.FiveGhzSettingsRxsop = types.Int64Null()
 	}
 	if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() && !data.FiveGhzSettingsValidAutoChannels.IsNull() {
-		data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64List(value.Array())
+		data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 	} else {
-		data.FiveGhzSettingsValidAutoChannels = types.ListNull(types.Int64Type)
+		data.FiveGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 	}
 	for i := 0; i < len(data.FlexRadiosByModel); i++ {
 		keys := [...]string{"model"}
@@ -1029,9 +1029,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 			data.Model = types.StringNull()
 		}
 		if value := res.Get("bands"); value.Exists() && !data.Bands.IsNull() {
-			data.Bands = helpers.GetStringList(value.Array())
+			data.Bands = helpers.GetStringSet(value.Array())
 		} else {
-			data.Bands = types.ListNull(types.StringType)
+			data.Bands = types.SetNull(types.StringType)
 		}
 		(*parent).FlexRadiosByModel[i] = data
 	}
@@ -1051,9 +1051,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings0MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.0.bands.enabled"); value.Exists() && !data.PerSsidSettings0BandsEnabled.IsNull() {
-		data.PerSsidSettings0BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings0BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings0BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings0BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.1.bandOperationMode"); value.Exists() && !data.PerSsidSettings1BandOperationMode.IsNull() {
 		data.PerSsidSettings1BandOperationMode = types.StringValue(value.String())
@@ -1071,9 +1071,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings1MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.1.bands.enabled"); value.Exists() && !data.PerSsidSettings1BandsEnabled.IsNull() {
-		data.PerSsidSettings1BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings1BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings1BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings1BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.10.bandOperationMode"); value.Exists() && !data.PerSsidSettings10BandOperationMode.IsNull() {
 		data.PerSsidSettings10BandOperationMode = types.StringValue(value.String())
@@ -1091,9 +1091,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings10MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.10.bands.enabled"); value.Exists() && !data.PerSsidSettings10BandsEnabled.IsNull() {
-		data.PerSsidSettings10BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings10BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings10BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings10BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.11.bandOperationMode"); value.Exists() && !data.PerSsidSettings11BandOperationMode.IsNull() {
 		data.PerSsidSettings11BandOperationMode = types.StringValue(value.String())
@@ -1111,9 +1111,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings11MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.11.bands.enabled"); value.Exists() && !data.PerSsidSettings11BandsEnabled.IsNull() {
-		data.PerSsidSettings11BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings11BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings11BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings11BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.12.bandOperationMode"); value.Exists() && !data.PerSsidSettings12BandOperationMode.IsNull() {
 		data.PerSsidSettings12BandOperationMode = types.StringValue(value.String())
@@ -1131,9 +1131,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings12MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.12.bands.enabled"); value.Exists() && !data.PerSsidSettings12BandsEnabled.IsNull() {
-		data.PerSsidSettings12BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings12BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings12BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings12BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.13.bandOperationMode"); value.Exists() && !data.PerSsidSettings13BandOperationMode.IsNull() {
 		data.PerSsidSettings13BandOperationMode = types.StringValue(value.String())
@@ -1151,9 +1151,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings13MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.13.bands.enabled"); value.Exists() && !data.PerSsidSettings13BandsEnabled.IsNull() {
-		data.PerSsidSettings13BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings13BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings13BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings13BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.14.bandOperationMode"); value.Exists() && !data.PerSsidSettings14BandOperationMode.IsNull() {
 		data.PerSsidSettings14BandOperationMode = types.StringValue(value.String())
@@ -1171,9 +1171,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings14MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.14.bands.enabled"); value.Exists() && !data.PerSsidSettings14BandsEnabled.IsNull() {
-		data.PerSsidSettings14BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings14BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings14BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings14BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.2.bandOperationMode"); value.Exists() && !data.PerSsidSettings2BandOperationMode.IsNull() {
 		data.PerSsidSettings2BandOperationMode = types.StringValue(value.String())
@@ -1191,9 +1191,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings2MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.2.bands.enabled"); value.Exists() && !data.PerSsidSettings2BandsEnabled.IsNull() {
-		data.PerSsidSettings2BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings2BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings2BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings2BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.3.bandOperationMode"); value.Exists() && !data.PerSsidSettings3BandOperationMode.IsNull() {
 		data.PerSsidSettings3BandOperationMode = types.StringValue(value.String())
@@ -1211,9 +1211,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings3MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.3.bands.enabled"); value.Exists() && !data.PerSsidSettings3BandsEnabled.IsNull() {
-		data.PerSsidSettings3BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings3BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings3BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings3BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.4.bandOperationMode"); value.Exists() && !data.PerSsidSettings4BandOperationMode.IsNull() {
 		data.PerSsidSettings4BandOperationMode = types.StringValue(value.String())
@@ -1231,9 +1231,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings4MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.4.bands.enabled"); value.Exists() && !data.PerSsidSettings4BandsEnabled.IsNull() {
-		data.PerSsidSettings4BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings4BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings4BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings4BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.5.bandOperationMode"); value.Exists() && !data.PerSsidSettings5BandOperationMode.IsNull() {
 		data.PerSsidSettings5BandOperationMode = types.StringValue(value.String())
@@ -1251,9 +1251,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings5MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.5.bands.enabled"); value.Exists() && !data.PerSsidSettings5BandsEnabled.IsNull() {
-		data.PerSsidSettings5BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings5BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings5BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings5BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.6.bandOperationMode"); value.Exists() && !data.PerSsidSettings6BandOperationMode.IsNull() {
 		data.PerSsidSettings6BandOperationMode = types.StringValue(value.String())
@@ -1271,9 +1271,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings6MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.6.bands.enabled"); value.Exists() && !data.PerSsidSettings6BandsEnabled.IsNull() {
-		data.PerSsidSettings6BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings6BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings6BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings6BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.7.bandOperationMode"); value.Exists() && !data.PerSsidSettings7BandOperationMode.IsNull() {
 		data.PerSsidSettings7BandOperationMode = types.StringValue(value.String())
@@ -1291,9 +1291,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings7MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.7.bands.enabled"); value.Exists() && !data.PerSsidSettings7BandsEnabled.IsNull() {
-		data.PerSsidSettings7BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings7BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings7BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings7BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.8.bandOperationMode"); value.Exists() && !data.PerSsidSettings8BandOperationMode.IsNull() {
 		data.PerSsidSettings8BandOperationMode = types.StringValue(value.String())
@@ -1311,9 +1311,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings8MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.8.bands.enabled"); value.Exists() && !data.PerSsidSettings8BandsEnabled.IsNull() {
-		data.PerSsidSettings8BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings8BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings8BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings8BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("perSsidSettings.9.bandOperationMode"); value.Exists() && !data.PerSsidSettings9BandOperationMode.IsNull() {
 		data.PerSsidSettings9BandOperationMode = types.StringValue(value.String())
@@ -1331,9 +1331,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.PerSsidSettings9MinBitrate = types.Float64Null()
 	}
 	if value := res.Get("perSsidSettings.9.bands.enabled"); value.Exists() && !data.PerSsidSettings9BandsEnabled.IsNull() {
-		data.PerSsidSettings9BandsEnabled = helpers.GetStringList(value.Array())
+		data.PerSsidSettings9BandsEnabled = helpers.GetStringSet(value.Array())
 	} else {
-		data.PerSsidSettings9BandsEnabled = types.ListNull(types.StringType)
+		data.PerSsidSettings9BandsEnabled = types.SetNull(types.StringType)
 	}
 	if value := res.Get("sixGhzSettings.channelWidth"); value.Exists() && !data.SixGhzSettingsChannelWidth.IsNull() {
 		data.SixGhzSettingsChannelWidth = types.StringValue(value.String())
@@ -1361,9 +1361,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.SixGhzSettingsRxsop = types.Int64Null()
 	}
 	if value := res.Get("sixGhzSettings.validAutoChannels"); value.Exists() && !data.SixGhzSettingsValidAutoChannels.IsNull() {
-		data.SixGhzSettingsValidAutoChannels = helpers.GetInt64List(value.Array())
+		data.SixGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 	} else {
-		data.SixGhzSettingsValidAutoChannels = types.ListNull(types.Int64Type)
+		data.SixGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 	}
 	if value := res.Get("transmission.enabled"); value.Exists() && !data.TransmissionEnabled.IsNull() {
 		data.TransmissionEnabled = types.BoolValue(value.Bool())
@@ -1396,9 +1396,9 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res gjson.Re
 		data.TwoFourGhzSettingsRxsop = types.Int64Null()
 	}
 	if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() && !data.TwoFourGhzSettingsValidAutoChannels.IsNull() {
-		data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64List(value.Array())
+		data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 	} else {
-		data.TwoFourGhzSettingsValidAutoChannels = types.ListNull(types.Int64Type)
+		data.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 	}
 }
 

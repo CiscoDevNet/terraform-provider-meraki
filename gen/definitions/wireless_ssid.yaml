@@ -414,12 +414,12 @@ attributes:
         description: VLAN name that will be used to tag traffic.
         example: My VLAN
       - model_name: tags
-        type: List
+        type: Set
         element_type: String
         description: List of AP tags.
         example: tag1
   - model_name: allowedDomains
-    type: List
+    type: Set
     element_type: String
     data_path: [oauth]
     exclude_test: true
@@ -440,12 +440,12 @@ attributes:
         description: Numerical identifier that is assigned to the VLAN
         example: "100"
       - model_name: tags
-        type: List
+        type: Set
         element_type: String
         description: Array of AP tags
         example: tag1
   - model_name: availabilityTags
-    type: List
+    type: Set
     element_type: String
     description: Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
     example: tag1
@@ -511,13 +511,13 @@ attributes:
         description: RADIUS client shared secret
         example: secret-string
   - model_name: splashGuestSponsorDomains
-    type: List
+    type: Set
     element_type: String
     exclude_test: true
     description: Array of valid sponsor email domains for sponsored guest splash type.
     example: example.com
   - model_name: walledGardenRanges
-    type: List
+    type: Set
     element_type: String
     exclude_test: true
     description: Specify your walled garden by entering an array of addresses, ranges using CIDR notation, domain names, and domain wildcards (e.g. `192.168.1.1/24`, `192.168.37.10/32`, `www.yahoo.com`, `*.google.com`]). Meraki`s splash page is automatically included in your walled garden.

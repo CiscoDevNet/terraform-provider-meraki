@@ -117,7 +117,7 @@ func (d *DeviceCellularSIMsDataSource) Schema(ctx context.Context, req datasourc
 										MarkdownDescription: "APN username, if type is set.",
 										Computed:            true,
 									},
-									"allowed_ip_types": schema.ListAttribute{
+									"allowed_ip_types": schema.SetAttribute{
 										MarkdownDescription: "IP versions to support (permitted values include `ipv4`, `ipv6`).",
 										ElementType:         types.StringType,
 										Computed:            true,

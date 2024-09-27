@@ -36,7 +36,6 @@ func TestAccMerakiOrganizationInventoryClaim(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_inventory_claim.test", "licenses.0.key", "Z2XXXXXXXXXX"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_inventory_claim.test", "licenses.0.mode", "addDevices"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_inventory_claim.test", "orders.0", "4CXXXXXXX"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {

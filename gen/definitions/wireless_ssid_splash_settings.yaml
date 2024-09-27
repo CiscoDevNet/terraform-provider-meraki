@@ -112,7 +112,7 @@ attributes:
     description: The network ID of the Systems Manager network.
     example: N_1234
   - model_name: enforcedSystems
-    type: List
+    type: Set
     element_type: String
     data_path: [sentryEnrollment]
     exclude_test: true

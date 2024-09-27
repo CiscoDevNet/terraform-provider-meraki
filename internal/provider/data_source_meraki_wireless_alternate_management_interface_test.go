@@ -41,7 +41,6 @@ func TestAccDataSourceMerakiWirelessAlternateManagementInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_alternate_management_interface.test", "access_points.0.dns2", "8.8.4.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_alternate_management_interface.test", "access_points.0.gateway", "1.2.3.5"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_alternate_management_interface.test", "access_points.0.subnet_mask", "255.255.255.0"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_alternate_management_interface.test", "protocols.0", "radius"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

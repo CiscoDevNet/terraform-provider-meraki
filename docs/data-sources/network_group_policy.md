@@ -38,11 +38,11 @@ data "meraki_network_group_policy" "example" {
 - `bandwidth_settings` (String) How bandwidth limits are enforced. Can be `network default`, `ignore` or `custom`.
 - `bonjour_forwarding_rules` (Attributes List) A list of the Bonjour forwarding rules for your group policy. If `settings` is set to `custom`, at least one rule must be specified. (see [below for nested schema](#nestedatt--bonjour_forwarding_rules))
 - `bonjour_forwarding_settings` (String) How Bonjour rules are applied. Can be `network default`, `ignore` or `custom`.
-- `content_filtering_allowed_url_patterns` (List of String) A list of URL patterns that are allowed
+- `content_filtering_allowed_url_patterns` (Set of String) A list of URL patterns that are allowed
 - `content_filtering_allowed_url_patterns_settings` (String) How URL patterns are applied. Can be `network default`, `append` or `override`.
-- `content_filtering_blocked_url_categories` (List of String) A list of URL categories to block
+- `content_filtering_blocked_url_categories` (Set of String) A list of URL categories to block
 - `content_filtering_blocked_url_categories_settings` (String) How URL categories are applied. Can be `network default`, `append` or `override`.
-- `content_filtering_blocked_url_patterns` (List of String) A list of URL patterns that are blocked
+- `content_filtering_blocked_url_patterns` (Set of String) A list of URL patterns that are blocked
 - `content_filtering_blocked_url_patterns_settings` (String) How URL patterns are applied. Can be `network default`, `append` or `override`.
 - `firewall_and_traffic_shaping_settings` (String) How firewall and traffic shaping rules are enforced. Can be `network default`, `ignore` or `custom`.
 - `l3_firewall_rules` (Attributes List) An ordered array of the L3 firewall rules (see [below for nested schema](#nestedatt--l3_firewall_rules))
@@ -80,7 +80,7 @@ data "meraki_network_group_policy" "example" {
 Read-Only:
 
 - `description` (String) A description for your Bonjour forwarding rule. Optional.
-- `services` (List of String) A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`
+- `services` (Set of String) A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`
 - `vlan_id` (String) The ID of the service VLAN. Required.
 
 

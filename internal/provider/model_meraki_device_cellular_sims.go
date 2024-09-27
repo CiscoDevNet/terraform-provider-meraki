@@ -56,7 +56,7 @@ type DeviceCellularSIMsSimsApns struct {
 	AuthenticationPassword types.String `tfsdk:"authentication_password"`
 	AuthenticationType     types.String `tfsdk:"authentication_type"`
 	AuthenticationUsername types.String `tfsdk:"authentication_username"`
-	AllowedIpTypes         types.List   `tfsdk:"allowed_ip_types"`
+	AllowedIpTypes         types.Set    `tfsdk:"allowed_ip_types"`
 }
 
 // End of section. //template:end types
@@ -193,9 +193,9 @@ func (data *DeviceCellularSIMs) fromBody(ctx context.Context, res gjson.Result) 
 						data.AuthenticationUsername = types.StringNull()
 					}
 					if value := res.Get("allowedIpTypes"); value.Exists() {
-						data.AllowedIpTypes = helpers.GetStringList(value.Array())
+						data.AllowedIpTypes = helpers.GetStringSet(value.Array())
 					} else {
-						data.AllowedIpTypes = types.ListNull(types.StringType)
+						data.AllowedIpTypes = types.SetNull(types.StringType)
 					}
 					(*parent).Apns = append((*parent).Apns, data)
 					return true
@@ -339,9 +339,9 @@ func (data *DeviceCellularSIMs) fromBodyPartial(ctx context.Context, res gjson.R
 				data.AuthenticationUsername = types.StringNull()
 			}
 			if value := res.Get("allowedIpTypes"); value.Exists() && !data.AllowedIpTypes.IsNull() {
-				data.AllowedIpTypes = helpers.GetStringList(value.Array())
+				data.AllowedIpTypes = helpers.GetStringSet(value.Array())
 			} else {
-				data.AllowedIpTypes = types.ListNull(types.StringType)
+				data.AllowedIpTypes = types.SetNull(types.StringType)
 			}
 			(*parent).Apns[i] = data
 		}

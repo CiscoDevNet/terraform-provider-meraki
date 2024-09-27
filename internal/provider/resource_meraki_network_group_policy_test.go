@@ -42,7 +42,6 @@ func TestAccMerakiNetworkGroupPolicy(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bonjour_forwarding_settings", "custom"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bonjour_forwarding_rules.0.description", "A simple bonjour rule"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bonjour_forwarding_rules.0.vlan_id", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "bonjour_forwarding_rules.0.services.0", "All Services"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "firewall_and_traffic_shaping_settings", "custom"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l3_firewall_rules.0.comment", "Allow TCP traffic to subnet with HTTP servers."))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "l3_firewall_rules.0.dest_cidr", "192.168.1.0/24"))

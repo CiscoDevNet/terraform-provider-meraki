@@ -63,7 +63,7 @@ resource "meraki_wireless_ssid" "example" {
 - `ap_tags_and_vlan_ids` (Attributes List) The list of tags and VLAN IDs used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming` (see [below for nested schema](#nestedatt--ap_tags_and_vlan_ids))
 - `auth_mode` (String) The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)
   - Choices: `8021x-entra`, `8021x-google`, `8021x-localradius`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `ipsk-with-nac`, `ipsk-with-radius`, `ipsk-without-radius`, `open`, `open-enhanced`, `open-with-nac`, `open-with-radius`, `psk`
-- `availability_tags` (List of String) Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
+- `availability_tags` (Set of String) Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
 - `available_on_all_aps` (Boolean) Boolean indicating whether all APs should broadcast the SSID or if it should be restricted to APs matching any availability tags. Can only be false if the SSID has availability tags.
 - `band_selection` (String) The client-serving radio frequencies of this SSID in the default indoor RF profile. (`Dual band operation`, `5 GHz band only` or `Dual band operation with Band Steering`)
 - `concentrator_network_id` (String) The concentrator to use when the ipAssignmentMode is `Layer 3 roaming with a concentrator` or `VPN`.
@@ -103,7 +103,7 @@ resource "meraki_wireless_ssid" "example" {
 - `named_vlans_tagging_by_ap_tags` (Attributes List) The list of AP tags and VLAN names used for named VLAN tagging. If an AP has a tag matching one in the list, then traffic on this SSID will be directed to use the VLAN name associated to the tag. (see [below for nested schema](#nestedatt--named_vlans_tagging_by_ap_tags))
 - `named_vlans_tagging_default_vlan_name` (String) The default VLAN name used to tag traffic in the absence of a matching AP tag.
 - `named_vlans_tagging_enabled` (Boolean) Whether or not traffic should be directed to use specific VLAN names.
-- `oauth_allowed_domains` (List of String) (Optional) The list of domains allowed access to the network.
+- `oauth_allowed_domains` (Set of String) (Optional) The list of domains allowed access to the network.
 - `per_client_bandwidth_limit_down` (Number) The download bandwidth limit in Kbps. (0 represents no limit.)
 - `per_client_bandwidth_limit_up` (Number) The upload bandwidth limit in Kbps. (0 represents no limit.)
 - `per_ssid_bandwidth_limit_down` (Number) The total download bandwidth limit in Kbps. (0 represents no limit.)
@@ -132,14 +132,14 @@ resource "meraki_wireless_ssid" "example" {
 - `radius_testing_enabled` (Boolean) If true, Meraki devices will periodically send Access-Request messages to configured RADIUS servers using identity `meraki_8021x_test` to ensure that the RADIUS servers are reachable.
 - `secondary_concentrator_network_id` (String) The secondary concentrator to use when the ipAssignmentMode is `VPN`. If configured, the APs will switch to using this concentrator if the primary concentrator is unreachable. This param is optional. (`disabled` represents no secondary concentrator.)
 - `speed_burst_enabled` (Boolean) Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.
-- `splash_guest_sponsor_domains` (List of String) Array of valid sponsor email domains for sponsored guest splash type.
+- `splash_guest_sponsor_domains` (Set of String) Array of valid sponsor email domains for sponsored guest splash type.
 - `splash_page` (String) The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.
   - Choices: `Billing`, `Cisco ISE`, `Click-through splash page`, `Facebook Wi-Fi`, `Google Apps domain`, `Google OAuth`, `Microsoft Entra ID`, `None`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `SMS authentication`, `Sponsored guest`, `Systems Manager Sentry`
 - `use_vlan_tagging` (Boolean) Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
 - `visible` (Boolean) Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true
 - `vlan_id` (Number) The VLAN ID used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Layer 3 roaming with a concentrator` or `VPN`
 - `walled_garden_enabled` (Boolean) Allow access to a configurable list of IP ranges, which users may access prior to sign-on.
-- `walled_garden_ranges` (List of String) Specify your walled garden by entering an array of addresses, ranges using CIDR notation, domain names, and domain wildcards (e.g. `192.168.1.1/24`, `192.168.37.10/32`, `www.yahoo.com`, `*.google.com`]). Meraki`s splash page is automatically included in your walled garden.
+- `walled_garden_ranges` (Set of String) Specify your walled garden by entering an array of addresses, ranges using CIDR notation, domain names, and domain wildcards (e.g. `192.168.1.1/24`, `192.168.37.10/32`, `www.yahoo.com`, `*.google.com`]). Meraki`s splash page is automatically included in your walled garden.
 - `wpa_encryption_mode` (String) The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)
   - Choices: `WPA1 and WPA2`, `WPA1 only`, `WPA2 only`, `WPA3 192-bit Security`, `WPA3 Transition Mode`, `WPA3 only`
 
@@ -164,7 +164,7 @@ Optional:
 
 Optional:
 
-- `tags` (List of String) Array of AP tags
+- `tags` (Set of String) Array of AP tags
 - `vlan_id` (Number) Numerical identifier that is assigned to the VLAN
 
 
@@ -182,7 +182,7 @@ Required:
 
 Optional:
 
-- `tags` (List of String) List of AP tags.
+- `tags` (Set of String) List of AP tags.
 - `vlan_name` (String) VLAN name that will be used to tag traffic.
 
 

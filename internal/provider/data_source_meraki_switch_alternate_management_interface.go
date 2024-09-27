@@ -74,7 +74,7 @@ func (d *SwitchAlternateManagementInterfaceDataSource) Schema(ctx context.Contex
 				MarkdownDescription: "Alternate management VLAN, must be between 1 and 4094",
 				Computed:            true,
 			},
-			"protocols": schema.ListAttribute{
+			"protocols": schema.SetAttribute{
 				MarkdownDescription: "Can be one or more of the following values: `radius`, `snmp` or `syslog`",
 				ElementType:         types.StringType,
 				Computed:            true,

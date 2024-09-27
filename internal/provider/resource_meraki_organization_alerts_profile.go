@@ -126,17 +126,17 @@ func (r *OrganizationAlertsProfileResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: helpers.NewAttributeDescription("The look back period in seconds for sensing the alert").String,
 				Optional:            true,
 			},
-			"recipients_emails": schema.ListAttribute{
+			"recipients_emails": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of emails that will receive information about the alert").String,
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"recipients_http_server_ids": schema.ListAttribute{
+			"recipients_http_server_ids": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list base64 encoded urls of webhook endpoints that will receive information about the alert").String,
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"network_tags": schema.ListAttribute{
+			"network_tags": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Networks with these tags will be monitored for the alert").String,
 				ElementType:         types.StringType,
 				Required:            true,

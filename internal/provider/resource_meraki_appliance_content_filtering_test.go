@@ -34,8 +34,6 @@ func TestAccMerakiApplianceContentFiltering(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_content_filtering.test", "allowed_url_patterns.0", "http://www.example.org"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_content_filtering.test", "blocked_url_patterns.0", "http://www.example.com"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {

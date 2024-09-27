@@ -197,17 +197,17 @@ func (r *SwitchPortResource) Schema(ctx context.Context, req resource.SchemaRequ
 				MarkdownDescription: helpers.NewAttributeDescription("When enabled, the IName of the profile.").String,
 				Optional:            true,
 			},
-			"mac_allow_list": schema.ListAttribute{
+			"mac_allow_list": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.").String,
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"sticky_mac_allow_list": schema.ListAttribute{
+			"sticky_mac_allow_list": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The initial list of MAC addresses for sticky Mac allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.").String,
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"tags": schema.ListAttribute{
+			"tags": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of tags of the switch port.").String,
 				ElementType:         types.StringType,
 				Optional:            true,

@@ -95,7 +95,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Steers client to most open band. Can be either true or false. Defaults to true.",
 				Computed:            true,
 			},
-			"ap_band_settings_bands_enabled": schema.ListAttribute{
+			"ap_band_settings_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -120,7 +120,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.",
 				Computed:            true,
 			},
-			"five_ghz_settings_valid_auto_channels": schema.ListAttribute{
+			"five_ghz_settings_valid_auto_channels": schema.SetAttribute{
 				MarkdownDescription: "Sets valid auto channels for 5Ghz band. Can be one of `36`, `40`, `44`, `48`, `52`, `56`, `60`, `64`, `100`, `104`, `108`, `112`, `116`, `120`, `124`, `128`, `132`, `136`, `140`, `144`, `149`, `153`, `157`, `161` or `165`.Defaults to [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165].",
 				ElementType:         types.Int64Type,
 				Computed:            true,
@@ -134,7 +134,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 							MarkdownDescription: "Model of the AP",
 							Computed:            true,
 						},
-						"bands": schema.ListAttribute{
+						"bands": schema.SetAttribute{
 							MarkdownDescription: "Band to use for each flex radio. For example, [`6`] will set the AP`s first flex radio to 6 GHz",
 							ElementType:         types.StringType,
 							Computed:            true,
@@ -154,7 +154,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings0_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings0_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -171,7 +171,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings1_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings1_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -188,7 +188,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings10_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings10_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -205,7 +205,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings11_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings11_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -222,7 +222,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings12_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings12_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -239,7 +239,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings13_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings13_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -256,7 +256,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings14_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings14_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -273,7 +273,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings2_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings2_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -290,7 +290,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings3_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings3_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -307,7 +307,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings4_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings4_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -324,7 +324,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings5_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings5_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -341,7 +341,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings6_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings6_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -358,7 +358,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings7_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings7_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -375,7 +375,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings8_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings8_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -392,7 +392,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 				Computed:            true,
 			},
-			"per_ssid_settings9_bands_enabled": schema.ListAttribute{
+			"per_ssid_settings9_bands_enabled": schema.SetAttribute{
 				MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -417,7 +417,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.",
 				Computed:            true,
 			},
-			"six_ghz_settings_valid_auto_channels": schema.ListAttribute{
+			"six_ghz_settings_valid_auto_channels": schema.SetAttribute{
 				MarkdownDescription: "Sets valid auto channels for 6Ghz band. Can be one of `1`, `5`, `9`, `13`, `17`, `21`, `25`, `29`, `33`, `37`, `41`, `45`, `49`, `53`, `57`, `61`, `65`, `69`, `73`, `77`, `81`, `85`, `89`, `93`, `97`, `101`, `105`, `109`, `113`, `117`, `121`, `125`, `129`, `133`, `137`, `141`, `145`, `149`, `153`, `157`, `161`, `165`, `169`, `173`, `177`, `181`, `185`, `189`, `193`, `197`, `201`, `205`, `209`, `213`, `217`, `221`, `225`, `229` or `233`.Defaults to [1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233].",
 				ElementType:         types.Int64Type,
 				Computed:            true,
@@ -446,7 +446,7 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.",
 				Computed:            true,
 			},
-			"two_four_ghz_settings_valid_auto_channels": schema.ListAttribute{
+			"two_four_ghz_settings_valid_auto_channels": schema.SetAttribute{
 				MarkdownDescription: "Sets valid auto channels for 2.4Ghz band. Can be one of `1`, `6` or `11`. Defaults to [1, 6, 11].",
 				ElementType:         types.Int64Type,
 				Computed:            true,

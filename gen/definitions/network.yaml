@@ -27,13 +27,13 @@ attributes:
     description: The timezone of the network. For a list of allowed timezones, please see the 'TZ' column in the table in this article.
     example: America/Los_Angeles
   - model_name: productTypes
-    type: List
+    type: Set
     element_type: String
     mandatory: true
     description: The product type(s) of the new network. If more than one type is included, the network will be a combined network.
     example: switch
   - model_name: tags
-    type: List
+    type: Set
     element_type: String
     description: A list of tags to be applied to the network
     example: tag1

@@ -47,7 +47,6 @@ func TestAccDataSourceMerakiDeviceCellularSIMs(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_device_cellular_sims.test", "sims.0.apns.0.authentication_password", "secret"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_device_cellular_sims.test", "sims.0.apns.0.authentication_type", "pap"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_device_cellular_sims.test", "sims.0.apns.0.authentication_username", "milesmeraki"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_device_cellular_sims.test", "sims.0.apns.0.allowed_ip_types.0", "ipv4"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

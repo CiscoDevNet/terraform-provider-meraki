@@ -111,7 +111,7 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 					stringvalidator.OneOf("Airplane", "Alcohol and Drug Rehabilitation Center", "Amphitheater", "Amusement Park", "Arena", "Attorney Office", "Automobile or Truck", "Automotive Service Station", "Bank", "Bar", "Boarding House", "Bus", "Bus Stop", "City Park", "Coffee Shop", "Convention Center", "Doctor or Dentist office", "Dormitory", "Emergency Coordination Center", "Factory", "Ferry", "Fire Station", "Gas Station", "Grocery Market", "Group Home", "Hospital", "Hotel or Motel", "Kiosk", "Library", "Long-Term Care Facility", "Motor Bike", "Muni-mesh Network", "Museum", "Passenger Terminal", "Place of Worship", "Police Station", "Post Office", "Prison or Jail", "Private Residence", "Professional Office", "Research and Development Facility", "Rest Area", "Restaurant", "Retail Store", "School, Primary", "School, Secondary", "Ship or Boat", "Shopping Mall", "Stadium", "Theater", "Traffic Control", "Train", "University or College", "Unspecified", "Unspecified Assembly", "Unspecified Business", "Unspecified Educational", "Unspecified Factory and Industrial", "Unspecified Institutional", "Unspecified Mercantile", "Unspecified Outdoor", "Unspecified Residential", "Unspecified Storage", "Unspecified Utility and Miscellaneous", "Unspecified Vehicular", "Zoo or Aquarium"),
 				},
 			},
-			"domains": schema.ListAttribute{
+			"domains": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("An array of domain names").String,
 				ElementType:         types.StringType,
 				Optional:            true,
@@ -157,22 +157,22 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 										MarkdownDescription: helpers.NewAttributeDescription("ID of method").String,
 										Required:            true,
 									},
-									"authentication_types_non_eap_inner_authentication": schema.ListAttribute{
+									"authentication_types_non_eap_inner_authentication": schema.SetAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("An array of autentication types. Possible values are `Reserved`, `PAP`, `CHAP`, `MSCHAP`, `MSCHAPV2`.").String,
 										ElementType:         types.StringType,
 										Optional:            true,
 									},
-									"authentication_types_eap_inner_authentication": schema.ListAttribute{
+									"authentication_types_eap_inner_authentication": schema.SetAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("An array of autentication types. Possible values are `EAP-TLS`, `EAP-SIM`, `EAP-AKA`, `EAP-TTLS with MSCHAPv2`.").String,
 										ElementType:         types.StringType,
 										Optional:            true,
 									},
-									"authentication_types_credentials": schema.ListAttribute{
+									"authentication_types_credentials": schema.SetAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("An array of autentication types. Possible values are `SIM`, `USIM`, `NFC Secure Element`, `Hardware Token`, `Softoken`, `Certificate`, `username/password`, `none`, `Reserved`, `Vendor Specific`.").String,
 										ElementType:         types.StringType,
 										Optional:            true,
 									},
-									"authentication_types_tunneled_eap_method_credentials": schema.ListAttribute{
+									"authentication_types_tunneled_eap_method_credentials": schema.SetAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("An array of autentication types. Possible values are `SIM`, `USIM`, `NFC Secure Element`, `Hardware Token`, `Softoken`, `Certificate`, `username/password`, `Reserved`, `Anonymous`, `Vendor Specific`.").String,
 										ElementType:         types.StringType,
 										Optional:            true,
@@ -183,7 +183,7 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 					},
 				},
 			},
-			"roam_consort_ois": schema.ListAttribute{
+			"roam_consort_ois": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("An array of roaming consortium OIs (hexadecimal number 3-5 octets in length)").String,
 				ElementType:         types.StringType,
 				Optional:            true,

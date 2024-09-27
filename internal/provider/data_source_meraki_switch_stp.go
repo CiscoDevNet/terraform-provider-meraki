@@ -79,17 +79,17 @@ func (d *SwitchSTPDataSource) Schema(ctx context.Context, req datasource.SchemaR
 							MarkdownDescription: "STP priority for switch, stacks, or switch templates",
 							Computed:            true,
 						},
-						"stacks": schema.ListAttribute{
+						"stacks": schema.SetAttribute{
 							MarkdownDescription: "List of stack IDs",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"switch_profiles": schema.ListAttribute{
+						"switch_profiles": schema.SetAttribute{
 							MarkdownDescription: "List of switch template IDs",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"switches": schema.ListAttribute{
+						"switches": schema.SetAttribute{
 							MarkdownDescription: "List of switch serial numbers",
 							ElementType:         types.StringType,
 							Computed:            true,

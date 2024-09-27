@@ -49,7 +49,7 @@ attributes:
     description: The ID of a switch template to bind to the device (for available switch templates, see the `Switch Templates` endpoint). Use null to unbind the switch device from the current profile. For a device to be bindable to a switch template, it must (1) be a switch, and (2) belong to a network that is bound to a configuration template.
     example: "1234"
   - model_name: tags
-    type: List
+    type: Set
     element_type: String
     description: The list of tags of a device
     example: recently-added

@@ -42,7 +42,7 @@ type OrganizationSNMP struct {
 	V3Enabled      types.Bool   `tfsdk:"v3_enabled"`
 	V3PrivMode     types.String `tfsdk:"v3_priv_mode"`
 	V3PrivPass     types.String `tfsdk:"v3_priv_pass"`
-	PeerIps        types.List   `tfsdk:"peer_ips"`
+	PeerIps        types.Set    `tfsdk:"peer_ips"`
 }
 
 // End of section. //template:end types
@@ -111,9 +111,9 @@ func (data *OrganizationSNMP) fromBody(ctx context.Context, res gjson.Result) {
 		data.V3PrivMode = types.StringNull()
 	}
 	if value := res.Get("peerIps"); value.Exists() {
-		data.PeerIps = helpers.GetStringList(value.Array())
+		data.PeerIps = helpers.GetStringSet(value.Array())
 	} else {
-		data.PeerIps = types.ListNull(types.StringType)
+		data.PeerIps = types.SetNull(types.StringType)
 	}
 }
 
@@ -147,9 +147,9 @@ func (data *OrganizationSNMP) fromBodyPartial(ctx context.Context, res gjson.Res
 		data.V3PrivMode = types.StringNull()
 	}
 	if value := res.Get("peerIps"); value.Exists() && !data.PeerIps.IsNull() {
-		data.PeerIps = helpers.GetStringList(value.Array())
+		data.PeerIps = helpers.GetStringSet(value.Array())
 	} else {
-		data.PeerIps = types.ListNull(types.StringType)
+		data.PeerIps = types.SetNull(types.StringType)
 	}
 }
 

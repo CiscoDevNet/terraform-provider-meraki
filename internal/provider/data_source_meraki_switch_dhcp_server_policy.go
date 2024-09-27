@@ -78,12 +78,12 @@ func (d *SwitchDHCPServerPolicyDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "Enable or disable Dynamic ARP Inspection on the network. Default value is false.",
 				Computed:            true,
 			},
-			"allowed_servers": schema.ListAttribute{
+			"allowed_servers": schema.SetAttribute{
 				MarkdownDescription: "List the MAC addresses of DHCP servers to permit on the network when defaultPolicy is set to block. An empty array will clear the entries.",
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
-			"blocked_servers": schema.ListAttribute{
+			"blocked_servers": schema.SetAttribute{
 				MarkdownDescription: "List the MAC addresses of DHCP servers to block on the network when defaultPolicy is set to allow. An empty array will clear the entries.",
 				ElementType:         types.StringType,
 				Computed:            true,

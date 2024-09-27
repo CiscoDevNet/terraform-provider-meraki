@@ -43,7 +43,7 @@ attributes:
     description: Steers client to most open band. Can be either true or false. Defaults to true.
     example: "true"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [apBandSettings, bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -74,7 +74,7 @@ attributes:
     description: The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
     example: "-95"
   - model_name: validAutoChannels
-    type: List
+    type: Set
     element_type: Int64
     data_path: [fiveGhzSettings]
     description: Sets valid auto channels for 5Ghz band. Can be one of `36`, `40`, `44`, `48`, `52`, `56`, `60`, `64`, `100`, `104`, `108`, `112`, `116`, `120`, `124`, `128`, `132`, `136`, `140`, `144`, `149`, `153`, `157`, `161` or `165`.Defaults to [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165].
@@ -90,7 +90,7 @@ attributes:
         description: Model of the AP
         example: MR34
       - model_name: bands
-        type: List
+        type: Set
         element_type: String
         description: Band to use for each flex radio. For example, [`6`] will set the AP`s first flex radio to 6 GHz
         example: "5"
@@ -111,7 +111,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "0", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -133,7 +133,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "1", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -155,7 +155,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "10", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -177,7 +177,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "11", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -199,7 +199,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "12", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -221,7 +221,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "13", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -243,7 +243,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "14", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -265,7 +265,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "2", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -287,7 +287,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "3", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -309,7 +309,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "4", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -331,7 +331,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "5", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -353,7 +353,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "6", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -375,7 +375,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "7", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -397,7 +397,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "8", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -419,7 +419,7 @@ attributes:
     description: Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.
     example: "11"
   - model_name: enabled
-    type: List
+    type: Set
     element_type: String
     data_path: [perSsidSettings, "9", bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
@@ -455,7 +455,7 @@ attributes:
     description: The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
     example: "-95"
   - model_name: validAutoChannels
-    type: List
+    type: Set
     element_type: Int64
     data_path: [sixGhzSettings]
     exclude_test: true
@@ -492,7 +492,7 @@ attributes:
     description: The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
     example: "-95"
   - model_name: validAutoChannels
-    type: List
+    type: Set
     element_type: Int64
     data_path: [twoFourGhzSettings]
     description: Sets valid auto channels for 2.4Ghz band. Can be one of `1`, `6` or `11`. Defaults to [1, 6, 11].

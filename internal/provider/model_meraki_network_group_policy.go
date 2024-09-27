@@ -46,11 +46,11 @@ type NetworkGroupPolicy struct {
 	BonjourForwardingSettings                    types.String                               `tfsdk:"bonjour_forwarding_settings"`
 	BonjourForwardingRules                       []NetworkGroupPolicyBonjourForwardingRules `tfsdk:"bonjour_forwarding_rules"`
 	ContentFilteringAllowedUrlPatternsSettings   types.String                               `tfsdk:"content_filtering_allowed_url_patterns_settings"`
-	ContentFilteringAllowedUrlPatterns           types.List                                 `tfsdk:"content_filtering_allowed_url_patterns"`
+	ContentFilteringAllowedUrlPatterns           types.Set                                  `tfsdk:"content_filtering_allowed_url_patterns"`
 	ContentFilteringBlockedUrlCategoriesSettings types.String                               `tfsdk:"content_filtering_blocked_url_categories_settings"`
-	ContentFilteringBlockedUrlCategories         types.List                                 `tfsdk:"content_filtering_blocked_url_categories"`
+	ContentFilteringBlockedUrlCategories         types.Set                                  `tfsdk:"content_filtering_blocked_url_categories"`
 	ContentFilteringBlockedUrlPatternsSettings   types.String                               `tfsdk:"content_filtering_blocked_url_patterns_settings"`
-	ContentFilteringBlockedUrlPatterns           types.List                                 `tfsdk:"content_filtering_blocked_url_patterns"`
+	ContentFilteringBlockedUrlPatterns           types.Set                                  `tfsdk:"content_filtering_blocked_url_patterns"`
 	FirewallAndTrafficShapingSettings            types.String                               `tfsdk:"firewall_and_traffic_shaping_settings"`
 	L3FirewallRules                              []NetworkGroupPolicyL3FirewallRules        `tfsdk:"l3_firewall_rules"`
 	L7FirewallRules                              []NetworkGroupPolicyL7FirewallRules        `tfsdk:"l7_firewall_rules"`
@@ -84,7 +84,7 @@ type NetworkGroupPolicy struct {
 type NetworkGroupPolicyBonjourForwardingRules struct {
 	Description types.String `tfsdk:"description"`
 	VlanId      types.String `tfsdk:"vlan_id"`
-	Services    types.List   `tfsdk:"services"`
+	Services    types.Set    `tfsdk:"services"`
 }
 
 type NetworkGroupPolicyL3FirewallRules struct {
@@ -395,9 +395,9 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 				data.VlanId = types.StringNull()
 			}
 			if value := res.Get("services"); value.Exists() {
-				data.Services = helpers.GetStringList(value.Array())
+				data.Services = helpers.GetStringSet(value.Array())
 			} else {
-				data.Services = types.ListNull(types.StringType)
+				data.Services = types.SetNull(types.StringType)
 			}
 			(*parent).BonjourForwardingRules = append((*parent).BonjourForwardingRules, data)
 			return true
@@ -409,9 +409,9 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 		data.ContentFilteringAllowedUrlPatternsSettings = types.StringNull()
 	}
 	if value := res.Get("contentFiltering.allowedUrlPatterns.patterns"); value.Exists() {
-		data.ContentFilteringAllowedUrlPatterns = helpers.GetStringList(value.Array())
+		data.ContentFilteringAllowedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
-		data.ContentFilteringAllowedUrlPatterns = types.ListNull(types.StringType)
+		data.ContentFilteringAllowedUrlPatterns = types.SetNull(types.StringType)
 	}
 	if value := res.Get("contentFiltering.blockedUrlCategories.settings"); value.Exists() {
 		data.ContentFilteringBlockedUrlCategoriesSettings = types.StringValue(value.String())
@@ -419,9 +419,9 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 		data.ContentFilteringBlockedUrlCategoriesSettings = types.StringNull()
 	}
 	if value := res.Get("contentFiltering.blockedUrlCategories.categories"); value.Exists() {
-		data.ContentFilteringBlockedUrlCategories = helpers.GetStringList(value.Array())
+		data.ContentFilteringBlockedUrlCategories = helpers.GetStringSet(value.Array())
 	} else {
-		data.ContentFilteringBlockedUrlCategories = types.ListNull(types.StringType)
+		data.ContentFilteringBlockedUrlCategories = types.SetNull(types.StringType)
 	}
 	if value := res.Get("contentFiltering.blockedUrlPatterns.settings"); value.Exists() {
 		data.ContentFilteringBlockedUrlPatternsSettings = types.StringValue(value.String())
@@ -429,9 +429,9 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 		data.ContentFilteringBlockedUrlPatternsSettings = types.StringNull()
 	}
 	if value := res.Get("contentFiltering.blockedUrlPatterns.patterns"); value.Exists() {
-		data.ContentFilteringBlockedUrlPatterns = helpers.GetStringList(value.Array())
+		data.ContentFilteringBlockedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
-		data.ContentFilteringBlockedUrlPatterns = types.ListNull(types.StringType)
+		data.ContentFilteringBlockedUrlPatterns = types.SetNull(types.StringType)
 	}
 	if value := res.Get("firewallAndTrafficShaping.settings"); value.Exists() {
 		data.FirewallAndTrafficShapingSettings = types.StringValue(value.String())
@@ -757,9 +757,9 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 			data.VlanId = types.StringNull()
 		}
 		if value := res.Get("services"); value.Exists() && !data.Services.IsNull() {
-			data.Services = helpers.GetStringList(value.Array())
+			data.Services = helpers.GetStringSet(value.Array())
 		} else {
-			data.Services = types.ListNull(types.StringType)
+			data.Services = types.SetNull(types.StringType)
 		}
 		(*parent).BonjourForwardingRules[i] = data
 	}
@@ -769,9 +769,9 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 		data.ContentFilteringAllowedUrlPatternsSettings = types.StringNull()
 	}
 	if value := res.Get("contentFiltering.allowedUrlPatterns.patterns"); value.Exists() && !data.ContentFilteringAllowedUrlPatterns.IsNull() {
-		data.ContentFilteringAllowedUrlPatterns = helpers.GetStringList(value.Array())
+		data.ContentFilteringAllowedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
-		data.ContentFilteringAllowedUrlPatterns = types.ListNull(types.StringType)
+		data.ContentFilteringAllowedUrlPatterns = types.SetNull(types.StringType)
 	}
 	if value := res.Get("contentFiltering.blockedUrlCategories.settings"); value.Exists() && !data.ContentFilteringBlockedUrlCategoriesSettings.IsNull() {
 		data.ContentFilteringBlockedUrlCategoriesSettings = types.StringValue(value.String())
@@ -779,9 +779,9 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 		data.ContentFilteringBlockedUrlCategoriesSettings = types.StringNull()
 	}
 	if value := res.Get("contentFiltering.blockedUrlCategories.categories"); value.Exists() && !data.ContentFilteringBlockedUrlCategories.IsNull() {
-		data.ContentFilteringBlockedUrlCategories = helpers.GetStringList(value.Array())
+		data.ContentFilteringBlockedUrlCategories = helpers.GetStringSet(value.Array())
 	} else {
-		data.ContentFilteringBlockedUrlCategories = types.ListNull(types.StringType)
+		data.ContentFilteringBlockedUrlCategories = types.SetNull(types.StringType)
 	}
 	if value := res.Get("contentFiltering.blockedUrlPatterns.settings"); value.Exists() && !data.ContentFilteringBlockedUrlPatternsSettings.IsNull() {
 		data.ContentFilteringBlockedUrlPatternsSettings = types.StringValue(value.String())
@@ -789,9 +789,9 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res gjson.R
 		data.ContentFilteringBlockedUrlPatternsSettings = types.StringNull()
 	}
 	if value := res.Get("contentFiltering.blockedUrlPatterns.patterns"); value.Exists() && !data.ContentFilteringBlockedUrlPatterns.IsNull() {
-		data.ContentFilteringBlockedUrlPatterns = helpers.GetStringList(value.Array())
+		data.ContentFilteringBlockedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
-		data.ContentFilteringBlockedUrlPatterns = types.ListNull(types.StringType)
+		data.ContentFilteringBlockedUrlPatterns = types.SetNull(types.StringType)
 	}
 	if value := res.Get("firewallAndTrafficShaping.settings"); value.Exists() && !data.FirewallAndTrafficShapingSettings.IsNull() {
 		data.FirewallAndTrafficShapingSettings = types.StringValue(value.String())

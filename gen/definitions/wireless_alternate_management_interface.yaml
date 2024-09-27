@@ -55,7 +55,7 @@ attributes:
         description: Subnet mask must be in IP format
         example: 255.255.255.0
   - model_name: protocols
-    type: List
+    type: Set
     element_type: String
     description: 'Can be one or more of the following values: `radius`, `snmp`, `syslog` or `ldap`'
     example: radius

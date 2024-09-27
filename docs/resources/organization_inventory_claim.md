@@ -37,7 +37,7 @@ resource "meraki_organization_inventory_claim" "example" {
 ### Optional
 
 - `licenses` (Attributes List) The licenses that should be claimed (see [below for nested schema](#nestedatt--licenses))
-- `orders` (List of String) The numbers of the orders that should be claimed
+- `orders` (Set of String) The numbers of the orders that should be claimed
 
 ### Read-Only
 

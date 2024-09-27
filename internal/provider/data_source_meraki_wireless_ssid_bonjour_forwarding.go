@@ -91,7 +91,7 @@ func (d *WirelessSSIDBonjourForwardingDataSource) Schema(ctx context.Context, re
 							MarkdownDescription: "The ID of the service VLAN. Required.",
 							Computed:            true,
 						},
-						"services": schema.ListAttribute{
+						"services": schema.SetAttribute{
 							MarkdownDescription: "A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`",
 							ElementType:         types.StringType,
 							Computed:            true,

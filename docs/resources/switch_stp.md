@@ -50,9 +50,9 @@ Required:
 
 Optional:
 
-- `stacks` (List of String) List of stack IDs
-- `switch_profiles` (List of String) List of switch template IDs
-- `switches` (List of String) List of switch serial numbers
+- `stacks` (Set of String) List of stack IDs
+- `switch_profiles` (Set of String) List of switch template IDs
+- `switches` (Set of String) List of switch serial numbers
 
 ## Import
 

@@ -44,7 +44,7 @@ type Device struct {
 	Name            types.String  `tfsdk:"name"`
 	Notes           types.String  `tfsdk:"notes"`
 	SwitchProfileId types.String  `tfsdk:"switch_profile_id"`
-	Tags            types.List    `tfsdk:"tags"`
+	Tags            types.Set     `tfsdk:"tags"`
 }
 
 // End of section. //template:end types
@@ -139,9 +139,9 @@ func (data *Device) fromBody(ctx context.Context, res gjson.Result) {
 		data.SwitchProfileId = types.StringNull()
 	}
 	if value := res.Get("tags"); value.Exists() {
-		data.Tags = helpers.GetStringList(value.Array())
+		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
-		data.Tags = types.ListNull(types.StringType)
+		data.Tags = types.SetNull(types.StringType)
 	}
 }
 
@@ -195,9 +195,9 @@ func (data *Device) fromBodyPartial(ctx context.Context, res gjson.Result) {
 		data.SwitchProfileId = types.StringNull()
 	}
 	if value := res.Get("tags"); value.Exists() && !data.Tags.IsNull() {
-		data.Tags = helpers.GetStringList(value.Array())
+		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
-		data.Tags = types.ListNull(types.StringType)
+		data.Tags = types.SetNull(types.StringType)
 	}
 }
 

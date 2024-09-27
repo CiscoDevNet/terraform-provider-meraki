@@ -79,12 +79,12 @@ func (d *SwitchMTUDataSource) Schema(ctx context.Context, req datasource.SchemaR
 							MarkdownDescription: "MTU size for the switches or switch templates.",
 							Computed:            true,
 						},
-						"switch_profiles": schema.ListAttribute{
+						"switch_profiles": schema.SetAttribute{
 							MarkdownDescription: "List of switch template IDs. Applicable only for template network.",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"switches": schema.ListAttribute{
+						"switches": schema.SetAttribute{
 							MarkdownDescription: "List of switch serials. Applicable only for switch network.",
 							ElementType:         types.StringType,
 							Computed:            true,

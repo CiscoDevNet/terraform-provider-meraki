@@ -67,14 +67,14 @@ attributes:
     description: Boolean indicating whether the organization will restrict API key (not Dashboard GUI) usage to a specific list of IP addresses or CIDR ranges.
     example: "true"
   - model_name: ranges
-    type: List
+    type: Set
     element_type: String
     data_path: [apiAuthentication, ipRestrictionsForKeys]
     exclude_test: true
     description: List of acceptable IP ranges. Entries can be single IP addresses, IP address ranges, and CIDR subnets.
     example: 192.195.83.1
   - model_name: loginIpRanges
-    type: List
+    type: Set
     element_type: String
     exclude_test: true
     description: List of acceptable IP ranges. Entries can be single IP addresses, IP address ranges, and CIDR subnets.

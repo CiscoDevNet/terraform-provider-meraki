@@ -46,9 +46,9 @@ type OrganizationAlertsProfile struct {
 	AlertConditionLossRatio  types.Float64 `tfsdk:"alert_condition_loss_ratio"`
 	AlertConditionMos        types.Float64 `tfsdk:"alert_condition_mos"`
 	AlertConditionWindow     types.Int64   `tfsdk:"alert_condition_window"`
-	RecipientsEmails         types.List    `tfsdk:"recipients_emails"`
-	RecipientsHttpServerIds  types.List    `tfsdk:"recipients_http_server_ids"`
-	NetworkTags              types.List    `tfsdk:"network_tags"`
+	RecipientsEmails         types.Set     `tfsdk:"recipients_emails"`
+	RecipientsHttpServerIds  types.Set     `tfsdk:"recipients_http_server_ids"`
+	NetworkTags              types.Set     `tfsdk:"network_tags"`
 }
 
 // End of section. //template:end types
@@ -169,19 +169,19 @@ func (data *OrganizationAlertsProfile) fromBody(ctx context.Context, res gjson.R
 		data.AlertConditionWindow = types.Int64Null()
 	}
 	if value := res.Get("recipients.emails"); value.Exists() {
-		data.RecipientsEmails = helpers.GetStringList(value.Array())
+		data.RecipientsEmails = helpers.GetStringSet(value.Array())
 	} else {
-		data.RecipientsEmails = types.ListNull(types.StringType)
+		data.RecipientsEmails = types.SetNull(types.StringType)
 	}
 	if value := res.Get("recipients.httpServerIds"); value.Exists() {
-		data.RecipientsHttpServerIds = helpers.GetStringList(value.Array())
+		data.RecipientsHttpServerIds = helpers.GetStringSet(value.Array())
 	} else {
-		data.RecipientsHttpServerIds = types.ListNull(types.StringType)
+		data.RecipientsHttpServerIds = types.SetNull(types.StringType)
 	}
 	if value := res.Get("networkTags"); value.Exists() {
-		data.NetworkTags = helpers.GetStringList(value.Array())
+		data.NetworkTags = helpers.GetStringSet(value.Array())
 	} else {
-		data.NetworkTags = types.ListNull(types.StringType)
+		data.NetworkTags = types.SetNull(types.StringType)
 	}
 }
 
@@ -245,19 +245,19 @@ func (data *OrganizationAlertsProfile) fromBodyPartial(ctx context.Context, res 
 		data.AlertConditionWindow = types.Int64Null()
 	}
 	if value := res.Get("recipients.emails"); value.Exists() && !data.RecipientsEmails.IsNull() {
-		data.RecipientsEmails = helpers.GetStringList(value.Array())
+		data.RecipientsEmails = helpers.GetStringSet(value.Array())
 	} else {
-		data.RecipientsEmails = types.ListNull(types.StringType)
+		data.RecipientsEmails = types.SetNull(types.StringType)
 	}
 	if value := res.Get("recipients.httpServerIds"); value.Exists() && !data.RecipientsHttpServerIds.IsNull() {
-		data.RecipientsHttpServerIds = helpers.GetStringList(value.Array())
+		data.RecipientsHttpServerIds = helpers.GetStringSet(value.Array())
 	} else {
-		data.RecipientsHttpServerIds = types.ListNull(types.StringType)
+		data.RecipientsHttpServerIds = types.SetNull(types.StringType)
 	}
 	if value := res.Get("networkTags"); value.Exists() && !data.NetworkTags.IsNull() {
-		data.NetworkTags = helpers.GetStringList(value.Array())
+		data.NetworkTags = helpers.GetStringSet(value.Array())
 	} else {
-		data.NetworkTags = types.ListNull(types.StringType)
+		data.NetworkTags = types.SetNull(types.StringType)
 	}
 }
 

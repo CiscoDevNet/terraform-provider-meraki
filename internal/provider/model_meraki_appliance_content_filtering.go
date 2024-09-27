@@ -37,9 +37,9 @@ type ApplianceContentFiltering struct {
 	Id                   types.String `tfsdk:"id"`
 	NetworkId            types.String `tfsdk:"network_id"`
 	UrlCategoryListSize  types.String `tfsdk:"url_category_list_size"`
-	AllowedUrlPatterns   types.List   `tfsdk:"allowed_url_patterns"`
-	BlockedUrlCategories types.List   `tfsdk:"blocked_url_categories"`
-	BlockedUrlPatterns   types.List   `tfsdk:"blocked_url_patterns"`
+	AllowedUrlPatterns   types.Set    `tfsdk:"allowed_url_patterns"`
+	BlockedUrlCategories types.Set    `tfsdk:"blocked_url_categories"`
+	BlockedUrlPatterns   types.Set    `tfsdk:"blocked_url_patterns"`
 }
 
 // End of section. //template:end types
@@ -83,14 +83,14 @@ func (data ApplianceContentFiltering) toBody(ctx context.Context, state Applianc
 
 func (data *ApplianceContentFiltering) fromBody(ctx context.Context, res gjson.Result) {
 	if value := res.Get("allowedUrlPatterns"); value.Exists() {
-		data.AllowedUrlPatterns = helpers.GetStringList(value.Array())
+		data.AllowedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
-		data.AllowedUrlPatterns = types.ListNull(types.StringType)
+		data.AllowedUrlPatterns = types.SetNull(types.StringType)
 	}
 	if value := res.Get("blockedUrlPatterns"); value.Exists() {
-		data.BlockedUrlPatterns = helpers.GetStringList(value.Array())
+		data.BlockedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
-		data.BlockedUrlPatterns = types.ListNull(types.StringType)
+		data.BlockedUrlPatterns = types.SetNull(types.StringType)
 	}
 }
 
@@ -104,14 +104,14 @@ func (data *ApplianceContentFiltering) fromBody(ctx context.Context, res gjson.R
 // "managed" elements, instead of all elements.
 func (data *ApplianceContentFiltering) fromBodyPartial(ctx context.Context, res gjson.Result) {
 	if value := res.Get("allowedUrlPatterns"); value.Exists() && !data.AllowedUrlPatterns.IsNull() {
-		data.AllowedUrlPatterns = helpers.GetStringList(value.Array())
+		data.AllowedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
-		data.AllowedUrlPatterns = types.ListNull(types.StringType)
+		data.AllowedUrlPatterns = types.SetNull(types.StringType)
 	}
 	if value := res.Get("blockedUrlPatterns"); value.Exists() && !data.BlockedUrlPatterns.IsNull() {
-		data.BlockedUrlPatterns = helpers.GetStringList(value.Array())
+		data.BlockedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
-		data.BlockedUrlPatterns = types.ListNull(types.StringType)
+		data.BlockedUrlPatterns = types.SetNull(types.StringType)
 	}
 }
 

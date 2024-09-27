@@ -384,7 +384,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 							MarkdownDescription: "VLAN name that will be used to tag traffic.",
 							Computed:            true,
 						},
-						"tags": schema.ListAttribute{
+						"tags": schema.SetAttribute{
 							MarkdownDescription: "List of AP tags.",
 							ElementType:         types.StringType,
 							Computed:            true,
@@ -392,7 +392,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 					},
 				},
 			},
-			"oauth_allowed_domains": schema.ListAttribute{
+			"oauth_allowed_domains": schema.SetAttribute{
 				MarkdownDescription: "(Optional) The list of domains allowed access to the network.",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -410,7 +410,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 							MarkdownDescription: "Numerical identifier that is assigned to the VLAN",
 							Computed:            true,
 						},
-						"tags": schema.ListAttribute{
+						"tags": schema.SetAttribute{
 							MarkdownDescription: "Array of AP tags",
 							ElementType:         types.StringType,
 							Computed:            true,
@@ -418,7 +418,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 					},
 				},
 			},
-			"availability_tags": schema.ListAttribute{
+			"availability_tags": schema.SetAttribute{
 				MarkdownDescription: "Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -483,12 +483,12 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 					},
 				},
 			},
-			"splash_guest_sponsor_domains": schema.ListAttribute{
+			"splash_guest_sponsor_domains": schema.SetAttribute{
 				MarkdownDescription: "Array of valid sponsor email domains for sponsored guest splash type.",
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
-			"walled_garden_ranges": schema.ListAttribute{
+			"walled_garden_ranges": schema.SetAttribute{
 				MarkdownDescription: "Specify your walled garden by entering an array of addresses, ranges using CIDR notation, domain names, and domain wildcards (e.g. `192.168.1.1/24`, `192.168.37.10/32`, `www.yahoo.com`, `*.google.com`]). Meraki`s splash page is automatically included in your walled garden.",
 				ElementType:         types.StringType,
 				Computed:            true,

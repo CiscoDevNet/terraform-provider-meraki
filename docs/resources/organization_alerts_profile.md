@@ -31,7 +31,7 @@ resource "meraki_organization_alerts_profile" "example" {
 
 ### Required
 
-- `network_tags` (List of String) Networks with these tags will be monitored for the alert
+- `network_tags` (Set of String) Networks with these tags will be monitored for the alert
 - `organization_id` (String) Organization ID
 - `type` (String) The alert type
   - Choices: `appOutage`, `voipJitter`, `voipMos`, `voipPacketLoss`, `wanLatency`, `wanPacketLoss`, `wanStatus`, `wanUtilization`
@@ -48,8 +48,8 @@ resource "meraki_organization_alerts_profile" "example" {
 - `alert_condition_mos` (Number) The threshold the metric must drop below to be valid for alerting. Used only for VoIP MOS alerts.
 - `alert_condition_window` (Number) The look back period in seconds for sensing the alert
 - `description` (String) User supplied description of the alert
-- `recipients_emails` (List of String) A list of emails that will receive information about the alert
-- `recipients_http_server_ids` (List of String) A list base64 encoded urls of webhook endpoints that will receive information about the alert
+- `recipients_emails` (Set of String) A list of emails that will receive information about the alert
+- `recipients_http_server_ids` (Set of String) A list base64 encoded urls of webhook endpoints that will receive information about the alert
 
 ### Read-Only
 

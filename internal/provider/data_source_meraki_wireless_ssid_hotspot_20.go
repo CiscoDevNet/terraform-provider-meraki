@@ -90,7 +90,7 @@ func (d *WirelessSSIDHotspot20DataSource) Schema(ctx context.Context, req dataso
 				MarkdownDescription: "Venue type (`Unspecified`, `Unspecified Assembly`, `Arena`, `Stadium`, `Passenger Terminal`, `Amphitheater`, `Amusement Park`, `Place of Worship`, `Convention Center`, `Library`, `Museum`, `Restaurant`, `Theater`, `Bar`, `Coffee Shop`, `Zoo or Aquarium`, `Emergency Coordination Center`, `Unspecified Business`, `Doctor or Dentist office`, `Bank`, `Fire Station`, `Police Station`, `Post Office`, `Professional Office`, `Research and Development Facility`, `Attorney Office`, `Unspecified Educational`, `School, Primary`, `School, Secondary`, `University or College`, `Unspecified Factory and Industrial`, `Factory`, `Unspecified Institutional`, `Hospital`, `Long-Term Care Facility`, `Alcohol and Drug Rehabilitation Center`, `Group Home`, `Prison or Jail`, `Unspecified Mercantile`, `Retail Store`, `Grocery Market`, `Automotive Service Station`, `Shopping Mall`, `Gas Station`, `Unspecified Residential`, `Private Residence`, `Hotel or Motel`, `Dormitory`, `Boarding House`, `Unspecified Storage`, `Unspecified Utility and Miscellaneous`, `Unspecified Vehicular`, `Automobile or Truck`, `Airplane`, `Bus`, `Ferry`, `Ship or Boat`, `Train`, `Motor Bike`, `Unspecified Outdoor`, `Muni-mesh Network`, `City Park`, `Rest Area`, `Traffic Control`, `Bus Stop`, `Kiosk`)",
 				Computed:            true,
 			},
-			"domains": schema.ListAttribute{
+			"domains": schema.SetAttribute{
 				MarkdownDescription: "An array of domain names",
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -133,22 +133,22 @@ func (d *WirelessSSIDHotspot20DataSource) Schema(ctx context.Context, req dataso
 										MarkdownDescription: "ID of method",
 										Computed:            true,
 									},
-									"authentication_types_non_eap_inner_authentication": schema.ListAttribute{
+									"authentication_types_non_eap_inner_authentication": schema.SetAttribute{
 										MarkdownDescription: "An array of autentication types. Possible values are `Reserved`, `PAP`, `CHAP`, `MSCHAP`, `MSCHAPV2`.",
 										ElementType:         types.StringType,
 										Computed:            true,
 									},
-									"authentication_types_eap_inner_authentication": schema.ListAttribute{
+									"authentication_types_eap_inner_authentication": schema.SetAttribute{
 										MarkdownDescription: "An array of autentication types. Possible values are `EAP-TLS`, `EAP-SIM`, `EAP-AKA`, `EAP-TTLS with MSCHAPv2`.",
 										ElementType:         types.StringType,
 										Computed:            true,
 									},
-									"authentication_types_credentials": schema.ListAttribute{
+									"authentication_types_credentials": schema.SetAttribute{
 										MarkdownDescription: "An array of autentication types. Possible values are `SIM`, `USIM`, `NFC Secure Element`, `Hardware Token`, `Softoken`, `Certificate`, `username/password`, `none`, `Reserved`, `Vendor Specific`.",
 										ElementType:         types.StringType,
 										Computed:            true,
 									},
-									"authentication_types_tunneled_eap_method_credentials": schema.ListAttribute{
+									"authentication_types_tunneled_eap_method_credentials": schema.SetAttribute{
 										MarkdownDescription: "An array of autentication types. Possible values are `SIM`, `USIM`, `NFC Secure Element`, `Hardware Token`, `Softoken`, `Certificate`, `username/password`, `Reserved`, `Anonymous`, `Vendor Specific`.",
 										ElementType:         types.StringType,
 										Computed:            true,
@@ -159,7 +159,7 @@ func (d *WirelessSSIDHotspot20DataSource) Schema(ctx context.Context, req dataso
 					},
 				},
 			},
-			"roam_consort_ois": schema.ListAttribute{
+			"roam_consort_ois": schema.SetAttribute{
 				MarkdownDescription: "An array of roaming consortium OIs (hexadecimal number 3-5 octets in length)",
 				ElementType:         types.StringType,
 				Computed:            true,

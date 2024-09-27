@@ -40,5 +40,5 @@ data "meraki_wireless_ssid_bonjour_forwarding" "example" {
 Read-Only:
 
 - `description` (String) A description for your Bonjour forwarding rule. Optional.
-- `services` (List of String) A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`
+- `services` (Set of String) A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`
 - `vlan_id` (String) The ID of the service VLAN. Required.

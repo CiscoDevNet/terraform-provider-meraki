@@ -32,7 +32,7 @@ resource "meraki_organization_policy_object_group" "example" {
 ### Optional
 
 - `category` (String) Category of a policy object group (one of: NetworkObjectGroup, GeoLocationGroup, PortObjectGroup, ApplicationGroup)
-- `object_ids` (List of Number) A list of Policy Object ID`s that this NetworkObjectGroup should be associated to (note: these ID`s will replace the existing associated Policy Objects)
+- `object_ids` (Set of Number) A list of Policy Object ID`s that this NetworkObjectGroup should be associated to (note: these ID`s will replace the existing associated Policy Objects)
 
 ### Read-Only
 

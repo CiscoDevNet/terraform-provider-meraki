@@ -71,21 +71,21 @@ attributes:
     example: "600"
     minimum_test_value: "300"
   - model_name: emails
-    type: List
+    type: Set
     element_type: String
     data_path: [recipients]
     description: A list of emails that will receive information about the alert
     example: admin@example.org
     minimum_test_value: '["admin2@example.org"]'
   - model_name: httpServerIds
-    type: List
+    type: Set
     element_type: String
     data_path: [recipients]
     exclude_test: true
     description: A list base64 encoded urls of webhook endpoints that will receive information about the alert
     example: aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vcGF0aA==
   - model_name: networkTags
-    type: List
+    type: Set
     element_type: String
     mandatory: true
     description: Networks with these tags will be monitored for the alert

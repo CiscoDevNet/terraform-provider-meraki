@@ -85,7 +85,7 @@ func (r *OrganizationPolicyObjectGroupResource) Schema(ctx context.Context, req 
 				MarkdownDescription: helpers.NewAttributeDescription("A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)").String,
 				Required:            true,
 			},
-			"object_ids": schema.ListAttribute{
+			"object_ids": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of Policy Object ID`s that this NetworkObjectGroup should be associated to (note: these ID`s will replace the existing associated Policy Objects)").String,
 				ElementType:         types.Int64Type,
 				Optional:            true,

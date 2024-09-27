@@ -43,7 +43,7 @@ attributes:
     description: The SNMP version 3 privacy password. Must be at least 8 characters if specified.
     example: password
   - model_name: peerIps
-    type: List
+    type: Set
     element_type: String
     description: The list of IPv4 addresses that are allowed to access the SNMP server.
     example: 123.123.123.1

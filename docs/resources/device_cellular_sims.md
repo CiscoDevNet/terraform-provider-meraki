@@ -73,7 +73,7 @@ Optional:
 
 Required:
 
-- `allowed_ip_types` (List of String) IP versions to support (permitted values include `ipv4`, `ipv6`).
+- `allowed_ip_types` (Set of String) IP versions to support (permitted values include `ipv4`, `ipv6`).
 - `name` (String) APN name.
 
 Optional:

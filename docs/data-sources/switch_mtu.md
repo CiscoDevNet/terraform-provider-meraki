@@ -37,5 +37,5 @@ data "meraki_switch_mtu" "example" {
 Read-Only:
 
 - `mtu_size` (Number) MTU size for the switches or switch templates.
-- `switch_profiles` (List of String) List of switch template IDs. Applicable only for template network.
-- `switches` (List of String) List of switch serials. Applicable only for switch network.
+- `switch_profiles` (Set of String) List of switch template IDs. Applicable only for template network.
+- `switches` (Set of String) List of switch serials. Applicable only for switch network.

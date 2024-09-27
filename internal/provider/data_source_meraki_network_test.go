@@ -36,8 +36,6 @@ func TestAccDataSourceMerakiNetwork(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network.test", "notes", "Additional description of the network"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network.test", "time_zone", "America/Los_Angeles"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network.test", "product_types.0", "switch"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network.test", "tags.0", "tag1"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

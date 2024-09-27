@@ -28,7 +28,7 @@ data "meraki_organization_snmp" "example" {
 ### Read-Only
 
 - `id` (String) The id of the object
-- `peer_ips` (List of String) The list of IPv4 addresses that are allowed to access the SNMP server.
+- `peer_ips` (Set of String) The list of IPv4 addresses that are allowed to access the SNMP server.
 - `v2c_enabled` (Boolean) Boolean indicating whether SNMP version 2c is enabled for the organization.
 - `v3_auth_mode` (String) The SNMP version 3 authentication mode. Can be either `MD5` or `SHA`.
 - `v3_auth_pass` (String) The SNMP version 3 authentication password. Must be at least 8 characters if specified.

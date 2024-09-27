@@ -37,8 +37,6 @@ func TestAccDataSourceMerakiSwitchDHCPServerPolicy(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_dhcp_server_policy.test", "default_policy", "block"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_dhcp_server_policy.test", "alerts_email_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_dhcp_server_policy.test", "arp_inspection_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_dhcp_server_policy.test", "allowed_servers.0", "00:50:56:00:00:01"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_dhcp_server_policy.test", "blocked_servers.0", "00:50:56:00:00:03"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

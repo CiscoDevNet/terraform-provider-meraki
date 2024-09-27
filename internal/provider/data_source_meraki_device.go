@@ -98,7 +98,7 @@ func (d *DeviceDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				MarkdownDescription: "The ID of a switch template to bind to the device (for available switch templates, see the `Switch Templates` endpoint). Use null to unbind the switch device from the current profile. For a device to be bindable to a switch template, it must (1) be a switch, and (2) belong to a network that is bound to a configuration template.",
 				Computed:            true,
 			},
-			"tags": schema.ListAttribute{
+			"tags": schema.SetAttribute{
 				MarkdownDescription: "The list of tags of a device",
 				ElementType:         types.StringType,
 				Computed:            true,

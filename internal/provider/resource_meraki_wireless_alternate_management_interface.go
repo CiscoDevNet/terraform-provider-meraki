@@ -116,7 +116,7 @@ func (r *WirelessAlternateManagementInterfaceResource) Schema(ctx context.Contex
 					},
 				},
 			},
-			"protocols": schema.ListAttribute{
+			"protocols": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Can be one or more of the following values: `radius`, `snmp`, `syslog` or `ldap`").String,
 				ElementType:         types.StringType,
 				Optional:            true,

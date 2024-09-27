@@ -20,18 +20,18 @@ attributes:
     example: topSites
     enum_values: [fullList, topSites]
   - model_name: allowedUrlPatterns
-    type: List
+    type: Set
     element_type: String
     description: A list of URL patterns that are allowed
     example: http://www.example.org
   - model_name: blockedUrlCategories
-    type: List
+    type: Set
     element_type: String
     write_only: true
     description: A list of URL categories to block
     example: meraki:contentFiltering/category/C1
   - model_name: blockedUrlPatterns
-    type: List
+    type: Set
     element_type: String
     description: A list of URL patterns that are blocked
     example: http://www.example.com

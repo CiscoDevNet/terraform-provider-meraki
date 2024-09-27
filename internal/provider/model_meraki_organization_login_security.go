@@ -48,8 +48,8 @@ type OrganizationLoginSecurity struct {
 	NumDifferentPasswords                         types.Int64  `tfsdk:"num_different_passwords"`
 	PasswordExpirationDays                        types.Int64  `tfsdk:"password_expiration_days"`
 	ApiAuthenticationIpRestrictionsForKeysEnabled types.Bool   `tfsdk:"api_authentication_ip_restrictions_for_keys_enabled"`
-	ApiAuthenticationIpRestrictionsForKeysRanges  types.List   `tfsdk:"api_authentication_ip_restrictions_for_keys_ranges"`
-	LoginIpRanges                                 types.List   `tfsdk:"login_ip_ranges"`
+	ApiAuthenticationIpRestrictionsForKeysRanges  types.Set    `tfsdk:"api_authentication_ip_restrictions_for_keys_ranges"`
+	LoginIpRanges                                 types.Set    `tfsdk:"login_ip_ranges"`
 }
 
 // End of section. //template:end types
@@ -181,14 +181,14 @@ func (data *OrganizationLoginSecurity) fromBody(ctx context.Context, res gjson.R
 		data.ApiAuthenticationIpRestrictionsForKeysEnabled = types.BoolNull()
 	}
 	if value := res.Get("apiAuthentication.ipRestrictionsForKeys.ranges"); value.Exists() {
-		data.ApiAuthenticationIpRestrictionsForKeysRanges = helpers.GetStringList(value.Array())
+		data.ApiAuthenticationIpRestrictionsForKeysRanges = helpers.GetStringSet(value.Array())
 	} else {
-		data.ApiAuthenticationIpRestrictionsForKeysRanges = types.ListNull(types.StringType)
+		data.ApiAuthenticationIpRestrictionsForKeysRanges = types.SetNull(types.StringType)
 	}
 	if value := res.Get("loginIpRanges"); value.Exists() {
-		data.LoginIpRanges = helpers.GetStringList(value.Array())
+		data.LoginIpRanges = helpers.GetStringSet(value.Array())
 	} else {
-		data.LoginIpRanges = types.ListNull(types.StringType)
+		data.LoginIpRanges = types.SetNull(types.StringType)
 	}
 }
 
@@ -262,14 +262,14 @@ func (data *OrganizationLoginSecurity) fromBodyPartial(ctx context.Context, res 
 		data.ApiAuthenticationIpRestrictionsForKeysEnabled = types.BoolNull()
 	}
 	if value := res.Get("apiAuthentication.ipRestrictionsForKeys.ranges"); value.Exists() && !data.ApiAuthenticationIpRestrictionsForKeysRanges.IsNull() {
-		data.ApiAuthenticationIpRestrictionsForKeysRanges = helpers.GetStringList(value.Array())
+		data.ApiAuthenticationIpRestrictionsForKeysRanges = helpers.GetStringSet(value.Array())
 	} else {
-		data.ApiAuthenticationIpRestrictionsForKeysRanges = types.ListNull(types.StringType)
+		data.ApiAuthenticationIpRestrictionsForKeysRanges = types.SetNull(types.StringType)
 	}
 	if value := res.Get("loginIpRanges"); value.Exists() && !data.LoginIpRanges.IsNull() {
-		data.LoginIpRanges = helpers.GetStringList(value.Array())
+		data.LoginIpRanges = helpers.GetStringSet(value.Array())
 	} else {
-		data.LoginIpRanges = types.ListNull(types.StringType)
+		data.LoginIpRanges = types.SetNull(types.StringType)
 	}
 }
 

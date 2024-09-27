@@ -30,12 +30,12 @@ attributes:
     description: Enable or disable Dynamic ARP Inspection on the network. Default value is false.
     example: "true"
   - model_name: allowedServers
-    type: List
+    type: Set
     element_type: String
     description: List the MAC addresses of DHCP servers to permit on the network when defaultPolicy is set to block. An empty array will clear the entries.
     example: "00:50:56:00:00:01"
   - model_name: blockedServers
-    type: List
+    type: Set
     element_type: String
     description: List the MAC addresses of DHCP servers to block on the network when defaultPolicy is set to allow. An empty array will clear the entries.
     example: "00:50:56:00:00:03"

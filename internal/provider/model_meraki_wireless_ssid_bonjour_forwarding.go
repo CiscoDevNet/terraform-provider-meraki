@@ -47,7 +47,7 @@ type WirelessSSIDBonjourForwarding struct {
 type WirelessSSIDBonjourForwardingRules struct {
 	Description types.String `tfsdk:"description"`
 	VlanId      types.String `tfsdk:"vlan_id"`
-	Services    types.List   `tfsdk:"services"`
+	Services    types.Set    `tfsdk:"services"`
 }
 
 // End of section. //template:end types
@@ -122,9 +122,9 @@ func (data *WirelessSSIDBonjourForwarding) fromBody(ctx context.Context, res gjs
 				data.VlanId = types.StringNull()
 			}
 			if value := res.Get("services"); value.Exists() {
-				data.Services = helpers.GetStringList(value.Array())
+				data.Services = helpers.GetStringSet(value.Array())
 			} else {
-				data.Services = types.ListNull(types.StringType)
+				data.Services = types.SetNull(types.StringType)
 			}
 			(*parent).Rules = append((*parent).Rules, data)
 			return true
@@ -198,9 +198,9 @@ func (data *WirelessSSIDBonjourForwarding) fromBodyPartial(ctx context.Context, 
 			data.VlanId = types.StringNull()
 		}
 		if value := res.Get("services"); value.Exists() && !data.Services.IsNull() {
-			data.Services = helpers.GetStringList(value.Array())
+			data.Services = helpers.GetStringSet(value.Array())
 		} else {
-			data.Services = types.ListNull(types.StringType)
+			data.Services = types.SetNull(types.StringType)
 		}
 		(*parent).Rules[i] = data
 	}

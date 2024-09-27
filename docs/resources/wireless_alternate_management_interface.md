@@ -42,7 +42,7 @@ resource "meraki_wireless_alternate_management_interface" "example" {
 
 - `access_points` (Attributes List) Array of access point serial number and IP assignment. Note: accessPoints IP assignment is not applicable for template networks, in other words, do not put `accessPoints` in the body when updating template networks. Also, an empty `accessPoints` array will remove all previous static IP assignments (see [below for nested schema](#nestedatt--access_points))
 - `enabled` (Boolean) Boolean value to enable or disable alternate management interface
-- `protocols` (List of String) Can be one or more of the following values: `radius`, `snmp`, `syslog` or `ldap`
+- `protocols` (Set of String) Can be one or more of the following values: `radius`, `snmp`, `syslog` or `ldap`
 - `vlan_id` (Number) Alternate management interface VLAN, must be between 1 and 4094
 
 ### Read-Only

@@ -36,8 +36,6 @@ func TestAccMerakiNetwork(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network.test", "notes", "Additional description of the network"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network.test", "time_zone", "America/Los_Angeles"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network.test", "product_types.0", "switch"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network.test", "tags.0", "tag1"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {

@@ -28,7 +28,7 @@ resource "meraki_organization_adaptive_policy_settings" "example" {
 
 ### Optional
 
-- `enabled_networks` (List of String) List of network IDs with adaptive policy enabled
+- `enabled_networks` (Set of String) List of network IDs with adaptive policy enabled
 
 ### Read-Only
 

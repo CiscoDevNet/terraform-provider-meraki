@@ -124,12 +124,12 @@ func (r *OrganizationLoginSecurityResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether the organization will restrict API key (not Dashboard GUI) usage to a specific list of IP addresses or CIDR ranges.").String,
 				Optional:            true,
 			},
-			"api_authentication_ip_restrictions_for_keys_ranges": schema.ListAttribute{
+			"api_authentication_ip_restrictions_for_keys_ranges": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("List of acceptable IP ranges. Entries can be single IP addresses, IP address ranges, and CIDR subnets.").String,
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"login_ip_ranges": schema.ListAttribute{
+			"login_ip_ranges": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("List of acceptable IP ranges. Entries can be single IP addresses, IP address ranges, and CIDR subnets.").String,
 				ElementType:         types.StringType,
 				Optional:            true,

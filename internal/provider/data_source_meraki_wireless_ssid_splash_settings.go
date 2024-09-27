@@ -142,7 +142,7 @@ func (d *WirelessSSIDSplashSettingsDataSource) Schema(ctx context.Context, req d
 				MarkdownDescription: "The network ID of the Systems Manager network.",
 				Computed:            true,
 			},
-			"sentry_enrollment_enforced_systems": schema.ListAttribute{
+			"sentry_enrollment_enforced_systems": schema.SetAttribute{
 				MarkdownDescription: "The system types that the Sentry enforces. Must be included in: `iOS, `Android`, `macOS`, and `Windows`.",
 				ElementType:         types.StringType,
 				Computed:            true,

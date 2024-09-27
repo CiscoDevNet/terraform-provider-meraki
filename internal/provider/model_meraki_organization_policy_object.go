@@ -43,7 +43,7 @@ type OrganizationPolicyObject struct {
 	Mask           types.String `tfsdk:"mask"`
 	Name           types.String `tfsdk:"name"`
 	Type           types.String `tfsdk:"type"`
-	GroupIds       types.List   `tfsdk:"group_ids"`
+	GroupIds       types.Set    `tfsdk:"group_ids"`
 }
 
 // End of section. //template:end types
@@ -130,9 +130,9 @@ func (data *OrganizationPolicyObject) fromBody(ctx context.Context, res gjson.Re
 		data.Type = types.StringNull()
 	}
 	if value := res.Get("groupIds"); value.Exists() {
-		data.GroupIds = helpers.GetStringList(value.Array())
+		data.GroupIds = helpers.GetStringSet(value.Array())
 	} else {
-		data.GroupIds = types.ListNull(types.StringType)
+		data.GroupIds = types.SetNull(types.StringType)
 	}
 }
 
@@ -181,9 +181,9 @@ func (data *OrganizationPolicyObject) fromBodyPartial(ctx context.Context, res g
 		data.Type = types.StringNull()
 	}
 	if value := res.Get("groupIds"); value.Exists() && !data.GroupIds.IsNull() {
-		data.GroupIds = helpers.GetStringList(value.Array())
+		data.GroupIds = helpers.GetStringSet(value.Array())
 	} else {
-		data.GroupIds = types.ListNull(types.StringType)
+		data.GroupIds = types.SetNull(types.StringType)
 	}
 }
 

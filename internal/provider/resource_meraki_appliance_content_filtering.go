@@ -85,17 +85,17 @@ func (r *ApplianceContentFilteringResource) Schema(ctx context.Context, req reso
 					stringvalidator.OneOf("fullList", "topSites"),
 				},
 			},
-			"allowed_url_patterns": schema.ListAttribute{
+			"allowed_url_patterns": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of URL patterns that are allowed").String,
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"blocked_url_categories": schema.ListAttribute{
+			"blocked_url_categories": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of URL categories to block").String,
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
-			"blocked_url_patterns": schema.ListAttribute{
+			"blocked_url_patterns": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A list of URL patterns that are blocked").String,
 				ElementType:         types.StringType,
 				Optional:            true,

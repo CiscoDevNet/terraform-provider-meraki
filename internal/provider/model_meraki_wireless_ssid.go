@@ -111,14 +111,14 @@ type WirelessSSID struct {
 	NamedVlansTaggingDefaultVlanName                                    types.String                            `tfsdk:"named_vlans_tagging_default_vlan_name"`
 	NamedVlansTaggingEnabled                                            types.Bool                              `tfsdk:"named_vlans_tagging_enabled"`
 	NamedVlansTaggingByApTags                                           []WirelessSSIDNamedVlansTaggingByApTags `tfsdk:"named_vlans_tagging_by_ap_tags"`
-	OauthAllowedDomains                                                 types.List                              `tfsdk:"oauth_allowed_domains"`
+	OauthAllowedDomains                                                 types.Set                               `tfsdk:"oauth_allowed_domains"`
 	SpeedBurstEnabled                                                   types.Bool                              `tfsdk:"speed_burst_enabled"`
 	ApTagsAndVlanIds                                                    []WirelessSSIDApTagsAndVlanIds          `tfsdk:"ap_tags_and_vlan_ids"`
-	AvailabilityTags                                                    types.List                              `tfsdk:"availability_tags"`
+	AvailabilityTags                                                    types.Set                               `tfsdk:"availability_tags"`
 	RadiusAccountingServers                                             []WirelessSSIDRadiusAccountingServers   `tfsdk:"radius_accounting_servers"`
 	RadiusServers                                                       []WirelessSSIDRadiusServers             `tfsdk:"radius_servers"`
-	SplashGuestSponsorDomains                                           types.List                              `tfsdk:"splash_guest_sponsor_domains"`
-	WalledGardenRanges                                                  types.List                              `tfsdk:"walled_garden_ranges"`
+	SplashGuestSponsorDomains                                           types.Set                               `tfsdk:"splash_guest_sponsor_domains"`
+	WalledGardenRanges                                                  types.Set                               `tfsdk:"walled_garden_ranges"`
 }
 
 type WirelessSSIDActiveDirectoryServers struct {
@@ -133,12 +133,12 @@ type WirelessSSIDLdapServers struct {
 
 type WirelessSSIDNamedVlansTaggingByApTags struct {
 	VlanName types.String `tfsdk:"vlan_name"`
-	Tags     types.List   `tfsdk:"tags"`
+	Tags     types.Set    `tfsdk:"tags"`
 }
 
 type WirelessSSIDApTagsAndVlanIds struct {
 	VlanId types.Int64 `tfsdk:"vlan_id"`
-	Tags   types.List  `tfsdk:"tags"`
+	Tags   types.Set   `tfsdk:"tags"`
 }
 
 type WirelessSSIDRadiusAccountingServers struct {
@@ -901,18 +901,18 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res gjson.Result) {
 				data.VlanName = types.StringNull()
 			}
 			if value := res.Get("tags"); value.Exists() {
-				data.Tags = helpers.GetStringList(value.Array())
+				data.Tags = helpers.GetStringSet(value.Array())
 			} else {
-				data.Tags = types.ListNull(types.StringType)
+				data.Tags = types.SetNull(types.StringType)
 			}
 			(*parent).NamedVlansTaggingByApTags = append((*parent).NamedVlansTaggingByApTags, data)
 			return true
 		})
 	}
 	if value := res.Get("oauth.allowedDomains"); value.Exists() {
-		data.OauthAllowedDomains = helpers.GetStringList(value.Array())
+		data.OauthAllowedDomains = helpers.GetStringSet(value.Array())
 	} else {
-		data.OauthAllowedDomains = types.ListNull(types.StringType)
+		data.OauthAllowedDomains = types.SetNull(types.StringType)
 	}
 	if value := res.Get("speedBurst.enabled"); value.Exists() {
 		data.SpeedBurstEnabled = types.BoolValue(value.Bool())
@@ -930,18 +930,18 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res gjson.Result) {
 				data.VlanId = types.Int64Null()
 			}
 			if value := res.Get("tags"); value.Exists() {
-				data.Tags = helpers.GetStringList(value.Array())
+				data.Tags = helpers.GetStringSet(value.Array())
 			} else {
-				data.Tags = types.ListNull(types.StringType)
+				data.Tags = types.SetNull(types.StringType)
 			}
 			(*parent).ApTagsAndVlanIds = append((*parent).ApTagsAndVlanIds, data)
 			return true
 		})
 	}
 	if value := res.Get("availabilityTags"); value.Exists() {
-		data.AvailabilityTags = helpers.GetStringList(value.Array())
+		data.AvailabilityTags = helpers.GetStringSet(value.Array())
 	} else {
-		data.AvailabilityTags = types.ListNull(types.StringType)
+		data.AvailabilityTags = types.SetNull(types.StringType)
 	}
 	if value := res.Get("radiusAccountingServers"); value.Exists() {
 		data.RadiusAccountingServers = make([]WirelessSSIDRadiusAccountingServers, 0)
@@ -1007,14 +1007,14 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res gjson.Result) {
 		})
 	}
 	if value := res.Get("splashGuestSponsorDomains"); value.Exists() {
-		data.SplashGuestSponsorDomains = helpers.GetStringList(value.Array())
+		data.SplashGuestSponsorDomains = helpers.GetStringSet(value.Array())
 	} else {
-		data.SplashGuestSponsorDomains = types.ListNull(types.StringType)
+		data.SplashGuestSponsorDomains = types.SetNull(types.StringType)
 	}
 	if value := res.Get("walledGardenRanges"); value.Exists() {
-		data.WalledGardenRanges = helpers.GetStringList(value.Array())
+		data.WalledGardenRanges = helpers.GetStringSet(value.Array())
 	} else {
-		data.WalledGardenRanges = types.ListNull(types.StringType)
+		data.WalledGardenRanges = types.SetNull(types.StringType)
 	}
 }
 
@@ -1481,16 +1481,16 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 			data.VlanName = types.StringNull()
 		}
 		if value := res.Get("tags"); value.Exists() && !data.Tags.IsNull() {
-			data.Tags = helpers.GetStringList(value.Array())
+			data.Tags = helpers.GetStringSet(value.Array())
 		} else {
-			data.Tags = types.ListNull(types.StringType)
+			data.Tags = types.SetNull(types.StringType)
 		}
 		(*parent).NamedVlansTaggingByApTags[i] = data
 	}
 	if value := res.Get("oauth.allowedDomains"); value.Exists() && !data.OauthAllowedDomains.IsNull() {
-		data.OauthAllowedDomains = helpers.GetStringList(value.Array())
+		data.OauthAllowedDomains = helpers.GetStringSet(value.Array())
 	} else {
-		data.OauthAllowedDomains = types.ListNull(types.StringType)
+		data.OauthAllowedDomains = types.SetNull(types.StringType)
 	}
 	if value := res.Get("speedBurst.enabled"); value.Exists() && !data.SpeedBurstEnabled.IsNull() {
 		data.SpeedBurstEnabled = types.BoolValue(value.Bool())
@@ -1539,16 +1539,16 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 			data.VlanId = types.Int64Null()
 		}
 		if value := res.Get("tags"); value.Exists() && !data.Tags.IsNull() {
-			data.Tags = helpers.GetStringList(value.Array())
+			data.Tags = helpers.GetStringSet(value.Array())
 		} else {
-			data.Tags = types.ListNull(types.StringType)
+			data.Tags = types.SetNull(types.StringType)
 		}
 		(*parent).ApTagsAndVlanIds[i] = data
 	}
 	if value := res.Get("availabilityTags"); value.Exists() && !data.AvailabilityTags.IsNull() {
-		data.AvailabilityTags = helpers.GetStringList(value.Array())
+		data.AvailabilityTags = helpers.GetStringSet(value.Array())
 	} else {
-		data.AvailabilityTags = types.ListNull(types.StringType)
+		data.AvailabilityTags = types.SetNull(types.StringType)
 	}
 	{
 		l := len(res.Get("radiusAccountingServers").Array())
@@ -1624,14 +1624,14 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res gjson.Result)
 		(*parent).RadiusServers[i] = data
 	}
 	if value := res.Get("splashGuestSponsorDomains"); value.Exists() && !data.SplashGuestSponsorDomains.IsNull() {
-		data.SplashGuestSponsorDomains = helpers.GetStringList(value.Array())
+		data.SplashGuestSponsorDomains = helpers.GetStringSet(value.Array())
 	} else {
-		data.SplashGuestSponsorDomains = types.ListNull(types.StringType)
+		data.SplashGuestSponsorDomains = types.SetNull(types.StringType)
 	}
 	if value := res.Get("walledGardenRanges"); value.Exists() && !data.WalledGardenRanges.IsNull() {
-		data.WalledGardenRanges = helpers.GetStringList(value.Array())
+		data.WalledGardenRanges = helpers.GetStringSet(value.Array())
 	} else {
-		data.WalledGardenRanges = types.ListNull(types.StringType)
+		data.WalledGardenRanges = types.SetNull(types.StringType)
 	}
 }
 

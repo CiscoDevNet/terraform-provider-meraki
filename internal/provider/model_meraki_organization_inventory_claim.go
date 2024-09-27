@@ -39,7 +39,7 @@ type OrganizationInventoryClaim struct {
 	Id             types.String                         `tfsdk:"id"`
 	OrganizationId types.String                         `tfsdk:"organization_id"`
 	Licenses       []OrganizationInventoryClaimLicenses `tfsdk:"licenses"`
-	Orders         types.List                           `tfsdk:"orders"`
+	Orders         types.Set                            `tfsdk:"orders"`
 	Serials        types.Set                            `tfsdk:"serials"`
 }
 
@@ -121,9 +121,9 @@ func (data *OrganizationInventoryClaim) fromBody(ctx context.Context, res gjson.
 		})
 	}
 	if value := res.Get("orders"); value.Exists() {
-		data.Orders = helpers.GetStringList(value.Array())
+		data.Orders = helpers.GetStringSet(value.Array())
 	} else {
-		data.Orders = types.ListNull(types.StringType)
+		data.Orders = types.SetNull(types.StringType)
 	}
 	if value := res.Get("serials"); value.Exists() {
 		data.Serials = helpers.GetStringSet(value.Array())
@@ -190,9 +190,9 @@ func (data *OrganizationInventoryClaim) fromBodyPartial(ctx context.Context, res
 		(*parent).Licenses[i] = data
 	}
 	if value := res.Get("orders"); value.Exists() && !data.Orders.IsNull() {
-		data.Orders = helpers.GetStringList(value.Array())
+		data.Orders = helpers.GetStringSet(value.Array())
 	} else {
-		data.Orders = types.ListNull(types.StringType)
+		data.Orders = types.SetNull(types.StringType)
 	}
 	if value := res.Get("serials"); value.Exists() && !data.Serials.IsNull() {
 		data.Serials = helpers.GetStringSet(value.Array())

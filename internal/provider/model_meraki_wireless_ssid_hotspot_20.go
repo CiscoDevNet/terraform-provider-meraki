@@ -44,10 +44,10 @@ type WirelessSSIDHotspot20 struct {
 	OperatorName      types.String                     `tfsdk:"operator_name"`
 	VenueName         types.String                     `tfsdk:"venue_name"`
 	VenueType         types.String                     `tfsdk:"venue_type"`
-	Domains           types.List                       `tfsdk:"domains"`
+	Domains           types.Set                        `tfsdk:"domains"`
 	MccMncs           []WirelessSSIDHotspot20MccMncs   `tfsdk:"mcc_mncs"`
 	NaiRealms         []WirelessSSIDHotspot20NaiRealms `tfsdk:"nai_realms"`
-	RoamConsortOis    types.List                       `tfsdk:"roam_consort_ois"`
+	RoamConsortOis    types.Set                        `tfsdk:"roam_consort_ois"`
 }
 
 type WirelessSSIDHotspot20MccMncs struct {
@@ -63,10 +63,10 @@ type WirelessSSIDHotspot20NaiRealms struct {
 
 type WirelessSSIDHotspot20NaiRealmsMethods struct {
 	Id                                              types.String `tfsdk:"id"`
-	AuthenticationTypesNonEapInnerAuthentication    types.List   `tfsdk:"authentication_types_non_eap_inner_authentication"`
-	AuthenticationTypesEapInnerAuthentication       types.List   `tfsdk:"authentication_types_eap_inner_authentication"`
-	AuthenticationTypesCredentials                  types.List   `tfsdk:"authentication_types_credentials"`
-	AuthenticationTypesTunneledEapMethodCredentials types.List   `tfsdk:"authentication_types_tunneled_eap_method_credentials"`
+	AuthenticationTypesNonEapInnerAuthentication    types.Set    `tfsdk:"authentication_types_non_eap_inner_authentication"`
+	AuthenticationTypesEapInnerAuthentication       types.Set    `tfsdk:"authentication_types_eap_inner_authentication"`
+	AuthenticationTypesCredentials                  types.Set    `tfsdk:"authentication_types_credentials"`
+	AuthenticationTypesTunneledEapMethodCredentials types.Set    `tfsdk:"authentication_types_tunneled_eap_method_credentials"`
 }
 
 // End of section. //template:end types
@@ -198,9 +198,9 @@ func (data *WirelessSSIDHotspot20) fromBody(ctx context.Context, res gjson.Resul
 		data.VenueType = types.StringNull()
 	}
 	if value := res.Get("domains"); value.Exists() {
-		data.Domains = helpers.GetStringList(value.Array())
+		data.Domains = helpers.GetStringSet(value.Array())
 	} else {
-		data.Domains = types.ListNull(types.StringType)
+		data.Domains = types.SetNull(types.StringType)
 	}
 	if value := res.Get("mccMncs"); value.Exists() {
 		data.MccMncs = make([]WirelessSSIDHotspot20MccMncs, 0)
@@ -247,24 +247,24 @@ func (data *WirelessSSIDHotspot20) fromBody(ctx context.Context, res gjson.Resul
 						data.Id = types.StringNull()
 					}
 					if value := res.Get("authenticationTypes.nonEapInnerAuthentication"); value.Exists() {
-						data.AuthenticationTypesNonEapInnerAuthentication = helpers.GetStringList(value.Array())
+						data.AuthenticationTypesNonEapInnerAuthentication = helpers.GetStringSet(value.Array())
 					} else {
-						data.AuthenticationTypesNonEapInnerAuthentication = types.ListNull(types.StringType)
+						data.AuthenticationTypesNonEapInnerAuthentication = types.SetNull(types.StringType)
 					}
 					if value := res.Get("authenticationTypes.eapInnerAuthentication"); value.Exists() {
-						data.AuthenticationTypesEapInnerAuthentication = helpers.GetStringList(value.Array())
+						data.AuthenticationTypesEapInnerAuthentication = helpers.GetStringSet(value.Array())
 					} else {
-						data.AuthenticationTypesEapInnerAuthentication = types.ListNull(types.StringType)
+						data.AuthenticationTypesEapInnerAuthentication = types.SetNull(types.StringType)
 					}
 					if value := res.Get("authenticationTypes.credentials"); value.Exists() {
-						data.AuthenticationTypesCredentials = helpers.GetStringList(value.Array())
+						data.AuthenticationTypesCredentials = helpers.GetStringSet(value.Array())
 					} else {
-						data.AuthenticationTypesCredentials = types.ListNull(types.StringType)
+						data.AuthenticationTypesCredentials = types.SetNull(types.StringType)
 					}
 					if value := res.Get("authenticationTypes.tunneledEapMethodCredentials"); value.Exists() {
-						data.AuthenticationTypesTunneledEapMethodCredentials = helpers.GetStringList(value.Array())
+						data.AuthenticationTypesTunneledEapMethodCredentials = helpers.GetStringSet(value.Array())
 					} else {
-						data.AuthenticationTypesTunneledEapMethodCredentials = types.ListNull(types.StringType)
+						data.AuthenticationTypesTunneledEapMethodCredentials = types.SetNull(types.StringType)
 					}
 					(*parent).Methods = append((*parent).Methods, data)
 					return true
@@ -275,9 +275,9 @@ func (data *WirelessSSIDHotspot20) fromBody(ctx context.Context, res gjson.Resul
 		})
 	}
 	if value := res.Get("roamConsortOis"); value.Exists() {
-		data.RoamConsortOis = helpers.GetStringList(value.Array())
+		data.RoamConsortOis = helpers.GetStringSet(value.Array())
 	} else {
-		data.RoamConsortOis = types.ListNull(types.StringType)
+		data.RoamConsortOis = types.SetNull(types.StringType)
 	}
 }
 
@@ -316,9 +316,9 @@ func (data *WirelessSSIDHotspot20) fromBodyPartial(ctx context.Context, res gjso
 		data.VenueType = types.StringNull()
 	}
 	if value := res.Get("domains"); value.Exists() && !data.Domains.IsNull() {
-		data.Domains = helpers.GetStringList(value.Array())
+		data.Domains = helpers.GetStringSet(value.Array())
 	} else {
-		data.Domains = types.ListNull(types.StringType)
+		data.Domains = types.SetNull(types.StringType)
 	}
 	for i := 0; i < len(data.MccMncs); i++ {
 		keys := [...]string{"mcc", "mnc"}
@@ -456,33 +456,33 @@ func (data *WirelessSSIDHotspot20) fromBodyPartial(ctx context.Context, res gjso
 				data.Id = types.StringNull()
 			}
 			if value := res.Get("authenticationTypes.nonEapInnerAuthentication"); value.Exists() && !data.AuthenticationTypesNonEapInnerAuthentication.IsNull() {
-				data.AuthenticationTypesNonEapInnerAuthentication = helpers.GetStringList(value.Array())
+				data.AuthenticationTypesNonEapInnerAuthentication = helpers.GetStringSet(value.Array())
 			} else {
-				data.AuthenticationTypesNonEapInnerAuthentication = types.ListNull(types.StringType)
+				data.AuthenticationTypesNonEapInnerAuthentication = types.SetNull(types.StringType)
 			}
 			if value := res.Get("authenticationTypes.eapInnerAuthentication"); value.Exists() && !data.AuthenticationTypesEapInnerAuthentication.IsNull() {
-				data.AuthenticationTypesEapInnerAuthentication = helpers.GetStringList(value.Array())
+				data.AuthenticationTypesEapInnerAuthentication = helpers.GetStringSet(value.Array())
 			} else {
-				data.AuthenticationTypesEapInnerAuthentication = types.ListNull(types.StringType)
+				data.AuthenticationTypesEapInnerAuthentication = types.SetNull(types.StringType)
 			}
 			if value := res.Get("authenticationTypes.credentials"); value.Exists() && !data.AuthenticationTypesCredentials.IsNull() {
-				data.AuthenticationTypesCredentials = helpers.GetStringList(value.Array())
+				data.AuthenticationTypesCredentials = helpers.GetStringSet(value.Array())
 			} else {
-				data.AuthenticationTypesCredentials = types.ListNull(types.StringType)
+				data.AuthenticationTypesCredentials = types.SetNull(types.StringType)
 			}
 			if value := res.Get("authenticationTypes.tunneledEapMethodCredentials"); value.Exists() && !data.AuthenticationTypesTunneledEapMethodCredentials.IsNull() {
-				data.AuthenticationTypesTunneledEapMethodCredentials = helpers.GetStringList(value.Array())
+				data.AuthenticationTypesTunneledEapMethodCredentials = helpers.GetStringSet(value.Array())
 			} else {
-				data.AuthenticationTypesTunneledEapMethodCredentials = types.ListNull(types.StringType)
+				data.AuthenticationTypesTunneledEapMethodCredentials = types.SetNull(types.StringType)
 			}
 			(*parent).Methods[i] = data
 		}
 		(*parent).NaiRealms[i] = data
 	}
 	if value := res.Get("roamConsortOis"); value.Exists() && !data.RoamConsortOis.IsNull() {
-		data.RoamConsortOis = helpers.GetStringList(value.Array())
+		data.RoamConsortOis = helpers.GetStringSet(value.Array())
 	} else {
-		data.RoamConsortOis = types.ListNull(types.StringType)
+		data.RoamConsortOis = types.SetNull(types.StringType)
 	}
 }
 

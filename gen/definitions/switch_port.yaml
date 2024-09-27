@@ -137,18 +137,18 @@ attributes:
     description: When enabled, the IName of the profile.
     example: iname
   - model_name: macAllowList
-    type: List
+    type: Set
     element_type: String
     exclude_test: true
     description: Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.
     example: 34:56:fe:ce:8e:a0
   - model_name: stickyMacAllowList
-    type: List
+    type: Set
     element_type: String
     description: The initial list of MAC addresses for sticky Mac allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
     example: 34:56:fe:ce:8e:b0
   - model_name: tags
-    type: List
+    type: Set
     element_type: String
     description: The list of tags of the switch port.
     example: tag1

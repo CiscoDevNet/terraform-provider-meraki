@@ -29,13 +29,13 @@ attributes:
         description: MTU size for the switches or switch templates.
         example: "1500"
       - model_name: switchProfiles
-        type: List
+        type: Set
         element_type: String
         exclude_test: true
         description: List of switch template IDs. Applicable only for template network.
         example: "1284392014819"
       - model_name: switches
-        type: List
+        type: Set
         element_type: String
         description: List of switch serials. Applicable only for switch network.
         example: Q234-ABCD-0001

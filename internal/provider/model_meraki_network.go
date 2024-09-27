@@ -39,8 +39,8 @@ type Network struct {
 	Name           types.String `tfsdk:"name"`
 	Notes          types.String `tfsdk:"notes"`
 	TimeZone       types.String `tfsdk:"time_zone"`
-	ProductTypes   types.List   `tfsdk:"product_types"`
-	Tags           types.List   `tfsdk:"tags"`
+	ProductTypes   types.Set    `tfsdk:"product_types"`
+	Tags           types.Set    `tfsdk:"tags"`
 }
 
 // End of section. //template:end types
@@ -100,14 +100,14 @@ func (data *Network) fromBody(ctx context.Context, res gjson.Result) {
 		data.TimeZone = types.StringNull()
 	}
 	if value := res.Get("productTypes"); value.Exists() {
-		data.ProductTypes = helpers.GetStringList(value.Array())
+		data.ProductTypes = helpers.GetStringSet(value.Array())
 	} else {
-		data.ProductTypes = types.ListNull(types.StringType)
+		data.ProductTypes = types.SetNull(types.StringType)
 	}
 	if value := res.Get("tags"); value.Exists() {
-		data.Tags = helpers.GetStringList(value.Array())
+		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
-		data.Tags = types.ListNull(types.StringType)
+		data.Tags = types.SetNull(types.StringType)
 	}
 }
 
@@ -136,14 +136,14 @@ func (data *Network) fromBodyPartial(ctx context.Context, res gjson.Result) {
 		data.TimeZone = types.StringNull()
 	}
 	if value := res.Get("productTypes"); value.Exists() && !data.ProductTypes.IsNull() {
-		data.ProductTypes = helpers.GetStringList(value.Array())
+		data.ProductTypes = helpers.GetStringSet(value.Array())
 	} else {
-		data.ProductTypes = types.ListNull(types.StringType)
+		data.ProductTypes = types.SetNull(types.StringType)
 	}
 	if value := res.Get("tags"); value.Exists() && !data.Tags.IsNull() {
-		data.Tags = helpers.GetStringList(value.Array())
+		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
-		data.Tags = types.ListNull(types.StringType)
+		data.Tags = types.SetNull(types.StringType)
 	}
 }
 

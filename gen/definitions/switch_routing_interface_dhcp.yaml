@@ -69,7 +69,7 @@ attributes:
         description: The value of the DHCP option
         example: five
   - model_name: dhcpRelayServerIps
-    type: List
+    type: Set
     element_type: String
     exclude_test: true
     description: The DHCP relay server IPs to which DHCP packets would get relayed for the switch interface

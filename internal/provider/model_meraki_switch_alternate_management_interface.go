@@ -39,7 +39,7 @@ type SwitchAlternateManagementInterface struct {
 	NetworkId types.String                                 `tfsdk:"network_id"`
 	Enabled   types.Bool                                   `tfsdk:"enabled"`
 	VlanId    types.Int64                                  `tfsdk:"vlan_id"`
-	Protocols types.List                                   `tfsdk:"protocols"`
+	Protocols types.Set                                    `tfsdk:"protocols"`
 	Switches  []SwitchAlternateManagementInterfaceSwitches `tfsdk:"switches"`
 }
 

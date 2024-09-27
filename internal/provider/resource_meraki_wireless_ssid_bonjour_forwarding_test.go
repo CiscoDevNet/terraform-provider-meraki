@@ -37,7 +37,6 @@ func TestAccMerakiWirelessSSIDBonjourForwarding(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_bonjour_forwarding.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_bonjour_forwarding.test", "rules.0.description", "A simple bonjour rule"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_bonjour_forwarding.test", "rules.0.vlan_id", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_bonjour_forwarding.test", "rules.0.services.0", "All Services"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {

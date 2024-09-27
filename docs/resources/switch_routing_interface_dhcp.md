@@ -65,7 +65,7 @@ resource "meraki_switch_routing_interface_dhcp" "example" {
 - `dhcp_mode` (String) The DHCP mode options for the switch interface (`dhcpDisabled`, `dhcpRelay` or `dhcpServer`)
   - Choices: `dhcpDisabled`, `dhcpRelay`, `dhcpServer`
 - `dhcp_options` (Attributes List) Array of DHCP options consisting of code, type and value for the DHCP server running on the switch interface (see [below for nested schema](#nestedatt--dhcp_options))
-- `dhcp_relay_server_ips` (List of String) The DHCP relay server IPs to which DHCP packets would get relayed for the switch interface
+- `dhcp_relay_server_ips` (Set of String) The DHCP relay server IPs to which DHCP packets would get relayed for the switch interface
 - `dns_custom_nameservers` (List of String) The DHCP name server IPs when DHCP name server option is `custom`
 - `dns_nameservers_option` (String) The DHCP name server option for the dhcp server running on the switch interface (`googlePublicDns`, `openDns` or `custom`)
   - Choices: `custom`, `googlePublicDns`, `openDns`

@@ -141,7 +141,7 @@ func (r *SwitchRoutingInterfaceDHCPResource) Schema(ctx context.Context, req res
 					},
 				},
 			},
-			"dhcp_relay_server_ips": schema.ListAttribute{
+			"dhcp_relay_server_ips": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The DHCP relay server IPs to which DHCP packets would get relayed for the switch interface").String,
 				ElementType:         types.StringType,
 				Optional:            true,

@@ -30,12 +30,12 @@ resource "meraki_network" "example" {
 
 - `name` (String) The name of the new network
 - `organization_id` (String) Organization ID
-- `product_types` (List of String) The product type(s) of the new network. If more than one type is included, the network will be a combined network.
+- `product_types` (Set of String) The product type(s) of the new network. If more than one type is included, the network will be a combined network.
 
 ### Optional
 
 - `notes` (String) Add any notes or additional information about this network here.
-- `tags` (List of String) A list of tags to be applied to the network
+- `tags` (Set of String) A list of tags to be applied to the network
 - `time_zone` (String) The timezone of the network. For a list of allowed timezones, please see the 'TZ' column in the table in this article.
 
 ### Read-Only

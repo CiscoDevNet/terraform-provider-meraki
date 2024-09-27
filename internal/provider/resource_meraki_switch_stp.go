@@ -89,17 +89,17 @@ func (r *SwitchSTPResource) Schema(ctx context.Context, req resource.SchemaReque
 							MarkdownDescription: helpers.NewAttributeDescription("STP priority for switch, stacks, or switch templates").String,
 							Required:            true,
 						},
-						"stacks": schema.ListAttribute{
+						"stacks": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of stack IDs").String,
 							ElementType:         types.StringType,
 							Optional:            true,
 						},
-						"switch_profiles": schema.ListAttribute{
+						"switch_profiles": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of switch template IDs").String,
 							ElementType:         types.StringType,
 							Optional:            true,
 						},
-						"switches": schema.ListAttribute{
+						"switches": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of switch serial numbers").String,
 							ElementType:         types.StringType,
 							Optional:            true,

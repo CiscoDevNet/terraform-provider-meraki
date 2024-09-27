@@ -76,7 +76,7 @@ func (r *OrganizationAdaptivePolicySettingsResource) Schema(ctx context.Context,
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"enabled_networks": schema.ListAttribute{
+			"enabled_networks": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("List of network IDs with adaptive policy enabled").String,
 				ElementType:         types.StringType,
 				Optional:            true,

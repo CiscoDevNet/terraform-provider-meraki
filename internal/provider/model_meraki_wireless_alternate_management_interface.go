@@ -41,7 +41,7 @@ type WirelessAlternateManagementInterface struct {
 	Enabled      types.Bool                                         `tfsdk:"enabled"`
 	VlanId       types.Int64                                        `tfsdk:"vlan_id"`
 	AccessPoints []WirelessAlternateManagementInterfaceAccessPoints `tfsdk:"access_points"`
-	Protocols    types.List                                         `tfsdk:"protocols"`
+	Protocols    types.Set                                          `tfsdk:"protocols"`
 }
 
 type WirelessAlternateManagementInterfaceAccessPoints struct {
@@ -161,9 +161,9 @@ func (data *WirelessAlternateManagementInterface) fromBody(ctx context.Context, 
 		})
 	}
 	if value := res.Get("protocols"); value.Exists() {
-		data.Protocols = helpers.GetStringList(value.Array())
+		data.Protocols = helpers.GetStringSet(value.Array())
 	} else {
-		data.Protocols = types.ListNull(types.StringType)
+		data.Protocols = types.SetNull(types.StringType)
 	}
 }
 
@@ -255,9 +255,9 @@ func (data *WirelessAlternateManagementInterface) fromBodyPartial(ctx context.Co
 		(*parent).AccessPoints[i] = data
 	}
 	if value := res.Get("protocols"); value.Exists() && !data.Protocols.IsNull() {
-		data.Protocols = helpers.GetStringList(value.Array())
+		data.Protocols = helpers.GetStringSet(value.Array())
 	} else {
-		data.Protocols = types.ListNull(types.StringType)
+		data.Protocols = types.SetNull(types.StringType)
 	}
 }
 

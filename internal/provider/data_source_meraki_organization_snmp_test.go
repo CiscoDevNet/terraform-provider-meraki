@@ -38,7 +38,6 @@ func TestAccDataSourceMerakiOrganizationSNMP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_snmp.test", "v3_auth_mode", "SHA"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_snmp.test", "v3_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_snmp.test", "v3_priv_mode", "AES128"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_snmp.test", "peer_ips.0", "123.123.123.1"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

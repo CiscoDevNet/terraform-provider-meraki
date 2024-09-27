@@ -50,8 +50,8 @@ Required:
 
 Optional:
 
-- `switch_profiles` (List of String) List of switch template IDs. Applicable only for template network.
-- `switches` (List of String) List of switch serials. Applicable only for switch network.
+- `switch_profiles` (Set of String) List of switch template IDs. Applicable only for template network.
+- `switches` (Set of String) List of switch serials. Applicable only for switch network.
 
 ## Import
 

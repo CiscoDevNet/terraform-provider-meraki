@@ -27,5 +27,5 @@ data "meraki_organization_adaptive_policy_settings" "example" {
 
 ### Read-Only
 
-- `enabled_networks` (List of String) List of network IDs with adaptive policy enabled
+- `enabled_networks` (Set of String) List of network IDs with adaptive policy enabled
 - `id` (String) The id of the object
