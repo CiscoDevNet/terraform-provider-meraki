@@ -54,3 +54,11 @@ Optional:
 
 - `mode` (String) Co-term licensing only: either `renew` or `addDevices`. `addDevices` will increase the license limit, while `renew` will extend the amount of time until expiration. Defaults to `addDevices`. All licenses must be claimed with the same mode, and at most one renewal can be claimed at a time. Does not apply to organizations using per-device licensing model.
   - Choices: `addDevices`, `renew`
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+terraform import meraki_organization_inventory_claim.example "<organization_id>"
+```

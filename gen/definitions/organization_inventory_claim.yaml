@@ -2,7 +2,6 @@ name: Organization Inventory Claim
 spec_endpoint: /organizations/{organizationId}/inventory/claim
 rest_endpoint: /organizations/%v/inventory/claim
 no_data_source: true
-no_import: true
 res_description: This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`. Licenses and orders can only be claimed but not released.
 doc_category: Organizations
 test_variables: [test_org, test_claim_serial_1, test_claim_serial_2]

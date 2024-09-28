@@ -26,6 +26,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -43,7 +44,8 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &OrganizationInventoryClaimResource{}
+	_ resource.Resource                = &OrganizationInventoryClaimResource{}
+	_ resource.ResourceWithImportState = &OrganizationInventoryClaimResource{}
 )
 
 func NewOrganizationInventoryClaimResource() resource.Resource {
@@ -170,17 +172,29 @@ func (r *OrganizationInventoryClaimResource) Read(ctx context.Context, req resou
 		return
 	}
 
-	var serials, resultSerials []string
-	state.Serials.ElementsAs(ctx, &serials, false)
-	for _, serial := range serials {
+	imp, diags := helpers.IsFlagImporting(ctx, req)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	var resultSerials []string
+	if imp {
 		for _, device := range res.Array() {
 			rSerial := device.Get("serial").String()
-			if serial == rSerial {
-				resultSerials = append(resultSerials, serial)
+			resultSerials = append(resultSerials, rSerial)
+		}
+	} else {
+		var serials []string
+		state.Serials.ElementsAs(ctx, &serials, false)
+		for _, serial := range serials {
+			for _, device := range res.Array() {
+				rSerial := device.Get("serial").String()
+				if serial == rSerial {
+					resultSerials = append(resultSerials, serial)
+				}
 			}
 		}
 	}
-
 	tflog.Debug(ctx, fmt.Sprintf("%s: Retrieved the following serials: %v", state.Id.ValueString(), resultSerials))
 	v := make([]attr.Value, len(resultSerials))
 	for r := range resultSerials {
@@ -291,4 +305,19 @@ func (r *OrganizationInventoryClaimResource) Delete(ctx context.Context, req res
 }
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
+func (r *OrganizationInventoryClaimResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	idParts := strings.Split(req.ID, ",")
+
+	if len(idParts) != 1 || idParts[0] == "" {
+		resp.Diagnostics.AddError(
+			"Unexpected Import Identifier",
+			fmt.Sprintf("Expected import identifier with format: <organization_id>. Got: %q", req.ID),
+		)
+		return
+	}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+
+	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
+}
+
 // End of section. //template:end import
