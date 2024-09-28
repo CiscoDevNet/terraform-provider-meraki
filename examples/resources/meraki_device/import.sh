@@ -1,1 +1,1 @@
-terraform import meraki_device.example "<serial>,<id>"
+terraform import meraki_device.example "<serial>"

@@ -143,6 +143,7 @@ func (d *DeviceDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 	}
 
 	config.fromBody(ctx, res)
+	config.Id = config.Serial
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", config.Id.ValueString()))
 

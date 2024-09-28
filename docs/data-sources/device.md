@@ -14,7 +14,6 @@ This data source can read the `Device` configuration.
 
 ```terraform
 data "meraki_device" "example" {
-  id     = "12345678"
   serial = "1234-ABCD-1234"
 }
 ```

@@ -8,6 +8,7 @@ test_variables: [test_org, test_network, test_switch_1_serial]
 attributes:
   - tf_name: serial
     type: String
+    id: true
     reference: true
     description: Switch serial
     example: 1234-ABCD-1234

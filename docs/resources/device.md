@@ -52,5 +52,5 @@ resource "meraki_device" "example" {
 Import is supported using the following syntax:
 
 ```shell
-terraform import meraki_device.example "<serial>,<id>"
+terraform import meraki_device.example "<serial>"
 ```
