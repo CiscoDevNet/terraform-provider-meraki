@@ -30,3 +30,11 @@ resource "meraki_network_device_claim" "example" {
 ### Read-Only
 
 - `id` (String) The id of the object
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+terraform import meraki_network_device_claim.example "<network_id>"
+```

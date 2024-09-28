@@ -25,6 +25,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -41,7 +42,8 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &NetworkDeviceClaimResource{}
+	_ resource.Resource                = &NetworkDeviceClaimResource{}
+	_ resource.ResourceWithImportState = &NetworkDeviceClaimResource{}
 )
 
 func NewNetworkDeviceClaimResource() resource.Resource {
@@ -144,17 +146,29 @@ func (r *NetworkDeviceClaimResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
-	var serials, resultSerials []string
-	state.Serials.ElementsAs(ctx, &serials, false)
-	for _, serial := range serials {
+	imp, diags := helpers.IsFlagImporting(ctx, req)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	var resultSerials []string
+	if imp {
 		for _, device := range res.Array() {
 			rSerial := device.Get("serial").String()
-			if serial == rSerial {
-				resultSerials = append(resultSerials, serial)
+			resultSerials = append(resultSerials, rSerial)
+		}
+	} else {
+		var serials []string
+		state.Serials.ElementsAs(ctx, &serials, false)
+		for _, serial := range serials {
+			for _, device := range res.Array() {
+				rSerial := device.Get("serial").String()
+				if serial == rSerial {
+					resultSerials = append(resultSerials, serial)
+				}
 			}
 		}
 	}
-
 	tflog.Debug(ctx, fmt.Sprintf("%s: Retrieved the following serials: %v", state.Id.ValueString(), resultSerials))
 	v := make([]attr.Value, len(resultSerials))
 	for r := range resultSerials {
@@ -270,4 +284,19 @@ func (r *NetworkDeviceClaimResource) Delete(ctx context.Context, req resource.De
 }
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
+func (r *NetworkDeviceClaimResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	idParts := strings.Split(req.ID, ",")
+
+	if len(idParts) != 1 || idParts[0] == "" {
+		resp.Diagnostics.AddError(
+			"Unexpected Import Identifier",
+			fmt.Sprintf("Expected import identifier with format: <network_id>. Got: %q", req.ID),
+		)
+		return
+	}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+
+	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
+}
+
 // End of section. //template:end import

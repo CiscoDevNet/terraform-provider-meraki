@@ -574,13 +574,12 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 {{- if not .NoImport}}
 func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	{{- if hasReference .Attributes}}
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != {{importParts .}}{{range $index, $attr := .Attributes}}{{if $attr.Reference}} || idParts[{{$index}}] == ""{{end}}{{end}} {{if not .PutCreate}}|| idParts[{{subtract (importParts .) 1}}] == ""{{end}} {
+	if len(idParts) != {{importParts .}}{{range $index := (iterate (importParts .))}} || idParts[{{$index}}] == ""{{end}} {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: {{range $index, $attr := .Attributes}}{{if $attr.Reference}}{{if $index}},{{end}}<{{$attr.TfName}}>{{end}}{{end}}{{if not .PutCreate}},<id>{{end}}. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: {{$idRef := false}}{{range $i, $e := .Attributes}}{{if or .Reference .Id}}{{$idRef = true}}{{if $i}},{{end}}<{{.TfName}}>{{end}}{{end}}{{if not (hasId .Attributes)}}{{if $idRef}},{{end}}<id>{{end}}. Got: %q", req.ID),
 		)
 		return
 	}
@@ -590,11 +589,8 @@ func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resou
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{$attr.TfName}}"), idParts[{{$index}}])...)
 	{{- end}}
 	{{- end}}
-	{{- if not .PutCreate}}
+	{{- if not (hasId .Attributes)}}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{subtract (importParts .) 1}}])...)
-	{{- end}}
-	{{- else}}
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 	{{- end}}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

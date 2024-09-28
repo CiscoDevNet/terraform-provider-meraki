@@ -296,7 +296,7 @@ func IsNestedSet(attribute YamlConfigAttribute) bool {
 
 // Templating helper function to return number of import parts
 func ImportParts(config YamlConfig) int {
-	parts := 1
+	parts := 0
 	for _, attr := range config.Attributes {
 		if attr.Reference {
 			parts += 1
@@ -304,15 +304,26 @@ func ImportParts(config YamlConfig) int {
 			parts += 1
 		}
 	}
-	if config.PutCreate {
-		parts -= 1
+	if !HasId(config.Attributes) {
+		parts += 1
 	}
+
 	return parts
 }
 
 // Templating helper function to subtract one number from another
 func Subtract(a, b int) int {
 	return a - b
+}
+
+// Templating helper function to iterate over a count
+func Iterate(count int) []int {
+	var i int
+	var Items []int
+	for i = 0; i < count; i++ {
+		Items = append(Items, i)
+	}
+	return Items
 }
 
 // Map of templating functions
@@ -337,6 +348,7 @@ var Functions = template.FuncMap{
 	"isNestedSet":     IsNestedSet,
 	"importParts":     ImportParts,
 	"subtract":        Subtract,
+	"iterate":         Iterate,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
