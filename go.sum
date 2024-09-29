@@ -172,6 +172,8 @@ github.com/netascode/go-meraki v0.0.0-20240927192748-b99be72dfb5e h1:6tJIIIPMAJI
 github.com/netascode/go-meraki v0.0.0-20240927192748-b99be72dfb5e/go.mod h1:xZ/kiJA+SZY32p5t1J9Jdhvtig9BU4SMbxKnfAJrmLE=
 github.com/netascode/go-meraki v0.0.0-20240929190141-500ad2a902dc h1:o2doxFp5euG6tOJ2rWEQjFlRx/uV5lm6/sOSARpBDs0=
 github.com/netascode/go-meraki v0.0.0-20240929190141-500ad2a902dc/go.mod h1:xZ/kiJA+SZY32p5t1J9Jdhvtig9BU4SMbxKnfAJrmLE=
+github.com/netascode/go-meraki v0.0.0-20240929204343-5fd4f163ee27 h1:4bE5aGRHwgJ7Xd6Sm3htsrsYqSzFHjWnvYxxO/VkwT8=
+github.com/netascode/go-meraki v0.0.0-20240929204343-5fd4f163ee27/go.mod h1:xZ/kiJA+SZY32p5t1J9Jdhvtig9BU4SMbxKnfAJrmLE=
 github.com/oklog/run v1.1.0 h1:GEenZ1cK0+q0+wsJew9qUg/DyD8k3JzYsZAi5gYi2mA=
 github.com/oklog/run v1.1.0/go.mod h1:sVPdnTZT1zYwAJeCMu2Th4T21pA3FPOQRfWjQlk7DVU=
 github.com/pjbgf/sha1cd v0.3.0 h1:4D5XXmUUBUl/xQ6IjCkEAbqXskkq/4O7LmGn0AqMDs4=
