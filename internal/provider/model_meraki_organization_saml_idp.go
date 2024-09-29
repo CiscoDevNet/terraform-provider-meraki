@@ -24,7 +24,7 @@ import (
 	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -66,7 +66,7 @@ func (data OrganizationSAMLIdP) toBody(ctx context.Context, state OrganizationSA
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *OrganizationSAMLIdP) fromBody(ctx context.Context, res gjson.Result) {
+func (data *OrganizationSAMLIdP) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("sloLogoutUrl"); value.Exists() && value.Value() != nil {
 		data.SloLogoutUrl = types.StringValue(value.String())
 	} else {
@@ -87,7 +87,7 @@ func (data *OrganizationSAMLIdP) fromBody(ctx context.Context, res gjson.Result)
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *OrganizationSAMLIdP) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *OrganizationSAMLIdP) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("sloLogoutUrl"); value.Exists() && !data.SloLogoutUrl.IsNull() {
 		data.SloLogoutUrl = types.StringValue(value.String())
 	} else {

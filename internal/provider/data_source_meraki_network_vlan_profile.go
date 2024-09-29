@@ -151,7 +151,7 @@ func (d *NetworkVLANProfileDataSource) Read(ctx context.Context, req datasource.
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
 
-	var res gjson.Result
+	var res meraki.Res
 	var err error
 	if config.Id.IsNull() && !config.Name.IsNull() {
 		res, err = d.client.Get(config.getPath())
@@ -164,7 +164,7 @@ func (d *NetworkVLANProfileDataSource) Read(ctx context.Context, req datasource.
 				if config.Name.ValueString() == v.Get("name").String() {
 					config.Id = types.StringValue(v.Get("id").String())
 					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
-					res = v
+					res = meraki.Res{Result: v}
 					return false
 				}
 				return true

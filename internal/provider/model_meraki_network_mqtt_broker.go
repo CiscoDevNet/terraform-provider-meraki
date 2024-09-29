@@ -24,7 +24,7 @@ import (
 	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -90,7 +90,7 @@ func (data NetworkMQTTBroker) toBody(ctx context.Context, state NetworkMQTTBroke
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *NetworkMQTTBroker) fromBody(ctx context.Context, res gjson.Result) {
+func (data *NetworkMQTTBroker) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("host"); value.Exists() && value.Value() != nil {
 		data.Host = types.StringValue(value.String())
 	} else {
@@ -131,7 +131,7 @@ func (data *NetworkMQTTBroker) fromBody(ctx context.Context, res gjson.Result) {
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *NetworkMQTTBroker) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *NetworkMQTTBroker) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("host"); value.Exists() && !data.Host.IsNull() {
 		data.Host = types.StringValue(value.String())
 	} else {

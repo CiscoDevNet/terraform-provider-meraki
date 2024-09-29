@@ -25,6 +25,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -106,7 +107,7 @@ func (data OrganizationAdaptivePolicy) toBody(ctx context.Context, state Organiz
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *OrganizationAdaptivePolicy) fromBody(ctx context.Context, res gjson.Result) {
+func (data *OrganizationAdaptivePolicy) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("lastEntryRule"); value.Exists() && value.Value() != nil {
 		data.LastEntryRule = types.StringValue(value.String())
 	} else {
@@ -171,7 +172,7 @@ func (data *OrganizationAdaptivePolicy) fromBody(ctx context.Context, res gjson.
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *OrganizationAdaptivePolicy) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *OrganizationAdaptivePolicy) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("lastEntryRule"); value.Exists() && !data.LastEntryRule.IsNull() {
 		data.LastEntryRule = types.StringValue(value.String())
 	} else {

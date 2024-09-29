@@ -128,7 +128,7 @@ func (d *WirelessAirMarshalRuleDataSource) Read(ctx context.Context, req datasou
 	if len(res.Get("items").Array()) > 0 {
 		res.Get("items").ForEach(func(k, v gjson.Result) bool {
 			if config.Id.ValueString() == v.Get("ruleId").String() {
-				res = v
+				res = meraki.Res{Result: v}
 				return false
 			}
 			return true

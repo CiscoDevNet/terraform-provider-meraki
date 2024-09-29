@@ -27,7 +27,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -122,7 +121,7 @@ func (d *SwitchQoSRuleDataSource) Read(ctx context.Context, req datasource.ReadR
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
 
-	var res gjson.Result
+	var res meraki.Res
 	var err error
 
 	if !res.Exists() {

@@ -25,7 +25,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -186,7 +186,7 @@ func (data WirelessSSIDSplashSettings) toBody(ctx context.Context, state Wireles
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res gjson.Result) {
+func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("allowSimultaneousLogins"); value.Exists() && value.Value() != nil {
 		data.AllowSimultaneousLogins = types.BoolValue(value.Bool())
 	} else {
@@ -352,7 +352,7 @@ func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res gjson.
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *WirelessSSIDSplashSettings) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *WirelessSSIDSplashSettings) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("allowSimultaneousLogins"); value.Exists() && !data.AllowSimultaneousLogins.IsNull() {
 		data.AllowSimultaneousLogins = types.BoolValue(value.Bool())
 	} else {

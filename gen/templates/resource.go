@@ -472,7 +472,7 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
 			if state.Id.ValueString() == v.Get("{{.IdName}}").String() {
-				res = v
+				res = meraki.Res{Result: v}
 				return false
 			}
 			return true

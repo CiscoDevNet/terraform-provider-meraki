@@ -24,7 +24,7 @@ import (
 	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -78,7 +78,7 @@ func (data SwitchRoutingStaticRoute) toBody(ctx context.Context, state SwitchRou
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *SwitchRoutingStaticRoute) fromBody(ctx context.Context, res gjson.Result) {
+func (data *SwitchRoutingStaticRoute) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("advertiseViaOspfEnabled"); value.Exists() && value.Value() != nil {
 		data.AdvertiseViaOspfEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -114,7 +114,7 @@ func (data *SwitchRoutingStaticRoute) fromBody(ctx context.Context, res gjson.Re
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *SwitchRoutingStaticRoute) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *SwitchRoutingStaticRoute) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("advertiseViaOspfEnabled"); value.Exists() && !data.AdvertiseViaOspfEnabled.IsNull() {
 		data.AdvertiseViaOspfEnabled = types.BoolValue(value.Bool())
 	} else {

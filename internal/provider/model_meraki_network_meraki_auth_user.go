@@ -27,6 +27,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -104,7 +105,7 @@ func (data NetworkMerakiAuthUser) toBody(ctx context.Context, state NetworkMerak
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *NetworkMerakiAuthUser) fromBody(ctx context.Context, res gjson.Result) {
+func (data *NetworkMerakiAuthUser) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("accountType"); value.Exists() && value.Value() != nil {
 		data.AccountType = types.StringValue(value.String())
 	} else {
@@ -154,7 +155,7 @@ func (data *NetworkMerakiAuthUser) fromBody(ctx context.Context, res gjson.Resul
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *NetworkMerakiAuthUser) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *NetworkMerakiAuthUser) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("accountType"); value.Exists() && !data.AccountType.IsNull() {
 		data.AccountType = types.StringValue(value.String())
 	} else {

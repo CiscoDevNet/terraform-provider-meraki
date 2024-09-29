@@ -154,7 +154,7 @@ func (d *OrganizationAdminDataSource) Read(ctx context.Context, req datasource.R
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
 
-	var res gjson.Result
+	var res meraki.Res
 	var err error
 	if config.Id.IsNull() && !config.Name.IsNull() {
 		res, err = d.client.Get(config.getPath())
@@ -167,7 +167,7 @@ func (d *OrganizationAdminDataSource) Read(ctx context.Context, req datasource.R
 				if config.Name.ValueString() == v.Get("name").String() {
 					config.Id = types.StringValue(v.Get("id").String())
 					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
-					res = v
+					res = meraki.Res{Result: v}
 					return false
 				}
 				return true
@@ -190,7 +190,7 @@ func (d *OrganizationAdminDataSource) Read(ctx context.Context, req datasource.R
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
 			if config.Id.ValueString() == v.Get("id").String() {
-				res = v
+				res = meraki.Res{Result: v}
 				return false
 			}
 			return true

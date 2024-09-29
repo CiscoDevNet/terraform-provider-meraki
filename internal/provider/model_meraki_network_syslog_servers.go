@@ -28,6 +28,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -87,7 +88,7 @@ func (data NetworkSyslogServers) toBody(ctx context.Context, state NetworkSyslog
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *NetworkSyslogServers) fromBody(ctx context.Context, res gjson.Result) {
+func (data *NetworkSyslogServers) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("servers"); value.Exists() && value.Value() != nil {
 		data.Servers = make([]NetworkSyslogServersServers, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -122,7 +123,7 @@ func (data *NetworkSyslogServers) fromBody(ctx context.Context, res gjson.Result
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *NetworkSyslogServers) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *NetworkSyslogServers) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	for i := 0; i < len(data.Servers); i++ {
 		keys := [...]string{"host", "port"}
 		keyValues := [...]string{data.Servers[i].Host.ValueString(), strconv.FormatInt(data.Servers[i].Port.ValueInt64(), 10)}

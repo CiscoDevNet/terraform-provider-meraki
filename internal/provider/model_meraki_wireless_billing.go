@@ -25,6 +25,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -90,7 +91,7 @@ func (data WirelessBilling) toBody(ctx context.Context, state WirelessBilling) s
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *WirelessBilling) fromBody(ctx context.Context, res gjson.Result) {
+func (data *WirelessBilling) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("currency"); value.Exists() && value.Value() != nil {
 		data.Currency = types.StringValue(value.String())
 	} else {
@@ -135,7 +136,7 @@ func (data *WirelessBilling) fromBody(ctx context.Context, res gjson.Result) {
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *WirelessBilling) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *WirelessBilling) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("currency"); value.Exists() && !data.Currency.IsNull() {
 		data.Currency = types.StringValue(value.String())
 	} else {

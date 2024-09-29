@@ -159,7 +159,7 @@ func (r *SwitchDHCPServerPolicyARPInspectionTrustedServerResource) Read(ctx cont
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
 			if state.Id.ValueString() == v.Get("trustedServerId").String() {
-				res = v
+				res = meraki.Res{Result: v}
 				return false
 			}
 			return true

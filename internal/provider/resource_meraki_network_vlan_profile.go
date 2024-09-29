@@ -32,7 +32,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -151,7 +150,7 @@ func (r *NetworkVLANProfileResource) Create(ctx context.Context, req resource.Cr
 
 	// Create object
 	body := plan.toBody(ctx, NetworkVLANProfile{})
-	var res gjson.Result
+	var res meraki.Res
 	var err error
 	if plan.Iname.ValueString() != "Default" {
 		res, err = r.client.Post(plan.getPath(), body)

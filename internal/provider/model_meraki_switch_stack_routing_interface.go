@@ -24,7 +24,7 @@ import (
 	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -111,7 +111,7 @@ func (data SwitchStackRoutingInterface) toBody(ctx context.Context, state Switch
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *SwitchStackRoutingInterface) fromBody(ctx context.Context, res gjson.Result) {
+func (data *SwitchStackRoutingInterface) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("defaultGateway"); value.Exists() && value.Value() != nil {
 		data.DefaultGateway = types.StringValue(value.String())
 	} else {
@@ -187,7 +187,7 @@ func (data *SwitchStackRoutingInterface) fromBody(ctx context.Context, res gjson
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *SwitchStackRoutingInterface) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *SwitchStackRoutingInterface) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("defaultGateway"); value.Exists() && !data.DefaultGateway.IsNull() {
 		data.DefaultGateway = types.StringValue(value.String())
 	} else {

@@ -27,7 +27,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -127,7 +126,7 @@ func (d *WirelessSSIDBonjourForwardingDataSource) Read(ctx context.Context, req 
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
 
-	var res gjson.Result
+	var res meraki.Res
 	var err error
 
 	if !res.Exists() {

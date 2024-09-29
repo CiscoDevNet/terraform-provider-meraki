@@ -116,7 +116,7 @@ func (d *WirelessAirMarshalSettingsDataSource) Read(ctx context.Context, req dat
 		return
 	}
 
-	res = res.Get("items.0")
+	res = meraki.Res{Result: res.Get("items.0")}
 
 	config.fromBody(ctx, res)
 	config.Id = config.NetworkId

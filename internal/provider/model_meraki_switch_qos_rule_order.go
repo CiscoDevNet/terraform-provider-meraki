@@ -25,7 +25,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -65,7 +65,7 @@ func (data SwitchQoSRuleOrder) toBody(ctx context.Context, state SwitchQoSRuleOr
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *SwitchQoSRuleOrder) fromBody(ctx context.Context, res gjson.Result) {
+func (data *SwitchQoSRuleOrder) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("ruleIds"); value.Exists() && value.Value() != nil {
 		data.RuleIds = helpers.GetStringList(value.Array())
 	} else {
@@ -81,7 +81,7 @@ func (data *SwitchQoSRuleOrder) fromBody(ctx context.Context, res gjson.Result) 
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *SwitchQoSRuleOrder) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *SwitchQoSRuleOrder) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("ruleIds"); value.Exists() && !data.RuleIds.IsNull() {
 		data.RuleIds = helpers.GetStringList(value.Array())
 	} else {

@@ -234,7 +234,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res gjson.Result) {
+func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res meraki.Res) {
 {{- define "fromBodyTemplate"}}
 	{{- range .Attributes}}
 	{{- if and (not .Value) (not .WriteOnly) (not .Reference)}}
@@ -280,7 +280,7 @@ func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res gjson.Result)
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki.Res) {
 {{- define "fromBodyPartialTemplate"}}
 	{{- range .Attributes}}
 	{{- if and (not .Value) (not .WriteOnly) (not .Reference)}}

@@ -25,7 +25,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -119,7 +119,7 @@ func (data OrganizationLoginSecurity) toBody(ctx context.Context, state Organiza
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *OrganizationLoginSecurity) fromBody(ctx context.Context, res gjson.Result) {
+func (data *OrganizationLoginSecurity) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("accountLockoutAttempts"); value.Exists() && value.Value() != nil {
 		data.AccountLockoutAttempts = types.Int64Value(value.Int())
 	} else {
@@ -200,7 +200,7 @@ func (data *OrganizationLoginSecurity) fromBody(ctx context.Context, res gjson.R
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *OrganizationLoginSecurity) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *OrganizationLoginSecurity) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("accountLockoutAttempts"); value.Exists() && !data.AccountLockoutAttempts.IsNull() {
 		data.AccountLockoutAttempts = types.Int64Value(value.Int())
 	} else {

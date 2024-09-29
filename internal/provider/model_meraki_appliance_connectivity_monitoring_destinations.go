@@ -26,6 +26,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -83,7 +84,7 @@ func (data ApplianceConnectivityMonitoringDestinations) toBody(ctx context.Conte
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *ApplianceConnectivityMonitoringDestinations) fromBody(ctx context.Context, res gjson.Result) {
+func (data *ApplianceConnectivityMonitoringDestinations) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("destinations"); value.Exists() && value.Value() != nil {
 		data.Destinations = make([]ApplianceConnectivityMonitoringDestinationsDestinations, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -118,7 +119,7 @@ func (data *ApplianceConnectivityMonitoringDestinations) fromBody(ctx context.Co
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *ApplianceConnectivityMonitoringDestinations) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *ApplianceConnectivityMonitoringDestinations) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	for i := 0; i < len(data.Destinations); i++ {
 		keys := [...]string{"ip"}
 		keyValues := [...]string{data.Destinations[i].Ip.ValueString()}

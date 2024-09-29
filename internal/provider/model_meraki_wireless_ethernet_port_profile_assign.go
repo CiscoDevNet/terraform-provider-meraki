@@ -25,7 +25,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -69,7 +69,7 @@ func (data WirelessEthernetPortProfileAssign) toBody(ctx context.Context, state 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *WirelessEthernetPortProfileAssign) fromBody(ctx context.Context, res gjson.Result) {
+func (data *WirelessEthernetPortProfileAssign) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("profileId"); value.Exists() && value.Value() != nil {
 		data.ProfileId = types.StringValue(value.String())
 	} else {
@@ -90,7 +90,7 @@ func (data *WirelessEthernetPortProfileAssign) fromBody(ctx context.Context, res
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *WirelessEthernetPortProfileAssign) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *WirelessEthernetPortProfileAssign) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("profileId"); value.Exists() && !data.ProfileId.IsNull() {
 		data.ProfileId = types.StringValue(value.String())
 	} else {

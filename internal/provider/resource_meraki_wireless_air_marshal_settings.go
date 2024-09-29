@@ -162,7 +162,7 @@ func (r *WirelessAirMarshalSettingsResource) Read(ctx context.Context, req resou
 		return
 	}
 
-	res = res.Get("items.0")
+	res = meraki.Res{Result: res.Get("items.0")}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {

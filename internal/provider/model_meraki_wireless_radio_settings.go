@@ -24,7 +24,7 @@ import (
 	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/tidwall/gjson"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
 
@@ -82,7 +82,7 @@ func (data WirelessRadioSettings) toBody(ctx context.Context, state WirelessRadi
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *WirelessRadioSettings) fromBody(ctx context.Context, res gjson.Result) {
+func (data *WirelessRadioSettings) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("rfProfileId"); value.Exists() && value.Value() != nil {
 		data.RfProfileId = types.StringValue(value.String())
 	} else {
@@ -123,7 +123,7 @@ func (data *WirelessRadioSettings) fromBody(ctx context.Context, res gjson.Resul
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *WirelessRadioSettings) fromBodyPartial(ctx context.Context, res gjson.Result) {
+func (data *WirelessRadioSettings) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("rfProfileId"); value.Exists() && !data.RfProfileId.IsNull() {
 		data.RfProfileId = types.StringValue(value.String())
 	} else {
