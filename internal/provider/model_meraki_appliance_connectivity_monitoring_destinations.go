@@ -84,22 +84,22 @@ func (data ApplianceConnectivityMonitoringDestinations) toBody(ctx context.Conte
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceConnectivityMonitoringDestinations) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("destinations"); value.Exists() {
+	if value := res.Get("destinations"); value.Exists() && value.Value() != nil {
 		data.Destinations = make([]ApplianceConnectivityMonitoringDestinationsDestinations, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := ApplianceConnectivityMonitoringDestinationsDestinations{}
-			if value := res.Get("default"); value.Exists() {
+			if value := res.Get("default"); value.Exists() && value.Value() != nil {
 				data.Default = types.BoolValue(value.Bool())
 			} else {
 				data.Default = types.BoolNull()
 			}
-			if value := res.Get("description"); value.Exists() {
+			if value := res.Get("description"); value.Exists() && value.Value() != nil {
 				data.Description = types.StringValue(value.String())
 			} else {
 				data.Description = types.StringNull()
 			}
-			if value := res.Get("ip"); value.Exists() {
+			if value := res.Get("ip"); value.Exists() && value.Value() != nil {
 				data.Ip = types.StringValue(value.String())
 			} else {
 				data.Ip = types.StringNull()

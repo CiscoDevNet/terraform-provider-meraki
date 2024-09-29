@@ -116,62 +116,62 @@ func (data WirelessSSIDVPN) toBody(ctx context.Context, state WirelessSSIDVPN) s
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDVPN) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("concentrator.networkId"); value.Exists() {
+	if value := res.Get("concentrator.networkId"); value.Exists() && value.Value() != nil {
 		data.ConcentratorNetworkId = types.StringValue(value.String())
 	} else {
 		data.ConcentratorNetworkId = types.StringNull()
 	}
-	if value := res.Get("concentrator.vlanId"); value.Exists() {
+	if value := res.Get("concentrator.vlanId"); value.Exists() && value.Value() != nil {
 		data.ConcentratorVlanId = types.Int64Value(value.Int())
 	} else {
 		data.ConcentratorVlanId = types.Int64Null()
 	}
-	if value := res.Get("failover.heartbeatInterval"); value.Exists() {
+	if value := res.Get("failover.heartbeatInterval"); value.Exists() && value.Value() != nil {
 		data.FailoverHeartbeatInterval = types.Int64Value(value.Int())
 	} else {
 		data.FailoverHeartbeatInterval = types.Int64Null()
 	}
-	if value := res.Get("failover.idleTimeout"); value.Exists() {
+	if value := res.Get("failover.idleTimeout"); value.Exists() && value.Value() != nil {
 		data.FailoverIdleTimeout = types.Int64Value(value.Int())
 	} else {
 		data.FailoverIdleTimeout = types.Int64Null()
 	}
-	if value := res.Get("failover.requestIp"); value.Exists() {
+	if value := res.Get("failover.requestIp"); value.Exists() && value.Value() != nil {
 		data.FailoverRequestIp = types.StringValue(value.String())
 	} else {
 		data.FailoverRequestIp = types.StringNull()
 	}
-	if value := res.Get("splitTunnel.enabled"); value.Exists() {
+	if value := res.Get("splitTunnel.enabled"); value.Exists() && value.Value() != nil {
 		data.SplitTunnelEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.SplitTunnelEnabled = types.BoolNull()
 	}
-	if value := res.Get("splitTunnel.rules"); value.Exists() {
+	if value := res.Get("splitTunnel.rules"); value.Exists() && value.Value() != nil {
 		data.SplitTunnelRules = make([]WirelessSSIDVPNSplitTunnelRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDVPNSplitTunnelRules{}
-			if value := res.Get("comment"); value.Exists() {
+			if value := res.Get("comment"); value.Exists() && value.Value() != nil {
 				data.Comment = types.StringValue(value.String())
 			} else {
 				data.Comment = types.StringNull()
 			}
-			if value := res.Get("destCidr"); value.Exists() {
+			if value := res.Get("destCidr"); value.Exists() && value.Value() != nil {
 				data.DestCidr = types.StringValue(value.String())
 			} else {
 				data.DestCidr = types.StringNull()
 			}
-			if value := res.Get("destPort"); value.Exists() {
+			if value := res.Get("destPort"); value.Exists() && value.Value() != nil {
 				data.DestPort = types.StringValue(value.String())
 			} else {
 				data.DestPort = types.StringNull()
 			}
-			if value := res.Get("policy"); value.Exists() {
+			if value := res.Get("policy"); value.Exists() && value.Value() != nil {
 				data.Policy = types.StringValue(value.String())
 			} else {
 				data.Policy = types.StringNull()
 			}
-			if value := res.Get("protocol"); value.Exists() {
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
 				data.Protocol = types.StringValue(value.String())
 			} else {
 				data.Protocol = types.StringNull()

@@ -86,10 +86,6 @@ func (r *WirelessBillingResource) Schema(ctx context.Context, req resource.Schem
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The id of the pricing plan to update.").String,
-							Optional:            true,
-						},
 						"price": schema.Float64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The price of the billing plan.").String,
 							Required:            true,
@@ -267,6 +263,7 @@ func (r *WirelessBillingResource) ImportState(ctx context.Context, req resource.
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

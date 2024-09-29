@@ -82,12 +82,12 @@ func (data ApplianceContentFiltering) toBody(ctx context.Context, state Applianc
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceContentFiltering) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("allowedUrlPatterns"); value.Exists() {
+	if value := res.Get("allowedUrlPatterns"); value.Exists() && value.Value() != nil {
 		data.AllowedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
 		data.AllowedUrlPatterns = types.SetNull(types.StringType)
 	}
-	if value := res.Get("blockedUrlPatterns"); value.Exists() {
+	if value := res.Get("blockedUrlPatterns"); value.Exists() && value.Value() != nil {
 		data.BlockedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
 		data.BlockedUrlPatterns = types.SetNull(types.StringType)

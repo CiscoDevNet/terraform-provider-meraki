@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -67,6 +69,14 @@ func TestAccMerakiSwitchPortSchedule(t *testing.T) {
 		Config: testAccMerakiSwitchPortSchedulePrerequisitesConfig + testAccMerakiSwitchPortScheduleConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_switch_port_schedule.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiSwitchPortScheduleImportStateIdFunc("meraki_switch_port_schedule.test"),
+		ImportStateVerifyIgnore: []string{},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -76,6 +86,20 @@ func TestAccMerakiSwitchPortSchedule(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiSwitchPortScheduleImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		NetworkId := primary.Attributes["network_id"]
+		id := primary.Attributes["id"]
+
+		return fmt.Sprintf("%s,%s", NetworkId, id), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 

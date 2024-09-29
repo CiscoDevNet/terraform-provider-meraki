@@ -89,27 +89,27 @@ func (data WirelessSSIDDeviceTypeGroupPolicies) toBody(ctx context.Context, stat
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDDeviceTypeGroupPolicies) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("deviceTypePolicies"); value.Exists() {
+	if value := res.Get("deviceTypePolicies"); value.Exists() && value.Value() != nil {
 		data.DeviceTypePolicies = make([]WirelessSSIDDeviceTypeGroupPoliciesDeviceTypePolicies, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDDeviceTypeGroupPoliciesDeviceTypePolicies{}
-			if value := res.Get("devicePolicy"); value.Exists() {
+			if value := res.Get("devicePolicy"); value.Exists() && value.Value() != nil {
 				data.DevicePolicy = types.StringValue(value.String())
 			} else {
 				data.DevicePolicy = types.StringNull()
 			}
-			if value := res.Get("deviceType"); value.Exists() {
+			if value := res.Get("deviceType"); value.Exists() && value.Value() != nil {
 				data.DeviceType = types.StringValue(value.String())
 			} else {
 				data.DeviceType = types.StringNull()
 			}
-			if value := res.Get("groupPolicyId"); value.Exists() {
+			if value := res.Get("groupPolicyId"); value.Exists() && value.Value() != nil {
 				data.GroupPolicyId = types.Int64Value(value.Int())
 			} else {
 				data.GroupPolicyId = types.Int64Null()

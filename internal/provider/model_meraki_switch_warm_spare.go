@@ -67,12 +67,12 @@ func (data SwitchWarmSpare) toBody(ctx context.Context, state SwitchWarmSpare) s
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchWarmSpare) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("spareSerial"); value.Exists() {
+	if value := res.Get("spareSerial"); value.Exists() && value.Value() != nil {
 		data.SpareSerial = types.StringValue(value.String())
 	} else {
 		data.SpareSerial = types.StringNull()

@@ -38,6 +38,5 @@ Read-Only:
 
 - `bandwidth_limits_limit_down` (Number) The maximum download limit (integer, in Kbps). null indicates no limit
 - `bandwidth_limits_limit_up` (Number) The maximum upload limit (integer, in Kbps). null indicates no limit
-- `id` (String) The id of the pricing plan to update.
 - `price` (Number) The price of the billing plan.
 - `time_limit` (String) The time limit of the pricing plan in minutes. Can be `1 hour`, `1 day`, `1 week`, or `30 days`.

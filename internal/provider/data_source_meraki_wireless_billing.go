@@ -74,10 +74,6 @@ func (d *WirelessBillingDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							MarkdownDescription: "The id of the pricing plan to update.",
-							Computed:            true,
-						},
 						"price": schema.Float64Attribute{
 							MarkdownDescription: "The price of the billing plan.",
 							Computed:            true,

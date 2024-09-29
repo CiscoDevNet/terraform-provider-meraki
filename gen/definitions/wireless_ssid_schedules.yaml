@@ -26,6 +26,7 @@ attributes:
     minimum_test_value: "false"
   - model_name: ranges
     type: List
+    allow_import_changes: true
     description: List of outage ranges. Has a start date and time, and end date and time. If this parameter is passed in along with rangesInSeconds parameter, this will take precedence.
     attributes:
       - model_name: endDay
@@ -55,6 +56,7 @@ attributes:
   - model_name: rangesInSeconds
     type: List
     exclude_test: true
+    allow_import_changes: true
     description: List of outage ranges in seconds since Sunday at Midnight. Has a start and end. If this parameter is passed in along with the ranges parameter, ranges will take precedence.
     attributes:
       - model_name: end

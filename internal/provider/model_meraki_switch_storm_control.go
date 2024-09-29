@@ -71,17 +71,17 @@ func (data SwitchStormControl) toBody(ctx context.Context, state SwitchStormCont
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchStormControl) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("broadcastThreshold"); value.Exists() {
+	if value := res.Get("broadcastThreshold"); value.Exists() && value.Value() != nil {
 		data.BroadcastThreshold = types.Int64Value(value.Int())
 	} else {
 		data.BroadcastThreshold = types.Int64Null()
 	}
-	if value := res.Get("multicastThreshold"); value.Exists() {
+	if value := res.Get("multicastThreshold"); value.Exists() && value.Value() != nil {
 		data.MulticastThreshold = types.Int64Value(value.Int())
 	} else {
 		data.MulticastThreshold = types.Int64Null()
 	}
-	if value := res.Get("unknownUnicastThreshold"); value.Exists() {
+	if value := res.Get("unknownUnicastThreshold"); value.Exists() && value.Value() != nil {
 		data.UnknownUnicastThreshold = types.Int64Value(value.Int())
 	} else {
 		data.UnknownUnicastThreshold = types.Int64Null()

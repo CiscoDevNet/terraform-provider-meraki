@@ -96,32 +96,32 @@ func (data WirelessSSIDBonjourForwarding) toBody(ctx context.Context, state Wire
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDBonjourForwarding) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("exception.enabled"); value.Exists() {
+	if value := res.Get("exception.enabled"); value.Exists() && value.Value() != nil {
 		data.ExceptionEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.ExceptionEnabled = types.BoolNull()
 	}
-	if value := res.Get("rules"); value.Exists() {
+	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]WirelessSSIDBonjourForwardingRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDBonjourForwardingRules{}
-			if value := res.Get("description"); value.Exists() {
+			if value := res.Get("description"); value.Exists() && value.Value() != nil {
 				data.Description = types.StringValue(value.String())
 			} else {
 				data.Description = types.StringNull()
 			}
-			if value := res.Get("vlanId"); value.Exists() {
+			if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 				data.VlanId = types.StringValue(value.String())
 			} else {
 				data.VlanId = types.StringNull()
 			}
-			if value := res.Get("services"); value.Exists() {
+			if value := res.Get("services"); value.Exists() && value.Value() != nil {
 				data.Services = helpers.GetStringSet(value.Array())
 			} else {
 				data.Services = types.SetNull(types.StringType)

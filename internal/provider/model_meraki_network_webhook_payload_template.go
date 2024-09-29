@@ -96,37 +96,37 @@ func (data NetworkWebhookPayloadTemplate) toBody(ctx context.Context, state Netw
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkWebhookPayloadTemplate) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("body"); value.Exists() {
+	if value := res.Get("body"); value.Exists() && value.Value() != nil {
 		data.Body = types.StringValue(value.String())
 	} else {
 		data.Body = types.StringNull()
 	}
-	if value := res.Get("bodyFile"); value.Exists() {
+	if value := res.Get("bodyFile"); value.Exists() && value.Value() != nil {
 		data.BodyFile = types.StringValue(value.String())
 	} else {
 		data.BodyFile = types.StringNull()
 	}
-	if value := res.Get("headersFile"); value.Exists() {
+	if value := res.Get("headersFile"); value.Exists() && value.Value() != nil {
 		data.HeadersFile = types.StringValue(value.String())
 	} else {
 		data.HeadersFile = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("headers"); value.Exists() {
+	if value := res.Get("headers"); value.Exists() && value.Value() != nil {
 		data.Headers = make([]NetworkWebhookPayloadTemplateHeaders, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkWebhookPayloadTemplateHeaders{}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
 			}
-			if value := res.Get("template"); value.Exists() {
+			if value := res.Get("template"); value.Exists() && value.Value() != nil {
 				data.Template = types.StringValue(value.String())
 			} else {
 				data.Template = types.StringNull()

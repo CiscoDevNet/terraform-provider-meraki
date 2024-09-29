@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -49,8 +51,12 @@ func TestAccMerakiOrganization(t *testing.T) {
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName: "meraki_organization.test",
-		ImportState:  true,
+		ResourceName:            "meraki_organization.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiOrganizationImportStateIdFunc("meraki_organization.test"),
+		ImportStateVerifyIgnore: []string{},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -61,6 +67,19 @@ func TestAccMerakiOrganization(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiOrganizationImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		id := primary.Attributes["id"]
+
+		return fmt.Sprintf("%s", id), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 // End of section. //template:end testPrerequisites

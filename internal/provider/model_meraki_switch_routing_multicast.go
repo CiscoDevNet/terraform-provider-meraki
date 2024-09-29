@@ -108,42 +108,42 @@ func (data SwitchRoutingMulticast) toBody(ctx context.Context, state SwitchRouti
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchRoutingMulticast) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("defaultSettings.floodUnknownMulticastTrafficEnabled"); value.Exists() {
+	if value := res.Get("defaultSettings.floodUnknownMulticastTrafficEnabled"); value.Exists() && value.Value() != nil {
 		data.DefaultSettingsFloodUnknownMulticastTrafficEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.DefaultSettingsFloodUnknownMulticastTrafficEnabled = types.BoolNull()
 	}
-	if value := res.Get("defaultSettings.igmpSnoopingEnabled"); value.Exists() {
+	if value := res.Get("defaultSettings.igmpSnoopingEnabled"); value.Exists() && value.Value() != nil {
 		data.DefaultSettingsIgmpSnoopingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.DefaultSettingsIgmpSnoopingEnabled = types.BoolNull()
 	}
-	if value := res.Get("overrides"); value.Exists() {
+	if value := res.Get("overrides"); value.Exists() && value.Value() != nil {
 		data.Overrides = make([]SwitchRoutingMulticastOverrides, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchRoutingMulticastOverrides{}
-			if value := res.Get("floodUnknownMulticastTrafficEnabled"); value.Exists() {
+			if value := res.Get("floodUnknownMulticastTrafficEnabled"); value.Exists() && value.Value() != nil {
 				data.FloodUnknownMulticastTrafficEnabled = types.BoolValue(value.Bool())
 			} else {
 				data.FloodUnknownMulticastTrafficEnabled = types.BoolNull()
 			}
-			if value := res.Get("igmpSnoopingEnabled"); value.Exists() {
+			if value := res.Get("igmpSnoopingEnabled"); value.Exists() && value.Value() != nil {
 				data.IgmpSnoopingEnabled = types.BoolValue(value.Bool())
 			} else {
 				data.IgmpSnoopingEnabled = types.BoolNull()
 			}
-			if value := res.Get("stacks"); value.Exists() {
+			if value := res.Get("stacks"); value.Exists() && value.Value() != nil {
 				data.Stacks = helpers.GetStringSet(value.Array())
 			} else {
 				data.Stacks = types.SetNull(types.StringType)
 			}
-			if value := res.Get("switchProfiles"); value.Exists() {
+			if value := res.Get("switchProfiles"); value.Exists() && value.Value() != nil {
 				data.SwitchProfiles = helpers.GetStringSet(value.Array())
 			} else {
 				data.SwitchProfiles = types.SetNull(types.StringType)
 			}
-			if value := res.Get("switches"); value.Exists() {
+			if value := res.Get("switches"); value.Exists() && value.Value() != nil {
 				data.Switches = helpers.GetStringSet(value.Array())
 			} else {
 				data.Switches = types.SetNull(types.StringType)

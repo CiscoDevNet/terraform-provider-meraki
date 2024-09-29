@@ -84,22 +84,22 @@ func (data WirelessSSIDL7FirewallRules) toBody(ctx context.Context, state Wirele
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDL7FirewallRules) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("rules"); value.Exists() {
+	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]WirelessSSIDL7FirewallRulesRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDL7FirewallRulesRules{}
-			if value := res.Get("policy"); value.Exists() {
+			if value := res.Get("policy"); value.Exists() && value.Value() != nil {
 				data.Policy = types.StringValue(value.String())
 			} else {
 				data.Policy = types.StringNull()
 			}
-			if value := res.Get("type"); value.Exists() {
+			if value := res.Get("type"); value.Exists() && value.Value() != nil {
 				data.Type = types.StringValue(value.String())
 			} else {
 				data.Type = types.StringNull()
 			}
-			if value := res.Get("value"); value.Exists() {
+			if value := res.Get("value"); value.Exists() && value.Value() != nil {
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()

@@ -74,7 +74,7 @@ func (data NetworkDeviceClaim) toBody(ctx context.Context, state NetworkDeviceCl
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkDeviceClaim) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("serials"); value.Exists() {
+	if value := res.Get("serials"); value.Exists() && value.Value() != nil {
 		data.Serials = helpers.GetStringSet(value.Array())
 	} else {
 		data.Serials = types.SetNull(types.StringType)

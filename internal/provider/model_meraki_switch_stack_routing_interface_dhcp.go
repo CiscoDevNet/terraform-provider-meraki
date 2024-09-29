@@ -169,52 +169,52 @@ func (data SwitchStackRoutingInterfaceDHCP) toBody(ctx context.Context, state Sw
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchStackRoutingInterfaceDHCP) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("bootFileName"); value.Exists() {
+	if value := res.Get("bootFileName"); value.Exists() && value.Value() != nil {
 		data.BootFileName = types.StringValue(value.String())
 	} else {
 		data.BootFileName = types.StringNull()
 	}
-	if value := res.Get("bootNextServer"); value.Exists() {
+	if value := res.Get("bootNextServer"); value.Exists() && value.Value() != nil {
 		data.BootNextServer = types.StringValue(value.String())
 	} else {
 		data.BootNextServer = types.StringNull()
 	}
-	if value := res.Get("bootOptionsEnabled"); value.Exists() {
+	if value := res.Get("bootOptionsEnabled"); value.Exists() && value.Value() != nil {
 		data.BootOptionsEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.BootOptionsEnabled = types.BoolNull()
 	}
-	if value := res.Get("dhcpLeaseTime"); value.Exists() {
+	if value := res.Get("dhcpLeaseTime"); value.Exists() && value.Value() != nil {
 		data.DhcpLeaseTime = types.StringValue(value.String())
 	} else {
 		data.DhcpLeaseTime = types.StringNull()
 	}
-	if value := res.Get("dhcpMode"); value.Exists() {
+	if value := res.Get("dhcpMode"); value.Exists() && value.Value() != nil {
 		data.DhcpMode = types.StringValue(value.String())
 	} else {
 		data.DhcpMode = types.StringNull()
 	}
-	if value := res.Get("dnsNameserversOption"); value.Exists() {
+	if value := res.Get("dnsNameserversOption"); value.Exists() && value.Value() != nil {
 		data.DnsNameserversOption = types.StringValue(value.String())
 	} else {
 		data.DnsNameserversOption = types.StringNull()
 	}
-	if value := res.Get("dhcpOptions"); value.Exists() {
+	if value := res.Get("dhcpOptions"); value.Exists() && value.Value() != nil {
 		data.DhcpOptions = make([]SwitchStackRoutingInterfaceDHCPDhcpOptions, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchStackRoutingInterfaceDHCPDhcpOptions{}
-			if value := res.Get("code"); value.Exists() {
+			if value := res.Get("code"); value.Exists() && value.Value() != nil {
 				data.Code = types.StringValue(value.String())
 			} else {
 				data.Code = types.StringNull()
 			}
-			if value := res.Get("type"); value.Exists() {
+			if value := res.Get("type"); value.Exists() && value.Value() != nil {
 				data.Type = types.StringValue(value.String())
 			} else {
 				data.Type = types.StringNull()
 			}
-			if value := res.Get("value"); value.Exists() {
+			if value := res.Get("value"); value.Exists() && value.Value() != nil {
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()
@@ -223,32 +223,32 @@ func (data *SwitchStackRoutingInterfaceDHCP) fromBody(ctx context.Context, res g
 			return true
 		})
 	}
-	if value := res.Get("dhcpRelayServerIps"); value.Exists() {
+	if value := res.Get("dhcpRelayServerIps"); value.Exists() && value.Value() != nil {
 		data.DhcpRelayServerIps = helpers.GetStringSet(value.Array())
 	} else {
 		data.DhcpRelayServerIps = types.SetNull(types.StringType)
 	}
-	if value := res.Get("dnsCustomNameservers"); value.Exists() {
+	if value := res.Get("dnsCustomNameservers"); value.Exists() && value.Value() != nil {
 		data.DnsCustomNameservers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsCustomNameservers = types.ListNull(types.StringType)
 	}
-	if value := res.Get("fixedIpAssignments"); value.Exists() {
+	if value := res.Get("fixedIpAssignments"); value.Exists() && value.Value() != nil {
 		data.FixedIpAssignments = make([]SwitchStackRoutingInterfaceDHCPFixedIpAssignments, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchStackRoutingInterfaceDHCPFixedIpAssignments{}
-			if value := res.Get("ip"); value.Exists() {
+			if value := res.Get("ip"); value.Exists() && value.Value() != nil {
 				data.Ip = types.StringValue(value.String())
 			} else {
 				data.Ip = types.StringNull()
 			}
-			if value := res.Get("mac"); value.Exists() {
+			if value := res.Get("mac"); value.Exists() && value.Value() != nil {
 				data.Mac = types.StringValue(value.String())
 			} else {
 				data.Mac = types.StringNull()
 			}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
@@ -257,22 +257,22 @@ func (data *SwitchStackRoutingInterfaceDHCP) fromBody(ctx context.Context, res g
 			return true
 		})
 	}
-	if value := res.Get("reservedIpRanges"); value.Exists() {
+	if value := res.Get("reservedIpRanges"); value.Exists() && value.Value() != nil {
 		data.ReservedIpRanges = make([]SwitchStackRoutingInterfaceDHCPReservedIpRanges, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchStackRoutingInterfaceDHCPReservedIpRanges{}
-			if value := res.Get("comment"); value.Exists() {
+			if value := res.Get("comment"); value.Exists() && value.Value() != nil {
 				data.Comment = types.StringValue(value.String())
 			} else {
 				data.Comment = types.StringNull()
 			}
-			if value := res.Get("end"); value.Exists() {
+			if value := res.Get("end"); value.Exists() && value.Value() != nil {
 				data.End = types.StringValue(value.String())
 			} else {
 				data.End = types.StringNull()
 			}
-			if value := res.Get("start"); value.Exists() {
+			if value := res.Get("start"); value.Exists() && value.Value() != nil {
 				data.Start = types.StringValue(value.String())
 			} else {
 				data.Start = types.StringNull()

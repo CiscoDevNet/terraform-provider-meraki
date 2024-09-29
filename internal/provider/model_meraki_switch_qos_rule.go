@@ -87,37 +87,37 @@ func (data SwitchQoSRule) toBody(ctx context.Context, state SwitchQoSRule) strin
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchQoSRule) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("dscp"); value.Exists() {
+	if value := res.Get("dscp"); value.Exists() && value.Value() != nil {
 		data.Dscp = types.Int64Value(value.Int())
 	} else {
 		data.Dscp = types.Int64Null()
 	}
-	if value := res.Get("dstPort"); value.Exists() {
+	if value := res.Get("dstPort"); value.Exists() && value.Value() != nil {
 		data.DstPort = types.Int64Value(value.Int())
 	} else {
 		data.DstPort = types.Int64Null()
 	}
-	if value := res.Get("dstPortRange"); value.Exists() {
+	if value := res.Get("dstPortRange"); value.Exists() && value.Value() != nil {
 		data.DstPortRange = types.StringValue(value.String())
 	} else {
 		data.DstPortRange = types.StringNull()
 	}
-	if value := res.Get("protocol"); value.Exists() {
+	if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
 		data.Protocol = types.StringValue(value.String())
 	} else {
 		data.Protocol = types.StringNull()
 	}
-	if value := res.Get("srcPort"); value.Exists() {
+	if value := res.Get("srcPort"); value.Exists() && value.Value() != nil {
 		data.SrcPort = types.Int64Value(value.Int())
 	} else {
 		data.SrcPort = types.Int64Null()
 	}
-	if value := res.Get("srcPortRange"); value.Exists() {
+	if value := res.Get("srcPortRange"); value.Exists() && value.Value() != nil {
 		data.SrcPortRange = types.StringValue(value.String())
 	} else {
 		data.SrcPortRange = types.StringNull()
 	}
-	if value := res.Get("vlan"); value.Exists() {
+	if value := res.Get("vlan"); value.Exists() && value.Value() != nil {
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()

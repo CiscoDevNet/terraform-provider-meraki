@@ -116,7 +116,7 @@ func (d *SwitchStackRoutingInterfaceDataSource) Schema(ctx context.Context, req 
 				Computed:            true,
 			},
 			"ospf_settings_area": schema.StringAttribute{
-				MarkdownDescription: "The OSPF area to which this interface should belong. Can be either `disabled` or the identifier of an existing OSPF area. Defaults to `disabled`.",
+				MarkdownDescription: "The OSPF area to which this interface should belong. Can be either `ospfDisabled` or the identifier of an existing OSPF area. Defaults to `ospfDisabled`.",
 				Computed:            true,
 			},
 			"ospf_settings_cost": schema.Int64Attribute{

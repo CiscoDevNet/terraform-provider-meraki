@@ -79,27 +79,27 @@ func (data NetworkNetflow) toBody(ctx context.Context, state NetworkNetflow) str
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkNetflow) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("collectorIp"); value.Exists() {
+	if value := res.Get("collectorIp"); value.Exists() && value.Value() != nil {
 		data.CollectorIp = types.StringValue(value.String())
 	} else {
 		data.CollectorIp = types.StringNull()
 	}
-	if value := res.Get("collectorPort"); value.Exists() {
+	if value := res.Get("collectorPort"); value.Exists() && value.Value() != nil {
 		data.CollectorPort = types.Int64Value(value.Int())
 	} else {
 		data.CollectorPort = types.Int64Null()
 	}
-	if value := res.Get("etaDstPort"); value.Exists() {
+	if value := res.Get("etaDstPort"); value.Exists() && value.Value() != nil {
 		data.EtaDstPort = types.Int64Value(value.Int())
 	} else {
 		data.EtaDstPort = types.Int64Null()
 	}
-	if value := res.Get("etaEnabled"); value.Exists() {
+	if value := res.Get("etaEnabled"); value.Exists() && value.Value() != nil {
 		data.EtaEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.EtaEnabled = types.BoolNull()
 	}
-	if value := res.Get("reportingEnabled"); value.Exists() {
+	if value := res.Get("reportingEnabled"); value.Exists() && value.Value() != nil {
 		data.ReportingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.ReportingEnabled = types.BoolNull()

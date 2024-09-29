@@ -25,6 +25,7 @@ resource "meraki_switch_routing_interface" "example" {
   ipv6_assignment_mode = "static"
   ipv6_gateway         = "1:2:3:4::2"
   ipv6_prefix          = "1:2:3:4::/64"
+  ospf_settings_area   = "ospfDisabled"
 }
 ```
 
@@ -46,7 +47,7 @@ resource "meraki_switch_routing_interface" "example" {
 - `multicast_routing` (String) Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.
   - Choices: `IGMP snooping querier`, `disabled`, `enabled`
 - `name` (String) A friendly name or description for the interface or VLAN.
-- `ospf_settings_area` (String) The OSPF area to which this interface should belong. Can be either `disabled` or the identifier of an existing OSPF area. Defaults to `disabled`.
+- `ospf_settings_area` (String) The OSPF area to which this interface should belong. Can be either `ospfDisabled` or the identifier of an existing OSPF area. Defaults to `ospfDisabled`.
 - `ospf_settings_cost` (Number) The path cost for this interface. Defaults to 1, but can be increased up to 65535 to give lower priority.
 - `ospf_settings_is_passive_enabled` (Boolean) When enabled, OSPF will not run on the interface, but the subnet will still be advertised.
 - `subnet` (String) The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).

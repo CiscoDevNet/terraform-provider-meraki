@@ -107,27 +107,27 @@ func (data OrganizationSAMLRole) toBody(ctx context.Context, state OrganizationS
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationSAMLRole) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("orgAccess"); value.Exists() {
+	if value := res.Get("orgAccess"); value.Exists() && value.Value() != nil {
 		data.OrgAccess = types.StringValue(value.String())
 	} else {
 		data.OrgAccess = types.StringNull()
 	}
-	if value := res.Get("role"); value.Exists() {
+	if value := res.Get("role"); value.Exists() && value.Value() != nil {
 		data.Role = types.StringValue(value.String())
 	} else {
 		data.Role = types.StringNull()
 	}
-	if value := res.Get("networks"); value.Exists() {
+	if value := res.Get("networks"); value.Exists() && value.Value() != nil {
 		data.Networks = make([]OrganizationSAMLRoleNetworks, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationSAMLRoleNetworks{}
-			if value := res.Get("access"); value.Exists() {
+			if value := res.Get("access"); value.Exists() && value.Value() != nil {
 				data.Access = types.StringValue(value.String())
 			} else {
 				data.Access = types.StringNull()
 			}
-			if value := res.Get("id"); value.Exists() {
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
 				data.Id = types.StringValue(value.String())
 			} else {
 				data.Id = types.StringNull()
@@ -136,17 +136,17 @@ func (data *OrganizationSAMLRole) fromBody(ctx context.Context, res gjson.Result
 			return true
 		})
 	}
-	if value := res.Get("tags"); value.Exists() {
+	if value := res.Get("tags"); value.Exists() && value.Value() != nil {
 		data.Tags = make([]OrganizationSAMLRoleTags, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationSAMLRoleTags{}
-			if value := res.Get("access"); value.Exists() {
+			if value := res.Get("access"); value.Exists() && value.Value() != nil {
 				data.Access = types.StringValue(value.String())
 			} else {
 				data.Access = types.StringNull()
 			}
-			if value := res.Get("tag"); value.Exists() {
+			if value := res.Get("tag"); value.Exists() && value.Value() != nil {
 				data.Tag = types.StringValue(value.String())
 			} else {
 				data.Tag = types.StringNull()

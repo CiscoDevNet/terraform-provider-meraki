@@ -179,142 +179,142 @@ func (data SwitchPort) toBody(ctx context.Context, state SwitchPort) string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchPort) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("accessPolicyNumber"); value.Exists() {
+	if value := res.Get("accessPolicyNumber"); value.Exists() && value.Value() != nil {
 		data.AccessPolicyNumber = types.Int64Value(value.Int())
 	} else {
 		data.AccessPolicyNumber = types.Int64Null()
 	}
-	if value := res.Get("accessPolicyType"); value.Exists() {
+	if value := res.Get("accessPolicyType"); value.Exists() && value.Value() != nil {
 		data.AccessPolicyType = types.StringValue(value.String())
 	} else {
 		data.AccessPolicyType = types.StringNull()
 	}
-	if value := res.Get("adaptivePolicyGroupId"); value.Exists() {
+	if value := res.Get("adaptivePolicyGroupId"); value.Exists() && value.Value() != nil {
 		data.AdaptivePolicyGroupId = types.StringValue(value.String())
 	} else {
 		data.AdaptivePolicyGroupId = types.StringNull()
 	}
-	if value := res.Get("allowedVlans"); value.Exists() {
+	if value := res.Get("allowedVlans"); value.Exists() && value.Value() != nil {
 		data.AllowedVlans = types.StringValue(value.String())
 	} else {
 		data.AllowedVlans = types.StringNull()
 	}
-	if value := res.Get("daiTrusted"); value.Exists() {
+	if value := res.Get("daiTrusted"); value.Exists() && value.Value() != nil {
 		data.DaiTrusted = types.BoolValue(value.Bool())
 	} else {
 		data.DaiTrusted = types.BoolNull()
 	}
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("flexibleStackingEnabled"); value.Exists() {
+	if value := res.Get("flexibleStackingEnabled"); value.Exists() && value.Value() != nil {
 		data.FlexibleStackingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.FlexibleStackingEnabled = types.BoolNull()
 	}
-	if value := res.Get("isolationEnabled"); value.Exists() {
+	if value := res.Get("isolationEnabled"); value.Exists() && value.Value() != nil {
 		data.IsolationEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.IsolationEnabled = types.BoolNull()
 	}
-	if value := res.Get("linkNegotiation"); value.Exists() {
+	if value := res.Get("linkNegotiation"); value.Exists() && value.Value() != nil {
 		data.LinkNegotiation = types.StringValue(value.String())
 	} else {
 		data.LinkNegotiation = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("peerSgtCapable"); value.Exists() {
+	if value := res.Get("peerSgtCapable"); value.Exists() && value.Value() != nil {
 		data.PeerSgtCapable = types.BoolValue(value.Bool())
 	} else {
 		data.PeerSgtCapable = types.BoolNull()
 	}
-	if value := res.Get("poeEnabled"); value.Exists() {
+	if value := res.Get("poeEnabled"); value.Exists() && value.Value() != nil {
 		data.PoeEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.PoeEnabled = types.BoolNull()
 	}
-	if value := res.Get("portScheduleId"); value.Exists() {
+	if value := res.Get("portScheduleId"); value.Exists() && value.Value() != nil {
 		data.PortScheduleId = types.StringValue(value.String())
 	} else {
 		data.PortScheduleId = types.StringNull()
 	}
-	if value := res.Get("rstpEnabled"); value.Exists() {
+	if value := res.Get("rstpEnabled"); value.Exists() && value.Value() != nil {
 		data.RstpEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.RstpEnabled = types.BoolNull()
 	}
-	if value := res.Get("stickyMacAllowListLimit"); value.Exists() {
+	if value := res.Get("stickyMacAllowListLimit"); value.Exists() && value.Value() != nil {
 		data.StickyMacAllowListLimit = types.Int64Value(value.Int())
 	} else {
 		data.StickyMacAllowListLimit = types.Int64Null()
 	}
-	if value := res.Get("stormControlEnabled"); value.Exists() {
+	if value := res.Get("stormControlEnabled"); value.Exists() && value.Value() != nil {
 		data.StormControlEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.StormControlEnabled = types.BoolNull()
 	}
-	if value := res.Get("stpGuard"); value.Exists() {
+	if value := res.Get("stpGuard"); value.Exists() && value.Value() != nil {
 		data.StpGuard = types.StringValue(value.String())
 	} else {
 		data.StpGuard = types.StringNull()
 	}
-	if value := res.Get("type"); value.Exists() {
+	if value := res.Get("type"); value.Exists() && value.Value() != nil {
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
 	}
-	if value := res.Get("udld"); value.Exists() {
+	if value := res.Get("udld"); value.Exists() && value.Value() != nil {
 		data.Udld = types.StringValue(value.String())
 	} else {
 		data.Udld = types.StringNull()
 	}
-	if value := res.Get("vlan"); value.Exists() {
+	if value := res.Get("vlan"); value.Exists() && value.Value() != nil {
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()
 	}
-	if value := res.Get("voiceVlan"); value.Exists() {
+	if value := res.Get("voiceVlan"); value.Exists() && value.Value() != nil {
 		data.VoiceVlan = types.Int64Value(value.Int())
 	} else {
 		data.VoiceVlan = types.Int64Null()
 	}
-	if value := res.Get("dot3az.enabled"); value.Exists() {
+	if value := res.Get("dot3az.enabled"); value.Exists() && value.Value() != nil {
 		data.Dot3azEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.Dot3azEnabled = types.BoolNull()
 	}
-	if value := res.Get("profile.enabled"); value.Exists() {
+	if value := res.Get("profile.enabled"); value.Exists() && value.Value() != nil {
 		data.ProfileEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.ProfileEnabled = types.BoolNull()
 	}
-	if value := res.Get("profile.id"); value.Exists() {
+	if value := res.Get("profile.id"); value.Exists() && value.Value() != nil {
 		data.ProfileId = types.StringValue(value.String())
 	} else {
 		data.ProfileId = types.StringNull()
 	}
-	if value := res.Get("profile.iname"); value.Exists() {
+	if value := res.Get("profile.iname"); value.Exists() && value.Value() != nil {
 		data.ProfileIname = types.StringValue(value.String())
 	} else {
 		data.ProfileIname = types.StringNull()
 	}
-	if value := res.Get("macAllowList"); value.Exists() {
+	if value := res.Get("macAllowList"); value.Exists() && value.Value() != nil {
 		data.MacAllowList = helpers.GetStringSet(value.Array())
 	} else {
 		data.MacAllowList = types.SetNull(types.StringType)
 	}
-	if value := res.Get("stickyMacAllowList"); value.Exists() {
+	if value := res.Get("stickyMacAllowList"); value.Exists() && value.Value() != nil {
 		data.StickyMacAllowList = helpers.GetStringSet(value.Array())
 	} else {
 		data.StickyMacAllowList = types.SetNull(types.StringType)
 	}
-	if value := res.Get("tags"); value.Exists() {
+	if value := res.Get("tags"); value.Exists() && value.Value() != nil {
 		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
 		data.Tags = types.SetNull(types.StringType)

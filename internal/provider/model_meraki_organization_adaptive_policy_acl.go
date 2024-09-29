@@ -99,42 +99,42 @@ func (data OrganizationAdaptivePolicyACL) toBody(ctx context.Context, state Orga
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationAdaptivePolicyACL) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("description"); value.Exists() {
+	if value := res.Get("description"); value.Exists() && value.Value() != nil {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get("ipVersion"); value.Exists() {
+	if value := res.Get("ipVersion"); value.Exists() && value.Value() != nil {
 		data.IpVersion = types.StringValue(value.String())
 	} else {
 		data.IpVersion = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("rules"); value.Exists() {
+	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]OrganizationAdaptivePolicyACLRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationAdaptivePolicyACLRules{}
-			if value := res.Get("dstPort"); value.Exists() {
+			if value := res.Get("dstPort"); value.Exists() && value.Value() != nil {
 				data.DstPort = types.StringValue(value.String())
 			} else {
 				data.DstPort = types.StringNull()
 			}
-			if value := res.Get("policy"); value.Exists() {
+			if value := res.Get("policy"); value.Exists() && value.Value() != nil {
 				data.Policy = types.StringValue(value.String())
 			} else {
 				data.Policy = types.StringNull()
 			}
-			if value := res.Get("protocol"); value.Exists() {
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
 				data.Protocol = types.StringValue(value.String())
 			} else {
 				data.Protocol = types.StringNull()
 			}
-			if value := res.Get("srcPort"); value.Exists() {
+			if value := res.Get("srcPort"); value.Exists() && value.Value() != nil {
 				data.SrcPort = types.StringValue(value.String())
 			} else {
 				data.SrcPort = types.StringNull()

@@ -76,22 +76,22 @@ func (data WirelessSSIDIdentityPSK) toBody(ctx context.Context, state WirelessSS
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDIdentityPSK) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("expiresAt"); value.Exists() {
+	if value := res.Get("expiresAt"); value.Exists() && value.Value() != nil {
 		data.ExpiresAt = types.StringValue(value.String())
 	} else {
 		data.ExpiresAt = types.StringNull()
 	}
-	if value := res.Get("groupPolicyId"); value.Exists() {
+	if value := res.Get("groupPolicyId"); value.Exists() && value.Value() != nil {
 		data.GroupPolicyId = types.StringValue(value.String())
 	} else {
 		data.GroupPolicyId = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("passphrase"); value.Exists() {
+	if value := res.Get("passphrase"); value.Exists() && value.Value() != nil {
 		data.Passphrase = types.StringValue(value.String())
 	} else {
 		data.Passphrase = types.StringNull()

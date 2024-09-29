@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -50,6 +52,14 @@ func TestAccMerakiWirelessSSIDSchedules(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDSchedulesPrerequisitesConfig + testAccMerakiWirelessSSIDSchedulesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_wireless_ssid_schedules.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiWirelessSSIDSchedulesImportStateIdFunc("meraki_wireless_ssid_schedules.test"),
+		ImportStateVerifyIgnore: []string{"ranges", "ranges_in_seconds"},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -59,6 +69,20 @@ func TestAccMerakiWirelessSSIDSchedules(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiWirelessSSIDSchedulesImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		NetworkId := primary.Attributes["network_id"]
+		Number := primary.Attributes["number"]
+
+		return fmt.Sprintf("%s,%s", NetworkId, Number), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 

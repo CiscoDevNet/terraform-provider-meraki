@@ -111,27 +111,27 @@ func (data NetworkVLANProfile) toBody(ctx context.Context, state NetworkVLANProf
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkVLANProfile) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("iname"); value.Exists() {
+	if value := res.Get("iname"); value.Exists() && value.Value() != nil {
 		data.Iname = types.StringValue(value.String())
 	} else {
 		data.Iname = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("vlanGroups"); value.Exists() {
+	if value := res.Get("vlanGroups"); value.Exists() && value.Value() != nil {
 		data.VlanGroups = make([]NetworkVLANProfileVlanGroups, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkVLANProfileVlanGroups{}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
 			}
-			if value := res.Get("vlanIds"); value.Exists() {
+			if value := res.Get("vlanIds"); value.Exists() && value.Value() != nil {
 				data.VlanIds = types.StringValue(value.String())
 			} else {
 				data.VlanIds = types.StringNull()
@@ -140,22 +140,22 @@ func (data *NetworkVLANProfile) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get("vlanNames"); value.Exists() {
+	if value := res.Get("vlanNames"); value.Exists() && value.Value() != nil {
 		data.VlanNames = make([]NetworkVLANProfileVlanNames, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkVLANProfileVlanNames{}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
 			}
-			if value := res.Get("vlanId"); value.Exists() {
+			if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 				data.VlanId = types.StringValue(value.String())
 			} else {
 				data.VlanId = types.StringNull()
 			}
-			if value := res.Get("adaptivePolicyGroup.id"); value.Exists() {
+			if value := res.Get("adaptivePolicyGroup.id"); value.Exists() && value.Value() != nil {
 				data.AdaptivePolicyGroupId = types.StringValue(value.String())
 			} else {
 				data.AdaptivePolicyGroupId = types.StringNull()

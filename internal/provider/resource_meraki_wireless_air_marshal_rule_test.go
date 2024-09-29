@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -48,6 +50,14 @@ func TestAccMerakiWirelessAirMarshalRule(t *testing.T) {
 		Config: testAccMerakiWirelessAirMarshalRulePrerequisitesConfig + testAccMerakiWirelessAirMarshalRuleConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_wireless_air_marshal_rule.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiWirelessAirMarshalRuleImportStateIdFunc("meraki_wireless_air_marshal_rule.test"),
+		ImportStateVerifyIgnore: []string{},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -57,6 +67,20 @@ func TestAccMerakiWirelessAirMarshalRule(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiWirelessAirMarshalRuleImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		NetworkId := primary.Attributes["network_id"]
+		id := primary.Attributes["id"]
+
+		return fmt.Sprintf("%s,%s", NetworkId, id), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 

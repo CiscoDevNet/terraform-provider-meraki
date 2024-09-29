@@ -83,32 +83,32 @@ func (data WirelessRadioSettings) toBody(ctx context.Context, state WirelessRadi
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessRadioSettings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("rfProfileId"); value.Exists() {
+	if value := res.Get("rfProfileId"); value.Exists() && value.Value() != nil {
 		data.RfProfileId = types.StringValue(value.String())
 	} else {
 		data.RfProfileId = types.StringNull()
 	}
-	if value := res.Get("fiveGhzSettings.channel"); value.Exists() {
+	if value := res.Get("fiveGhzSettings.channel"); value.Exists() && value.Value() != nil {
 		data.FiveGhzSettingsChannel = types.Int64Value(value.Int())
 	} else {
 		data.FiveGhzSettingsChannel = types.Int64Null()
 	}
-	if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() {
+	if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() && value.Value() != nil {
 		data.FiveGhzSettingsChannelWidth = types.Int64Value(value.Int())
 	} else {
 		data.FiveGhzSettingsChannelWidth = types.Int64Null()
 	}
-	if value := res.Get("fiveGhzSettings.targetPower"); value.Exists() {
+	if value := res.Get("fiveGhzSettings.targetPower"); value.Exists() && value.Value() != nil {
 		data.FiveGhzSettingsTargetPower = types.Int64Value(value.Int())
 	} else {
 		data.FiveGhzSettingsTargetPower = types.Int64Null()
 	}
-	if value := res.Get("twoFourGhzSettings.channel"); value.Exists() {
+	if value := res.Get("twoFourGhzSettings.channel"); value.Exists() && value.Value() != nil {
 		data.TwoFourGhzSettingsChannel = types.Int64Value(value.Int())
 	} else {
 		data.TwoFourGhzSettingsChannel = types.Int64Null()
 	}
-	if value := res.Get("twoFourGhzSettings.targetPower"); value.Exists() {
+	if value := res.Get("twoFourGhzSettings.targetPower"); value.Exists() && value.Value() != nil {
 		data.TwoFourGhzSettingsTargetPower = types.Int64Value(value.Int())
 	} else {
 		data.TwoFourGhzSettingsTargetPower = types.Int64Null()

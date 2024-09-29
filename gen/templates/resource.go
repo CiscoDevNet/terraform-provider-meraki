@@ -587,6 +587,9 @@ func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resou
 	{{- range $index, $attr := .Attributes}}
 	{{- if or $attr.Reference $attr.Id}}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{$attr.TfName}}"), idParts[{{$index}}])...)
+	{{- if $attr.Id}}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
+	{{- end}}
 	{{- end}}
 	{{- end}}
 	{{- if not (hasId .Attributes)}}

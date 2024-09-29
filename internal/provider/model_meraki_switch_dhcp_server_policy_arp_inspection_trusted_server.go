@@ -71,17 +71,17 @@ func (data SwitchDHCPServerPolicyARPInspectionTrustedServer) toBody(ctx context.
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchDHCPServerPolicyARPInspectionTrustedServer) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("mac"); value.Exists() {
+	if value := res.Get("mac"); value.Exists() && value.Value() != nil {
 		data.Mac = types.StringValue(value.String())
 	} else {
 		data.Mac = types.StringNull()
 	}
-	if value := res.Get("vlan"); value.Exists() {
+	if value := res.Get("vlan"); value.Exists() && value.Value() != nil {
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()
 	}
-	if value := res.Get("ipv4.address"); value.Exists() {
+	if value := res.Get("ipv4.address"); value.Exists() && value.Value() != nil {
 		data.Ipv4Address = types.StringValue(value.String())
 	} else {
 		data.Ipv4Address = types.StringNull()

@@ -147,112 +147,112 @@ func (data SwitchPortSchedule) toBody(ctx context.Context, state SwitchPortSched
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchPortSchedule) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("portSchedule.friday.active"); value.Exists() {
+	if value := res.Get("portSchedule.friday.active"); value.Exists() && value.Value() != nil {
 		data.PortScheduleFridayActive = types.BoolValue(value.Bool())
 	} else {
 		data.PortScheduleFridayActive = types.BoolNull()
 	}
-	if value := res.Get("portSchedule.friday.from"); value.Exists() {
+	if value := res.Get("portSchedule.friday.from"); value.Exists() && value.Value() != nil {
 		data.PortScheduleFridayFrom = types.StringValue(value.String())
 	} else {
 		data.PortScheduleFridayFrom = types.StringNull()
 	}
-	if value := res.Get("portSchedule.friday.to"); value.Exists() {
+	if value := res.Get("portSchedule.friday.to"); value.Exists() && value.Value() != nil {
 		data.PortScheduleFridayTo = types.StringValue(value.String())
 	} else {
 		data.PortScheduleFridayTo = types.StringNull()
 	}
-	if value := res.Get("portSchedule.monday.active"); value.Exists() {
+	if value := res.Get("portSchedule.monday.active"); value.Exists() && value.Value() != nil {
 		data.PortScheduleMondayActive = types.BoolValue(value.Bool())
 	} else {
 		data.PortScheduleMondayActive = types.BoolNull()
 	}
-	if value := res.Get("portSchedule.monday.from"); value.Exists() {
+	if value := res.Get("portSchedule.monday.from"); value.Exists() && value.Value() != nil {
 		data.PortScheduleMondayFrom = types.StringValue(value.String())
 	} else {
 		data.PortScheduleMondayFrom = types.StringNull()
 	}
-	if value := res.Get("portSchedule.monday.to"); value.Exists() {
+	if value := res.Get("portSchedule.monday.to"); value.Exists() && value.Value() != nil {
 		data.PortScheduleMondayTo = types.StringValue(value.String())
 	} else {
 		data.PortScheduleMondayTo = types.StringNull()
 	}
-	if value := res.Get("portSchedule.saturday.active"); value.Exists() {
+	if value := res.Get("portSchedule.saturday.active"); value.Exists() && value.Value() != nil {
 		data.PortScheduleSaturdayActive = types.BoolValue(value.Bool())
 	} else {
 		data.PortScheduleSaturdayActive = types.BoolNull()
 	}
-	if value := res.Get("portSchedule.saturday.from"); value.Exists() {
+	if value := res.Get("portSchedule.saturday.from"); value.Exists() && value.Value() != nil {
 		data.PortScheduleSaturdayFrom = types.StringValue(value.String())
 	} else {
 		data.PortScheduleSaturdayFrom = types.StringNull()
 	}
-	if value := res.Get("portSchedule.saturday.to"); value.Exists() {
+	if value := res.Get("portSchedule.saturday.to"); value.Exists() && value.Value() != nil {
 		data.PortScheduleSaturdayTo = types.StringValue(value.String())
 	} else {
 		data.PortScheduleSaturdayTo = types.StringNull()
 	}
-	if value := res.Get("portSchedule.sunday.active"); value.Exists() {
+	if value := res.Get("portSchedule.sunday.active"); value.Exists() && value.Value() != nil {
 		data.PortScheduleSundayActive = types.BoolValue(value.Bool())
 	} else {
 		data.PortScheduleSundayActive = types.BoolNull()
 	}
-	if value := res.Get("portSchedule.sunday.from"); value.Exists() {
+	if value := res.Get("portSchedule.sunday.from"); value.Exists() && value.Value() != nil {
 		data.PortScheduleSundayFrom = types.StringValue(value.String())
 	} else {
 		data.PortScheduleSundayFrom = types.StringNull()
 	}
-	if value := res.Get("portSchedule.sunday.to"); value.Exists() {
+	if value := res.Get("portSchedule.sunday.to"); value.Exists() && value.Value() != nil {
 		data.PortScheduleSundayTo = types.StringValue(value.String())
 	} else {
 		data.PortScheduleSundayTo = types.StringNull()
 	}
-	if value := res.Get("portSchedule.thursday.active"); value.Exists() {
+	if value := res.Get("portSchedule.thursday.active"); value.Exists() && value.Value() != nil {
 		data.PortScheduleThursdayActive = types.BoolValue(value.Bool())
 	} else {
 		data.PortScheduleThursdayActive = types.BoolNull()
 	}
-	if value := res.Get("portSchedule.thursday.from"); value.Exists() {
+	if value := res.Get("portSchedule.thursday.from"); value.Exists() && value.Value() != nil {
 		data.PortScheduleThursdayFrom = types.StringValue(value.String())
 	} else {
 		data.PortScheduleThursdayFrom = types.StringNull()
 	}
-	if value := res.Get("portSchedule.thursday.to"); value.Exists() {
+	if value := res.Get("portSchedule.thursday.to"); value.Exists() && value.Value() != nil {
 		data.PortScheduleThursdayTo = types.StringValue(value.String())
 	} else {
 		data.PortScheduleThursdayTo = types.StringNull()
 	}
-	if value := res.Get("portSchedule.tuesday.active"); value.Exists() {
+	if value := res.Get("portSchedule.tuesday.active"); value.Exists() && value.Value() != nil {
 		data.PortScheduleTuesdayActive = types.BoolValue(value.Bool())
 	} else {
 		data.PortScheduleTuesdayActive = types.BoolNull()
 	}
-	if value := res.Get("portSchedule.tuesday.from"); value.Exists() {
+	if value := res.Get("portSchedule.tuesday.from"); value.Exists() && value.Value() != nil {
 		data.PortScheduleTuesdayFrom = types.StringValue(value.String())
 	} else {
 		data.PortScheduleTuesdayFrom = types.StringNull()
 	}
-	if value := res.Get("portSchedule.tuesday.to"); value.Exists() {
+	if value := res.Get("portSchedule.tuesday.to"); value.Exists() && value.Value() != nil {
 		data.PortScheduleTuesdayTo = types.StringValue(value.String())
 	} else {
 		data.PortScheduleTuesdayTo = types.StringNull()
 	}
-	if value := res.Get("portSchedule.wednesday.active"); value.Exists() {
+	if value := res.Get("portSchedule.wednesday.active"); value.Exists() && value.Value() != nil {
 		data.PortScheduleWednesdayActive = types.BoolValue(value.Bool())
 	} else {
 		data.PortScheduleWednesdayActive = types.BoolNull()
 	}
-	if value := res.Get("portSchedule.wednesday.from"); value.Exists() {
+	if value := res.Get("portSchedule.wednesday.from"); value.Exists() && value.Value() != nil {
 		data.PortScheduleWednesdayFrom = types.StringValue(value.String())
 	} else {
 		data.PortScheduleWednesdayFrom = types.StringNull()
 	}
-	if value := res.Get("portSchedule.wednesday.to"); value.Exists() {
+	if value := res.Get("portSchedule.wednesday.to"); value.Exists() && value.Value() != nil {
 		data.PortScheduleWednesdayTo = types.StringValue(value.String())
 	} else {
 		data.PortScheduleWednesdayTo = types.StringNull()

@@ -99,17 +99,17 @@ func (data SwitchLinkAggregation) toBody(ctx context.Context, state SwitchLinkAg
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchLinkAggregation) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("switchPorts"); value.Exists() {
+	if value := res.Get("switchPorts"); value.Exists() && value.Value() != nil {
 		data.SwitchPorts = make([]SwitchLinkAggregationSwitchPorts, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchLinkAggregationSwitchPorts{}
-			if value := res.Get("portId"); value.Exists() {
+			if value := res.Get("portId"); value.Exists() && value.Value() != nil {
 				data.PortId = types.StringValue(value.String())
 			} else {
 				data.PortId = types.StringNull()
 			}
-			if value := res.Get("serial"); value.Exists() {
+			if value := res.Get("serial"); value.Exists() && value.Value() != nil {
 				data.Serial = types.StringValue(value.String())
 			} else {
 				data.Serial = types.StringNull()
@@ -118,17 +118,17 @@ func (data *SwitchLinkAggregation) fromBody(ctx context.Context, res gjson.Resul
 			return true
 		})
 	}
-	if value := res.Get("switchProfilePorts"); value.Exists() {
+	if value := res.Get("switchProfilePorts"); value.Exists() && value.Value() != nil {
 		data.SwitchProfilePorts = make([]SwitchLinkAggregationSwitchProfilePorts, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchLinkAggregationSwitchProfilePorts{}
-			if value := res.Get("portId"); value.Exists() {
+			if value := res.Get("portId"); value.Exists() && value.Value() != nil {
 				data.PortId = types.StringValue(value.String())
 			} else {
 				data.PortId = types.StringNull()
 			}
-			if value := res.Get("profile"); value.Exists() {
+			if value := res.Get("profile"); value.Exists() && value.Value() != nil {
 				data.Profile = types.StringValue(value.String())
 			} else {
 				data.Profile = types.StringNull()

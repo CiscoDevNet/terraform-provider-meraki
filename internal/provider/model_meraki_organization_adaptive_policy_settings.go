@@ -66,7 +66,7 @@ func (data OrganizationAdaptivePolicySettings) toBody(ctx context.Context, state
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationAdaptivePolicySettings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabledNetworks"); value.Exists() {
+	if value := res.Get("enabledNetworks"); value.Exists() && value.Value() != nil {
 		data.EnabledNetworks = helpers.GetStringSet(value.Array())
 	} else {
 		data.EnabledNetworks = types.SetNull(types.StringType)

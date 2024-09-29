@@ -201,112 +201,112 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchAccessPolicy) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("accessPolicyType"); value.Exists() {
+	if value := res.Get("accessPolicyType"); value.Exists() && value.Value() != nil {
 		data.AccessPolicyType = types.StringValue(value.String())
 	} else {
 		data.AccessPolicyType = types.StringNull()
 	}
-	if value := res.Get("guestPortBouncing"); value.Exists() {
+	if value := res.Get("guestPortBouncing"); value.Exists() && value.Value() != nil {
 		data.GuestPortBouncing = types.BoolValue(value.Bool())
 	} else {
 		data.GuestPortBouncing = types.BoolNull()
 	}
-	if value := res.Get("guestVlanId"); value.Exists() {
+	if value := res.Get("guestVlanId"); value.Exists() && value.Value() != nil {
 		data.GuestVlanId = types.Int64Value(value.Int())
 	} else {
 		data.GuestVlanId = types.Int64Null()
 	}
-	if value := res.Get("hostMode"); value.Exists() {
+	if value := res.Get("hostMode"); value.Exists() && value.Value() != nil {
 		data.HostMode = types.StringValue(value.String())
 	} else {
 		data.HostMode = types.StringNull()
 	}
-	if value := res.Get("increaseAccessSpeed"); value.Exists() {
+	if value := res.Get("increaseAccessSpeed"); value.Exists() && value.Value() != nil {
 		data.IncreaseAccessSpeed = types.BoolValue(value.Bool())
 	} else {
 		data.IncreaseAccessSpeed = types.BoolNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("radiusAccountingEnabled"); value.Exists() {
+	if value := res.Get("radiusAccountingEnabled"); value.Exists() && value.Value() != nil {
 		data.RadiusAccountingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.RadiusAccountingEnabled = types.BoolNull()
 	}
-	if value := res.Get("radiusCoaSupportEnabled"); value.Exists() {
+	if value := res.Get("radiusCoaSupportEnabled"); value.Exists() && value.Value() != nil {
 		data.RadiusCoaSupportEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.RadiusCoaSupportEnabled = types.BoolNull()
 	}
-	if value := res.Get("radiusGroupAttribute"); value.Exists() {
+	if value := res.Get("radiusGroupAttribute"); value.Exists() && value.Value() != nil {
 		data.RadiusGroupAttribute = types.StringValue(value.String())
 	} else {
 		data.RadiusGroupAttribute = types.StringNull()
 	}
-	if value := res.Get("radiusTestingEnabled"); value.Exists() {
+	if value := res.Get("radiusTestingEnabled"); value.Exists() && value.Value() != nil {
 		data.RadiusTestingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.RadiusTestingEnabled = types.BoolNull()
 	}
-	if value := res.Get("urlRedirectWalledGardenEnabled"); value.Exists() {
+	if value := res.Get("urlRedirectWalledGardenEnabled"); value.Exists() && value.Value() != nil {
 		data.UrlRedirectWalledGardenEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.UrlRedirectWalledGardenEnabled = types.BoolNull()
 	}
-	if value := res.Get("voiceVlanClients"); value.Exists() {
+	if value := res.Get("voiceVlanClients"); value.Exists() && value.Value() != nil {
 		data.VoiceVlanClients = types.BoolValue(value.Bool())
 	} else {
 		data.VoiceVlanClients = types.BoolNull()
 	}
-	if value := res.Get("dot1x.controlDirection"); value.Exists() {
+	if value := res.Get("dot1x.controlDirection"); value.Exists() && value.Value() != nil {
 		data.Dot1xControlDirection = types.StringValue(value.String())
 	} else {
 		data.Dot1xControlDirection = types.StringNull()
 	}
-	if value := res.Get("radius.failedAuthVlanId"); value.Exists() {
+	if value := res.Get("radius.failedAuthVlanId"); value.Exists() && value.Value() != nil {
 		data.RadiusFailedAuthVlanId = types.Int64Value(value.Int())
 	} else {
 		data.RadiusFailedAuthVlanId = types.Int64Null()
 	}
-	if value := res.Get("radius.reAuthenticationInterval"); value.Exists() {
+	if value := res.Get("radius.reAuthenticationInterval"); value.Exists() && value.Value() != nil {
 		data.RadiusReAuthenticationInterval = types.Int64Value(value.Int())
 	} else {
 		data.RadiusReAuthenticationInterval = types.Int64Null()
 	}
-	if value := res.Get("radius.criticalAuth.dataVlanId"); value.Exists() {
+	if value := res.Get("radius.criticalAuth.dataVlanId"); value.Exists() && value.Value() != nil {
 		data.RadiusCriticalAuthDataVlanId = types.Int64Value(value.Int())
 	} else {
 		data.RadiusCriticalAuthDataVlanId = types.Int64Null()
 	}
-	if value := res.Get("radius.criticalAuth.suspendPortBounce"); value.Exists() {
+	if value := res.Get("radius.criticalAuth.suspendPortBounce"); value.Exists() && value.Value() != nil {
 		data.RadiusCriticalAuthSuspendPortBounce = types.BoolValue(value.Bool())
 	} else {
 		data.RadiusCriticalAuthSuspendPortBounce = types.BoolNull()
 	}
-	if value := res.Get("radius.criticalAuth.voiceVlanId"); value.Exists() {
+	if value := res.Get("radius.criticalAuth.voiceVlanId"); value.Exists() && value.Value() != nil {
 		data.RadiusCriticalAuthVoiceVlanId = types.Int64Value(value.Int())
 	} else {
 		data.RadiusCriticalAuthVoiceVlanId = types.Int64Null()
 	}
-	if value := res.Get("radiusAccountingServers"); value.Exists() {
+	if value := res.Get("radiusAccountingServers"); value.Exists() && value.Value() != nil {
 		data.RadiusAccountingServers = make([]SwitchAccessPolicyRadiusAccountingServers, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchAccessPolicyRadiusAccountingServers{}
-			if value := res.Get("host"); value.Exists() {
+			if value := res.Get("host"); value.Exists() && value.Value() != nil {
 				data.Host = types.StringValue(value.String())
 			} else {
 				data.Host = types.StringNull()
 			}
-			if value := res.Get("organizationRadiusServerId"); value.Exists() {
+			if value := res.Get("organizationRadiusServerId"); value.Exists() && value.Value() != nil {
 				data.OrganizationRadiusServerId = types.StringValue(value.String())
 			} else {
 				data.OrganizationRadiusServerId = types.StringNull()
 			}
-			if value := res.Get("port"); value.Exists() {
+			if value := res.Get("port"); value.Exists() && value.Value() != nil {
 				data.Port = types.Int64Value(value.Int())
 			} else {
 				data.Port = types.Int64Null()
@@ -315,22 +315,22 @@ func (data *SwitchAccessPolicy) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get("radiusServers"); value.Exists() {
+	if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil {
 		data.RadiusServers = make([]SwitchAccessPolicyRadiusServers, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchAccessPolicyRadiusServers{}
-			if value := res.Get("host"); value.Exists() {
+			if value := res.Get("host"); value.Exists() && value.Value() != nil {
 				data.Host = types.StringValue(value.String())
 			} else {
 				data.Host = types.StringNull()
 			}
-			if value := res.Get("organizationRadiusServerId"); value.Exists() {
+			if value := res.Get("organizationRadiusServerId"); value.Exists() && value.Value() != nil {
 				data.OrganizationRadiusServerId = types.StringValue(value.String())
 			} else {
 				data.OrganizationRadiusServerId = types.StringNull()
 			}
-			if value := res.Get("port"); value.Exists() {
+			if value := res.Get("port"); value.Exists() && value.Value() != nil {
 				data.Port = types.Int64Value(value.Int())
 			} else {
 				data.Port = types.Int64Null()
@@ -339,7 +339,7 @@ func (data *SwitchAccessPolicy) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get("urlRedirectWalledGardenRanges"); value.Exists() {
+	if value := res.Get("urlRedirectWalledGardenRanges"); value.Exists() && value.Value() != nil {
 		data.UrlRedirectWalledGardenRanges = helpers.GetStringSet(value.Array())
 	} else {
 		data.UrlRedirectWalledGardenRanges = types.SetNull(types.StringType)

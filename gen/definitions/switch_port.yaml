@@ -128,6 +128,7 @@ attributes:
     type: String
     data_path: [profile]
     exclude_test: true
+    allow_import_changes: true
     description: When enabled, the ID of the port profile used to override the port`s configuration.
     example: "1284392014819"
   - model_name: iname

@@ -82,22 +82,22 @@ func (data Organization) toBody(ctx context.Context, state Organization) string 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *Organization) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("management.details"); value.Exists() {
+	if value := res.Get("management.details"); value.Exists() && value.Value() != nil {
 		data.ManagementDetails = make([]OrganizationManagementDetails, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationManagementDetails{}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
 			}
-			if value := res.Get("value"); value.Exists() {
+			if value := res.Get("value"); value.Exists() && value.Value() != nil {
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()

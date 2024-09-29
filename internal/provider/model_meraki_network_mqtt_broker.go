@@ -91,32 +91,32 @@ func (data NetworkMQTTBroker) toBody(ctx context.Context, state NetworkMQTTBroke
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkMQTTBroker) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("host"); value.Exists() {
+	if value := res.Get("host"); value.Exists() && value.Value() != nil {
 		data.Host = types.StringValue(value.String())
 	} else {
 		data.Host = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("port"); value.Exists() {
+	if value := res.Get("port"); value.Exists() && value.Value() != nil {
 		data.Port = types.Int64Value(value.Int())
 	} else {
 		data.Port = types.Int64Null()
 	}
-	if value := res.Get("authentication.username"); value.Exists() {
+	if value := res.Get("authentication.username"); value.Exists() && value.Value() != nil {
 		data.AuthenticationUsername = types.StringValue(value.String())
 	} else {
 		data.AuthenticationUsername = types.StringNull()
 	}
-	if value := res.Get("security.mode"); value.Exists() {
+	if value := res.Get("security.mode"); value.Exists() && value.Value() != nil {
 		data.SecurityMode = types.StringValue(value.String())
 	} else {
 		data.SecurityMode = types.StringNull()
 	}
-	if value := res.Get("security.tls.verifyHostnames"); value.Exists() {
+	if value := res.Get("security.tls.verifyHostnames"); value.Exists() && value.Value() != nil {
 		data.SecurityTlsVerifyHostnames = types.BoolValue(value.Bool())
 	} else {
 		data.SecurityTlsVerifyHostnames = types.BoolNull()

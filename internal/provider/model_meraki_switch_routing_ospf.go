@@ -143,67 +143,67 @@ func (data SwitchRoutingOSPF) toBody(ctx context.Context, state SwitchRoutingOSP
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchRoutingOSPF) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("deadTimerInSeconds"); value.Exists() {
+	if value := res.Get("deadTimerInSeconds"); value.Exists() && value.Value() != nil {
 		data.DeadTimerInSeconds = types.Int64Value(value.Int())
 	} else {
 		data.DeadTimerInSeconds = types.Int64Null()
 	}
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("helloTimerInSeconds"); value.Exists() {
+	if value := res.Get("helloTimerInSeconds"); value.Exists() && value.Value() != nil {
 		data.HelloTimerInSeconds = types.Int64Value(value.Int())
 	} else {
 		data.HelloTimerInSeconds = types.Int64Null()
 	}
-	if value := res.Get("md5AuthenticationEnabled"); value.Exists() {
+	if value := res.Get("md5AuthenticationEnabled"); value.Exists() && value.Value() != nil {
 		data.Md5AuthenticationEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.Md5AuthenticationEnabled = types.BoolNull()
 	}
-	if value := res.Get("md5AuthenticationKey.id"); value.Exists() {
+	if value := res.Get("md5AuthenticationKey.id"); value.Exists() && value.Value() != nil {
 		data.Md5AuthenticationKeyId = types.Int64Value(value.Int())
 	} else {
 		data.Md5AuthenticationKeyId = types.Int64Null()
 	}
-	if value := res.Get("md5AuthenticationKey.passphrase"); value.Exists() {
+	if value := res.Get("md5AuthenticationKey.passphrase"); value.Exists() && value.Value() != nil {
 		data.Md5AuthenticationKeyPassphrase = types.StringValue(value.String())
 	} else {
 		data.Md5AuthenticationKeyPassphrase = types.StringNull()
 	}
-	if value := res.Get("v3.deadTimerInSeconds"); value.Exists() {
+	if value := res.Get("v3.deadTimerInSeconds"); value.Exists() && value.Value() != nil {
 		data.V3DeadTimerInSeconds = types.Int64Value(value.Int())
 	} else {
 		data.V3DeadTimerInSeconds = types.Int64Null()
 	}
-	if value := res.Get("v3.enabled"); value.Exists() {
+	if value := res.Get("v3.enabled"); value.Exists() && value.Value() != nil {
 		data.V3Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.V3Enabled = types.BoolNull()
 	}
-	if value := res.Get("v3.helloTimerInSeconds"); value.Exists() {
+	if value := res.Get("v3.helloTimerInSeconds"); value.Exists() && value.Value() != nil {
 		data.V3HelloTimerInSeconds = types.Int64Value(value.Int())
 	} else {
 		data.V3HelloTimerInSeconds = types.Int64Null()
 	}
-	if value := res.Get("v3.areas"); value.Exists() {
+	if value := res.Get("v3.areas"); value.Exists() && value.Value() != nil {
 		data.V3Areas = make([]SwitchRoutingOSPFV3Areas, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchRoutingOSPFV3Areas{}
-			if value := res.Get("areaId"); value.Exists() {
+			if value := res.Get("areaId"); value.Exists() && value.Value() != nil {
 				data.AreaId = types.StringValue(value.String())
 			} else {
 				data.AreaId = types.StringNull()
 			}
-			if value := res.Get("areaName"); value.Exists() {
+			if value := res.Get("areaName"); value.Exists() && value.Value() != nil {
 				data.AreaName = types.StringValue(value.String())
 			} else {
 				data.AreaName = types.StringNull()
 			}
-			if value := res.Get("areaType"); value.Exists() {
+			if value := res.Get("areaType"); value.Exists() && value.Value() != nil {
 				data.AreaType = types.StringValue(value.String())
 			} else {
 				data.AreaType = types.StringNull()
@@ -212,22 +212,22 @@ func (data *SwitchRoutingOSPF) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get("areas"); value.Exists() {
+	if value := res.Get("areas"); value.Exists() && value.Value() != nil {
 		data.Areas = make([]SwitchRoutingOSPFAreas, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchRoutingOSPFAreas{}
-			if value := res.Get("areaId"); value.Exists() {
+			if value := res.Get("areaId"); value.Exists() && value.Value() != nil {
 				data.AreaId = types.StringValue(value.String())
 			} else {
 				data.AreaId = types.StringNull()
 			}
-			if value := res.Get("areaName"); value.Exists() {
+			if value := res.Get("areaName"); value.Exists() && value.Value() != nil {
 				data.AreaName = types.StringValue(value.String())
 			} else {
 				data.AreaName = types.StringNull()
 			}
-			if value := res.Get("areaType"); value.Exists() {
+			if value := res.Get("areaType"); value.Exists() && value.Value() != nil {
 				data.AreaType = types.StringValue(value.String())
 			} else {
 				data.AreaType = types.StringNull()

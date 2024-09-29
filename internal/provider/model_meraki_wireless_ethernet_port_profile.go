@@ -115,32 +115,32 @@ func (data WirelessEthernetPortProfile) toBody(ctx context.Context, state Wirele
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessEthernetPortProfile) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("ports"); value.Exists() {
+	if value := res.Get("ports"); value.Exists() && value.Value() != nil {
 		data.Ports = make([]WirelessEthernetPortProfilePorts, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessEthernetPortProfilePorts{}
-			if value := res.Get("enabled"); value.Exists() {
+			if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 				data.Enabled = types.BoolValue(value.Bool())
 			} else {
 				data.Enabled = types.BoolNull()
 			}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
 			}
-			if value := res.Get("pskGroupId"); value.Exists() {
+			if value := res.Get("pskGroupId"); value.Exists() && value.Value() != nil {
 				data.PskGroupId = types.StringValue(value.String())
 			} else {
 				data.PskGroupId = types.StringNull()
 			}
-			if value := res.Get("ssid"); value.Exists() {
+			if value := res.Get("ssid"); value.Exists() && value.Value() != nil {
 				data.Ssid = types.Int64Value(value.Int())
 			} else {
 				data.Ssid = types.Int64Null()
@@ -149,22 +149,22 @@ func (data *WirelessEthernetPortProfile) fromBody(ctx context.Context, res gjson
 			return true
 		})
 	}
-	if value := res.Get("usbPorts"); value.Exists() {
+	if value := res.Get("usbPorts"); value.Exists() && value.Value() != nil {
 		data.UsbPorts = make([]WirelessEthernetPortProfileUsbPorts, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessEthernetPortProfileUsbPorts{}
-			if value := res.Get("enabled"); value.Exists() {
+			if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 				data.Enabled = types.BoolValue(value.Bool())
 			} else {
 				data.Enabled = types.BoolNull()
 			}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
 			}
-			if value := res.Get("ssid"); value.Exists() {
+			if value := res.Get("ssid"); value.Exists() && value.Value() != nil {
 				data.Ssid = types.Int64Value(value.Int())
 			} else {
 				data.Ssid = types.Int64Null()

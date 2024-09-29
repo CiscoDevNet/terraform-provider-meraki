@@ -85,22 +85,22 @@ func (data SwitchDSCPToCoSMappings) toBody(ctx context.Context, state SwitchDSCP
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchDSCPToCoSMappings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("mappings"); value.Exists() {
+	if value := res.Get("mappings"); value.Exists() && value.Value() != nil {
 		data.Mappings = make([]SwitchDSCPToCoSMappingsMappings, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchDSCPToCoSMappingsMappings{}
-			if value := res.Get("cos"); value.Exists() {
+			if value := res.Get("cos"); value.Exists() && value.Value() != nil {
 				data.Cos = types.Int64Value(value.Int())
 			} else {
 				data.Cos = types.Int64Null()
 			}
-			if value := res.Get("dscp"); value.Exists() {
+			if value := res.Get("dscp"); value.Exists() && value.Value() != nil {
 				data.Dscp = types.Int64Value(value.Int())
 			} else {
 				data.Dscp = types.Int64Null()
 			}
-			if value := res.Get("title"); value.Exists() {
+			if value := res.Get("title"); value.Exists() && value.Value() != nil {
 				data.Title = types.StringValue(value.String())
 			} else {
 				data.Title = types.StringNull()

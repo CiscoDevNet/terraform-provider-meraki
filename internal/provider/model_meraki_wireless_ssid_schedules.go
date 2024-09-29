@@ -113,32 +113,32 @@ func (data WirelessSSIDSchedules) toBody(ctx context.Context, state WirelessSSID
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDSchedules) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("ranges"); value.Exists() {
+	if value := res.Get("ranges"); value.Exists() && value.Value() != nil {
 		data.Ranges = make([]WirelessSSIDSchedulesRanges, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDSchedulesRanges{}
-			if value := res.Get("endDay"); value.Exists() {
+			if value := res.Get("endDay"); value.Exists() && value.Value() != nil {
 				data.EndDay = types.StringValue(value.String())
 			} else {
 				data.EndDay = types.StringNull()
 			}
-			if value := res.Get("endTime"); value.Exists() {
+			if value := res.Get("endTime"); value.Exists() && value.Value() != nil {
 				data.EndTime = types.StringValue(value.String())
 			} else {
 				data.EndTime = types.StringNull()
 			}
-			if value := res.Get("startDay"); value.Exists() {
+			if value := res.Get("startDay"); value.Exists() && value.Value() != nil {
 				data.StartDay = types.StringValue(value.String())
 			} else {
 				data.StartDay = types.StringNull()
 			}
-			if value := res.Get("startTime"); value.Exists() {
+			if value := res.Get("startTime"); value.Exists() && value.Value() != nil {
 				data.StartTime = types.StringValue(value.String())
 			} else {
 				data.StartTime = types.StringNull()
@@ -147,17 +147,17 @@ func (data *WirelessSSIDSchedules) fromBody(ctx context.Context, res gjson.Resul
 			return true
 		})
 	}
-	if value := res.Get("rangesInSeconds"); value.Exists() {
+	if value := res.Get("rangesInSeconds"); value.Exists() && value.Value() != nil {
 		data.RangesInSeconds = make([]WirelessSSIDSchedulesRangesInSeconds, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDSchedulesRangesInSeconds{}
-			if value := res.Get("end"); value.Exists() {
+			if value := res.Get("end"); value.Exists() && value.Value() != nil {
 				data.End = types.Int64Value(value.Int())
 			} else {
 				data.End = types.Int64Null()
 			}
-			if value := res.Get("start"); value.Exists() {
+			if value := res.Get("start"); value.Exists() && value.Value() != nil {
 				data.Start = types.Int64Value(value.Int())
 			} else {
 				data.Start = types.Int64Null()

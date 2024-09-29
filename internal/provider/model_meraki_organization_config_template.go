@@ -71,12 +71,12 @@ func (data OrganizationConfigTemplate) toBody(ctx context.Context, state Organiz
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationConfigTemplate) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("timeZone"); value.Exists() {
+	if value := res.Get("timeZone"); value.Exists() && value.Value() != nil {
 		data.TimeZone = types.StringValue(value.String())
 	} else {
 		data.TimeZone = types.StringNull()

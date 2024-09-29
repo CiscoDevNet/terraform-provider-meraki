@@ -67,12 +67,12 @@ func (data SwitchRoutingMulticastRendezvousPoint) toBody(ctx context.Context, st
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchRoutingMulticastRendezvousPoint) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("interfaceIp"); value.Exists() {
+	if value := res.Get("interfaceIp"); value.Exists() && value.Value() != nil {
 		data.InterfaceIp = types.StringValue(value.String())
 	} else {
 		data.InterfaceIp = types.StringNull()
 	}
-	if value := res.Get("multicastGroup"); value.Exists() {
+	if value := res.Get("multicastGroup"); value.Exists() && value.Value() != nil {
 		data.MulticastGroup = types.StringValue(value.String())
 	} else {
 		data.MulticastGroup = types.StringNull()

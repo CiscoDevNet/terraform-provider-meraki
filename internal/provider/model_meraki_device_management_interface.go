@@ -120,72 +120,72 @@ func (data DeviceManagementInterface) toBody(ctx context.Context, state DeviceMa
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DeviceManagementInterface) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("wan1.staticGatewayIp"); value.Exists() {
+	if value := res.Get("wan1.staticGatewayIp"); value.Exists() && value.Value() != nil {
 		data.Wan1StaticGatewayIp = types.StringValue(value.String())
 	} else {
 		data.Wan1StaticGatewayIp = types.StringNull()
 	}
-	if value := res.Get("wan1.staticIp"); value.Exists() {
+	if value := res.Get("wan1.staticIp"); value.Exists() && value.Value() != nil {
 		data.Wan1StaticIp = types.StringValue(value.String())
 	} else {
 		data.Wan1StaticIp = types.StringNull()
 	}
-	if value := res.Get("wan1.staticSubnetMask"); value.Exists() {
+	if value := res.Get("wan1.staticSubnetMask"); value.Exists() && value.Value() != nil {
 		data.Wan1StaticSubnetMask = types.StringValue(value.String())
 	} else {
 		data.Wan1StaticSubnetMask = types.StringNull()
 	}
-	if value := res.Get("wan1.usingStaticIp"); value.Exists() {
+	if value := res.Get("wan1.usingStaticIp"); value.Exists() && value.Value() != nil {
 		data.Wan1UsingStaticIp = types.BoolValue(value.Bool())
 	} else {
 		data.Wan1UsingStaticIp = types.BoolNull()
 	}
-	if value := res.Get("wan1.vlan"); value.Exists() {
+	if value := res.Get("wan1.vlan"); value.Exists() && value.Value() != nil {
 		data.Wan1Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Wan1Vlan = types.Int64Null()
 	}
-	if value := res.Get("wan1.wanEnabled"); value.Exists() {
+	if value := res.Get("wan1.wanEnabled"); value.Exists() && value.Value() != nil {
 		data.Wan1WanEnabled = types.StringValue(value.String())
 	} else {
 		data.Wan1WanEnabled = types.StringNull()
 	}
-	if value := res.Get("wan1.staticDns"); value.Exists() {
+	if value := res.Get("wan1.staticDns"); value.Exists() && value.Value() != nil {
 		data.Wan1StaticDns = helpers.GetStringList(value.Array())
 	} else {
 		data.Wan1StaticDns = types.ListNull(types.StringType)
 	}
-	if value := res.Get("wan2.staticGatewayIp"); value.Exists() {
+	if value := res.Get("wan2.staticGatewayIp"); value.Exists() && value.Value() != nil {
 		data.Wan2StaticGatewayIp = types.StringValue(value.String())
 	} else {
 		data.Wan2StaticGatewayIp = types.StringNull()
 	}
-	if value := res.Get("wan2.staticIp"); value.Exists() {
+	if value := res.Get("wan2.staticIp"); value.Exists() && value.Value() != nil {
 		data.Wan2StaticIp = types.StringValue(value.String())
 	} else {
 		data.Wan2StaticIp = types.StringNull()
 	}
-	if value := res.Get("wan2.staticSubnetMask"); value.Exists() {
+	if value := res.Get("wan2.staticSubnetMask"); value.Exists() && value.Value() != nil {
 		data.Wan2StaticSubnetMask = types.StringValue(value.String())
 	} else {
 		data.Wan2StaticSubnetMask = types.StringNull()
 	}
-	if value := res.Get("wan2.usingStaticIp"); value.Exists() {
+	if value := res.Get("wan2.usingStaticIp"); value.Exists() && value.Value() != nil {
 		data.Wan2UsingStaticIp = types.BoolValue(value.Bool())
 	} else {
 		data.Wan2UsingStaticIp = types.BoolNull()
 	}
-	if value := res.Get("wan2.vlan"); value.Exists() {
+	if value := res.Get("wan2.vlan"); value.Exists() && value.Value() != nil {
 		data.Wan2Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Wan2Vlan = types.Int64Null()
 	}
-	if value := res.Get("wan2.wanEnabled"); value.Exists() {
+	if value := res.Get("wan2.wanEnabled"); value.Exists() && value.Value() != nil {
 		data.Wan2WanEnabled = types.StringValue(value.String())
 	} else {
 		data.Wan2WanEnabled = types.StringNull()
 	}
-	if value := res.Get("wan2.staticDns"); value.Exists() {
+	if value := res.Get("wan2.staticDns"); value.Exists() && value.Value() != nil {
 		data.Wan2StaticDns = helpers.GetStringList(value.Array())
 	} else {
 		data.Wan2StaticDns = types.ListNull(types.StringType)

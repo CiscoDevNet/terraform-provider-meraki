@@ -105,37 +105,37 @@ func (data NetworkMerakiAuthUser) toBody(ctx context.Context, state NetworkMerak
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkMerakiAuthUser) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("accountType"); value.Exists() {
+	if value := res.Get("accountType"); value.Exists() && value.Value() != nil {
 		data.AccountType = types.StringValue(value.String())
 	} else {
 		data.AccountType = types.StringNull()
 	}
-	if value := res.Get("email"); value.Exists() {
+	if value := res.Get("email"); value.Exists() && value.Value() != nil {
 		data.Email = types.StringValue(value.String())
 	} else {
 		data.Email = types.StringNull()
 	}
-	if value := res.Get("isAdmin"); value.Exists() {
+	if value := res.Get("isAdmin"); value.Exists() && value.Value() != nil {
 		data.IsAdmin = types.BoolValue(value.Bool())
 	} else {
 		data.IsAdmin = types.BoolNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("authorizations"); value.Exists() {
+	if value := res.Get("authorizations"); value.Exists() && value.Value() != nil {
 		data.Authorizations = make([]NetworkMerakiAuthUserAuthorizations, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkMerakiAuthUserAuthorizations{}
-			if value := res.Get("expiresAt"); value.Exists() {
+			if value := res.Get("expiresAt"); value.Exists() && value.Value() != nil {
 				data.ExpiresAt = types.StringValue(value.String())
 			} else {
 				data.ExpiresAt = types.StringNull()
 			}
-			if value := res.Get("ssidNumber"); value.Exists() {
+			if value := res.Get("ssidNumber"); value.Exists() && value.Value() != nil {
 				data.SsidNumber = types.Int64Value(value.Int())
 			} else {
 				data.SsidNumber = types.Int64Null()

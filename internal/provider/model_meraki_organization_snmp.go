@@ -90,27 +90,27 @@ func (data OrganizationSNMP) toBody(ctx context.Context, state OrganizationSNMP)
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationSNMP) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("v2cEnabled"); value.Exists() {
+	if value := res.Get("v2cEnabled"); value.Exists() && value.Value() != nil {
 		data.V2cEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.V2cEnabled = types.BoolNull()
 	}
-	if value := res.Get("v3AuthMode"); value.Exists() {
+	if value := res.Get("v3AuthMode"); value.Exists() && value.Value() != nil {
 		data.V3AuthMode = types.StringValue(value.String())
 	} else {
 		data.V3AuthMode = types.StringNull()
 	}
-	if value := res.Get("v3Enabled"); value.Exists() {
+	if value := res.Get("v3Enabled"); value.Exists() && value.Value() != nil {
 		data.V3Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.V3Enabled = types.BoolNull()
 	}
-	if value := res.Get("v3PrivMode"); value.Exists() {
+	if value := res.Get("v3PrivMode"); value.Exists() && value.Value() != nil {
 		data.V3PrivMode = types.StringValue(value.String())
 	} else {
 		data.V3PrivMode = types.StringNull()
 	}
-	if value := res.Get("peerIps"); value.Exists() {
+	if value := res.Get("peerIps"); value.Exists() && value.Value() != nil {
 		data.PeerIps = helpers.GetStringSet(value.Array())
 	} else {
 		data.PeerIps = types.SetNull(types.StringType)

@@ -5,6 +5,7 @@ put_create: true
 no_delete: true
 doc_category: Wireless
 test_variables: [test_org, test_network]
+ignore_attributes: [id]
 attributes:
   - tf_name: network_id
     type: String
@@ -23,11 +24,6 @@ attributes:
     description: Array of billing plans in the node group. (Can configure a maximum of 5)
     ordered_list: true
     attributes:
-      - model_name: id
-        type: String
-        exclude_test: true
-        description: The id of the pricing plan to update.
-        example: "1"
       - model_name: price
         type: Float64
         mandatory: true

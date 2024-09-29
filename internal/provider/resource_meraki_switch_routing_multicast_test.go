@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -49,6 +51,14 @@ func TestAccMerakiSwitchRoutingMulticast(t *testing.T) {
 		Config: testAccMerakiSwitchRoutingMulticastPrerequisitesConfig + testAccMerakiSwitchRoutingMulticastConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_switch_routing_multicast.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiSwitchRoutingMulticastImportStateIdFunc("meraki_switch_routing_multicast.test"),
+		ImportStateVerifyIgnore: []string{},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -58,6 +68,19 @@ func TestAccMerakiSwitchRoutingMulticast(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiSwitchRoutingMulticastImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		NetworkId := primary.Attributes["network_id"]
+
+		return fmt.Sprintf("%s", NetworkId), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 

@@ -41,7 +41,6 @@ type WirelessBilling struct {
 }
 
 type WirelessBillingPlans struct {
-	Id                       types.String  `tfsdk:"id"`
 	Price                    types.Float64 `tfsdk:"price"`
 	TimeLimit                types.String  `tfsdk:"time_limit"`
 	BandwidthLimitsLimitDown types.Int64   `tfsdk:"bandwidth_limits_limit_down"`
@@ -69,9 +68,6 @@ func (data WirelessBilling) toBody(ctx context.Context, state WirelessBilling) s
 		body, _ = sjson.Set(body, "plans", []interface{}{})
 		for _, item := range data.Plans {
 			itemBody := ""
-			if !item.Id.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "id", item.Id.ValueString())
-			}
 			if !item.Price.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "price", item.Price.ValueFloat64())
 			}
@@ -95,37 +91,32 @@ func (data WirelessBilling) toBody(ctx context.Context, state WirelessBilling) s
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessBilling) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("currency"); value.Exists() {
+	if value := res.Get("currency"); value.Exists() && value.Value() != nil {
 		data.Currency = types.StringValue(value.String())
 	} else {
 		data.Currency = types.StringNull()
 	}
-	if value := res.Get("plans"); value.Exists() {
+	if value := res.Get("plans"); value.Exists() && value.Value() != nil {
 		data.Plans = make([]WirelessBillingPlans, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessBillingPlans{}
-			if value := res.Get("id"); value.Exists() {
-				data.Id = types.StringValue(value.String())
-			} else {
-				data.Id = types.StringNull()
-			}
-			if value := res.Get("price"); value.Exists() {
+			if value := res.Get("price"); value.Exists() && value.Value() != nil {
 				data.Price = types.Float64Value(value.Float())
 			} else {
 				data.Price = types.Float64Null()
 			}
-			if value := res.Get("timeLimit"); value.Exists() {
+			if value := res.Get("timeLimit"); value.Exists() && value.Value() != nil {
 				data.TimeLimit = types.StringValue(value.String())
 			} else {
 				data.TimeLimit = types.StringNull()
 			}
-			if value := res.Get("bandwidthLimits.limitDown"); value.Exists() {
+			if value := res.Get("bandwidthLimits.limitDown"); value.Exists() && value.Value() != nil {
 				data.BandwidthLimitsLimitDown = types.Int64Value(value.Int())
 			} else {
 				data.BandwidthLimitsLimitDown = types.Int64Null()
 			}
-			if value := res.Get("bandwidthLimits.limitUp"); value.Exists() {
+			if value := res.Get("bandwidthLimits.limitUp"); value.Exists() && value.Value() != nil {
 				data.BandwidthLimitsLimitUp = types.Int64Value(value.Int())
 			} else {
 				data.BandwidthLimitsLimitUp = types.Int64Null()
@@ -162,11 +153,6 @@ func (data *WirelessBilling) fromBodyPartial(ctx context.Context, res gjson.Resu
 		data := (*parent).Plans[i]
 		parentRes := &res
 		res := parentRes.Get(fmt.Sprintf("plans.%d", i))
-		if value := res.Get("id"); value.Exists() && !data.Id.IsNull() {
-			data.Id = types.StringValue(value.String())
-		} else {
-			data.Id = types.StringNull()
-		}
 		if value := res.Get("price"); value.Exists() && !data.Price.IsNull() {
 			data.Price = types.Float64Value(value.Float())
 		} else {

@@ -349,52 +349,52 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("splashAuthSettings"); value.Exists() {
+	if value := res.Get("splashAuthSettings"); value.Exists() && value.Value() != nil {
 		data.SplashAuthSettings = types.StringValue(value.String())
 	} else {
 		data.SplashAuthSettings = types.StringNull()
 	}
-	if value := res.Get("bandwidth.settings"); value.Exists() {
+	if value := res.Get("bandwidth.settings"); value.Exists() && value.Value() != nil {
 		data.BandwidthSettings = types.StringValue(value.String())
 	} else {
 		data.BandwidthSettings = types.StringNull()
 	}
-	if value := res.Get("bandwidth.bandwidthLimits.limitDown"); value.Exists() {
+	if value := res.Get("bandwidth.bandwidthLimits.limitDown"); value.Exists() && value.Value() != nil {
 		data.BandwidthLimitDown = types.Int64Value(value.Int())
 	} else {
 		data.BandwidthLimitDown = types.Int64Null()
 	}
-	if value := res.Get("bandwidth.bandwidthLimits.limitUp"); value.Exists() {
+	if value := res.Get("bandwidth.bandwidthLimits.limitUp"); value.Exists() && value.Value() != nil {
 		data.BandwidthLimitUp = types.Int64Value(value.Int())
 	} else {
 		data.BandwidthLimitUp = types.Int64Null()
 	}
-	if value := res.Get("bonjourForwarding.settings"); value.Exists() {
+	if value := res.Get("bonjourForwarding.settings"); value.Exists() && value.Value() != nil {
 		data.BonjourForwardingSettings = types.StringValue(value.String())
 	} else {
 		data.BonjourForwardingSettings = types.StringNull()
 	}
-	if value := res.Get("bonjourForwarding.rules"); value.Exists() {
+	if value := res.Get("bonjourForwarding.rules"); value.Exists() && value.Value() != nil {
 		data.BonjourForwardingRules = make([]NetworkGroupPolicyBonjourForwardingRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkGroupPolicyBonjourForwardingRules{}
-			if value := res.Get("description"); value.Exists() {
+			if value := res.Get("description"); value.Exists() && value.Value() != nil {
 				data.Description = types.StringValue(value.String())
 			} else {
 				data.Description = types.StringNull()
 			}
-			if value := res.Get("vlanId"); value.Exists() {
+			if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 				data.VlanId = types.StringValue(value.String())
 			} else {
 				data.VlanId = types.StringNull()
 			}
-			if value := res.Get("services"); value.Exists() {
+			if value := res.Get("services"); value.Exists() && value.Value() != nil {
 				data.Services = helpers.GetStringSet(value.Array())
 			} else {
 				data.Services = types.SetNull(types.StringType)
@@ -403,67 +403,67 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get("contentFiltering.allowedUrlPatterns.settings"); value.Exists() {
+	if value := res.Get("contentFiltering.allowedUrlPatterns.settings"); value.Exists() && value.Value() != nil {
 		data.ContentFilteringAllowedUrlPatternsSettings = types.StringValue(value.String())
 	} else {
 		data.ContentFilteringAllowedUrlPatternsSettings = types.StringNull()
 	}
-	if value := res.Get("contentFiltering.allowedUrlPatterns.patterns"); value.Exists() {
+	if value := res.Get("contentFiltering.allowedUrlPatterns.patterns"); value.Exists() && value.Value() != nil {
 		data.ContentFilteringAllowedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
 		data.ContentFilteringAllowedUrlPatterns = types.SetNull(types.StringType)
 	}
-	if value := res.Get("contentFiltering.blockedUrlCategories.settings"); value.Exists() {
+	if value := res.Get("contentFiltering.blockedUrlCategories.settings"); value.Exists() && value.Value() != nil {
 		data.ContentFilteringBlockedUrlCategoriesSettings = types.StringValue(value.String())
 	} else {
 		data.ContentFilteringBlockedUrlCategoriesSettings = types.StringNull()
 	}
-	if value := res.Get("contentFiltering.blockedUrlCategories.categories"); value.Exists() {
+	if value := res.Get("contentFiltering.blockedUrlCategories.categories"); value.Exists() && value.Value() != nil {
 		data.ContentFilteringBlockedUrlCategories = helpers.GetStringSet(value.Array())
 	} else {
 		data.ContentFilteringBlockedUrlCategories = types.SetNull(types.StringType)
 	}
-	if value := res.Get("contentFiltering.blockedUrlPatterns.settings"); value.Exists() {
+	if value := res.Get("contentFiltering.blockedUrlPatterns.settings"); value.Exists() && value.Value() != nil {
 		data.ContentFilteringBlockedUrlPatternsSettings = types.StringValue(value.String())
 	} else {
 		data.ContentFilteringBlockedUrlPatternsSettings = types.StringNull()
 	}
-	if value := res.Get("contentFiltering.blockedUrlPatterns.patterns"); value.Exists() {
+	if value := res.Get("contentFiltering.blockedUrlPatterns.patterns"); value.Exists() && value.Value() != nil {
 		data.ContentFilteringBlockedUrlPatterns = helpers.GetStringSet(value.Array())
 	} else {
 		data.ContentFilteringBlockedUrlPatterns = types.SetNull(types.StringType)
 	}
-	if value := res.Get("firewallAndTrafficShaping.settings"); value.Exists() {
+	if value := res.Get("firewallAndTrafficShaping.settings"); value.Exists() && value.Value() != nil {
 		data.FirewallAndTrafficShapingSettings = types.StringValue(value.String())
 	} else {
 		data.FirewallAndTrafficShapingSettings = types.StringNull()
 	}
-	if value := res.Get("firewallAndTrafficShaping.l3FirewallRules"); value.Exists() {
+	if value := res.Get("firewallAndTrafficShaping.l3FirewallRules"); value.Exists() && value.Value() != nil {
 		data.L3FirewallRules = make([]NetworkGroupPolicyL3FirewallRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkGroupPolicyL3FirewallRules{}
-			if value := res.Get("comment"); value.Exists() {
+			if value := res.Get("comment"); value.Exists() && value.Value() != nil {
 				data.Comment = types.StringValue(value.String())
 			} else {
 				data.Comment = types.StringNull()
 			}
-			if value := res.Get("destCidr"); value.Exists() {
+			if value := res.Get("destCidr"); value.Exists() && value.Value() != nil {
 				data.DestCidr = types.StringValue(value.String())
 			} else {
 				data.DestCidr = types.StringNull()
 			}
-			if value := res.Get("destPort"); value.Exists() {
+			if value := res.Get("destPort"); value.Exists() && value.Value() != nil {
 				data.DestPort = types.StringValue(value.String())
 			} else {
 				data.DestPort = types.StringNull()
 			}
-			if value := res.Get("policy"); value.Exists() {
+			if value := res.Get("policy"); value.Exists() && value.Value() != nil {
 				data.Policy = types.StringValue(value.String())
 			} else {
 				data.Policy = types.StringNull()
 			}
-			if value := res.Get("protocol"); value.Exists() {
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
 				data.Protocol = types.StringValue(value.String())
 			} else {
 				data.Protocol = types.StringNull()
@@ -472,22 +472,22 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get("firewallAndTrafficShaping.l7FirewallRules"); value.Exists() {
+	if value := res.Get("firewallAndTrafficShaping.l7FirewallRules"); value.Exists() && value.Value() != nil {
 		data.L7FirewallRules = make([]NetworkGroupPolicyL7FirewallRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkGroupPolicyL7FirewallRules{}
-			if value := res.Get("policy"); value.Exists() {
+			if value := res.Get("policy"); value.Exists() && value.Value() != nil {
 				data.Policy = types.StringValue(value.String())
 			} else {
 				data.Policy = types.StringNull()
 			}
-			if value := res.Get("type"); value.Exists() {
+			if value := res.Get("type"); value.Exists() && value.Value() != nil {
 				data.Type = types.StringValue(value.String())
 			} else {
 				data.Type = types.StringNull()
 			}
-			if value := res.Get("value"); value.Exists() {
+			if value := res.Get("value"); value.Exists() && value.Value() != nil {
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()
@@ -496,47 +496,47 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get("firewallAndTrafficShaping.trafficShapingRules"); value.Exists() {
+	if value := res.Get("firewallAndTrafficShaping.trafficShapingRules"); value.Exists() && value.Value() != nil {
 		data.TrafficShapingRules = make([]NetworkGroupPolicyTrafficShapingRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkGroupPolicyTrafficShapingRules{}
-			if value := res.Get("dscpTagValue"); value.Exists() {
+			if value := res.Get("dscpTagValue"); value.Exists() && value.Value() != nil {
 				data.DscpTagValue = types.Int64Value(value.Int())
 			} else {
 				data.DscpTagValue = types.Int64Null()
 			}
-			if value := res.Get("pcpTagValue"); value.Exists() {
+			if value := res.Get("pcpTagValue"); value.Exists() && value.Value() != nil {
 				data.PcpTagValue = types.Int64Value(value.Int())
 			} else {
 				data.PcpTagValue = types.Int64Null()
 			}
-			if value := res.Get("perClientBandwidthLimits.settings"); value.Exists() {
+			if value := res.Get("perClientBandwidthLimits.settings"); value.Exists() && value.Value() != nil {
 				data.PerClientBandwidthLimitsSettings = types.StringValue(value.String())
 			} else {
 				data.PerClientBandwidthLimitsSettings = types.StringNull()
 			}
-			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitDown"); value.Exists() {
+			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitDown"); value.Exists() && value.Value() != nil {
 				data.PerClientBandwidthLimitsBandwidthLimitsLimitDown = types.Int64Value(value.Int())
 			} else {
 				data.PerClientBandwidthLimitsBandwidthLimitsLimitDown = types.Int64Null()
 			}
-			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitUp"); value.Exists() {
+			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitUp"); value.Exists() && value.Value() != nil {
 				data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Value(value.Int())
 			} else {
 				data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Null()
 			}
-			if value := res.Get("definitions"); value.Exists() {
+			if value := res.Get("definitions"); value.Exists() && value.Value() != nil {
 				data.Definitions = make([]NetworkGroupPolicyTrafficShapingRulesDefinitions, 0)
 				value.ForEach(func(k, res gjson.Result) bool {
 					parent := &data
 					data := NetworkGroupPolicyTrafficShapingRulesDefinitions{}
-					if value := res.Get("type"); value.Exists() {
+					if value := res.Get("type"); value.Exists() && value.Value() != nil {
 						data.Type = types.StringValue(value.String())
 					} else {
 						data.Type = types.StringNull()
 					}
-					if value := res.Get("value"); value.Exists() {
+					if value := res.Get("value"); value.Exists() && value.Value() != nil {
 						data.Value = types.StringValue(value.String())
 					} else {
 						data.Value = types.StringNull()
@@ -549,122 +549,122 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res gjson.Result) 
 			return true
 		})
 	}
-	if value := res.Get("scheduling.enabled"); value.Exists() {
+	if value := res.Get("scheduling.enabled"); value.Exists() && value.Value() != nil {
 		data.SchedulingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.SchedulingEnabled = types.BoolNull()
 	}
-	if value := res.Get("scheduling.friday.active"); value.Exists() {
+	if value := res.Get("scheduling.friday.active"); value.Exists() && value.Value() != nil {
 		data.SchedulingFridayActive = types.BoolValue(value.Bool())
 	} else {
 		data.SchedulingFridayActive = types.BoolNull()
 	}
-	if value := res.Get("scheduling.friday.from"); value.Exists() {
+	if value := res.Get("scheduling.friday.from"); value.Exists() && value.Value() != nil {
 		data.SchedulingFridayFrom = types.StringValue(value.String())
 	} else {
 		data.SchedulingFridayFrom = types.StringNull()
 	}
-	if value := res.Get("scheduling.friday.to"); value.Exists() {
+	if value := res.Get("scheduling.friday.to"); value.Exists() && value.Value() != nil {
 		data.SchedulingFridayTo = types.StringValue(value.String())
 	} else {
 		data.SchedulingFridayTo = types.StringNull()
 	}
-	if value := res.Get("scheduling.monday.active"); value.Exists() {
+	if value := res.Get("scheduling.monday.active"); value.Exists() && value.Value() != nil {
 		data.SchedulingMondayActive = types.BoolValue(value.Bool())
 	} else {
 		data.SchedulingMondayActive = types.BoolNull()
 	}
-	if value := res.Get("scheduling.monday.from"); value.Exists() {
+	if value := res.Get("scheduling.monday.from"); value.Exists() && value.Value() != nil {
 		data.SchedulingMondayFrom = types.StringValue(value.String())
 	} else {
 		data.SchedulingMondayFrom = types.StringNull()
 	}
-	if value := res.Get("scheduling.monday.to"); value.Exists() {
+	if value := res.Get("scheduling.monday.to"); value.Exists() && value.Value() != nil {
 		data.SchedulingMondayTo = types.StringValue(value.String())
 	} else {
 		data.SchedulingMondayTo = types.StringNull()
 	}
-	if value := res.Get("scheduling.saturday.active"); value.Exists() {
+	if value := res.Get("scheduling.saturday.active"); value.Exists() && value.Value() != nil {
 		data.SchedulingSaturdayActive = types.BoolValue(value.Bool())
 	} else {
 		data.SchedulingSaturdayActive = types.BoolNull()
 	}
-	if value := res.Get("scheduling.saturday.from"); value.Exists() {
+	if value := res.Get("scheduling.saturday.from"); value.Exists() && value.Value() != nil {
 		data.SchedulingSaturdayFrom = types.StringValue(value.String())
 	} else {
 		data.SchedulingSaturdayFrom = types.StringNull()
 	}
-	if value := res.Get("scheduling.saturday.to"); value.Exists() {
+	if value := res.Get("scheduling.saturday.to"); value.Exists() && value.Value() != nil {
 		data.SchedulingSaturdayTo = types.StringValue(value.String())
 	} else {
 		data.SchedulingSaturdayTo = types.StringNull()
 	}
-	if value := res.Get("scheduling.sunday.active"); value.Exists() {
+	if value := res.Get("scheduling.sunday.active"); value.Exists() && value.Value() != nil {
 		data.SchedulingSundayActive = types.BoolValue(value.Bool())
 	} else {
 		data.SchedulingSundayActive = types.BoolNull()
 	}
-	if value := res.Get("scheduling.sunday.from"); value.Exists() {
+	if value := res.Get("scheduling.sunday.from"); value.Exists() && value.Value() != nil {
 		data.SchedulingSundayFrom = types.StringValue(value.String())
 	} else {
 		data.SchedulingSundayFrom = types.StringNull()
 	}
-	if value := res.Get("scheduling.sunday.to"); value.Exists() {
+	if value := res.Get("scheduling.sunday.to"); value.Exists() && value.Value() != nil {
 		data.SchedulingSundayTo = types.StringValue(value.String())
 	} else {
 		data.SchedulingSundayTo = types.StringNull()
 	}
-	if value := res.Get("scheduling.thursday.active"); value.Exists() {
+	if value := res.Get("scheduling.thursday.active"); value.Exists() && value.Value() != nil {
 		data.SchedulingThursdayActive = types.BoolValue(value.Bool())
 	} else {
 		data.SchedulingThursdayActive = types.BoolNull()
 	}
-	if value := res.Get("scheduling.thursday.from"); value.Exists() {
+	if value := res.Get("scheduling.thursday.from"); value.Exists() && value.Value() != nil {
 		data.SchedulingThursdayFrom = types.StringValue(value.String())
 	} else {
 		data.SchedulingThursdayFrom = types.StringNull()
 	}
-	if value := res.Get("scheduling.thursday.to"); value.Exists() {
+	if value := res.Get("scheduling.thursday.to"); value.Exists() && value.Value() != nil {
 		data.SchedulingThursdayTo = types.StringValue(value.String())
 	} else {
 		data.SchedulingThursdayTo = types.StringNull()
 	}
-	if value := res.Get("scheduling.tuesday.active"); value.Exists() {
+	if value := res.Get("scheduling.tuesday.active"); value.Exists() && value.Value() != nil {
 		data.SchedulingTuesdayActive = types.BoolValue(value.Bool())
 	} else {
 		data.SchedulingTuesdayActive = types.BoolNull()
 	}
-	if value := res.Get("scheduling.tuesday.from"); value.Exists() {
+	if value := res.Get("scheduling.tuesday.from"); value.Exists() && value.Value() != nil {
 		data.SchedulingTuesdayFrom = types.StringValue(value.String())
 	} else {
 		data.SchedulingTuesdayFrom = types.StringNull()
 	}
-	if value := res.Get("scheduling.tuesday.to"); value.Exists() {
+	if value := res.Get("scheduling.tuesday.to"); value.Exists() && value.Value() != nil {
 		data.SchedulingTuesdayTo = types.StringValue(value.String())
 	} else {
 		data.SchedulingTuesdayTo = types.StringNull()
 	}
-	if value := res.Get("scheduling.wednesday.active"); value.Exists() {
+	if value := res.Get("scheduling.wednesday.active"); value.Exists() && value.Value() != nil {
 		data.SchedulingWednesdayActive = types.BoolValue(value.Bool())
 	} else {
 		data.SchedulingWednesdayActive = types.BoolNull()
 	}
-	if value := res.Get("scheduling.wednesday.from"); value.Exists() {
+	if value := res.Get("scheduling.wednesday.from"); value.Exists() && value.Value() != nil {
 		data.SchedulingWednesdayFrom = types.StringValue(value.String())
 	} else {
 		data.SchedulingWednesdayFrom = types.StringNull()
 	}
-	if value := res.Get("scheduling.wednesday.to"); value.Exists() {
+	if value := res.Get("scheduling.wednesday.to"); value.Exists() && value.Value() != nil {
 		data.SchedulingWednesdayTo = types.StringValue(value.String())
 	} else {
 		data.SchedulingWednesdayTo = types.StringNull()
 	}
-	if value := res.Get("vlanTagging.settings"); value.Exists() {
+	if value := res.Get("vlanTagging.settings"); value.Exists() && value.Value() != nil {
 		data.VlanTaggingSettings = types.StringValue(value.String())
 	} else {
 		data.VlanTaggingSettings = types.StringNull()
 	}
-	if value := res.Get("vlanTagging.vlanId"); value.Exists() {
+	if value := res.Get("vlanTagging.vlanId"); value.Exists() && value.Value() != nil {
 		data.VlanTaggingVlanId = types.StringValue(value.String())
 	} else {
 		data.VlanTaggingVlanId = types.StringNull()

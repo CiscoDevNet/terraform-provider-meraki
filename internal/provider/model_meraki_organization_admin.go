@@ -115,37 +115,37 @@ func (data OrganizationAdmin) toBody(ctx context.Context, state OrganizationAdmi
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationAdmin) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("authenticationMethod"); value.Exists() {
+	if value := res.Get("authenticationMethod"); value.Exists() && value.Value() != nil {
 		data.AuthenticationMethod = types.StringValue(value.String())
 	} else {
 		data.AuthenticationMethod = types.StringNull()
 	}
-	if value := res.Get("email"); value.Exists() {
+	if value := res.Get("email"); value.Exists() && value.Value() != nil {
 		data.Email = types.StringValue(value.String())
 	} else {
 		data.Email = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("orgAccess"); value.Exists() {
+	if value := res.Get("orgAccess"); value.Exists() && value.Value() != nil {
 		data.OrgAccess = types.StringValue(value.String())
 	} else {
 		data.OrgAccess = types.StringNull()
 	}
-	if value := res.Get("networks"); value.Exists() {
+	if value := res.Get("networks"); value.Exists() && value.Value() != nil {
 		data.Networks = make([]OrganizationAdminNetworks, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationAdminNetworks{}
-			if value := res.Get("access"); value.Exists() {
+			if value := res.Get("access"); value.Exists() && value.Value() != nil {
 				data.Access = types.StringValue(value.String())
 			} else {
 				data.Access = types.StringNull()
 			}
-			if value := res.Get("id"); value.Exists() {
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
 				data.Id = types.StringValue(value.String())
 			} else {
 				data.Id = types.StringNull()
@@ -154,17 +154,17 @@ func (data *OrganizationAdmin) fromBody(ctx context.Context, res gjson.Result) {
 			return true
 		})
 	}
-	if value := res.Get("tags"); value.Exists() {
+	if value := res.Get("tags"); value.Exists() && value.Value() != nil {
 		data.Tags = make([]OrganizationAdminTags, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationAdminTags{}
-			if value := res.Get("access"); value.Exists() {
+			if value := res.Get("access"); value.Exists() && value.Value() != nil {
 				data.Access = types.StringValue(value.String())
 			} else {
 				data.Access = types.StringNull()
 			}
-			if value := res.Get("tag"); value.Exists() {
+			if value := res.Get("tag"); value.Exists() && value.Value() != nil {
 				data.Tag = types.StringValue(value.String())
 			} else {
 				data.Tag = types.StringNull()

@@ -65,75 +65,77 @@ type YamlConfigP struct {
 }
 
 type YamlConfigAttribute struct {
-	ModelName        string                `yaml:"model_name,omitempty"`
-	TfName           string                `yaml:"tf_name,omitempty"`
-	Type             string                `yaml:"type,omitempty"`
-	ElementType      string                `yaml:"element_type,omitempty"`
-	DataPath         []string              `yaml:"data_path,omitempty,flow"`
-	Id               bool                  `yaml:"id,omitempty"`
-	Reference        bool                  `yaml:"reference,omitempty"`
-	RequiresReplace  bool                  `yaml:"requires_replace,omitempty"`
-	Mandatory        bool                  `yaml:"mandatory,omitempty"`
-	WriteOnly        bool                  `yaml:"write_only,omitempty"`
-	WriteChangesOnly bool                  `yaml:"write_changes_only,omitempty"`
-	ExcludeTest      bool                  `yaml:"exclude_test,omitempty"`
-	ExcludeExample   bool                  `yaml:"exclude_example,omitempty"`
-	Description      string                `yaml:"description,omitempty"`
-	Example          string                `yaml:"example,omitempty"`
-	EnumValues       []string              `yaml:"enum_values,omitempty,flow"`
-	MinList          int64                 `yaml:"min_list,omitempty"`
-	MaxList          int64                 `yaml:"max_list,omitempty"`
-	MinInt           int64                 `yaml:"min_int,omitempty"`
-	MaxInt           int64                 `yaml:"max_int,omitempty"`
-	MinFloat         float64               `yaml:"min_float,omitempty"`
-	MaxFloat         float64               `yaml:"max_float,omitempty"`
-	OrderedList      bool                  `yaml:"ordered_list,omitempty"`
-	StringPatterns   []string              `yaml:"string_patterns,omitempty,flow"`
-	StringMinLength  int64                 `yaml:"string_min_length,omitempty"`
-	StringMaxLength  int64                 `yaml:"string_max_length,omitempty"`
-	DefaultValue     string                `yaml:"default_value,omitempty"`
-	Value            string                `yaml:"value,omitempty"`
-	TestValue        string                `yaml:"test_value,omitempty"`
-	MinimumTestValue string                `yaml:"minimum_test_value,omitempty"`
-	TestTags         []string              `yaml:"test_tags,omitempty,flow"`
-	Attributes       []YamlConfigAttribute `yaml:"attributes,omitempty"`
-	GoTypeName       string                `yaml:"gotypename,omitempty"`
+	ModelName          string                `yaml:"model_name,omitempty"`
+	TfName             string                `yaml:"tf_name,omitempty"`
+	Type               string                `yaml:"type,omitempty"`
+	ElementType        string                `yaml:"element_type,omitempty"`
+	DataPath           []string              `yaml:"data_path,omitempty,flow"`
+	Id                 bool                  `yaml:"id,omitempty"`
+	Reference          bool                  `yaml:"reference,omitempty"`
+	RequiresReplace    bool                  `yaml:"requires_replace,omitempty"`
+	Mandatory          bool                  `yaml:"mandatory,omitempty"`
+	WriteOnly          bool                  `yaml:"write_only,omitempty"`
+	WriteChangesOnly   bool                  `yaml:"write_changes_only,omitempty"`
+	ExcludeTest        bool                  `yaml:"exclude_test,omitempty"`
+	ExcludeExample     bool                  `yaml:"exclude_example,omitempty"`
+	AllowImportChanges bool                  `yaml:"allow_import_changes,omitempty"`
+	Description        string                `yaml:"description,omitempty"`
+	Example            string                `yaml:"example,omitempty"`
+	EnumValues         []string              `yaml:"enum_values,omitempty,flow"`
+	MinList            int64                 `yaml:"min_list,omitempty"`
+	MaxList            int64                 `yaml:"max_list,omitempty"`
+	MinInt             int64                 `yaml:"min_int,omitempty"`
+	MaxInt             int64                 `yaml:"max_int,omitempty"`
+	MinFloat           float64               `yaml:"min_float,omitempty"`
+	MaxFloat           float64               `yaml:"max_float,omitempty"`
+	OrderedList        bool                  `yaml:"ordered_list,omitempty"`
+	StringPatterns     []string              `yaml:"string_patterns,omitempty,flow"`
+	StringMinLength    int64                 `yaml:"string_min_length,omitempty"`
+	StringMaxLength    int64                 `yaml:"string_max_length,omitempty"`
+	DefaultValue       string                `yaml:"default_value,omitempty"`
+	Value              string                `yaml:"value,omitempty"`
+	TestValue          string                `yaml:"test_value,omitempty"`
+	MinimumTestValue   string                `yaml:"minimum_test_value,omitempty"`
+	TestTags           []string              `yaml:"test_tags,omitempty,flow"`
+	Attributes         []YamlConfigAttribute `yaml:"attributes,omitempty"`
+	GoTypeName         string                `yaml:"gotypename,omitempty"`
 }
 
 type YamlConfigAttributeP struct {
-	ModelName        *string                 `yaml:"model_name,omitempty"`
-	TfName           *string                 `yaml:"tf_name,omitempty"`
-	Type             *string                 `yaml:"type,omitempty"`
-	ElementType      *string                 `yaml:"element_type,omitempty"`
-	DataPath         *[]string               `yaml:"data_path,omitempty,flow"`
-	Id               *bool                   `yaml:"id,omitempty"`
-	Reference        *bool                   `yaml:"reference,omitempty"`
-	RequiresReplace  *bool                   `yaml:"requires_replace,omitempty"`
-	Mandatory        *bool                   `yaml:"mandatory,omitempty"`
-	WriteOnly        *bool                   `yaml:"write_only,omitempty"`
-	WriteChangesOnly *bool                   `yaml:"write_changes_only,omitempty"`
-	ExcludeTest      *bool                   `yaml:"exclude_test,omitempty"`
-	ExcludeExample   *bool                   `yaml:"exclude_example,omitempty"`
-	Description      *string                 `yaml:"description,omitempty"`
-	Example          *string                 `yaml:"example,omitempty"`
-	EnumValues       *[]string               `yaml:"enum_values,omitempty,flow"`
-	MinList          *int64                  `yaml:"min_list,omitempty"`
-	MaxList          *int64                  `yaml:"max_list,omitempty"`
-	MinInt           *int64                  `yaml:"min_int,omitempty"`
-	MaxInt           *int64                  `yaml:"max_int,omitempty"`
-	MinFloat         *float64                `yaml:"min_float,omitempty"`
-	MaxFloat         *float64                `yaml:"max_float,omitempty"`
-	OrderedList      *bool                   `yaml:"ordered_list,omitempty"`
-	StringPatterns   *[]string               `yaml:"string_patterns,omitempty,flow"`
-	StringMinLength  *int64                  `yaml:"string_min_length,omitempty"`
-	StringMaxLength  *int64                  `yaml:"string_max_length,omitempty"`
-	DefaultValue     *string                 `yaml:"default_value,omitempty"`
-	Value            *string                 `yaml:"value,omitempty"`
-	TestValue        *string                 `yaml:"test_value,omitempty"`
-	MinimumTestValue *string                 `yaml:"minimum_test_value,omitempty"`
-	TestTags         *[]string               `yaml:"test_tags,omitempty,flow"`
-	Attributes       *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
-	GoTypeName       *string                 `yaml:"gotypename,omitempty"`
+	ModelName          *string                 `yaml:"model_name,omitempty"`
+	TfName             *string                 `yaml:"tf_name,omitempty"`
+	Type               *string                 `yaml:"type,omitempty"`
+	ElementType        *string                 `yaml:"element_type,omitempty"`
+	DataPath           *[]string               `yaml:"data_path,omitempty,flow"`
+	Id                 *bool                   `yaml:"id,omitempty"`
+	Reference          *bool                   `yaml:"reference,omitempty"`
+	RequiresReplace    *bool                   `yaml:"requires_replace,omitempty"`
+	Mandatory          *bool                   `yaml:"mandatory,omitempty"`
+	WriteOnly          *bool                   `yaml:"write_only,omitempty"`
+	WriteChangesOnly   *bool                   `yaml:"write_changes_only,omitempty"`
+	ExcludeTest        *bool                   `yaml:"exclude_test,omitempty"`
+	ExcludeExample     *bool                   `yaml:"exclude_example,omitempty"`
+	AllowImportChanges *bool                   `yaml:"allow_import_changes,omitempty"`
+	Description        *string                 `yaml:"description,omitempty"`
+	Example            *string                 `yaml:"example,omitempty"`
+	EnumValues         *[]string               `yaml:"enum_values,omitempty,flow"`
+	MinList            *int64                  `yaml:"min_list,omitempty"`
+	MaxList            *int64                  `yaml:"max_list,omitempty"`
+	MinInt             *int64                  `yaml:"min_int,omitempty"`
+	MaxInt             *int64                  `yaml:"max_int,omitempty"`
+	MinFloat           *float64                `yaml:"min_float,omitempty"`
+	MaxFloat           *float64                `yaml:"max_float,omitempty"`
+	OrderedList        *bool                   `yaml:"ordered_list,omitempty"`
+	StringPatterns     *[]string               `yaml:"string_patterns,omitempty,flow"`
+	StringMinLength    *int64                  `yaml:"string_min_length,omitempty"`
+	StringMaxLength    *int64                  `yaml:"string_max_length,omitempty"`
+	DefaultValue       *string                 `yaml:"default_value,omitempty"`
+	Value              *string                 `yaml:"value,omitempty"`
+	TestValue          *string                 `yaml:"test_value,omitempty"`
+	MinimumTestValue   *string                 `yaml:"minimum_test_value,omitempty"`
+	TestTags           *[]string               `yaml:"test_tags,omitempty,flow"`
+	Attributes         *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
+	GoTypeName         *string                 `yaml:"gotypename,omitempty"`
 }
 
 func P[T any](v T) *T {
@@ -326,29 +328,47 @@ func Iterate(count int) []int {
 	return Items
 }
 
+// GetImportExcludes returns a list of attributes to exclude from import testing
+func GetImportExcludes(attributes []YamlConfigAttribute) []string {
+	var excludes []string
+	for _, attr := range attributes {
+		if attr.WriteOnly || attr.AllowImportChanges {
+			excludes = append(excludes, attr.TfName)
+		}
+		if len(attr.Attributes) > 0 {
+			ca := GetImportExcludes(attr.Attributes)
+			for _, c := range ca {
+				excludes = append(excludes, attr.TfName+".0."+c)
+			}
+		}
+	}
+	return excludes
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
-	"toGoName":        ToGoName,
-	"camelCase":       CamelCase,
-	"snakeCase":       SnakeCase,
-	"sprintf":         fmt.Sprintf,
-	"errorf":          Errorf,
-	"toLower":         strings.ToLower,
-	"path":            BuildPath,
-	"hasId":           HasId,
-	"getId":           GetId,
-	"hasReference":    HasReference,
-	"isListSet":       IsListSet,
-	"isList":          IsList,
-	"isSet":           IsSet,
-	"isStringListSet": IsStringListSet,
-	"isInt64ListSet":  IsInt64ListSet,
-	"isNestedListSet": IsNestedListSet,
-	"isNestedList":    IsNestedList,
-	"isNestedSet":     IsNestedSet,
-	"importParts":     ImportParts,
-	"subtract":        Subtract,
-	"iterate":         Iterate,
+	"toGoName":          ToGoName,
+	"camelCase":         CamelCase,
+	"snakeCase":         SnakeCase,
+	"sprintf":           fmt.Sprintf,
+	"errorf":            Errorf,
+	"toLower":           strings.ToLower,
+	"path":              BuildPath,
+	"hasId":             HasId,
+	"getId":             GetId,
+	"hasReference":      HasReference,
+	"isListSet":         IsListSet,
+	"isList":            IsList,
+	"isSet":             IsSet,
+	"isStringListSet":   IsStringListSet,
+	"isInt64ListSet":    IsInt64ListSet,
+	"isNestedListSet":   IsNestedListSet,
+	"isNestedList":      IsNestedList,
+	"isNestedSet":       IsNestedSet,
+	"importParts":       ImportParts,
+	"subtract":          Subtract,
+	"iterate":           Iterate,
+	"getImportExcludes": GetImportExcludes,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
@@ -604,6 +624,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.ExcludeExample != nil {
 		new.ExcludeExample = existing.ExcludeExample
+	}
+	if existing.AllowImportChanges != nil {
+		new.AllowImportChanges = existing.AllowImportChanges
 	}
 	if existing.Description != nil {
 		new.Description = existing.Description

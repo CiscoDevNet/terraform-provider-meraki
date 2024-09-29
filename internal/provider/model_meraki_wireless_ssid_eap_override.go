@@ -84,32 +84,32 @@ func (data WirelessSSIDEAPOverride) toBody(ctx context.Context, state WirelessSS
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDEAPOverride) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("maxRetries"); value.Exists() {
+	if value := res.Get("maxRetries"); value.Exists() && value.Value() != nil {
 		data.MaxRetries = types.Int64Value(value.Int())
 	} else {
 		data.MaxRetries = types.Int64Null()
 	}
-	if value := res.Get("timeout"); value.Exists() {
+	if value := res.Get("timeout"); value.Exists() && value.Value() != nil {
 		data.Timeout = types.Int64Value(value.Int())
 	} else {
 		data.Timeout = types.Int64Null()
 	}
-	if value := res.Get("eapolKey.retries"); value.Exists() {
+	if value := res.Get("eapolKey.retries"); value.Exists() && value.Value() != nil {
 		data.EapolKeyRetries = types.Int64Value(value.Int())
 	} else {
 		data.EapolKeyRetries = types.Int64Null()
 	}
-	if value := res.Get("eapolKey.timeoutInMs"); value.Exists() {
+	if value := res.Get("eapolKey.timeoutInMs"); value.Exists() && value.Value() != nil {
 		data.EapolKeyTimeoutInMs = types.Int64Value(value.Int())
 	} else {
 		data.EapolKeyTimeoutInMs = types.Int64Null()
 	}
-	if value := res.Get("identity.retries"); value.Exists() {
+	if value := res.Get("identity.retries"); value.Exists() && value.Value() != nil {
 		data.IdentityRetries = types.Int64Value(value.Int())
 	} else {
 		data.IdentityRetries = types.Int64Null()
 	}
-	if value := res.Get("identity.timeout"); value.Exists() {
+	if value := res.Get("identity.timeout"); value.Exists() && value.Value() != nil {
 		data.IdentityTimeout = types.Int64Value(value.Int())
 	} else {
 		data.IdentityTimeout = types.Int64Null()

@@ -187,157 +187,157 @@ func (data WirelessSSIDSplashSettings) toBody(ctx context.Context, state Wireles
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("allowSimultaneousLogins"); value.Exists() {
+	if value := res.Get("allowSimultaneousLogins"); value.Exists() && value.Value() != nil {
 		data.AllowSimultaneousLogins = types.BoolValue(value.Bool())
 	} else {
 		data.AllowSimultaneousLogins = types.BoolNull()
 	}
-	if value := res.Get("blockAllTrafficBeforeSignOn"); value.Exists() {
+	if value := res.Get("blockAllTrafficBeforeSignOn"); value.Exists() && value.Value() != nil {
 		data.BlockAllTrafficBeforeSignOn = types.BoolValue(value.Bool())
 	} else {
 		data.BlockAllTrafficBeforeSignOn = types.BoolNull()
 	}
-	if value := res.Get("controllerDisconnectionBehavior"); value.Exists() {
+	if value := res.Get("controllerDisconnectionBehavior"); value.Exists() && value.Value() != nil {
 		data.ControllerDisconnectionBehavior = types.StringValue(value.String())
 	} else {
 		data.ControllerDisconnectionBehavior = types.StringNull()
 	}
-	if value := res.Get("redirectUrl"); value.Exists() {
+	if value := res.Get("redirectUrl"); value.Exists() && value.Value() != nil {
 		data.RedirectUrl = types.StringValue(value.String())
 	} else {
 		data.RedirectUrl = types.StringNull()
 	}
-	if value := res.Get("splashTimeout"); value.Exists() {
+	if value := res.Get("splashTimeout"); value.Exists() && value.Value() != nil {
 		data.SplashTimeout = types.Int64Value(value.Int())
 	} else {
 		data.SplashTimeout = types.Int64Null()
 	}
-	if value := res.Get("splashUrl"); value.Exists() {
+	if value := res.Get("splashUrl"); value.Exists() && value.Value() != nil {
 		data.SplashUrl = types.StringValue(value.String())
 	} else {
 		data.SplashUrl = types.StringNull()
 	}
-	if value := res.Get("themeId"); value.Exists() {
+	if value := res.Get("themeId"); value.Exists() && value.Value() != nil {
 		data.ThemeId = types.StringValue(value.String())
 	} else {
 		data.ThemeId = types.StringNull()
 	}
-	if value := res.Get("useRedirectUrl"); value.Exists() {
+	if value := res.Get("useRedirectUrl"); value.Exists() && value.Value() != nil {
 		data.UseRedirectUrl = types.BoolValue(value.Bool())
 	} else {
 		data.UseRedirectUrl = types.BoolNull()
 	}
-	if value := res.Get("useSplashUrl"); value.Exists() {
+	if value := res.Get("useSplashUrl"); value.Exists() && value.Value() != nil {
 		data.UseSplashUrl = types.BoolValue(value.Bool())
 	} else {
 		data.UseSplashUrl = types.BoolNull()
 	}
-	if value := res.Get("welcomeMessage"); value.Exists() {
+	if value := res.Get("welcomeMessage"); value.Exists() && value.Value() != nil {
 		data.WelcomeMessage = types.StringValue(value.String())
 	} else {
 		data.WelcomeMessage = types.StringNull()
 	}
-	if value := res.Get("billing.prepaidAccessFastLoginEnabled"); value.Exists() {
+	if value := res.Get("billing.prepaidAccessFastLoginEnabled"); value.Exists() && value.Value() != nil {
 		data.BillingPrepaidAccessFastLoginEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.BillingPrepaidAccessFastLoginEnabled = types.BoolNull()
 	}
-	if value := res.Get("billing.replyToEmailAddress"); value.Exists() {
+	if value := res.Get("billing.replyToEmailAddress"); value.Exists() && value.Value() != nil {
 		data.BillingReplyToEmailAddress = types.StringValue(value.String())
 	} else {
 		data.BillingReplyToEmailAddress = types.StringNull()
 	}
-	if value := res.Get("billing.freeAccess.durationInMinutes"); value.Exists() {
+	if value := res.Get("billing.freeAccess.durationInMinutes"); value.Exists() && value.Value() != nil {
 		data.BillingFreeAccessDurationInMinutes = types.Int64Value(value.Int())
 	} else {
 		data.BillingFreeAccessDurationInMinutes = types.Int64Null()
 	}
-	if value := res.Get("billing.freeAccess.enabled"); value.Exists() {
+	if value := res.Get("billing.freeAccess.enabled"); value.Exists() && value.Value() != nil {
 		data.BillingFreeAccessEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.BillingFreeAccessEnabled = types.BoolNull()
 	}
-	if value := res.Get("guestSponsorship.durationInMinutes"); value.Exists() {
+	if value := res.Get("guestSponsorship.durationInMinutes"); value.Exists() && value.Value() != nil {
 		data.GuestSponsorshipDurationInMinutes = types.Int64Value(value.Int())
 	} else {
 		data.GuestSponsorshipDurationInMinutes = types.Int64Null()
 	}
-	if value := res.Get("guestSponsorship.guestCanRequestTimeframe"); value.Exists() {
+	if value := res.Get("guestSponsorship.guestCanRequestTimeframe"); value.Exists() && value.Value() != nil {
 		data.GuestSponsorshipGuestCanRequestTimeframe = types.BoolValue(value.Bool())
 	} else {
 		data.GuestSponsorshipGuestCanRequestTimeframe = types.BoolNull()
 	}
-	if value := res.Get("sentryEnrollment.strength"); value.Exists() {
+	if value := res.Get("sentryEnrollment.strength"); value.Exists() && value.Value() != nil {
 		data.SentryEnrollmentStrength = types.StringValue(value.String())
 	} else {
 		data.SentryEnrollmentStrength = types.StringNull()
 	}
-	if value := res.Get("sentryEnrollment.systemsManagerNetwork.id"); value.Exists() {
+	if value := res.Get("sentryEnrollment.systemsManagerNetwork.id"); value.Exists() && value.Value() != nil {
 		data.SentryEnrollmentSystemsManagerNetworkId = types.StringValue(value.String())
 	} else {
 		data.SentryEnrollmentSystemsManagerNetworkId = types.StringNull()
 	}
-	if value := res.Get("sentryEnrollment.enforcedSystems"); value.Exists() {
+	if value := res.Get("sentryEnrollment.enforcedSystems"); value.Exists() && value.Value() != nil {
 		data.SentryEnrollmentEnforcedSystems = helpers.GetStringSet(value.Array())
 	} else {
 		data.SentryEnrollmentEnforcedSystems = types.SetNull(types.StringType)
 	}
-	if value := res.Get("splashImage.extension"); value.Exists() {
+	if value := res.Get("splashImage.extension"); value.Exists() && value.Value() != nil {
 		data.SplashImageExtension = types.StringValue(value.String())
 	} else {
 		data.SplashImageExtension = types.StringNull()
 	}
-	if value := res.Get("splashImage.md5"); value.Exists() {
+	if value := res.Get("splashImage.md5"); value.Exists() && value.Value() != nil {
 		data.SplashImageMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashImageMd5 = types.StringNull()
 	}
-	if value := res.Get("splashImage.image.contents"); value.Exists() {
+	if value := res.Get("splashImage.image.contents"); value.Exists() && value.Value() != nil {
 		data.SplashImageImageContents = types.StringValue(value.String())
 	} else {
 		data.SplashImageImageContents = types.StringNull()
 	}
-	if value := res.Get("splashImage.image.format"); value.Exists() {
+	if value := res.Get("splashImage.image.format"); value.Exists() && value.Value() != nil {
 		data.SplashImageImageFormat = types.StringValue(value.String())
 	} else {
 		data.SplashImageImageFormat = types.StringNull()
 	}
-	if value := res.Get("splashLogo.extension"); value.Exists() {
+	if value := res.Get("splashLogo.extension"); value.Exists() && value.Value() != nil {
 		data.SplashLogoExtension = types.StringValue(value.String())
 	} else {
 		data.SplashLogoExtension = types.StringNull()
 	}
-	if value := res.Get("splashLogo.md5"); value.Exists() {
+	if value := res.Get("splashLogo.md5"); value.Exists() && value.Value() != nil {
 		data.SplashLogoMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashLogoMd5 = types.StringNull()
 	}
-	if value := res.Get("splashLogo.image.contents"); value.Exists() {
+	if value := res.Get("splashLogo.image.contents"); value.Exists() && value.Value() != nil {
 		data.SplashLogoImageContents = types.StringValue(value.String())
 	} else {
 		data.SplashLogoImageContents = types.StringNull()
 	}
-	if value := res.Get("splashLogo.image.format"); value.Exists() {
+	if value := res.Get("splashLogo.image.format"); value.Exists() && value.Value() != nil {
 		data.SplashLogoImageFormat = types.StringValue(value.String())
 	} else {
 		data.SplashLogoImageFormat = types.StringNull()
 	}
-	if value := res.Get("splashPrepaidFront.extension"); value.Exists() {
+	if value := res.Get("splashPrepaidFront.extension"); value.Exists() && value.Value() != nil {
 		data.SplashPrepaidFrontExtension = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontExtension = types.StringNull()
 	}
-	if value := res.Get("splashPrepaidFront.md5"); value.Exists() {
+	if value := res.Get("splashPrepaidFront.md5"); value.Exists() && value.Value() != nil {
 		data.SplashPrepaidFrontMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontMd5 = types.StringNull()
 	}
-	if value := res.Get("splashPrepaidFront.image.contents"); value.Exists() {
+	if value := res.Get("splashPrepaidFront.image.contents"); value.Exists() && value.Value() != nil {
 		data.SplashPrepaidFrontImageContents = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontImageContents = types.StringNull()
 	}
-	if value := res.Get("splashPrepaidFront.image.format"); value.Exists() {
+	if value := res.Get("splashPrepaidFront.image.format"); value.Exists() && value.Value() != nil {
 		data.SplashPrepaidFrontImageFormat = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontImageFormat = types.StringNull()

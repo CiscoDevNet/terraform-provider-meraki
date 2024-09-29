@@ -107,52 +107,52 @@ func (data OrganizationAdaptivePolicy) toBody(ctx context.Context, state Organiz
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationAdaptivePolicy) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("lastEntryRule"); value.Exists() {
+	if value := res.Get("lastEntryRule"); value.Exists() && value.Value() != nil {
 		data.LastEntryRule = types.StringValue(value.String())
 	} else {
 		data.LastEntryRule = types.StringNull()
 	}
-	if value := res.Get("destinationGroup.id"); value.Exists() {
+	if value := res.Get("destinationGroup.id"); value.Exists() && value.Value() != nil {
 		data.DestinationGroupId = types.StringValue(value.String())
 	} else {
 		data.DestinationGroupId = types.StringNull()
 	}
-	if value := res.Get("destinationGroup.name"); value.Exists() {
+	if value := res.Get("destinationGroup.name"); value.Exists() && value.Value() != nil {
 		data.DestinationGroupName = types.StringValue(value.String())
 	} else {
 		data.DestinationGroupName = types.StringNull()
 	}
-	if value := res.Get("destinationGroup.sgt"); value.Exists() {
+	if value := res.Get("destinationGroup.sgt"); value.Exists() && value.Value() != nil {
 		data.DestinationGroupSgt = types.Int64Value(value.Int())
 	} else {
 		data.DestinationGroupSgt = types.Int64Null()
 	}
-	if value := res.Get("sourceGroup.id"); value.Exists() {
+	if value := res.Get("sourceGroup.id"); value.Exists() && value.Value() != nil {
 		data.SourceGroupId = types.StringValue(value.String())
 	} else {
 		data.SourceGroupId = types.StringNull()
 	}
-	if value := res.Get("sourceGroup.name"); value.Exists() {
+	if value := res.Get("sourceGroup.name"); value.Exists() && value.Value() != nil {
 		data.SourceGroupName = types.StringValue(value.String())
 	} else {
 		data.SourceGroupName = types.StringNull()
 	}
-	if value := res.Get("sourceGroup.sgt"); value.Exists() {
+	if value := res.Get("sourceGroup.sgt"); value.Exists() && value.Value() != nil {
 		data.SourceGroupSgt = types.Int64Value(value.Int())
 	} else {
 		data.SourceGroupSgt = types.Int64Null()
 	}
-	if value := res.Get("acls"); value.Exists() {
+	if value := res.Get("acls"); value.Exists() && value.Value() != nil {
 		data.Acls = make([]OrganizationAdaptivePolicyAcls, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationAdaptivePolicyAcls{}
-			if value := res.Get("id"); value.Exists() {
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
 				data.Id = types.StringValue(value.String())
 			} else {
 				data.Id = types.StringNull()
 			}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()

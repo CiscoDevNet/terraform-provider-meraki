@@ -102,32 +102,32 @@ func (data SwitchAlternateManagementInterface) toBody(ctx context.Context, state
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchAlternateManagementInterface) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("switches"); value.Exists() {
+	if value := res.Get("switches"); value.Exists() && value.Value() != nil {
 		data.Switches = make([]SwitchAlternateManagementInterfaceSwitches, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchAlternateManagementInterfaceSwitches{}
-			if value := res.Get("alternateManagementIp"); value.Exists() {
+			if value := res.Get("alternateManagementIp"); value.Exists() && value.Value() != nil {
 				data.AlternateManagementIp = types.StringValue(value.String())
 			} else {
 				data.AlternateManagementIp = types.StringNull()
 			}
-			if value := res.Get("gateway"); value.Exists() {
+			if value := res.Get("gateway"); value.Exists() && value.Value() != nil {
 				data.Gateway = types.StringValue(value.String())
 			} else {
 				data.Gateway = types.StringNull()
 			}
-			if value := res.Get("serial"); value.Exists() {
+			if value := res.Get("serial"); value.Exists() && value.Value() != nil {
 				data.Serial = types.StringValue(value.String())
 			} else {
 				data.Serial = types.StringNull()
 			}
-			if value := res.Get("subnetMask"); value.Exists() {
+			if value := res.Get("subnetMask"); value.Exists() && value.Value() != nil {
 				data.SubnetMask = types.StringValue(value.String())
 			} else {
 				data.SubnetMask = types.StringNull()

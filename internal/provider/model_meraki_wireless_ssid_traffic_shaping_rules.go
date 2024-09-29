@@ -120,57 +120,57 @@ func (data WirelessSSIDTrafficShapingRules) toBody(ctx context.Context, state Wi
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDTrafficShapingRules) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("defaultRulesEnabled"); value.Exists() {
+	if value := res.Get("defaultRulesEnabled"); value.Exists() && value.Value() != nil {
 		data.DefaultRulesEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.DefaultRulesEnabled = types.BoolNull()
 	}
-	if value := res.Get("trafficShapingEnabled"); value.Exists() {
+	if value := res.Get("trafficShapingEnabled"); value.Exists() && value.Value() != nil {
 		data.TrafficShapingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.TrafficShapingEnabled = types.BoolNull()
 	}
-	if value := res.Get("rules"); value.Exists() {
+	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]WirelessSSIDTrafficShapingRulesRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDTrafficShapingRulesRules{}
-			if value := res.Get("dscpTagValue"); value.Exists() {
+			if value := res.Get("dscpTagValue"); value.Exists() && value.Value() != nil {
 				data.DscpTagValue = types.Int64Value(value.Int())
 			} else {
 				data.DscpTagValue = types.Int64Null()
 			}
-			if value := res.Get("pcpTagValue"); value.Exists() {
+			if value := res.Get("pcpTagValue"); value.Exists() && value.Value() != nil {
 				data.PcpTagValue = types.Int64Value(value.Int())
 			} else {
 				data.PcpTagValue = types.Int64Null()
 			}
-			if value := res.Get("perClientBandwidthLimits.settings"); value.Exists() {
+			if value := res.Get("perClientBandwidthLimits.settings"); value.Exists() && value.Value() != nil {
 				data.PerClientBandwidthLimitsSettings = types.StringValue(value.String())
 			} else {
 				data.PerClientBandwidthLimitsSettings = types.StringNull()
 			}
-			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitDown"); value.Exists() {
+			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitDown"); value.Exists() && value.Value() != nil {
 				data.PerClientBandwidthLimitsBandwidthLimitsLimitDown = types.Int64Value(value.Int())
 			} else {
 				data.PerClientBandwidthLimitsBandwidthLimitsLimitDown = types.Int64Null()
 			}
-			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitUp"); value.Exists() {
+			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitUp"); value.Exists() && value.Value() != nil {
 				data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Value(value.Int())
 			} else {
 				data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Null()
 			}
-			if value := res.Get("definitions"); value.Exists() {
+			if value := res.Get("definitions"); value.Exists() && value.Value() != nil {
 				data.Definitions = make([]WirelessSSIDTrafficShapingRulesRulesDefinitions, 0)
 				value.ForEach(func(k, res gjson.Result) bool {
 					parent := &data
 					data := WirelessSSIDTrafficShapingRulesRulesDefinitions{}
-					if value := res.Get("type"); value.Exists() {
+					if value := res.Get("type"); value.Exists() && value.Value() != nil {
 						data.Type = types.StringValue(value.String())
 					} else {
 						data.Type = types.StringNull()
 					}
-					if value := res.Get("value"); value.Exists() {
+					if value := res.Get("value"); value.Exists() && value.Value() != nil {
 						data.Value = types.StringValue(value.String())
 					} else {
 						data.Value = types.StringNull()

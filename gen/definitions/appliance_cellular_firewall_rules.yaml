@@ -16,6 +16,7 @@ attributes:
   - model_name: rules
     type: List
     mandatory: true
+    allow_import_changes: true
     description: An ordered array of the firewall rules (not including the default rule)
     ordered_list: true
     attributes:

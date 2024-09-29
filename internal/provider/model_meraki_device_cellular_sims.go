@@ -132,67 +132,67 @@ func (data DeviceCellularSIMs) toBody(ctx context.Context, state DeviceCellularS
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DeviceCellularSIMs) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("simFailover.enabled"); value.Exists() {
+	if value := res.Get("simFailover.enabled"); value.Exists() && value.Value() != nil {
 		data.SimFailoverEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.SimFailoverEnabled = types.BoolNull()
 	}
-	if value := res.Get("simFailover.timeout"); value.Exists() {
+	if value := res.Get("simFailover.timeout"); value.Exists() && value.Value() != nil {
 		data.SimFailoverTimeout = types.Int64Value(value.Int())
 	} else {
 		data.SimFailoverTimeout = types.Int64Null()
 	}
-	if value := res.Get("simOrdering"); value.Exists() {
+	if value := res.Get("simOrdering"); value.Exists() && value.Value() != nil {
 		data.SimOrdering = helpers.GetStringList(value.Array())
 	} else {
 		data.SimOrdering = types.ListNull(types.StringType)
 	}
-	if value := res.Get("sims"); value.Exists() {
+	if value := res.Get("sims"); value.Exists() && value.Value() != nil {
 		data.Sims = make([]DeviceCellularSIMsSims, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := DeviceCellularSIMsSims{}
-			if value := res.Get("isPrimary"); value.Exists() {
+			if value := res.Get("isPrimary"); value.Exists() && value.Value() != nil {
 				data.IsPrimary = types.BoolValue(value.Bool())
 			} else {
 				data.IsPrimary = types.BoolNull()
 			}
-			if value := res.Get("simOrder"); value.Exists() {
+			if value := res.Get("simOrder"); value.Exists() && value.Value() != nil {
 				data.SimOrder = types.Int64Value(value.Int())
 			} else {
 				data.SimOrder = types.Int64Null()
 			}
-			if value := res.Get("slot"); value.Exists() {
+			if value := res.Get("slot"); value.Exists() && value.Value() != nil {
 				data.Slot = types.StringValue(value.String())
 			} else {
 				data.Slot = types.StringNull()
 			}
-			if value := res.Get("apns"); value.Exists() {
+			if value := res.Get("apns"); value.Exists() && value.Value() != nil {
 				data.Apns = make([]DeviceCellularSIMsSimsApns, 0)
 				value.ForEach(func(k, res gjson.Result) bool {
 					parent := &data
 					data := DeviceCellularSIMsSimsApns{}
-					if value := res.Get("name"); value.Exists() {
+					if value := res.Get("name"); value.Exists() && value.Value() != nil {
 						data.Name = types.StringValue(value.String())
 					} else {
 						data.Name = types.StringNull()
 					}
-					if value := res.Get("authentication.password"); value.Exists() {
+					if value := res.Get("authentication.password"); value.Exists() && value.Value() != nil {
 						data.AuthenticationPassword = types.StringValue(value.String())
 					} else {
 						data.AuthenticationPassword = types.StringNull()
 					}
-					if value := res.Get("authentication.type"); value.Exists() {
+					if value := res.Get("authentication.type"); value.Exists() && value.Value() != nil {
 						data.AuthenticationType = types.StringValue(value.String())
 					} else {
 						data.AuthenticationType = types.StringNull()
 					}
-					if value := res.Get("authentication.username"); value.Exists() {
+					if value := res.Get("authentication.username"); value.Exists() && value.Value() != nil {
 						data.AuthenticationUsername = types.StringValue(value.String())
 					} else {
 						data.AuthenticationUsername = types.StringNull()
 					}
-					if value := res.Get("allowedIpTypes"); value.Exists() {
+					if value := res.Get("allowedIpTypes"); value.Exists() && value.Value() != nil {
 						data.AllowedIpTypes = helpers.GetStringSet(value.Array())
 					} else {
 						data.AllowedIpTypes = types.SetNull(types.StringType)

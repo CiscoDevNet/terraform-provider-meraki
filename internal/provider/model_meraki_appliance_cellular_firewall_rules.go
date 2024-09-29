@@ -103,47 +103,47 @@ func (data ApplianceCellularFirewallRules) toBody(ctx context.Context, state App
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceCellularFirewallRules) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("rules"); value.Exists() {
+	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]ApplianceCellularFirewallRulesRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := ApplianceCellularFirewallRulesRules{}
-			if value := res.Get("comment"); value.Exists() {
+			if value := res.Get("comment"); value.Exists() && value.Value() != nil {
 				data.Comment = types.StringValue(value.String())
 			} else {
 				data.Comment = types.StringNull()
 			}
-			if value := res.Get("destCidr"); value.Exists() {
+			if value := res.Get("destCidr"); value.Exists() && value.Value() != nil {
 				data.DestCidr = types.StringValue(value.String())
 			} else {
 				data.DestCidr = types.StringNull()
 			}
-			if value := res.Get("destPort"); value.Exists() {
+			if value := res.Get("destPort"); value.Exists() && value.Value() != nil {
 				data.DestPort = types.StringValue(value.String())
 			} else {
 				data.DestPort = types.StringNull()
 			}
-			if value := res.Get("policy"); value.Exists() {
+			if value := res.Get("policy"); value.Exists() && value.Value() != nil {
 				data.Policy = types.StringValue(value.String())
 			} else {
 				data.Policy = types.StringNull()
 			}
-			if value := res.Get("protocol"); value.Exists() {
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
 				data.Protocol = types.StringValue(value.String())
 			} else {
 				data.Protocol = types.StringNull()
 			}
-			if value := res.Get("srcCidr"); value.Exists() {
+			if value := res.Get("srcCidr"); value.Exists() && value.Value() != nil {
 				data.SrcCidr = types.StringValue(value.String())
 			} else {
 				data.SrcCidr = types.StringNull()
 			}
-			if value := res.Get("srcPort"); value.Exists() {
+			if value := res.Get("srcPort"); value.Exists() && value.Value() != nil {
 				data.SrcPort = types.StringValue(value.String())
 			} else {
 				data.SrcPort = types.StringNull()
 			}
-			if value := res.Get("syslogEnabled"); value.Exists() {
+			if value := res.Get("syslogEnabled"); value.Exists() && value.Value() != nil {
 				data.SyslogEnabled = types.BoolValue(value.Bool())
 			} else {
 				data.SyslogEnabled = types.BoolNull()

@@ -94,42 +94,42 @@ func (data OrganizationPolicyObject) toBody(ctx context.Context, state Organizat
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationPolicyObject) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("category"); value.Exists() {
+	if value := res.Get("category"); value.Exists() && value.Value() != nil {
 		data.Category = types.StringValue(value.String())
 	} else {
 		data.Category = types.StringNull()
 	}
-	if value := res.Get("cidr"); value.Exists() {
+	if value := res.Get("cidr"); value.Exists() && value.Value() != nil {
 		data.Cidr = types.StringValue(value.String())
 	} else {
 		data.Cidr = types.StringNull()
 	}
-	if value := res.Get("fqdn"); value.Exists() {
+	if value := res.Get("fqdn"); value.Exists() && value.Value() != nil {
 		data.Fqdn = types.StringValue(value.String())
 	} else {
 		data.Fqdn = types.StringNull()
 	}
-	if value := res.Get("ip"); value.Exists() {
+	if value := res.Get("ip"); value.Exists() && value.Value() != nil {
 		data.Ip = types.StringValue(value.String())
 	} else {
 		data.Ip = types.StringNull()
 	}
-	if value := res.Get("mask"); value.Exists() {
+	if value := res.Get("mask"); value.Exists() && value.Value() != nil {
 		data.Mask = types.StringValue(value.String())
 	} else {
 		data.Mask = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("type"); value.Exists() {
+	if value := res.Get("type"); value.Exists() && value.Value() != nil {
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
 	}
-	if value := res.Get("groupIds"); value.Exists() {
+	if value := res.Get("groupIds"); value.Exists() && value.Value() != nil {
 		data.GroupIds = helpers.GetStringSet(value.Array())
 	} else {
 		data.GroupIds = types.SetNull(types.StringType)

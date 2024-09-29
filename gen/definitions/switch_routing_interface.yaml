@@ -66,9 +66,8 @@ attributes:
   - model_name: area
     type: String
     data_path: [ospfSettings]
-    exclude_test: true
-    description: The OSPF area to which this interface should belong. Can be either `disabled` or the identifier of an existing OSPF area. Defaults to `disabled`.
-    example: "0"
+    description: The OSPF area to which this interface should belong. Can be either `ospfDisabled` or the identifier of an existing OSPF area. Defaults to `ospfDisabled`.
+    example: ospfDisabled
   - model_name: cost
     type: Int64
     data_path: [ospfSettings]

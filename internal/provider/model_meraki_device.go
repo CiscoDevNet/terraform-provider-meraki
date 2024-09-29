@@ -98,47 +98,47 @@ func (data Device) toBody(ctx context.Context, state Device) string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *Device) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("address"); value.Exists() {
+	if value := res.Get("address"); value.Exists() && value.Value() != nil {
 		data.Address = types.StringValue(value.String())
 	} else {
 		data.Address = types.StringNull()
 	}
-	if value := res.Get("floorPlanId"); value.Exists() {
+	if value := res.Get("floorPlanId"); value.Exists() && value.Value() != nil {
 		data.FloorPlanId = types.StringValue(value.String())
 	} else {
 		data.FloorPlanId = types.StringNull()
 	}
-	if value := res.Get("lat"); value.Exists() {
+	if value := res.Get("lat"); value.Exists() && value.Value() != nil {
 		data.Lat = types.Float64Value(value.Float())
 	} else {
 		data.Lat = types.Float64Null()
 	}
-	if value := res.Get("lng"); value.Exists() {
+	if value := res.Get("lng"); value.Exists() && value.Value() != nil {
 		data.Lng = types.Float64Value(value.Float())
 	} else {
 		data.Lng = types.Float64Null()
 	}
-	if value := res.Get("moveMapMarker"); value.Exists() {
+	if value := res.Get("moveMapMarker"); value.Exists() && value.Value() != nil {
 		data.MoveMapMarker = types.BoolValue(value.Bool())
 	} else {
 		data.MoveMapMarker = types.BoolNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("notes"); value.Exists() {
+	if value := res.Get("notes"); value.Exists() && value.Value() != nil {
 		data.Notes = types.StringValue(value.String())
 	} else {
 		data.Notes = types.StringNull()
 	}
-	if value := res.Get("switchProfileId"); value.Exists() {
+	if value := res.Get("switchProfileId"); value.Exists() && value.Value() != nil {
 		data.SwitchProfileId = types.StringValue(value.String())
 	} else {
 		data.SwitchProfileId = types.StringNull()
 	}
-	if value := res.Get("tags"); value.Exists() {
+	if value := res.Get("tags"); value.Exists() && value.Value() != nil {
 		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
 		data.Tags = types.SetNull(types.StringType)

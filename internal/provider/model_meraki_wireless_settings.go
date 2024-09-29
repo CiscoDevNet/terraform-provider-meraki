@@ -87,37 +87,37 @@ func (data WirelessSettings) toBody(ctx context.Context, state WirelessSettings)
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSettings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("ipv6BridgeEnabled"); value.Exists() {
+	if value := res.Get("ipv6BridgeEnabled"); value.Exists() && value.Value() != nil {
 		data.Ipv6BridgeEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.Ipv6BridgeEnabled = types.BoolNull()
 	}
-	if value := res.Get("ledLightsOn"); value.Exists() {
+	if value := res.Get("ledLightsOn"); value.Exists() && value.Value() != nil {
 		data.LedLightsOn = types.BoolValue(value.Bool())
 	} else {
 		data.LedLightsOn = types.BoolNull()
 	}
-	if value := res.Get("locationAnalyticsEnabled"); value.Exists() {
+	if value := res.Get("locationAnalyticsEnabled"); value.Exists() && value.Value() != nil {
 		data.LocationAnalyticsEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.LocationAnalyticsEnabled = types.BoolNull()
 	}
-	if value := res.Get("meshingEnabled"); value.Exists() {
+	if value := res.Get("meshingEnabled"); value.Exists() && value.Value() != nil {
 		data.MeshingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.MeshingEnabled = types.BoolNull()
 	}
-	if value := res.Get("upgradeStrategy"); value.Exists() {
+	if value := res.Get("upgradeStrategy"); value.Exists() && value.Value() != nil {
 		data.UpgradeStrategy = types.StringValue(value.String())
 	} else {
 		data.UpgradeStrategy = types.StringNull()
 	}
-	if value := res.Get("namedVlans.poolDhcpMonitoring.duration"); value.Exists() {
+	if value := res.Get("namedVlans.poolDhcpMonitoring.duration"); value.Exists() && value.Value() != nil {
 		data.NamedVlansPoolDhcpMonitoringDuration = types.Int64Value(value.Int())
 	} else {
 		data.NamedVlansPoolDhcpMonitoringDuration = types.Int64Null()
 	}
-	if value := res.Get("namedVlans.poolDhcpMonitoring.enabled"); value.Exists() {
+	if value := res.Get("namedVlans.poolDhcpMonitoring.enabled"); value.Exists() && value.Value() != nil {
 		data.NamedVlansPoolDhcpMonitoringEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.NamedVlansPoolDhcpMonitoringEnabled = types.BoolNull()

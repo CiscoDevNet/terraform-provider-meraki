@@ -79,22 +79,22 @@ func (data NetworkWebhookHTTPServer) toBody(ctx context.Context, state NetworkWe
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkWebhookHTTPServer) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("url"); value.Exists() {
+	if value := res.Get("url"); value.Exists() && value.Value() != nil {
 		data.Url = types.StringValue(value.String())
 	} else {
 		data.Url = types.StringNull()
 	}
-	if value := res.Get("payloadTemplate.name"); value.Exists() {
+	if value := res.Get("payloadTemplate.name"); value.Exists() && value.Value() != nil {
 		data.PayloadTemplateName = types.StringValue(value.String())
 	} else {
 		data.PayloadTemplateName = types.StringNull()
 	}
-	if value := res.Get("payloadTemplate.payloadTemplateId"); value.Exists() {
+	if value := res.Get("payloadTemplate.payloadTemplateId"); value.Exists() && value.Value() != nil {
 		data.PayloadTemplatePayloadTemplateId = types.StringValue(value.String())
 	} else {
 		data.PayloadTemplatePayloadTemplateId = types.StringNull()

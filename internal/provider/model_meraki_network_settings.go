@@ -83,27 +83,27 @@ func (data NetworkSettings) toBody(ctx context.Context, state NetworkSettings) s
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkSettings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("localStatusPageEnabled"); value.Exists() {
+	if value := res.Get("localStatusPageEnabled"); value.Exists() && value.Value() != nil {
 		data.LocalStatusPageEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.LocalStatusPageEnabled = types.BoolNull()
 	}
-	if value := res.Get("remoteStatusPageEnabled"); value.Exists() {
+	if value := res.Get("remoteStatusPageEnabled"); value.Exists() && value.Value() != nil {
 		data.RemoteStatusPageEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.RemoteStatusPageEnabled = types.BoolNull()
 	}
-	if value := res.Get("localStatusPage.authentication.enabled"); value.Exists() {
+	if value := res.Get("localStatusPage.authentication.enabled"); value.Exists() && value.Value() != nil {
 		data.LocalStatusPageAuthenticationEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.LocalStatusPageAuthenticationEnabled = types.BoolNull()
 	}
-	if value := res.Get("namedVlans.enabled"); value.Exists() {
+	if value := res.Get("namedVlans.enabled"); value.Exists() && value.Value() != nil {
 		data.NamedVlansEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.NamedVlansEnabled = types.BoolNull()
 	}
-	if value := res.Get("securePort.enabled"); value.Exists() {
+	if value := res.Get("securePort.enabled"); value.Exists() && value.Value() != nil {
 		data.SecurePortEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.SecurePortEnabled = types.BoolNull()

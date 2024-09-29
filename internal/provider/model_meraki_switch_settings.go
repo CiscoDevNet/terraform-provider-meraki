@@ -96,37 +96,37 @@ func (data SwitchSettings) toBody(ctx context.Context, state SwitchSettings) str
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchSettings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("useCombinedPower"); value.Exists() {
+	if value := res.Get("useCombinedPower"); value.Exists() && value.Value() != nil {
 		data.UseCombinedPower = types.BoolValue(value.Bool())
 	} else {
 		data.UseCombinedPower = types.BoolNull()
 	}
-	if value := res.Get("vlan"); value.Exists() {
+	if value := res.Get("vlan"); value.Exists() && value.Value() != nil {
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()
 	}
-	if value := res.Get("macBlocklist.enabled"); value.Exists() {
+	if value := res.Get("macBlocklist.enabled"); value.Exists() && value.Value() != nil {
 		data.MacBlocklistEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.MacBlocklistEnabled = types.BoolNull()
 	}
-	if value := res.Get("uplinkClientSampling.enabled"); value.Exists() {
+	if value := res.Get("uplinkClientSampling.enabled"); value.Exists() && value.Value() != nil {
 		data.UplinkClientSamplingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.UplinkClientSamplingEnabled = types.BoolNull()
 	}
-	if value := res.Get("powerExceptions"); value.Exists() {
+	if value := res.Get("powerExceptions"); value.Exists() && value.Value() != nil {
 		data.PowerExceptions = make([]SwitchSettingsPowerExceptions, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchSettingsPowerExceptions{}
-			if value := res.Get("powerType"); value.Exists() {
+			if value := res.Get("powerType"); value.Exists() && value.Value() != nil {
 				data.PowerType = types.StringValue(value.String())
 			} else {
 				data.PowerType = types.StringNull()
 			}
-			if value := res.Get("serial"); value.Exists() {
+			if value := res.Get("serial"); value.Exists() && value.Value() != nil {
 				data.Serial = types.StringValue(value.String())
 			} else {
 				data.Serial = types.StringNull()

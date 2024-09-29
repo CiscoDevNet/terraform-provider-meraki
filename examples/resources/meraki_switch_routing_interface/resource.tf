@@ -10,4 +10,5 @@ resource "meraki_switch_routing_interface" "example" {
   ipv6_assignment_mode = "static"
   ipv6_gateway         = "1:2:3:4::2"
   ipv6_prefix          = "1:2:3:4::/64"
+  ospf_settings_area   = "ospfDisabled"
 }

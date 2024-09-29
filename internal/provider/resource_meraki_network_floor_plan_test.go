@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -46,6 +48,14 @@ func TestAccMerakiNetworkFloorPlan(t *testing.T) {
 		Config: testAccMerakiNetworkFloorPlanPrerequisitesConfig + testAccMerakiNetworkFloorPlanConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_network_floor_plan.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiNetworkFloorPlanImportStateIdFunc("meraki_network_floor_plan.test"),
+		ImportStateVerifyIgnore: []string{"image_contents", "bottom_left_corner_lat", "bottom_left_corner_lng", "bottom_right_corner_lat", "bottom_right_corner_lng", "center_lat", "center_lng", "top_left_corner_lat", "top_left_corner_lng", "top_right_corner_lat", "top_right_corner_lng"},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -55,6 +65,20 @@ func TestAccMerakiNetworkFloorPlan(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiNetworkFloorPlanImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		NetworkId := primary.Attributes["network_id"]
+		id := primary.Attributes["id"]
+
+		return fmt.Sprintf("%s,%s", NetworkId, id), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 

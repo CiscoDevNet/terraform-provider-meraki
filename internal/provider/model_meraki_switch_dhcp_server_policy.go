@@ -84,27 +84,27 @@ func (data SwitchDHCPServerPolicy) toBody(ctx context.Context, state SwitchDHCPS
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchDHCPServerPolicy) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("defaultPolicy"); value.Exists() {
+	if value := res.Get("defaultPolicy"); value.Exists() && value.Value() != nil {
 		data.DefaultPolicy = types.StringValue(value.String())
 	} else {
 		data.DefaultPolicy = types.StringNull()
 	}
-	if value := res.Get("alerts.email.enabled"); value.Exists() {
+	if value := res.Get("alerts.email.enabled"); value.Exists() && value.Value() != nil {
 		data.AlertsEmailEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.AlertsEmailEnabled = types.BoolNull()
 	}
-	if value := res.Get("arpInspection.enabled"); value.Exists() {
+	if value := res.Get("arpInspection.enabled"); value.Exists() && value.Value() != nil {
 		data.ArpInspectionEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.ArpInspectionEnabled = types.BoolNull()
 	}
-	if value := res.Get("allowedServers"); value.Exists() {
+	if value := res.Get("allowedServers"); value.Exists() && value.Value() != nil {
 		data.AllowedServers = helpers.GetStringSet(value.Array())
 	} else {
 		data.AllowedServers = types.SetNull(types.StringType)
 	}
-	if value := res.Get("blockedServers"); value.Exists() {
+	if value := res.Get("blockedServers"); value.Exists() && value.Value() != nil {
 		data.BlockedServers = helpers.GetStringSet(value.Array())
 	} else {
 		data.BlockedServers = types.SetNull(types.StringType)

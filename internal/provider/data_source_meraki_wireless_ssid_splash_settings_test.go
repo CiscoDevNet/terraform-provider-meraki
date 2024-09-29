@@ -40,7 +40,12 @@ func TestAccDataSourceMerakiWirelessSSIDSplashSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "redirect_url", "https://example.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "splash_timeout", "1440"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "use_redirect_url", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "use_splash_url", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "welcome_message", "Welcome!"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "billing_prepaid_access_fast_login_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "billing_reply_to_email_address", "user@email.com"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "billing_free_access_duration_in_minutes", "20"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "billing_free_access_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "guest_sponsorship_duration_in_minutes", "30"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_splash_settings.test", "guest_sponsorship_guest_can_request_timeframe", "false"))
 	resource.Test(t, resource.TestCase{
@@ -92,7 +97,12 @@ func testAccDataSourceMerakiWirelessSSIDSplashSettingsConfig() string {
 	config += `	redirect_url = "https://example.com"` + "\n"
 	config += `	splash_timeout = 1440` + "\n"
 	config += `	use_redirect_url = true` + "\n"
+	config += `	use_splash_url = false` + "\n"
 	config += `	welcome_message = "Welcome!"` + "\n"
+	config += `	billing_prepaid_access_fast_login_enabled = false` + "\n"
+	config += `	billing_reply_to_email_address = "user@email.com"` + "\n"
+	config += `	billing_free_access_duration_in_minutes = 20` + "\n"
+	config += `	billing_free_access_enabled = false` + "\n"
 	config += `	guest_sponsorship_duration_in_minutes = 30` + "\n"
 	config += `	guest_sponsorship_guest_can_request_timeframe = false` + "\n"
 	config += `}` + "\n"

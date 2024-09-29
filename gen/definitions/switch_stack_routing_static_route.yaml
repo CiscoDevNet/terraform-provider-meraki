@@ -21,6 +21,7 @@ attributes:
   - model_name: advertiseViaOspfEnabled
     type: Bool
     exclude_test: true
+    allow_import_changes: true
     description: Option to advertise static route via OSPF
     example: "false"
   - model_name: name
@@ -35,6 +36,7 @@ attributes:
   - model_name: preferOverOspfRoutesEnabled
     type: Bool
     exclude_test: true
+    allow_import_changes: true
     description: Option to prefer static route over OSPF routes
     example: "false"
   - model_name: subnet

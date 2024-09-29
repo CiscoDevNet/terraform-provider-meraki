@@ -27,9 +27,8 @@ attributes:
   - model_name: enabled
     type: Bool
     data_path: [exception]
-    exclude_test: true
     description: If true, Bonjour forwarding exception is enabled on this SSID. Exception is required to enable L2 isolation and Bonjour forwarding to work together.
-    example: "true"
+    example: "false"
   - model_name: rules
     type: List
     description: List of bonjour forwarding rules.

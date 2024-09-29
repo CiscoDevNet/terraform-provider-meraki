@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -35,6 +37,7 @@ func TestAccMerakiWirelessSSIDBonjourForwarding(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_bonjour_forwarding.test", "enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_bonjour_forwarding.test", "exception_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_bonjour_forwarding.test", "rules.0.description", "A simple bonjour rule"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_bonjour_forwarding.test", "rules.0.vlan_id", "1"))
 
@@ -48,6 +51,14 @@ func TestAccMerakiWirelessSSIDBonjourForwarding(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDBonjourForwardingPrerequisitesConfig + testAccMerakiWirelessSSIDBonjourForwardingConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_wireless_ssid_bonjour_forwarding.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiWirelessSSIDBonjourForwardingImportStateIdFunc("meraki_wireless_ssid_bonjour_forwarding.test"),
+		ImportStateVerifyIgnore: []string{},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -57,6 +68,20 @@ func TestAccMerakiWirelessSSIDBonjourForwarding(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiWirelessSSIDBonjourForwardingImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		NetworkId := primary.Attributes["network_id"]
+		Number := primary.Attributes["number"]
+
+		return fmt.Sprintf("%s,%s", NetworkId, Number), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
@@ -102,6 +127,7 @@ func testAccMerakiWirelessSSIDBonjourForwardingConfig_all() string {
 	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `	number = meraki_wireless_ssid.test.id` + "\n"
 	config += `	enabled = true` + "\n"
+	config += `	exception_enabled = false` + "\n"
 	config += `	rules = [{` + "\n"
 	config += `		description = "A simple bonjour rule"` + "\n"
 	config += `		vlan_id = "1"` + "\n"

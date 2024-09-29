@@ -67,12 +67,12 @@ func (data WirelessNetworkElectronicShelfLabel) toBody(ctx context.Context, stat
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessNetworkElectronicShelfLabel) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("hostname"); value.Exists() {
+	if value := res.Get("hostname"); value.Exists() && value.Value() != nil {
 		data.Hostname = types.StringValue(value.String())
 	} else {
 		data.Hostname = types.StringNull()

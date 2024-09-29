@@ -56,7 +56,6 @@ Optional:
 
 - `bandwidth_limits_limit_down` (Number) The maximum download limit (integer, in Kbps). null indicates no limit
 - `bandwidth_limits_limit_up` (Number) The maximum upload limit (integer, in Kbps). null indicates no limit
-- `id` (String) The id of the pricing plan to update.
 
 ## Import
 

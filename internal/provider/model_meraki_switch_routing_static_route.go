@@ -79,27 +79,27 @@ func (data SwitchRoutingStaticRoute) toBody(ctx context.Context, state SwitchRou
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchRoutingStaticRoute) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("advertiseViaOspfEnabled"); value.Exists() {
+	if value := res.Get("advertiseViaOspfEnabled"); value.Exists() && value.Value() != nil {
 		data.AdvertiseViaOspfEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.AdvertiseViaOspfEnabled = types.BoolNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("nextHopIp"); value.Exists() {
+	if value := res.Get("nextHopIp"); value.Exists() && value.Value() != nil {
 		data.NextHopIp = types.StringValue(value.String())
 	} else {
 		data.NextHopIp = types.StringNull()
 	}
-	if value := res.Get("preferOverOspfRoutesEnabled"); value.Exists() {
+	if value := res.Get("preferOverOspfRoutesEnabled"); value.Exists() && value.Value() != nil {
 		data.PreferOverOspfRoutesEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.PreferOverOspfRoutesEnabled = types.BoolNull()
 	}
-	if value := res.Get("subnet"); value.Exists() {
+	if value := res.Get("subnet"); value.Exists() && value.Value() != nil {
 		data.Subnet = types.StringValue(value.String())
 	} else {
 		data.Subnet = types.StringNull()

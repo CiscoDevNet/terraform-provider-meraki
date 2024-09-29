@@ -88,27 +88,27 @@ func (data NetworkTrafficAnalysis) toBody(ctx context.Context, state NetworkTraf
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkTrafficAnalysis) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("mode"); value.Exists() {
+	if value := res.Get("mode"); value.Exists() && value.Value() != nil {
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
 	}
-	if value := res.Get("customPieChartItems"); value.Exists() {
+	if value := res.Get("customPieChartItems"); value.Exists() && value.Value() != nil {
 		data.CustomPieChartItems = make([]NetworkTrafficAnalysisCustomPieChartItems, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkTrafficAnalysisCustomPieChartItems{}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
 			}
-			if value := res.Get("type"); value.Exists() {
+			if value := res.Get("type"); value.Exists() && value.Value() != nil {
 				data.Type = types.StringValue(value.String())
 			} else {
 				data.Type = types.StringNull()
 			}
-			if value := res.Get("value"); value.Exists() {
+			if value := res.Get("value"); value.Exists() && value.Value() != nil {
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()

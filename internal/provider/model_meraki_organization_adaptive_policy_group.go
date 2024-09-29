@@ -92,32 +92,32 @@ func (data OrganizationAdaptivePolicyGroup) toBody(ctx context.Context, state Or
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationAdaptivePolicyGroup) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("description"); value.Exists() {
+	if value := res.Get("description"); value.Exists() && value.Value() != nil {
 		data.Description = types.StringValue(value.String())
 	} else {
 		data.Description = types.StringNull()
 	}
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("sgt"); value.Exists() {
+	if value := res.Get("sgt"); value.Exists() && value.Value() != nil {
 		data.Sgt = types.Int64Value(value.Int())
 	} else {
 		data.Sgt = types.Int64Null()
 	}
-	if value := res.Get("policyObjects"); value.Exists() {
+	if value := res.Get("policyObjects"); value.Exists() && value.Value() != nil {
 		data.PolicyObjects = make([]OrganizationAdaptivePolicyGroupPolicyObjects, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationAdaptivePolicyGroupPolicyObjects{}
-			if value := res.Get("id"); value.Exists() {
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
 				data.Id = types.StringValue(value.String())
 			} else {
 				data.Id = types.StringNull()
 			}
-			if value := res.Get("name"); value.Exists() {
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()

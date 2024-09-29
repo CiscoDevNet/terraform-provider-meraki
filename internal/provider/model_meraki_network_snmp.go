@@ -88,27 +88,27 @@ func (data NetworkSNMP) toBody(ctx context.Context, state NetworkSNMP) string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkSNMP) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("access"); value.Exists() {
+	if value := res.Get("access"); value.Exists() && value.Value() != nil {
 		data.Access = types.StringValue(value.String())
 	} else {
 		data.Access = types.StringNull()
 	}
-	if value := res.Get("communityString"); value.Exists() {
+	if value := res.Get("communityString"); value.Exists() && value.Value() != nil {
 		data.CommunityString = types.StringValue(value.String())
 	} else {
 		data.CommunityString = types.StringNull()
 	}
-	if value := res.Get("users"); value.Exists() {
+	if value := res.Get("users"); value.Exists() && value.Value() != nil {
 		data.Users = make([]NetworkSNMPUsers, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkSNMPUsers{}
-			if value := res.Get("passphrase"); value.Exists() {
+			if value := res.Get("passphrase"); value.Exists() && value.Value() != nil {
 				data.Passphrase = types.StringValue(value.String())
 			} else {
 				data.Passphrase = types.StringNull()
 			}
-			if value := res.Get("username"); value.Exists() {
+			if value := res.Get("username"); value.Exists() && value.Value() != nil {
 				data.Username = types.StringValue(value.String())
 			} else {
 				data.Username = types.StringNull()

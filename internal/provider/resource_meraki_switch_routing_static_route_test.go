@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -48,6 +50,14 @@ func TestAccMerakiSwitchRoutingStaticRoute(t *testing.T) {
 		Config: testAccMerakiSwitchRoutingStaticRoutePrerequisitesConfig + testAccMerakiSwitchRoutingStaticRouteConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_switch_routing_static_route.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiSwitchRoutingStaticRouteImportStateIdFunc("meraki_switch_routing_static_route.test"),
+		ImportStateVerifyIgnore: []string{"advertise_via_ospf_enabled", "prefer_over_ospf_routes_enabled"},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -57,6 +67,20 @@ func TestAccMerakiSwitchRoutingStaticRoute(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiSwitchRoutingStaticRouteImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		Serial := primary.Attributes["serial"]
+		id := primary.Attributes["id"]
+
+		return fmt.Sprintf("%s,%s", Serial, id), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 

@@ -19,10 +19,12 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -44,6 +46,7 @@ func TestAccMerakiSwitchRoutingInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_interface.test", "ipv6_assignment_mode", "static"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_interface.test", "ipv6_gateway", "1:2:3:4::2"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_interface.test", "ipv6_prefix", "1:2:3:4::/64"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_interface.test", "ospf_settings_area", "ospfDisabled"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -55,6 +58,14 @@ func TestAccMerakiSwitchRoutingInterface(t *testing.T) {
 		Config: testAccMerakiSwitchRoutingInterfacePrerequisitesConfig + testAccMerakiSwitchRoutingInterfaceConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_switch_routing_interface.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiSwitchRoutingInterfaceImportStateIdFunc("meraki_switch_routing_interface.test"),
+		ImportStateVerifyIgnore: []string{},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -64,6 +75,20 @@ func TestAccMerakiSwitchRoutingInterface(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func merakiSwitchRoutingInterfaceImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+		Serial := primary.Attributes["serial"]
+		id := primary.Attributes["id"]
+
+		return fmt.Sprintf("%s,%s", Serial, id), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
@@ -119,6 +144,7 @@ func testAccMerakiSwitchRoutingInterfaceConfig_all() string {
 	config += `	ipv6_assignment_mode = "static"` + "\n"
 	config += `	ipv6_gateway = "1:2:3:4::2"` + "\n"
 	config += `	ipv6_prefix = "1:2:3:4::/64"` + "\n"
+	config += `	ospf_settings_area = "ospfDisabled"` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -71,17 +71,17 @@ func (data WirelessDeviceBluetoothSettings) toBody(ctx context.Context, state Wi
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessDeviceBluetoothSettings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("major"); value.Exists() {
+	if value := res.Get("major"); value.Exists() && value.Value() != nil {
 		data.Major = types.Int64Value(value.Int())
 	} else {
 		data.Major = types.Int64Null()
 	}
-	if value := res.Get("minor"); value.Exists() {
+	if value := res.Get("minor"); value.Exists() && value.Value() != nil {
 		data.Minor = types.Int64Value(value.Int())
 	} else {
 		data.Minor = types.Int64Null()
 	}
-	if value := res.Get("uuid"); value.Exists() {
+	if value := res.Get("uuid"); value.Exists() && value.Value() != nil {
 		data.Uuid = types.StringValue(value.String())
 	} else {
 		data.Uuid = types.StringNull()

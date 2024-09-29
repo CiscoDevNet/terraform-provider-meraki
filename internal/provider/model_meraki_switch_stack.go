@@ -78,12 +78,12 @@ func (data SwitchStack) toBody(ctx context.Context, state SwitchStack) string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchStack) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("serials"); value.Exists() {
+	if value := res.Get("serials"); value.Exists() && value.Value() != nil {
 		data.Serials = helpers.GetStringSet(value.Array())
 	} else {
 		data.Serials = types.SetNull(types.StringType)

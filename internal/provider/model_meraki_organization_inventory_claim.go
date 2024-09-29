@@ -101,17 +101,17 @@ func (data OrganizationInventoryClaim) toBody(ctx context.Context, state Organiz
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationInventoryClaim) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("licenses"); value.Exists() {
+	if value := res.Get("licenses"); value.Exists() && value.Value() != nil {
 		data.Licenses = make([]OrganizationInventoryClaimLicenses, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := OrganizationInventoryClaimLicenses{}
-			if value := res.Get("key"); value.Exists() {
+			if value := res.Get("key"); value.Exists() && value.Value() != nil {
 				data.Key = types.StringValue(value.String())
 			} else {
 				data.Key = types.StringNull()
 			}
-			if value := res.Get("mode"); value.Exists() {
+			if value := res.Get("mode"); value.Exists() && value.Value() != nil {
 				data.Mode = types.StringValue(value.String())
 			} else {
 				data.Mode = types.StringNull()
@@ -120,12 +120,12 @@ func (data *OrganizationInventoryClaim) fromBody(ctx context.Context, res gjson.
 			return true
 		})
 	}
-	if value := res.Get("orders"); value.Exists() {
+	if value := res.Get("orders"); value.Exists() && value.Value() != nil {
 		data.Orders = helpers.GetStringSet(value.Array())
 	} else {
 		data.Orders = types.SetNull(types.StringType)
 	}
-	if value := res.Get("serials"); value.Exists() {
+	if value := res.Get("serials"); value.Exists() && value.Value() != nil {
 		data.Serials = helpers.GetStringSet(value.Array())
 	} else {
 		data.Serials = types.SetNull(types.StringType)

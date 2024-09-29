@@ -98,32 +98,32 @@ func (data SwitchSTP) toBody(ctx context.Context, state SwitchSTP) string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchSTP) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("rstpEnabled"); value.Exists() {
+	if value := res.Get("rstpEnabled"); value.Exists() && value.Value() != nil {
 		data.RstpEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.RstpEnabled = types.BoolNull()
 	}
-	if value := res.Get("stpBridgePriority"); value.Exists() {
+	if value := res.Get("stpBridgePriority"); value.Exists() && value.Value() != nil {
 		data.StpBridgePriority = make([]SwitchSTPStpBridgePriority, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchSTPStpBridgePriority{}
-			if value := res.Get("stpPriority"); value.Exists() {
+			if value := res.Get("stpPriority"); value.Exists() && value.Value() != nil {
 				data.StpPriority = types.Int64Value(value.Int())
 			} else {
 				data.StpPriority = types.Int64Null()
 			}
-			if value := res.Get("stacks"); value.Exists() {
+			if value := res.Get("stacks"); value.Exists() && value.Value() != nil {
 				data.Stacks = helpers.GetStringSet(value.Array())
 			} else {
 				data.Stacks = types.SetNull(types.StringType)
 			}
-			if value := res.Get("switchProfiles"); value.Exists() {
+			if value := res.Get("switchProfiles"); value.Exists() && value.Value() != nil {
 				data.SwitchProfiles = helpers.GetStringSet(value.Array())
 			} else {
 				data.SwitchProfiles = types.SetNull(types.StringType)
 			}
-			if value := res.Get("switches"); value.Exists() {
+			if value := res.Get("switches"); value.Exists() && value.Value() != nil {
 				data.Switches = helpers.GetStringSet(value.Array())
 			} else {
 				data.Switches = types.SetNull(types.StringType)

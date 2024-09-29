@@ -84,27 +84,27 @@ func (data Network) toBody(ctx context.Context, state Network) string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *Network) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("name"); value.Exists() {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
 	}
-	if value := res.Get("notes"); value.Exists() {
+	if value := res.Get("notes"); value.Exists() && value.Value() != nil {
 		data.Notes = types.StringValue(value.String())
 	} else {
 		data.Notes = types.StringNull()
 	}
-	if value := res.Get("timeZone"); value.Exists() {
+	if value := res.Get("timeZone"); value.Exists() && value.Value() != nil {
 		data.TimeZone = types.StringValue(value.String())
 	} else {
 		data.TimeZone = types.StringNull()
 	}
-	if value := res.Get("productTypes"); value.Exists() {
+	if value := res.Get("productTypes"); value.Exists() && value.Value() != nil {
 		data.ProductTypes = helpers.GetStringSet(value.Array())
 	} else {
 		data.ProductTypes = types.SetNull(types.StringType)
 	}
-	if value := res.Get("tags"); value.Exists() {
+	if value := res.Get("tags"); value.Exists() && value.Value() != nil {
 		data.Tags = helpers.GetStringSet(value.Array())
 	} else {
 		data.Tags = types.SetNull(types.StringType)

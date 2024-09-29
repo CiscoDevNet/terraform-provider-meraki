@@ -120,72 +120,72 @@ func (data OrganizationLoginSecurity) toBody(ctx context.Context, state Organiza
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationLoginSecurity) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("accountLockoutAttempts"); value.Exists() {
+	if value := res.Get("accountLockoutAttempts"); value.Exists() && value.Value() != nil {
 		data.AccountLockoutAttempts = types.Int64Value(value.Int())
 	} else {
 		data.AccountLockoutAttempts = types.Int64Null()
 	}
-	if value := res.Get("enforceAccountLockout"); value.Exists() {
+	if value := res.Get("enforceAccountLockout"); value.Exists() && value.Value() != nil {
 		data.EnforceAccountLockout = types.BoolValue(value.Bool())
 	} else {
 		data.EnforceAccountLockout = types.BoolNull()
 	}
-	if value := res.Get("enforceDifferentPasswords"); value.Exists() {
+	if value := res.Get("enforceDifferentPasswords"); value.Exists() && value.Value() != nil {
 		data.EnforceDifferentPasswords = types.BoolValue(value.Bool())
 	} else {
 		data.EnforceDifferentPasswords = types.BoolNull()
 	}
-	if value := res.Get("enforceIdleTimeout"); value.Exists() {
+	if value := res.Get("enforceIdleTimeout"); value.Exists() && value.Value() != nil {
 		data.EnforceIdleTimeout = types.BoolValue(value.Bool())
 	} else {
 		data.EnforceIdleTimeout = types.BoolNull()
 	}
-	if value := res.Get("enforceLoginIpRanges"); value.Exists() {
+	if value := res.Get("enforceLoginIpRanges"); value.Exists() && value.Value() != nil {
 		data.EnforceLoginIpRanges = types.BoolValue(value.Bool())
 	} else {
 		data.EnforceLoginIpRanges = types.BoolNull()
 	}
-	if value := res.Get("enforcePasswordExpiration"); value.Exists() {
+	if value := res.Get("enforcePasswordExpiration"); value.Exists() && value.Value() != nil {
 		data.EnforcePasswordExpiration = types.BoolValue(value.Bool())
 	} else {
 		data.EnforcePasswordExpiration = types.BoolNull()
 	}
-	if value := res.Get("enforceStrongPasswords"); value.Exists() {
+	if value := res.Get("enforceStrongPasswords"); value.Exists() && value.Value() != nil {
 		data.EnforceStrongPasswords = types.BoolValue(value.Bool())
 	} else {
 		data.EnforceStrongPasswords = types.BoolNull()
 	}
-	if value := res.Get("enforceTwoFactorAuth"); value.Exists() {
+	if value := res.Get("enforceTwoFactorAuth"); value.Exists() && value.Value() != nil {
 		data.EnforceTwoFactorAuth = types.BoolValue(value.Bool())
 	} else {
 		data.EnforceTwoFactorAuth = types.BoolNull()
 	}
-	if value := res.Get("idleTimeoutMinutes"); value.Exists() {
+	if value := res.Get("idleTimeoutMinutes"); value.Exists() && value.Value() != nil {
 		data.IdleTimeoutMinutes = types.Int64Value(value.Int())
 	} else {
 		data.IdleTimeoutMinutes = types.Int64Null()
 	}
-	if value := res.Get("numDifferentPasswords"); value.Exists() {
+	if value := res.Get("numDifferentPasswords"); value.Exists() && value.Value() != nil {
 		data.NumDifferentPasswords = types.Int64Value(value.Int())
 	} else {
 		data.NumDifferentPasswords = types.Int64Null()
 	}
-	if value := res.Get("passwordExpirationDays"); value.Exists() {
+	if value := res.Get("passwordExpirationDays"); value.Exists() && value.Value() != nil {
 		data.PasswordExpirationDays = types.Int64Value(value.Int())
 	} else {
 		data.PasswordExpirationDays = types.Int64Null()
 	}
-	if value := res.Get("apiAuthentication.ipRestrictionsForKeys.enabled"); value.Exists() {
+	if value := res.Get("apiAuthentication.ipRestrictionsForKeys.enabled"); value.Exists() && value.Value() != nil {
 		data.ApiAuthenticationIpRestrictionsForKeysEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.ApiAuthenticationIpRestrictionsForKeysEnabled = types.BoolNull()
 	}
-	if value := res.Get("apiAuthentication.ipRestrictionsForKeys.ranges"); value.Exists() {
+	if value := res.Get("apiAuthentication.ipRestrictionsForKeys.ranges"); value.Exists() && value.Value() != nil {
 		data.ApiAuthenticationIpRestrictionsForKeysRanges = helpers.GetStringSet(value.Array())
 	} else {
 		data.ApiAuthenticationIpRestrictionsForKeysRanges = types.SetNull(types.StringType)
 	}
-	if value := res.Get("loginIpRanges"); value.Exists() {
+	if value := res.Get("loginIpRanges"); value.Exists() && value.Value() != nil {
 		data.LoginIpRanges = helpers.GetStringSet(value.Array())
 	} else {
 		data.LoginIpRanges = types.SetNull(types.StringType)

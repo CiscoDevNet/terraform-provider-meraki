@@ -44,6 +44,7 @@ func TestAccDataSourceMerakiSwitchStackRoutingInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_assignment_mode", "static"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_gateway", "1:2:3:4::2"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_prefix", "1:2:3:4::/64"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ospf_settings_area", "ospfDisabled"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -103,6 +104,7 @@ func testAccDataSourceMerakiSwitchStackRoutingInterfaceConfig() string {
 	config += `	ipv6_assignment_mode = "static"` + "\n"
 	config += `	ipv6_gateway = "1:2:3:4::2"` + "\n"
 	config += `	ipv6_prefix = "1:2:3:4::/64"` + "\n"
+	config += `	ospf_settings_area = "ospfDisabled"` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -130,6 +132,7 @@ func testAccNamedDataSourceMerakiSwitchStackRoutingInterfaceConfig() string {
 	config += `	ipv6_assignment_mode = "static"` + "\n"
 	config += `	ipv6_gateway = "1:2:3:4::2"` + "\n"
 	config += `	ipv6_prefix = "1:2:3:4::/64"` + "\n"
+	config += `	ospf_settings_area = "ospfDisabled"` + "\n"
 	config += `}` + "\n"
 
 	config += `

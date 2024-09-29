@@ -68,12 +68,12 @@ func (data NetworkClientPolicy) toBody(ctx context.Context, state NetworkClientP
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkClientPolicy) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("devicePolicy"); value.Exists() {
+	if value := res.Get("devicePolicy"); value.Exists() && value.Value() != nil {
 		data.DevicePolicy = types.StringValue(value.String())
 	} else {
 		data.DevicePolicy = types.StringNull()
 	}
-	if value := res.Get("groupPolicyId"); value.Exists() {
+	if value := res.Get("groupPolicyId"); value.Exists() && value.Value() != nil {
 		data.GroupPolicyId = types.StringValue(value.String())
 	} else {
 		data.GroupPolicyId = types.StringNull()

@@ -172,47 +172,47 @@ func (data WirelessSSIDHotspot20) toBody(ctx context.Context, state WirelessSSID
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDHotspot20) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("networkAccessType"); value.Exists() {
+	if value := res.Get("networkAccessType"); value.Exists() && value.Value() != nil {
 		data.NetworkAccessType = types.StringValue(value.String())
 	} else {
 		data.NetworkAccessType = types.StringNull()
 	}
-	if value := res.Get("operator.name"); value.Exists() {
+	if value := res.Get("operator.name"); value.Exists() && value.Value() != nil {
 		data.OperatorName = types.StringValue(value.String())
 	} else {
 		data.OperatorName = types.StringNull()
 	}
-	if value := res.Get("venue.name"); value.Exists() {
+	if value := res.Get("venue.name"); value.Exists() && value.Value() != nil {
 		data.VenueName = types.StringValue(value.String())
 	} else {
 		data.VenueName = types.StringNull()
 	}
-	if value := res.Get("venue.type"); value.Exists() {
+	if value := res.Get("venue.type"); value.Exists() && value.Value() != nil {
 		data.VenueType = types.StringValue(value.String())
 	} else {
 		data.VenueType = types.StringNull()
 	}
-	if value := res.Get("domains"); value.Exists() {
+	if value := res.Get("domains"); value.Exists() && value.Value() != nil {
 		data.Domains = helpers.GetStringSet(value.Array())
 	} else {
 		data.Domains = types.SetNull(types.StringType)
 	}
-	if value := res.Get("mccMncs"); value.Exists() {
+	if value := res.Get("mccMncs"); value.Exists() && value.Value() != nil {
 		data.MccMncs = make([]WirelessSSIDHotspot20MccMncs, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDHotspot20MccMncs{}
-			if value := res.Get("mcc"); value.Exists() {
+			if value := res.Get("mcc"); value.Exists() && value.Value() != nil {
 				data.Mcc = types.StringValue(value.String())
 			} else {
 				data.Mcc = types.StringNull()
 			}
-			if value := res.Get("mnc"); value.Exists() {
+			if value := res.Get("mnc"); value.Exists() && value.Value() != nil {
 				data.Mnc = types.StringValue(value.String())
 			} else {
 				data.Mnc = types.StringNull()
@@ -221,47 +221,47 @@ func (data *WirelessSSIDHotspot20) fromBody(ctx context.Context, res gjson.Resul
 			return true
 		})
 	}
-	if value := res.Get("naiRealms"); value.Exists() {
+	if value := res.Get("naiRealms"); value.Exists() && value.Value() != nil {
 		data.NaiRealms = make([]WirelessSSIDHotspot20NaiRealms, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessSSIDHotspot20NaiRealms{}
-			if value := res.Get("format"); value.Exists() {
+			if value := res.Get("format"); value.Exists() && value.Value() != nil {
 				data.Format = types.StringValue(value.String())
 			} else {
 				data.Format = types.StringNull()
 			}
-			if value := res.Get("realm"); value.Exists() {
+			if value := res.Get("realm"); value.Exists() && value.Value() != nil {
 				data.Realm = types.StringValue(value.String())
 			} else {
 				data.Realm = types.StringNull()
 			}
-			if value := res.Get("methods"); value.Exists() {
+			if value := res.Get("methods"); value.Exists() && value.Value() != nil {
 				data.Methods = make([]WirelessSSIDHotspot20NaiRealmsMethods, 0)
 				value.ForEach(func(k, res gjson.Result) bool {
 					parent := &data
 					data := WirelessSSIDHotspot20NaiRealmsMethods{}
-					if value := res.Get("id"); value.Exists() {
+					if value := res.Get("id"); value.Exists() && value.Value() != nil {
 						data.Id = types.StringValue(value.String())
 					} else {
 						data.Id = types.StringNull()
 					}
-					if value := res.Get("authenticationTypes.nonEapInnerAuthentication"); value.Exists() {
+					if value := res.Get("authenticationTypes.nonEapInnerAuthentication"); value.Exists() && value.Value() != nil {
 						data.AuthenticationTypesNonEapInnerAuthentication = helpers.GetStringSet(value.Array())
 					} else {
 						data.AuthenticationTypesNonEapInnerAuthentication = types.SetNull(types.StringType)
 					}
-					if value := res.Get("authenticationTypes.eapInnerAuthentication"); value.Exists() {
+					if value := res.Get("authenticationTypes.eapInnerAuthentication"); value.Exists() && value.Value() != nil {
 						data.AuthenticationTypesEapInnerAuthentication = helpers.GetStringSet(value.Array())
 					} else {
 						data.AuthenticationTypesEapInnerAuthentication = types.SetNull(types.StringType)
 					}
-					if value := res.Get("authenticationTypes.credentials"); value.Exists() {
+					if value := res.Get("authenticationTypes.credentials"); value.Exists() && value.Value() != nil {
 						data.AuthenticationTypesCredentials = helpers.GetStringSet(value.Array())
 					} else {
 						data.AuthenticationTypesCredentials = types.SetNull(types.StringType)
 					}
-					if value := res.Get("authenticationTypes.tunneledEapMethodCredentials"); value.Exists() {
+					if value := res.Get("authenticationTypes.tunneledEapMethodCredentials"); value.Exists() && value.Value() != nil {
 						data.AuthenticationTypesTunneledEapMethodCredentials = helpers.GetStringSet(value.Array())
 					} else {
 						data.AuthenticationTypesTunneledEapMethodCredentials = types.SetNull(types.StringType)
@@ -274,7 +274,7 @@ func (data *WirelessSSIDHotspot20) fromBody(ctx context.Context, res gjson.Resul
 			return true
 		})
 	}
-	if value := res.Get("roamConsortOis"); value.Exists() {
+	if value := res.Get("roamConsortOis"); value.Exists() && value.Value() != nil {
 		data.RoamConsortOis = helpers.GetStringSet(value.Array())
 	} else {
 		data.RoamConsortOis = types.SetNull(types.StringType)

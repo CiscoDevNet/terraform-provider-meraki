@@ -67,7 +67,7 @@ func (data WirelessEthernetPortProfileDefault) toBody(ctx context.Context, state
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessEthernetPortProfileDefault) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("profileId"); value.Exists() {
+	if value := res.Get("profileId"); value.Exists() && value.Value() != nil {
 		data.ProfileId = types.StringValue(value.String())
 	} else {
 		data.ProfileId = types.StringNull()

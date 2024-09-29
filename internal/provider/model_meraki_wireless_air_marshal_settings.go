@@ -63,7 +63,7 @@ func (data WirelessAirMarshalSettings) toBody(ctx context.Context, state Wireles
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessAirMarshalSettings) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("defaultPolicy"); value.Exists() {
+	if value := res.Get("defaultPolicy"); value.Exists() && value.Value() != nil {
 		data.DefaultPolicy = types.StringValue(value.String())
 	} else {
 		data.DefaultPolicy = types.StringNull()

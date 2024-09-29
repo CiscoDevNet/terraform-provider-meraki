@@ -92,27 +92,27 @@ func (data SwitchMTU) toBody(ctx context.Context, state SwitchMTU) string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchMTU) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("defaultMtuSize"); value.Exists() {
+	if value := res.Get("defaultMtuSize"); value.Exists() && value.Value() != nil {
 		data.DefaultMtuSize = types.Int64Value(value.Int())
 	} else {
 		data.DefaultMtuSize = types.Int64Null()
 	}
-	if value := res.Get("overrides"); value.Exists() {
+	if value := res.Get("overrides"); value.Exists() && value.Value() != nil {
 		data.Overrides = make([]SwitchMTUOverrides, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := SwitchMTUOverrides{}
-			if value := res.Get("mtuSize"); value.Exists() {
+			if value := res.Get("mtuSize"); value.Exists() && value.Value() != nil {
 				data.MtuSize = types.Int64Value(value.Int())
 			} else {
 				data.MtuSize = types.Int64Null()
 			}
-			if value := res.Get("switchProfiles"); value.Exists() {
+			if value := res.Get("switchProfiles"); value.Exists() && value.Value() != nil {
 				data.SwitchProfiles = helpers.GetStringSet(value.Array())
 			} else {
 				data.SwitchProfiles = types.SetNull(types.StringType)
 			}
-			if value := res.Get("switches"); value.Exists() {
+			if value := res.Get("switches"); value.Exists() && value.Value() != nil {
 				data.Switches = helpers.GetStringSet(value.Array())
 			} else {
 				data.Switches = types.SetNull(types.StringType)

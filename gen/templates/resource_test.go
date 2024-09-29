@@ -23,6 +23,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 // End of section. //template:end imports
@@ -129,10 +130,14 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 		Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccMeraki{{camelCase .Name}}Config_all(),
 		Check: resource.ComposeTestCheckFunc(checks...),
 	})
-	{{- if not (hasReference .Attributes)}}
+	{{- if not .NoImport}}
 	steps = append(steps, resource.TestStep{
-		ResourceName:  "meraki_{{snakeCase $name}}.test",
-		ImportState:   true,
+		ResourceName: "meraki_{{snakeCase $name}}.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: meraki{{camelCase .Name}}ImportStateIdFunc("meraki_{{snakeCase $name}}.test"),
+		ImportStateVerifyIgnore: []string{ {{range getImportExcludes .Attributes}}"{{.}}",{{end}} },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	{{- end}}
 
@@ -144,6 +149,27 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 }
 
 // End of section. //template:end testAcc
+
+// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
+
+func meraki{{camelCase .Name}}ImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		primary := s.RootModule().Resources[resourceName].Primary
+
+		{{- range .Attributes}}
+		{{- if or .Reference .Id}}
+		{{toGoName .TfName}} := primary.Attributes["{{.TfName}}"]
+		{{- end}}
+		{{- end}}
+		{{- if not (hasId .Attributes)}}
+		id := primary.Attributes["id"]
+		{{- end}}
+
+		return fmt.Sprintf("{{range $i := (iterate (importParts .))}}{{if $i}},{{end}}%s{{end}}", {{$idRef := false}}{{range $i, $e := .Attributes}}{{if or .Reference .Id}}{{$idRef = true}}{{if $i}},{{end}}{{toGoName .TfName}}{{end}}{{end}}{{if not (hasId .Attributes)}}{{if $idRef}},{{end}}id{{end}}), nil
+	}
+}
+
+// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 {{- if or .TestPrerequisites (len .TestVariables)}}

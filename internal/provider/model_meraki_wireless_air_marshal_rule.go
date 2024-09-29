@@ -71,17 +71,17 @@ func (data WirelessAirMarshalRule) toBody(ctx context.Context, state WirelessAir
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessAirMarshalRule) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("type"); value.Exists() {
+	if value := res.Get("type"); value.Exists() && value.Value() != nil {
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
 	}
-	if value := res.Get("match.string"); value.Exists() {
+	if value := res.Get("match.string"); value.Exists() && value.Value() != nil {
 		data.MatchString = types.StringValue(value.String())
 	} else {
 		data.MatchString = types.StringNull()
 	}
-	if value := res.Get("match.type"); value.Exists() {
+	if value := res.Get("match.type"); value.Exists() && value.Value() != nil {
 		data.MatchType = types.StringValue(value.String())
 	} else {
 		data.MatchType = types.StringNull()

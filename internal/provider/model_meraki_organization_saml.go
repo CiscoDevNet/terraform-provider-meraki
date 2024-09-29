@@ -63,7 +63,7 @@ func (data OrganizationSAML) toBody(ctx context.Context, state OrganizationSAML)
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationSAML) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()

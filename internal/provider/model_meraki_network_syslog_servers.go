@@ -88,22 +88,22 @@ func (data NetworkSyslogServers) toBody(ctx context.Context, state NetworkSyslog
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkSyslogServers) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("servers"); value.Exists() {
+	if value := res.Get("servers"); value.Exists() && value.Value() != nil {
 		data.Servers = make([]NetworkSyslogServersServers, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := NetworkSyslogServersServers{}
-			if value := res.Get("host"); value.Exists() {
+			if value := res.Get("host"); value.Exists() && value.Value() != nil {
 				data.Host = types.StringValue(value.String())
 			} else {
 				data.Host = types.StringNull()
 			}
-			if value := res.Get("port"); value.Exists() {
+			if value := res.Get("port"); value.Exists() && value.Value() != nil {
 				data.Port = types.Int64Value(value.Int())
 			} else {
 				data.Port = types.Int64Null()
 			}
-			if value := res.Get("roles"); value.Exists() {
+			if value := res.Get("roles"); value.Exists() && value.Value() != nil {
 				data.Roles = helpers.GetStringSet(value.Array())
 			} else {
 				data.Roles = types.SetNull(types.StringType)

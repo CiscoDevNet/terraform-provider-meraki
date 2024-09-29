@@ -111,47 +111,47 @@ func (data WirelessAlternateManagementInterface) toBody(ctx context.Context, sta
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessAlternateManagementInterface) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("enabled"); value.Exists() {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("vlanId"); value.Exists() {
+	if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 		data.VlanId = types.Int64Value(value.Int())
 	} else {
 		data.VlanId = types.Int64Null()
 	}
-	if value := res.Get("accessPoints"); value.Exists() {
+	if value := res.Get("accessPoints"); value.Exists() && value.Value() != nil {
 		data.AccessPoints = make([]WirelessAlternateManagementInterfaceAccessPoints, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := WirelessAlternateManagementInterfaceAccessPoints{}
-			if value := res.Get("alternateManagementIp"); value.Exists() {
+			if value := res.Get("alternateManagementIp"); value.Exists() && value.Value() != nil {
 				data.AlternateManagementIp = types.StringValue(value.String())
 			} else {
 				data.AlternateManagementIp = types.StringNull()
 			}
-			if value := res.Get("dns1"); value.Exists() {
+			if value := res.Get("dns1"); value.Exists() && value.Value() != nil {
 				data.Dns1 = types.StringValue(value.String())
 			} else {
 				data.Dns1 = types.StringNull()
 			}
-			if value := res.Get("dns2"); value.Exists() {
+			if value := res.Get("dns2"); value.Exists() && value.Value() != nil {
 				data.Dns2 = types.StringValue(value.String())
 			} else {
 				data.Dns2 = types.StringNull()
 			}
-			if value := res.Get("gateway"); value.Exists() {
+			if value := res.Get("gateway"); value.Exists() && value.Value() != nil {
 				data.Gateway = types.StringValue(value.String())
 			} else {
 				data.Gateway = types.StringNull()
 			}
-			if value := res.Get("serial"); value.Exists() {
+			if value := res.Get("serial"); value.Exists() && value.Value() != nil {
 				data.Serial = types.StringValue(value.String())
 			} else {
 				data.Serial = types.StringNull()
 			}
-			if value := res.Get("subnetMask"); value.Exists() {
+			if value := res.Get("subnetMask"); value.Exists() && value.Value() != nil {
 				data.SubnetMask = types.StringValue(value.String())
 			} else {
 				data.SubnetMask = types.StringNull()
@@ -160,7 +160,7 @@ func (data *WirelessAlternateManagementInterface) fromBody(ctx context.Context, 
 			return true
 		})
 	}
-	if value := res.Get("protocols"); value.Exists() {
+	if value := res.Get("protocols"); value.Exists() && value.Value() != nil {
 		data.Protocols = helpers.GetStringSet(value.Array())
 	} else {
 		data.Protocols = types.SetNull(types.StringType)

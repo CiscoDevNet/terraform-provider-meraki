@@ -66,7 +66,7 @@ func (data SwitchQoSRuleOrder) toBody(ctx context.Context, state SwitchQoSRuleOr
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchQoSRuleOrder) fromBody(ctx context.Context, res gjson.Result) {
-	if value := res.Get("ruleIds"); value.Exists() {
+	if value := res.Get("ruleIds"); value.Exists() && value.Value() != nil {
 		data.RuleIds = helpers.GetStringList(value.Array())
 	} else {
 		data.RuleIds = types.ListNull(types.StringType)
