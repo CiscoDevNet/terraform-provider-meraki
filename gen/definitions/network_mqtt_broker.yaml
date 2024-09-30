@@ -1,6 +1,7 @@
 name: Network MQTT Broker
 spec_endpoint: /networks/{networkId}/mqttBrokers/{mqttBrokerId}
 rest_endpoint: /networks/%v/mqttBrokers
+bulk_data_source: true
 data_source_name_query: true
 doc_category: Networks
 test_variables: [test_org, test_network]

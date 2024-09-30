@@ -1,6 +1,7 @@
 name: Switch Routing Interface
 spec_endpoint: /devices/{serial}/switch/routing/interfaces/{interfaceId}
 rest_endpoint: /devices/%v/switch/routing/interfaces
+bulk_data_source: true
 id_name: interfaceId
 data_source_name_query: true
 doc_category: Switches

@@ -1,6 +1,7 @@
 name: Organization
 spec_endpoint: /organizations/{organizationId}
 rest_endpoint: /organizations
+bulk_data_source: true
 data_source_name_query: true
 doc_category: Organizations
 test_tags: [ORGANIZATION]

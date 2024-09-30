@@ -1,6 +1,7 @@
 name: Organization Config Template
 spec_endpoint: /organizations/{organizationId}/configTemplates/{configTemplateId}
 rest_endpoint: /organizations/%v/configTemplates
+bulk_data_source: true
 data_source_name_query: true
 doc_category: Organizations
 test_variables: [test_org, test_network]

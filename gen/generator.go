@@ -33,8 +33,6 @@ import (
 	"strings"
 	"text/template"
 
-	"gopkg.in/yaml.v3"
-
 	"github.com/CiscoDevNet/terraform-provider-meraki/gen/yamlconfig"
 )
 
@@ -114,42 +112,6 @@ var templates = []t{
 		prefix: "./examples/data-sources/meraki_",
 		suffix: "/data-source.tf",
 	},
-}
-
-func NewYamlConfig(bytes []byte) (yamlconfig.YamlConfig, error) {
-	var config yamlconfig.YamlConfig
-
-	if err := yaml.Unmarshal(bytes, &config); err != nil {
-		return config, err
-	}
-
-	if config.BulkName == "" {
-		if string(config.Name[len(config.Name)-1]) == "y" {
-			config.BulkName = config.Name[:len(config.Name)-1] + "ies"
-		} else {
-			config.BulkName = config.Name + "s"
-		}
-	}
-
-	for i := range config.Attributes {
-		if err := config.Attributes[i].Init(yamlconfig.CamelCase(config.Name), yamlconfig.CamelCase(config.BulkName)); err != nil {
-			return yamlconfig.YamlConfig{}, err
-		}
-	}
-	if config.DsDescription == "" {
-		config.DsDescription = fmt.Sprintf("This data source can read the `%s` configuration.", config.Name)
-	}
-	if config.ResDescription == "" {
-		config.ResDescription = fmt.Sprintf("This resource can manage the `%s` configuration.", config.Name)
-	}
-	if config.TfName == "" {
-		config.TfName = strings.Replace(config.Name, " ", "_", -1)
-	}
-	if config.IdName == "" {
-		config.IdName = "id"
-	}
-
-	return config, nil
 }
 
 func getTemplateSection(content, name string) string {
@@ -253,7 +215,7 @@ func updateDefinitions() {
 			log.Fatalf("Error reading file %q: %v", path, err)
 		}
 
-		config, err := NewYamlConfig(fileBytes)
+		config, err := yamlconfig.NewYamlConfig(fileBytes)
 		if err != nil {
 			log.Fatalf("Error parsing %q: %v", path, err)
 		}
@@ -295,7 +257,7 @@ func main() {
 			log.Fatalf("Error reading file %q: %v", path, err)
 		}
 
-		config, err := NewYamlConfig(bytes)
+		config, err := yamlconfig.NewYamlConfig(bytes)
 		if err != nil {
 			log.Fatalf("Error parsing %q: %v", path, err)
 		}
@@ -316,13 +278,14 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/resource.go") ||
 				(configs[i].NoResource && t.path == "./gen/templates/resource_test.go") ||
 				(configs[i].NoResource && t.path == "./gen/templates/resource.tf") ||
-				(configs[i].NoResource && t.path == "./gen/templates/import.sh") {
+				(configs[i].NoResource && t.path == "./gen/templates/import.sh") ||
+				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model.go") ||
+				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
+				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
+				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") {
 				continue
 			}
-			if (configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model.go") ||
-				(configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
-				(configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
-				(configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") {
+			if strings.Contains(t.path, "/bulk/") {
 				renderTemplate(t.path, t.prefix+yamlconfig.SnakeCase(configs[i].BulkName)+t.suffix, configs[i])
 			} else {
 				renderTemplate(t.path, t.prefix+yamlconfig.SnakeCase(configs[i].Name)+t.suffix, configs[i])

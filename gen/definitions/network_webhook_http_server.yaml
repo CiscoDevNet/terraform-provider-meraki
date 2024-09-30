@@ -1,6 +1,7 @@
 name: Network Webhook HTTP Server
 spec_endpoint: /networks/{networkId}/webhooks/httpServers/{httpServerId}
 rest_endpoint: /networks/%v/webhooks/httpServers
+bulk_data_source: true
 data_source_name_query: true
 doc_category: Networks
 test_variables: [test_org, test_network]

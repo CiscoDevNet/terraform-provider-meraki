@@ -6,6 +6,8 @@ import (
 	"slices"
 	"strings"
 	"text/template"
+
+	"gopkg.in/yaml.v3"
 )
 
 const EndpointToken = "@endpoint:"
@@ -430,6 +432,42 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 	}
 
 	return nil
+}
+
+func NewYamlConfig(bytes []byte) (YamlConfig, error) {
+	var config YamlConfig
+
+	if err := yaml.Unmarshal(bytes, &config); err != nil {
+		return config, err
+	}
+
+	if config.BulkName == "" {
+		if string(config.Name[len(config.Name)-1]) == "y" {
+			config.BulkName = config.Name[:len(config.Name)-1] + "ies"
+		} else {
+			config.BulkName = config.Name + "s"
+		}
+	}
+
+	for i := range config.Attributes {
+		if err := config.Attributes[i].Init(CamelCase(config.Name), CamelCase(config.BulkName)); err != nil {
+			return YamlConfig{}, err
+		}
+	}
+	if config.DsDescription == "" {
+		config.DsDescription = fmt.Sprintf("This data source can read the `%s` configuration.", config.Name)
+	}
+	if config.ResDescription == "" {
+		config.ResDescription = fmt.Sprintf("This resource can manage the `%s` configuration.", config.Name)
+	}
+	if config.TfName == "" {
+		config.TfName = strings.Replace(config.Name, " ", "_", -1)
+	}
+	if config.IdName == "" {
+		config.IdName = "id"
+	}
+
+	return config, nil
 }
 
 func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {

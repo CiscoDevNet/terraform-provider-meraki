@@ -1,6 +1,7 @@
 name: Network
 spec_endpoint: /organizations/{organizationId}/networks/{networkId}
 rest_endpoint: /organizations/%v/networks
+bulk_data_source: true
 get_from_all: false
 no_update: false
 no_delete: false

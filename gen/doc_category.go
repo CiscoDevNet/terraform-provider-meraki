@@ -25,8 +25,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"gopkg.in/yaml.v3"
-
 	"github.com/CiscoDevNet/terraform-provider-meraki/gen/yamlconfig"
 )
 
@@ -39,22 +37,21 @@ var docPaths = []string{"./docs/data-sources/", "./docs/resources/"}
 var extraDocs = map[string]string{}
 
 func main() {
+	var configs []yamlconfig.YamlConfig
 	files, _ := os.ReadDir(definitionsPath)
-	configs := make([]yamlconfig.YamlConfig, len(files))
 
-	// Load configs
-	for i, filename := range files {
-		yamlFile, err := os.ReadFile(filepath.Join(definitionsPath, filename.Name()))
+	for _, filename := range files {
+		path := filepath.Join(definitionsPath, filename.Name())
+		bytes, err := os.ReadFile(path)
 		if err != nil {
-			log.Fatalf("Error reading file: %v", err)
+			log.Fatalf("Error reading file %q: %v", path, err)
 		}
 
-		config := yamlconfig.YamlConfig{}
-		err = yaml.Unmarshal(yamlFile, &config)
+		config, err := yamlconfig.NewYamlConfig(bytes)
 		if err != nil {
-			log.Fatalf("Error parsing yaml: %v", err)
+			log.Fatalf("Error parsing %q: %v", path, err)
 		}
-		configs[i] = config
+		configs = append(configs, config)
 	}
 
 	// Update doc category
@@ -75,6 +72,20 @@ func main() {
 			s = strings.ReplaceAll(s, `subcategory: ""`, `subcategory: "`+cat+`"`)
 
 			os.WriteFile(filename, []byte(s), 0644)
+
+			if configs[i].BulkDataSource && path == "./docs/data-sources/" {
+				filename := path + yamlconfig.SnakeCase(configs[i].BulkName) + ".md"
+				content, err := os.ReadFile(filename)
+				if err != nil {
+					log.Fatalf("Error opening documentation: %v", err)
+				}
+
+				cat := configs[i].DocCategory
+				s := string(content)
+				s = strings.ReplaceAll(s, `subcategory: ""`, `subcategory: "`+cat+`"`)
+
+				os.WriteFile(filename, []byte(s), 0644)
+			}
 		}
 	}
 

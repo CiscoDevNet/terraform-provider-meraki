@@ -1,6 +1,7 @@
 name: Switch QoS Rule
 spec_endpoint: /networks/{networkId}/switch/qosRules/{qosRuleId}
 rest_endpoint: /networks/%v/switch/qosRules
+bulk_data_source: true
 doc_category: Switches
 test_variables: [test_org, test_network]
 attributes:
