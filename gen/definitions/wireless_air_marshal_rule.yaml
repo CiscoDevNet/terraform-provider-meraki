@@ -1,7 +1,9 @@
 name: Wireless Air Marshal Rule
 spec_endpoint: /networks/{networkId}/wireless/airMarshal/rules/{ruleId}
 rest_endpoint: /networks/%v/wireless/airMarshal/rules
+no_data_source: false
 get_from_all: true
+no_import: false
 id_name: ruleId
 doc_category: Wireless
 test_variables: [test_org, test_network]

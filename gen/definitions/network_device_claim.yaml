@@ -2,6 +2,9 @@ name: Network Device Claim
 spec_endpoint: /networks/{networkId}/devices/claim
 rest_endpoint: /networks/%v/devices/claim
 no_data_source: true
+no_update: false
+no_delete: false
+no_import: false
 res_description: This resource allows claiming and removing serials to a network. It will not not touch any existing serials already claimed and not included in `serials`. Removing a serial from a network will return it to the organization inventory.
 doc_category: Networks
 test_variables: [test_org, test_network, test_claim_serial_1, test_claim_serial_2]

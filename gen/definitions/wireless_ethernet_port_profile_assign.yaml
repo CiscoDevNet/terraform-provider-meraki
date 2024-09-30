@@ -2,6 +2,7 @@ name: Wireless Ethernet Port Profile Assign
 spec_endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/assign
 rest_endpoint: /networks/%v/wireless/ethernet/ports/profiles/assign
 no_data_source: true
+no_update: false
 no_delete: true
 no_import: true
 doc_category: Wireless

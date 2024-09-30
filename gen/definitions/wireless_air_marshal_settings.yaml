@@ -1,8 +1,10 @@
 name: Wireless Air Marshal Settings
 spec_endpoint: /networks/{networkId}/wireless/airMarshal/settings
 rest_endpoint: /networks/%v/wireless/airMarshal/settings
+no_data_source: false
 put_create: true
 no_delete: true
+no_import: false
 doc_category: Wireless
 skip_minimum_test: true
 test_variables: [test_org, test_network]

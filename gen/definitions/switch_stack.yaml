@@ -1,6 +1,7 @@
 name: Switch Stack
 spec_endpoint: /networks/{networkId}/switch/stacks/{switchStackId}
 rest_endpoint: /networks/%v/switch/stacks
+no_update: false
 data_source_name_query: true
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial, test_switch_2_serial]

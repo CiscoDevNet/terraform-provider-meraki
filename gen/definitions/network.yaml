@@ -1,6 +1,9 @@
 name: Network
 spec_endpoint: /organizations/{organizationId}/networks/{networkId}
 rest_endpoint: /organizations/%v/networks
+get_from_all: false
+no_update: false
+no_delete: false
 data_source_name_query: true
 doc_category: Networks
 test_variables: [test_org, test_network]
