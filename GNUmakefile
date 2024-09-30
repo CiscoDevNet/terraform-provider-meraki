@@ -12,14 +12,14 @@ test:
 	TF_ACC=1 go test ./... -v -run $(NAME) -timeout 120m
 
 # Create new definition and build the code
-# Usage: make def DEF_PATH="/organizations/{organizationId}/admins/{adminId}" DEF_NAME="Organization Admin"
-# DEF_PATH: The PUT API endpoint path
-# DEF_NAME: The name of the definition, e.g. "Organization Admin"
+# Usage: make gen SPEC_PATH="/organizations/{organizationId}/admins/{adminId}" NAME="Organization Admin"
+# SPEC_PATH: The PUT API endpoint path
+# NAME: The name of the definition, e.g. "Organization Admin"
 .PHONY: gen
-def:
+gen:
 	go run gen/load_models.go
-	go run ./gen/definition.go "$(DEF_PATH)" "$(DEF_NAME)"
-	go run ./gen/generator.go "$(DEF_PATH)" "$(DEF_NAME)"
+	go run ./gen/definition.go "$(SPEC_PATH)" "$(NAME)"
+	go run ./gen/generator.go "$(SPEC_PATH)" "$(NAME)"
 	go run golang.org/x/tools/cmd/goimports -w internal/provider/
 	terraform fmt -recursive ./examples/
 	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
