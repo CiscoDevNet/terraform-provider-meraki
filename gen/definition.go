@@ -139,6 +139,7 @@ func generateDefinition(endpointPath, resourceName string) {
 	config.NoImport = urlResult.noImport
 	config.NoResource = urlResult.noResource
 	config.NoDataSource = urlResult.noDataSource
+	config.BulkDataSource = urlResult.bulkDataSource
 	config.NoUpdate = urlResult.noUpdate
 	config.TestVariables = urlResult.testVariables
 
@@ -251,19 +252,20 @@ var jsonTypes = map[string]string{
 }
 
 type parseUrlResult struct {
-	resultPath    string
-	references    []string
-	category      string
-	schema        map[string]interface{}
-	putCreate     *bool
-	noDelete      *bool
-	getFromAll    *bool
-	hasShortUrl   bool
-	noResource    *bool
-	noDataSource  *bool
-	noImport      *bool
-	noUpdate      *bool
-	testVariables *[]string
+	resultPath     string
+	references     []string
+	category       string
+	schema         map[string]interface{}
+	putCreate      *bool
+	noDelete       *bool
+	getFromAll     *bool
+	hasShortUrl    bool
+	noResource     *bool
+	noDataSource   *bool
+	bulkDataSource *bool
+	noImport       *bool
+	noUpdate       *bool
+	testVariables  *[]string
 }
 
 func parseUrl(url string, spec interface{}) parseUrlResult {
@@ -326,6 +328,9 @@ func parseUrl(url string, spec interface{}) parseUrlResult {
 		} else {
 			ret.noResource = P(true)
 		}
+	}
+	if hasShortPost && hasShortGet {
+		ret.bulkDataSource = P(true)
 	}
 	if ret.noResource == nil || !*ret.noResource {
 		if !hasGet && hasShortGet {

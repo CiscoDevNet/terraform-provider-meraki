@@ -94,6 +94,26 @@ var templates = []t{
 		prefix: "./examples/resources/meraki_",
 		suffix: "/import.sh",
 	},
+	{
+		path:   "./gen/templates/bulk/model.go",
+		prefix: "./internal/provider/model_meraki_",
+		suffix: ".go",
+	},
+	{
+		path:   "./gen/templates/bulk/data_source.go",
+		prefix: "./internal/provider/data_source_meraki_",
+		suffix: ".go",
+	},
+	{
+		path:   "./gen/templates/bulk/data_source_test.go",
+		prefix: "./internal/provider/data_source_meraki_",
+		suffix: "_test.go",
+	},
+	{
+		path:   "./gen/templates/bulk/data-source.tf",
+		prefix: "./examples/data-sources/meraki_",
+		suffix: "/data-source.tf",
+	},
 }
 
 func NewYamlConfig(bytes []byte) (yamlconfig.YamlConfig, error) {
@@ -103,8 +123,16 @@ func NewYamlConfig(bytes []byte) (yamlconfig.YamlConfig, error) {
 		return config, err
 	}
 
+	if config.BulkName == "" {
+		if string(config.Name[len(config.Name)-1]) == "y" {
+			config.BulkName = config.Name[:len(config.Name)-1] + "ies"
+		} else {
+			config.BulkName = config.Name + "s"
+		}
+	}
+
 	for i := range config.Attributes {
-		if err := config.Attributes[i].Init(yamlconfig.CamelCase(config.Name)); err != nil {
+		if err := config.Attributes[i].Init(yamlconfig.CamelCase(config.Name), yamlconfig.CamelCase(config.BulkName)); err != nil {
 			return yamlconfig.YamlConfig{}, err
 		}
 	}
@@ -274,7 +302,6 @@ func main() {
 		configs = append(configs, config)
 	}
 
-	var providerConfig []string
 	for i := range configs {
 		if resourceName != "" && configs[i].Name != resourceName {
 			continue
@@ -292,9 +319,15 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/import.sh") {
 				continue
 			}
-			renderTemplate(t.path, t.prefix+yamlconfig.SnakeCase(configs[i].Name)+t.suffix, configs[i])
+			if (configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model.go") ||
+				(configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
+				(configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
+				(configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") {
+				renderTemplate(t.path, t.prefix+yamlconfig.SnakeCase(configs[i].BulkName)+t.suffix, configs[i])
+			} else {
+				renderTemplate(t.path, t.prefix+yamlconfig.SnakeCase(configs[i].Name)+t.suffix, configs[i])
+			}
 		}
-		providerConfig = append(providerConfig, configs[i].Name)
 	}
 
 	// render provider.go

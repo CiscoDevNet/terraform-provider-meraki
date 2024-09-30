@@ -232,6 +232,9 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		{{- if not .NoDataSource}}
 		New{{camelCase .Name}}DataSource,
 		{{- end}}
+		{{- if .BulkDataSource}}
+		New{{camelCase .BulkName}}DataSource,
+		{{- end}}
 		{{- end}}
 	}
 }
