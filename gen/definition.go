@@ -179,7 +179,7 @@ func generateDefinition(endpointPath, resourceName string) {
 
 	var dataSourceNameQuery *bool
 	for _, a := range *config.Attributes {
-		if a.ModelName != nil && *a.ModelName == "name" && a.DataPath != nil && len(*a.DataPath) == 0 && !*config.PutCreate {
+		if a.ModelName != nil && *a.ModelName == "name" && (a.DataPath == nil || len(*a.DataPath) == 0) && (config.PutCreate == nil || !*config.PutCreate) {
 			dataSourceNameQuery = P(true)
 			break
 		}
@@ -327,7 +327,7 @@ func parseUrl(url string, spec interface{}) parseUrlResult {
 			ret.noResource = P(true)
 		}
 	}
-	if ret.noResource != nil && !*ret.noResource {
+	if ret.noResource == nil || !*ret.noResource {
 		if !hasGet && hasShortGet {
 			ret.getFromAll = P(true)
 		}
