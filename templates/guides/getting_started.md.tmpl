@@ -9,7 +9,7 @@ description: |-
 
 This example demonstrates how the provider can be used to configure a new network with a switch. The full example can be found here: [https://github.com/CiscoDevNet/terraform-provider-meraki/tree/main/examples/basic/getting_started](https://github.com/CiscoDevNet/terraform-provider-meraki/tree/main/examples/basic/getting_started)
 
-First of all we need to add the necessary provider configuration to the Terraform configuration file:
+First, we need to add the necessary provider configuration to the Terraform configuration file:
 
 ```hcl
 terraform {
@@ -34,7 +34,7 @@ data "meraki_organization" "org1" {
   name = "Org1"
 }
 ```
-Once we have the organization ID we can create a new network in this organization.
+Once we have the organization ID, we can create a new network in this organization.
 
 ```hcl
 resource "meraki_network" "tf_1" {
@@ -45,7 +45,7 @@ resource "meraki_network" "tf_1" {
 }
 ```
 
-Next we want to add a switch to the network. We can use the `meraki_network_device_claim` resource to claim a switch to the network.
+Next, we want to add a switch to the network. We can use the `meraki_network_device_claim` resource to claim a switch to the network.
 
 ```hcl
 resource "meraki_network_device_claim" "switch" {
@@ -54,7 +54,7 @@ resource "meraki_network_device_claim" "switch" {
 }
 ```
 
-Using the `meraki_device` resource we can configure some additional device information.
+Using the `meraki_device` resource, we can configure some additional device information.
 
 ```hcl
 resource "meraki_device" "switch" {
@@ -84,7 +84,7 @@ resource "meraki_switch_port" "port_5_10" {
 }
 ```
 
-Once the initial configuration is complete we can run `terraform apply` to create the network and configure the switch accordingly. All the desired configuration can then be compared against the current state by running `terraform plan` to detect potential configuration drift. To simulate an out-of-band change we can log into Meraki Dashboard and change the name of a switch port. Running `terraform plan` again will show the drift and allow us to correct it by running `terraform apply`.
+Once the initial configuration is complete, we can run `terraform apply` to create the network and configure the switch accordingly. All the desired configuration can then be compared against the current state by running `terraform plan` to detect potential configuration drift. To simulate an out-of-band change, we can log into Meraki Dashboard and change the name of a switch port. Running `terraform plan` again will show the drift and allow us to correct it by running `terraform apply`.
 
 ```shell
 $ terraform apply
@@ -112,7 +112,7 @@ meraki_switch_port.port_5_10[4]: Modifications complete after 0s [id=9]
 Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ```
 
-In typical Terraform fashion we can also remove all the resources managed by Terraform with a single command by running `terraform destroy`.
+In typical Terraform fashion, we can also remove all the resources managed by Terraform with a single command by running `terraform destroy`.
 
 ```shell
 $ terraform destroy
