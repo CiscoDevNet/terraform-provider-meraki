@@ -16,6 +16,7 @@ any real-time space e.g., Slack, Discord, etc.
 - [Reporting Issues](#reporting-issues)
 - [Development](#development)
     - [Building the Provider](#building-the-provider)
+    - [Code Generation](#code-generation)
     - [Acceptance Tests](#acceptance-tests)
 - [Sending Pull Requests](#sending-pull-requests)
 - [Other Ways to Contribute](#other-ways-to-contribute)
@@ -43,14 +44,61 @@ possible, and, if possible, a test case.
 go install
 ```
 
+### Code Generation
+
+This provider heavily relies on code generation to create the necessary resources and data sources. The generator takes care of creating the necessary code, documentation and acceptance tests for a particular resource or data source. The generator is written in Go and can be found in the `gen` directory. There is a two step process to eventually generate the code for a new resource or data source. First, a "definition" is being created, which is a YAML file with all the necessary information to render the code artifacts. This "definition" file can be generated and derived from the OpenAPI specification of the Meraki Dashboard API. The second step is to run the generator with the "definition" file(s) as input. The generator will then render the code artifacts for the resources or data sources.
+
+To generate the code for a new resource or data source, follow these steps:
+
+```shell
+make gen SPEC_PATH="/organizations/{organizationId}/admins/{adminId}" NAME="Organization Admin" 
+```
+
+Where `SPEC_PATH` is the related `PUT` API endpoint path in the OpenAPI specification and `NAME` is the human readable name of the resource or data source.
+
+In some cases it is required to tweak the generated "definition" file. This can be done by modifying the generated file in the `gen/definitions` directory. For example, Terraform differentiates between a type `List` and `Set`, whereas the OpenAPI specification does not make a difference there. The generator will use type `List` as default, though this then needs to be adjusted where necessary.
+
+The model of the definition files is defined by a [Yamale](https://github.com/23andMe/Yamale) schema located [here](https://github.com/CiscoDevNet/terraform-provider-meraki/blob/main/gen/schema/schema.yaml). The schema also includes a description of the fields and their purpose.
+
+Whenever the `definition` is updated, it is necessary to run the generator again with the same command as above.
+
+In some cases it might also be required to update some of the generated Go code. This can be done by modifying the generated files in the `internal/provider` directory. Every code section has comment markers as shown below:
+
+```go
+// Section below is generated&owned by "gen/generator.go". //template:begin create
+
+func Create() {
+}
+
+// End of section. //template:end create
+```
+
+As long as those markers remain in the code, the code will continue to be updated by the generator. If the markers are removed, the code will not be updated anymore and the code can be modified manually.
+
+To regenerate and/or update the complete codebase for all resources and data sources, run the following command:
+
+```shell
+make genall
+```
+
 ### Acceptance Tests
 
-In order to run the full suite of Acceptance tests, run `make testacc`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
+The acceptance tests are typically performed in a test organization which is assumed to be created already. The name of this organization needs to be configured using the `TF_VAR_test_org` environment variable. The tests will create and delete resources in this organization. Similarly, the tests might require other environment variables to be set, such as `TF_VAR_test_network` (temporary network to be created for testing) or `TF_VAR_test_switch_1_serial` (serial number of a switch to be used for testing). In case the necessary environment variables are not set, a message while be displayed, listing all the required environment variables.
+
+Every resource and data source implemented has a corresponding acceptance test. To run a single acceptance test use the following command:
+
+```shell
+make test NAME=OrganizationAdmin
+```
+
+Where `NAME` is the camelcase name of the resource or data source to test. Make sure the respective environment variables to configure the provider are set (e.g., `MERAKI_API_KEY`).
+
+In order to run the full suite of Acceptance tests, run `make testall`.
 
 Note: Acceptance tests create real resources.
 
 ```shell
-make testacc
+make testall
 ```
 
 ## Sending Pull Requests

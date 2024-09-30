@@ -17,6 +17,19 @@ Documentation: <https://registry.terraform.io/providers/CiscoDevNet/meraki/lates
 - [Terraform](https://www.terraform.io/downloads.html) >= 1.0
 - [Go](https://golang.org/doc/install) >= 1.22
 
+## Support
+
+Please note that this Terraform provider is developed and maintained by a dedicated community of contributors. It is not directly supported by Cisco. While we strive to ensure the provider is robust and reliable, its development relies on community contributions and engagement.
+
+As this is a community-driven project, support is provided by the community. If you encounter issues or have questions, please use the following resources:
+
+- **GitHub Issues**: Report bugs or request features on our [GitHub Issues](https://github.com/CiscoDevNet/terraform-provider-meraki/issues) page.
+- **Discussion Forums**: Engage with other users and contributors on [GitHub Discussions](https://github.com/CiscoDevNet/terraform-provider-meraki/discussions).
+
+## Contributing
+
+We welcome contributions from the community! If you'd like to contribute, please follow our [contribution guidelines](https://github.com/CiscoDevNet/terraform-provider-meraki/blob/main/CONTRIBUTING.md). Whether it's reporting bugs, suggesting features, or submitting pull requests, your involvement helps improve the project for everyone.
+
 ## Building The Provider
 
 1. Clone the repository
@@ -55,14 +68,16 @@ If you wish to work on the provider, you'll first need [Go](http://www.golang.or
 
 To compile the provider, run `go install`. This will build the provider and put the provider binary in the `$GOPATH/bin` directory.
 
-To generate or update documentation, run `go generate`.
+More information about how the code generation works can be found in the [contribution guide](https://github.com/CiscoDevNet/terraform-provider-meraki/blob/main/CONTRIBUTING.md).
 
 ## Acceptance tests
 
-In order to run the full suite of Acceptance tests, run `make testall`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
+In order to run the full suite of acceptance tests, run `make testall`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
 
 Note: Acceptance tests create real resources.
 
 ```shell
 make testall
 ```
+
+More information about how the acceptance tests work can be found in the [contribution guide](https://github.com/CiscoDevNet/terraform-provider-meraki/blob/main/CONTRIBUTING.md).
