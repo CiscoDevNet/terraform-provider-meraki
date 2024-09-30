@@ -77,7 +77,7 @@ func (p *MerakiProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 				Optional:            true,
 			},
 			"req_timeout": schema.StringAttribute{
-				MarkdownDescription: "Timeout for a single HTTPS request made to REST API before it is retried. This can also be set as the MERAKI_REQTIMEOUT environment variable. A string like `\"1s\"` means one second. Defaults to `\"5s\"`.",
+				MarkdownDescription: "Timeout for a single HTTPS request made to REST API before it is retried. This can also be set as the MERAKI_REQ_TIMEOUT environment variable. A string like `\"1s\"` means one second. Defaults to `\"5s\"`.",
 				Optional:            true,
 			},
 			"retries": schema.Int64Attribute{
@@ -158,7 +158,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 
 	var reqTimeoutStr string
 	if config.ReqTimeout.IsNull() {
-		reqTimeoutStr = os.Getenv("MERAKI_REQTIMEOUT")
+		reqTimeoutStr = os.Getenv("MERAKI_REQ_TIMEOUT")
 		if reqTimeoutStr == "" {
 			reqTimeoutStr = "5s"
 		}
