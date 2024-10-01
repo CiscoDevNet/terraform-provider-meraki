@@ -1,0 +1,46 @@
+name: Appliance Prefix Delegated Static
+spec_endpoint: /networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}
+rest_endpoint: /networks/%v/appliance/prefixes/delegated/statics
+bulk_data_source: true
+id_name: staticDelegatedPrefixId
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: description
+    type: String
+    description: A name or description for the prefix
+    example: Prefix on WAN 1 of Long Island Office network
+  - model_name: prefix
+    type: String
+    mandatory: true
+    description: A static IPv6 prefix
+    example: 2002:db8:3c4d:15::/64
+  - model_name: type
+    type: String
+    data_path: [origin]
+    mandatory: true
+    description: Type of the origin
+    example: internet
+    enum_values: [independent, internet]
+    minimum_test_value: '"independent"'
+  - model_name: interfaces
+    type: List
+    element_type: String
+    data_path: [origin]
+    description: Interfaces associated with the prefix
+    example: wan1
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
