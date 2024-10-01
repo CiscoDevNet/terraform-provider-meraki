@@ -74,5 +74,5 @@ jobs:
           TF_VAR_test_switch_1_serial: ${{ secrets.TF_VAR_test_switch_1_serial }}
           TF_VAR_test_switch_2_serial: ${{ secrets.TF_VAR_test_switch_2_serial }}
           TF_VAR_test_ap_1_serial: ${{ secrets.TF_VAR_test_ap_1_serial }}
-        run: go test -v -cover -timeout 45m ./internal/provider/
-        timeout-minutes: 45
+        run: go test -v -cover -timeout 90m ./internal/provider/
+        timeout-minutes: 120
