@@ -1,4 +1,4 @@
-## 0.1.1 (unreleased)
+## 0.1.1
 
 - Add `meraki_network_floor_plans` data source
 - Add `meraki_network_group_policies` data source
