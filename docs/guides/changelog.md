@@ -10,6 +10,7 @@ description: |-
 ## 0.1.2 (unreleased)
 
 - Add `meraki_appliance_firewalled_service` resource and data source
+- Add `meraki_appliance_inbound_cellular_firewall_rules` resource and data source
 
 ## 0.1.1
 
