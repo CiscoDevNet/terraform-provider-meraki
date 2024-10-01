@@ -15,6 +15,7 @@ description: |-
 - Add `meraki_appliance_l3_firewall_rules` resource and data source
 - Add `meraki_appliance_l7_firewall_rules` resource and data source
 - Add `meraki_appliance_one_to_many_nat_rules` resource and data source
+- Add `meraki_appliance_one_to_one_nat_rules` resource and data source
 
 ## 0.1.1
 
