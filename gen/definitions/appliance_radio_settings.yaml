@@ -1,0 +1,59 @@
+name: Appliance Radio Settings
+spec_endpoint: /devices/{serial}/appliance/radio/settings
+rest_endpoint: /devices/%v/appliance/radio/settings
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: rfProfileId
+    type: String
+    exclude_test: true
+    description: The ID of an RF profile to assign to the device. If the value of this parameter is null, the appropriate basic RF profile (indoor or outdoor) will be assigned to the device. Assigning an RF profile will clear ALL manually configured overrides on the device (channel width, channel, power).
+    example: "1234"
+  - model_name: channel
+    type: Int64
+    data_path: [fiveGhzSettings]
+    description: Sets a manual channel for 5 GHz. Can be `36`, `40`, `44`, `48`, `52`, `56`, `60`, `64`, `100`, `104`, `108`, `112`, `116`, `120`, `124`, `128`, `132`, `136`, `140`, `144`, `149`, `153`, `157`, `161`, `165`, `169`, `173` or `177` or null for using auto channel.
+    example: "40"
+  - model_name: channelWidth
+    type: Int64
+    data_path: [fiveGhzSettings]
+    description: Sets a manual channel width for 5 GHz. Can be `0`, `20`, `40`, `80` or `160` or null for using auto channel width.
+    example: "20"
+  - model_name: targetPower
+    type: Int64
+    data_path: [fiveGhzSettings]
+    description: Set a manual target power for 5 GHz (dBm). Enter null for using auto power range.
+    example: "15"
+  - model_name: channel
+    type: Int64
+    data_path: [twoFourGhzSettings]
+    description: Sets a manual channel for 2.4 GHz. Can be `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `11`, `12`, `13` or `14` or null for using auto channel.
+    example: "11"
+    minimum_test_value: "1"
+  - model_name: targetPower
+    type: Int64
+    data_path: [twoFourGhzSettings]
+    description: Set a manual target power for 2.4 GHz (dBm). Enter null for using auto power range.
+    example: "5"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }

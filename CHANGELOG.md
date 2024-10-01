@@ -13,6 +13,7 @@
 - Add `meraki_appliance_vlans_settings` resource and data source
 - Add `meraki_appliance_prefix_delegated_static` resource and data source
 - Add `meraki_appliance_prefix_delegated_statics` data source
+- Add `meraki_appliance_radio_settings` resource and data source
 
 ## 0.1.1
 
