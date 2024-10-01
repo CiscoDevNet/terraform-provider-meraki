@@ -1,0 +1,63 @@
+name: Appliance Port
+spec_endpoint: /networks/{networkId}/appliance/ports/{portId}
+rest_endpoint: /networks/%v/appliance/ports/%v
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_appliance_vlans_settings.test.network_id
+  - tf_name: port_id
+    type: String
+    id: true
+    reference: true
+    description: Port ID
+    example: "12"
+  - model_name: accessPolicy
+    type: String
+    description: 'The name of the policy. Only applicable to Access ports. Valid values are: `open`, `8021x-radius`, `mac-radius`, `hybris-radius` for MX64 or Z3 or any MX supporting the per port authentication feature. Otherwise, `open` is the only valid value and `open` is the default value if the field is missing.'
+    example: open
+  - model_name: allowedVlans
+    type: String
+    exclude_test: true
+    description: Comma-delimited list of the VLAN ID`s allowed on the port, or `all` to permit all VLAN`s on the port.
+    example: all
+  - model_name: dropUntaggedTraffic
+    type: Bool
+    description: Trunk port can Drop all Untagged traffic. When true, no VLAN is required. Access ports cannot have dropUntaggedTraffic set to true.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    description: The status of the port
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: type
+    type: String
+    description: 'The type of the port: `access` or `trunk`.'
+    example: access
+  - model_name: vlan
+    type: Int64
+    description: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.
+    example: "1"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
+  resource "meraki_appliance_vlans_settings" "test" {
+    network_id = meraki_network_device_claim.test.network_id
+    vlans_enabled = true
+  }

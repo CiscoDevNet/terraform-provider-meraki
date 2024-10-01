@@ -1,0 +1,29 @@
+name: Appliance VLANs Settings
+spec_endpoint: /networks/{networkId}/appliance/vlans/settings
+rest_endpoint: /networks/%v/appliance/vlans/settings
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: vlansEnabled
+    type: Bool
+    mandatory: true
+    description: Boolean indicating whether to enable (true) or disable (false) VLANs for the network
+    example: "true"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
