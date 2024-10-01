@@ -1,0 +1,69 @@
+name: Appliance Port Forwarding Rules
+spec_endpoint: /networks/{networkId}/appliance/firewall/portForwardingRules
+rest_endpoint: /networks/%v/appliance/firewall/portForwardingRules
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: rules
+    type: List
+    mandatory: true
+    description: An array of port forwarding params
+    attributes:
+      - model_name: lanIp
+        type: String
+        id: true
+        mandatory: true
+        description: The IP address of the server or device that hosts the internal resource that you wish to make available on the WAN
+        example: 192.168.128.1
+      - model_name: localPort
+        type: String
+        id: true
+        mandatory: true
+        description: A port or port ranges that will receive the forwarded traffic from the WAN
+        example: 442-443
+      - model_name: name
+        type: String
+        description: A descriptive name for the rule
+        example: Description of Port Forwarding Rule
+      - model_name: protocol
+        type: String
+        id: true
+        mandatory: true
+        description: TCP or UDP
+        example: tcp
+        enum_values: [tcp, udp]
+      - model_name: publicPort
+        type: String
+        id: true
+        mandatory: true
+        description: A port or port ranges that will be forwarded to the host on the LAN
+        example: 8100-8101
+      - model_name: uplink
+        type: String
+        description: The physical WAN interface on which the traffic will arrive (`internet1` or, if available, `internet2` or `both`)
+        example: both
+        enum_values: [both, internet1, internet2]
+      - model_name: allowedIps
+        type: List
+        element_type: String
+        mandatory: true
+        description: An array of ranges of WAN IP addresses that are allowed to make inbound connections on the specified ports or port ranges (or any)
+        example: any
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
