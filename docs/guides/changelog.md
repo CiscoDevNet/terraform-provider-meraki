@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 0.1.2 (unreleased)
+
+- Add `meraki_appliance_firewalled_service` resource and data source
+
 ## 0.1.1
 
 - Add `meraki_network_floor_plans` data source

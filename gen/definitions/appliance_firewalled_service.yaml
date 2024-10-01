@@ -1,0 +1,42 @@
+name: Appliance Firewalled Service
+spec_endpoint: /networks/{networkId}/appliance/firewall/firewalledServices/{service}
+rest_endpoint: /networks/%v/appliance/firewall/firewalledServices/%v
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: service
+    type: String
+    id: true
+    reference: true
+    description: Service
+    example: ICMP
+    enum_values: [ICMP, SNMP, web]
+  - model_name: access
+    type: String
+    mandatory: true
+    description: A string indicating the rule for which IPs are allowed to use the specified service. Acceptable values are 'blocked' (no remote IPs can access the service), 'restricted' (only allowed IPs can access the service), and 'unrestriced' (any remote IP can access the service). This field is required
+    example: restricted
+    enum_values: [blocked, restricted, unrestricted]
+    minimum_test_value: '"unrestricted"'
+  - model_name: allowedIps
+    type: List
+    element_type: String
+    description: An array of allowed IPs that can access the service. This field is required if 'access' is set to 'restricted'. Otherwise this field is ignored
+    example: 123.123.123.1
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
