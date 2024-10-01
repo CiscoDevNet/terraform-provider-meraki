@@ -8,6 +8,7 @@
 - Add `meraki_appliance_one_to_many_nat_rules` resource and data source
 - Add `meraki_appliance_one_to_one_nat_rules` resource and data source
 - Add `meraki_appliance_port_forwarding_rules` resource and data source
+- Add `meraki_appliance_firewall_settings` resource and data source
 
 ## 0.1.1
 
