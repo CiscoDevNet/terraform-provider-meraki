@@ -78,11 +78,11 @@ func (d *ApplianceL3FirewallRulesDataSource) Schema(ctx context.Context, req dat
 							Computed:            true,
 						},
 						"dest_cidr": schema.StringAttribute{
-							MarkdownDescription: "Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `any`",
+							MarkdownDescription: "Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `Any`",
 							Computed:            true,
 						},
 						"dest_port": schema.StringAttribute{
-							MarkdownDescription: "Comma-separated list of destination port(s) (integer in the range 1-65535), or `any`",
+							MarkdownDescription: "Comma-separated list of destination port(s) (integer in the range 1-65535), or `Any`",
 							Computed:            true,
 						},
 						"policy": schema.StringAttribute{
@@ -94,11 +94,11 @@ func (d *ApplianceL3FirewallRulesDataSource) Schema(ctx context.Context, req dat
 							Computed:            true,
 						},
 						"src_cidr": schema.StringAttribute{
-							MarkdownDescription: "Comma-separated list of source IP address(es) (in IP or CIDR notation), or `any` (note: FQDN not supported for source addresses)",
+							MarkdownDescription: "Comma-separated list of source IP address(es) (in IP or CIDR notation), or `Any` (note: FQDN not supported for source addresses)",
 							Computed:            true,
 						},
 						"src_port": schema.StringAttribute{
-							MarkdownDescription: "Comma-separated list of source port(s) (integer in the range 1-65535), or `any`",
+							MarkdownDescription: "Comma-separated list of source port(s) (integer in the range 1-65535), or `Any`",
 							Computed:            true,
 						},
 						"syslog_enabled": schema.BoolAttribute{

@@ -91,11 +91,11 @@ func (r *ApplianceL3FirewallRulesResource) Schema(ctx context.Context, req resou
 							Optional:            true,
 						},
 						"dest_cidr": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `any`").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `Any`").String,
 							Required:            true,
 						},
 						"dest_port": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated list of destination port(s) (integer in the range 1-65535), or `any`").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated list of destination port(s) (integer in the range 1-65535), or `Any`").String,
 							Optional:            true,
 						},
 						"policy": schema.StringAttribute{
@@ -113,11 +113,11 @@ func (r *ApplianceL3FirewallRulesResource) Schema(ctx context.Context, req resou
 							},
 						},
 						"src_cidr": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated list of source IP address(es) (in IP or CIDR notation), or `any` (note: FQDN not supported for source addresses)").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated list of source IP address(es) (in IP or CIDR notation), or `Any` (note: FQDN not supported for source addresses)").String,
 							Required:            true,
 						},
 						"src_port": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated list of source port(s) (integer in the range 1-65535), or `any`").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated list of source port(s) (integer in the range 1-65535), or `Any`").String,
 							Optional:            true,
 						},
 						"syslog_enabled": schema.BoolAttribute{

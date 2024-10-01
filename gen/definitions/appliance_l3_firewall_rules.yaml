@@ -32,11 +32,11 @@ attributes:
       - model_name: destCidr
         type: String
         mandatory: true
-        description: Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `any`
+        description: Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `Any`
         example: 192.168.1.0/24
       - model_name: destPort
         type: String
-        description: Comma-separated list of destination port(s) (integer in the range 1-65535), or `any`
+        description: Comma-separated list of destination port(s) (integer in the range 1-65535), or `Any`
         example: "443"
       - model_name: policy
         type: String
@@ -54,11 +54,11 @@ attributes:
       - model_name: srcCidr
         type: String
         mandatory: true
-        description: 'Comma-separated list of source IP address(es) (in IP or CIDR notation), or `any` (note: FQDN not supported for source addresses)'
+        description: 'Comma-separated list of source IP address(es) (in IP or CIDR notation), or `Any` (note: FQDN not supported for source addresses)'
         example: Any
       - model_name: srcPort
         type: String
-        description: Comma-separated list of source port(s) (integer in the range 1-65535), or `any`
+        description: Comma-separated list of source port(s) (integer in the range 1-65535), or `Any`
         example: Any
       - model_name: syslogEnabled
         type: Bool
