@@ -1,6 +1,7 @@
 name: Organization Policy Object Group
 spec_endpoint: /organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}
 rest_endpoint: /organizations/%v/policyObjects/groups
+bulk_data_source: true
 data_source_name_query: true
 doc_category: Organizations
 test_variables: [test_org]

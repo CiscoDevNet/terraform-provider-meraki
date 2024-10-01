@@ -1,6 +1,7 @@
 name: Switch Port Schedule
 spec_endpoint: /networks/{networkId}/switch/portSchedules/{portScheduleId}
 rest_endpoint: /networks/%v/switch/portSchedules
+bulk_data_source: true
 get_from_all: true
 data_source_name_query: true
 doc_category: Switches

@@ -1,6 +1,7 @@
 name: Network VLAN Profile
 spec_endpoint: /networks/{networkId}/vlanProfiles/{iname}
 rest_endpoint: /networks/%v/vlanProfiles
+bulk_data_source: true
 data_source_name_query: true
 res_description: This resource can manage the Network VLAN Profile configuration. It can be also be used to manage the default VLAN profile by specifying the `iname` as `Default`.
 doc_category: Networks

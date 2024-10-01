@@ -1,6 +1,7 @@
 name: Organization SAML Role
 spec_endpoint: /organizations/{organizationId}/samlRoles/{samlRoleId}
 rest_endpoint: /organizations/%v/samlRoles
+bulk_data_source: true
 doc_category: Organizations
 test_variables: [test_org, test_network]
 attributes:

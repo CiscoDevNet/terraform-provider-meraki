@@ -1,6 +1,7 @@
 name: Organization SAML IdP
 spec_endpoint: /organizations/{organizationId}/saml/idps/{idpId}
 rest_endpoint: /organizations/%v/saml/idps
+bulk_data_source: true
 id_name: idpId
 doc_category: Organizations
 test_variables: [test_org]

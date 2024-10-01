@@ -1,6 +1,7 @@
 name: Organization Adaptive Policy
 spec_endpoint: /organizations/{organizationId}/adaptivePolicy/policies/{id}
 rest_endpoint: /organizations/%v/adaptivePolicy/policies
+bulk_data_source: true
 id_name: adaptivePolicyId
 doc_category: Organizations
 test_variables: [test_org]

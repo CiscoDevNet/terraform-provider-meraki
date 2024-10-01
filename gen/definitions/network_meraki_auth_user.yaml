@@ -1,6 +1,7 @@
 name: Network Meraki Auth User
 spec_endpoint: /networks/{networkId}/merakiAuthUsers/{merakiAuthUserId}
 rest_endpoint: /networks/%v/merakiAuthUsers
+bulk_data_source: true
 data_source_name_query: true
 doc_category: Networks
 test_variables: [test_org, test_network]

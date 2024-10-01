@@ -6,6 +6,8 @@ import (
 	"slices"
 	"strings"
 	"text/template"
+
+	"gopkg.in/yaml.v3"
 )
 
 const EndpointToken = "@endpoint:"
@@ -13,10 +15,12 @@ const EndpointToken = "@endpoint:"
 type YamlConfig struct {
 	Name                string                `yaml:"name,omitempty"`
 	TfName              string                `yaml:"tf_name,omitempty"`
+	BulkName            string                `yaml:"bulk_name,omitempty"`
 	SpecEndpoint        string                `yaml:"spec_endpoint,omitempty"`
 	RestEndpoint        string                `yaml:"rest_endpoint,omitempty"`
 	NoDataSource        bool                  `yaml:"no_data_source,omitempty"`
 	NoResource          bool                  `yaml:"no_resource,omitempty"`
+	BulkDataSource      bool                  `yaml:"bulk_data_source,omitempty"`
 	PutCreate           bool                  `yaml:"put_create,omitempty"`
 	GetFromAll          bool                  `yaml:"get_from_all,omitempty"`
 	NoUpdate            bool                  `yaml:"no_update,omitempty"`
@@ -40,10 +44,12 @@ type YamlConfig struct {
 type YamlConfigP struct {
 	Name                *string                 `yaml:"name,omitempty"`
 	TfName              *string                 `yaml:"tf_name,omitempty"`
+	BulkName            *string                 `yaml:"bulk_name,omitempty"`
 	SpecEndpoint        *string                 `yaml:"spec_endpoint,omitempty"`
 	RestEndpoint        *string                 `yaml:"rest_endpoint,omitempty"`
 	NoDataSource        *bool                   `yaml:"no_data_source,omitempty"`
 	NoResource          *bool                   `yaml:"no_resource,omitempty"`
+	BulkDataSource      *bool                   `yaml:"bulk_data_source,omitempty"`
 	PutCreate           *bool                   `yaml:"put_create,omitempty"`
 	GetFromAll          *bool                   `yaml:"get_from_all,omitempty"`
 	NoUpdate            *bool                   `yaml:"no_update,omitempty"`
@@ -99,6 +105,7 @@ type YamlConfigAttribute struct {
 	TestTags           []string              `yaml:"test_tags,omitempty,flow"`
 	Attributes         []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	GoTypeName         string                `yaml:"gotypename,omitempty"`
+	GoTypeBulkName     string                `yaml:"gobulktypename,omitempty"`
 }
 
 type YamlConfigAttributeP struct {
@@ -136,6 +143,7 @@ type YamlConfigAttributeP struct {
 	TestTags           *[]string               `yaml:"test_tags,omitempty,flow"`
 	Attributes         *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
 	GoTypeName         *string                 `yaml:"gotypename,omitempty"`
+	GoTypeBulkName     *string                 `yaml:"gobulktypename,omitempty"`
 }
 
 func P[T any](v T) *T {
@@ -191,15 +199,6 @@ func Errorf(s string, args ...any) (struct{}, error) {
 // Templating helper function to build a SJSON path
 func BuildPath(s []string) string {
 	return strings.Join(s, ".")
-}
-
-func contains(s []string, str string) bool {
-	for _, v := range s {
-		if v == str {
-			return true
-		}
-	}
-	return false
 }
 
 // Templating helper function to return true if id included in attributes
@@ -380,28 +379,20 @@ func CamelToSnake(str string) string {
 	return strings.ToLower(snake)
 }
 
-func (attr *YamlConfigAttribute) Init(parentGoTypeName string) error {
+func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName string) error {
 	// Augument
 	if attr.TfName == "" {
-		// var words []string
 		fullString := ""
 		for _, s := range attr.DataPath {
 			fullString += strings.ToUpper(string(s[0])) + s[1:]
 		}
 		fullString += strings.ToUpper(string(attr.ModelName[0])) + attr.ModelName[1:]
-		// l := 0
-		// for s := fullString; s != ""; s = s[l:] {
-		// 	l = strings.IndexFunc(s[1:], unicode.IsUpper) + 1
-		// 	if l <= 0 {
-		// 		l = len(s)
-		// 	}
-		// 	words = append(words, strings.ToLower(s[:l]))
-		// }
-		// attr.TfName = strings.Join(words, "_")
+
 		attr.TfName = CamelToSnake(fullString)
 	}
 
 	attr.GoTypeName = parentGoTypeName + ToGoName(attr.TfName)
+	attr.GoTypeBulkName = parentGoTypeBulkName + ToGoName(attr.TfName)
 
 	// Validate
 	if len(attr.Attributes) > 0 && attr.Type != "List" && attr.Type != "Map" && attr.Type != "Set" {
@@ -435,12 +426,48 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName string) error {
 
 	// Recurse
 	for i := range attr.Attributes {
-		if err := attr.Attributes[i].Init(attr.GoTypeName); err != nil {
+		if err := attr.Attributes[i].Init(attr.GoTypeName, attr.GoTypeBulkName); err != nil {
 			return err
 		}
 	}
 
 	return nil
+}
+
+func NewYamlConfig(bytes []byte) (YamlConfig, error) {
+	var config YamlConfig
+
+	if err := yaml.Unmarshal(bytes, &config); err != nil {
+		return config, err
+	}
+
+	if config.BulkName == "" {
+		if string(config.Name[len(config.Name)-1]) == "y" {
+			config.BulkName = config.Name[:len(config.Name)-1] + "ies"
+		} else {
+			config.BulkName = config.Name + "s"
+		}
+	}
+
+	for i := range config.Attributes {
+		if err := config.Attributes[i].Init(CamelCase(config.Name), CamelCase(config.BulkName)); err != nil {
+			return YamlConfig{}, err
+		}
+	}
+	if config.DsDescription == "" {
+		config.DsDescription = fmt.Sprintf("This data source can read the `%s` configuration.", config.Name)
+	}
+	if config.ResDescription == "" {
+		config.ResDescription = fmt.Sprintf("This resource can manage the `%s` configuration.", config.Name)
+	}
+	if config.TfName == "" {
+		config.TfName = strings.Replace(config.Name, " ", "_", -1)
+	}
+	if config.IdName == "" {
+		config.IdName = "id"
+	}
+
+	return config, nil
 }
 
 func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
@@ -450,6 +477,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.TfName != nil {
 		new.TfName = existing.TfName
+	}
+	if existing.BulkName != nil {
+		new.BulkName = existing.BulkName
 	}
 	if existing.SpecEndpoint != nil {
 		new.SpecEndpoint = existing.SpecEndpoint
@@ -462,6 +492,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.NoResource != nil {
 		new.NoResource = existing.NoResource
+	}
+	if existing.BulkDataSource != nil {
+		new.BulkDataSource = existing.BulkDataSource
 	}
 	if existing.PutCreate != nil {
 		new.PutCreate = existing.PutCreate
@@ -684,9 +717,6 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.Attributes != nil {
 		new.Attributes = MergeYamlConfigAttributes(existing.Attributes, new.Attributes)
-	}
-	if existing.GoTypeName != nil {
-		new.GoTypeName = existing.GoTypeName
 	}
 	return new
 }

@@ -1,6 +1,7 @@
 name: Network Webhook Payload Template
 spec_endpoint: /networks/{networkId}/webhooks/payloadTemplates/{payloadTemplateId}
 rest_endpoint: /networks/%v/webhooks/payloadTemplates
+bulk_data_source: true
 id_name: payloadTemplateId
 data_source_name_query: true
 doc_category: Networks

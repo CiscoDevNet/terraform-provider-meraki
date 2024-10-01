@@ -1,6 +1,7 @@
 name: Wireless Ethernet Port Profile
 spec_endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}
 rest_endpoint: /networks/%v/wireless/ethernet/ports/profiles
+bulk_data_source: true
 id_name: profileId
 data_source_name_query: true
 doc_category: Wireless

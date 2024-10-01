@@ -1,6 +1,7 @@
 name: Switch Routing Multicast Rendezvous Point
 spec_endpoint: /networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}
 rest_endpoint: /networks/%v/switch/routing/multicast/rendezvousPoints
+bulk_data_source: true
 id_name: rendezvousPointId
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial]
