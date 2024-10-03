@@ -25,7 +25,6 @@ import (
 	"sort"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -77,7 +76,6 @@ func (data SwitchSTP) toBody(ctx context.Context, state SwitchSTP) string {
 				itemBody, _ = sjson.Set(itemBody, "stpPriority", item.StpPriority.ValueInt64())
 			}
 			if !item.Stacks.IsNull() {
-				tflog.Debug(ctx, "\n\n### STACKS NOT NULL\n\n")
 				var values []string
 				item.Stacks.ElementsAs(ctx, &values, false)
 				itemBody, _ = sjson.Set(itemBody, "stacks", values)
@@ -151,13 +149,16 @@ func (data *SwitchSTP) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	} else {
 		data.RstpEnabled = types.BoolNull()
 	}
-	s := spew.Sdump(data)
-	tflog.Debug(ctx, "\n\n"+s+"\n\n")
+	{
+		l := len(res.Get("stpBridgePriority").Array())
+		tflog.Debug(ctx, fmt.Sprintf("stpBridgePriority array resizing from %d to %d", len(data.StpBridgePriority), l))
+		if len(data.StpBridgePriority) > l {
+			data.StpBridgePriority = data.StpBridgePriority[:l]
+		}
+	}
 	priorities := map[int64]tempPriority{}
 	for i := 0; i < len(res.Get("stpBridgePriority").Array()); i++ {
 		priorityRes := res.Get(fmt.Sprintf("stpBridgePriority.%d", i))
-		s := spew.Sdump(priorityRes)
-		tflog.Debug(ctx, "\n\n"+s+"\n\n")
 		priority := priorityRes.Get("stpPriority").Int()
 		t := tempPriority{
 			stacks:         []string{},
@@ -189,10 +190,19 @@ func (data *SwitchSTP) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	for k := range priorities {
 		keys = append(keys, k)
 	}
-	sort.Slice(keys, func(i, j int) bool { return keys[i] < keys[j] })
+	sort.Slice(keys, func(i, j int) bool { return keys[i] > keys[j] })
 
 	newStpBridgePriority := []SwitchSTPStpBridgePriority{}
 	for _, k := range keys {
+		found := false
+		for _, i := range data.StpBridgePriority {
+			if i.StpPriority.ValueInt64() == k {
+				found = true
+			}
+		}
+		if !found {
+			continue
+		}
 		newStacks := []attr.Value{}
 		for _, s := range priorities[k].stacks {
 			newStacks = append(newStacks, types.StringValue(s))
@@ -212,10 +222,10 @@ func (data *SwitchSTP) fromBodyPartial(ctx context.Context, res meraki.Res) {
 			SwitchProfiles: setOrNull(types.SetValueMust(types.StringType, newSwitchProfiles)),
 		})
 	}
-	tflog.Debug(ctx, "\n\n"+spew.Sdump(newStpBridgePriority)+"\n\n")
-	data.StpBridgePriority = newStpBridgePriority
+	if len(newStpBridgePriority) > 0 {
+		data.StpBridgePriority = newStpBridgePriority
+	}
 
-	tflog.Debug(ctx, "\n\nFROM PARTIAL\n"+spew.Sdump(data)+"\n\n")
 }
 
 func setOrNull(s types.Set) types.Set {
