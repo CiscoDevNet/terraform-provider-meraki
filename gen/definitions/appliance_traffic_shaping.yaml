@@ -1,0 +1,38 @@
+name: Appliance Traffic Shaping
+spec_endpoint: /networks/{networkId}/appliance/trafficShaping
+rest_endpoint: /networks/%v/appliance/trafficShaping
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: limitDown
+    tf_name: global_bandwidth_limit_down
+    type: Int64
+    data_path: [globalBandwidthLimits]
+    mandatory: true
+    description: The download bandwidth limit in Kbps. (0 represents no limit.)
+    example: "5120"
+  - model_name: limitUp
+    tf_name: global_bandwidth_limit_up
+    type: Int64
+    data_path: [globalBandwidthLimits]
+    mandatory: true
+    description: The upload bandwidth limit in Kbps. (0 represents no limit.)
+    example: "2048"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }

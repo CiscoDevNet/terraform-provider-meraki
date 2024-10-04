@@ -37,6 +37,7 @@ description: |-
 - Add `meraki_appliance_static_routes` data source
 - Add `meraki_appliance_vlan` resource and data source
 - Add `meraki_appliance_vlans` data source
+- Add `meraki_appliance_traffic_shaping` resource and data source
 
 ## 0.1.1
 
