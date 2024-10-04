@@ -32,6 +32,7 @@ description: |-
 - Add `meraki_appliance_security_malware` resource and data source
 - Add `meraki_appliance_settings` resource and data source
 - Add `meraki_appliance_single_lan` resource and data source
+- Add `meraki_appliance_ssid` resource and data source
 
 ## 0.1.1
 

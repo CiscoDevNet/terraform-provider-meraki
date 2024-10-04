@@ -1,0 +1,108 @@
+name: Appliance SSID
+spec_endpoint: /networks/{networkId}/appliance/ssids/{number}
+rest_endpoint: /networks/%v/appliance/ssids/%v
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network_device_claim.test.network_id
+  - tf_name: number
+    type: String
+    id: true
+    reference: true
+    description: Wireless SSID number
+    example: "1"
+  - model_name: authMode
+    type: String
+    description: The association control method for the SSID (`open`, `psk`, `8021x-meraki` or `8021x-radius`).
+    example: 8021x-radius
+    enum_values: [8021x-meraki, 8021x-radius, open, psk]
+    minimum_test_value: '"open"'
+  - model_name: defaultVlanId
+    type: Int64
+    exclude_test: true
+    description: The VLAN ID of the VLAN associated to this SSID. This parameter is only valid if the network is in routed mode.
+    example: "1"
+  - model_name: enabled
+    type: Bool
+    description: Whether or not the SSID is enabled.
+    example: "true"
+  - model_name: encryptionMode
+    type: String
+    exclude_test: true
+    description: The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`.
+    example: wpa
+    enum_values: [wep, wpa]
+  - model_name: name
+    type: String
+    description: The name of the SSID.
+    example: My SSID
+  - model_name: psk
+    type: String
+    exclude_test: true
+    description: The passkey for the SSID. This param is only valid if the authMode is `psk`.
+    example: psk
+  - model_name: visible
+    type: Bool
+    description: Boolean indicating whether the MX should advertise or hide this SSID.
+    example: "true"
+  - model_name: wpaEncryptionMode
+    type: String
+    description: The types of WPA encryption. (`WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode` or `WPA3 only`). This param is only valid if (1) the authMode is `psk` & the encryptionMode is `wpa` OR (2) the authMode is `8021x-meraki` OR (3) the authMode is `8021x-radius`
+    example: WPA2 only
+    enum_values: [WPA1 and WPA2, WPA2 only, WPA3 Transition Mode, WPA3 only]
+  - model_name: enabled
+    type: Bool
+    data_path: [dhcpEnforcedDeauthentication]
+    exclude_test: true
+    description: Enable DCHP Enforced Deauthentication on the SSID.
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11w]
+    exclude_test: true
+    description: Whether 802.11w is enabled or not.
+    example: "true"
+  - model_name: required
+    type: Bool
+    data_path: [dot11w]
+    exclude_test: true
+    description: (Optional) Whether 802.11w is required or not.
+    example: "true"
+  - model_name: radiusServers
+    type: List
+    description: The RADIUS 802.1x servers to be used for authentication. This param is only valid if the authMode is `8021x-radius`.
+    ordered_list: true
+    attributes:
+      - model_name: host
+        type: String
+        description: The IP address of your RADIUS server.
+        example: 0.0.0.0
+      - model_name: port
+        type: Int64
+        description: The UDP port your RADIUS servers listens on for Access-requests.
+        example: "1000"
+      - model_name: secret
+        type: String
+        write_only: true
+        description: The RADIUS client shared secret.
+        example: secret
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
