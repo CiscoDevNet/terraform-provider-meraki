@@ -1,0 +1,75 @@
+name: Appliance Single LAN
+spec_endpoint: /networks/{networkId}/appliance/singleLan
+rest_endpoint: /networks/%v/appliance/singleLan
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: applianceIp
+    type: String
+    description: The appliance IP address of the single LAN
+    example: 192.168.128.1
+    minimum_test_value: '"192.168.128.1"'
+  - model_name: subnet
+    type: String
+    description: The subnet of the single LAN configuration
+    example: 192.168.128.0/24
+  - model_name: enabled
+    type: Bool
+    data_path: [ipv6]
+    description: Enable IPv6 on VLAN.
+    example: "true"
+  - model_name: prefixAssignments
+    type: List
+    data_path: [ipv6]
+    exclude_test: true
+    allow_import_changes: true
+    description: Prefix assignments on the VLAN
+    ordered_list: true
+    attributes:
+      - model_name: autonomous
+        type: Bool
+        description: Auto assign a /64 prefix from the origin to the VLAN
+        example: "false"
+      - model_name: staticApplianceIp6
+        type: String
+        description: Manual configuration of the IPv6 Appliance IP
+        example: 2001:db8::1
+      - model_name: staticPrefix
+        type: String
+        description: Manual configuration of a /64 prefix on the VLAN
+        example: 2001:db8:abcd::/64
+      - model_name: type
+        type: String
+        data_path: [origin]
+        description: Type of the origin
+        example: independent
+        enum_values: [independent, internet]
+      - model_name: interfaces
+        type: List
+        element_type: String
+        data_path: [origin]
+        description: Interfaces associated with the prefix
+        example: wan1
+  - model_name: enabled
+    type: Bool
+    data_path: [mandatoryDhcp]
+    description: Enable Mandatory DHCP on LAN.
+    example: "false"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
