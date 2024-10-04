@@ -29,6 +29,8 @@
 - Add `meraki_appliance_vlan` resource and data source
 - Add `meraki_appliance_vlans` data source
 - Add `meraki_appliance_traffic_shaping` resource and data source
+- Add `meraki_appliance_traffic_shaping_custom_performance_class` resource and data source
+- Add `meraki_appliance_traffic_shaping_custom_performance_classes` data source
 
 ## 0.1.1
 
