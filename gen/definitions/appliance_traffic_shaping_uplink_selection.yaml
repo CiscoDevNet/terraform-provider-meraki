@@ -1,0 +1,250 @@
+name: Appliance Traffic Shaping Uplink Selection
+spec_endpoint: /networks/{networkId}/appliance/trafficShaping/uplinkSelection
+rest_endpoint: /networks/%v/appliance/trafficShaping/uplinkSelection
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network_device_claim.test.network_id
+  - model_name: activeActiveAutoVpnEnabled
+    type: Bool
+    exclude_test: true
+    description: Toggle for enabling or disabling active-active AutoVPN
+    example: "true"
+  - model_name: defaultUplink
+    type: String
+    description: 'The default uplink. Must be one of: `wan1` or `wan2`'
+    example: wan1
+    enum_values: [wan1, wan2]
+    minimum_test_value: '"wan2"'
+  - model_name: loadBalancingEnabled
+    type: Bool
+    description: Toggle for enabling or disabling load balancing
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [failoverAndFailback, immediate]
+    description: Toggle for enabling or disabling immediate WAN failover and failback
+    example: "true"
+  - model_name: vpnTrafficUplinkPreferences
+    type: List
+    exclude_test: true
+    description: Array of uplink preference rules for VPN traffic
+    ordered_list: true
+    attributes:
+      - model_name: failOverCriterion
+        type: String
+        description: 'Fail over criterion for this uplink preference rule. Must be one of: `poorPerformance` or `uplinkDown`'
+        example: poorPerformance
+        enum_values: [poorPerformance, uplinkDown]
+      - model_name: preferredUplink
+        type: String
+        mandatory: true
+        description: 'Preferred uplink for this uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`'
+        example: bestForVoIP
+        enum_values: [bestForVoIP, defaultUplink, loadBalancing, wan1, wan2]
+      - model_name: builtinPerformanceClassName
+        tf_name: builtin_performance_class_name
+        type: String
+        data_path: [performanceClass]
+        description: 'Name of builtin performance class, must be present when performanceClass type is `builtin`, and value must be one of: `VoIP`'
+        example: VoIP
+        enum_values: [VoIP]
+      - model_name: customPerformanceClassId
+        tf_name: custom_performance_class_id
+        type: String
+        data_path: [performanceClass]
+        exclude_test: true
+        description: ID of created custom performance class, must be present when performanceClass type is `custom`
+        example: "123456"
+      - model_name: type
+        type: String
+        data_path: [performanceClass]
+        description: 'Type of this performance class. Must be one of: `builtin` or `custom`'
+        example: builtin
+        enum_values: [builtin, custom]
+      - model_name: trafficFilters
+        type: List
+        mandatory: true
+        description: Array of traffic filters for this uplink preference rule
+        attributes:
+          - model_name: type
+            type: String
+            id: true
+            mandatory: true
+            description: 'Type of this traffic filter. Must be one of: `applicationCategory`, `application` or `custom`'
+            example: applicationCategory
+            enum_values: [application, applicationCategory, custom]
+          - model_name: id
+            tf_name: id
+            type: String
+            data_path: [value]
+            description: 'ID of this applicationCategory or application type traffic filter. E.g.: ''meraki:layer7/category/1'', ''meraki:layer7/application/4'''
+            example: meraki:layer7/category/1
+          - model_name: protocol
+            tf_name: protocol
+            type: String
+            data_path: [value]
+            description: 'Protocol of this custom type traffic filter. Must be one of: `tcp`, `udp`, `icmp`, `icmp6` or `any`'
+            example: tcp
+            enum_values: [any, icmp, icmp6, tcp, udp]
+          - model_name: cidr
+            tf_name: destination_cidr
+            type: String
+            data_path: [value, destination]
+            description: 'CIDR format address, or ''any''. E.g.: ''192.168.10.0/24'', ''192.168.10.1'' (same as ''192.168.10.1/32''), ''0.0.0.0/0'' (same as ''any'')'
+            example: any
+          - model_name: fqdn
+            tf_name: destination_fqdn
+            type: String
+            data_path: [value, destination]
+            description: 'FQDN format address. Currently only availabe in `destination` of `vpnTrafficUplinkPreference` object. E.g.: `www.google.com`'
+            example: www.google.com
+          - model_name: host
+            tf_name: destination_host
+            type: Int64
+            data_path: [value, destination]
+            exclude_test: true
+            description: Host ID in the VLAN, should be used along with `vlan`, and not exceed the vlan subnet capacity. Currently only available under a template network.
+            example: "254"
+          - model_name: network
+            tf_name: destination_network
+            type: String
+            data_path: [value, destination]
+            exclude_test: true
+            description: 'Meraki network ID. Currently only available under a template network, and the value should be ID of either same template network, or another template network currently. E.g.: ''L_12345678''.'
+            example: L_12345678
+          - model_name: port
+            tf_name: destination_port
+            type: String
+            data_path: [value, destination]
+            description: 'E.g.: ''any'', ''0'' (also means ''any''), ''8080'', ''1-1024'''
+            example: 1-1024
+          - model_name: vlan
+            tf_name: destination_vlan
+            type: Int64
+            data_path: [value, destination]
+            exclude_test: true
+            description: VLAN ID of the configured VLAN in the Meraki network. Currently only available under a template network.
+            example: "10"
+          - model_name: cidr
+            tf_name: source_cidr
+            type: String
+            data_path: [value, source]
+            description: 'CIDR format address, or ''any''. E.g.: ''192.168.10.0/24'', ''192.168.10.1'' (same as ''192.168.10.1/32''), ''0.0.0.0/0'' (same as ''any'')'
+            example: any
+          - model_name: host
+            tf_name: source_host
+            type: Int64
+            data_path: [value, source]
+            exclude_test: true
+            description: Host ID in the VLAN, should be used along with `vlan`, and not exceed the vlan subnet capacity. Currently only available under a template network.
+            example: "200"
+          - model_name: network
+            tf_name: source_network
+            type: String
+            data_path: [value, source]
+            exclude_test: true
+            description: 'Meraki network ID. Currently only available under a template network, and the value should be ID of either same template network, or another template network currently. E.g.: ''L_12345678''.'
+            example: L_23456789
+          - model_name: port
+            tf_name: source_port
+            type: String
+            data_path: [value, source]
+            description: 'E.g.: ''any'', ''0'' (also means ''any''), ''8080'', ''1-1024'''
+            example: any
+          - model_name: vlan
+            tf_name: source_vlan
+            type: Int64
+            data_path: [value, source]
+            exclude_test: true
+            description: VLAN ID of the configured VLAN in the Meraki network. Currently only available under a template network.
+            example: "20"
+  - model_name: wanTrafficUplinkPreferences
+    type: List
+    description: Array of uplink preference rules for WAN traffic
+    ordered_list: true
+    attributes:
+      - model_name: preferredUplink
+        type: String
+        mandatory: true
+        description: 'Preferred uplink for this uplink preference rule. Must be one of: `wan1` or `wan2`'
+        example: wan1
+        enum_values: [wan1, wan2]
+      - model_name: trafficFilters
+        type: List
+        mandatory: true
+        description: Array of traffic filters for this uplink preference rule
+        attributes:
+          - model_name: type
+            type: String
+            id: true
+            mandatory: true
+            description: 'Type of this traffic filter. Must be one of: `custom`'
+            example: custom
+            enum_values: [custom]
+          - model_name: protocol
+            tf_name: protocol
+            type: String
+            data_path: [value]
+            description: 'Protocol of this custom type traffic filter. Must be one of: `tcp`, `udp`, `icmp6` or `any`'
+            example: tcp
+            enum_values: [any, icmp6, tcp, udp]
+          - model_name: cidr
+            tf_name: destination_cidr
+            type: String
+            data_path: [value, destination]
+            description: 'CIDR format address, or ''any''. E.g.: ''192.168.10.0/24'', ''192.168.10.1'' (same as ''192.168.10.1/32''), ''0.0.0.0/0'' (same as ''any'')'
+            example: any
+          - model_name: port
+            tf_name: destination_port
+            type: String
+            data_path: [value, destination]
+            description: 'E.g.: ''any'', ''0'' (also means ''any''), ''8080'', ''1-1024'''
+            example: any
+          - model_name: cidr
+            tf_name: source_cidr
+            type: String
+            data_path: [value, source]
+            description: 'CIDR format address, or ''any''. E.g.: ''192.168.10.0/24'', ''192.168.10.1'' (same as ''192.168.10.1/32''), ''0.0.0.0/0'' (same as ''any'')'
+            example: any
+          - model_name: host
+            tf_name: source_host
+            type: Int64
+            data_path: [value, source]
+            exclude_test: true
+            description: Host ID in the VLAN, should be used along with `vlan`, and not exceed the vlan subnet capacity. Currently only available under a template network.
+            example: "254"
+          - model_name: port
+            tf_name: source_port
+            type: String
+            data_path: [value, source]
+            description: 'E.g.: ''any'', ''0'' (also means ''any''), ''8080'', ''1-1024'''
+            example: 1-1024
+          - model_name: vlan
+            tf_name: source_vlan
+            type: Int64
+            data_path: [value, source]
+            exclude_test: true
+            description: VLAN ID of the configured VLAN in the Meraki network. Currently only available under a template network.
+            example: "10"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }

@@ -42,6 +42,7 @@ description: |-
 - Add `meraki_appliance_traffic_shaping_custom_performance_classes` data source
 - Add `meraki_appliance_traffic_shaping_rules` resource and data source
 - Add `meraki_appliance_traffic_shaping_uplink_bandwidth` resource and data source
+- Add `meraki_appliance_traffic_shaping_uplink_selection` resource and data source
 
 ## 0.1.1
 
