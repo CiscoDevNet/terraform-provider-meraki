@@ -19,6 +19,7 @@
 - BREAKING CHANGE: Rename `per_ssid_settingsXX_*` attributes of `meraki_wireless_rf_profile` resource and data sources to `per_ssid_settings_XX_*`
 - Add `meraki_appliance_sdwan_internet_policies` resource
 - Add `meraki_appliance_network_security_intrusion` resource and data source
+- Add `meraki_appliance_organization_security_intrusion` resource and data source
 
 ## 0.1.1
 

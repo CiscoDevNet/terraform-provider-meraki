@@ -1,0 +1,35 @@
+name: Appliance Organization Security Intrusion
+spec_endpoint: /organizations/{organizationId}/appliance/security/intrusion
+rest_endpoint: /organizations/%v/appliance/security/intrusion
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_tags: [APPLIANCE_ORGANIZATION_SECURITY_INTRUSION]
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: allowedRules
+    type: List
+    mandatory: true
+    description: Sets a list of specific SNORT signatures to allow
+    attributes:
+      - model_name: message
+        type: String
+        description: Message is optional and is ignored on a PUT call. It is allowed in order for PUT to be compatible with GET
+        example: SQL sa login failed
+      - model_name: ruleId
+        type: String
+        id: true
+        mandatory: true
+        description: A rule identifier of the format meraki:intrusion/snort/GID//SID/. gid and sid can be obtained from either https://www.snort.org/rule-docs or as ruleIds from the security events in /organization/[orgId]/securityEvents
+        example: meraki:intrusion/snort/GID/01/SID/688
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
