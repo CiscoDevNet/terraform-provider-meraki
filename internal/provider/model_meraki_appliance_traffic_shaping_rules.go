@@ -43,12 +43,12 @@ type ApplianceTrafficShapingRules struct {
 }
 
 type ApplianceTrafficShapingRulesRules struct {
-	DscpTagValue                                     types.Int64                                    `tfsdk:"dscp_tag_value"`
-	Priority                                         types.String                                   `tfsdk:"priority"`
-	PerClientBandwidthLimitsSettings                 types.String                                   `tfsdk:"per_client_bandwidth_limits_settings"`
-	PerClientBandwidthLimitsBandwidthLimitsLimitDown types.Int64                                    `tfsdk:"per_client_bandwidth_limits_bandwidth_limits_limit_down"`
-	PerClientBandwidthLimitsBandwidthLimitsLimitUp   types.Int64                                    `tfsdk:"per_client_bandwidth_limits_bandwidth_limits_limit_up"`
-	Definitions                                      []ApplianceTrafficShapingRulesRulesDefinitions `tfsdk:"definitions"`
+	DscpTagValue                    types.Int64                                    `tfsdk:"dscp_tag_value"`
+	Priority                        types.String                                   `tfsdk:"priority"`
+	PerClientBandwidthLimitSettings types.String                                   `tfsdk:"per_client_bandwidth_limit_settings"`
+	PerClientBandwidthLimitDown     types.Int64                                    `tfsdk:"per_client_bandwidth_limit_down"`
+	PerClientBandwidthLimitUp       types.Int64                                    `tfsdk:"per_client_bandwidth_limit_up"`
+	Definitions                     []ApplianceTrafficShapingRulesRulesDefinitions `tfsdk:"definitions"`
 }
 
 type ApplianceTrafficShapingRulesRulesDefinitions struct {
@@ -83,14 +83,14 @@ func (data ApplianceTrafficShapingRules) toBody(ctx context.Context, state Appli
 			if !item.Priority.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "priority", item.Priority.ValueString())
 			}
-			if !item.PerClientBandwidthLimitsSettings.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "perClientBandwidthLimits.settings", item.PerClientBandwidthLimitsSettings.ValueString())
+			if !item.PerClientBandwidthLimitSettings.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "perClientBandwidthLimits.settings", item.PerClientBandwidthLimitSettings.ValueString())
 			}
-			if !item.PerClientBandwidthLimitsBandwidthLimitsLimitDown.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "perClientBandwidthLimits.bandwidthLimits.limitDown", item.PerClientBandwidthLimitsBandwidthLimitsLimitDown.ValueInt64())
+			if !item.PerClientBandwidthLimitDown.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "perClientBandwidthLimits.bandwidthLimits.limitDown", item.PerClientBandwidthLimitDown.ValueInt64())
 			}
-			if !item.PerClientBandwidthLimitsBandwidthLimitsLimitUp.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "perClientBandwidthLimits.bandwidthLimits.limitUp", item.PerClientBandwidthLimitsBandwidthLimitsLimitUp.ValueInt64())
+			if !item.PerClientBandwidthLimitUp.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "perClientBandwidthLimits.bandwidthLimits.limitUp", item.PerClientBandwidthLimitUp.ValueInt64())
 			}
 			{
 				itemBody, _ = sjson.Set(itemBody, "definitions", []interface{}{})
@@ -137,19 +137,19 @@ func (data *ApplianceTrafficShapingRules) fromBody(ctx context.Context, res mera
 				data.Priority = types.StringNull()
 			}
 			if value := res.Get("perClientBandwidthLimits.settings"); value.Exists() && value.Value() != nil {
-				data.PerClientBandwidthLimitsSettings = types.StringValue(value.String())
+				data.PerClientBandwidthLimitSettings = types.StringValue(value.String())
 			} else {
-				data.PerClientBandwidthLimitsSettings = types.StringNull()
+				data.PerClientBandwidthLimitSettings = types.StringNull()
 			}
 			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitDown"); value.Exists() && value.Value() != nil {
-				data.PerClientBandwidthLimitsBandwidthLimitsLimitDown = types.Int64Value(value.Int())
+				data.PerClientBandwidthLimitDown = types.Int64Value(value.Int())
 			} else {
-				data.PerClientBandwidthLimitsBandwidthLimitsLimitDown = types.Int64Null()
+				data.PerClientBandwidthLimitDown = types.Int64Null()
 			}
 			if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitUp"); value.Exists() && value.Value() != nil {
-				data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Value(value.Int())
+				data.PerClientBandwidthLimitUp = types.Int64Value(value.Int())
 			} else {
-				data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Null()
+				data.PerClientBandwidthLimitUp = types.Int64Null()
 			}
 			if value := res.Get("definitions"); value.Exists() && value.Value() != nil {
 				data.Definitions = make([]ApplianceTrafficShapingRulesRulesDefinitions, 0)
@@ -212,20 +212,20 @@ func (data *ApplianceTrafficShapingRules) fromBodyPartial(ctx context.Context, r
 		} else {
 			data.Priority = types.StringNull()
 		}
-		if value := res.Get("perClientBandwidthLimits.settings"); value.Exists() && !data.PerClientBandwidthLimitsSettings.IsNull() {
-			data.PerClientBandwidthLimitsSettings = types.StringValue(value.String())
+		if value := res.Get("perClientBandwidthLimits.settings"); value.Exists() && !data.PerClientBandwidthLimitSettings.IsNull() {
+			data.PerClientBandwidthLimitSettings = types.StringValue(value.String())
 		} else {
-			data.PerClientBandwidthLimitsSettings = types.StringNull()
+			data.PerClientBandwidthLimitSettings = types.StringNull()
 		}
-		if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitDown"); value.Exists() && !data.PerClientBandwidthLimitsBandwidthLimitsLimitDown.IsNull() {
-			data.PerClientBandwidthLimitsBandwidthLimitsLimitDown = types.Int64Value(value.Int())
+		if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitDown"); value.Exists() && !data.PerClientBandwidthLimitDown.IsNull() {
+			data.PerClientBandwidthLimitDown = types.Int64Value(value.Int())
 		} else {
-			data.PerClientBandwidthLimitsBandwidthLimitsLimitDown = types.Int64Null()
+			data.PerClientBandwidthLimitDown = types.Int64Null()
 		}
-		if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitUp"); value.Exists() && !data.PerClientBandwidthLimitsBandwidthLimitsLimitUp.IsNull() {
-			data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Value(value.Int())
+		if value := res.Get("perClientBandwidthLimits.bandwidthLimits.limitUp"); value.Exists() && !data.PerClientBandwidthLimitUp.IsNull() {
+			data.PerClientBandwidthLimitUp = types.Int64Value(value.Int())
 		} else {
-			data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Null()
+			data.PerClientBandwidthLimitUp = types.Int64Null()
 		}
 		for i := 0; i < len(data.Definitions); i++ {
 			keys := [...]string{"type", "value"}

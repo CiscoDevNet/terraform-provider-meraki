@@ -94,15 +94,15 @@ func (r *ApplianceTrafficShapingRulesResource) Schema(ctx context.Context, req r
 							MarkdownDescription: helpers.NewAttributeDescription("A string, indicating the priority level for packets bound to your rule. Can be `low`, `normal` or `high`.").String,
 							Optional:            true,
 						},
-						"per_client_bandwidth_limits_settings": schema.StringAttribute{
+						"per_client_bandwidth_limit_settings": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("How bandwidth limits are applied by your rule. Can be one of `network default`, `ignore` or `custom`.").String,
 							Optional:            true,
 						},
-						"per_client_bandwidth_limits_bandwidth_limits_limit_down": schema.Int64Attribute{
+						"per_client_bandwidth_limit_down": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The maximum download limit (integer, in Kbps).").String,
 							Optional:            true,
 						},
-						"per_client_bandwidth_limits_bandwidth_limits_limit_up": schema.Int64Attribute{
+						"per_client_bandwidth_limit_up": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The maximum upload limit (integer, in Kbps).").String,
 							Optional:            true,
 						},

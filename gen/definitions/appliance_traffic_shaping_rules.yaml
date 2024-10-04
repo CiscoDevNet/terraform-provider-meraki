@@ -31,16 +31,19 @@ attributes:
         description: A string, indicating the priority level for packets bound to your rule. Can be `low`, `normal` or `high`.
         example: normal
       - model_name: settings
+        tf_name: per_client_bandwidth_limit_settings
         type: String
         data_path: [perClientBandwidthLimits]
         description: How bandwidth limits are applied by your rule. Can be one of `network default`, `ignore` or `custom`.
         example: custom
       - model_name: limitDown
+        tf_name: per_client_bandwidth_limit_down
         type: Int64
         data_path: [perClientBandwidthLimits, bandwidthLimits]
         description: The maximum download limit (integer, in Kbps).
         example: "1000000"
       - model_name: limitUp
+        tf_name: per_client_bandwidth_limit_up
         type: Int64
         data_path: [perClientBandwidthLimits, bandwidthLimits]
         description: The maximum upload limit (integer, in Kbps).

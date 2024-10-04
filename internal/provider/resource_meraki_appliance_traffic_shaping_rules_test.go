@@ -39,9 +39,9 @@ func TestAccMerakiApplianceTrafficShapingRules(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "default_rules_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.dscp_tag_value", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.priority", "normal"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.per_client_bandwidth_limits_settings", "custom"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.per_client_bandwidth_limits_bandwidth_limits_limit_down", "1000000"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.per_client_bandwidth_limits_bandwidth_limits_limit_up", "1000000"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.per_client_bandwidth_limit_settings", "custom"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.per_client_bandwidth_limit_down", "1000000"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.per_client_bandwidth_limit_up", "1000000"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.definitions.0.type", "host"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_rules.test", "rules.0.definitions.0.value", "google.com"))
 
@@ -124,9 +124,9 @@ func testAccMerakiApplianceTrafficShapingRulesConfig_all() string {
 	config += `	rules = [{` + "\n"
 	config += `		dscp_tag_value = 0` + "\n"
 	config += `		priority = "normal"` + "\n"
-	config += `		per_client_bandwidth_limits_settings = "custom"` + "\n"
-	config += `		per_client_bandwidth_limits_bandwidth_limits_limit_down = 1000000` + "\n"
-	config += `		per_client_bandwidth_limits_bandwidth_limits_limit_up = 1000000` + "\n"
+	config += `		per_client_bandwidth_limit_settings = "custom"` + "\n"
+	config += `		per_client_bandwidth_limit_down = 1000000` + "\n"
+	config += `		per_client_bandwidth_limit_up = 1000000` + "\n"
 	config += `		definitions = [{` + "\n"
 	config += `			type = "host"` + "\n"
 	config += `			value = "google.com"` + "\n"

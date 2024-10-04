@@ -38,9 +38,9 @@ Read-Only:
 
 - `definitions` (Attributes List) A list of objects describing the definitions of your traffic shaping rule. At least one definition is required. (see [below for nested schema](#nestedatt--rules--definitions))
 - `dscp_tag_value` (Number) The DSCP tag applied by your rule. null means `Do not change DSCP tag`. For a list of possible tag values, use the trafficShaping/dscpTaggingOptions endpoint.
-- `per_client_bandwidth_limits_bandwidth_limits_limit_down` (Number) The maximum download limit (integer, in Kbps).
-- `per_client_bandwidth_limits_bandwidth_limits_limit_up` (Number) The maximum upload limit (integer, in Kbps).
-- `per_client_bandwidth_limits_settings` (String) How bandwidth limits are applied by your rule. Can be one of `network default`, `ignore` or `custom`.
+- `per_client_bandwidth_limit_down` (Number) The maximum download limit (integer, in Kbps).
+- `per_client_bandwidth_limit_settings` (String) How bandwidth limits are applied by your rule. Can be one of `network default`, `ignore` or `custom`.
+- `per_client_bandwidth_limit_up` (Number) The maximum upload limit (integer, in Kbps).
 - `priority` (String) A string, indicating the priority level for packets bound to your rule. Can be `low`, `normal` or `high`.
 
 <a id="nestedatt--rules--definitions"></a>
