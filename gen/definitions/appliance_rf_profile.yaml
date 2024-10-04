@@ -1,0 +1,96 @@
+name: Appliance RF Profile
+spec_endpoint: /networks/{networkId}/appliance/rfProfiles/{rfProfileId}
+rest_endpoint: /networks/%v/appliance/rfProfiles
+bulk_data_source: true
+data_source_name_query: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network_device_claim.test.network_id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the new profile. Must be unique. This param is required on creation.
+    example: MX RF Profile
+  - model_name: axEnabled
+    type: Bool
+    data_path: [fiveGhzSettings]
+    description: Determines whether ax radio on 5Ghz band is on or off. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.
+    example: "true"
+  - model_name: minBitrate
+    type: Int64
+    data_path: [fiveGhzSettings]
+    description: Sets min bitrate (Mbps) of 5Ghz band. Can be one of `6`, `9`, `12`, `18`, `24`, `36`, `48` or `54`. Defaults to 12.
+    example: "48"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "1"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: dual
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "1"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "2"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: dual
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "2"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "3"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: dual
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "3"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: bandOperationMode
+    type: String
+    data_path: [perSsidSettings, "4"]
+    description: Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
+    example: dual
+    enum_values: [2.4ghz, 5ghz, 6ghz, dual, multi]
+  - model_name: bandSteeringEnabled
+    type: Bool
+    data_path: [perSsidSettings, "4"]
+    description: Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.
+    example: "true"
+  - model_name: axEnabled
+    type: Bool
+    data_path: [twoFourGhzSettings]
+    description: Determines whether ax radio on 2.4Ghz band is on or off. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.
+    example: "true"
+  - model_name: minBitrate
+    type: Float64
+    data_path: [twoFourGhzSettings]
+    description: Sets min bitrate (Mbps) of 2.4Ghz band. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`. Defaults to 11.
+    example: "12"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }

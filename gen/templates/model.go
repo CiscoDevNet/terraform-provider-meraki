@@ -137,91 +137,91 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 	body := ""
 	{{- range .Attributes}}
 	{{- if .Value}}
-	body, _ = sjson.Set(body, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+	body, _ = sjson.Set(body, "{{getFullModelName .}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if not .Reference}}
 	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if !data.{{toGoName .TfName}}.IsNull() {{if .WriteChangesOnly}}&& data.{{toGoName .TfName}} != state.{{toGoName .TfName}}{{end}} {
-		body, _ = sjson.Set(body, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", data.{{toGoName .TfName}}.Value{{.Type}}())
+		body, _ = sjson.Set(body, "{{getFullModelName .}}", data.{{toGoName .TfName}}.Value{{.Type}}())
 	}
 	{{- else if isListSet .}}
 	if !data.{{toGoName .TfName}}.IsNull() {
 		var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
 		data.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", values)
+		body, _ = sjson.Set(body, "{{getFullModelName .}}", values)
 	}
 	{{- else if isNestedListSet .}}
 	{{if not .Mandatory}}if len(data.{{toGoName .TfName}}) > 0 {{end}}{
-		body, _ = sjson.Set(body, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", []interface{}{})
+		body, _ = sjson.Set(body, "{{getFullModelName .}}", []interface{}{})
 		for _, item := range data.{{toGoName .TfName}} {
 			itemBody := ""
 			{{- range .Attributes}}
 			{{- if .Value}}
-			itemBody, _ = sjson.Set(itemBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+			itemBody, _ = sjson.Set(itemBody, "{{getFullModelName .}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 			{{- else if not .Reference}}
 			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 			if !item.{{toGoName .TfName}}.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", item.{{toGoName .TfName}}.Value{{.Type}}())
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName .}}", item.{{toGoName .TfName}}.Value{{.Type}}())
 			}
 			{{- else if isListSet .}}
 			if !item.{{toGoName .TfName}}.IsNull() {
 				var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
 				item.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
-				itemBody, _ = sjson.Set(itemBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", values)
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName .}}", values)
 			}
 			{{- else if isNestedListSet .}}
 			{{if not .Mandatory}}if len(item.{{toGoName .TfName}}) > 0 {{end}}{
-				itemBody, _ = sjson.Set(itemBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", []interface{}{})
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName .}}", []interface{}{})
 				for _, childItem := range item.{{toGoName .TfName}} {
 					itemChildBody := ""
 					{{- range .Attributes}}
 					{{- if .Value}}
-					itemChildBody, _ = sjson.Set(itemChildBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+					itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName .}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 					{{- else if not .Reference}}
 					{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 					if !childItem.{{toGoName .TfName}}.IsNull() {
-						itemChildBody, _ = sjson.Set(itemChildBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", childItem.{{toGoName .TfName}}.Value{{.Type}}())
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName .}}", childItem.{{toGoName .TfName}}.Value{{.Type}}())
 					}
 					{{- else if isListSet .}}
 					if !childItem.{{toGoName .TfName}}.IsNull() {
 						var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
 						childItem.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
-						itemChildBody, _ = sjson.Set(itemChildBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", values)
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName .}}", values)
 					}
 					{{- else if isNestedListSet .}}
 					{{if not .Mandatory}}if len(childItem.{{toGoName .TfName}}) > 0 {{end}}{
-						itemChildBody, _ = sjson.Set(itemChildBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", []interface{}{})
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName .}}", []interface{}{})
 						for _, childChildItem := range childItem.{{toGoName .TfName}} {
 							itemChildChildBody := ""
 							{{- range .Attributes}}
 							{{- if .Value}}
-							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName .}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 							{{- else if not .Reference}}
 							{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 							if !childChildItem.{{toGoName .TfName}}.IsNull() {
-								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", childChildItem.{{toGoName .TfName}}.Value{{.Type}}())
+								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName .}}", childChildItem.{{toGoName .TfName}}.Value{{.Type}}())
 							}
 							{{- else if isListSet .}}
 							if !childChildItem.{{toGoName .TfName}}.IsNull() {
 								var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
 								childChildItem.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
-								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", values)
+								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName .}}", values)
 							}
 							{{- end}}
 							{{- end}}
 							{{- end}}
-							itemChildBody, _ = sjson.SetRaw(itemChildBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}.-1", itemChildChildBody)
+							itemChildBody, _ = sjson.SetRaw(itemChildBody, "{{getFullModelName .}}.-1", itemChildChildBody)
 						}
 					}
 					{{- end}}
 					{{- end}}
 					{{- end}}
-					itemBody, _ = sjson.SetRaw(itemBody, "{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}.-1", itemChildBody)
+					itemBody, _ = sjson.SetRaw(itemBody, "{{getFullModelName .}}.-1", itemChildBody)
 				}
 			}
 			{{- end}}
 			{{- end}}
 			{{- end}}
-			body, _ = sjson.SetRaw(body, "{{range .DataPath}}{{.}}.{{end}}{{if .ModelName}}{{.ModelName}}.{{end}}-1", itemBody)
+			body, _ = sjson.SetRaw(body, "{{getFullModelName .}}.-1", itemBody)
 		}
 	}
 	{{- end}}

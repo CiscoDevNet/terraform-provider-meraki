@@ -14,6 +14,9 @@
 - Add `meraki_appliance_prefix_delegated_static` resource and data source
 - Add `meraki_appliance_prefix_delegated_statics` data source
 - Add `meraki_appliance_radio_settings` resource and data source
+- Add `meraki_appliance_rf_profile` resource and data source
+- Add `meraki_appliance_rf_profiles` data source
+- BREAKING CHANGE: Rename `per_ssid_settingsXX_*` attributes of `meraki_wireless_rf_profile` resource and data sources to `per_ssid_settings_XX_*`
 
 ## 0.1.1
 

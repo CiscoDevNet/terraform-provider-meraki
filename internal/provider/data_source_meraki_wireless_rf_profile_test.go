@@ -45,51 +45,51 @@ func TestAccDataSourceMerakiWirelessRFProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "five_ghz_settings_min_bitrate", "12"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "five_ghz_settings_min_power", "8"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "five_ghz_settings_rxsop", "-95"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings0_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings0_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings0_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings1_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings1_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings1_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings10_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings10_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings10_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings11_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings11_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings11_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings12_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings12_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings12_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings13_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings13_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings13_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings14_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings14_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings14_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings2_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings2_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings2_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings3_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings3_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings3_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings4_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings4_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings4_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings5_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings5_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings5_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings6_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings6_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings6_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings7_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings7_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings7_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings8_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings8_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings8_min_bitrate", "11"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings9_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings9_band_steering_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings9_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_0_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_0_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_0_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_1_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_1_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_1_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_10_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_10_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_10_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_11_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_11_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_11_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_12_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_12_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_12_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_13_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_13_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_13_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_14_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_14_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_14_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_2_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_2_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_2_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_3_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_3_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_3_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_4_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_4_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_4_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_5_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_5_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_5_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_6_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_6_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_6_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_7_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_7_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_7_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_8_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_8_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_8_min_bitrate", "11"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_9_band_operation_mode", "5ghz"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_9_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "per_ssid_settings_9_min_bitrate", "11"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "transmission_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "two_four_ghz_settings_ax_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "two_four_ghz_settings_max_power", "30"))
@@ -146,66 +146,66 @@ func testAccDataSourceMerakiWirelessRFProfileConfig() string {
 	config += `	five_ghz_settings_min_power = 8` + "\n"
 	config += `	five_ghz_settings_rxsop = -95` + "\n"
 	config += `	five_ghz_settings_valid_auto_channels = [36]` + "\n"
-	config += `	per_ssid_settings0_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings0_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings0_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings0_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings1_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings1_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings1_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings1_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings10_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings10_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings10_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings10_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings11_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings11_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings11_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings11_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings12_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings12_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings12_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings12_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings13_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings13_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings13_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings13_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings14_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings14_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings14_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings14_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings2_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings2_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings2_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings2_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings3_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings3_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings3_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings3_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings4_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings4_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings4_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings4_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings5_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings5_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings5_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings5_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings6_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings6_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings6_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings6_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings7_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings7_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings7_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings7_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings8_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings8_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings8_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings8_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings9_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings9_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings9_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings9_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_0_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_0_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_0_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_0_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_1_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_1_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_1_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_1_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_10_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_10_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_10_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_10_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_11_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_11_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_11_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_11_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_12_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_12_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_12_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_12_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_13_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_13_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_13_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_13_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_14_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_14_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_14_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_14_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_2_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_2_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_2_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_2_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_3_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_3_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_3_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_3_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_4_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_4_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_4_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_4_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_5_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_5_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_5_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_5_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_6_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_6_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_6_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_6_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_7_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_7_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_7_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_7_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_8_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_8_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_8_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_8_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_9_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_9_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_9_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_9_bands_enabled = ["5"]` + "\n"
 	config += `	transmission_enabled = true` + "\n"
 	config += `	two_four_ghz_settings_ax_enabled = true` + "\n"
 	config += `	two_four_ghz_settings_max_power = 30` + "\n"
@@ -241,66 +241,66 @@ func testAccNamedDataSourceMerakiWirelessRFProfileConfig() string {
 	config += `	five_ghz_settings_min_power = 8` + "\n"
 	config += `	five_ghz_settings_rxsop = -95` + "\n"
 	config += `	five_ghz_settings_valid_auto_channels = [36]` + "\n"
-	config += `	per_ssid_settings0_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings0_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings0_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings0_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings1_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings1_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings1_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings1_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings10_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings10_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings10_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings10_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings11_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings11_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings11_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings11_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings12_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings12_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings12_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings12_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings13_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings13_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings13_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings13_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings14_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings14_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings14_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings14_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings2_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings2_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings2_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings2_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings3_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings3_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings3_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings3_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings4_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings4_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings4_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings4_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings5_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings5_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings5_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings5_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings6_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings6_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings6_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings6_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings7_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings7_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings7_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings7_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings8_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings8_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings8_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings8_bands_enabled = ["5"]` + "\n"
-	config += `	per_ssid_settings9_band_operation_mode = "5ghz"` + "\n"
-	config += `	per_ssid_settings9_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings9_min_bitrate = 11` + "\n"
-	config += `	per_ssid_settings9_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_0_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_0_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_0_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_0_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_1_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_1_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_1_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_1_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_10_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_10_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_10_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_10_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_11_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_11_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_11_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_11_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_12_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_12_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_12_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_12_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_13_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_13_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_13_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_13_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_14_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_14_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_14_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_14_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_2_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_2_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_2_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_2_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_3_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_3_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_3_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_3_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_4_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_4_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_4_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_4_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_5_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_5_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_5_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_5_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_6_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_6_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_6_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_6_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_7_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_7_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_7_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_7_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_8_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_8_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_8_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_8_bands_enabled = ["5"]` + "\n"
+	config += `	per_ssid_settings_9_band_operation_mode = "5ghz"` + "\n"
+	config += `	per_ssid_settings_9_band_steering_enabled = true` + "\n"
+	config += `	per_ssid_settings_9_min_bitrate = 11` + "\n"
+	config += `	per_ssid_settings_9_bands_enabled = ["5"]` + "\n"
 	config += `	transmission_enabled = true` + "\n"
 	config += `	two_four_ghz_settings_ax_enabled = true` + "\n"
 	config += `	two_four_ghz_settings_max_power = 30` + "\n"

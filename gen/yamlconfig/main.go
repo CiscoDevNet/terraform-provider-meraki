@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"slices"
+	"strconv"
 	"strings"
 	"text/template"
 
@@ -344,6 +345,19 @@ func GetImportExcludes(attributes []YamlConfigAttribute) []string {
 	return excludes
 }
 
+// GetFullModelName returns the full model name for an attribute, including data path
+func GetFullModelName(attr YamlConfigAttribute) string {
+	r := ""
+	for i := range attr.DataPath {
+		if _, err := strconv.Atoi(attr.DataPath[i]); err == nil {
+			r += fmt.Sprintf(":%s.", attr.DataPath[i])
+		} else {
+			r += attr.DataPath[i] + "."
+		}
+	}
+	return r + attr.ModelName
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":          ToGoName,
@@ -368,6 +382,7 @@ var Functions = template.FuncMap{
 	"subtract":          Subtract,
 	"iterate":           Iterate,
 	"getImportExcludes": GetImportExcludes,
+	"getFullModelName":  GetFullModelName,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
@@ -384,11 +399,11 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 	if attr.TfName == "" {
 		fullString := ""
 		for _, s := range attr.DataPath {
-			fullString += strings.ToUpper(string(s[0])) + s[1:]
+			fullString += CamelToSnake(strings.ToUpper(string(s[0]))+s[1:]) + "_"
 		}
-		fullString += strings.ToUpper(string(attr.ModelName[0])) + attr.ModelName[1:]
+		fullString += CamelToSnake(strings.ToUpper(string(attr.ModelName[0])) + attr.ModelName[1:])
 
-		attr.TfName = CamelToSnake(fullString)
+		attr.TfName = fullString
 	}
 
 	attr.GoTypeName = parentGoTypeName + ToGoName(attr.TfName)

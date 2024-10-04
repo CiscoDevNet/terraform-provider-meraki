@@ -141,257 +141,257 @@ func (d *WirelessRFProfilesDataSource) Schema(ctx context.Context, req datasourc
 								},
 							},
 						},
-						"per_ssid_settings0_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_0_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings0_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_0_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings0_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_0_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings0_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_0_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings1_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_1_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings1_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_1_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings1_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_1_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings1_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_1_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings10_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_10_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings10_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_10_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings10_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_10_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings10_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_10_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings11_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_11_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings11_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_11_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings11_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_11_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings11_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_11_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings12_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_12_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings12_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_12_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings12_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_12_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings12_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_12_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings13_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_13_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings13_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_13_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings13_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_13_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings13_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_13_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings14_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_14_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings14_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_14_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings14_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_14_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings14_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_14_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings2_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_2_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings2_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_2_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings2_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_2_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings2_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_2_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings3_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_3_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings3_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_3_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings3_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_3_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings3_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_3_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings4_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_4_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings4_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_4_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings4_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_4_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings4_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_4_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings5_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_5_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings5_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_5_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings5_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_5_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings5_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_5_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings6_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_6_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings6_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_6_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings6_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_6_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings6_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_6_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings7_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_7_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings7_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_7_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings7_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_7_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings7_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_7_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings8_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_8_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings8_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_8_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings8_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_8_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings8_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_8_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
-						"per_ssid_settings9_band_operation_mode": schema.StringAttribute{
+						"per_ssid_settings_9_band_operation_mode": schema.StringAttribute{
 							MarkdownDescription: "Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.",
 							Computed:            true,
 						},
-						"per_ssid_settings9_band_steering_enabled": schema.BoolAttribute{
+						"per_ssid_settings_9_band_steering_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Steers client to most open band between 2.4 GHz and 5 GHz. Can be either true or false.",
 							Computed:            true,
 						},
-						"per_ssid_settings9_min_bitrate": schema.Float64Attribute{
+						"per_ssid_settings_9_min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "Sets min bitrate (Mbps) of this SSID. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`.",
 							Computed:            true,
 						},
-						"per_ssid_settings9_bands_enabled": schema.SetAttribute{
+						"per_ssid_settings_9_bands_enabled": schema.SetAttribute{
 							MarkdownDescription: "List of enabled bands. Can include ['2.4', '5', '6', 'disabled']",
 							ElementType:         types.StringType,
 							Computed:            true,
