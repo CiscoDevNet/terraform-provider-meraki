@@ -1,0 +1,63 @@
+name: Appliance Traffic Shaping VPN Exclusions
+spec_endpoint: /networks/{networkId}/appliance/trafficShaping/vpnExclusions
+rest_endpoint: /networks/%v/appliance/trafficShaping/vpnExclusions
+no_data_source: false
+put_create: true
+get_from_all: true
+no_delete: true
+no_import: false
+no_read: false
+doc_category: Appliances
+test_tags: [APPLIANCE_TRAFFIC_SHAPING_VPN_EXCLUSIONS]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: custom
+    type: List
+    description: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
+    ordered_list: true
+    attributes:
+      - model_name: destination
+        type: String
+        description: Destination address; hostname required for DNS, IPv4 otherwise.
+        example: 192.168.3.0/24
+      - model_name: port
+        type: String
+        description: Destination port.
+        example: "8000"
+      - model_name: protocol
+        type: String
+        mandatory: true
+        description: Protocol.
+        example: tcp
+        enum_values: [any, dns, icmp, tcp, udp]
+  - model_name: majorApplications
+    type: List
+    description: Major Application based VPN exclusion rules. Pass an empty array to clear existing rules.
+    attributes:
+      - model_name: id
+        type: String
+        id: true
+        mandatory: true
+        description: Application`s Meraki ID.
+        example: meraki:vpnExclusion/application/2
+      - model_name: name
+        type: String
+        description: Application`s name.
+        example: Office 365 Sharepoint
+        enum_values: [AWS, Box, Office 365 Sharepoint, Office 365 Suite, Oracle, SAP, Salesforce, Skype & Teams, Slack, Webex, Webex Calling, Webex Meetings, Zoom]
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
