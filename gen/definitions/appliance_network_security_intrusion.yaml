@@ -1,0 +1,53 @@
+name: Appliance Network Security Intrusion
+spec_endpoint: /networks/{networkId}/appliance/security/intrusion
+rest_endpoint: /networks/%v/appliance/security/intrusion
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_tags: [APPLIANCE_NETWORK_SECURITY_INTRUSION]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: idsRulesets
+    type: String
+    description: Set the detection ruleset `connectivity`/`balanced`/`security` (optional - omitting will leave current config unchanged). Default value is `balanced` if none currently saved
+    example: balanced
+    enum_values: [balanced, connectivity, security]
+  - model_name: mode
+    type: String
+    description: Set mode to `disabled`/`detection`/`prevention` (optional - omitting will leave current config unchanged)
+    example: prevention
+    enum_values: [detection, disabled, prevention]
+    minimum_test_value: '"disabled"'
+  - model_name: useDefault
+    type: Bool
+    data_path: [protectedNetworks]
+    description: 'true/false whether to use special IPv4 addresses: https://tools.ietf.org/html/rfc5735 (required). Default value is true if none currently saved'
+    example: "false"
+  - model_name: excludedCidr
+    type: List
+    element_type: String
+    data_path: [protectedNetworks]
+    description: list of IP addresses or subnets being excluded from protection (required if `useDefault` is false)
+    example: 10.0.0.0/8
+  - model_name: includedCidr
+    type: List
+    element_type: String
+    data_path: [protectedNetworks]
+    description: list of IP addresses or subnets being protected (required if `useDefault` is false)
+    example: 10.0.0.0/8
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
