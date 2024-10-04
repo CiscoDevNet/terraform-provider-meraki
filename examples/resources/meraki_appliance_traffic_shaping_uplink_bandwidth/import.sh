@@ -1,0 +1,1 @@
+terraform import meraki_appliance_traffic_shaping_uplink_bandwidth.example "<network_id>"

@@ -1,0 +1,65 @@
+name: Appliance Traffic Shaping Uplink Bandwidth
+spec_endpoint: /networks/{networkId}/appliance/trafficShaping/uplinkBandwidth
+rest_endpoint: /networks/%v/appliance/trafficShaping/uplinkBandwidth
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network_device_claim.test.network_id
+  - model_name: limitDown
+    tf_name: cellular_limit_down
+    type: Int64
+    data_path: [bandwidthLimits, cellular]
+    description: The maximum download limit (integer, in Kbps). null indicates no limit
+    example: "100000"
+  - model_name: limitUp
+    tf_name: cellular_limit_up
+    type: Int64
+    data_path: [bandwidthLimits, cellular]
+    description: The maximum upload limit (integer, in Kbps). null indicates no limit
+    example: "100000"
+  - model_name: limitDown
+    tf_name: wan1_limit_down
+    type: Int64
+    data_path: [bandwidthLimits, wan1]
+    description: The maximum download limit (integer, in Kbps). null indicates no limit
+    example: "100000"
+    minimum_test_value: "10000"
+  - model_name: limitUp
+    tf_name: wan1_limit_up
+    type: Int64
+    data_path: [bandwidthLimits, wan1]
+    description: The maximum upload limit (integer, in Kbps). null indicates no limit
+    example: "100000"
+  - model_name: limitDown
+    tf_name: wan2_limit_down
+    type: Int64
+    data_path: [bandwidthLimits, wan2]
+    description: The maximum download limit (integer, in Kbps). null indicates no limit
+    example: "100000"
+  - model_name: limitUp
+    tf_name: wan2_limit_up
+    type: Int64
+    data_path: [bandwidthLimits, wan2]
+    description: The maximum upload limit (integer, in Kbps). null indicates no limit
+    example: "100000"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
