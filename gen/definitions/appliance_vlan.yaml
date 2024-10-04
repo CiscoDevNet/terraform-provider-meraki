@@ -1,0 +1,149 @@
+name: Appliance VLAN
+spec_endpoint: /networks/{networkId}/appliance/vlans/{vlanId}
+rest_endpoint: /networks/%v/appliance/vlans
+bulk_data_source: true
+data_source_name_query: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_appliance_vlans_settings.test.network_id
+  - model_name: applianceIp
+    type: String
+    description: The local IP of the appliance on the VLAN
+    example: 192.168.1.2
+    minimum_test_value: '"192.168.1.2"'
+  - model_name: cidr
+    type: String
+    exclude_test: true
+    description: CIDR of the pool of subnets. Applicable only for template network. Each network bound to the template will automatically pick a subnet from this pool to build its own VLAN.
+    example: 192.168.1.0/24
+  - model_name: dhcpBootOptionsEnabled
+    type: Bool
+    description: Use DHCP boot options specified in other properties
+    example: "false"
+  - model_name: dhcpHandling
+    type: String
+    description: 'The appliance`s handling of DHCP requests on this VLAN. One of: `Run a DHCP server`, `Relay DHCP to another server` or `Do not respond to DHCP requests`'
+    example: Run a DHCP server
+    enum_values: [Do not respond to DHCP requests, Relay DHCP to another server, Run a DHCP server]
+  - model_name: dhcpLeaseTime
+    type: String
+    description: 'The term of DHCP leases if the appliance is running a DHCP server on this VLAN. One of: `30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`'
+    example: 1 day
+    enum_values: [1 day, 1 hour, 1 week, 12 hours, 30 minutes, 4 hours]
+  - model_name: groupPolicyId
+    type: String
+    exclude_test: true
+    description: The id of the desired group policy to apply to the VLAN
+    example: "101"
+  - model_name: id
+    tf_name: vlan_id
+    type: String
+    mandatory: true
+    description: The VLAN ID of the new VLAN (must be between 1 and 4094)
+    example: "1234"
+  - model_name: mask
+    type: Int64
+    exclude_test: true
+    description: Mask used for the subnet of all bound to the template networks. Applicable only for template network.
+    example: "28"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the new VLAN
+    example: My VLAN
+  - model_name: subnet
+    type: String
+    description: The subnet of the VLAN
+    example: 192.168.1.0/24
+    minimum_test_value: '"192.168.1.0/24"'
+  - model_name: templateVlanType
+    type: String
+    exclude_test: true
+    description: Type of subnetting of the VLAN. Applicable only for template network.
+    example: same
+    enum_values: [same, unique]
+  - model_name: enabled
+    type: Bool
+    data_path: [ipv6]
+    description: Enable IPv6 on VLAN.
+    example: "true"
+  - model_name: prefixAssignments
+    type: List
+    data_path: [ipv6]
+    exclude_test: true
+    allow_import_changes: true
+    description: Prefix assignments on the VLAN
+    ordered_list: true
+    attributes:
+      - model_name: autonomous
+        type: Bool
+        description: Auto assign a /64 prefix from the origin to the VLAN
+        example: "false"
+      - model_name: staticApplianceIp6
+        type: String
+        description: Manual configuration of the IPv6 Appliance IP
+        example: 2001:db8:3c4d:15::1
+      - model_name: staticPrefix
+        type: String
+        description: Manual configuration of a /64 prefix on the VLAN
+        example: 2001:db8:3c4d:15::/64
+      - model_name: type
+        type: String
+        data_path: [origin]
+        description: Type of the origin
+        example: internet
+        enum_values: [independent, internet]
+      - model_name: interfaces
+        type: List
+        element_type: String
+        data_path: [origin]
+        description: Interfaces associated with the prefix
+        example: wan1
+  - model_name: enabled
+    type: Bool
+    data_path: [mandatoryDhcp]
+    description: Enable Mandatory DHCP on VLAN.
+    example: "true"
+  - model_name: dhcpOptions
+    type: List
+    exclude_test: true
+    description: The list of DHCP options that will be included in DHCP responses. Each object in the list should have 'code', 'type', and 'value' properties.
+    attributes:
+      - model_name: code
+        type: String
+        id: true
+        mandatory: true
+        description: The code for the DHCP option. This should be an integer between 2 and 254.
+        example: "3"
+      - model_name: type
+        type: String
+        id: true
+        mandatory: true
+        description: 'The type for the DHCP option. One of: `text`, `ip`, `hex` or `integer`'
+        example: text
+        enum_values: [hex, integer, ip, text]
+      - model_name: value
+        type: String
+        id: true
+        mandatory: true
+        description: The value for the DHCP option
+        example: five
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_appliance_vlans_settings" "test" {
+    network_id = meraki_network.test.id
+    vlans_enabled = true
+  }

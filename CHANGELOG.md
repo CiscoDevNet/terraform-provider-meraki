@@ -26,6 +26,8 @@
 - Add `meraki_appliance_ssid` resource and data source
 - Add `meraki_appliance_static_route` resource and data source
 - Add `meraki_appliance_static_routes` data source
+- Add `meraki_appliance_vlan` resource and data source
+- Add `meraki_appliance_vlans` data source
 
 ## 0.1.1
 
