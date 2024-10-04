@@ -1,0 +1,43 @@
+name: Appliance Static Route
+spec_endpoint: /networks/{networkId}/appliance/staticRoutes/{staticRouteId}
+rest_endpoint: /networks/%v/appliance/staticRoutes
+bulk_data_source: true
+data_source_name_query: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: gatewayIp
+    type: String
+    mandatory: true
+    description: Gateway IP address (next hop)
+    example: 192.168.128.254
+  - model_name: gatewayVlanId
+    type: String
+    exclude_test: true
+    description: Gateway VLAN ID
+    example: "100"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the route
+    example: My route
+  - model_name: subnet
+    type: String
+    mandatory: true
+    description: Subnet of the route
+    example: 5.5.5.0/24
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }

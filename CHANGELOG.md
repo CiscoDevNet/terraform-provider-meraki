@@ -24,6 +24,8 @@
 - Add `meraki_appliance_settings` resource and data source
 - Add `meraki_appliance_single_lan` resource and data source
 - Add `meraki_appliance_ssid` resource and data source
+- Add `meraki_appliance_static_route` resource and data source
+- Add `meraki_appliance_static_routes` data source
 
 ## 0.1.1
 
