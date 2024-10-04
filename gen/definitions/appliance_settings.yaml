@@ -1,0 +1,45 @@
+name: Appliance Settings
+spec_endpoint: /networks/{networkId}/appliance/settings
+rest_endpoint: /networks/%v/appliance/settings
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: clientTrackingMethod
+    type: String
+    description: Client tracking method of a network
+    example: MAC address
+    enum_values: [IP address, MAC address, Unique client identifier]
+  - model_name: deploymentMode
+    type: String
+    description: Deployment mode of a network
+    example: routed
+    enum_values: [passthrough, routed]
+  - model_name: enabled
+    type: Bool
+    data_path: [dynamicDns]
+    description: Dynamic DNS enabled
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: prefix
+    type: String
+    data_path: [dynamicDns]
+    description: Dynamic DNS url prefix. DDNS must be enabled to update
+    example: test
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
