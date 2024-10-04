@@ -5,6 +5,7 @@ no_data_source: true
 no_update: false
 no_delete: false
 no_import: false
+no_read: false
 res_description: This resource allows claiming and releasing serials from the organization inventory. It will not not touch any existing serials already claimed and not included in `serials`. Licenses and orders can only be claimed but not released.
 doc_category: Organizations
 test_variables: [test_org, test_claim_serial_1, test_claim_serial_2]

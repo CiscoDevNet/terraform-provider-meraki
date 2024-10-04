@@ -141,6 +141,7 @@ func generateDefinition(endpointPath, resourceName string) {
 	config.NoDataSource = urlResult.noDataSource
 	config.BulkDataSource = urlResult.bulkDataSource
 	config.NoUpdate = urlResult.noUpdate
+	config.NoRead = urlResult.noRead
 	config.TestVariables = urlResult.testVariables
 
 	attributes := []yamlconfig.YamlConfigAttributeP{}
@@ -265,6 +266,7 @@ type parseUrlResult struct {
 	bulkDataSource *bool
 	noImport       *bool
 	noUpdate       *bool
+	noRead         *bool
 	testVariables  *[]string
 }
 
@@ -345,6 +347,7 @@ func parseUrl(url string, spec interface{}) parseUrlResult {
 		if !hasGet && !hasShortGet {
 			ret.noDataSource = P(true)
 			ret.noImport = P(true)
+			ret.noRead = P(true)
 		}
 	}
 

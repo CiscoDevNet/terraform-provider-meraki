@@ -5,6 +5,7 @@ no_data_source: false
 no_update: false
 no_delete: false
 no_import: false
+no_read: false
 doc_category: Wireless
 test_variables: [test_org, test_network]
 attributes:

@@ -4,6 +4,7 @@ rest_endpoint: /networks/%v/wireless/airMarshal/rules
 no_data_source: false
 get_from_all: true
 no_import: false
+no_read: false
 id_name: ruleId
 doc_category: Wireless
 test_variables: [test_org, test_network]

@@ -5,6 +5,7 @@ no_data_source: true
 no_update: false
 no_delete: true
 no_import: true
+no_read: false
 doc_category: Wireless
 test_tags: [WIRELESS_ETHERNET_PORT_PROFILE_ASSIGN]
 test_variables: [test_org, test_network, test_ap_1_serial]

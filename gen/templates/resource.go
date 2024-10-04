@@ -455,6 +455,7 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
+	{{- if not .NoRead}}
 
 	{{- if or .GetFromAll .PutCreate}}
 	res, err := r.client.Get(state.getPath())
@@ -491,6 +492,8 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+
+	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 

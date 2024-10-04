@@ -27,6 +27,7 @@ type YamlConfig struct {
 	NoUpdate            bool                  `yaml:"no_update,omitempty"`
 	NoDelete            bool                  `yaml:"no_delete,omitempty"`
 	NoImport            bool                  `yaml:"no_import,omitempty"`
+	NoRead              bool                  `yaml:"no_read,omitempty"`
 	IdName              string                `yaml:"id_name,omitempty"`
 	DataSourceNameQuery bool                  `yaml:"data_source_name_query,omitempty"`
 	MinimumVersion      string                `yaml:"minimum_version,omitempty"`
@@ -56,6 +57,7 @@ type YamlConfigP struct {
 	NoUpdate            *bool                   `yaml:"no_update,omitempty"`
 	NoDelete            *bool                   `yaml:"no_delete,omitempty"`
 	NoImport            *bool                   `yaml:"no_import,omitempty"`
+	NoRead              *bool                   `yaml:"no_read,omitempty"`
 	IdName              *string                 `yaml:"id_name,omitempty"`
 	DataSourceNameQuery *bool                   `yaml:"data_source_name_query,omitempty"`
 	MinimumVersion      *string                 `yaml:"minimum_version,omitempty"`
@@ -525,6 +527,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.NoImport != nil {
 		new.NoImport = existing.NoImport
+	}
+	if existing.NoRead != nil {
+		new.NoRead = existing.NoRead
 	}
 	if existing.IdName != nil {
 		new.IdName = existing.IdName
