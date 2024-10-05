@@ -157,7 +157,7 @@ func (data *SwitchSTP) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		}
 	}
 	priorities := map[int64]tempPriority{}
-	for i := 0; i < len(res.Get("stpBridgePriority").Array()); i++ {
+	for i := range res.Get("stpBridgePriority").Array() {
 		priorityRes := res.Get(fmt.Sprintf("stpBridgePriority.%d", i))
 		priority := priorityRes.Get("stpPriority").Int()
 		t := tempPriority{
