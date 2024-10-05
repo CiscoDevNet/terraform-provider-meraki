@@ -22,8 +22,10 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"sort"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -137,8 +139,6 @@ func (data *SwitchSTP) fromBody(ctx context.Context, res meraki.Res) {
 
 // End of section. //template:end fromBody
 
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
-
 // fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
@@ -156,33 +156,87 @@ func (data *SwitchSTP) fromBodyPartial(ctx context.Context, res meraki.Res) {
 			data.StpBridgePriority = data.StpBridgePriority[:l]
 		}
 	}
-	for i := range data.StpBridgePriority {
-		parent := &data
-		data := (*parent).StpBridgePriority[i]
-		parentRes := &res
-		res := parentRes.Get(fmt.Sprintf("stpBridgePriority.%d", i))
-		if value := res.Get("stpPriority"); value.Exists() && !data.StpPriority.IsNull() {
-			data.StpPriority = types.Int64Value(value.Int())
-		} else {
-			data.StpPriority = types.Int64Null()
+	priorities := map[int64]tempPriority{}
+	for i := range res.Get("stpBridgePriority").Array() {
+		priorityRes := res.Get(fmt.Sprintf("stpBridgePriority.%d", i))
+		priority := priorityRes.Get("stpPriority").Int()
+		t := tempPriority{
+			stacks:         []string{},
+			switchProfiles: []string{},
+			switches:       []string{},
 		}
-		if value := res.Get("stacks"); value.Exists() && !data.Stacks.IsNull() {
-			data.Stacks = helpers.GetStringSet(value.Array())
-		} else {
-			data.Stacks = types.SetNull(types.StringType)
+		if p, ok := priorities[priority]; ok {
+			t = p
 		}
-		if value := res.Get("switchProfiles"); value.Exists() && !data.SwitchProfiles.IsNull() {
-			data.SwitchProfiles = helpers.GetStringSet(value.Array())
-		} else {
-			data.SwitchProfiles = types.SetNull(types.StringType)
+		if value := priorityRes.Get("stacks"); value.Exists() {
+			for _, r := range value.Array() {
+				t.stacks = append(t.stacks, r.String())
+			}
 		}
-		if value := res.Get("switches"); value.Exists() && !data.Switches.IsNull() {
-			data.Switches = helpers.GetStringSet(value.Array())
-		} else {
-			data.Switches = types.SetNull(types.StringType)
+		if value := priorityRes.Get("switchProfiles"); value.Exists() {
+			for _, r := range value.Array() {
+				t.switchProfiles = append(t.switchProfiles, r.String())
+			}
 		}
-		(*parent).StpBridgePriority[i] = data
+		if value := priorityRes.Get("switches"); value.Exists() {
+			for _, r := range value.Array() {
+				t.switches = append(t.switches, r.String())
+			}
+		}
+		priorities[priority] = t
 	}
+
+	keys := make([]int64, 0, len(priorities))
+	for k := range priorities {
+		keys = append(keys, k)
+	}
+	sort.Slice(keys, func(i, j int) bool { return keys[i] > keys[j] })
+
+	newStpBridgePriority := []SwitchSTPStpBridgePriority{}
+	for _, k := range keys {
+		found := false
+		for _, i := range data.StpBridgePriority {
+			if i.StpPriority.ValueInt64() == k {
+				found = true
+			}
+		}
+		if !found {
+			continue
+		}
+		newStacks := []attr.Value{}
+		for _, s := range priorities[k].stacks {
+			newStacks = append(newStacks, types.StringValue(s))
+		}
+		newSwitches := []attr.Value{}
+		for _, s := range priorities[k].switches {
+			newSwitches = append(newSwitches, types.StringValue(s))
+		}
+		newSwitchProfiles := []attr.Value{}
+		for _, s := range priorities[k].switchProfiles {
+			newSwitchProfiles = append(newSwitchProfiles, types.StringValue(s))
+		}
+		newStpBridgePriority = append(newStpBridgePriority, SwitchSTPStpBridgePriority{
+			StpPriority:    types.Int64Value(k),
+			Stacks:         setOrNull(types.SetValueMust(types.StringType, newStacks)),
+			Switches:       setOrNull(types.SetValueMust(types.StringType, newSwitches)),
+			SwitchProfiles: setOrNull(types.SetValueMust(types.StringType, newSwitchProfiles)),
+		})
+	}
+	if len(newStpBridgePriority) > 0 {
+		data.StpBridgePriority = newStpBridgePriority
+	}
+
 }
 
-// End of section. //template:end fromBodyPartial
+func setOrNull(s types.Set) types.Set {
+	if len(s.Elements()) == 0 {
+		return types.SetNull(types.StringType)
+	}
+	return s
+}
+
+type tempPriority struct {
+	stacks         []string
+	switchProfiles []string
+	switches       []string
+}
