@@ -40,6 +40,7 @@
 - Add `meraki_appliance_third_party_vpn_peers` resource and data source
 - Add `meraki_appliance_vpn_firewall_rules` resource and data source
 - Add `meraki_appliance_warm_spare` resource and data source
+- Fix idempotency issue with `meraki_switch_stp` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/17)
 
 ## 0.1.1
 
