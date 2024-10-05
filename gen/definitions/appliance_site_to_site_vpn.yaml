@@ -1,0 +1,60 @@
+name: Appliance Site to Site VPN
+spec_endpoint: /networks/{networkId}/appliance/vpn/siteToSiteVpn
+rest_endpoint: /networks/%v/appliance/vpn/siteToSiteVpn
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: mode
+    type: String
+    mandatory: true
+    description: The site-to-site VPN mode. Can be one of `none`, `spoke` or `hub`
+    example: hub
+    enum_values: [hub, none, spoke]
+    minimum_test_value: '"none"'
+  - model_name: hubs
+    type: List
+    exclude_test: true
+    description: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.
+    attributes:
+      - model_name: hubId
+        type: String
+        id: true
+        mandatory: true
+        description: The network ID of the hub.
+        example: N_4901849
+      - model_name: useDefaultRoute
+        type: Bool
+        description: Only valid in `spoke` mode. Indicates whether default route traffic should be sent to this hub.
+        example: "true"
+  - model_name: subnets
+    type: List
+    description: The list of subnets and their VPN presence.
+    attributes:
+      - model_name: localSubnet
+        type: String
+        id: true
+        mandatory: true
+        description: The CIDR notation subnet used within the VPN
+        example: 192.168.128.0/24
+      - model_name: useVpn
+        type: Bool
+        description: Indicates the presence of the subnet in the VPN
+        example: "true"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
