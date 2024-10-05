@@ -1,0 +1,98 @@
+name: Appliance VPN BGP
+spec_endpoint: /networks/{networkId}/appliance/vpn/bgp
+rest_endpoint: /networks/%v/appliance/vpn/bgp
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_tags: [APPLIANCE_VPN_BGP]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_appliance_site_to_site_vpn.test.network_id
+  - model_name: asNumber
+    type: Int64
+    description: An Autonomous System Number (ASN) is required if you are to run BGP and peer with another BGP Speaker outside of the Auto VPN domain. This ASN will be applied to the entire Auto VPN domain. The entire 4-byte ASN range is supported. So, the ASN must be an integer between 1 and 4294967295. When absent, this field is not updated. If no value exists then it defaults to 64512.
+    example: "64515"
+  - model_name: enabled
+    type: Bool
+    mandatory: true
+    description: Boolean value to enable or disable the BGP configuration. When BGP is enabled, the asNumber (ASN) will be autopopulated with the preconfigured ASN at other Hubs or a default value if there is no ASN configured.
+    example: "true"
+  - model_name: ibgpHoldTimer
+    type: Int64
+    description: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer between 12 and 240. When absent, this field is not updated. If no value exists then it defaults to 240.
+    example: "120"
+  - model_name: neighbors
+    type: List
+    description: List of BGP neighbors. This list replaces the existing set of neighbors. When absent, this field is not updated.
+    attributes:
+      - model_name: allowTransit
+        type: Bool
+        description: When this feature is on, the Meraki device will advertise routes learned from other Autonomous Systems, thereby allowing traffic between Autonomous Systems to transit this AS. When absent, it defaults to false.
+        example: "true"
+      - model_name: ebgpHoldTimer
+        type: Int64
+        mandatory: true
+        description: The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.
+        example: "180"
+      - model_name: ebgpMultihop
+        type: Int64
+        mandatory: true
+        description: Configure this if the neighbor is not adjacent. The eBGP multi-hop must be an integer between 1 and 255.
+        example: "2"
+      - model_name: ip
+        type: String
+        id: true
+        mandatory: true
+        description: The IPv4 address of the neighbor
+        example: 10.10.10.22
+      - model_name: nextHopIp
+        type: String
+        description: The IPv4 address of the remote BGP peer that will establish a TCP session with the local MX.
+        example: 1.2.3.4
+      - model_name: receiveLimit
+        type: Int64
+        description: The receive limit is the maximum number of routes that can be received from any BGP peer. The receive limit must be an integer between 0 and 2147483647. When absent, it defaults to 0.
+        example: "120"
+      - model_name: remoteAsNumber
+        type: Int64
+        mandatory: true
+        description: Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.
+        example: "64343"
+      - model_name: sourceInterface
+        type: String
+        description: 'The output interface for peering with the remote BGP peer. Valid values are: `wan1`, `wan2` or `vlan{VLAN ID}`(e.g. `vlan123`).'
+        example: wan1
+      - model_name: password
+        type: String
+        data_path: [authentication]
+        description: Password to configure MD5 authentication between BGP peers.
+        example: abc123
+      - model_name: address
+        type: String
+        data_path: [ipv6]
+        description: The IPv6 address of the neighbor.
+        example: 2002::1234:abcd:ffff:c0a8:101
+      - model_name: enabled
+        type: Bool
+        data_path: [ttlSecurity]
+        description: Boolean value to enable or disable BGP TTL security.
+        example: "false"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_appliance_site_to_site_vpn" "test" {
+    network_id = meraki_network.test.id
+    mode       = "hub"
+  }
