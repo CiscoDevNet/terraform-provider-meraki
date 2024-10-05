@@ -1,0 +1,51 @@
+name: Appliance Warm Spare
+spec_endpoint: /networks/{networkId}/appliance/warmSpare
+rest_endpoint: /networks/%v/appliance/warmSpare
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial, test_appliance_2_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network_device_claim.test.network_id
+  - model_name: enabled
+    type: Bool
+    mandatory: true
+    description: Enable warm spare
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: spareSerial
+    type: String
+    description: Serial number of the warm spare appliance
+    example: Q234-ABCD-5678
+    test_value: var.test_appliance_2_serial
+  - model_name: uplinkMode
+    type: String
+    description: Uplink mode, either virtual or public
+    example: virtual
+  - model_name: virtualIp1
+    type: String
+    description: The WAN 1 shared IP
+    example: 1.2.3.4
+  - model_name: virtualIp2
+    type: String
+    description: The WAN 2 shared IP
+    example: 2.3.4.5
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
