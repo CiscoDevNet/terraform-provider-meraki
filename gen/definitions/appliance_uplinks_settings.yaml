@@ -1,0 +1,197 @@
+name: Appliance Uplinks Settings
+spec_endpoint: /devices/{serial}/appliance/uplinks/settings
+rest_endpoint: /devices/%v/appliance/uplinks/settings
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan1]
+    description: Enable or disable the interface.
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan1, pppoe]
+    description: Whether PPPoE is enabled.
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan1, pppoe, authentication]
+    description: Whether PPPoE authentication is enabled.
+    example: "true"
+  - model_name: password
+    type: String
+    data_path: [interfaces, wan1, pppoe, authentication]
+    write_only: true
+    description: Password for PPPoE authentication. This parameter is not returned.
+    example: password
+  - model_name: username
+    type: String
+    data_path: [interfaces, wan1, pppoe, authentication]
+    description: Username for PPPoE authentication.
+    example: username
+  - model_name: address
+    type: String
+    data_path: [interfaces, wan1, svis, ipv4]
+    description: IP address and subnet mask when in static mode.
+    example: 9.10.11.10
+  - model_name: assignmentMode
+    type: String
+    data_path: [interfaces, wan1, svis, ipv4]
+    description: The assignment mode for this SVI. Applies only when PPPoE is disabled.
+    example: static
+    enum_values: [dynamic, static]
+  - model_name: gateway
+    type: String
+    data_path: [interfaces, wan1, svis, ipv4]
+    exclude_test: true
+    description: Gateway IP address when in static mode.
+    example: 13.14.15.16
+  - model_name: addresses
+    type: List
+    element_type: String
+    data_path: [interfaces, wan1, svis, ipv4, nameservers]
+    exclude_test: true
+    description: Up to 2 nameserver addresses to use, ordered in priority from highest to lowest priority.
+    example: 1.2.3.4
+  - model_name: address
+    type: String
+    data_path: [interfaces, wan1, svis, ipv6]
+    description: Static address that will override the one(s) received by SLAAC.
+    example: 2001:2:3::4
+  - model_name: assignmentMode
+    type: String
+    data_path: [interfaces, wan1, svis, ipv6]
+    description: The assignment mode for this SVI. Applies only when PPPoE is disabled.
+    example: static
+    enum_values: [dynamic, static]
+  - model_name: gateway
+    type: String
+    data_path: [interfaces, wan1, svis, ipv6]
+    exclude_test: true
+    description: Static gateway that will override the one received by autoconf.
+    example: 2001:2:3::5
+  - model_name: addresses
+    type: List
+    element_type: String
+    data_path: [interfaces, wan1, svis, ipv6, nameservers]
+    exclude_test: true
+    description: Up to 2 nameserver addresses to use, ordered in priority from highest to lowest priority.
+    example: 1001:4860:4860::8888
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan1, vlanTagging]
+    description: Whether VLAN tagging is enabled.
+    example: "true"
+  - model_name: vlanId
+    type: Int64
+    data_path: [interfaces, wan1, vlanTagging]
+    description: The ID of the VLAN to use for VLAN tagging.
+    example: "1"
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan2]
+    description: Enable or disable the interface.
+    example: "true"
+    minimum_test_value: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan2, pppoe]
+    description: Whether PPPoE is enabled.
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan2, pppoe, authentication]
+    description: Whether PPPoE authentication is enabled.
+    example: "true"
+  - model_name: password
+    type: String
+    data_path: [interfaces, wan2, pppoe, authentication]
+    write_only: true
+    description: Password for PPPoE authentication. This parameter is not returned.
+    example: password
+  - model_name: username
+    type: String
+    data_path: [interfaces, wan2, pppoe, authentication]
+    description: Username for PPPoE authentication.
+    example: username
+  - model_name: address
+    type: String
+    data_path: [interfaces, wan2, svis, ipv4]
+    description: IP address and subnet mask when in static mode.
+    example: 9.10.11.10
+  - model_name: assignmentMode
+    type: String
+    data_path: [interfaces, wan2, svis, ipv4]
+    description: The assignment mode for this SVI. Applies only when PPPoE is disabled.
+    example: static
+    enum_values: [dynamic, static]
+  - model_name: gateway
+    type: String
+    data_path: [interfaces, wan2, svis, ipv4]
+    exclude_test: true
+    description: Gateway IP address when in static mode.
+    example: 13.14.15.16
+  - model_name: addresses
+    type: List
+    element_type: String
+    data_path: [interfaces, wan2, svis, ipv4, nameservers]
+    exclude_test: true
+    description: Up to 2 nameserver addresses to use, ordered in priority from highest to lowest priority.
+    example: 1.2.3.4
+  - model_name: address
+    type: String
+    data_path: [interfaces, wan2, svis, ipv6]
+    description: Static address that will override the one(s) received by SLAAC.
+    example: 2001:2:3::4
+  - model_name: assignmentMode
+    type: String
+    data_path: [interfaces, wan2, svis, ipv6]
+    description: The assignment mode for this SVI. Applies only when PPPoE is disabled.
+    example: static
+    enum_values: [dynamic, static]
+  - model_name: gateway
+    type: String
+    data_path: [interfaces, wan2, svis, ipv6]
+    exclude_test: true
+    description: Static gateway that will override the one received by autoconf.
+    example: 2001:2:3::5
+  - model_name: addresses
+    type: List
+    element_type: String
+    data_path: [interfaces, wan2, svis, ipv6, nameservers]
+    exclude_test: true
+    description: Up to 2 nameserver addresses to use, ordered in priority from highest to lowest priority.
+    example: 1001:4860:4860::8888
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan2, vlanTagging]
+    description: Whether VLAN tagging is enabled.
+    example: "true"
+  - model_name: vlanId
+    type: Int64
+    data_path: [interfaces, wan2, vlanTagging]
+    description: The ID of the VLAN to use for VLAN tagging.
+    example: "1"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }

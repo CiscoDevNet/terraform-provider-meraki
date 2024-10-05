@@ -432,7 +432,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			// primitive value
 			attr := yamlconfig.YamlConfigAttributeP{}
 			if len(path) > 0 {
-				attr.DataPath = &path
+				attr.DataPath = P(append([]string{}, path...))
 			}
 			attr.Type = P(jsonTypes[propMap["type"].(string)])
 			attr.ModelName = &propName
@@ -487,7 +487,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			} else {
 				attr := yamlconfig.YamlConfigAttributeP{}
 				if len(path) > 0 {
-					attr.DataPath = &path
+					attr.DataPath = P(append([]string{}, path...))
 				}
 				attr.Type = P("Map")
 				attr.ModelName = &propName
@@ -506,7 +506,7 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 		if propMap["type"] == "array" {
 			attr := yamlconfig.YamlConfigAttributeP{}
 			if len(path) > 0 {
-				attr.DataPath = &path
+				attr.DataPath = P(append([]string{}, path...))
 			}
 			attr.Type = P("List")
 			attr.ModelName = &propName
