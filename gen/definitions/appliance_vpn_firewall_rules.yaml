@@ -1,0 +1,70 @@
+name: Appliance VPN Firewall Rules
+spec_endpoint: /organizations/{organizationId}/appliance/vpn/vpnFirewallRules
+rest_endpoint: /organizations/%v/appliance/vpn/vpnFirewallRules
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: syslogDefaultRule
+    type: Bool
+    exclude_test: true
+    description: Log the special default rule (boolean value - enable only if you`ve configured a syslog server) (optional)
+    example: "false"
+  - model_name: rules
+    type: List
+    mandatory: true
+    allow_import_changes: true
+    description: An ordered array of the firewall rules (not including the default rule)
+    ordered_list: true
+    attributes:
+      - model_name: comment
+        type: String
+        description: Description of the rule (optional)
+        example: Allow TCP traffic to subnet with HTTP servers.
+      - model_name: destCidr
+        type: String
+        mandatory: true
+        description: Comma-separated list of destination IP address(es) (in IP or CIDR notation) or `any` (FQDN not supported)
+        example: 192.168.1.0/24
+      - model_name: destPort
+        type: String
+        description: Comma-separated list of destination port(s) (integer in the range 1-65535), or `any`
+        example: "443"
+      - model_name: policy
+        type: String
+        mandatory: true
+        description: '`allow` or `deny` traffic specified by this rule'
+        example: allow
+        enum_values: [allow, deny]
+      - model_name: protocol
+        type: String
+        mandatory: true
+        description: The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)
+        example: tcp
+        enum_values: [any, icmp, icmp6, tcp, udp]
+        minimum_test_value: '"any"'
+      - model_name: srcCidr
+        type: String
+        mandatory: true
+        description: Comma-separated list of source IP address(es) (in IP or CIDR notation), or `any` (FQDN not supported)
+        example: Any
+      - model_name: srcPort
+        type: String
+        description: Comma-separated list of source port(s) (integer in the range 1-65535), or `any`
+        example: Any
+      - model_name: syslogEnabled
+        type: Bool
+        description: Log this rule to syslog (true or false, boolean value) - only applicable if a syslog has been configured (optional)
+        example: "false"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
