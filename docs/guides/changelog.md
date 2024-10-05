@@ -46,6 +46,7 @@ description: |-
 - Add `meraki_appliance_traffic_shaping_vpn_exclusions` resource and data source
 - Add `meraki_appliance_uplink_settings` resource and data source
 - Add `meraki_appliance_site_to_site_vpn` resource and data source
+- Add `meraki_appliance_third_party_vpn_peers` resource and data source
 
 ## 0.1.1
 

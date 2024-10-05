@@ -1,0 +1,121 @@
+name: Appliance Third Party VPN Peers
+spec_endpoint: /organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers
+rest_endpoint: /organizations/%v/appliance/vpn/thirdPartyVPNPeers
+put_create: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: peers
+    type: List
+    mandatory: true
+    description: The list of VPN peers
+    attributes:
+      - model_name: ikeVersion
+        type: String
+        description: '[optional] The IKE version to be used for the IPsec VPN peer configuration. Defaults to `1` when omitted.'
+        example: "2"
+        enum_values: ["1", "2"]
+      - model_name: ipsecPoliciesPreset
+        type: String
+        exclude_test: true
+        description: 'One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.'
+        example: default
+      - model_name: localId
+        type: String
+        description: '[optional] The local ID is used to identify the MX to the peer. This will apply to all MXs this peer applies to.'
+        example: myMXId@meraki.com
+      - model_name: name
+        type: String
+        id: true
+        mandatory: true
+        description: The name of the VPN peer
+        example: Peer Name
+      - model_name: publicIp
+        type: String
+        description: '[optional] The public IP of the VPN peer'
+        example: 123.123.123.1
+        minimum_test_value: '"123.123.1.1"'
+      - model_name: remoteId
+        type: String
+        description: '[optional] The remote ID is used to identify the connecting VPN peer. This can either be a valid IPv4 Address, FQDN or User FQDN.'
+        example: miles@meraki.com
+      - model_name: secret
+        type: String
+        mandatory: true
+        description: The shared secret with the VPN peer
+        example: Sample Password
+      - model_name: childLifetime
+        type: Int64
+        data_path: [ipsecPolicies]
+        description: The lifetime of the Phase 2 SA in seconds.
+        example: "28800"
+      - model_name: ikeLifetime
+        type: Int64
+        data_path: [ipsecPolicies]
+        description: The lifetime of the Phase 1 SA in seconds.
+        example: "28800"
+      - model_name: childAuthAlgo
+        type: List
+        element_type: String
+        data_path: [ipsecPolicies]
+        description: 'This is the authentication algorithms to be used in Phase 2. The value should be an array with one of the following algorithms: `sha256`, `sha1`, `md5`'
+        example: sha1
+      - model_name: childCipherAlgo
+        type: List
+        element_type: String
+        data_path: [ipsecPolicies]
+        description: 'This is the cipher algorithms to be used in Phase 2. The value should be an array with one or more of the following algorithms: `aes256`, `aes192`, `aes128`, `tripledes`, `des`, `null`'
+        example: aes128
+      - model_name: childPfsGroup
+        type: List
+        element_type: String
+        data_path: [ipsecPolicies]
+        description: 'This is the Diffie-Hellman group to be used for Perfect Forward Secrecy in Phase 2. The value should be an array with one of the following values: `disabled`,`group14`, `group5`, `group2`, `group1`'
+        example: disabled
+      - model_name: ikeAuthAlgo
+        type: List
+        element_type: String
+        data_path: [ipsecPolicies]
+        description: 'This is the authentication algorithm to be used in Phase 1. The value should be an array with one of the following algorithms: `sha256`, `sha1`, `md5`'
+        example: sha1
+      - model_name: ikeCipherAlgo
+        type: List
+        element_type: String
+        data_path: [ipsecPolicies]
+        description: 'This is the cipher algorithm to be used in Phase 1. The value should be an array with one of the following algorithms: `aes256`, `aes192`, `aes128`, `tripledes`, `des`'
+        example: tripledes
+      - model_name: ikeDiffieHellmanGroup
+        type: List
+        element_type: String
+        data_path: [ipsecPolicies]
+        description: 'This is the Diffie-Hellman group to be used in Phase 1. The value should be an array with one of the following algorithms: `group14`, `group5`, `group2`, `group1`'
+        example: group2
+      - model_name: ikePrfAlgo
+        type: List
+        element_type: String
+        data_path: [ipsecPolicies]
+        description: '[optional] This is the pseudo-random function to be used in IKE_SA. The value should be an array with one of the following algorithms: `prfsha256`, `prfsha1`, `prfmd5`, `default`. The `default` option can be used to default to the Authentication algorithm.'
+        example: prfsha1
+      - model_name: networkTags
+        type: List
+        element_type: String
+        description: A list of network tags that will connect with this peer. Use [`all`] for all networks. Use [`none`] for no networks. If not included, the default is [`all`].
+        example: none
+      - model_name: privateSubnets
+        type: List
+        element_type: String
+        mandatory: true
+        description: The list of the private subnets of the VPN peer
+        example: 192.168.1.0/24
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
