@@ -4,6 +4,10 @@
 
 The Meraki provider provides resources to interact with a Cisco Meraki Dashboard. It communicates with Meraki Dashboard via the REST API.
 
+Please note that this Terraform provider is developed and maintained by a dedicated community of contributors. It is not directly supported by Cisco. While we strive to ensure the provider is robust and reliable, its development relies on community contributions and engagement.
+
+There is another Terraform Provider for Meraki developed and supported by Cisco, which is available [here](https://registry.terraform.io/providers/cisco-open/meraki).
+
 All resources and data sources have been tested with the following API releases.
 
 | API | Version |
@@ -18,8 +22,6 @@ Documentation: <https://registry.terraform.io/providers/CiscoDevNet/meraki/lates
 - [Go](https://golang.org/doc/install) >= 1.22
 
 ## Support
-
-Please note that this Terraform provider is developed and maintained by a dedicated community of contributors. It is not directly supported by Cisco. While we strive to ensure the provider is robust and reliable, its development relies on community contributions and engagement.
 
 As this is a community-driven project, support is provided by the community. If you encounter issues or have questions, please use the following resources:
 
