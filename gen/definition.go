@@ -40,6 +40,8 @@ import (
 const specPath = "./gen/models/spec3.json"
 const definitionsPath = "./gen/definitions/"
 
+var usePutSchema = [...]string{"/networks/{networkId}/appliance/vlans/{vlanId}"}
+
 const usage = `
 Usage: go run gen/definition.go <endpoint> <resource_name>
 
@@ -352,9 +354,9 @@ func parseUrl(url string, spec interface{}) parseUrlResult {
 	}
 
 	var schema map[string]interface{}
-	if hasShortPost {
+	if hasShortPost && !slices.Contains(usePutSchema[:], url) {
 		schema = paths[shortUrl].(map[string]interface{})["post"].(map[string]interface{})
-	} else if hasPost {
+	} else if hasPost && !slices.Contains(usePutSchema[:], url) {
 		schema = paths[url].(map[string]interface{})["post"].(map[string]interface{})
 	} else if hasShortPut {
 		schema = paths[shortUrl].(map[string]interface{})["put"].(map[string]interface{})

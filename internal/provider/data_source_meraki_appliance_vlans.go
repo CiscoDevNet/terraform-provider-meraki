@@ -78,6 +78,14 @@ func (d *ApplianceVLANsDataSource) Schema(ctx context.Context, req datasource.Sc
 							MarkdownDescription: "CIDR of the pool of subnets. Applicable only for template network. Each network bound to the template will automatically pick a subnet from this pool to build its own VLAN.",
 							Computed:            true,
 						},
+						"dhcp_boot_filename": schema.StringAttribute{
+							MarkdownDescription: "DHCP boot option for boot filename",
+							Computed:            true,
+						},
+						"dhcp_boot_next_server": schema.StringAttribute{
+							MarkdownDescription: "DHCP boot option to direct boot clients to the server to load the boot file from",
+							Computed:            true,
+						},
 						"dhcp_boot_options_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Use DHCP boot options specified in other properties",
 							Computed:            true,
@@ -88,6 +96,10 @@ func (d *ApplianceVLANsDataSource) Schema(ctx context.Context, req datasource.Sc
 						},
 						"dhcp_lease_time": schema.StringAttribute{
 							MarkdownDescription: "The term of DHCP leases if the appliance is running a DHCP server on this VLAN. One of: `30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`",
+							Computed:            true,
+						},
+						"dns_nameservers": schema.StringAttribute{
+							MarkdownDescription: "The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names",
 							Computed:            true,
 						},
 						"group_policy_id": schema.StringAttribute{
@@ -112,6 +124,10 @@ func (d *ApplianceVLANsDataSource) Schema(ctx context.Context, req datasource.Sc
 						},
 						"template_vlan_type": schema.StringAttribute{
 							MarkdownDescription: "Type of subnetting of the VLAN. Applicable only for template network.",
+							Computed:            true,
+						},
+						"vpn_nat_subnet": schema.StringAttribute{
+							MarkdownDescription: "The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN",
 							Computed:            true,
 						},
 						"ipv6_enabled": schema.BoolAttribute{
@@ -166,6 +182,31 @@ func (d *ApplianceVLANsDataSource) Schema(ctx context.Context, req datasource.Sc
 									},
 									"value": schema.StringAttribute{
 										MarkdownDescription: "The value for the DHCP option",
+										Computed:            true,
+									},
+								},
+							},
+						},
+						"dhcp_relay_server_ips": schema.ListAttribute{
+							MarkdownDescription: "The IPs of the DHCP servers that DHCP requests should be relayed to",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"reserved_ip_ranges": schema.ListNestedAttribute{
+							MarkdownDescription: "The DHCP reserved IP ranges on the VLAN",
+							Computed:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"comment": schema.StringAttribute{
+										MarkdownDescription: "A text comment for the reserved range",
+										Computed:            true,
+									},
+									"end": schema.StringAttribute{
+										MarkdownDescription: "The last IP in the reserved range",
+										Computed:            true,
+									},
+									"start": schema.StringAttribute{
+										MarkdownDescription: "The first IP in the reserved range",
 										Computed:            true,
 									},
 								},

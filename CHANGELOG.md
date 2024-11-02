@@ -2,6 +2,7 @@
 
 - Add `public_hostname` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
 - Add `treat_these_traffic_types_as_one_threshold` attribute to `meraki_switch_storm_control` resource and data source
+- Add `dhcp_boot_filename`, `dhcp_boot_next_server`, `dns_nameservers`, `vpn_nat_subnet`, `dhcp_relay_server_ips` and `reserved_ip_ranges` attributes to `meraki_appliance_vlan` resource and data source
 
 ## 0.1.2
 
