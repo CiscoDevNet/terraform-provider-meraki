@@ -1,0 +1,28 @@
+name: Organization Early Access Features Opt In
+spec_endpoint: /organizations/{organizationId}/earlyAccess/features/optIns/{optInId}
+rest_endpoint: /organizations/%v/earlyAccess/features/optIns
+bulk_data_source: true
+doc_category: Organizations
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: shortName
+    type: String
+    mandatory: true
+    description: Short name of the early access feature
+    example: has_beta_api
+  - model_name: limitScopeToNetworks
+    type: List
+    element_type: String
+    exclude_test: true
+    description: A list of network IDs to apply the opt-in to
+    example: N_12345
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
