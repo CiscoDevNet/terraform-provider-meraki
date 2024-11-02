@@ -34,7 +34,7 @@ func TestAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptIn(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_early_access_features_opt_in.test", "short_name", "has_beta_api"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_early_access_features_opt_in.test", "short_name", "has_cloud_pcap_support"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -66,7 +66,7 @@ data "meraki_organization" "test" {
 func testAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptInConfig() string {
 	config := `resource "meraki_organization_early_access_features_opt_in" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	short_name = "has_beta_api"` + "\n"
+	config += `	short_name = "has_cloud_pcap_support"` + "\n"
 	config += `}` + "\n"
 
 	config += `

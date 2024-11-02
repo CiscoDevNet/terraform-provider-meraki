@@ -36,7 +36,7 @@ func TestAccMerakiOrganizationEarlyAccessFeaturesOptIn(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_early_access_features_opt_in.test", "short_name", "has_beta_api"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_early_access_features_opt_in.test", "short_name", "has_cloud_pcap_support"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -97,7 +97,7 @@ data "meraki_organization" "test" {
 func testAccMerakiOrganizationEarlyAccessFeaturesOptInConfig_minimum() string {
 	config := `resource "meraki_organization_early_access_features_opt_in" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	short_name = "has_beta_api"` + "\n"
+	config += `	short_name = "has_cloud_pcap_support"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -109,7 +109,7 @@ func testAccMerakiOrganizationEarlyAccessFeaturesOptInConfig_minimum() string {
 func testAccMerakiOrganizationEarlyAccessFeaturesOptInConfig_all() string {
 	config := `resource "meraki_organization_early_access_features_opt_in" "test" {` + "\n"
 	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	short_name = "has_beta_api"` + "\n"
+	config += `	short_name = "has_cloud_pcap_support"` + "\n"
 	config += `}` + "\n"
 	return config
 }

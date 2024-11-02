@@ -15,7 +15,7 @@ attributes:
     type: String
     mandatory: true
     description: Short name of the early access feature
-    example: has_beta_api
+    example: has_cloud_pcap_support
   - model_name: limitScopeToNetworks
     type: List
     element_type: String
