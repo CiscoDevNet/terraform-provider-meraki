@@ -5,6 +5,7 @@
 - Add `dhcp_boot_filename`, `dhcp_boot_next_server`, `dns_nameservers`, `vpn_nat_subnet`, `dhcp_relay_server_ips` and `reserved_ip_ranges` attributes to `meraki_appliance_vlan` resource and data source
 - Add `meraki_organization_early_access_features_opt_in` resource and data sources
 - Add `meraki_switch_organization_ports_profile` resource and data sources
+- Add `meraki_switch_organization_ports_profiles_automation` resource and data sources
 
 ## 0.1.2
 

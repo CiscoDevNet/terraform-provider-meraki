@@ -1,0 +1,114 @@
+name: Switch Organization Ports Profiles Automation
+spec_endpoint: /organizations/{organizationId}/switch/ports/profiles/automations/{id}
+rest_endpoint: /organizations/%v/switch/ports/profiles/automations
+bulk_data_source: true
+get_from_all: true
+early_access: true
+data_source_name_query: true
+doc_category: Switches
+test_variables: [test_org, test_network, test_switch_3_serial]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: Text describing the port profile automation.
+    example: A full length description of the automation.
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the port profile automation.
+    example: Automation 1
+  - model_name: id
+    type: String
+    data_path: [fallbackProfile]
+    exclude_test: true
+    description: Default port profile Id
+    example: "1284392014819"
+  - model_name: name
+    type: String
+    data_path: [fallbackProfile]
+    exclude_test: true
+    description: Default port profile name
+    example: Profile 1
+  - model_name: assignedSwitchPorts
+    type: List
+    description: assigned switch ports
+    attributes:
+      - model_name: serial
+        type: String
+        data_path: [switch]
+        description: Serial number of the switch
+        example: Q234-ABCD-5678
+        test_value: tolist(meraki_network_device_claim.test.serials)[0]
+      - model_name: portIds
+        type: List
+        element_type: String
+        data_path: [switch]
+        description: List of port ids
+        example: "3"
+  - model_name: rules
+    type: List
+    mandatory: true
+    description: Configuration settings for port profile automation rules
+    attributes:
+      - model_name: priority
+        type: Int64
+        id: true
+        mandatory: true
+        description: Priority of automation rule in sequence
+        example: "1"
+      - model_name: id
+        type: String
+        data_path: [profile]
+        description: ID of port profile
+        example: "32"
+        test_value: resource.meraki_switch_organization_ports_profile.test.id
+        minimum_test_value: resource.meraki_switch_organization_ports_profile.test.id
+      - model_name: name
+        type: String
+        data_path: [profile]
+        description: Name of port profile
+        example: Profile 2
+        test_value: resource.meraki_switch_organization_ports_profile.test.name
+        minimum_test_value: resource.meraki_switch_organization_ports_profile.test.name
+      - model_name: conditions
+        type: List
+        mandatory: true
+        description: Configuration settings for port profile automation conditions
+        attributes:
+          - model_name: attribute
+            type: String
+            id: true
+            mandatory: true
+            description: Type of the condition
+            example: LLDP system description
+            enum_values: [LLDP system description, MAC address]
+          - model_name: values
+            type: List
+            element_type: String
+            mandatory: true
+            description: Value of the condition
+            example: Meraki MR*
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_switch_3_serial]
+  }
+  resource "meraki_switch_organization_ports_profile" "test" {
+    organization_id = data.meraki_organization.test.id
+    name = "Phone"
+    port_type = "access"
+  }
