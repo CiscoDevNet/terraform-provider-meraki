@@ -24,6 +24,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -74,6 +75,11 @@ func (d *SwitchStormControlDataSource) Schema(ctx context.Context, req datasourc
 			},
 			"unknown_unicast_threshold": schema.Int64Attribute{
 				MarkdownDescription: "Percentage (1 to 99) of total available port bandwidth for unknown unicast (dlf-destination lookup failure) traffic type. Default value 100 percent rate is to clear the configuration.",
+				Computed:            true,
+			},
+			"treat_these_traffic_types_as_one_threshold": schema.ListAttribute{
+				MarkdownDescription: "Grouped traffic types",
+				ElementType:         types.StringType,
 				Computed:            true,
 			},
 		},

@@ -50,6 +50,7 @@ Read-Only:
 - `name` (String) The name of the VPN peer
 - `network_tags` (List of String) A list of network tags that will connect with this peer. Use [`all`] for all networks. Use [`none`] for no networks. If not included, the default is [`all`].
 - `private_subnets` (List of String) The list of the private subnets of the VPN peer
+- `public_hostname` (String) [optional] The public hostname of the VPN peer
 - `public_ip` (String) [optional] The public IP of the VPN peer
 - `remote_id` (String) [optional] The remote ID is used to identify the connecting VPN peer. This can either be a valid IPv4 Address, FQDN or User FQDN.
 - `secret` (String) The shared secret with the VPN peer

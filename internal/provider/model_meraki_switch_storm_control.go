@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
@@ -33,11 +34,12 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type SwitchStormControl struct {
-	Id                      types.String `tfsdk:"id"`
-	NetworkId               types.String `tfsdk:"network_id"`
-	BroadcastThreshold      types.Int64  `tfsdk:"broadcast_threshold"`
-	MulticastThreshold      types.Int64  `tfsdk:"multicast_threshold"`
-	UnknownUnicastThreshold types.Int64  `tfsdk:"unknown_unicast_threshold"`
+	Id                                   types.String `tfsdk:"id"`
+	NetworkId                            types.String `tfsdk:"network_id"`
+	BroadcastThreshold                   types.Int64  `tfsdk:"broadcast_threshold"`
+	MulticastThreshold                   types.Int64  `tfsdk:"multicast_threshold"`
+	UnknownUnicastThreshold              types.Int64  `tfsdk:"unknown_unicast_threshold"`
+	TreatTheseTrafficTypesAsOneThreshold types.List   `tfsdk:"treat_these_traffic_types_as_one_threshold"`
 }
 
 // End of section. //template:end types
@@ -63,6 +65,11 @@ func (data SwitchStormControl) toBody(ctx context.Context, state SwitchStormCont
 	if !data.UnknownUnicastThreshold.IsNull() {
 		body, _ = sjson.Set(body, "unknownUnicastThreshold", data.UnknownUnicastThreshold.ValueInt64())
 	}
+	if !data.TreatTheseTrafficTypesAsOneThreshold.IsNull() {
+		var values []string
+		data.TreatTheseTrafficTypesAsOneThreshold.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "treatTheseTrafficTypesAsOneThreshold", values)
+	}
 	return body
 }
 
@@ -85,6 +92,11 @@ func (data *SwitchStormControl) fromBody(ctx context.Context, res meraki.Res) {
 		data.UnknownUnicastThreshold = types.Int64Value(value.Int())
 	} else {
 		data.UnknownUnicastThreshold = types.Int64Null()
+	}
+	if value := res.Get("treatTheseTrafficTypesAsOneThreshold"); value.Exists() && value.Value() != nil {
+		data.TreatTheseTrafficTypesAsOneThreshold = helpers.GetStringList(value.Array())
+	} else {
+		data.TreatTheseTrafficTypesAsOneThreshold = types.ListNull(types.StringType)
 	}
 }
 
@@ -111,6 +123,11 @@ func (data *SwitchStormControl) fromBodyPartial(ctx context.Context, res meraki.
 		data.UnknownUnicastThreshold = types.Int64Value(value.Int())
 	} else {
 		data.UnknownUnicastThreshold = types.Int64Null()
+	}
+	if value := res.Get("treatTheseTrafficTypesAsOneThreshold"); value.Exists() && !data.TreatTheseTrafficTypesAsOneThreshold.IsNull() {
+		data.TreatTheseTrafficTypesAsOneThreshold = helpers.GetStringList(value.Array())
+	} else {
+		data.TreatTheseTrafficTypesAsOneThreshold = types.ListNull(types.StringType)
 	}
 }
 

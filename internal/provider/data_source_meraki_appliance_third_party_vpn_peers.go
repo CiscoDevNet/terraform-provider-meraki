@@ -86,6 +86,10 @@ func (d *ApplianceThirdPartyVPNPeersDataSource) Schema(ctx context.Context, req 
 							MarkdownDescription: "The name of the VPN peer",
 							Computed:            true,
 						},
+						"public_hostname": schema.StringAttribute{
+							MarkdownDescription: "[optional] The public hostname of the VPN peer",
+							Computed:            true,
+						},
 						"public_ip": schema.StringAttribute{
 							MarkdownDescription: "[optional] The public IP of the VPN peer",
 							Computed:            true,

@@ -102,6 +102,10 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 							MarkdownDescription: helpers.NewAttributeDescription("The name of the VPN peer").String,
 							Required:            true,
 						},
+						"public_hostname": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] The public hostname of the VPN peer").String,
+							Optional:            true,
+						},
 						"public_ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("[optional] The public IP of the VPN peer").String,
 							Optional:            true,

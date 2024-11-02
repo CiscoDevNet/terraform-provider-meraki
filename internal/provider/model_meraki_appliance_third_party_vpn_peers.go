@@ -47,6 +47,7 @@ type ApplianceThirdPartyVPNPeersPeers struct {
 	IpsecPoliciesPreset                types.String `tfsdk:"ipsec_policies_preset"`
 	LocalId                            types.String `tfsdk:"local_id"`
 	Name                               types.String `tfsdk:"name"`
+	PublicHostname                     types.String `tfsdk:"public_hostname"`
 	PublicIp                           types.String `tfsdk:"public_ip"`
 	RemoteId                           types.String `tfsdk:"remote_id"`
 	Secret                             types.String `tfsdk:"secret"`
@@ -92,6 +93,9 @@ func (data ApplianceThirdPartyVPNPeers) toBody(ctx context.Context, state Applia
 			}
 			if !item.Name.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "name", item.Name.ValueString())
+			}
+			if !item.PublicHostname.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "publicHostname", item.PublicHostname.ValueString())
 			}
 			if !item.PublicIp.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "publicIp", item.PublicIp.ValueString())
@@ -188,6 +192,11 @@ func (data *ApplianceThirdPartyVPNPeers) fromBody(ctx context.Context, res merak
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
+			}
+			if value := res.Get("publicHostname"); value.Exists() && value.Value() != nil {
+				data.PublicHostname = types.StringValue(value.String())
+			} else {
+				data.PublicHostname = types.StringNull()
 			}
 			if value := res.Get("publicIp"); value.Exists() && value.Value() != nil {
 				data.PublicIp = types.StringValue(value.String())
@@ -329,6 +338,11 @@ func (data *ApplianceThirdPartyVPNPeers) fromBodyPartial(ctx context.Context, re
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
+		}
+		if value := res.Get("publicHostname"); value.Exists() && !data.PublicHostname.IsNull() {
+			data.PublicHostname = types.StringValue(value.String())
+		} else {
+			data.PublicHostname = types.StringNull()
 		}
 		if value := res.Get("publicIp"); value.Exists() && !data.PublicIp.IsNull() {
 			data.PublicIp = types.StringValue(value.String())

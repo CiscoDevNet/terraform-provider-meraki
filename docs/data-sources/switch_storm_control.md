@@ -30,4 +30,5 @@ data "meraki_switch_storm_control" "example" {
 - `broadcast_threshold` (Number) Percentage (1 to 99) of total available port bandwidth for broadcast traffic type. Default value 100 percent rate is to clear the configuration.
 - `id` (String) The id of the object
 - `multicast_threshold` (Number) Percentage (1 to 99) of total available port bandwidth for multicast traffic type. Default value 100 percent rate is to clear the configuration.
+- `treat_these_traffic_types_as_one_threshold` (List of String) Grouped traffic types
 - `unknown_unicast_threshold` (Number) Percentage (1 to 99) of total available port bandwidth for unknown unicast (dlf-destination lookup failure) traffic type. Default value 100 percent rate is to clear the configuration.

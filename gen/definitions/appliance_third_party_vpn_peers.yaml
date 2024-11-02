@@ -38,6 +38,11 @@ attributes:
         mandatory: true
         description: The name of the VPN peer
         example: Peer Name
+      - model_name: publicHostname
+        type: String
+        exclude_test: true
+        description: '[optional] The public hostname of the VPN peer'
+        example: example.com
       - model_name: publicIp
         type: String
         description: '[optional] The public IP of the VPN peer'
