@@ -38,6 +38,7 @@ import (
 )
 
 const specPath = "./gen/models/spec3.json"
+const betaSpecPath = "./gen/models/beta_spec3.json"
 const definitionsPath = "./gen/definitions/"
 
 var usePutSchema = [...]string{"/networks/{networkId}/appliance/vlans/{vlanId}"}
@@ -108,6 +109,12 @@ func generateDefinition(endpointPath, resourceName string) {
 		os.Exit(1)
 	}
 
+	betaSpecData, err := os.ReadFile(betaSpecPath)
+	if err != nil {
+		fmt.Printf("Error reading OpenAPI beta spec file: %v\n", err)
+		os.Exit(1)
+	}
+
 	// Load the OpenAPI spec
 	var spec interface{}
 	if strings.HasSuffix(specPath, ".json") {
@@ -120,8 +127,20 @@ func generateDefinition(endpointPath, resourceName string) {
 		os.Exit(1)
 	}
 
+	// Load the OpenAPI beta spec
+	var betaSpec interface{}
+	if strings.HasSuffix(betaSpecPath, ".json") {
+		err = json.Unmarshal(betaSpecData, &betaSpec)
+	} else {
+		err = yaml.Unmarshal(betaSpecData, &betaSpec)
+	}
+	if err != nil {
+		fmt.Printf("Error parsing OpenAPI beta spec: %v\n", err)
+		os.Exit(1)
+	}
+
 	config := yamlconfig.YamlConfigP{}
-	urlResult := parseUrl(endpointPath, spec)
+	urlResult := parseUrl(endpointPath, spec, betaSpec)
 
 	example := urlResult.schema["schema"].(map[string]interface{})["example"].(map[string]interface{})
 	exampleStr, err := json.Marshal(&example)
@@ -145,6 +164,7 @@ func generateDefinition(endpointPath, resourceName string) {
 	config.NoUpdate = urlResult.noUpdate
 	config.NoRead = urlResult.noRead
 	config.TestVariables = urlResult.testVariables
+	config.EarlyAccess = urlResult.earlyAccess
 
 	attributes := []yamlconfig.YamlConfigAttributeP{}
 	for i, r := range urlResult.references {
@@ -269,10 +289,11 @@ type parseUrlResult struct {
 	noImport       *bool
 	noUpdate       *bool
 	noRead         *bool
+	earlyAccess    *bool
 	testVariables  *[]string
 }
 
-func parseUrl(url string, spec interface{}) parseUrlResult {
+func parseUrl(url string, spec interface{}, betaSpec interface{}) parseUrlResult {
 	ret := parseUrlResult{}
 
 	shortUrl := ""
@@ -324,6 +345,40 @@ func parseUrl(url string, spec interface{}) parseUrlResult {
 		if _, ok := p.(map[string]interface{})["delete"]; ok {
 			hasDelete = true
 		}
+	}
+
+	// use beta spec if no endpoint found in the main spec
+	if !hasPost && !hasShortPost && !hasPut && !hasShortPut && !hasGet && !hasShortGet && !hasDelete && !hasShortDelete {
+		paths = betaSpec.(map[string]interface{})["paths"].(map[string]interface{})
+		if p, ok := paths[shortUrl]; ok && shortUrl != "" {
+			if _, ok := p.(map[string]interface{})["post"]; ok {
+				hasShortPost = true
+			}
+			if _, ok := p.(map[string]interface{})["put"]; ok {
+				hasShortPut = true
+			}
+			if _, ok := p.(map[string]interface{})["get"]; ok {
+				hasShortGet = true
+			}
+			if _, ok := p.(map[string]interface{})["delete"]; ok {
+				hasShortDelete = true
+			}
+		}
+		if p, ok := paths[url]; ok {
+			if _, ok := p.(map[string]interface{})["post"]; ok {
+				hasPost = true
+			}
+			if _, ok := p.(map[string]interface{})["put"]; ok {
+				hasPut = true
+			}
+			if _, ok := p.(map[string]interface{})["get"]; ok {
+				hasGet = true
+			}
+			if _, ok := p.(map[string]interface{})["delete"]; ok {
+				hasDelete = true
+			}
+		}
+		ret.earlyAccess = P(true)
 	}
 
 	if !hasPost && !hasShortPost {

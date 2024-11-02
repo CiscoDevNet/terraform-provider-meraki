@@ -61,7 +61,7 @@ func (d *{{camelCase .Name}}DataSource) Metadata(_ context.Context, req datasour
 func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "{{.DsDescription}}",
+		MarkdownDescription: helpers.NewAttributeDescription("{{.DsDescription}}"){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

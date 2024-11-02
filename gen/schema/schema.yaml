@@ -22,6 +22,7 @@ test_tags: list(str(), required=False) # List of test tags, tests are only execu
 test_variables: list(str(), required=False) # List of Terraform test variables, which need to be configured as env vars (TF_VAR_<var_name>)
 test_prerequisites: str(required=False) # HCL code that is included in the acceptance tests to define prerequisites
 id_name: str(required=False) # the identifier field name of the resource as seen in the request body
+early_access: bool(required=False) # indicates this is using an early access API endpoint
 attributes: list(include('attribute'), required=False) # List of attributes
 ignore_attributes: list(str(), required=False) # List of attribute paths (example: routing.ospf.areaId) to ignore when re-generating the definition
 ---

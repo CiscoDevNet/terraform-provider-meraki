@@ -29,6 +29,7 @@ type YamlConfig struct {
 	NoImport            bool                  `yaml:"no_import,omitempty"`
 	NoRead              bool                  `yaml:"no_read,omitempty"`
 	IdName              string                `yaml:"id_name,omitempty"`
+	EarlyAccess         bool                  `yaml:"early_access,omitempty"`
 	DataSourceNameQuery bool                  `yaml:"data_source_name_query,omitempty"`
 	MinimumVersion      string                `yaml:"minimum_version,omitempty"`
 	DsDescription       string                `yaml:"ds_description,omitempty"`
@@ -59,6 +60,7 @@ type YamlConfigP struct {
 	NoImport            *bool                   `yaml:"no_import,omitempty"`
 	NoRead              *bool                   `yaml:"no_read,omitempty"`
 	IdName              *string                 `yaml:"id_name,omitempty"`
+	EarlyAccess         *bool                   `yaml:"early_access,omitempty"`
 	DataSourceNameQuery *bool                   `yaml:"data_source_name_query,omitempty"`
 	MinimumVersion      *string                 `yaml:"minimum_version,omitempty"`
 	DsDescription       *string                 `yaml:"ds_description,omitempty"`

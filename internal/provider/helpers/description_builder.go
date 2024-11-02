@@ -35,6 +35,11 @@ func (d *AttributeDescription) AddMinimumVersionDescription(minimumVersion strin
 	return d
 }
 
+func (d *AttributeDescription) AddEarlyAccessDescription() *AttributeDescription {
+	d.String = fmt.Sprintf("%s\n\n~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.", d.String)
+	return d
+}
+
 func (d *AttributeDescription) AddDefaultValueDescription(defaultValue string) *AttributeDescription {
 	d.String = fmt.Sprintf("%s\n  - Default value: `%s`", d.String, defaultValue)
 	return d

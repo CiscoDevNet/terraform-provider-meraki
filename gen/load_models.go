@@ -30,6 +30,7 @@ import (
 
 var models = []string{
 	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.51.1/openapi/spec3.json",
+	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.51.1-beta/openapi/spec3.json",
 }
 
 const (
@@ -39,7 +40,11 @@ const (
 func main() {
 	for _, model := range models {
 		f := strings.Split(model, "/")
-		path := filepath.Join(modelsPath, f[len(f)-1])
+		filename := f[len(f)-1]
+		if strings.Contains(model, "beta") {
+			filename = "beta_" + filename
+		}
+		path := filepath.Join(modelsPath, filename)
 		if _, e := os.Stat(path); e != nil {
 			err := downloadModel(path, model)
 			if err != nil {

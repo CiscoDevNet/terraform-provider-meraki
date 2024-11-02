@@ -1,0 +1,167 @@
+name: Switch Organization Ports Profile
+spec_endpoint: /organizations/{organizationId}/switch/ports/profiles/{id}
+rest_endpoint: /organizations/%v/switch/ports/profiles
+bulk_data_source: true
+id_name: profileId
+early_access: true
+data_source_name_query: true
+doc_category: Switches
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: Text describing the profile.
+    example: IP Phones for all office workers
+  - model_name: isOrganizationWide
+    type: Bool
+    description: The scope of the profile whether it is organization level or network level
+    example: "true"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the profile.
+    example: Phone
+  - model_name: networkId
+    type: String
+    exclude_test: true
+    description: The network identifier
+    example: N_24329156
+  - model_name: type
+    type: String
+    data_path: [networks]
+    exclude_test: true
+    description: Flag to identify if the networks networks are excluded or included
+    example: excluded
+  - model_name: values
+    type: List
+    data_path: [networks]
+    exclude_test: true
+    description: The network object containing name and id
+    attributes:
+      - model_name: id
+        type: String
+        id: true
+        mandatory: true
+        description: The network identifier
+        example: N_24329156
+      - model_name: name
+        type: String
+        description: The network name
+        example: Main Office
+  - model_name: accessPolicyNumber
+    type: Int64
+    data_path: [port]
+    exclude_test: true
+    description: The number of a custom access policy to configure on the port profile. Only applicable when `accessPolicyType` is `Custom access policy`.
+    example: "3"
+  - model_name: accessPolicyType
+    type: String
+    data_path: [port]
+    description: The type of the access policy of the port profile. Only applicable to access ports.
+    example: Open
+    enum_values: [Custom access policy, MAC allow list, Open, Sticky MAC allow list]
+  - model_name: adaptivePolicyGroupId
+    type: String
+    data_path: [port]
+    exclude_test: true
+    description: The adaptive policy group ID that will be used to tag traffic through this port profile. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API.
+    example: "1284392014819"
+  - model_name: allowedVlans
+    type: String
+    data_path: [port]
+    description: The VLANs allowed on the port profile. Only applicable to trunk ports.
+    example: 1-100
+  - model_name: daiTrusted
+    type: Bool
+    data_path: [port]
+    description: If true, ARP packets for this port will be considered trusted, and Dynamic ARP Inspection will allow the traffic.
+    example: "false"
+  - model_name: isolationEnabled
+    type: Bool
+    data_path: [port]
+    description: The isolation status of the port profile.
+    example: "false"
+  - model_name: peerSgtCapable
+    type: Bool
+    data_path: [port]
+    description: If true, Peer SGT is enabled for traffic through this port profile. Applicable to trunk ports only.
+    example: "false"
+  - model_name: poeEnabled
+    type: Bool
+    data_path: [port]
+    description: The PoE status of the port profile.
+    example: "true"
+  - model_name: rstpEnabled
+    type: Bool
+    data_path: [port]
+    description: The rapid spanning tree protocol status.
+    example: "true"
+  - model_name: stickyMacAllowListLimit
+    type: Int64
+    data_path: [port]
+    exclude_test: true
+    description: The maximum number of MAC addresses for sticky MAC allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
+    example: "5"
+  - model_name: stormControlEnabled
+    type: Bool
+    data_path: [port]
+    description: The storm control status of the port profile.
+    example: "true"
+  - model_name: stpGuard
+    type: String
+    data_path: [port]
+    description: The state of the STP guard.
+    example: disabled
+    enum_values: [bpdu guard, disabled, loop guard, root guard]
+  - model_name: type
+    type: String
+    data_path: [port]
+    mandatory: true
+    description: The type of the port profile.
+    example: access
+    enum_values: [access, stack, trunk]
+  - model_name: udld
+    type: String
+    data_path: [port]
+    description: The action to take when Unidirectional Link is detected. LinkDefault configuration is Alert only.
+    example: Alert only
+    enum_values: [Alert only, Enforce]
+  - model_name: vlan
+    type: Int64
+    data_path: [port]
+    description: The VLAN of the port profile. A null value will clear the value set for trunk ports.
+    example: "10"
+  - model_name: voiceVlan
+    type: Int64
+    data_path: [port]
+    description: The voice VLAN of the port profile. Only applicable to access ports.
+    example: "20"
+  - model_name: macAllowList
+    type: List
+    element_type: String
+    data_path: [port]
+    exclude_test: true
+    description: Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.
+    example: 34:56:fe:ce:8e:b0
+  - model_name: stickyMacAllowList
+    type: List
+    element_type: String
+    data_path: [port]
+    exclude_test: true
+    description: The initial list of MAC addresses for sticky Mac allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
+    example: 34:56:fe:ce:8e:b0
+  - model_name: tags
+    type: List
+    element_type: String
+    description: Space-seperated list of tags
+    example: tag1
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

@@ -70,7 +70,7 @@ func (r *{{camelCase .Name}}Resource) Metadata(ctx context.Context, req resource
 func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("{{.ResDescription}}").String,
+		MarkdownDescription: helpers.NewAttributeDescription("{{.ResDescription}}"){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
