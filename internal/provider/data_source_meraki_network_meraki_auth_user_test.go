@@ -67,10 +67,11 @@ resource "meraki_network" "test" {
   product_types   = ["switch", "wireless"]
 }
 resource "meraki_wireless_ssid" "test" {
-  network_id = meraki_network.test.id
-  number     = "1"
-  name       = "My SSID"
-  auth_mode  = "8021x-meraki"
+  network_id          = meraki_network.test.id
+  number              = "1"
+  name                = "My SSID"
+  auth_mode           = "8021x-meraki"
+  wpa_encryption_mode = "WPA2 only"
 }
 
 `
