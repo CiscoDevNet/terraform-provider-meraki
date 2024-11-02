@@ -22,6 +22,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -53,7 +54,7 @@ func (d *OrganizationAdaptivePolicyACLsDataSource) Metadata(_ context.Context, r
 func (d *OrganizationAdaptivePolicyACLsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "This data source can read the `Organization Adaptive Policy ACL` configuration.",
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Adaptive Policy ACL` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
