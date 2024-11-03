@@ -15,6 +15,7 @@ description: |-
 - Add `meraki_organization_early_access_features_opt_in` resource and data sources
 - Add `meraki_switch_organization_ports_profile` resource and data sources
 - Add `meraki_switch_organization_ports_profiles_automation` resource and data sources
+- Add `meraki_appliance_vlan_dhcp` resource
 
 ## 0.1.2
 

@@ -1,0 +1,134 @@
+name: Appliance VLAN DHCP
+rest_endpoint: /networks/%v/appliance/vlans
+put_create: true
+no_delete: true
+no_data_source: true
+no_import: true
+res_description: This resource is meant to be used in addition to the `meraki_appliance_vlan` resource to configure DHCP settings for a VLAN. It requires the VLAN to be already configured on the appliance.
+doc_category: Appliances
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_appliance_vlans_settings.test.network_id
+  - model_name: id
+    tf_name: vlan_id
+    type: String
+    mandatory: true
+    description: The VLAN ID of the new VLAN (must be between 1 and 4094)
+    example: "1234"
+    test_value: meraki_appliance_vlan.test.vlan_id
+  - model_name: dhcpBootFilename
+    type: String
+    exclude_test: true
+    description: DHCP boot option for boot filename
+    example: sample.file
+  - model_name: dhcpBootNextServer
+    type: String
+    exclude_test: true
+    description: DHCP boot option to direct boot clients to the server to load the boot file from
+    example: 1.2.3.4
+  - model_name: dhcpBootOptionsEnabled
+    type: Bool
+    description: Use DHCP boot options specified in other properties
+    example: "false"
+  - model_name: dhcpHandling
+    type: String
+    description: "The appliance`s handling of DHCP requests on this VLAN. One of: `Run a DHCP server`, `Relay DHCP to another server` or `Do not respond to DHCP requests`"
+    example: Run a DHCP server
+    enum_values:
+      [
+        Do not respond to DHCP requests,
+        Relay DHCP to another server,
+        Run a DHCP server,
+      ]
+  - model_name: dhcpLeaseTime
+    type: String
+    description: "The term of DHCP leases if the appliance is running a DHCP server on this VLAN. One of: `30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`"
+    example: 1 day
+    enum_values: [1 day, 1 hour, 1 week, 12 hours, 30 minutes, 4 hours]
+  - model_name: dnsNameservers
+    type: String
+    description: The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names
+    example: upstream_dns
+  - model_name: enabled
+    type: Bool
+    data_path: [mandatoryDhcp]
+    description: Enable Mandatory DHCP on VLAN.
+    example: "true"
+  - model_name: dhcpOptions
+    type: List
+    exclude_test: true
+    description: The list of DHCP options that will be included in DHCP responses. Each object in the list should have 'code', 'type', and 'value' properties.
+    attributes:
+      - model_name: code
+        type: String
+        id: true
+        mandatory: true
+        description: The code for the DHCP option. This should be an integer between 2 and 254.
+        example: "3"
+      - model_name: type
+        type: String
+        id: true
+        mandatory: true
+        description: "The type for the DHCP option. One of: `text`, `ip`, `hex` or `integer`"
+        example: text
+        enum_values: [hex, integer, ip, text]
+      - model_name: value
+        type: String
+        id: true
+        mandatory: true
+        description: The value for the DHCP option
+        example: five
+  - model_name: dhcpRelayServerIps
+    type: List
+    element_type: String
+    description: The IPs of the DHCP servers that DHCP requests should be relayed to
+    example: 192.168.2.100
+    exclude_test: true
+  - model_name: reservedIpRanges
+    type: List
+    exclude_test: true
+    description: The DHCP reserved IP ranges on the VLAN
+    attributes:
+      - model_name: comment
+        type: String
+        id: true
+        mandatory: true
+        description: A text comment for the reserved range
+        example: A reserved IP range
+      - model_name: end
+        type: String
+        id: true
+        mandatory: true
+        description: The last IP in the reserved range
+        example: 192.168.1.1
+      - model_name: start
+        type: String
+        id: true
+        mandatory: true
+        description: The first IP in the reserved range
+        example: 192.168.1.0
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_appliance_vlans_settings" "test" {
+    network_id = meraki_network.test.id
+    vlans_enabled = true
+  }
+  resource "meraki_appliance_vlan" "test" {
+    network_id = meraki_appliance_vlans_settings.test.network_id
+    appliance_ip = "192.168.1.2"
+    vlan_id = "1234"
+    name = "My VLAN"
+    subnet = "192.168.1.0/24"
+  }

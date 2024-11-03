@@ -251,6 +251,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewApplianceTrafficShapingVPNExclusionsResource,
 		NewApplianceUplinksSettingsResource,
 		NewApplianceVLANResource,
+		NewApplianceVLANDHCPResource,
 		NewApplianceVLANsSettingsResource,
 		NewApplianceVPNBGPResource,
 		NewApplianceVPNFirewallRulesResource,

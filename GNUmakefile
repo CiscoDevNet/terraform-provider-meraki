@@ -18,8 +18,12 @@ test:
 .PHONY: gen
 gen:
 	go run gen/load_models.go
+ifeq ($(SPEC_PATH),)
+	go run ./gen/generator.go X "$(NAME)"
+else
 	go run ./gen/definition.go "$(SPEC_PATH)" "$(NAME)"
 	go run ./gen/generator.go "$(SPEC_PATH)" "$(NAME)"
+endif
 	go run golang.org/x/tools/cmd/goimports -w internal/provider/
 	terraform fmt -recursive ./examples/
 	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs

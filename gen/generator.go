@@ -221,7 +221,7 @@ func updateDefinitions() {
 		}
 
 		if config.SpecEndpoint == "" {
-			log.Fatalf("Error parsing %q: missing spec_endpoint", path)
+			continue
 		}
 
 		cmd := exec.Command("go", "run", "gen/definition.go", config.SpecEndpoint, config.Name)
