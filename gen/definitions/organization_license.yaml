@@ -1,0 +1,29 @@
+name: Organization License
+spec_endpoint: /organizations/{organizationId}/licenses/{licenseId}
+rest_endpoint: /organizations/%v/licenses/%v
+put_create: true
+no_delete: true
+doc_category: Organizations
+test_tags: [ORGANIZATION_LICENSE]
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - tf_name: license_id
+    type: String
+    id: true
+    reference: true
+    description: License ID
+    example: "123"
+  - model_name: deviceSerial
+    type: String
+    description: The serial number of the device to assign this license to. Set this to null to unassign the license. If a different license is already active on the device, this parameter will control queueing/dequeuing this license.
+    example: Q234-ABCD-5678
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
