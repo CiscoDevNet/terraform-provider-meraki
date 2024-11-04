@@ -1,0 +1,246 @@
+name: Wireless SSIDs
+bulk_name: Wireless SSIDs
+spec_endpoint: /networks/{networkId}/wireless/ssids
+rest_endpoint: /networks/%v/wireless/ssids
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+data_source_name_query: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: adminSplashUrl
+    type: String
+    description: URL for the admin splash page
+    example: http://example.com
+  - model_name: authMode
+    type: String
+    description: The association control method for the SSID
+    example: 8021x-radius
+    enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, open, open-enhanced, open-with-nac, open-with-radius, psk]
+  - model_name: availableOnAllAps
+    type: Bool
+    description: Whether all APs broadcast the SSID or if it`s restricted to APs matching any availability tags
+    example: "false"
+  - model_name: bandSelection
+    type: String
+    description: The client-serving radio frequencies of this SSID in the default indoor RF profile
+    example: 5 GHz band only
+    enum_values: [5 GHz band only, Dual band operation, Dual band operation with Band Steering]
+  - model_name: enabled
+    type: Bool
+    description: Whether or not the SSID is enabled
+    example: "true"
+  - model_name: encryptionMode
+    type: String
+    description: The psk encryption mode for the SSID
+    example: wpa
+    enum_values: [wep, wpa]
+  - model_name: ipAssignmentMode
+    type: String
+    description: The client IP assignment mode
+    example: NAT mode
+    enum_values: [Bridge mode, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, VPN]
+  - model_name: localAuth
+    type: Bool
+    description: Extended local auth flag for Enterprise NAC
+    example: "false"
+  - model_name: mandatoryDhcpEnabled
+    type: Bool
+    description: Whether clients connecting to this SSID must use the IP address assigned by the DHCP server
+    example: "false"
+  - model_name: minBitrate
+    type: Int64
+    description: The minimum bitrate in Mbps of this SSID in the default indoor RF profile
+    example: "11"
+  - model_name: name
+    type: String
+    description: The name of the SSID
+    example: My SSID
+  - model_name: number
+    type: Int64
+    description: Unique identifier of the SSID
+    example: "0"
+  - model_name: perClientBandwidthLimitDown
+    type: Int64
+    description: The download bandwidth limit in Kbps. (0 represents no limit.)
+    example: "0"
+  - model_name: perClientBandwidthLimitUp
+    type: Int64
+    description: The upload bandwidth limit in Kbps. (0 represents no limit.)
+    example: "0"
+  - model_name: perSsidBandwidthLimitDown
+    type: Int64
+    description: The total download bandwidth limit in Kbps (0 represents no limit)
+    example: "0"
+  - model_name: perSsidBandwidthLimitUp
+    type: Int64
+    description: The total upload bandwidth limit in Kbps (0 represents no limit)
+    example: "0"
+  - model_name: radiusAccountingEnabled
+    type: Bool
+    description: Whether or not RADIUS accounting is enabled
+    example: "false"
+  - model_name: radiusAttributeForGroupPolicies
+    type: String
+    description: RADIUS attribute used to look up group policies
+    example: Filter-Id
+    enum_values: [Airespace-ACL-Name, Aruba-User-Role, Filter-Id, Reply-Message]
+  - model_name: radiusEnabled
+    type: Bool
+    description: Whether RADIUS authentication is enabled
+    example: "true"
+  - model_name: radiusFailoverPolicy
+    type: String
+    description: Policy which determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable
+    example: Deny access
+    enum_values: [Allow access, Deny access]
+  - model_name: radiusLoadBalancingPolicy
+    type: String
+    description: Policy which determines which RADIUS server will be contacted first in an authentication attempt, and the ordering of any necessary retry attempts
+    example: Round robin
+    enum_values: [Round robin, Strict priority order]
+  - model_name: splashPage
+    type: String
+    description: The type of splash page for the SSID
+    example: Click-through splash page
+    enum_values: [Billing, Cisco ISE, Click-through splash page, Facebook Wi-Fi, Google Apps domain, Google OAuth, Microsoft Entra ID, None, Password-protected with Active Directory, Password-protected with LDAP, Password-protected with Meraki RADIUS, Password-protected with custom RADIUS, SMS authentication, Sponsored guest, Systems Manager Sentry]
+  - model_name: splashTimeout
+    type: String
+    description: Splash page timeout
+    example: 30 minutes
+  - model_name: ssidAdminAccessible
+    type: Bool
+    description: SSID Administrator access status
+    example: "false"
+  - model_name: visible
+    type: Bool
+    description: Whether the SSID is advertised or hidden by the AP
+    example: "true"
+  - model_name: walledGardenEnabled
+    type: Bool
+    description: Allow users to access a configurable list of IP ranges prior to sign-on
+    example: "true"
+  - model_name: wpaEncryptionMode
+    type: String
+    description: The types of WPA encryption
+    example: WPA2 only
+    enum_values: [WPA1 and WPA2, WPA1 only, WPA2 only, WPA3 192-bit Security, WPA3 Transition Mode, WPA3 only]
+  - model_name: availabilityTags
+    type: List
+    element_type: String
+    description: List of tags for this SSID. If availableOnAllAps is false, then the SSID is only broadcast by APs with tags matching any of the tags in this list
+    example: tag1
+  - model_name: radiusAccountingServers
+    type: List
+    description: List of RADIUS accounting 802.1X servers to be used for authentication
+    attributes:
+      - model_name: caCertificate
+        type: String
+        description: Certificate used for authorization for the RADSEC Server
+        example: |-
+          -----BEGIN CERTIFICATE-----
+          MIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw
+          gYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT
+          YW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ
+          RE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx
+          MTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu
+          YXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD
+          aXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3
+          MDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK
+          uTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA
+          ayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u
+          pZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS
+          KjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2
+          aEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU
+          CwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML
+          USopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E
+          BAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE
+          1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa
+          jON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh
+          a/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/
+          uoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/
+          UR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ
+          wTw70BVktzJnb0VLeDg=
+          -----END CERTIFICATE-----
+      - model_name: host
+        type: String
+        description: IP address (or FQDN) to which the APs will send RADIUS accounting messages
+        example: 0.0.0.0
+      - model_name: openRoamingCertificateId
+        type: Int64
+        description: The ID of the Openroaming Certificate attached to radius server
+        example: "2"
+      - model_name: port
+        type: Int64
+        description: Port on the RADIUS server that is listening for accounting messages
+        example: "3000"
+  - model_name: radiusServers
+    type: List
+    description: List of RADIUS 802.1X servers to be used for authentication
+    attributes:
+      - model_name: caCertificate
+        type: String
+        description: Certificate used for authorization for the RADSEC Server
+        example: |-
+          -----BEGIN CERTIFICATE-----
+          MIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw
+          gYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT
+          YW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ
+          RE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx
+          MTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu
+          YXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD
+          aXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3
+          MDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK
+          uTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA
+          ayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u
+          pZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS
+          KjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2
+          aEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU
+          CwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML
+          USopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E
+          BAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE
+          1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa
+          jON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh
+          a/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/
+          uoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/
+          UR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ
+          wTw70BVktzJnb0VLeDg=
+          -----END CERTIFICATE-----
+      - model_name: host
+        type: String
+        description: IP address (or FQDN) of your RADIUS server
+        example: 0.0.0.0
+      - model_name: openRoamingCertificateId
+        type: Int64
+        description: The ID of the Openroaming Certificate attached to radius server
+        example: "2"
+      - model_name: port
+        type: Int64
+        description: UDP port the RADIUS server listens on for Access-requests
+        example: "3000"
+  - model_name: walledGardenRanges
+    type: List
+    element_type: String
+    description: Domain names and IP address ranges available in Walled Garden mode
+    example: example.com
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }

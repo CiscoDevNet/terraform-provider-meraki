@@ -22,6 +22,7 @@ description: |-
 - Add `meraki_appliance_ports` data source
 - Add `meraki_appliance_ssids` data source
 - Add `meraki_switch_ports` data source
+- Add `meraki_wireless_ssids` data source
 
 ## 0.1.2
 
