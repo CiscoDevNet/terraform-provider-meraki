@@ -1,0 +1,77 @@
+name: Appliance SSIDs
+bulk_name: Appliance SSIDs
+spec_endpoint: /networks/{networkId}/appliance/ssids
+rest_endpoint: /networks/%v/appliance/ssids
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+data_source_name_query: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network_device_claim.test.network_id
+  - model_name: authMode
+    type: String
+    description: The association control method for the SSID.
+    example: 8021x-radius
+  - model_name: defaultVlanId
+    type: Int64
+    description: The VLAN ID of the VLAN associated to this SSID.
+    example: "1"
+  - model_name: enabled
+    type: Bool
+    description: Whether or not the SSID is enabled.
+    example: "true"
+  - model_name: encryptionMode
+    type: String
+    description: The psk encryption mode for the SSID.
+    example: wpa
+  - model_name: name
+    type: String
+    description: The name of the SSID.
+    example: My SSID
+  - model_name: number
+    type: Int64
+    description: The number of the SSID.
+    example: "1"
+  - model_name: visible
+    type: Bool
+    description: Boolean indicating whether the MX should advertise or hide this SSID.
+    example: "true"
+  - model_name: wpaEncryptionMode
+    type: String
+    description: WPA encryption mode for the SSID.
+    example: WPA2 only
+  - model_name: radiusServers
+    type: List
+    description: The RADIUS 802.1x servers to be used for authentication.
+    attributes:
+      - model_name: host
+        type: String
+        description: The IP address of your RADIUS server.
+        example: 0.0.0.0
+      - model_name: port
+        type: Int64
+        description: The UDP port your RADIUS servers listens on for Access-requests.
+        example: "1000"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }

@@ -378,6 +378,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewApplianceSingleLANDataSource,
 		NewApplianceSiteToSiteVPNDataSource,
 		NewApplianceSSIDDataSource,
+		NewApplianceSSIDsDataSource,
 		NewApplianceStaticRouteDataSource,
 		NewApplianceStaticRoutesDataSource,
 		NewApplianceThirdPartyVPNPeersDataSource,

@@ -20,6 +20,7 @@ description: |-
 - Add `meraki_network_firmware_upgrades` resource and data source
 - Add `meraki_organization_licenses` data source
 - Add `meraki_appliance_ports` data source
+- Add `meraki_appliance_ssids` data source
 
 ## 0.1.2
 
