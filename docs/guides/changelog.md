@@ -23,6 +23,7 @@ description: |-
 - Add `meraki_appliance_ssids` data source
 - Add `meraki_switch_ports` data source
 - Add `meraki_wireless_ssids` data source
+- Add `meraki_organization_early_access_features` data source
 
 ## 0.1.2
 

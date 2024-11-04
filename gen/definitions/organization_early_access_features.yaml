@@ -1,0 +1,58 @@
+name: Organization Early Access Features
+bulk_name: Organization Early Access Features
+spec_endpoint: /organizations/{organizationId}/earlyAccess/features
+rest_endpoint: /organizations/%v/earlyAccess/features
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+data_source_name_query: true
+doc_category: Organizations
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: documentationLink
+    type: String
+    description: Link to the documentation of this early access feature
+    example: https://documentation.meraki.com/
+  - model_name: isOrgScopedOnly
+    type: Bool
+    description: If this early access feature can only be opted in for the entire organization
+    example: "true"
+  - model_name: name
+    type: String
+    description: Name of the early access feature
+    example: New Feature Beta
+  - model_name: shortName
+    type: String
+    description: Short name of the early access feature
+    example: has_new_feature
+  - model_name: supportLink
+    type: String
+    description: Link to get support for this early access feature
+    example: https://community.meraki.com/
+  - model_name: topic
+    type: String
+    description: Topic of the early access feature
+    example: Dashboard
+  - model_name: long
+    type: String
+    data_path: [descriptions]
+    description: Long description
+    example: New Feature Beta long description. consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  - model_name: short
+    type: String
+    data_path: [descriptions]
+    description: Short description
+    example: New Feature Beta
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
