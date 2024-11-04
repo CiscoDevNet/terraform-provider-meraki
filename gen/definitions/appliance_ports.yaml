@@ -1,0 +1,64 @@
+name: Appliance Ports
+bulk_name: Appliance Ports
+spec_endpoint: /networks/{networkId}/appliance/ports
+rest_endpoint: /networks/%v/appliance/ports
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_appliance_vlans_settings.test.network_id
+  - model_name: accessPolicy
+    type: String
+    description: The name of the policy. Only applicable to Access ports.
+    example: open
+  - model_name: allowedVlans
+    type: String
+    description: Comma-delimited list of the VLAN ID`s allowed on the port, or `all` to permit all VLAN`s on the port.
+    example: all
+  - model_name: dropUntaggedTraffic
+    type: Bool
+    description: Whether the trunk port can drop all untagged traffic.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    description: The status of the port
+    example: "true"
+  - model_name: number
+    type: Int64
+    description: Number of the port
+    example: "1"
+  - model_name: type
+    type: String
+    description: 'The type of the port: `access` or `trunk`.'
+    example: access
+  - model_name: vlan
+    type: Int64
+    description: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.
+    example: "3"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
+  resource "meraki_appliance_vlans_settings" "test" {
+    network_id = meraki_network_device_claim.test.network_id
+    vlans_enabled = true
+  }

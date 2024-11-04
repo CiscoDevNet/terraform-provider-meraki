@@ -367,6 +367,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewApplianceOrganizationSecurityIntrusionDataSource,
 		NewAppliancePortDataSource,
 		NewAppliancePortForwardingRulesDataSource,
+		NewAppliancePortsDataSource,
 		NewAppliancePrefixDelegatedStaticDataSource,
 		NewAppliancePrefixDelegatedStaticsDataSource,
 		NewApplianceRadioSettingsDataSource,
