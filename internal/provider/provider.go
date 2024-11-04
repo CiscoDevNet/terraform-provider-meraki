@@ -470,6 +470,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewSwitchPortDataSource,
 		NewSwitchPortScheduleDataSource,
 		NewSwitchPortSchedulesDataSource,
+		NewSwitchPortsDataSource,
 		NewSwitchQoSRuleDataSource,
 		NewSwitchQoSRulesDataSource,
 		NewSwitchQoSRuleOrderDataSource,
