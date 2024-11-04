@@ -1,0 +1,177 @@
+name: Network Firmware Upgrades
+spec_endpoint: /networks/{networkId}/firmwareUpgrades
+rest_endpoint: /networks/%v/firmwareUpgrades
+put_create: true
+no_delete: true
+doc_category: Networks
+test_tags: [NETWORK_FIRMWARE_UPGRADES]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: timezone
+    type: String
+    description: The timezone for the network
+    example: America/Los_Angeles
+    minimum_test_value: '"America/Los_Angeles"'
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, appliance]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, appliance, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, appliance, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1001"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, camera]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, camera, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, camera, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1003"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, cellularGateway]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, cellularGateway, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, cellularGateway, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1004"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, secureConnect]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, secureConnect, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, secureConnect, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1007"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, sensor]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, sensor, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, sensor, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1005"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, switch]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, switch, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, switch, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1002"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, switchCatalyst]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, switchCatalyst, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, switchCatalyst, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1234"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, wireless]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, wireless, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, wireless, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1000"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, wirelessController]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, wirelessController, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, wirelessController, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1006"
+  - model_name: dayOfWeek
+    type: String
+    data_path: [upgradeWindow]
+    description: Day of the week
+    example: sun
+    enum_values: [fri, friday, mon, monday, sat, saturday, sun, sunday, thu, thursday, tue, tuesday, wed, wednesday]
+  - model_name: hourOfDay
+    type: String
+    data_path: [upgradeWindow]
+    description: Hour of the day
+    example: "4:00"
+    enum_values: ["0:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "1:00", "20:00", "21:00", "22:00", "23:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00"]
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }

@@ -8,6 +8,7 @@
 - Add `meraki_switch_organization_ports_profiles_automation` resource and data sources
 - Add `meraki_appliance_vlan_dhcp` resource
 - Add `meraki_organization_license` resource and data source
+- Add `meraki_network_firmware_upgrades` resource and data source
 
 ## 0.1.2
 
