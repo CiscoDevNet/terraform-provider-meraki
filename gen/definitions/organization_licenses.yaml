@@ -1,0 +1,102 @@
+name: Organization Licenses
+bulk_name: Organization Licenses
+spec_endpoint: /organizations/{organizationId}/licenses
+rest_endpoint: /organizations/%v/licenses
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+doc_category: Organizations
+test_tags: [ORGANIZATION_LICENSES]
+test_variables: [test_org]
+ignore_attributes: [id]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: activationDate
+    type: String
+    description: The date the license started burning
+    example: "2019-09-01T15:01:46Z"
+  - model_name: claimDate
+    type: String
+    description: The date the license was claimed into the organization
+    example: "2019-08-29T12:40:10Z"
+  - model_name: deviceSerial
+    type: String
+    description: Serial number of the device the license is assigned to
+    example: Q234-ABCD-5678
+  - model_name: durationInDays
+    type: Int64
+    description: The duration of the individual license
+    example: "365"
+  - model_name: expirationDate
+    type: String
+    description: The date the license will expire
+    example: "2020-10-30T15:01:46Z"
+  - model_name: headLicenseId
+    type: String
+    description: The id of the head license this license is queued behind. If there is no head license, it returns nil.
+    example: "1234"
+  - model_name: licenseKey
+    type: String
+    description: License key
+    example: Z21234567890
+  - model_name: licenseType
+    type: String
+    description: License type
+    example: MX64-ENT
+  - model_name: networkId
+    type: String
+    description: ID of the network the license is assigned to
+    example: N_24329156
+  - model_name: orderNumber
+    type: String
+    description: Order number
+    example: 4C1234567
+  - model_name: seatCount
+    type: Int64
+    description: The number of seats of the license. Only applicable to SM licenses.
+    example: "25"
+  - model_name: state
+    type: String
+    description: The state of the license. All queued licenses have a status of `recentlyQueued`.
+    example: active
+    enum_values: [active, expired, expiring, recentlyQueued, unused, unusedActive]
+  - model_name: totalDurationInDays
+    type: Int64
+    description: The duration of the license plus all permanently queued licenses associated with it
+    example: "425"
+  - model_name: permanentlyQueuedLicenses
+    type: List
+    description: DEPRECATED List of permanently queued licenses attached to the license. Instead, use /organizations/{organizationId}/licenses?deviceSerial= to retrieved queued licenses for a given device.
+    attributes:
+      - model_name: durationInDays
+        type: Int64
+        description: The duration of the individual license
+        example: "60"
+      - model_name: id
+        type: String
+        description: Permanently queued license ID
+        example: "1234"
+      - model_name: licenseKey
+        type: String
+        description: License key
+        example: Z21234567890
+      - model_name: licenseType
+        type: String
+        description: License type
+        example: MX64-ENT
+      - model_name: orderNumber
+        type: String
+        description: Order number
+        example: 4C1234567
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

@@ -142,7 +142,12 @@ func generateDefinition(endpointPath, resourceName string) {
 	config := yamlconfig.YamlConfigP{}
 	urlResult := parseUrl(endpointPath, spec, betaSpec)
 
-	example := urlResult.schema["schema"].(map[string]interface{})["example"].(map[string]interface{})
+	var example map[string]interface{}
+	if e, ok := urlResult.schema["schema"].(map[string]interface{})["example"]; ok {
+		example = e.(map[string]interface{})
+	} else {
+		example = urlResult.schema["example"].([]interface{})[0].(map[string]interface{})
+	}
 	exampleStr, err := json.Marshal(&example)
 	if err != nil {
 		panic(err)
@@ -165,6 +170,10 @@ func generateDefinition(endpointPath, resourceName string) {
 	config.NoRead = urlResult.noRead
 	config.TestVariables = urlResult.testVariables
 	config.EarlyAccess = urlResult.earlyAccess
+
+	if config.BulkDataSource != nil && *config.BulkDataSource && config.NoDataSource != nil && *config.NoDataSource {
+		config.BulkName = config.Name
+	}
 
 	attributes := []yamlconfig.YamlConfigAttributeP{}
 	for i, r := range urlResult.references {
@@ -198,7 +207,13 @@ func generateDefinition(endpointPath, resourceName string) {
 	if r, ok := urlResult.schema["schema"].(map[string]interface{})["required"]; ok {
 		required = toStringSlice(r.([]interface{}))
 	}
-	attributes = append(attributes, traverseProperties(urlResult.schema["schema"].(map[string]interface{})["properties"].(map[string]interface{}), []string{}, "", string(exampleStr), required)...)
+	var rootProperties map[string]interface{}
+	if p, ok := urlResult.schema["schema"].(map[string]interface{})["properties"]; ok {
+		rootProperties = p.(map[string]interface{})
+	} else {
+		rootProperties = urlResult.schema["schema"].(map[string]interface{})["items"].(map[string]interface{})["properties"].(map[string]interface{})
+	}
+	attributes = append(attributes, traverseProperties(rootProperties, []string{}, "", string(exampleStr), required)...)
 	config.Attributes = &attributes
 
 	var dataSourceNameQuery *bool
@@ -381,12 +396,8 @@ func parseUrl(url string, spec interface{}, betaSpec interface{}) parseUrlResult
 		ret.earlyAccess = P(true)
 	}
 
-	if !hasPost && !hasShortPost {
-		if hasPut || hasShortPut {
-			ret.putCreate = P(true)
-		} else {
-			ret.noResource = P(true)
-		}
+	if !hasPost && !hasShortPost && (hasPut || hasShortPut) {
+		ret.putCreate = P(true)
 	}
 	if hasShortPost && hasShortGet {
 		ret.bulkDataSource = P(true)
@@ -408,21 +419,25 @@ func parseUrl(url string, spec interface{}, betaSpec interface{}) parseUrlResult
 		}
 	}
 
-	var schema map[string]interface{}
 	if hasShortPost && !slices.Contains(usePutSchema[:], url) {
-		schema = paths[shortUrl].(map[string]interface{})["post"].(map[string]interface{})
+		ret.schema = paths[shortUrl].(map[string]interface{})["post"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 	} else if hasPost && !slices.Contains(usePutSchema[:], url) {
-		schema = paths[url].(map[string]interface{})["post"].(map[string]interface{})
+		ret.schema = paths[url].(map[string]interface{})["post"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 	} else if hasShortPut {
-		schema = paths[shortUrl].(map[string]interface{})["put"].(map[string]interface{})
+		ret.schema = paths[shortUrl].(map[string]interface{})["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 	} else if hasPut {
-		schema = paths[url].(map[string]interface{})["put"].(map[string]interface{})
+		ret.schema = paths[url].(map[string]interface{})["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 	} else if hasShortGet {
-		schema = paths[shortUrl].(map[string]interface{})["get"].(map[string]interface{})
+		ret.schema = paths[shortUrl].(map[string]interface{})["get"].(map[string]interface{})["responses"].(map[string]interface{})["200"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+		ret.noResource = P(true)
 	} else if hasGet {
-		schema = paths[url].(map[string]interface{})["get"].(map[string]interface{})
+		ret.schema = paths[url].(map[string]interface{})["get"].(map[string]interface{})["responses"].(map[string]interface{})["200"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+		ret.noResource = P(true)
+		if _, ok := ret.schema["schema"].(map[string]interface{})["items"]; ok {
+			ret.bulkDataSource = P(true)
+			ret.noDataSource = P(true)
+		}
 	}
-	ret.schema = schema["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 
 	r := regexp.MustCompile(`{[a-zA-Z]+}`)
 	parts := r.Split(url, -1)
