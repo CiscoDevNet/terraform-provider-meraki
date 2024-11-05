@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## 0.1.3 (unreleased)
+## 0.1.3
 
 - Add `public_hostname` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
 - Add `treat_these_traffic_types_as_one_threshold` attribute to `meraki_switch_storm_control` resource and data source
