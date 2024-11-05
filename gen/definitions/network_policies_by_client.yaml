@@ -1,0 +1,61 @@
+name: Network Policies By Client
+bulk_name: Network Policies By Client
+spec_endpoint: /networks/{networkId}/policies/byClient
+rest_endpoint: /networks/%v/policies/byClient
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+data_source_name_query: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: clientId
+    type: String
+    description: ID of client
+    example: abc
+  - model_name: name
+    type: String
+    description: Name of client
+    example: my phone
+  - model_name: assigned
+    type: List
+    description: Assigned policies
+    attributes:
+      - model_name: groupPolicyId
+        type: String
+        description: id of policy
+        example: "100"
+      - model_name: name
+        type: String
+        description: name of policy
+        example: Allowed
+      - model_name: type
+        type: String
+        description: type of policy
+        example: ssid
+      - model_name: ssid
+        type: List
+        description: ssid
+        attributes:
+          - model_name: ssidNumber
+            type: Int64
+            description: number of ssid
+            example: "1"
+test_prerequisites: |2
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }

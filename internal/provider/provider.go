@@ -417,6 +417,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewNetworkMQTTBrokerDataSource,
 		NewNetworkMQTTBrokersDataSource,
 		NewNetworkNetflowDataSource,
+		NewNetworkPoliciesByClientDataSource,
 		NewNetworkSettingsDataSource,
 		NewNetworkSNMPDataSource,
 		NewNetworkSyslogServersDataSource,

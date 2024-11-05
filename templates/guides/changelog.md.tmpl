@@ -31,6 +31,7 @@ description: |-
 - Add `meraki_organization_devices` data source
 - Add `meraki_organization_firmware_upgrades` data source
 - Add `meraki_organization_inventory_devices` data source
+- Add `meraki_network_pii_keys` data source
 
 ## 0.1.2
 
