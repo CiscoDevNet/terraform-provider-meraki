@@ -1,0 +1,81 @@
+name: Organization Inventory Devices
+bulk_name: Organization Inventory Devices
+spec_endpoint: /organizations/{organizationId}/inventory/devices
+rest_endpoint: /organizations/%v/inventory/devices
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+data_source_name_query: true
+doc_category: Organizations
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: claimedAt
+    type: String
+    description: Claimed time of the device
+    example: "2018-02-11T00:00:00.090210Z"
+  - model_name: countryCode
+    type: String
+    description: Country/region code from device, network, or store order
+    example: US
+  - model_name: licenseExpirationDate
+    type: String
+    description: License expiration date of the device
+    example: "2020-05-02T10:52:44.012345Z"
+  - model_name: mac
+    type: String
+    description: MAC address of the device
+    example: "00:11:22:33:44:55"
+  - model_name: model
+    type: String
+    description: Model type of the device
+    example: MR34
+  - model_name: name
+    type: String
+    description: Name of the device
+    example: My AP
+  - model_name: networkId
+    type: String
+    description: Network Id of the device
+    example: N_24329156
+  - model_name: orderNumber
+    type: String
+    description: Order number of the device
+    example: 4C1234567
+  - model_name: productType
+    type: String
+    description: Product type of the device
+    example: wireless
+  - model_name: serial
+    type: String
+    description: Serial number of the device
+    example: Q234-ABCD-5678
+  - model_name: details
+    type: List
+    description: Additional device information
+    attributes:
+      - model_name: name
+        type: String
+        description: Additional property name
+        example: Catalyst serial
+      - model_name: value
+        type: String
+        description: Additional property value
+        example: FOC2234432B
+  - model_name: tags
+    type: List
+    element_type: String
+    description: Device tags
+    example: tag1
+test_prerequisites: |2
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

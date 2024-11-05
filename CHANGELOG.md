@@ -21,6 +21,7 @@
 - Add `meraki_network_devices` data source
 - Add `meraki_organization_devices` data source
 - Add `meraki_organization_firmware_upgrades` data source
+- Add `meraki_organization_inventory_devices` data source
 
 ## 0.1.2
 
