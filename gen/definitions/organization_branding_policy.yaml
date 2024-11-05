@@ -1,0 +1,142 @@
+name: Organization Branding Policy
+spec_endpoint: /organizations/{organizationId}/brandingPolicies/{brandingPolicyId}
+rest_endpoint: /organizations/%v/brandingPolicies
+bulk_data_source: true
+data_source_name_query: true
+doc_category: Organizations
+test_tags: [ORGANIZATION_BRANDING_POLICY]
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: enabled
+    type: Bool
+    description: Boolean indicating whether this policy is enabled.
+    example: "true"
+  - model_name: name
+    type: String
+    description: Name of the Dashboard branding policy.
+    example: My Branding Policy
+  - model_name: appliesTo
+    type: String
+    data_path: [adminSettings]
+    description: Which kinds of admins this policy applies to. Can be one of `All organization admins`, `All enterprise admins`, `All network admins`, `All admins of networks...`, `All admins of networks tagged...`, `Specific admins...`, `All admins` or `All SAML admins`.
+    example: All admins of networks...
+    enum_values: [All SAML admins, All admins, All admins of networks tagged..., All admins of networks..., All enterprise admins, All network admins, All organization admins, Specific admins...]
+  - model_name: values
+    type: List
+    element_type: String
+    data_path: [adminSettings]
+    description: If `appliesTo` is set to one of `Specific admins...`, `All admins of networks...` or `All admins of networks tagged...`, then you must specify this `values` property to provide the set of entities to apply the branding policy to. For `Specific admins...`, specify an array of admin IDs. For `All admins of networks...`, specify an array of network IDs and/or configuration template IDs. For `All admins of networks tagged...`, specify an array of tag names.
+    example: N_1234
+  - model_name: enabled
+    type: Bool
+    data_path: [customLogo]
+    description: Whether or not there is a custom logo enabled.
+    example: "true"
+  - model_name: contents
+    type: String
+    data_path: [customLogo, image]
+    description: The file contents (a base 64 encoded string) of your new logo.
+    example: Hyperg26C8F4h8CvcoUqpA==
+  - model_name: format
+    type: String
+    data_path: [customLogo, image]
+    description: The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.
+    example: jpg
+    enum_values: [gif, jpg, png]
+  - model_name: apiDocsSubtab
+    type: String
+    data_path: [helpSettings]
+    description: The `Help -> API docs` subtab where a detailed description of the Dashboard API is listed. Can be one of `default or inherit`, `hide` or `show`.
+    example: default or inherit
+    enum_values: [default or inherit, hide, show]
+  - model_name: casesSubtab
+    type: String
+    data_path: [helpSettings]
+    description: The `Help -> Cases` Dashboard subtab on which Cisco Meraki support cases for this organization can be managed. Can be one of `default or inherit`, `hide` or `show`.
+    example: hide
+    enum_values: [default or inherit, hide, show]
+  - model_name: ciscoMerakiProductDocumentation
+    type: String
+    data_path: [helpSettings]
+    description: The `Product Manuals` section of the `Help -> Get Help` subtab. Can be one of `default or inherit`, `hide`, `show`, or a replacement custom HTML string.
+    example: show
+  - model_name: communitySubtab
+    type: String
+    data_path: [helpSettings]
+    description: The `Help -> Community` subtab which provides a link to Meraki Community. Can be one of `default or inherit`, `hide` or `show`.
+    example: show
+    enum_values: [default or inherit, hide, show]
+  - model_name: dataProtectionRequestsSubtab
+    type: String
+    data_path: [helpSettings]
+    description: The `Help -> Data protection requests` Dashboard subtab on which requests to delete, restrict, or export end-user data can be audited. Can be one of `default or inherit`, `hide` or `show`.
+    example: default or inherit
+    enum_values: [default or inherit, hide, show]
+  - model_name: firewallInfoSubtab
+    type: String
+    data_path: [helpSettings]
+    description: The `Help -> Firewall info` subtab where necessary upstream firewall rules for communication to the Cisco Meraki cloud are listed. Can be one of `default or inherit`, `hide` or `show`.
+    example: hide
+    enum_values: [default or inherit, hide, show]
+  - model_name: getHelpSubtab
+    type: String
+    data_path: [helpSettings]
+    description: The `Help -> Get Help` subtab on which Cisco Meraki KB, Product Manuals, and Support/Case Information are displayed. Note that if this subtab is hidden, branding customizations for the KB on `Get help`, Cisco Meraki product documentation, and support contact info will not be visible. Can be one of `default or inherit`, `hide` or `show`.
+    example: default or inherit
+    enum_values: [default or inherit, hide, show]
+  - model_name: getHelpSubtabKnowledgeBaseSearch
+    type: String
+    data_path: [helpSettings]
+    description: The KB search box which appears on the Help page. Can be one of `default or inherit`, `hide`, `show`, or a replacement custom HTML string.
+    example: <h1>Some custom HTML content</h1>
+  - model_name: hardwareReplacementsSubtab
+    type: String
+    data_path: [helpSettings]
+    description: The `Help -> Replacement info` subtab where important information regarding device replacements is detailed. Can be one of `default or inherit`, `hide` or `show`.
+    example: hide
+    enum_values: [default or inherit, hide, show]
+  - model_name: helpTab
+    type: String
+    data_path: [helpSettings]
+    description: The Help tab, under which all support information resides. If this tab is hidden, no other `Help` branding customizations will be visible. Can be one of `default or inherit`, `hide` or `show`.
+    example: show
+    enum_values: [default or inherit, hide, show]
+  - model_name: helpWidget
+    type: String
+    data_path: [helpSettings]
+    description: The `Help Widget` is a support widget which provides access to live chat, documentation links, Sales contact info, and other contact avenues to reach Meraki Support. Can be one of `default or inherit`, `hide` or `show`.
+    example: hide
+    enum_values: [default or inherit, hide, show]
+  - model_name: newFeaturesSubtab
+    type: String
+    data_path: [helpSettings]
+    description: The `Help -> New features` subtab where new Dashboard features are detailed. Can be one of `default or inherit`, `hide` or `show`.
+    example: show
+    enum_values: [default or inherit, hide, show]
+  - model_name: smForums
+    type: String
+    data_path: [helpSettings]
+    description: The `SM Forums` subtab which links to community-based support for Cisco Meraki Systems Manager. Only configurable for organizations that contain Systems Manager networks. Can be one of `default or inherit`, `hide` or `show`.
+    example: hide
+    enum_values: [default or inherit, hide, show]
+  - model_name: supportContactInfo
+    type: String
+    data_path: [helpSettings]
+    description: The `Contact Meraki Support` section of the `Help -> Get Help` subtab. Can be one of `default or inherit`, `hide`, `show`, or a replacement custom HTML string.
+    example: show
+  - model_name: universalSearchKnowledgeBaseSearch
+    type: String
+    data_path: [helpSettings]
+    description: The universal search box always visible on Dashboard will, by default, present results from the Meraki KB. This configures whether these Meraki KB results should be returned. Can be one of `default or inherit`, `hide` or `show`.
+    example: hide
+    enum_values: [default or inherit, hide, show]
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

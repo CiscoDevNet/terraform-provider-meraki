@@ -24,6 +24,7 @@ description: |-
 - Add `meraki_switch_ports` data source
 - Add `meraki_wireless_ssids` data source
 - Add `meraki_organization_early_access_features` data source
+- Add `meraki_organization_branding_policy` resource and data sources
 
 ## 0.1.2
 
