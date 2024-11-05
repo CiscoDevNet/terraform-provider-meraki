@@ -1,0 +1,106 @@
+name: Network Client Splash Authorization Status
+spec_endpoint: /networks/{networkId}/clients/{clientId}/splashAuthorizationStatus
+rest_endpoint: /networks/%v/clients/%v/splashAuthorizationStatus
+put_create: true
+no_delete: true
+doc_category: Networks
+test_tags: [NETWORK_CLIENT_SPLASH_AUTHORIZATION_STATUS]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - tf_name: client_id
+    type: String
+    id: true
+    reference: true
+    description: Clients can be identified by a client key or either the MAC or IP depending on whether the network uses Track-by-IP.
+    example: 1.2.3.4
+    test_value: '"1.2.3.4"'
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "0"]
+    description: New authorization status for the SSID (true, false).
+    example: "true"
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "1"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "10"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "11"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "12"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "13"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "14"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "2"]
+    description: New authorization status for the SSID (true, false).
+    example: "false"
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "3"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "4"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "5"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "6"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "7"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "8"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+  - model_name: isAuthorized
+    type: Bool
+    data_path: [ssids, "9"]
+    exclude_test: true
+    description: New authorization status for the SSID (true, false).
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }

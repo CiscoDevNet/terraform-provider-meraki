@@ -26,6 +26,7 @@ description: |-
 - Add `meraki_organization_early_access_features` data source
 - Add `meraki_organization_branding_policy` resource and data sources
 - Add `meraki_organization_branding_policies_priorities` resource and data source
+- Add `meraki_network_client_splash_authorization_status` resource and data source
 
 ## 0.1.2
 
