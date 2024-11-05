@@ -445,6 +445,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewOrganizationBrandingPoliciesDataSource,
 		NewOrganizationConfigTemplateDataSource,
 		NewOrganizationConfigTemplatesDataSource,
+		NewOrganizationDevicesDataSource,
 		NewOrganizationEarlyAccessFeaturesDataSource,
 		NewOrganizationEarlyAccessFeaturesOptInDataSource,
 		NewOrganizationEarlyAccessFeaturesOptInsDataSource,
