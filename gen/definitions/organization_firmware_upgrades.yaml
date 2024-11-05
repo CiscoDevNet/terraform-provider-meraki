@@ -1,0 +1,107 @@
+name: Organization Firmware Upgrades
+bulk_name: Organization Firmware Upgrades
+spec_endpoint: /organizations/{organizationId}/firmware/upgrades
+rest_endpoint: /organizations/%v/firmware/upgrades
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+doc_category: Organizations
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: completedAt
+    type: String
+    description: Timestamp when upgrade completed. Null if status pending.
+    example: 2020-11-05 15:50:05 UTC
+  - model_name: productTypes
+    type: String
+    description: product upgraded [wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor]
+    example: wireless
+  - model_name: status
+    type: String
+    description: 'Status of upgrade event: [Cancelled, Completed]'
+    example: Completed
+  - model_name: time
+    type: String
+    description: Scheduled start time
+    example: "2022-11-01T00:00:00Z"
+  - model_name: upgradeBatchId
+    type: String
+    description: The upgrade batch
+    example: "5678"
+  - model_name: upgradeId
+    type: String
+    description: The upgrade
+    example: "1234"
+  - model_name: firmware
+    type: String
+    data_path: [fromVersion]
+    description: Firmware name
+    example: wireless-11-2-1
+  - model_name: id
+    type: String
+    data_path: [fromVersion]
+    description: Firmware version ID
+    example: "2887"
+  - model_name: releaseDate
+    type: String
+    data_path: [fromVersion]
+    description: Release date of the firmware version
+    example: "2022-03-17T17:22:52Z"
+  - model_name: releaseType
+    type: String
+    data_path: [fromVersion]
+    description: Release type of the firmware version
+    example: stable
+  - model_name: shortName
+    type: String
+    data_path: [fromVersion]
+    description: Firmware version short name
+    example: MR 11.2.1
+  - model_name: id
+    type: String
+    data_path: [network]
+    description: ID of network
+    example: L_1738
+  - model_name: name
+    type: String
+    data_path: [network]
+    description: The network
+    example: Minions
+  - model_name: firmware
+    type: String
+    data_path: [toVersion]
+    description: Firmware name
+    example: wireless-11-2-1
+  - model_name: id
+    type: String
+    data_path: [toVersion]
+    description: Firmware version ID
+    example: "2888"
+  - model_name: releaseDate
+    type: String
+    data_path: [toVersion]
+    description: Release date of the firmware version
+    example: "2022-03-17T17:22:52Z"
+  - model_name: releaseType
+    type: String
+    data_path: [toVersion]
+    description: Release type of the firmware version
+    example: stable
+  - model_name: shortName
+    type: String
+    data_path: [toVersion]
+    description: Firmware version short name
+    example: MR 11.2.1
+test_prerequisites: |2
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
