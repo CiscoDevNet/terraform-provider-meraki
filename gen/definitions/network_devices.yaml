@@ -1,0 +1,109 @@
+name: Network Devices
+bulk_name: Network Devices
+spec_endpoint: /networks/{networkId}/devices
+rest_endpoint: /networks/%v/devices
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+data_source_name_query: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: address
+    type: String
+    description: Physical address of the device
+    example: 1600 Pennsylvania Ave
+  - model_name: firmware
+    type: String
+    description: Firmware version of the device
+    example: wireless-25-14
+  - model_name: floorPlanId
+    type: String
+    description: The floor plan to associate to this device. null disassociates the device from the floorplan.
+    example: g_2176982374
+  - model_name: lanIp
+    type: String
+    description: LAN IP address of the device
+    example: 1.2.3.4
+  - model_name: lat
+    type: Float64
+    description: Latitude of the device
+    example: "37.4180951010362"
+  - model_name: lng
+    type: Float64
+    description: Longitude of the device
+    example: "-122.098531723022"
+  - model_name: mac
+    type: String
+    description: MAC address of the device
+    example: "00:11:22:33:44:55"
+  - model_name: model
+    type: String
+    description: Model of the device
+    example: MR34
+  - model_name: name
+    type: String
+    description: Name of the device
+    example: My AP
+  - model_name: networkId
+    type: String
+    description: ID of the network the device belongs to
+    example: N_24329156
+  - model_name: notes
+    type: String
+    description: Notes for the device, limited to 255 characters
+    example: My AP's note
+  - model_name: serial
+    type: String
+    description: Serial number of the device
+    example: Q234-ABCD-5678
+  - model_name: major
+    type: Int64
+    data_path: [beaconIdParams]
+    description: The major number to be used in the beacon identifier
+    example: "5"
+  - model_name: minor
+    type: Int64
+    data_path: [beaconIdParams]
+    description: The minor number to be used in the beacon identifier
+    example: "3"
+  - model_name: uuid
+    type: String
+    data_path: [beaconIdParams]
+    description: The UUID to be used in the beacon identifier
+    example: 00000000-0000-0000-0000-000000000000
+  - model_name: details
+    type: List
+    description: Additional device information
+    attributes:
+      - model_name: name
+        type: String
+        description: Additional property name
+        example: Catalyst serial
+      - model_name: value
+        type: String
+        description: Additional property value
+        example: 123ABC
+  - model_name: tags
+    type: List
+    element_type: String
+    description: List of tags assigned to the device
+    example: ' recently-added '
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }
