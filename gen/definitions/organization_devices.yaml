@@ -87,7 +87,7 @@ attributes:
     element_type: String
     description: List of tags assigned to the device
     example: recently-added
-test_prerequisites: |2
+test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
   }

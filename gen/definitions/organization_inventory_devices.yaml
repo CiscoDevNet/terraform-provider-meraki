@@ -75,7 +75,7 @@ attributes:
     element_type: String
     description: Device tags
     example: tag1
-test_prerequisites: |2
+test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
   }

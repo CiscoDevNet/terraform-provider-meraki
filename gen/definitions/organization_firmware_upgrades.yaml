@@ -101,7 +101,7 @@ attributes:
     data_path: [toVersion]
     description: Firmware version short name
     example: MR 11.2.1
-test_prerequisites: |2
+test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
   }

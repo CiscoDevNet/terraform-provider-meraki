@@ -50,7 +50,7 @@ attributes:
             type: Int64
             description: number of ssid
             example: "1"
-test_prerequisites: |2
+test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
   }
