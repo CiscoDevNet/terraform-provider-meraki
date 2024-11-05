@@ -1,0 +1,65 @@
+name: Network VLAN Profile Assignments By Device
+bulk_name: Network VLAN Profile Assignments By Device
+spec_endpoint: /networks/{networkId}/vlanProfiles/assignments/byDevice
+rest_endpoint: /networks/%v/vlanProfiles/assignments/byDevice
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+data_source_name_query: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: mac
+    type: String
+    description: MAC address of the device
+    example: "00:11:22:33:44:55"
+  - model_name: name
+    type: String
+    description: Name of the Device
+    example: My switch
+  - model_name: productType
+    type: String
+    description: The product type
+    example: switch
+  - model_name: serial
+    type: String
+    description: Serial of the Device
+    example: Q234-ABCD-5678
+  - model_name: id
+    type: String
+    data_path: [stack]
+    description: ID of the Switch Stack
+    example: "1234"
+  - model_name: iname
+    type: String
+    data_path: [vlanProfile]
+    description: IName of the VLAN Profile
+    example: Profile1
+  - model_name: isDefault
+    type: Bool
+    data_path: [vlanProfile]
+    description: Is this VLAN profile the default for the network?
+    example: "true"
+  - model_name: name
+    type: String
+    data_path: [vlanProfile]
+    description: Name of the VLAN Profile
+    example: My VLAN Profile
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance"]
+  }

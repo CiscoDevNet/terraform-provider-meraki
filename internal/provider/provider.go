@@ -424,6 +424,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewNetworkTrafficAnalysisDataSource,
 		NewNetworkVLANProfileDataSource,
 		NewNetworkVLANProfilesDataSource,
+		NewNetworkVLANProfileAssignmentsByDeviceDataSource,
 		NewNetworkWebhookHTTPServerDataSource,
 		NewNetworkWebhookHTTPServersDataSource,
 		NewNetworkWebhookPayloadTemplateDataSource,
