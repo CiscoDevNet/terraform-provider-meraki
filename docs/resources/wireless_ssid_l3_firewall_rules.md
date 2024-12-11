@@ -19,11 +19,12 @@ resource "meraki_wireless_ssid_l3_firewall_rules" "example" {
   allow_lan_access = true
   rules = [
     {
-      comment   = "Allow TCP traffic to subnet with HTTP servers."
-      dest_cidr = "Any"
-      dest_port = "443"
-      policy    = "allow"
-      protocol  = "tcp"
+      comment    = "Allow TCP traffic to subnet with HTTP servers."
+      dest_cidr  = "Any"
+      dest_port  = "443"
+      policy     = "allow"
+      protocol   = "tcp"
+      ip_version = "ipv4"
     }
   ]
 }
@@ -52,6 +53,8 @@ resource "meraki_wireless_ssid_l3_firewall_rules" "example" {
 Required:
 
 - `dest_cidr` (String) Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `Any`
+- `ip_version` (String) The IP version (must be `ipv4` or `ipv6`)
+  - Choices: `ipv4`, `ipv6`
 - `policy` (String) `allow` or `deny` traffic specified by this rule
   - Choices: `allow`, `deny`
 - `protocol` (String) The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)

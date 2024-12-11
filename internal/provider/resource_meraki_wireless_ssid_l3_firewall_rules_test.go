@@ -41,6 +41,7 @@ func TestAccMerakiWirelessSSIDL3FirewallRules(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_l3_firewall_rules.test", "rules.0.dest_port", "443"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_l3_firewall_rules.test", "rules.0.policy", "allow"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_l3_firewall_rules.test", "rules.0.protocol", "tcp"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_l3_firewall_rules.test", "rules.0.ip_version", "ipv4"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -133,6 +134,7 @@ func testAccMerakiWirelessSSIDL3FirewallRulesConfig_all() string {
 	config += `		dest_port = "443"` + "\n"
 	config += `		policy = "allow"` + "\n"
 	config += `		protocol = "tcp"` + "\n"
+	config += `		ip_version = "ipv4"` + "\n"
 	config += `	}]` + "\n"
 	config += `}` + "\n"
 	return config

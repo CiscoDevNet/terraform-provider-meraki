@@ -43,11 +43,12 @@ type WirelessSSIDL3FirewallRules struct {
 }
 
 type WirelessSSIDL3FirewallRulesRules struct {
-	Comment  types.String `tfsdk:"comment"`
-	DestCidr types.String `tfsdk:"dest_cidr"`
-	DestPort types.String `tfsdk:"dest_port"`
-	Policy   types.String `tfsdk:"policy"`
-	Protocol types.String `tfsdk:"protocol"`
+	Comment   types.String `tfsdk:"comment"`
+	DestCidr  types.String `tfsdk:"dest_cidr"`
+	DestPort  types.String `tfsdk:"dest_port"`
+	Policy    types.String `tfsdk:"policy"`
+	Protocol  types.String `tfsdk:"protocol"`
+	IpVersion types.String `tfsdk:"ip_version"`
 }
 
 // End of section. //template:end types
@@ -85,6 +86,9 @@ func (data WirelessSSIDL3FirewallRules) toBody(ctx context.Context, state Wirele
 			}
 			if !item.Protocol.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "protocol", item.Protocol.ValueString())
+			}
+			if !item.IpVersion.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "ipVer", item.IpVersion.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "rules.-1", itemBody)
 		}
@@ -126,6 +130,11 @@ func (data *WirelessSSIDL3FirewallRules) fromBody(ctx context.Context, res merak
 				data.Protocol = types.StringValue(value.String())
 			} else {
 				data.Protocol = types.StringNull()
+			}
+			if value := res.Get("ipVer"); value.Exists() && value.Value() != nil {
+				data.IpVersion = types.StringValue(value.String())
+			} else {
+				data.IpVersion = types.StringNull()
 			}
 			(*parent).Rules = append((*parent).Rules, data)
 			return true
@@ -178,6 +187,11 @@ func (data *WirelessSSIDL3FirewallRules) fromBodyPartial(ctx context.Context, re
 			data.Protocol = types.StringValue(value.String())
 		} else {
 			data.Protocol = types.StringNull()
+		}
+		if value := res.Get("ipVer"); value.Exists() && !data.IpVersion.IsNull() {
+			data.IpVersion = types.StringValue(value.String())
+		} else {
+			data.IpVersion = types.StringNull()
 		}
 		(*parent).Rules[i] = data
 	}

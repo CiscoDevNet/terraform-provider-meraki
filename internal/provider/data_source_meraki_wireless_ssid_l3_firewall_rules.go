@@ -98,6 +98,10 @@ func (d *WirelessSSIDL3FirewallRulesDataSource) Schema(ctx context.Context, req 
 							MarkdownDescription: "The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)",
 							Computed:            true,
 						},
+						"ip_version": schema.StringAttribute{
+							MarkdownDescription: "The IP version (must be `ipv4` or `ipv6`)",
+							Computed:            true,
+						},
 					},
 				},
 			},

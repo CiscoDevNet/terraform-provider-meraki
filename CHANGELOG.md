@@ -1,3 +1,7 @@
+## 0.1.4 (unreleased)
+
+- Add `ip_version` attribute to `meraki_wireless_ssid_l3_firewall_rules` resource and data source
+
 ## 0.1.3
 
 - Add `public_hostname` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source

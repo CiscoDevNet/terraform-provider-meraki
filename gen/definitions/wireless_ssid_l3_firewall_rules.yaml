@@ -56,6 +56,13 @@ attributes:
         description: The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)
         example: tcp
         enum_values: [any, icmp, icmp6, tcp, udp]
+      - model_name: ipVer
+        tf_name: ip_version
+        type: String
+        mandatory: true
+        description: The IP version (must be `ipv4` or `ipv6`)
+        example: ipv4
+        enum_values: [ipv4, ipv6]
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
