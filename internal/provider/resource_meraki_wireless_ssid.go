@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
@@ -655,7 +656,7 @@ func (r *WirelessSSIDResource) Update(ctx context.Context, req resource.UpdateRe
 
 // End of section. //template:end update
 
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
+const SSID_DELETE_BODY = "{\"number\":%d,\"name\":\"Unconfigured SSID %d\",\"enabled\":false,\"splashPage\":\"None\",\"ssidAdminAccessible\":false,\"authMode\":\"open\",\"ipAssignmentMode\":\"NAT mode\",\"adultContentFilteringEnabled\":false,\"dnsRewrite\":{\"enabled\":false,\"dnsCustomNameservers\":[]},\"perClientBandwidthLimitUp\":0,\"perClientBandwidthLimitDown\":0,\"perSsidBandwidthLimitUp\":0,\"perSsidBandwidthLimitDown\":0,\"mandatoryDhcpEnabled\":false,\"visible\":true,\"availableOnAllAps\":true,\"availabilityTags\":[],\"speedBurst\":{\"enabled\":false}}"
 
 func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state WirelessSSID
@@ -668,12 +669,23 @@ func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRe
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 
+	number, err := strconv.Atoi(state.Number.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Data Error", fmt.Sprintf("Failed to convert SSID number to string, got error: %s", err.Error()))
+		return
+	}
+
+	body := fmt.Sprintf(SSID_DELETE_BODY, number, number+1)
+	res, err := r.client.Put(state.getPath(), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete SSID (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *WirelessSSIDResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
