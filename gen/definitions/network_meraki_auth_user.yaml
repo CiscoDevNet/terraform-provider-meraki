@@ -41,7 +41,7 @@ attributes:
     mandatory: true
     write_only: true
     description: The password for this user account. Only required If the user is not a Dashboard administrator.
-    example: Cisco123&
+    example: Cisco123456&
   - model_name: authorizations
     type: List
     mandatory: true

@@ -60,6 +60,7 @@ attributes:
         type: String
         data_path: [adaptivePolicyGroup]
         exclude_test: true
+        allow_import_changes: true
         description: Adaptive Policy Group ID
         example: "791"
 test_prerequisites: |
