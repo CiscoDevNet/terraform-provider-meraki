@@ -2,7 +2,7 @@ name: Wireless SSID
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}
 rest_endpoint: /networks/%v/wireless/ssids/%v
 put_create: true
-no_delete: true
+no_delete: false
 doc_category: Wireless
 test_variables: [test_org, test_network]
 attributes:

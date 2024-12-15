@@ -1,7 +1,8 @@
 ## 0.1.4 (unreleased)
 
 - Add `ip_version` attribute to `meraki_wireless_ssid_l3_firewall_rules` resource and data source
-- Add `appliance_vmx_authentication_token` resource
+- Add `meraki_appliance_vmx_authentication_token` resource
+- Configure default settings when deleting wireless SSID using `meraki_wireless_ssid` resource
 
 ## 0.1.3
 

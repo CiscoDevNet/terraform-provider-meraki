@@ -663,8 +663,6 @@ func (r *WirelessSSIDResource) Update(ctx context.Context, req resource.UpdateRe
 
 // End of section. //template:end update
 
-const SSID_DELETE_BODY = "{\"number\":%d,\"name\":\"Unconfigured SSID %d\",\"enabled\":false,\"splashPage\":\"None\",\"ssidAdminAccessible\":false,\"authMode\":\"open\",\"ipAssignmentMode\":\"NAT mode\",\"adultContentFilteringEnabled\":false,\"dnsRewrite\":{\"enabled\":false,\"dnsCustomNameservers\":[]},\"perClientBandwidthLimitUp\":0,\"perClientBandwidthLimitDown\":0,\"perSsidBandwidthLimitUp\":0,\"perSsidBandwidthLimitDown\":0,\"mandatoryDhcpEnabled\":false,\"visible\":true,\"availableOnAllAps\":true,\"availabilityTags\":[],\"speedBurst\":{\"enabled\":false}}"
-
 func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state WirelessSSID
 
@@ -682,8 +680,28 @@ func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	body := fmt.Sprintf(SSID_DELETE_BODY, number, number+1)
-	res, err := r.client.Put(state.getPath(), body)
+	body := meraki.Body{}.
+		Set("number", number).
+		Set("name", fmt.Sprintf("Unconfigured SSID %d", number+1)).
+		Set("enabled", false).
+		Set("splashPage", "None").
+		Set("ssidAdminAccessible", false).
+		Set("authMode", "open").
+		Set("ipAssignmentMode", "NAT mode").
+		Set("adultContentFilteringEnabled", false).
+		Set("dnsRewrite.enabled", false).
+		Set("dnsRewrite.dnsCustomNameservers", []string{}).
+		Set("perClientBandwidthLimitUp", 0).
+		Set("perClientBandwidthLimitDown", 0).
+		Set("perSsidBandwidthLimitUp", 0).
+		Set("perSsidBandwidthLimitDown", 0).
+		Set("mandatoryDhcpEnabled", false).
+		Set("visible", true).
+		Set("availableOnAllAps", true).
+		Set("availabilityTags", []string{}).
+		Set("speedBurst.enabled", false)
+
+	res, err := r.client.Put(state.getPath(), body.Str)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete SSID (PUT), got error: %s, %s", err, res.String()))
 		return
