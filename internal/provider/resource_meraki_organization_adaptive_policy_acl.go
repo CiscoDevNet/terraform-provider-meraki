@@ -159,6 +159,7 @@ func (r *OrganizationAdaptivePolicyACLResource) Create(ctx context.Context, req 
 		return
 	}
 	plan.Id = types.StringValue(res.Get("aclId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

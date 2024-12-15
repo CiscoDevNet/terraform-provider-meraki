@@ -141,6 +141,7 @@ func (r *WirelessSSIDEAPOverrideResource) Create(ctx context.Context, req resour
 		return
 	}
 	plan.Id = plan.Number
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

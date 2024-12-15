@@ -164,6 +164,7 @@ func (r *WirelessSSIDL3FirewallRulesResource) Create(ctx context.Context, req re
 		return
 	}
 	plan.Id = plan.Number
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

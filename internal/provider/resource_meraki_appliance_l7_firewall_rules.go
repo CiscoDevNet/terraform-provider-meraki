@@ -138,6 +138,7 @@ func (r *ApplianceL7FirewallRulesResource) Create(ctx context.Context, req resou
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

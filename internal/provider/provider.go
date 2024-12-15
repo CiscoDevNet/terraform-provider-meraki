@@ -253,6 +253,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewApplianceVLANResource,
 		NewApplianceVLANDHCPResource,
 		NewApplianceVLANsSettingsResource,
+		NewApplianceVMXAuthenticationTokenResource,
 		NewApplianceVPNBGPResource,
 		NewApplianceVPNFirewallRulesResource,
 		NewApplianceWarmSpareResource,

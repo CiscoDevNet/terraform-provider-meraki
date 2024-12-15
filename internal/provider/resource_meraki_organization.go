@@ -82,6 +82,9 @@ func (r *OrganizationResource) Schema(ctx context.Context, req resource.SchemaRe
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Name of management data").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"value": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Value of management data").String,
@@ -125,6 +128,7 @@ func (r *OrganizationResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 	plan.Id = types.StringValue(res.Get("id").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

@@ -136,6 +136,7 @@ func (data {{camelCase .Name}}) getPath() string {
 func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .Name}}) string {
 	body := ""
 	{{- range .Attributes}}
+	{{- if .Computed}}{{- continue}}{{- end}}
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{getFullModelName .}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if not .Reference}}
@@ -155,6 +156,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 		for _, item := range data.{{toGoName .TfName}} {
 			itemBody := ""
 			{{- range .Attributes}}
+			{{- if .Computed}}{{- continue}}{{- end}}
 			{{- if .Value}}
 			itemBody, _ = sjson.Set(itemBody, "{{getFullModelName .}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 			{{- else if not .Reference}}
@@ -174,6 +176,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 				for _, childItem := range item.{{toGoName .TfName}} {
 					itemChildBody := ""
 					{{- range .Attributes}}
+					{{- if .Computed}}{{- continue}}{{- end}}
 					{{- if .Value}}
 					itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName .}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 					{{- else if not .Reference}}
@@ -193,6 +196,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 						for _, childChildItem := range childItem.{{toGoName .TfName}} {
 							itemChildChildBody := ""
 							{{- range .Attributes}}
+							{{- if .Computed}}{{- continue}}{{- end}}
 							{{- if .Value}}
 							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName .}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 							{{- else if not .Reference}}
@@ -361,6 +365,94 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki
 }
 
 // End of section. //template:end fromBodyPartial
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
+
+// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
+// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
+func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+{{- define "fromBodyUnknownsTemplate"}}
+	{{- range .Attributes}}
+	{{- if and (or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")) .Computed}}
+	if data.{{toGoName .TfName}}.IsUnknown() {
+		if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
+			data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
+		} else {
+			data.{{toGoName .TfName}} = types.{{.Type}}Null()
+		}
+	}
+	{{- else if and (isListSet .) .Computed}}
+	if data.{{toGoName .TfName}}.IsUnknown() {
+		if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
+			data.{{toGoName .TfName}} = helpers.Get{{.ElementType}}{{.Type}}(value.Array())
+		} else {
+			data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
+		}
+	}
+	{{- else if and (isNestedListSet .) (hasComputedAttributes .Attributes)}}
+	{{- $list := (toGoName .TfName)}}
+	{{- if .OrderedList }}
+	{
+		l := len(res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").Array())
+		tflog.Debug(ctx, fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}} array resizing from %d to %d", len(data.{{toGoName .TfName}}), l))
+		if len(data.{{toGoName .TfName}}) > l {
+			data.{{toGoName .TfName}} = data.{{toGoName .TfName}}[:l]
+		}
+	}
+	for i := range data.{{toGoName .TfName}} {
+		parent := &data
+		data := (*parent).{{toGoName .TfName}}[i]
+		parentRes := &res
+		res := parentRes.Get(fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}.%d", i))
+	{{- else }}
+	for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
+		keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{end}}{{end}}{{end}} }
+		keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
+
+		parent := &data
+		data := (*parent).{{toGoName .TfName}}[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.{{if .ModelName}}Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}").{{end}}ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing {{toGoName .TfName}}[%d] = %+v",
+				i,
+				(*parent).{{toGoName .TfName}}[i],
+			))
+			(*parent).{{toGoName .TfName}} = slices.Delete((*parent).{{toGoName .TfName}}, i, i+1)
+			i--
+
+			continue
+		}
+	{{- end}}
+
+		{{- template "fromBodyUnknownsTemplate" .}}
+		(*parent).{{toGoName .TfName}}[i] = data
+	}
+	{{- end}}
+	{{- end}}
+{{- end}}
+{{- template "fromBodyUnknownsTemplate" .}}
+}
+
+// End of section. //template:end fromBodyUnknowns
 
 {{- range .Attributes}}
 	{{- range .Attributes}}

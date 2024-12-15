@@ -107,6 +107,9 @@ func (r *DeviceCellularSIMsResource) Schema(ctx context.Context, req resource.Sc
 						"slot": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("SIM slot being configured. Must be `sim1` on single-sim devices. Use `sim3` for eSIM.").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"apns": schema.ListNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("APN configurations. If empty, the default APN will be used.").String,
@@ -116,6 +119,9 @@ func (r *DeviceCellularSIMsResource) Schema(ctx context.Context, req resource.Sc
 									"name": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("APN name.").String,
 										Required:            true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.RequiresReplace(),
+										},
 									},
 									"authentication_password": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("APN password, if type is set (if APN password is not supplied, the password is left unchanged).").String,
@@ -178,6 +184,7 @@ func (r *DeviceCellularSIMsResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 	plan.Id = plan.Serial
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

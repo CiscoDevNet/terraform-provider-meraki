@@ -135,6 +135,7 @@ func (r *ApplianceFirewalledServiceResource) Create(ctx context.Context, req res
 		return
 	}
 	plan.Id = plan.Service
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

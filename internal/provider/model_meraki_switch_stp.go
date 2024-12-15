@@ -228,6 +228,15 @@ func (data *SwitchSTP) fromBodyPartial(ctx context.Context, res meraki.Res) {
 
 }
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
+
+// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
+// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
+func (data *SwitchSTP) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+}
+
+// End of section. //template:end fromBodyUnknowns
+
 func setOrNull(s types.Set) types.Set {
 	if len(s.Elements()) == 0 {
 		return types.SetNull(types.StringType)

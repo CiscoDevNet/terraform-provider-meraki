@@ -169,6 +169,7 @@ func (r *SwitchRoutingInterfaceResource) Create(ctx context.Context, req resourc
 		return
 	}
 	plan.Id = types.StringValue(res.Get("interfaceId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

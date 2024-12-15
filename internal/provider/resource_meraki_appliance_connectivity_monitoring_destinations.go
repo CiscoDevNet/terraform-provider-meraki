@@ -91,6 +91,9 @@ func (r *ApplianceConnectivityMonitoringDestinationsResource) Schema(ctx context
 						"ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address to test connectivity with").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 					},
 				},
@@ -130,6 +133,7 @@ func (r *ApplianceConnectivityMonitoringDestinationsResource) Create(ctx context
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

@@ -122,6 +122,7 @@ func (r *WirelessDeviceBluetoothSettingsResource) Create(ctx context.Context, re
 		return
 	}
 	plan.Id = plan.Serial
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

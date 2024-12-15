@@ -99,12 +99,18 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Schema(ctx context.Context
 							Validators: []validator.String{
 								stringvalidator.OneOf("Allowed", "Blocked", "Group policy"),
 							},
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"device_type": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The device type. Can be one of `Android`, `BlackBerry`, `Chrome OS`, `iPad`, `iPhone`, `iPod`, `Mac OS X`, `Windows`, `Windows Phone`, `B&N Nook` or `Other OS`").AddStringEnumDescription("Android", "B&N Nook", "BlackBerry", "Chrome OS", "Mac OS X", "Other OS", "Windows", "Windows Phone", "iPad", "iPhone", "iPod").String,
 							Required:            true,
 							Validators: []validator.String{
 								stringvalidator.OneOf("Android", "B&N Nook", "BlackBerry", "Chrome OS", "Mac OS X", "Other OS", "Windows", "Windows Phone", "iPad", "iPhone", "iPod"),
+							},
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
 							},
 						},
 						"group_policy_id": schema.Int64Attribute{
@@ -149,6 +155,7 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Create(ctx context.Context
 		return
 	}
 	plan.Id = plan.Number
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

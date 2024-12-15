@@ -120,6 +120,7 @@ func (r *SwitchRoutingMulticastRendezvousPointResource) Create(ctx context.Conte
 		return
 	}
 	plan.Id = types.StringValue(res.Get("rendezvousPointId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

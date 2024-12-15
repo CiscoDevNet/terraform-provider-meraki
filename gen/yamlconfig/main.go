@@ -103,6 +103,7 @@ type YamlConfigAttribute struct {
 	StringPatterns     []string              `yaml:"string_patterns,omitempty,flow"`
 	StringMinLength    int64                 `yaml:"string_min_length,omitempty"`
 	StringMaxLength    int64                 `yaml:"string_max_length,omitempty"`
+	Computed           bool                  `yaml:"computed,omitempty"`
 	DefaultValue       string                `yaml:"default_value,omitempty"`
 	Value              string                `yaml:"value,omitempty"`
 	TestValue          string                `yaml:"test_value,omitempty"`
@@ -141,6 +142,7 @@ type YamlConfigAttributeP struct {
 	StringPatterns     *[]string               `yaml:"string_patterns,omitempty,flow"`
 	StringMinLength    *int64                  `yaml:"string_min_length,omitempty"`
 	StringMaxLength    *int64                  `yaml:"string_max_length,omitempty"`
+	Computed           *bool                   `yaml:"computed,omitempty"`
 	DefaultValue       *string                 `yaml:"default_value,omitempty"`
 	Value              *string                 `yaml:"value,omitempty"`
 	TestValue          *string                 `yaml:"test_value,omitempty"`
@@ -362,31 +364,45 @@ func GetFullModelName(attr YamlConfigAttribute) string {
 	return r + attr.ModelName
 }
 
+// HasComputedAttributes returns true if any attributes are computed
+func HasComputedAttributes(attributes []YamlConfigAttribute) bool {
+	for _, attr := range attributes {
+		if attr.Computed {
+			return true
+		}
+		if len(attr.Attributes) > 0 && HasComputedAttributes(attr.Attributes) {
+			return true
+		}
+	}
+	return false
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
-	"toGoName":          ToGoName,
-	"camelCase":         CamelCase,
-	"snakeCase":         SnakeCase,
-	"sprintf":           fmt.Sprintf,
-	"errorf":            Errorf,
-	"toLower":           strings.ToLower,
-	"path":              BuildPath,
-	"hasId":             HasId,
-	"getId":             GetId,
-	"hasReference":      HasReference,
-	"isListSet":         IsListSet,
-	"isList":            IsList,
-	"isSet":             IsSet,
-	"isStringListSet":   IsStringListSet,
-	"isInt64ListSet":    IsInt64ListSet,
-	"isNestedListSet":   IsNestedListSet,
-	"isNestedList":      IsNestedList,
-	"isNestedSet":       IsNestedSet,
-	"importParts":       ImportParts,
-	"subtract":          Subtract,
-	"iterate":           Iterate,
-	"getImportExcludes": GetImportExcludes,
-	"getFullModelName":  GetFullModelName,
+	"toGoName":              ToGoName,
+	"camelCase":             CamelCase,
+	"snakeCase":             SnakeCase,
+	"sprintf":               fmt.Sprintf,
+	"errorf":                Errorf,
+	"toLower":               strings.ToLower,
+	"path":                  BuildPath,
+	"hasId":                 HasId,
+	"getId":                 GetId,
+	"hasReference":          HasReference,
+	"isListSet":             IsListSet,
+	"isList":                IsList,
+	"isSet":                 IsSet,
+	"isStringListSet":       IsStringListSet,
+	"isInt64ListSet":        IsInt64ListSet,
+	"isNestedListSet":       IsNestedListSet,
+	"isNestedList":          IsNestedList,
+	"isNestedSet":           IsNestedSet,
+	"importParts":           ImportParts,
+	"subtract":              Subtract,
+	"iterate":               Iterate,
+	"getImportExcludes":     GetImportExcludes,
+	"getFullModelName":      GetFullModelName,
+	"hasComputedAttributes": HasComputedAttributes,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
@@ -721,6 +737,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.StringMaxLength != nil {
 		new.StringMaxLength = existing.StringMaxLength
+	}
+	if existing.Computed != nil {
+		new.Computed = existing.Computed
 	}
 	if existing.DefaultValue != nil {
 		new.DefaultValue = existing.DefaultValue

@@ -162,6 +162,7 @@ func (r *ApplianceVPNFirewallRulesResource) Create(ctx context.Context, req reso
 		return
 	}
 	plan.Id = plan.OrganizationId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

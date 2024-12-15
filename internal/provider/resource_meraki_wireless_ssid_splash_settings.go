@@ -260,6 +260,7 @@ func (r *WirelessSSIDSplashSettingsResource) Create(ctx context.Context, req res
 		return
 	}
 	plan.Id = plan.Number
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

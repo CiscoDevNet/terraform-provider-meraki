@@ -108,6 +108,9 @@ func (r *WirelessAlternateManagementInterfaceResource) Schema(ctx context.Contex
 						"serial": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Serial number of access point to be configured with alternate management IP").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"subnet_mask": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Subnet mask must be in IP format").String,
@@ -156,6 +159,7 @@ func (r *WirelessAlternateManagementInterfaceResource) Create(ctx context.Contex
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

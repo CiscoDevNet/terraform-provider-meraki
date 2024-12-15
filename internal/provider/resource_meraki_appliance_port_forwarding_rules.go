@@ -86,10 +86,16 @@ func (r *AppliancePortForwardingRulesResource) Schema(ctx context.Context, req r
 						"lan_ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address of the server or device that hosts the internal resource that you wish to make available on the WAN").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"local_port": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A port or port ranges that will receive the forwarded traffic from the WAN").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A descriptive name for the rule").String,
@@ -101,10 +107,16 @@ func (r *AppliancePortForwardingRulesResource) Schema(ctx context.Context, req r
 							Validators: []validator.String{
 								stringvalidator.OneOf("tcp", "udp"),
 							},
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"public_port": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A port or port ranges that will be forwarded to the host on the LAN").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"uplink": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The physical WAN interface on which the traffic will arrive (`internet1` or, if available, `internet2` or `both`)").AddStringEnumDescription("both", "internet1", "internet2").String,
@@ -156,6 +168,7 @@ func (r *AppliancePortForwardingRulesResource) Create(ctx context.Context, req r
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

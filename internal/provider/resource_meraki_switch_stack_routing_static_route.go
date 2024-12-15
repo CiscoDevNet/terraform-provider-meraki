@@ -139,6 +139,7 @@ func (r *SwitchStackRoutingStaticRouteResource) Create(ctx context.Context, req 
 		return
 	}
 	plan.Id = types.StringValue(res.Get("staticRouteId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

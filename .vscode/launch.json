@@ -20,8 +20,8 @@
             "program": "gen/definition.go",
             "cwd": "./",
             "args": [
-                "/networks/{networkId}/groupPolicies/{groupPolicyId}",
-                "Network Group Policy"
+                "/devices/{serial}/appliance/vmx/authenticationToken",
+                "Appliance vMX Authentication Token"
             ]
         }
     ]

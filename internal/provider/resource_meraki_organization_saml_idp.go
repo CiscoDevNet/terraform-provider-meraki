@@ -120,6 +120,7 @@ func (r *OrganizationSAMLIdPResource) Create(ctx context.Context, req resource.C
 		return
 	}
 	plan.Id = types.StringValue(res.Get("idpId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

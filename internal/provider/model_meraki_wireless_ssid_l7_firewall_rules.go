@@ -152,3 +152,12 @@ func (data *WirelessSSIDL7FirewallRules) fromBodyPartial(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyPartial
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
+
+// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
+// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
+func (data *WirelessSSIDL7FirewallRules) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+}
+
+// End of section. //template:end fromBodyUnknowns

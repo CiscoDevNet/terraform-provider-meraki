@@ -141,6 +141,7 @@ func (r *AppliancePortResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 	plan.Id = plan.PortId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

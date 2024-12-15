@@ -28,6 +28,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -86,12 +87,18 @@ func (r *ApplianceOneToManyNATRulesResource) Schema(ctx context.Context, req res
 						"public_ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address that will be used to access the internal resource from the WAN").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"uplink": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The physical WAN interface on which the traffic will arrive (`internet1` or, if available, `internet2`)").AddStringEnumDescription("internet1", "internet2").String,
 							Required:            true,
 							Validators: []validator.String{
 								stringvalidator.OneOf("internet1", "internet2"),
+							},
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
 							},
 						},
 						"port_rules": schema.ListNestedAttribute{
@@ -102,10 +109,16 @@ func (r *ApplianceOneToManyNATRulesResource) Schema(ctx context.Context, req res
 									"local_ip": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("Local IP address to which traffic will be forwarded").String,
 										Required:            true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.RequiresReplace(),
+										},
 									},
 									"local_port": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("Destination port of the forwarded traffic that will be sent from the MX to the specified host on the LAN. If you simply wish to forward the traffic without translating the port, this should be the same as the Public port").String,
 										Required:            true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.RequiresReplace(),
+										},
 									},
 									"name": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("A description of the rule").String,
@@ -117,15 +130,24 @@ func (r *ApplianceOneToManyNATRulesResource) Schema(ctx context.Context, req res
 										Validators: []validator.String{
 											stringvalidator.OneOf("tcp", "udp"),
 										},
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.RequiresReplace(),
+										},
 									},
 									"public_port": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("Destination port of the traffic that is arriving on the WAN").String,
 										Required:            true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.RequiresReplace(),
+										},
 									},
 									"allowed_ips": schema.ListAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("Remote IP addresses or ranges that are permitted to access the internal resource via this port forwarding rule, or `any`").String,
 										ElementType:         types.StringType,
 										Required:            true,
+										PlanModifiers: []planmodifier.List{
+											listplanmodifier.RequiresReplace(),
+										},
 									},
 								},
 							},
@@ -168,6 +190,7 @@ func (r *ApplianceOneToManyNATRulesResource) Create(ctx context.Context, req res
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

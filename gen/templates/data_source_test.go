@@ -43,28 +43,28 @@ func TestAccDataSourceMeraki{{camelCase .Name}}(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	{{- $name := .Name }}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue)}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
 	{{- if isNestedListSet .}}
 	{{- $list := .TfName }}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue)}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
 	{{- if isNestedListSet .}}
 	{{- $clist := .TfName }}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue)}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
 	{{- if isNestedListSet .}}
 	{{- $cclist := .TfName }}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not (isSet .))}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (not (isSet .))}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		checks = append(checks, resource.TestCheckResourceAttr("data.meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{$clist}}.0.{{$cclist}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
@@ -148,28 +148,28 @@ variable "{{.}}" {}
 func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
-	{{- if and (not .ExcludeTest) (not .Value)}}
+	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 	{{- if isNestedListSet .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	config += `	{{.TfName}} = [{` + "\n"
 		{{- range  .Attributes}}
-		{{- if and (not .ExcludeTest) (not .Value)}}
+		{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 		{{- if isNestedListSet .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		{{- end}}
 	config += `		{{.TfName}} = [{` + "\n"
 			{{- range  .Attributes}}
-			{{- if and (not .ExcludeTest) (not .Value)}}
+			{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 			{{- if isNestedListSet .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 			{{- end}}
 	config += `			{{.TfName}} = [{` + "\n"
 				{{- range  .Attributes}}
-				{{- if and (not .ExcludeTest) (not .Value)}}
+				{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		config += `				{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
@@ -246,28 +246,28 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 func testAccNamedDataSourceMeraki{{camelCase .Name}}Config() string {
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
-	{{- if and (not .ExcludeTest) (not .Value)}}
+	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 	{{- if isNestedListSet .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	config += `	{{.TfName}} = [{` + "\n"
 		{{- range  .Attributes}}
-		{{- if and (not .ExcludeTest) (not .Value)}}
+		{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 		{{- if isNestedListSet .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		{{- end}}
 	config += `		{{.TfName}} = [{` + "\n"
 			{{- range  .Attributes}}
-			{{- if and (not .ExcludeTest) (not .Value)}}
+			{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 			{{- if isNestedListSet .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 			{{- end}}
 	config += `			{{.TfName}} = [{` + "\n"
 				{{- range  .Attributes}}
-				{{- if and (not .ExcludeTest) (not .Value)}}
+				{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		config += `				{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"

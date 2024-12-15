@@ -116,6 +116,7 @@ func (r *OrganizationAdaptivePolicySettingsResource) Create(ctx context.Context,
 		return
 	}
 	plan.Id = plan.OrganizationId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

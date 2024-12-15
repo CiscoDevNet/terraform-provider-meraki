@@ -100,6 +100,9 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 						"username": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The username for the SNMP user. Required.").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 					},
 				},
@@ -139,6 +142,7 @@ func (r *NetworkSNMPResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

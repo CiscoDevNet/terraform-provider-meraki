@@ -108,6 +108,9 @@ func (r *SwitchSettingsResource) Schema(ctx context.Context, req resource.Schema
 						"serial": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Serial number of the switch").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 					},
 				},
@@ -147,6 +150,7 @@ func (r *SwitchSettingsResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

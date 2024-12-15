@@ -128,6 +128,7 @@ func (r *ApplianceTrafficShapingCustomPerformanceClassResource) Create(ctx conte
 		return
 	}
 	plan.Id = types.StringValue(res.Get("customPerformanceClassId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

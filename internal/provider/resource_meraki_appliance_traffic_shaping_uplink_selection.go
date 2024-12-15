@@ -144,6 +144,9 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 										Validators: []validator.String{
 											stringvalidator.OneOf("application", "applicationCategory", "custom"),
 										},
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.RequiresReplace(),
+										},
 									},
 									"id": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("ID of this applicationCategory or application type traffic filter. E.g.: 'meraki:layer7/category/1', 'meraki:layer7/application/4'").String,
@@ -229,6 +232,9 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 										Validators: []validator.String{
 											stringvalidator.OneOf("custom"),
 										},
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.RequiresReplace(),
+										},
 									},
 									"protocol": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("Protocol of this custom type traffic filter. Must be one of: `tcp`, `udp`, `icmp6` or `any`").AddStringEnumDescription("any", "icmp6", "tcp", "udp").String,
@@ -302,6 +308,7 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Create(ctx context.Cont
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

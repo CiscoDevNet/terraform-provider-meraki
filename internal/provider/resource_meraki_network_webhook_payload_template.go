@@ -101,6 +101,9 @@ func (r *NetworkWebhookPayloadTemplateResource) Schema(ctx context.Context, req 
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The name of the header template").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"template": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The liquid template for the headers").String,
@@ -144,6 +147,7 @@ func (r *NetworkWebhookPayloadTemplateResource) Create(ctx context.Context, req 
 		return
 	}
 	plan.Id = types.StringValue(res.Get("payloadTemplateId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

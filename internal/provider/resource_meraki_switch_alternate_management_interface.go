@@ -105,6 +105,9 @@ func (r *SwitchAlternateManagementInterfaceResource) Schema(ctx context.Context,
 						"serial": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Switch serial number").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"subnet_mask": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Switch subnet mask must be in IP format. Only and must be specified for Polaris switches").String,
@@ -148,6 +151,7 @@ func (r *SwitchAlternateManagementInterfaceResource) Create(ctx context.Context,
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

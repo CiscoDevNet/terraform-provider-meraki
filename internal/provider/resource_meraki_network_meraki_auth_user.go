@@ -29,6 +29,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -118,6 +119,9 @@ func (r *NetworkMerakiAuthUserResource) Schema(ctx context.Context, req resource
 						"ssid_number": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Required for wireless networks. The SSID for which the user is being authorized, which must be configured for the user`s given accountType.").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.RequiresReplace(),
+							},
 						},
 					},
 				},
@@ -157,6 +161,7 @@ func (r *NetworkMerakiAuthUserResource) Create(ctx context.Context, req resource
 		return
 	}
 	plan.Id = types.StringValue(res.Get("id").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

@@ -102,10 +102,10 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- end}}
 				{{- if or .Reference .Mandatory}}
 				Required:            true,
-				{{- else}}
+				{{- else if not .Computed}}
 				Optional:            true,
 				{{- end}}
-				{{- if len .DefaultValue}}
+				{{- if or (len .DefaultValue) .Computed}}
 				Computed:            true,
 				{{- end}}
 				{{- if len .EnumValues}}
@@ -137,9 +137,14 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- else if and (len .DefaultValue) (eq .Type "String")}}
 				Default:             stringdefault.StaticString("{{.DefaultValue}}"),
 				{{- end}}
-				{{- if or .Id .Reference .RequiresReplace}}
+				{{- if or .Id .Reference .RequiresReplace .Computed}}
 				PlanModifiers: []planmodifier.{{.Type}}{
+					{{- if or .Id .Reference .RequiresReplace}}
 					{{snakeCase .Type}}planmodifier.RequiresReplace(),
+					{{end}}
+					{{- if .Computed}}
+					{{snakeCase .Type}}planmodifier.UseStateForUnknown(),
+					{{end}}
 				},
 				{{- end}}
 				{{- if isNestedListSet .}}
@@ -167,10 +172,10 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- end}}
 							{{- if or .Reference .Mandatory}}
 							Required:            true,
-							{{- else}}
+							{{- else if not .Computed}}
 							Optional:            true,
 							{{- end}}
-							{{- if len .DefaultValue}}
+							{{- if or (len .DefaultValue) .Computed}}
 							Computed:            true,
 							{{- end}}
 							{{- if len .EnumValues}}
@@ -202,9 +207,14 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- else if and (len .DefaultValue) (eq .Type "String")}}
 							Default:             stringdefault.StaticString("{{.DefaultValue}}"),
 							{{- end}}
-							{{- if .RequiresReplace}}
+							{{- if or .Id .Reference .RequiresReplace .Computed}}
 							PlanModifiers: []planmodifier.{{.Type}}{
+								{{- if or .Id .Reference .RequiresReplace}}
 								{{snakeCase .Type}}planmodifier.RequiresReplace(),
+								{{end}}
+								{{- if .Computed}}
+								{{snakeCase .Type}}planmodifier.UseStateForUnknown(),
+								{{end}}
 							},
 							{{- end}}
 							{{- if isNestedListSet .}}
@@ -232,10 +242,10 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- end}}
 										{{- if or .Reference .Mandatory}}
 										Required:            true,
-										{{- else}}
+										{{- else if not .Computed}}
 										Optional:            true,
 										{{- end}}
-										{{- if len .DefaultValue}}
+										{{- if or (len .DefaultValue) .Computed}}
 										Computed:            true,
 										{{- end}}
 										{{- if len .EnumValues}}
@@ -267,9 +277,14 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- else if and (len .DefaultValue) (eq .Type "String")}}
 										Default:             stringdefault.StaticString("{{.DefaultValue}}"),
 										{{- end}}
-										{{- if .RequiresReplace}}
+										{{- if or .Id .Reference .RequiresReplace .Computed}}
 										PlanModifiers: []planmodifier.{{.Type}}{
+											{{- if or .Id .Reference .RequiresReplace}}
 											{{snakeCase .Type}}planmodifier.RequiresReplace(),
+											{{end}}
+											{{- if .Computed}}
+											{{snakeCase .Type}}planmodifier.UseStateForUnknown(),
+											{{end}}
 										},
 										{{- end}}
 										{{- if isNestedListSet .}}
@@ -297,10 +312,10 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													{{- end}}
 													{{- if or .Reference .Mandatory}}
 													Required:            true,
-													{{- else}}
+													{{- else if not .Computed}}
 													Optional:            true,
 													{{- end}}
-													{{- if len .DefaultValue}}
+													{{- if or (len .DefaultValue) .Computed}}
 													Computed:            true,
 													{{- end}}
 													{{- if len .EnumValues}}
@@ -332,9 +347,14 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													{{- else if and (len .DefaultValue) (eq .Type "String")}}
 													Default:             stringdefault.StaticString("{{.DefaultValue}}"),
 													{{- end}}
-													{{- if .RequiresReplace}}
+													{{- if or .Id .Reference .RequiresReplace .Computed}}
 													PlanModifiers: []planmodifier.{{.Type}}{
+														{{- if or .Id .Reference .RequiresReplace}}
 														{{snakeCase .Type}}planmodifier.RequiresReplace(),
+														{{end}}
+														{{- if .Computed}}
+														{{snakeCase .Type}}planmodifier.UseStateForUnknown(),
+														{{end}}
 													},
 													{{- end}}
 												},
@@ -432,6 +452,7 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 	{{- else}}
 	plan.Id = types.StringValue(res.Get("{{.IdName}}").String())
 	{{- end}}
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

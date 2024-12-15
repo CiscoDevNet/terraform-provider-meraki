@@ -177,6 +177,7 @@ func (r *NetworkClientSplashAuthorizationStatusResource) Create(ctx context.Cont
 		return
 	}
 	plan.Id = plan.ClientId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

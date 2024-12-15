@@ -92,6 +92,9 @@ func (r *ApplianceSiteToSiteVPNResource) Schema(ctx context.Context, req resourc
 						"hub_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The network ID of the hub.").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"use_default_route": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Only valid in `spoke` mode. Indicates whether default route traffic should be sent to this hub.").String,
@@ -108,6 +111,9 @@ func (r *ApplianceSiteToSiteVPNResource) Schema(ctx context.Context, req resourc
 						"local_subnet": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The CIDR notation subnet used within the VPN").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"use_vpn": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Indicates the presence of the subnet in the VPN").String,
@@ -151,6 +157,7 @@ func (r *ApplianceSiteToSiteVPNResource) Create(ctx context.Context, req resourc
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

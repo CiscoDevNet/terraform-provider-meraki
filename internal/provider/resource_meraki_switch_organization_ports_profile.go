@@ -107,6 +107,9 @@ func (r *SwitchOrganizationPortsProfileResource) Schema(ctx context.Context, req
 						"id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The network identifier").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The network name").String,
@@ -241,6 +244,7 @@ func (r *SwitchOrganizationPortsProfileResource) Create(ctx context.Context, req
 		return
 	}
 	plan.Id = types.StringValue(res.Get("profileId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

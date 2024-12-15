@@ -160,6 +160,7 @@ func (r *NetworkFloorPlanResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	plan.Id = types.StringValue(res.Get("floorPlanId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

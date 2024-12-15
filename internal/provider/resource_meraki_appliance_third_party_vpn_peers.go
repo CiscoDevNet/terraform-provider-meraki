@@ -101,6 +101,9 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The name of the VPN peer").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"public_hostname": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("[optional] The public hostname of the VPN peer").String,
@@ -209,6 +212,7 @@ func (r *ApplianceThirdPartyVPNPeersResource) Create(ctx context.Context, req re
 		return
 	}
 	plan.Id = plan.OrganizationId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

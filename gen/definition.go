@@ -422,7 +422,11 @@ func parseUrl(url string, spec interface{}, betaSpec interface{}) parseUrlResult
 	if hasShortPost && !slices.Contains(usePutSchema[:], url) {
 		ret.schema = paths[shortUrl].(map[string]interface{})["post"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 	} else if hasPost && !slices.Contains(usePutSchema[:], url) {
-		ret.schema = paths[url].(map[string]interface{})["post"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+		if p, ok := paths[url].(map[string]interface{})["post"].(map[string]interface{})["requestBody"]; ok {
+			ret.schema = p.(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
+		} else {
+			ret.schema = map[string]interface{}{"schema": map[string]interface{}{"example": map[string]interface{}{}, "properties": map[string]interface{}{}}}
+		}
 	} else if hasShortPut {
 		ret.schema = paths[shortUrl].(map[string]interface{})["put"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 	} else if hasPut {

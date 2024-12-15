@@ -134,6 +134,7 @@ func (r *ApplianceRadioSettingsResource) Create(ctx context.Context, req resourc
 		return
 	}
 	plan.Id = plan.Serial
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

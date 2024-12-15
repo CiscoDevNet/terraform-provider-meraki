@@ -118,6 +118,7 @@ func (r *WirelessNetworkElectronicShelfLabelResource) Create(ctx context.Context
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

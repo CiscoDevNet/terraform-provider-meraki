@@ -143,6 +143,7 @@ func (r *WirelessSettingsResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	plan.Id = plan.NetworkId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

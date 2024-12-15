@@ -97,10 +97,16 @@ func (r *OrganizationAdaptivePolicyGroupResource) Schema(ctx context.Context, re
 						"id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The ID of the policy object").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The name of the policy object").String,
 							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
 						},
 					},
 				},
@@ -140,6 +146,7 @@ func (r *OrganizationAdaptivePolicyGroupResource) Create(ctx context.Context, re
 		return
 	}
 	plan.Id = types.StringValue(res.Get("groupId").String())
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

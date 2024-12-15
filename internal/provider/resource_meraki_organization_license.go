@@ -121,6 +121,7 @@ func (r *OrganizationLicenseResource) Create(ctx context.Context, req resource.C
 		return
 	}
 	plan.Id = plan.LicenseId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
