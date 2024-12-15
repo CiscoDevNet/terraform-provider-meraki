@@ -57,21 +57,20 @@ func main() {
 	// Update doc category
 	for i := range configs {
 		for _, path := range docPaths {
-			if (configs[i].NoDataSource && path == "./docs/data-sources/") ||
-				(configs[i].NoResource && path == "./docs/resources/") {
-				continue
-			}
-			filename := path + yamlconfig.SnakeCase(configs[i].Name) + ".md"
-			content, err := os.ReadFile(filename)
-			if err != nil {
-				log.Fatalf("Error opening documentation: %v", err)
-			}
+			if (!configs[i].NoDataSource && path == "./docs/data-sources/") ||
+				(!configs[i].NoResource && path == "./docs/resources/") {
+				filename := path + yamlconfig.SnakeCase(configs[i].Name) + ".md"
+				content, err := os.ReadFile(filename)
+				if err != nil {
+					log.Fatalf("Error opening documentation: %v", err)
+				}
 
-			cat := configs[i].DocCategory
-			s := string(content)
-			s = strings.ReplaceAll(s, `subcategory: ""`, `subcategory: "`+cat+`"`)
+				cat := configs[i].DocCategory
+				s := string(content)
+				s = strings.ReplaceAll(s, `subcategory: ""`, `subcategory: "`+cat+`"`)
 
-			os.WriteFile(filename, []byte(s), 0644)
+				os.WriteFile(filename, []byte(s), 0644)
+			}
 
 			if configs[i].BulkDataSource && path == "./docs/data-sources/" {
 				filename := path + yamlconfig.SnakeCase(configs[i].BulkName) + ".md"
