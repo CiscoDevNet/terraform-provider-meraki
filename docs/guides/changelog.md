@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## 0.1.4 (unreleased)
+## 0.1.4
 
 - Add `ip_version` attribute to `meraki_wireless_ssid_l3_firewall_rules` resource and data source
 - Add `meraki_appliance_vmx_authentication_token` resource
