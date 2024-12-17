@@ -103,8 +103,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiSwitchDHCPServerPolicyConfig_minimum() string {
 	config := `resource "meraki_switch_dhcp_server_policy" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	default_policy = "allow"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  default_policy = "allow"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -115,12 +115,12 @@ func testAccMerakiSwitchDHCPServerPolicyConfig_minimum() string {
 
 func testAccMerakiSwitchDHCPServerPolicyConfig_all() string {
 	config := `resource "meraki_switch_dhcp_server_policy" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	default_policy = "block"` + "\n"
-	config += `	alerts_email_enabled = true` + "\n"
-	config += `	arp_inspection_enabled = true` + "\n"
-	config += `	allowed_servers = ["00:50:56:00:00:01"]` + "\n"
-	config += `	blocked_servers = ["00:50:56:00:00:03"]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  default_policy = "block"` + "\n"
+	config += `  alerts_email_enabled = true` + "\n"
+	config += `  arp_inspection_enabled = true` + "\n"
+	config += `  allowed_servers = ["00:50:56:00:00:01"]` + "\n"
+	config += `  blocked_servers = ["00:50:56:00:00:03"]` + "\n"
 	config += `}` + "\n"
 	return config
 }

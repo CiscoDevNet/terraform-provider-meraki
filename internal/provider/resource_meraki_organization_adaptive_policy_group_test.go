@@ -105,9 +105,9 @@ resource "meraki_organization_policy_object" "test" {
 
 func testAccMerakiOrganizationAdaptivePolicyGroupConfig_minimum() string {
 	config := `resource "meraki_organization_adaptive_policy_group" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "Employee Group"` + "\n"
-	config += `	sgt = 1000` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  name = "Employee Group"` + "\n"
+	config += `  sgt = 1000` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,14 +118,14 @@ func testAccMerakiOrganizationAdaptivePolicyGroupConfig_minimum() string {
 
 func testAccMerakiOrganizationAdaptivePolicyGroupConfig_all() string {
 	config := `resource "meraki_organization_adaptive_policy_group" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	description = "Group of XYZ Corp Employees"` + "\n"
-	config += `	name = "Employee Group"` + "\n"
-	config += `	sgt = 1000` + "\n"
-	config += `	policy_objects = [{` + "\n"
-	config += `		id = meraki_organization_policy_object.test.id` + "\n"
-	config += `		name = meraki_organization_policy_object.test.name` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  description = "Group of XYZ Corp Employees"` + "\n"
+	config += `  name = "Employee Group"` + "\n"
+	config += `  sgt = 1000` + "\n"
+	config += `  policy_objects = [{` + "\n"
+	config += `    id = meraki_organization_policy_object.test.id` + "\n"
+	config += `    name = meraki_organization_policy_object.test.name` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

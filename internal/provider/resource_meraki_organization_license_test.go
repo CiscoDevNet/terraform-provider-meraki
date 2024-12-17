@@ -100,8 +100,8 @@ data "meraki_organization" "test" {
 
 func testAccMerakiOrganizationLicenseConfig_minimum() string {
 	config := `resource "meraki_organization_license" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	license_id = "123"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  license_id = "123"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -112,9 +112,9 @@ func testAccMerakiOrganizationLicenseConfig_minimum() string {
 
 func testAccMerakiOrganizationLicenseConfig_all() string {
 	config := `resource "meraki_organization_license" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	license_id = "123"` + "\n"
-	config += `	device_serial = "Q234-ABCD-5678"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  license_id = "123"` + "\n"
+	config += `  device_serial = "Q234-ABCD-5678"` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -108,12 +108,12 @@ resource "meraki_network" "test" {
 
 func testAccMerakiWirelessEthernetPortProfileConfig_minimum() string {
 	config := `resource "meraki_wireless_ethernet_port_profile" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	name = "name"` + "\n"
-	config += `	ports = [{` + "\n"
-	config += `		enabled = false` + "\n"
-	config += `		name = "port"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  name = "name"` + "\n"
+	config += `  ports = [{` + "\n"
+	config += `    enabled = false` + "\n"
+	config += `    name = "port"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -124,18 +124,18 @@ func testAccMerakiWirelessEthernetPortProfileConfig_minimum() string {
 
 func testAccMerakiWirelessEthernetPortProfileConfig_all() string {
 	config := `resource "meraki_wireless_ethernet_port_profile" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	name = "name"` + "\n"
-	config += `	ports = [{` + "\n"
-	config += `		enabled = true` + "\n"
-	config += `		name = "port"` + "\n"
-	config += `		ssid = 1` + "\n"
-	config += `	}]` + "\n"
-	config += `	usb_ports = [{` + "\n"
-	config += `		enabled = true` + "\n"
-	config += `		name = "usb port"` + "\n"
-	config += `		ssid = 2` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  name = "name"` + "\n"
+	config += `  ports = [{` + "\n"
+	config += `    enabled = true` + "\n"
+	config += `    name = "port"` + "\n"
+	config += `    ssid = 1` + "\n"
+	config += `  }]` + "\n"
+	config += `  usb_ports = [{` + "\n"
+	config += `    enabled = true` + "\n"
+	config += `    name = "usb port"` + "\n"
+	config += `    ssid = 2` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

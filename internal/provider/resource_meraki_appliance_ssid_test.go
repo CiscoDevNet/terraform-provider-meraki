@@ -114,9 +114,9 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiApplianceSSIDConfig_minimum() string {
 	config := `resource "meraki_appliance_ssid" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	number = "1"` + "\n"
-	config += `	auth_mode = "open"` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  number = "1"` + "\n"
+	config += `  auth_mode = "open"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -127,18 +127,18 @@ func testAccMerakiApplianceSSIDConfig_minimum() string {
 
 func testAccMerakiApplianceSSIDConfig_all() string {
 	config := `resource "meraki_appliance_ssid" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	number = "1"` + "\n"
-	config += `	auth_mode = "8021x-radius"` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	name = "My SSID"` + "\n"
-	config += `	visible = true` + "\n"
-	config += `	wpa_encryption_mode = "WPA2 only"` + "\n"
-	config += `	radius_servers = [{` + "\n"
-	config += `		host = "0.0.0.0"` + "\n"
-	config += `		port = 1000` + "\n"
-	config += `		secret = "secret"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  number = "1"` + "\n"
+	config += `  auth_mode = "8021x-radius"` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  name = "My SSID"` + "\n"
+	config += `  visible = true` + "\n"
+	config += `  wpa_encryption_mode = "WPA2 only"` + "\n"
+	config += `  radius_servers = [{` + "\n"
+	config += `    host = "0.0.0.0"` + "\n"
+	config += `    port = 1000` + "\n"
+	config += `    secret = "secret"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

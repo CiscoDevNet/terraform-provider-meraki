@@ -109,8 +109,8 @@ resource "meraki_appliance_vlan" "test" {
 
 func testAccMerakiApplianceVLANDHCPConfig_minimum() string {
 	config := `resource "meraki_appliance_vlan_dhcp" "test" {` + "\n"
-	config += `	network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
-	config += `	vlan_id = meraki_appliance_vlan.test.vlan_id` + "\n"
+	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
+	config += `  vlan_id = meraki_appliance_vlan.test.vlan_id` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -121,13 +121,13 @@ func testAccMerakiApplianceVLANDHCPConfig_minimum() string {
 
 func testAccMerakiApplianceVLANDHCPConfig_all() string {
 	config := `resource "meraki_appliance_vlan_dhcp" "test" {` + "\n"
-	config += `	network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
-	config += `	vlan_id = meraki_appliance_vlan.test.vlan_id` + "\n"
-	config += `	dhcp_boot_options_enabled = false` + "\n"
-	config += `	dhcp_handling = "Run a DHCP server"` + "\n"
-	config += `	dhcp_lease_time = "1 day"` + "\n"
-	config += `	dns_nameservers = "upstream_dns"` + "\n"
-	config += `	mandatory_dhcp_enabled = true` + "\n"
+	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
+	config += `  vlan_id = meraki_appliance_vlan.test.vlan_id` + "\n"
+	config += `  dhcp_boot_options_enabled = false` + "\n"
+	config += `  dhcp_handling = "Run a DHCP server"` + "\n"
+	config += `  dhcp_lease_time = "1 day"` + "\n"
+	config += `  dns_nameservers = "upstream_dns"` + "\n"
+	config += `  mandatory_dhcp_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }

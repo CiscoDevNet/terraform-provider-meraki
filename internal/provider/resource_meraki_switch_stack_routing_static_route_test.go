@@ -125,10 +125,10 @@ resource "meraki_switch_stack_routing_interface" "test" {
 
 func testAccMerakiSwitchStackRoutingStaticRouteConfig_minimum() string {
 	config := `resource "meraki_switch_stack_routing_static_route" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	switch_stack_id = meraki_switch_stack_routing_interface.test.switch_stack_id` + "\n"
-	config += `	next_hop_ip = "192.168.1.1"` + "\n"
-	config += `	subnet = "192.168.2.0/24"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  switch_stack_id = meraki_switch_stack_routing_interface.test.switch_stack_id` + "\n"
+	config += `  next_hop_ip = "192.168.1.1"` + "\n"
+	config += `  subnet = "192.168.2.0/24"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -139,11 +139,11 @@ func testAccMerakiSwitchStackRoutingStaticRouteConfig_minimum() string {
 
 func testAccMerakiSwitchStackRoutingStaticRouteConfig_all() string {
 	config := `resource "meraki_switch_stack_routing_static_route" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	switch_stack_id = meraki_switch_stack_routing_interface.test.switch_stack_id` + "\n"
-	config += `	name = "My route"` + "\n"
-	config += `	next_hop_ip = "192.168.1.1"` + "\n"
-	config += `	subnet = "192.168.2.0/24"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  switch_stack_id = meraki_switch_stack_routing_interface.test.switch_stack_id` + "\n"
+	config += `  name = "My route"` + "\n"
+	config += `  next_hop_ip = "192.168.1.1"` + "\n"
+	config += `  subnet = "192.168.2.0/24"` + "\n"
 	config += `}` + "\n"
 	return config
 }

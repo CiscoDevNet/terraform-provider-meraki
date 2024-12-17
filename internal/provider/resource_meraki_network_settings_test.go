@@ -105,8 +105,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkSettingsConfig_minimum() string {
 	config := `resource "meraki_network_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	local_status_page_enabled = true` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  local_status_page_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -117,13 +117,13 @@ func testAccMerakiNetworkSettingsConfig_minimum() string {
 
 func testAccMerakiNetworkSettingsConfig_all() string {
 	config := `resource "meraki_network_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	local_status_page_enabled = true` + "\n"
-	config += `	remote_status_page_enabled = true` + "\n"
-	config += `	local_status_page_authentication_enabled = false` + "\n"
-	config += `	local_status_page_authentication_password = "miles123"` + "\n"
-	config += `	named_vlans_enabled = true` + "\n"
-	config += `	secure_port_enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  local_status_page_enabled = true` + "\n"
+	config += `  remote_status_page_enabled = true` + "\n"
+	config += `  local_status_page_authentication_enabled = false` + "\n"
+	config += `  local_status_page_authentication_password = "miles123"` + "\n"
+	config += `  named_vlans_enabled = true` + "\n"
+	config += `  secure_port_enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }

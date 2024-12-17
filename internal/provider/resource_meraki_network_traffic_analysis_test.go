@@ -104,8 +104,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkTrafficAnalysisConfig_minimum() string {
 	config := `resource "meraki_network_traffic_analysis" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mode = "disabled"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mode = "disabled"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -116,13 +116,13 @@ func testAccMerakiNetworkTrafficAnalysisConfig_minimum() string {
 
 func testAccMerakiNetworkTrafficAnalysisConfig_all() string {
 	config := `resource "meraki_network_traffic_analysis" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mode = "basic"` + "\n"
-	config += `	custom_pie_chart_items = [{` + "\n"
-	config += `		name = "Item from hostname"` + "\n"
-	config += `		type = "host"` + "\n"
-	config += `		value = "example.com"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mode = "basic"` + "\n"
+	config += `  custom_pie_chart_items = [{` + "\n"
+	config += `    name = "Item from hostname"` + "\n"
+	config += `    type = "host"` + "\n"
+	config += `    value = "example.com"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

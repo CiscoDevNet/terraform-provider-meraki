@@ -103,11 +103,11 @@ resource "meraki_network" "test" {
 
 func testAccMerakiSwitchDSCPToCoSMappingsConfig_minimum() string {
 	config := `resource "meraki_switch_dscp_to_cos_mappings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mappings = [{` + "\n"
-	config += `		cos = 1` + "\n"
-	config += `		dscp = 1` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mappings = [{` + "\n"
+	config += `    cos = 1` + "\n"
+	config += `    dscp = 1` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,12 +118,12 @@ func testAccMerakiSwitchDSCPToCoSMappingsConfig_minimum() string {
 
 func testAccMerakiSwitchDSCPToCoSMappingsConfig_all() string {
 	config := `resource "meraki_switch_dscp_to_cos_mappings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mappings = [{` + "\n"
-	config += `		cos = 1` + "\n"
-	config += `		dscp = 1` + "\n"
-	config += `		title = "Video"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mappings = [{` + "\n"
+	config += `    cos = 1` + "\n"
+	config += `    dscp = 1` + "\n"
+	config += `    title = "Video"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -108,9 +108,9 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiSwitchStackConfig_minimum() string {
 	config := `resource "meraki_switch_stack" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	name = "A cool stack"` + "\n"
-	config += `	serials = meraki_network_device_claim.test.serials` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  name = "A cool stack"` + "\n"
+	config += `  serials = meraki_network_device_claim.test.serials` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -121,9 +121,9 @@ func testAccMerakiSwitchStackConfig_minimum() string {
 
 func testAccMerakiSwitchStackConfig_all() string {
 	config := `resource "meraki_switch_stack" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	name = "A cool stack"` + "\n"
-	config += `	serials = meraki_network_device_claim.test.serials` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  name = "A cool stack"` + "\n"
+	config += `  serials = meraki_network_device_claim.test.serials` + "\n"
 	config += `}` + "\n"
 	return config
 }

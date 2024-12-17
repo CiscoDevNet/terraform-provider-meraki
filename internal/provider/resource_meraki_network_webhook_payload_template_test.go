@@ -105,9 +105,9 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkWebhookPayloadTemplateConfig_minimum() string {
 	config := `resource "meraki_network_webhook_payload_template" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	body = "{}"` + "\n"
-	config += `	name = "Custom Template"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  body = "{}"` + "\n"
+	config += `  name = "Custom Template"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,13 +118,13 @@ func testAccMerakiNetworkWebhookPayloadTemplateConfig_minimum() string {
 
 func testAccMerakiNetworkWebhookPayloadTemplateConfig_all() string {
 	config := `resource "meraki_network_webhook_payload_template" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
-	config += `	name = "Custom Template"` + "\n"
-	config += `	headers = [{` + "\n"
-	config += `		name = "Authorization"` + "\n"
-	config += `		template = "Bearer {{sharedSecret}}"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
+	config += `  name = "Custom Template"` + "\n"
+	config += `  headers = [{` + "\n"
+	config += `    name = "Authorization"` + "\n"
+	config += `    template = "Bearer {{sharedSecret}}"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

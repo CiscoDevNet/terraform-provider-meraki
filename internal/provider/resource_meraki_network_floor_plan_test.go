@@ -102,11 +102,11 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkFloorPlanConfig_minimum() string {
 	config := `resource "meraki_network_floor_plan" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
-	config += `	name = "HQ Floor Plan"` + "\n"
-	config += `	center_lat = 37.770040510499996` + "\n"
-	config += `	center_lng = -122.38714009525` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
+	config += `  name = "HQ Floor Plan"` + "\n"
+	config += `  center_lat = 37.770040510499996` + "\n"
+	config += `  center_lng = -122.38714009525` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -117,17 +117,17 @@ func testAccMerakiNetworkFloorPlanConfig_minimum() string {
 
 func testAccMerakiNetworkFloorPlanConfig_all() string {
 	config := `resource "meraki_network_floor_plan" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
-	config += `	name = "HQ Floor Plan"` + "\n"
-	config += `	bottom_left_corner_lat = 37.770040510499996` + "\n"
-	config += `	bottom_left_corner_lng = -122.38714009525` + "\n"
-	config += `	bottom_right_corner_lat = 37.770040510499996` + "\n"
-	config += `	bottom_right_corner_lng = -121.38714009525` + "\n"
-	config += `	top_left_corner_lat = 38.770040510499996` + "\n"
-	config += `	top_left_corner_lng = -122.38714009525` + "\n"
-	config += `	top_right_corner_lat = 38.770040510499996` + "\n"
-	config += `	top_right_corner_lng = -121.38714009525` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
+	config += `  name = "HQ Floor Plan"` + "\n"
+	config += `  bottom_left_corner_lat = 37.770040510499996` + "\n"
+	config += `  bottom_left_corner_lng = -122.38714009525` + "\n"
+	config += `  bottom_right_corner_lat = 37.770040510499996` + "\n"
+	config += `  bottom_right_corner_lng = -121.38714009525` + "\n"
+	config += `  top_left_corner_lat = 38.770040510499996` + "\n"
+	config += `  top_left_corner_lng = -122.38714009525` + "\n"
+	config += `  top_right_corner_lat = 38.770040510499996` + "\n"
+	config += `  top_right_corner_lng = -121.38714009525` + "\n"
 	config += `}` + "\n"
 	return config
 }

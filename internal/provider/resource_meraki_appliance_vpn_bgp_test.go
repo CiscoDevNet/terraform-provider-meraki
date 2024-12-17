@@ -121,8 +121,8 @@ resource "meraki_appliance_site_to_site_vpn" "test" {
 
 func testAccMerakiApplianceVPNBGPConfig_minimum() string {
 	config := `resource "meraki_appliance_vpn_bgp" "test" {` + "\n"
-	config += `	network_id = meraki_appliance_site_to_site_vpn.test.network_id` + "\n"
-	config += `	enabled = true` + "\n"
+	config += `  network_id = meraki_appliance_site_to_site_vpn.test.network_id` + "\n"
+	config += `  enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -133,23 +133,23 @@ func testAccMerakiApplianceVPNBGPConfig_minimum() string {
 
 func testAccMerakiApplianceVPNBGPConfig_all() string {
 	config := `resource "meraki_appliance_vpn_bgp" "test" {` + "\n"
-	config += `	network_id = meraki_appliance_site_to_site_vpn.test.network_id` + "\n"
-	config += `	as_number = 64515` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	ibgp_hold_timer = 120` + "\n"
-	config += `	neighbors = [{` + "\n"
-	config += `		allow_transit = true` + "\n"
-	config += `		ebgp_hold_timer = 180` + "\n"
-	config += `		ebgp_multihop = 2` + "\n"
-	config += `		ip = "10.10.10.22"` + "\n"
-	config += `		next_hop_ip = "1.2.3.4"` + "\n"
-	config += `		receive_limit = 120` + "\n"
-	config += `		remote_as_number = 64343` + "\n"
-	config += `		source_interface = "wan1"` + "\n"
-	config += `		authentication_password = "abc123"` + "\n"
-	config += `		ipv6_address = "2002::1234:abcd:ffff:c0a8:101"` + "\n"
-	config += `		ttl_security_enabled = false` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_appliance_site_to_site_vpn.test.network_id` + "\n"
+	config += `  as_number = 64515` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  ibgp_hold_timer = 120` + "\n"
+	config += `  neighbors = [{` + "\n"
+	config += `    allow_transit = true` + "\n"
+	config += `    ebgp_hold_timer = 180` + "\n"
+	config += `    ebgp_multihop = 2` + "\n"
+	config += `    ip = "10.10.10.22"` + "\n"
+	config += `    next_hop_ip = "1.2.3.4"` + "\n"
+	config += `    receive_limit = 120` + "\n"
+	config += `    remote_as_number = 64343` + "\n"
+	config += `    source_interface = "wan1"` + "\n"
+	config += `    authentication_password = "abc123"` + "\n"
+	config += `    ipv6_address = "2002::1234:abcd:ffff:c0a8:101"` + "\n"
+	config += `    ttl_security_enabled = false` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

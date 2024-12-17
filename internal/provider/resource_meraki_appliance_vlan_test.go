@@ -115,11 +115,11 @@ resource "meraki_appliance_vlans_settings" "test" {
 
 func testAccMerakiApplianceVLANConfig_minimum() string {
 	config := `resource "meraki_appliance_vlan" "test" {` + "\n"
-	config += `	network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
-	config += `	appliance_ip = "192.168.1.2"` + "\n"
-	config += `	vlan_id = "1234"` + "\n"
-	config += `	name = "My VLAN"` + "\n"
-	config += `	subnet = "192.168.1.0/24"` + "\n"
+	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
+	config += `  appliance_ip = "192.168.1.2"` + "\n"
+	config += `  vlan_id = "1234"` + "\n"
+	config += `  name = "My VLAN"` + "\n"
+	config += `  subnet = "192.168.1.0/24"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -130,17 +130,17 @@ func testAccMerakiApplianceVLANConfig_minimum() string {
 
 func testAccMerakiApplianceVLANConfig_all() string {
 	config := `resource "meraki_appliance_vlan" "test" {` + "\n"
-	config += `	network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
-	config += `	appliance_ip = "192.168.1.2"` + "\n"
-	config += `	dhcp_boot_options_enabled = false` + "\n"
-	config += `	dhcp_handling = "Run a DHCP server"` + "\n"
-	config += `	dhcp_lease_time = "1 day"` + "\n"
-	config += `	dns_nameservers = "upstream_dns"` + "\n"
-	config += `	vlan_id = "1234"` + "\n"
-	config += `	name = "My VLAN"` + "\n"
-	config += `	subnet = "192.168.1.0/24"` + "\n"
-	config += `	ipv6_enabled = true` + "\n"
-	config += `	mandatory_dhcp_enabled = true` + "\n"
+	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
+	config += `  appliance_ip = "192.168.1.2"` + "\n"
+	config += `  dhcp_boot_options_enabled = false` + "\n"
+	config += `  dhcp_handling = "Run a DHCP server"` + "\n"
+	config += `  dhcp_lease_time = "1 day"` + "\n"
+	config += `  dns_nameservers = "upstream_dns"` + "\n"
+	config += `  vlan_id = "1234"` + "\n"
+	config += `  name = "My VLAN"` + "\n"
+	config += `  subnet = "192.168.1.0/24"` + "\n"
+	config += `  ipv6_enabled = true` + "\n"
+	config += `  mandatory_dhcp_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }

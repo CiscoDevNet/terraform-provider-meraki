@@ -118,7 +118,7 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiDeviceCellularSIMsConfig_minimum() string {
 	config := `resource "meraki_device_cellular_sims" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -129,22 +129,22 @@ func testAccMerakiDeviceCellularSIMsConfig_minimum() string {
 
 func testAccMerakiDeviceCellularSIMsConfig_all() string {
 	config := `resource "meraki_device_cellular_sims" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	sim_failover_enabled = true` + "\n"
-	config += `	sim_failover_timeout = 300` + "\n"
-	config += `	sim_ordering = ["sim1"]` + "\n"
-	config += `	sims = [{` + "\n"
-	config += `		is_primary = false` + "\n"
-	config += `		sim_order = 3` + "\n"
-	config += `		slot = "sim1"` + "\n"
-	config += `		apns = [{` + "\n"
-	config += `			name = "internet"` + "\n"
-	config += `			authentication_password = "secret"` + "\n"
-	config += `			authentication_type = "pap"` + "\n"
-	config += `			authentication_username = "milesmeraki"` + "\n"
-	config += `			allowed_ip_types = ["ipv4"]` + "\n"
-	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  sim_failover_enabled = true` + "\n"
+	config += `  sim_failover_timeout = 300` + "\n"
+	config += `  sim_ordering = ["sim1"]` + "\n"
+	config += `  sims = [{` + "\n"
+	config += `    is_primary = false` + "\n"
+	config += `    sim_order = 3` + "\n"
+	config += `    slot = "sim1"` + "\n"
+	config += `    apns = [{` + "\n"
+	config += `      name = "internet"` + "\n"
+	config += `      authentication_password = "secret"` + "\n"
+	config += `      authentication_type = "pap"` + "\n"
+	config += `      authentication_username = "milesmeraki"` + "\n"
+	config += `      allowed_ip_types = ["ipv4"]` + "\n"
+	config += `    }]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

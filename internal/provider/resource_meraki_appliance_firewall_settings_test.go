@@ -101,8 +101,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceFirewallSettingsConfig_minimum() string {
 	config := `resource "meraki_appliance_firewall_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	spoofing_protection_ip_source_guard_mode = "log"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  spoofing_protection_ip_source_guard_mode = "log"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -113,8 +113,8 @@ func testAccMerakiApplianceFirewallSettingsConfig_minimum() string {
 
 func testAccMerakiApplianceFirewallSettingsConfig_all() string {
 	config := `resource "meraki_appliance_firewall_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	spoofing_protection_ip_source_guard_mode = "block"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  spoofing_protection_ip_source_guard_mode = "block"` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -105,9 +105,9 @@ resource "meraki_network" "test" {
 
 func testAccMerakiAppliancePrefixDelegatedStaticConfig_minimum() string {
 	config := `resource "meraki_appliance_prefix_delegated_static" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	prefix = "2002:db8:3c4d:15::/64"` + "\n"
-	config += `	origin_type = "independent"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  prefix = "2002:db8:3c4d:15::/64"` + "\n"
+	config += `  origin_type = "independent"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,11 +118,11 @@ func testAccMerakiAppliancePrefixDelegatedStaticConfig_minimum() string {
 
 func testAccMerakiAppliancePrefixDelegatedStaticConfig_all() string {
 	config := `resource "meraki_appliance_prefix_delegated_static" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	description = "Prefix on WAN 1 of Long Island Office network"` + "\n"
-	config += `	prefix = "2002:db8:3c4d:15::/64"` + "\n"
-	config += `	origin_type = "internet"` + "\n"
-	config += `	origin_interfaces = ["wan1"]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  description = "Prefix on WAN 1 of Long Island Office network"` + "\n"
+	config += `  prefix = "2002:db8:3c4d:15::/64"` + "\n"
+	config += `  origin_type = "internet"` + "\n"
+	config += `  origin_interfaces = ["wan1"]` + "\n"
 	config += `}` + "\n"
 	return config
 }

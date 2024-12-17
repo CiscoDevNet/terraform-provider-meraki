@@ -117,12 +117,12 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiSwitchRoutingInterfaceConfig_minimum() string {
 	config := `resource "meraki_switch_routing_interface" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	default_gateway = "192.168.1.1"` + "\n"
-	config += `	interface_ip = "192.168.1.2"` + "\n"
-	config += `	name = "L3 interface"` + "\n"
-	config += `	subnet = "192.168.1.0/24"` + "\n"
-	config += `	vlan_id = 100` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  default_gateway = "192.168.1.1"` + "\n"
+	config += `  interface_ip = "192.168.1.2"` + "\n"
+	config += `  name = "L3 interface"` + "\n"
+	config += `  subnet = "192.168.1.0/24"` + "\n"
+	config += `  vlan_id = 100` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -133,18 +133,18 @@ func testAccMerakiSwitchRoutingInterfaceConfig_minimum() string {
 
 func testAccMerakiSwitchRoutingInterfaceConfig_all() string {
 	config := `resource "meraki_switch_routing_interface" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	default_gateway = "192.168.1.1"` + "\n"
-	config += `	interface_ip = "192.168.1.2"` + "\n"
-	config += `	multicast_routing = "disabled"` + "\n"
-	config += `	name = "L3 interface"` + "\n"
-	config += `	subnet = "192.168.1.0/24"` + "\n"
-	config += `	vlan_id = 100` + "\n"
-	config += `	ipv6_address = "1:2:3:4::1"` + "\n"
-	config += `	ipv6_assignment_mode = "static"` + "\n"
-	config += `	ipv6_gateway = "1:2:3:4::2"` + "\n"
-	config += `	ipv6_prefix = "1:2:3:4::/64"` + "\n"
-	config += `	ospf_settings_area = "ospfDisabled"` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  default_gateway = "192.168.1.1"` + "\n"
+	config += `  interface_ip = "192.168.1.2"` + "\n"
+	config += `  multicast_routing = "disabled"` + "\n"
+	config += `  name = "L3 interface"` + "\n"
+	config += `  subnet = "192.168.1.0/24"` + "\n"
+	config += `  vlan_id = 100` + "\n"
+	config += `  ipv6_address = "1:2:3:4::1"` + "\n"
+	config += `  ipv6_assignment_mode = "static"` + "\n"
+	config += `  ipv6_gateway = "1:2:3:4::2"` + "\n"
+	config += `  ipv6_prefix = "1:2:3:4::/64"` + "\n"
+	config += `  ospf_settings_area = "ospfDisabled"` + "\n"
 	config += `}` + "\n"
 	return config
 }

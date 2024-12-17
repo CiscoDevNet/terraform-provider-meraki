@@ -107,11 +107,11 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceOneToOneNATRulesConfig_minimum() string {
 	config := `resource "meraki_appliance_one_to_one_nat_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		lan_ip = "192.168.128.22"` + "\n"
-	config += `		public_ip = "146.12.3.33"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    lan_ip = "192.168.128.22"` + "\n"
+	config += `    public_ip = "146.12.3.33"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -122,18 +122,18 @@ func testAccMerakiApplianceOneToOneNATRulesConfig_minimum() string {
 
 func testAccMerakiApplianceOneToOneNATRulesConfig_all() string {
 	config := `resource "meraki_appliance_one_to_one_nat_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		lan_ip = "192.168.128.22"` + "\n"
-	config += `		name = "Service behind NAT"` + "\n"
-	config += `		public_ip = "146.12.3.33"` + "\n"
-	config += `		uplink = "internet1"` + "\n"
-	config += `		allowed_inbound = [{` + "\n"
-	config += `			protocol = "tcp"` + "\n"
-	config += `			allowed_ips = ["10.82.112.0/24"]` + "\n"
-	config += `			destination_ports = ["80"]` + "\n"
-	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    lan_ip = "192.168.128.22"` + "\n"
+	config += `    name = "Service behind NAT"` + "\n"
+	config += `    public_ip = "146.12.3.33"` + "\n"
+	config += `    uplink = "internet1"` + "\n"
+	config += `    allowed_inbound = [{` + "\n"
+	config += `      protocol = "tcp"` + "\n"
+	config += `      allowed_ips = ["10.82.112.0/24"]` + "\n"
+	config += `      destination_ports = ["80"]` + "\n"
+	config += `    }]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

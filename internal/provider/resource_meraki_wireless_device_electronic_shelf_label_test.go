@@ -112,9 +112,9 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiWirelessDeviceElectronicShelfLabelConfig_minimum() string {
 	config := `resource "meraki_wireless_device_electronic_shelf_label" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	channel = "1"` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  channel = "1"` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -125,9 +125,9 @@ func testAccMerakiWirelessDeviceElectronicShelfLabelConfig_minimum() string {
 
 func testAccMerakiWirelessDeviceElectronicShelfLabelConfig_all() string {
 	config := `resource "meraki_wireless_device_electronic_shelf_label" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	channel = "1"` + "\n"
-	config += `	enabled = true` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  channel = "1"` + "\n"
+	config += `  enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -88,7 +88,7 @@ func merakiOrganizationImportStateIdFunc(resourceName string) resource.ImportSta
 
 func testAccMerakiOrganizationConfig_minimum() string {
 	config := `resource "meraki_organization" "test" {` + "\n"
-	config += `	name = "My organization"` + "\n"
+	config += `  name = "My organization"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -99,11 +99,11 @@ func testAccMerakiOrganizationConfig_minimum() string {
 
 func testAccMerakiOrganizationConfig_all() string {
 	config := `resource "meraki_organization" "test" {` + "\n"
-	config += `	name = "My organization"` + "\n"
-	config += `	management_details = [{` + "\n"
-	config += `		name = "MSP ID"` + "\n"
-	config += `		value = "123456"` + "\n"
-	config += `	}]` + "\n"
+	config += `  name = "My organization"` + "\n"
+	config += `  management_details = [{` + "\n"
+	config += `    name = "MSP ID"` + "\n"
+	config += `    value = "123456"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

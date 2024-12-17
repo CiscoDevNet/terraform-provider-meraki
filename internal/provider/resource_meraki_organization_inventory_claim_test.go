@@ -98,8 +98,8 @@ data "meraki_organization" "test" {
 
 func testAccMerakiOrganizationInventoryClaimConfig_minimum() string {
 	config := `resource "meraki_organization_inventory_claim" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	serials = [var.test_claim_serial_1]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  serials = [var.test_claim_serial_1]` + "\n"
 	config += `}` + "\n"
 	return config
 }

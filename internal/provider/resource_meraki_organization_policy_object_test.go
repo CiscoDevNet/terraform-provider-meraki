@@ -99,11 +99,11 @@ data "meraki_organization" "test" {
 
 func testAccMerakiOrganizationPolicyObjectConfig_minimum() string {
 	config := `resource "meraki_organization_policy_object" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	category = "network"` + "\n"
-	config += `	cidr = "10.0.1.0/24"` + "\n"
-	config += `	name = "Web Servers - Datacenter 10"` + "\n"
-	config += `	type = "cidr"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  category = "network"` + "\n"
+	config += `  cidr = "10.0.1.0/24"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  type = "cidr"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -114,11 +114,11 @@ func testAccMerakiOrganizationPolicyObjectConfig_minimum() string {
 
 func testAccMerakiOrganizationPolicyObjectConfig_all() string {
 	config := `resource "meraki_organization_policy_object" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	category = "network"` + "\n"
-	config += `	cidr = "10.0.0.0/24"` + "\n"
-	config += `	name = "Web Servers - Datacenter 10"` + "\n"
-	config += `	type = "cidr"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  category = "network"` + "\n"
+	config += `  cidr = "10.0.0.0/24"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  type = "cidr"` + "\n"
 	config += `}` + "\n"
 	return config
 }

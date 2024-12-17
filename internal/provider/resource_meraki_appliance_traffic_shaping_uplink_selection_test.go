@@ -115,8 +115,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiApplianceTrafficShapingUplinkSelectionConfig_minimum() string {
 	config := `resource "meraki_appliance_traffic_shaping_uplink_selection" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	default_uplink = "wan2"` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  default_uplink = "wan2"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -127,21 +127,21 @@ func testAccMerakiApplianceTrafficShapingUplinkSelectionConfig_minimum() string 
 
 func testAccMerakiApplianceTrafficShapingUplinkSelectionConfig_all() string {
 	config := `resource "meraki_appliance_traffic_shaping_uplink_selection" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	default_uplink = "wan1"` + "\n"
-	config += `	load_balancing_enabled = true` + "\n"
-	config += `	failover_and_failback_immediate_enabled = true` + "\n"
-	config += `	wan_traffic_uplink_preferences = [{` + "\n"
-	config += `		preferred_uplink = "wan1"` + "\n"
-	config += `		traffic_filters = [{` + "\n"
-	config += `			type = "custom"` + "\n"
-	config += `			protocol = "tcp"` + "\n"
-	config += `			destination_cidr = "any"` + "\n"
-	config += `			destination_port = "any"` + "\n"
-	config += `			source_cidr = "any"` + "\n"
-	config += `			source_port = "1-1024"` + "\n"
-	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  default_uplink = "wan1"` + "\n"
+	config += `  load_balancing_enabled = true` + "\n"
+	config += `  failover_and_failback_immediate_enabled = true` + "\n"
+	config += `  wan_traffic_uplink_preferences = [{` + "\n"
+	config += `    preferred_uplink = "wan1"` + "\n"
+	config += `    traffic_filters = [{` + "\n"
+	config += `      type = "custom"` + "\n"
+	config += `      protocol = "tcp"` + "\n"
+	config += `      destination_cidr = "any"` + "\n"
+	config += `      destination_port = "any"` + "\n"
+	config += `      source_cidr = "any"` + "\n"
+	config += `      source_port = "1-1024"` + "\n"
+	config += `    }]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

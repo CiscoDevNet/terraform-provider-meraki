@@ -101,8 +101,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceVLANsSettingsConfig_minimum() string {
 	config := `resource "meraki_appliance_vlans_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	vlans_enabled = true` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  vlans_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -113,8 +113,8 @@ func testAccMerakiApplianceVLANsSettingsConfig_minimum() string {
 
 func testAccMerakiApplianceVLANsSettingsConfig_all() string {
 	config := `resource "meraki_appliance_vlans_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	vlans_enabled = true` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  vlans_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }

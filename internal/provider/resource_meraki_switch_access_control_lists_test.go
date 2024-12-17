@@ -109,13 +109,13 @@ resource "meraki_network" "test" {
 
 func testAccMerakiSwitchAccessControlListsConfig_minimum() string {
 	config := `resource "meraki_switch_access_control_lists" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		dst_cidr = "172.16.3.0/24"` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		src_cidr = "10.1.10.0/24"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    dst_cidr = "172.16.3.0/24"` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    src_cidr = "10.1.10.0/24"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -126,18 +126,18 @@ func testAccMerakiSwitchAccessControlListsConfig_minimum() string {
 
 func testAccMerakiSwitchAccessControlListsConfig_all() string {
 	config := `resource "meraki_switch_access_control_lists" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		comment = "Deny SSH"` + "\n"
-	config += `		dst_cidr = "172.16.3.0/24"` + "\n"
-	config += `		dst_port = "22"` + "\n"
-	config += `		ip_version = "ipv4"` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		src_cidr = "10.1.10.0/24"` + "\n"
-	config += `		src_port = "any"` + "\n"
-	config += `		vlan = "10"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    comment = "Deny SSH"` + "\n"
+	config += `    dst_cidr = "172.16.3.0/24"` + "\n"
+	config += `    dst_port = "22"` + "\n"
+	config += `    ip_version = "ipv4"` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    src_cidr = "10.1.10.0/24"` + "\n"
+	config += `    src_port = "any"` + "\n"
+	config += `    vlan = "10"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

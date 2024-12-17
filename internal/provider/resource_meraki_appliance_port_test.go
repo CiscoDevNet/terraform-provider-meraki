@@ -116,9 +116,9 @@ resource "meraki_appliance_vlans_settings" "test" {
 
 func testAccMerakiAppliancePortConfig_minimum() string {
 	config := `resource "meraki_appliance_port" "test" {` + "\n"
-	config += `	network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
-	config += `	port_id = "12"` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
+	config += `  port_id = "12"` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -129,13 +129,13 @@ func testAccMerakiAppliancePortConfig_minimum() string {
 
 func testAccMerakiAppliancePortConfig_all() string {
 	config := `resource "meraki_appliance_port" "test" {` + "\n"
-	config += `	network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
-	config += `	port_id = "12"` + "\n"
-	config += `	access_policy = "open"` + "\n"
-	config += `	drop_untagged_traffic = false` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	type = "access"` + "\n"
-	config += `	vlan = 1` + "\n"
+	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
+	config += `  port_id = "12"` + "\n"
+	config += `  access_policy = "open"` + "\n"
+	config += `  drop_untagged_traffic = false` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  type = "access"` + "\n"
+	config += `  vlan = 1` + "\n"
 	config += `}` + "\n"
 	return config
 }

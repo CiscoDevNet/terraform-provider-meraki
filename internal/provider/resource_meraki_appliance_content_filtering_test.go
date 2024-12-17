@@ -100,8 +100,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceContentFilteringConfig_minimum() string {
 	config := `resource "meraki_appliance_content_filtering" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	blocked_url_patterns = ["http://www.test.com"]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  blocked_url_patterns = ["http://www.test.com"]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -112,11 +112,11 @@ func testAccMerakiApplianceContentFilteringConfig_minimum() string {
 
 func testAccMerakiApplianceContentFilteringConfig_all() string {
 	config := `resource "meraki_appliance_content_filtering" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	url_category_list_size = "topSites"` + "\n"
-	config += `	allowed_url_patterns = ["http://www.example.org"]` + "\n"
-	config += `	blocked_url_categories = ["meraki:contentFiltering/category/C1"]` + "\n"
-	config += `	blocked_url_patterns = ["http://www.example.com"]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  url_category_list_size = "topSites"` + "\n"
+	config += `  allowed_url_patterns = ["http://www.example.org"]` + "\n"
+	config += `  blocked_url_categories = ["meraki:contentFiltering/category/C1"]` + "\n"
+	config += `  blocked_url_patterns = ["http://www.example.com"]` + "\n"
 	config += `}` + "\n"
 	return config
 }

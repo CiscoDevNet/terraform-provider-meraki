@@ -107,14 +107,14 @@ resource "meraki_network" "test" {
 
 func testAccMerakiAppliancePortForwardingRulesConfig_minimum() string {
 	config := `resource "meraki_appliance_port_forwarding_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		lan_ip = "192.168.128.1"` + "\n"
-	config += `		local_port = "442-443"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		public_port = "8100-8101"` + "\n"
-	config += `		allowed_ips = ["any"]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    lan_ip = "192.168.128.1"` + "\n"
+	config += `    local_port = "442-443"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    public_port = "8100-8101"` + "\n"
+	config += `    allowed_ips = ["any"]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -125,16 +125,16 @@ func testAccMerakiAppliancePortForwardingRulesConfig_minimum() string {
 
 func testAccMerakiAppliancePortForwardingRulesConfig_all() string {
 	config := `resource "meraki_appliance_port_forwarding_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		lan_ip = "192.168.128.1"` + "\n"
-	config += `		local_port = "442-443"` + "\n"
-	config += `		name = "Description of Port Forwarding Rule"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		public_port = "8100-8101"` + "\n"
-	config += `		uplink = "both"` + "\n"
-	config += `		allowed_ips = ["any"]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    lan_ip = "192.168.128.1"` + "\n"
+	config += `    local_port = "442-443"` + "\n"
+	config += `    name = "Description of Port Forwarding Rule"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    public_port = "8100-8101"` + "\n"
+	config += `    uplink = "both"` + "\n"
+	config += `    allowed_ips = ["any"]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

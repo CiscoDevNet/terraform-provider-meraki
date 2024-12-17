@@ -110,8 +110,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiApplianceWarmSpareConfig_minimum() string {
 	config := `resource "meraki_appliance_warm_spare" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -122,12 +122,12 @@ func testAccMerakiApplianceWarmSpareConfig_minimum() string {
 
 func testAccMerakiApplianceWarmSpareConfig_all() string {
 	config := `resource "meraki_appliance_warm_spare" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	spare_serial = var.test_appliance_2_serial` + "\n"
-	config += `	uplink_mode = "virtual"` + "\n"
-	config += `	virtual_ip1 = "1.2.3.4"` + "\n"
-	config += `	virtual_ip2 = "2.3.4.5"` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  spare_serial = var.test_appliance_2_serial` + "\n"
+	config += `  uplink_mode = "virtual"` + "\n"
+	config += `  virtual_ip1 = "1.2.3.4"` + "\n"
+	config += `  virtual_ip2 = "2.3.4.5"` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -45,22 +45,22 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- $name := .Name }}
 	{{- range  .Attributes}}
 	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
-	{{- if isNestedListSet .}}
-	{{- $list := .TfName }}
+	{{- if isNestedListSetMap .}}
+	{{- $parent0 := .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	{{- range  .Attributes}}
 	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
-	{{- if isNestedListSet .}}
-	{{- $clist := .TfName }}
+	{{- if isNestedListSetMap .}}
+	{{- $parent1 := .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	{{- range  .Attributes}}
 	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
-	{{- if isNestedListSet .}}
-	{{- $cclist := .TfName }}
+	{{- if isNestedListSetMap .}}
+	{{- $parent2 := .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
@@ -68,10 +68,10 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (not (isSet .))}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{$clist}}.0.{{$cclist}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1 $parent2}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	}
 	{{- else}}
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{$clist}}.0.{{$cclist}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1 $parent2}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	{{- end}}
 	{{- end}}
 	{{- end}}
@@ -81,10 +81,10 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- else if not (isSet .)}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{$clist}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	}
 	{{- else}}
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{$clist}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	{{- end}}
 	{{- end}}
 	{{- end}}
@@ -95,10 +95,10 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- else if not (isSet .)}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	}
 	{{- else}}
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{$list}}.0.{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	{{- end}}
 	{{- end}}
 	{{- end}}
@@ -190,77 +190,101 @@ func testAccMeraki{{camelCase .Name}}Config_minimum() string {
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
 	{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
-	{{- if isNestedListSet .}}
+	{{- if isNestedListSetMap .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
-	config += `	{{.TfName}} = [{` + "\n"
+	{{- if isNestedMap .}}
+	config += `  {{.TfName}} = {"{{.MapKeyExample}}" = {` + "\n"
+	{{- else}}
+	config += `  {{.TfName}} = [{` + "\n"
+	{{- end}}
 		{{- range  .Attributes}}
 		{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
-		{{- if isNestedListSet .}}
+		{{- if isNestedListSetMap .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		{{- end}}
-	config += `		{{.TfName}} = [{` + "\n"
+	    {{- if isNestedMap .}}
+	config += `    {{.TfName}} = {"{{.MapKeyExample}}" = {` + "\n"
+	    {{- else}}
+	config += `    {{.TfName}} = [{` + "\n"
+	    {{- end}}
 			{{- range  .Attributes}}
 			{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
-			{{- if isNestedListSet .}}
+			{{- if isNestedListSetMap .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 			{{- end}}
-	config += `			{{.TfName}} = [{` + "\n"
+	        {{- if isNestedMap .}}
+	config += `      {{.TfName}} = {"{{.MapKeyExample}}" = {` + "\n"
+	        {{- else}}
+	config += `      {{.TfName}} = [{` + "\n"
+	        {{- end}}
 				{{- range  .Attributes}}
 				{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `				{{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+		config += `        {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	}
 				{{- else}}
-	config += `				{{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+	config += `        {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 				{{- end}}
 				{{- end}}
 				{{- end}}
-	config += `			}]` + "\n"
+	        {{- if isNestedMap .}}
+	config += `      }}` + "\n"
+	        {{- else}}
+	config += `      }]` + "\n"
+	        {{- end}}
 			{{- if len .TestTags}}
 	}
 			{{- end}}
 			{{- else}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `		{{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+		config += `    {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	}
 			{{- else}}
-	config += `		{{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+	config += `    {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 			{{- end}}
 			{{- end}}
 			{{- end}}
 			{{- end}}
-	config += `		}]` + "\n"
+	    {{- if isNestedMap .}}
+	config += `    }}` + "\n"
+	    {{- else}}
+	config += `    }]` + "\n"
+	    {{- end}}
 		{{- if len .TestTags}}
 	}
 		{{- end}}
 		{{- else}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `		{{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+		config += `    {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	}
 			{{- else}}
-	config += `		{{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+	config += `    {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 		{{- end}}
 		{{- end}}
 		{{- end}}
 		{{- end}}
-	config += `	}]` + "\n"
-		{{- if len .TestTags}}
+	{{- if isNestedMap .}}
+	config += `  }}` + "\n"
+	{{- else}}
+	config += `  }]` + "\n"
+	{{- end}}
+	{{- if len .TestTags}}
 	}
-		{{- end}}
+	{{- end}}
 	{{- else}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `	{{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+		config += `  {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	}
 	{{- else}}
-	config += `	{{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+	config += `  {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	{{- end}}
 	{{- end}}
 	{{- end}}
@@ -277,77 +301,101 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
 	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
-	{{- if isNestedListSet .}}
+	{{- if isNestedListSetMap .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
-	config += `	{{.TfName}} = [{` + "\n"
+	{{- if isNestedMap .}}
+	config += `  {{.TfName}} = {"{{.MapKeyExample}}" = {` + "\n"
+	{{- else}}
+	config += `  {{.TfName}} = [{` + "\n"
+	{{- end}}
 		{{- range  .Attributes}}
 		{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
-		{{- if isNestedListSet .}}
+		{{- if isNestedListSetMap .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		{{- end}}
-	config += `		{{.TfName}} = [{` + "\n"
+		{{- if isNestedMap .}}
+	config += `    {{.TfName}} = {"{{.MapKeyExample}}" = {` + "\n"
+		{{- else}}
+	config += `    {{.TfName}} = [{` + "\n"
+		{{- end}}
 			{{- range  .Attributes}}
 			{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
-			{{- if isNestedListSet .}}
+			{{- if isNestedListSetMap .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 			{{- end}}
-	config += `			{{.TfName}} = [{` + "\n"
+			{{- if isNestedMap .}}
+	config += `      {{.TfName}} = {"{{.MapKeyExample}}" = {` + "\n"
+			{{- else}}
+	config += `      {{.TfName}} = [{` + "\n"
+			{{- end}}
 				{{- range  .Attributes}}
 				{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `				{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+		config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	}
 				{{- else}}
-	config += `				{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+	config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 				{{- end}}
 				{{- end}}
 				{{- end}}
-	config += `			}]` + "\n"
+			{{- if isNestedMap .}}
+	config += `      }}` + "\n"
+			{{- else}}
+	config += `      }]` + "\n"
+			{{- end}}
 			{{- if len .TestTags}}
 	}
 			{{- end}}
 			{{- else}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+		config += `      {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	}
 			{{- else}}
-	config += `			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+	config += `      {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 			{{- end}}
 			{{- end}}
 			{{- end}}
 			{{- end}}
-	config += `		}]` + "\n"
+		{{- if isNestedMap .}}
+	config += `    }}` + "\n"
+		{{- else}}
+	config += `    }]` + "\n"
+		{{- end}}
 		{{- if len .TestTags}}
 	}
 		{{- end}}
 		{{- else}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `		{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+		config += `    {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	}
 			{{- else}}
-	config += `		{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+	config += `    {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 		{{- end}}
 		{{- end}}
 		{{- end}}
 		{{- end}}
-	config += `	}]` + "\n"
-		{{- if len .TestTags}}
+	{{- if isNestedMap .}}
+	config += `  }}` + "\n"
+	{{- else}}
+	config += `  }]` + "\n"
+	{{- end}}
+	{{- if len .TestTags}}
 	}
-		{{- end}}
+	{{- end}}
 	{{- else}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `	{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+		config += `  {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	}
 	{{- else}}
-	config += `	{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
+	config += `  {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	{{- end}}
 	{{- end}}
 	{{- end}}

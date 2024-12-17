@@ -111,9 +111,9 @@ resource "meraki_wireless_ssid" "test" {
 
 func testAccMerakiWirelessSSIDBonjourForwardingConfig_minimum() string {
 	config := `resource "meraki_wireless_ssid_bonjour_forwarding" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -124,15 +124,15 @@ func testAccMerakiWirelessSSIDBonjourForwardingConfig_minimum() string {
 
 func testAccMerakiWirelessSSIDBonjourForwardingConfig_all() string {
 	config := `resource "meraki_wireless_ssid_bonjour_forwarding" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	exception_enabled = false` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		description = "A simple bonjour rule"` + "\n"
-	config += `		vlan_id = "1"` + "\n"
-	config += `		services = ["All Services"]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  exception_enabled = false` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    description = "A simple bonjour rule"` + "\n"
+	config += `    vlan_id = "1"` + "\n"
+	config += `    services = ["All Services"]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -106,8 +106,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiSwitchWarmSpareConfig_minimum() string {
 	config := `resource "meraki_switch_warm_spare" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,8 +118,8 @@ func testAccMerakiSwitchWarmSpareConfig_minimum() string {
 
 func testAccMerakiSwitchWarmSpareConfig_all() string {
 	config := `resource "meraki_switch_warm_spare" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }

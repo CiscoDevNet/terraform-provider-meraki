@@ -98,7 +98,7 @@ data "meraki_organization" "test" {
 
 func testAccMerakiOrganizationBrandingPoliciesPrioritiesConfig_minimum() string {
 	config := `resource "meraki_organization_branding_policies_priorities" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -109,8 +109,8 @@ func testAccMerakiOrganizationBrandingPoliciesPrioritiesConfig_minimum() string 
 
 func testAccMerakiOrganizationBrandingPoliciesPrioritiesConfig_all() string {
 	config := `resource "meraki_organization_branding_policies_priorities" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	branding_policy_ids = ["123"]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  branding_policy_ids = ["123"]` + "\n"
 	config += `}` + "\n"
 	return config
 }

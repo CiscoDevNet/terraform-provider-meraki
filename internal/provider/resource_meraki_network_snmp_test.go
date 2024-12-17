@@ -103,9 +103,9 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkSNMPConfig_minimum() string {
 	config := `resource "meraki_network_snmp" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	access = "community"` + "\n"
-	config += `	community_string = "sample"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  access = "community"` + "\n"
+	config += `  community_string = "sample"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -116,12 +116,12 @@ func testAccMerakiNetworkSNMPConfig_minimum() string {
 
 func testAccMerakiNetworkSNMPConfig_all() string {
 	config := `resource "meraki_network_snmp" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	access = "users"` + "\n"
-	config += `	users = [{` + "\n"
-	config += `		passphrase = "hunter2"` + "\n"
-	config += `		username = "AzureDiamond"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  access = "users"` + "\n"
+	config += `  users = [{` + "\n"
+	config += `    passphrase = "hunter2"` + "\n"
+	config += `    username = "AzureDiamond"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

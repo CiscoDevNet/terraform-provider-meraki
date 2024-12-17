@@ -116,9 +116,9 @@ resource "meraki_switch_routing_interface" "test" {
 
 func testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_minimum() string {
 	config := `resource "meraki_switch_routing_multicast_rendezvous_point" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	interface_ip = meraki_switch_routing_interface.test.interface_ip` + "\n"
-	config += `	multicast_group = "Any"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  interface_ip = meraki_switch_routing_interface.test.interface_ip` + "\n"
+	config += `  multicast_group = "Any"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -129,9 +129,9 @@ func testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_minimum() string {
 
 func testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_all() string {
 	config := `resource "meraki_switch_routing_multicast_rendezvous_point" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	interface_ip = meraki_switch_routing_interface.test.interface_ip` + "\n"
-	config += `	multicast_group = "Any"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  interface_ip = meraki_switch_routing_interface.test.interface_ip` + "\n"
+	config += `  multicast_group = "Any"` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -126,13 +126,13 @@ resource "meraki_organization_adaptive_policy_acl" "test" {
 
 func testAccMerakiOrganizationAdaptivePolicyConfig_minimum() string {
 	config := `resource "meraki_organization_adaptive_policy" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	destination_group_id = meraki_organization_adaptive_policy_group.test.id` + "\n"
-	config += `	destination_group_name = meraki_organization_adaptive_policy_group.test.name` + "\n"
-	config += `	destination_group_sgt = meraki_organization_adaptive_policy_group.test.sgt` + "\n"
-	config += `	source_group_id = meraki_organization_adaptive_policy_group.test.id` + "\n"
-	config += `	source_group_name = meraki_organization_adaptive_policy_group.test.name` + "\n"
-	config += `	source_group_sgt = meraki_organization_adaptive_policy_group.test.sgt` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  destination_group_id = meraki_organization_adaptive_policy_group.test.id` + "\n"
+	config += `  destination_group_name = meraki_organization_adaptive_policy_group.test.name` + "\n"
+	config += `  destination_group_sgt = meraki_organization_adaptive_policy_group.test.sgt` + "\n"
+	config += `  source_group_id = meraki_organization_adaptive_policy_group.test.id` + "\n"
+	config += `  source_group_name = meraki_organization_adaptive_policy_group.test.name` + "\n"
+	config += `  source_group_sgt = meraki_organization_adaptive_policy_group.test.sgt` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -143,18 +143,18 @@ func testAccMerakiOrganizationAdaptivePolicyConfig_minimum() string {
 
 func testAccMerakiOrganizationAdaptivePolicyConfig_all() string {
 	config := `resource "meraki_organization_adaptive_policy" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	last_entry_rule = "allow"` + "\n"
-	config += `	destination_group_id = meraki_organization_adaptive_policy_group.test.id` + "\n"
-	config += `	destination_group_name = meraki_organization_adaptive_policy_group.test.name` + "\n"
-	config += `	destination_group_sgt = meraki_organization_adaptive_policy_group.test.sgt` + "\n"
-	config += `	source_group_id = meraki_organization_adaptive_policy_group.test.id` + "\n"
-	config += `	source_group_name = meraki_organization_adaptive_policy_group.test.name` + "\n"
-	config += `	source_group_sgt = meraki_organization_adaptive_policy_group.test.sgt` + "\n"
-	config += `	acls = [{` + "\n"
-	config += `		id = meraki_organization_adaptive_policy_acl.test.id` + "\n"
-	config += `		name = meraki_organization_adaptive_policy_acl.test.name` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  last_entry_rule = "allow"` + "\n"
+	config += `  destination_group_id = meraki_organization_adaptive_policy_group.test.id` + "\n"
+	config += `  destination_group_name = meraki_organization_adaptive_policy_group.test.name` + "\n"
+	config += `  destination_group_sgt = meraki_organization_adaptive_policy_group.test.sgt` + "\n"
+	config += `  source_group_id = meraki_organization_adaptive_policy_group.test.id` + "\n"
+	config += `  source_group_name = meraki_organization_adaptive_policy_group.test.name` + "\n"
+	config += `  source_group_sgt = meraki_organization_adaptive_policy_group.test.sgt` + "\n"
+	config += `  acls = [{` + "\n"
+	config += `    id = meraki_organization_adaptive_policy_acl.test.id` + "\n"
+	config += `    name = meraki_organization_adaptive_policy_acl.test.name` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

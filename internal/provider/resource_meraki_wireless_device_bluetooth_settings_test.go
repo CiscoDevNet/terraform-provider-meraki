@@ -113,8 +113,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiWirelessDeviceBluetoothSettingsConfig_minimum() string {
 	config := `resource "meraki_wireless_device_bluetooth_settings" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	uuid = "00000000-0000-0000-0000-000000000000"` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  uuid = "00000000-0000-0000-0000-000000000000"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -125,10 +125,10 @@ func testAccMerakiWirelessDeviceBluetoothSettingsConfig_minimum() string {
 
 func testAccMerakiWirelessDeviceBluetoothSettingsConfig_all() string {
 	config := `resource "meraki_wireless_device_bluetooth_settings" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	major = 13` + "\n"
-	config += `	minor = 125` + "\n"
-	config += `	uuid = "00000000-0000-0000-0000-000000000000"` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  major = 13` + "\n"
+	config += `  minor = 125` + "\n"
+	config += `  uuid = "00000000-0000-0000-0000-000000000000"` + "\n"
 	config += `}` + "\n"
 	return config
 }

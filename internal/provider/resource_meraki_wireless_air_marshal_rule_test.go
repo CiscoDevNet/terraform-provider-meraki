@@ -104,10 +104,10 @@ resource "meraki_network" "test" {
 
 func testAccMerakiWirelessAirMarshalRuleConfig_minimum() string {
 	config := `resource "meraki_wireless_air_marshal_rule" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	type = "allow"` + "\n"
-	config += `	match_string = "test"` + "\n"
-	config += `	match_type = "contains"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  type = "allow"` + "\n"
+	config += `  match_string = "test"` + "\n"
+	config += `  match_type = "contains"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,10 +118,10 @@ func testAccMerakiWirelessAirMarshalRuleConfig_minimum() string {
 
 func testAccMerakiWirelessAirMarshalRuleConfig_all() string {
 	config := `resource "meraki_wireless_air_marshal_rule" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	type = "allow"` + "\n"
-	config += `	match_string = "00:11:22:33:44:55"` + "\n"
-	config += `	match_type = "bssid"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  type = "allow"` + "\n"
+	config += `  match_string = "00:11:22:33:44:55"` + "\n"
+	config += `  match_type = "bssid"` + "\n"
 	config += `}` + "\n"
 	return config
 }

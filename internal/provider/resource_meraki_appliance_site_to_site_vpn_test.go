@@ -103,8 +103,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceSiteToSiteVPNConfig_minimum() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mode = "none"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mode = "none"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -115,12 +115,12 @@ func testAccMerakiApplianceSiteToSiteVPNConfig_minimum() string {
 
 func testAccMerakiApplianceSiteToSiteVPNConfig_all() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mode = "hub"` + "\n"
-	config += `	subnets = [{` + "\n"
-	config += `		local_subnet = "192.168.128.0/24"` + "\n"
-	config += `		use_vpn = true` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mode = "hub"` + "\n"
+	config += `  subnets = [{` + "\n"
+	config += `    local_subnet = "192.168.128.0/24"` + "\n"
+	config += `    use_vpn = true` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

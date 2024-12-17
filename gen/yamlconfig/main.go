@@ -92,6 +92,7 @@ type YamlConfigAttribute struct {
 	AllowImportChanges bool                  `yaml:"allow_import_changes,omitempty"`
 	Description        string                `yaml:"description,omitempty"`
 	Example            string                `yaml:"example,omitempty"`
+	MapKeyExample      string                `yaml:"map_key_example,omitempty"`
 	EnumValues         []string              `yaml:"enum_values,omitempty,flow"`
 	MinList            int64                 `yaml:"min_list,omitempty"`
 	MaxList            int64                 `yaml:"max_list,omitempty"`
@@ -131,6 +132,7 @@ type YamlConfigAttributeP struct {
 	AllowImportChanges *bool                   `yaml:"allow_import_changes,omitempty"`
 	Description        *string                 `yaml:"description,omitempty"`
 	Example            *string                 `yaml:"example,omitempty"`
+	MapKeyExample      *string                 `yaml:"map_key_example,omitempty"`
 	EnumValues         *[]string               `yaml:"enum_values,omitempty,flow"`
 	MinList            *int64                  `yaml:"min_list,omitempty"`
 	MaxList            *int64                  `yaml:"max_list,omitempty"`
@@ -286,6 +288,14 @@ func IsNestedListSet(attribute YamlConfigAttribute) bool {
 	return false
 }
 
+// Templating helper function to return true if type is a list, set or map with nested elements
+func IsNestedListSetMap(attribute YamlConfigAttribute) bool {
+	if (attribute.Type == "List" || attribute.Type == "Set" || attribute.Type == "Map") && attribute.ElementType == "" {
+		return true
+	}
+	return false
+}
+
 // Templating helper function to return true if type is a list with nested elements
 func IsNestedList(attribute YamlConfigAttribute) bool {
 	if attribute.Type == "List" && attribute.ElementType == "" {
@@ -297,6 +307,14 @@ func IsNestedList(attribute YamlConfigAttribute) bool {
 // Templating helper function to return true if type is a set with nested elements
 func IsNestedSet(attribute YamlConfigAttribute) bool {
 	if attribute.Type == "Set" && attribute.ElementType == "" {
+		return true
+	}
+	return false
+}
+
+// Templating helper function to return true if type is a map with nested elements
+func IsNestedMap(attribute YamlConfigAttribute) bool {
+	if attribute.Type == "Map" && attribute.ElementType == "" {
 		return true
 	}
 	return false
@@ -377,6 +395,21 @@ func HasComputedAttributes(attributes []YamlConfigAttribute) bool {
 	return false
 }
 
+// Templating helper function to build a test path
+func BuildTestPath(attr ...YamlConfigAttribute) string {
+	var path []string
+	for _, a := range attr {
+		path = append(path, a.TfName)
+		if a.Type == "Map" && a.MapKeyExample != "" {
+			path = append(path, a.MapKeyExample)
+		} else {
+			path = append(path, "0")
+
+		}
+	}
+	return strings.Join(path, ".") + "."
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":              ToGoName,
@@ -395,14 +428,17 @@ var Functions = template.FuncMap{
 	"isStringListSet":       IsStringListSet,
 	"isInt64ListSet":        IsInt64ListSet,
 	"isNestedListSet":       IsNestedListSet,
+	"isNestedListSetMap":    IsNestedListSetMap,
 	"isNestedList":          IsNestedList,
 	"isNestedSet":           IsNestedSet,
+	"isNestedMap":           IsNestedMap,
 	"importParts":           ImportParts,
 	"subtract":              Subtract,
 	"iterate":               Iterate,
 	"getImportExcludes":     GetImportExcludes,
 	"getFullModelName":      GetFullModelName,
 	"hasComputedAttributes": HasComputedAttributes,
+	"buildTestPath":         BuildTestPath,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
@@ -704,6 +740,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.Example != nil {
 		new.Example = existing.Example
+	}
+	if existing.MapKeyExample != nil {
+		new.MapKeyExample = existing.MapKeyExample
 	}
 	if existing.EnumValues != nil {
 		new.EnumValues = existing.EnumValues

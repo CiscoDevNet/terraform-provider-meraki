@@ -109,10 +109,10 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiSwitchAlternateManagementInterfaceConfig_minimum() string {
 	config := `resource "meraki_switch_alternate_management_interface" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	enabled = false` + "\n"
-	config += `	vlan_id = 100` + "\n"
-	config += `	protocols = ["radius"]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  enabled = false` + "\n"
+	config += `  vlan_id = 100` + "\n"
+	config += `  protocols = ["radius"]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -123,16 +123,16 @@ func testAccMerakiSwitchAlternateManagementInterfaceConfig_minimum() string {
 
 func testAccMerakiSwitchAlternateManagementInterfaceConfig_all() string {
 	config := `resource "meraki_switch_alternate_management_interface" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	vlan_id = 100` + "\n"
-	config += `	protocols = ["radius"]` + "\n"
-	config += `	switches = [{` + "\n"
-	config += `		alternate_management_ip = "1.2.3.4"` + "\n"
-	config += `		gateway = "1.2.3.5"` + "\n"
-	config += `		serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `		subnet_mask = "255.255.255.0"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  vlan_id = 100` + "\n"
+	config += `  protocols = ["radius"]` + "\n"
+	config += `  switches = [{` + "\n"
+	config += `    alternate_management_ip = "1.2.3.4"` + "\n"
+	config += `    gateway = "1.2.3.5"` + "\n"
+	config += `    serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `    subnet_mask = "255.255.255.0"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

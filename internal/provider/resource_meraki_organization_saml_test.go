@@ -90,7 +90,7 @@ data "meraki_organization" "test" {
 
 func testAccMerakiOrganizationSAMLConfig_minimum() string {
 	config := `resource "meraki_organization_saml" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -101,8 +101,8 @@ func testAccMerakiOrganizationSAMLConfig_minimum() string {
 
 func testAccMerakiOrganizationSAMLConfig_all() string {
 	config := `resource "meraki_organization_saml" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	enabled = true` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }

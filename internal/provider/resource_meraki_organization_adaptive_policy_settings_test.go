@@ -103,8 +103,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiOrganizationAdaptivePolicySettingsConfig_minimum() string {
 	config := `resource "meraki_organization_adaptive_policy_settings" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	enabled_networks = [meraki_network.test.id]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  enabled_networks = [meraki_network.test.id]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -115,8 +115,8 @@ func testAccMerakiOrganizationAdaptivePolicySettingsConfig_minimum() string {
 
 func testAccMerakiOrganizationAdaptivePolicySettingsConfig_all() string {
 	config := `resource "meraki_organization_adaptive_policy_settings" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	enabled_networks = [meraki_network.test.id]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  enabled_networks = [meraki_network.test.id]` + "\n"
 	config += `}` + "\n"
 	return config
 }

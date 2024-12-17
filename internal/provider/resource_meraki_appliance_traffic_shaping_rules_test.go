@@ -108,7 +108,7 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceTrafficShapingRulesConfig_minimum() string {
 	config := `resource "meraki_appliance_traffic_shaping_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -119,19 +119,19 @@ func testAccMerakiApplianceTrafficShapingRulesConfig_minimum() string {
 
 func testAccMerakiApplianceTrafficShapingRulesConfig_all() string {
 	config := `resource "meraki_appliance_traffic_shaping_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	default_rules_enabled = true` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		dscp_tag_value = 0` + "\n"
-	config += `		priority = "normal"` + "\n"
-	config += `		per_client_bandwidth_limit_settings = "custom"` + "\n"
-	config += `		per_client_bandwidth_limit_down = 1000000` + "\n"
-	config += `		per_client_bandwidth_limit_up = 1000000` + "\n"
-	config += `		definitions = [{` + "\n"
-	config += `			type = "host"` + "\n"
-	config += `			value = "google.com"` + "\n"
-	config += `		}]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  default_rules_enabled = true` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    dscp_tag_value = 0` + "\n"
+	config += `    priority = "normal"` + "\n"
+	config += `    per_client_bandwidth_limit_settings = "custom"` + "\n"
+	config += `    per_client_bandwidth_limit_down = 1000000` + "\n"
+	config += `    per_client_bandwidth_limit_up = 1000000` + "\n"
+	config += `    definitions = [{` + "\n"
+	config += `      type = "host"` + "\n"
+	config += `      value = "google.com"` + "\n"
+	config += `    }]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

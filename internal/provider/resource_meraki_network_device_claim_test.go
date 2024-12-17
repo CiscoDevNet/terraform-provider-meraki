@@ -102,8 +102,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkDeviceClaimConfig_minimum() string {
 	config := `resource "meraki_network_device_claim" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	serials = [var.test_claim_serial_1]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  serials = [var.test_claim_serial_1]` + "\n"
 	config += `}` + "\n"
 	return config
 }

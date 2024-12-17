@@ -43,6 +43,7 @@ attribute:
   allow_import_changes: bool(required=False) # Allow changes to the attribute during import
   description: str(required=False) # Attribute description
   example: any(str(), int(), bool(), required=False) # Example value for documentation, also used for acceptance test
+  map_key_example: str(required=False) # Example value of the map key, only relevant if type is "Map"
   enum_values: list(str(), required=False) # List of enum values, only relevant if type is "String". Null value is instead governed by `mandatory`, never include null here
   min_list: int(required=False) # Minimum number of elements in a list, only relevant if type is "List"
   max_list: int(required=False) # Maximum number of elements in a list, only relevant if type is "List"

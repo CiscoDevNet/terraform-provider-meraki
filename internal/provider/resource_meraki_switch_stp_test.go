@@ -107,8 +107,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiSwitchSTPConfig_minimum() string {
 	config := `resource "meraki_switch_stp" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rstp_enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rstp_enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -119,12 +119,12 @@ func testAccMerakiSwitchSTPConfig_minimum() string {
 
 func testAccMerakiSwitchSTPConfig_all() string {
 	config := `resource "meraki_switch_stp" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rstp_enabled = true` + "\n"
-	config += `	stp_bridge_priority = [{` + "\n"
-	config += `		stp_priority = 4096` + "\n"
-	config += `		switches = [tolist(meraki_network_device_claim.test.serials)[0]]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rstp_enabled = true` + "\n"
+	config += `  stp_bridge_priority = [{` + "\n"
+	config += `    stp_priority = 4096` + "\n"
+	config += `    switches = [tolist(meraki_network_device_claim.test.serials)[0]]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

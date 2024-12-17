@@ -119,8 +119,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiApplianceRFProfileConfig_minimum() string {
 	config := `resource "meraki_appliance_rf_profile" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	name = "MX RF Profile"` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  name = "MX RF Profile"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -131,20 +131,20 @@ func testAccMerakiApplianceRFProfileConfig_minimum() string {
 
 func testAccMerakiApplianceRFProfileConfig_all() string {
 	config := `resource "meraki_appliance_rf_profile" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	name = "MX RF Profile"` + "\n"
-	config += `	five_ghz_settings_ax_enabled = true` + "\n"
-	config += `	five_ghz_settings_min_bitrate = 48` + "\n"
-	config += `	per_ssid_settings_1_band_operation_mode = "dual"` + "\n"
-	config += `	per_ssid_settings_1_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings_2_band_operation_mode = "dual"` + "\n"
-	config += `	per_ssid_settings_2_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings_3_band_operation_mode = "dual"` + "\n"
-	config += `	per_ssid_settings_3_band_steering_enabled = true` + "\n"
-	config += `	per_ssid_settings_4_band_operation_mode = "dual"` + "\n"
-	config += `	per_ssid_settings_4_band_steering_enabled = true` + "\n"
-	config += `	two_four_ghz_settings_ax_enabled = true` + "\n"
-	config += `	two_four_ghz_settings_min_bitrate = 12` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  name = "MX RF Profile"` + "\n"
+	config += `  five_ghz_settings_ax_enabled = true` + "\n"
+	config += `  five_ghz_settings_min_bitrate = 48` + "\n"
+	config += `  per_ssid_settings_1_band_operation_mode = "dual"` + "\n"
+	config += `  per_ssid_settings_1_band_steering_enabled = true` + "\n"
+	config += `  per_ssid_settings_2_band_operation_mode = "dual"` + "\n"
+	config += `  per_ssid_settings_2_band_steering_enabled = true` + "\n"
+	config += `  per_ssid_settings_3_band_operation_mode = "dual"` + "\n"
+	config += `  per_ssid_settings_3_band_steering_enabled = true` + "\n"
+	config += `  per_ssid_settings_4_band_operation_mode = "dual"` + "\n"
+	config += `  per_ssid_settings_4_band_steering_enabled = true` + "\n"
+	config += `  two_four_ghz_settings_ax_enabled = true` + "\n"
+	config += `  two_four_ghz_settings_min_bitrate = 12` + "\n"
 	config += `}` + "\n"
 	return config
 }

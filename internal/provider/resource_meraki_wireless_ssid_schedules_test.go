@@ -111,9 +111,9 @@ resource "meraki_wireless_ssid" "test" {
 
 func testAccMerakiWirelessSSIDSchedulesConfig_minimum() string {
 	config := `resource "meraki_wireless_ssid_schedules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -124,15 +124,15 @@ func testAccMerakiWirelessSSIDSchedulesConfig_minimum() string {
 
 func testAccMerakiWirelessSSIDSchedulesConfig_all() string {
 	config := `resource "meraki_wireless_ssid_schedules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	ranges = [{` + "\n"
-	config += `		end_day = "Tuesday"` + "\n"
-	config += `		end_time = "05:00:00"` + "\n"
-	config += `		start_day = "Tuesday"` + "\n"
-	config += `		start_time = "01:00:00"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  ranges = [{` + "\n"
+	config += `    end_day = "Tuesday"` + "\n"
+	config += `    end_time = "05:00:00"` + "\n"
+	config += `    start_day = "Tuesday"` + "\n"
+	config += `    start_time = "01:00:00"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

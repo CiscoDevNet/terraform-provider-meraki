@@ -104,8 +104,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceSettingsConfig_minimum() string {
 	config := `resource "meraki_appliance_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	dynamic_dns_enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  dynamic_dns_enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -116,11 +116,11 @@ func testAccMerakiApplianceSettingsConfig_minimum() string {
 
 func testAccMerakiApplianceSettingsConfig_all() string {
 	config := `resource "meraki_appliance_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	client_tracking_method = "MAC address"` + "\n"
-	config += `	deployment_mode = "routed"` + "\n"
-	config += `	dynamic_dns_enabled = true` + "\n"
-	config += `	dynamic_dns_prefix = "test"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  client_tracking_method = "MAC address"` + "\n"
+	config += `  deployment_mode = "routed"` + "\n"
+	config += `  dynamic_dns_enabled = true` + "\n"
+	config += `  dynamic_dns_prefix = "test"` + "\n"
 	config += `}` + "\n"
 	return config
 }

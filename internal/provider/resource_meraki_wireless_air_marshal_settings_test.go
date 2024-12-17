@@ -96,8 +96,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiWirelessAirMarshalSettingsConfig_minimum() string {
 	config := `resource "meraki_wireless_air_marshal_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	default_policy = "allow"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  default_policy = "allow"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -108,8 +108,8 @@ func testAccMerakiWirelessAirMarshalSettingsConfig_minimum() string {
 
 func testAccMerakiWirelessAirMarshalSettingsConfig_all() string {
 	config := `resource "meraki_wireless_air_marshal_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	default_policy = "allow"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  default_policy = "allow"` + "\n"
 	config += `}` + "\n"
 	return config
 }

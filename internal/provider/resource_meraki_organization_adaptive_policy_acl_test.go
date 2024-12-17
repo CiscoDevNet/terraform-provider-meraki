@@ -102,13 +102,13 @@ data "meraki_organization" "test" {
 
 func testAccMerakiOrganizationAdaptivePolicyACLConfig_minimum() string {
 	config := `resource "meraki_organization_adaptive_policy_acl" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	ip_version = "ipv6"` + "\n"
-	config += `	name = "Block sensitive web traffic"` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  ip_version = "ipv6"` + "\n"
+	config += `  name = "Block sensitive web traffic"` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -119,16 +119,16 @@ func testAccMerakiOrganizationAdaptivePolicyACLConfig_minimum() string {
 
 func testAccMerakiOrganizationAdaptivePolicyACLConfig_all() string {
 	config := `resource "meraki_organization_adaptive_policy_acl" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	description = "Blocks sensitive web traffic"` + "\n"
-	config += `	ip_version = "ipv6"` + "\n"
-	config += `	name = "Block sensitive web traffic"` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		dst_port = "22-30"` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		src_port = "1,33"` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  description = "Blocks sensitive web traffic"` + "\n"
+	config += `  ip_version = "ipv6"` + "\n"
+	config += `  name = "Block sensitive web traffic"` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    dst_port = "22-30"` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    src_port = "1,33"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

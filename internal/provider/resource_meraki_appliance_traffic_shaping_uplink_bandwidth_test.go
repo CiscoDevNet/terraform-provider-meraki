@@ -111,8 +111,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiApplianceTrafficShapingUplinkBandwidthConfig_minimum() string {
 	config := `resource "meraki_appliance_traffic_shaping_uplink_bandwidth" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	wan1_limit_down = 10000` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  wan1_limit_down = 10000` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -123,13 +123,13 @@ func testAccMerakiApplianceTrafficShapingUplinkBandwidthConfig_minimum() string 
 
 func testAccMerakiApplianceTrafficShapingUplinkBandwidthConfig_all() string {
 	config := `resource "meraki_appliance_traffic_shaping_uplink_bandwidth" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	cellular_limit_down = 100000` + "\n"
-	config += `	cellular_limit_up = 100000` + "\n"
-	config += `	wan1_limit_down = 100000` + "\n"
-	config += `	wan1_limit_up = 100000` + "\n"
-	config += `	wan2_limit_down = 100000` + "\n"
-	config += `	wan2_limit_up = 100000` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  cellular_limit_down = 100000` + "\n"
+	config += `  cellular_limit_up = 100000` + "\n"
+	config += `  wan1_limit_down = 100000` + "\n"
+	config += `  wan1_limit_up = 100000` + "\n"
+	config += `  wan2_limit_down = 100000` + "\n"
+	config += `  wan2_limit_up = 100000` + "\n"
 	config += `}` + "\n"
 	return config
 }

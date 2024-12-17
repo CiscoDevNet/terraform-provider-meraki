@@ -102,7 +102,7 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiSwitchLinkAggregationConfig_minimum() string {
 	config := `resource "meraki_switch_link_aggregation" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }

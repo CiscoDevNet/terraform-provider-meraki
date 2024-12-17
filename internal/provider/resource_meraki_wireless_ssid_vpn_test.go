@@ -115,8 +115,8 @@ resource "meraki_wireless_ssid" "test" {
 
 func testAccMerakiWirelessSSIDVPNConfig_minimum() string {
 	config := `resource "meraki_wireless_ssid_vpn" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -127,21 +127,21 @@ func testAccMerakiWirelessSSIDVPNConfig_minimum() string {
 
 func testAccMerakiWirelessSSIDVPNConfig_all() string {
 	config := `resource "meraki_wireless_ssid_vpn" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	concentrator_network_id = meraki_network.test.id` + "\n"
-	config += `	concentrator_vlan_id = 44` + "\n"
-	config += `	failover_heartbeat_interval = 10` + "\n"
-	config += `	failover_idle_timeout = 30` + "\n"
-	config += `	failover_request_ip = "1.1.1.1"` + "\n"
-	config += `	split_tunnel_enabled = true` + "\n"
-	config += `	split_tunnel_rules = [{` + "\n"
-	config += `		comment = "split tunnel rule 1"` + "\n"
-	config += `		dest_cidr = "1.1.1.1/32"` + "\n"
-	config += `		dest_port = "any"` + "\n"
-	config += `		policy = "allow"` + "\n"
-	config += `		protocol = "Any"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  concentrator_network_id = meraki_network.test.id` + "\n"
+	config += `  concentrator_vlan_id = 44` + "\n"
+	config += `  failover_heartbeat_interval = 10` + "\n"
+	config += `  failover_idle_timeout = 30` + "\n"
+	config += `  failover_request_ip = "1.1.1.1"` + "\n"
+	config += `  split_tunnel_enabled = true` + "\n"
+	config += `  split_tunnel_rules = [{` + "\n"
+	config += `    comment = "split tunnel rule 1"` + "\n"
+	config += `    dest_cidr = "1.1.1.1/32"` + "\n"
+	config += `    dest_port = "any"` + "\n"
+	config += `    policy = "allow"` + "\n"
+	config += `    protocol = "Any"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

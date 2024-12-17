@@ -110,9 +110,9 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiApplianceTrafficShapingCustomPerformanceClassConfig_minimum() string {
 	config := `resource "meraki_appliance_traffic_shaping_custom_performance_class" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	max_jitter = 1000` + "\n"
-	config += `	name = "myCustomPerformanceClass"` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  max_jitter = 1000` + "\n"
+	config += `  name = "myCustomPerformanceClass"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -123,11 +123,11 @@ func testAccMerakiApplianceTrafficShapingCustomPerformanceClassConfig_minimum() 
 
 func testAccMerakiApplianceTrafficShapingCustomPerformanceClassConfig_all() string {
 	config := `resource "meraki_appliance_traffic_shaping_custom_performance_class" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.network_id` + "\n"
-	config += `	max_jitter = 100` + "\n"
-	config += `	max_latency = 100` + "\n"
-	config += `	max_loss_percentage = 5` + "\n"
-	config += `	name = "myCustomPerformanceClass"` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.network_id` + "\n"
+	config += `  max_jitter = 100` + "\n"
+	config += `  max_latency = 100` + "\n"
+	config += `  max_loss_percentage = 5` + "\n"
+	config += `  name = "myCustomPerformanceClass"` + "\n"
 	config += `}` + "\n"
 	return config
 }

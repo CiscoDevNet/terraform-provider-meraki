@@ -106,7 +106,7 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiDeviceManagementInterfaceConfig_minimum() string {
 	config := `resource "meraki_device_management_interface" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -117,13 +117,13 @@ func testAccMerakiDeviceManagementInterfaceConfig_minimum() string {
 
 func testAccMerakiDeviceManagementInterfaceConfig_all() string {
 	config := `resource "meraki_device_management_interface" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	wan1_static_gateway_ip = "1.2.3.1"` + "\n"
-	config += `	wan1_static_ip = "1.2.3.4"` + "\n"
-	config += `	wan1_static_subnet_mask = "255.255.255.0"` + "\n"
-	config += `	wan1_using_static_ip = true` + "\n"
-	config += `	wan1_vlan = 7` + "\n"
-	config += `	wan1_static_dns = ["1.2.3.2"]` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  wan1_static_gateway_ip = "1.2.3.1"` + "\n"
+	config += `  wan1_static_ip = "1.2.3.4"` + "\n"
+	config += `  wan1_static_subnet_mask = "255.255.255.0"` + "\n"
+	config += `  wan1_using_static_ip = true` + "\n"
+	config += `  wan1_vlan = 7` + "\n"
+	config += `  wan1_static_dns = ["1.2.3.2"]` + "\n"
 	config += `}` + "\n"
 	return config
 }

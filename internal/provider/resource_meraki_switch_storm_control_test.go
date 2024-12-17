@@ -108,8 +108,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiSwitchStormControlConfig_minimum() string {
 	config := `resource "meraki_switch_storm_control" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.id` + "\n"
-	config += `	broadcast_threshold = 20` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.id` + "\n"
+	config += `  broadcast_threshold = 20` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -120,10 +120,10 @@ func testAccMerakiSwitchStormControlConfig_minimum() string {
 
 func testAccMerakiSwitchStormControlConfig_all() string {
 	config := `resource "meraki_switch_storm_control" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.id` + "\n"
-	config += `	broadcast_threshold = 30` + "\n"
-	config += `	multicast_threshold = 30` + "\n"
-	config += `	unknown_unicast_threshold = 30` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.id` + "\n"
+	config += `  broadcast_threshold = 30` + "\n"
+	config += `  multicast_threshold = 30` + "\n"
+	config += `  unknown_unicast_threshold = 30` + "\n"
 	config += `}` + "\n"
 	return config
 }

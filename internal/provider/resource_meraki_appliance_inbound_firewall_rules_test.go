@@ -108,13 +108,13 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceInboundFirewallRulesConfig_minimum() string {
 	config := `resource "meraki_appliance_inbound_firewall_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		dest_cidr = "192.168.1.0/24"` + "\n"
-	config += `		policy = "allow"` + "\n"
-	config += `		protocol = "icmp"` + "\n"
-	config += `		src_cidr = "Any"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    dest_cidr = "192.168.1.0/24"` + "\n"
+	config += `    policy = "allow"` + "\n"
+	config += `    protocol = "icmp"` + "\n"
+	config += `    src_cidr = "Any"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -125,17 +125,17 @@ func testAccMerakiApplianceInboundFirewallRulesConfig_minimum() string {
 
 func testAccMerakiApplianceInboundFirewallRulesConfig_all() string {
 	config := `resource "meraki_appliance_inbound_firewall_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
-	config += `		dest_cidr = "192.168.1.0/24"` + "\n"
-	config += `		dest_port = "443"` + "\n"
-	config += `		policy = "allow"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		src_cidr = "Any"` + "\n"
-	config += `		src_port = "Any"` + "\n"
-	config += `		syslog_enabled = false` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
+	config += `    dest_cidr = "192.168.1.0/24"` + "\n"
+	config += `    dest_port = "443"` + "\n"
+	config += `    policy = "allow"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    src_cidr = "Any"` + "\n"
+	config += `    src_port = "Any"` + "\n"
+	config += `    syslog_enabled = false` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

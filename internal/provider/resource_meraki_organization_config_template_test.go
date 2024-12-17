@@ -103,8 +103,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiOrganizationConfigTemplateConfig_minimum() string {
 	config := `resource "meraki_organization_config_template" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "My config template"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  name = "My config template"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -115,10 +115,10 @@ func testAccMerakiOrganizationConfigTemplateConfig_minimum() string {
 
 func testAccMerakiOrganizationConfigTemplateConfig_all() string {
 	config := `resource "meraki_organization_config_template" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	copy_from_network_id = meraki_network.test.id` + "\n"
-	config += `	name = "My config template"` + "\n"
-	config += `	time_zone = "America/Los_Angeles"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  copy_from_network_id = meraki_network.test.id` + "\n"
+	config += `  name = "My config template"` + "\n"
+	config += `  time_zone = "America/Los_Angeles"` + "\n"
 	config += `}` + "\n"
 	return config
 }

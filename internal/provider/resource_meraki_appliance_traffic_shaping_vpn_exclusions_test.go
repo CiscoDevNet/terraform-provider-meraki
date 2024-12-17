@@ -108,7 +108,7 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceTrafficShapingVPNExclusionsConfig_minimum() string {
 	config := `resource "meraki_appliance_traffic_shaping_vpn_exclusions" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -119,16 +119,16 @@ func testAccMerakiApplianceTrafficShapingVPNExclusionsConfig_minimum() string {
 
 func testAccMerakiApplianceTrafficShapingVPNExclusionsConfig_all() string {
 	config := `resource "meraki_appliance_traffic_shaping_vpn_exclusions" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	custom = [{` + "\n"
-	config += `		destination = "192.168.3.0/24"` + "\n"
-	config += `		port = "8000"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `	}]` + "\n"
-	config += `	major_applications = [{` + "\n"
-	config += `		id = "meraki:vpnExclusion/application/2"` + "\n"
-	config += `		name = "Office 365 Sharepoint"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  custom = [{` + "\n"
+	config += `    destination = "192.168.3.0/24"` + "\n"
+	config += `    port = "8000"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `  }]` + "\n"
+	config += `  major_applications = [{` + "\n"
+	config += `    id = "meraki:vpnExclusion/application/2"` + "\n"
+	config += `    name = "Office 365 Sharepoint"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

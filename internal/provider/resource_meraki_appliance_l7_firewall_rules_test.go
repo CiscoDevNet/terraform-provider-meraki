@@ -103,12 +103,12 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceL7FirewallRulesConfig_minimum() string {
 	config := `resource "meraki_appliance_l7_firewall_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		type = "port"` + "\n"
-	config += `		value = "1234"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    type = "port"` + "\n"
+	config += `    value = "1234"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -119,12 +119,12 @@ func testAccMerakiApplianceL7FirewallRulesConfig_minimum() string {
 
 func testAccMerakiApplianceL7FirewallRulesConfig_all() string {
 	config := `resource "meraki_appliance_l7_firewall_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		type = "host"` + "\n"
-	config += `		value = "google.com"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    type = "host"` + "\n"
+	config += `    value = "google.com"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

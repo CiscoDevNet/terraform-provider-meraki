@@ -102,8 +102,8 @@ resource "meraki_network" "test" {
 
 func testAccMerakiWirelessNetworkElectronicShelfLabelConfig_minimum() string {
 	config := `resource "meraki_wireless_network_electronic_shelf_label" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -114,9 +114,9 @@ func testAccMerakiWirelessNetworkElectronicShelfLabelConfig_minimum() string {
 
 func testAccMerakiWirelessNetworkElectronicShelfLabelConfig_all() string {
 	config := `resource "meraki_wireless_network_electronic_shelf_label" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	hostname = "N_24329156"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  hostname = "N_24329156"` + "\n"
 	config += `}` + "\n"
 	return config
 }

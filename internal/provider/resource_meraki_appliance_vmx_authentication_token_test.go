@@ -100,7 +100,7 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccMerakiApplianceVMXAuthenticationTokenConfig_minimum() string {
 	config := `resource "meraki_appliance_vmx_authentication_token" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -111,7 +111,7 @@ func testAccMerakiApplianceVMXAuthenticationTokenConfig_minimum() string {
 
 func testAccMerakiApplianceVMXAuthenticationTokenConfig_all() string {
 	config := `resource "meraki_appliance_vmx_authentication_token" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `}` + "\n"
 	return config
 }

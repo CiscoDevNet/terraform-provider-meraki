@@ -108,10 +108,10 @@ resource "meraki_network" "test" {
 
 func testAccMerakiOrganizationAdminConfig_minimum() string {
 	config := `resource "meraki_organization_admin" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	email = "miles@meraki.com"` + "\n"
-	config += `	name = "Miles Meraki"` + "\n"
-	config += `	org_access = "full"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  email = "miles@meraki.com"` + "\n"
+	config += `  name = "Miles Meraki"` + "\n"
+	config += `  org_access = "full"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -122,19 +122,19 @@ func testAccMerakiOrganizationAdminConfig_minimum() string {
 
 func testAccMerakiOrganizationAdminConfig_all() string {
 	config := `resource "meraki_organization_admin" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	authentication_method = "Email"` + "\n"
-	config += `	email = "miles@meraki.com"` + "\n"
-	config += `	name = "Miles Meraki"` + "\n"
-	config += `	org_access = "none"` + "\n"
-	config += `	networks = [{` + "\n"
-	config += `		access = "full"` + "\n"
-	config += `		id = meraki_network.test.id` + "\n"
-	config += `	}]` + "\n"
-	config += `	tags = [{` + "\n"
-	config += `		access = "read-only"` + "\n"
-	config += `		tag = "west"` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  authentication_method = "Email"` + "\n"
+	config += `  email = "miles@meraki.com"` + "\n"
+	config += `  name = "Miles Meraki"` + "\n"
+	config += `  org_access = "none"` + "\n"
+	config += `  networks = [{` + "\n"
+	config += `    access = "full"` + "\n"
+	config += `    id = meraki_network.test.id` + "\n"
+	config += `  }]` + "\n"
+	config += `  tags = [{` + "\n"
+	config += `    access = "read-only"` + "\n"
+	config += `    tag = "west"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

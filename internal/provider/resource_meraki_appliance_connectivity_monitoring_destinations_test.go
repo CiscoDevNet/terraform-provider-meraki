@@ -103,11 +103,11 @@ resource "meraki_network" "test" {
 
 func testAccMerakiApplianceConnectivityMonitoringDestinationsConfig_minimum() string {
 	config := `resource "meraki_appliance_connectivity_monitoring_destinations" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	destinations = [{` + "\n"
-	config += `		default = true` + "\n"
-	config += `		ip = "1.2.3.4"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  destinations = [{` + "\n"
+	config += `    default = true` + "\n"
+	config += `    ip = "1.2.3.4"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,12 +118,12 @@ func testAccMerakiApplianceConnectivityMonitoringDestinationsConfig_minimum() st
 
 func testAccMerakiApplianceConnectivityMonitoringDestinationsConfig_all() string {
 	config := `resource "meraki_appliance_connectivity_monitoring_destinations" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	destinations = [{` + "\n"
-	config += `		default = true` + "\n"
-	config += `		description = "Google"` + "\n"
-	config += `		ip = "1.2.3.4"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  destinations = [{` + "\n"
+	config += `    default = true` + "\n"
+	config += `    description = "Google"` + "\n"
+	config += `    ip = "1.2.3.4"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

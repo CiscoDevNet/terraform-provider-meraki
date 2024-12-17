@@ -42,6 +42,8 @@ type {{camelCase .Name}} struct {
 {{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
+{{- else if isNestedMap .}}
+	{{toGoName .TfName}} map[string]{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -57,6 +59,8 @@ type {{.GoTypeName}} struct {
 {{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
+{{- else if isNestedMap .}}
+	{{toGoName .TfName}} map[string]{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -78,6 +82,8 @@ type {{.GoTypeName}} struct {
 {{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
+{{- else if isNestedMap .}}
+	{{toGoName .TfName}} map[string]{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -150,10 +156,15 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 		data.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "{{getFullModelName .}}", values)
 	}
-	{{- else if isNestedListSet .}}
+	{{- else if isNestedListSetMap .}}
 	{{if not .Mandatory}}if len(data.{{toGoName .TfName}}) > 0 {{end}}{
+		{{- if isNestedMap .}}
+		body, _ = sjson.Set(body, "{{getFullModelName .}}", map[string]interface{}{})
+		for key, item := range data.{{toGoName .TfName}} {
+		{{- else}}
 		body, _ = sjson.Set(body, "{{getFullModelName .}}", []interface{}{})
 		for _, item := range data.{{toGoName .TfName}} {
+		{{- end}}
 			itemBody := ""
 			{{- range .Attributes}}
 			{{- if .Computed}}{{- continue}}{{- end}}
@@ -170,10 +181,15 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 				item.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName .}}", values)
 			}
-			{{- else if isNestedListSet .}}
+			{{- else if isNestedListSetMap .}}
 			{{if not .Mandatory}}if len(item.{{toGoName .TfName}}) > 0 {{end}}{
+				{{- if isNestedMap .}}
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName .}}", map[string]interface{}{})
+				for key, childItem := range item.{{toGoName .TfName}} {
+				{{- else}}
 				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName .}}", []interface{}{})
 				for _, childItem := range item.{{toGoName .TfName}} {
+				{{- end}}
 					itemChildBody := ""
 					{{- range .Attributes}}
 					{{- if .Computed}}{{- continue}}{{- end}}
@@ -190,10 +206,15 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 						childItem.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName .}}", values)
 					}
-					{{- else if isNestedListSet .}}
+					{{- else if isNestedListSetMap .}}
 					{{if not .Mandatory}}if len(childItem.{{toGoName .TfName}}) > 0 {{end}}{
+						{{- if isNestedMap .}}
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName .}}", map[string]interface{}{})
+						for key, childChildItem := range childItem.{{toGoName .TfName}} {
+						{{- else}}
 						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName .}}", []interface{}{})
 						for _, childChildItem := range childItem.{{toGoName .TfName}} {
+						{{- end}}
 							itemChildChildBody := ""
 							{{- range .Attributes}}
 							{{- if .Computed}}{{- continue}}{{- end}}
@@ -213,19 +234,31 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 							{{- end}}
 							{{- end}}
 							{{- end}}
+							{{- if isNestedMap .}}
+							itemChildBody, _ = sjson.SetRaw(itemChildBody, "{{getFullModelName .}}."+key, itemChildChildBody)
+							{{- else}}
 							itemChildBody, _ = sjson.SetRaw(itemChildBody, "{{getFullModelName .}}.-1", itemChildChildBody)
+							{{- end}}
 						}
 					}
 					{{- end}}
 					{{- end}}
 					{{- end}}
+					{{- if isNestedMap .}}
+					itemBody, _ = sjson.SetRaw(itemBody, "{{getFullModelName .}}."+key, itemChildBody)
+					{{- else}}
 					itemBody, _ = sjson.SetRaw(itemBody, "{{getFullModelName .}}.-1", itemChildBody)
+					{{- end}}
 				}
 			}
 			{{- end}}
 			{{- end}}
 			{{- end}}
+			{{- if isNestedMap .}}
+			body, _ = sjson.SetRaw(body, "{{getFullModelName .}}."+key, itemBody)
+			{{- else}}
 			body, _ = sjson.SetRaw(body, "{{getFullModelName .}}.-1", itemBody)
+			{{- end}}
 		}
 	}
 	{{- end}}
@@ -258,14 +291,22 @@ func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
 	}
-	{{- else if isNestedListSet .}}
+	{{- else if isNestedListSetMap .}}
 	if value := res{{if .ModelName}}.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"){{end}}; value.Exists() && value.Value() != nil {
+		{{- if isNestedMap .}}
+		data.{{toGoName .TfName}} = make(map[string]{{.GoTypeName}})
+		{{- else}}
 		data.{{toGoName .TfName}} = make([]{{.GoTypeName}}, 0)
+		{{- end}}
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := {{.GoTypeName}}{}
 			{{- template "fromBodyTemplate" .}}
+			{{- if isNestedMap .}}
+			(*parent).{{toGoName .TfName}}[k.String()] = data
+			{{- else}}
 			(*parent).{{toGoName .TfName}} = append((*parent).{{toGoName .TfName}}, data)
+			{{- end}}
 			return true
 		})
 	}
@@ -300,7 +341,7 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki
 	} else {
 		data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
 	}
-	{{- else if isNestedListSet .}}
+	{{- else if isNestedListSetMap .}}
 	{{- $list := (toGoName .TfName)}}
 	{{- if .OrderedList }}
 	{
@@ -315,6 +356,12 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki
 		data := (*parent).{{toGoName .TfName}}[i]
 		parentRes := &res
 		res := parentRes.Get(fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}.%d", i))
+	{{- else if isNestedMap .}}
+	for i, item := range data.{{toGoName .TfName}} {
+		parent := &data
+		data := item
+		parentRes := &res
+		res := parentRes.Get(fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}.%s", i))
 	{{- else }}
 	for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
 		keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{end}}{{end}}{{end}} }
@@ -389,7 +436,7 @@ func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res merak
 			data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
 		}
 	}
-	{{- else if and (isNestedListSet .) (hasComputedAttributes .Attributes)}}
+	{{- else if and (isNestedListSetMap .) (hasComputedAttributes .Attributes)}}
 	{{- $list := (toGoName .TfName)}}
 	{{- if .OrderedList }}
 	{
@@ -404,6 +451,12 @@ func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res merak
 		data := (*parent).{{toGoName .TfName}}[i]
 		parentRes := &res
 		res := parentRes.Get(fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}.%d", i))
+	{{- else if isNestedMap .}}
+	for i, item := range data.{{toGoName .TfName}} {
+		parent := &data
+		data := item
+		parentRes := &res
+		res := parentRes.Get(fmt.Sprintf("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}.%s", i))
 	{{- else }}
 	for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
 		keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}", {{end}}{{end}}{{end}} }

@@ -104,8 +104,8 @@ resource "meraki_organization_policy_object" "test" {
 
 func testAccMerakiOrganizationPolicyObjectGroupConfig_minimum() string {
 	config := `resource "meraki_organization_policy_object_group" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -116,10 +116,10 @@ func testAccMerakiOrganizationPolicyObjectGroupConfig_minimum() string {
 
 func testAccMerakiOrganizationPolicyObjectGroupConfig_all() string {
 	config := `resource "meraki_organization_policy_object_group" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	category = "NetworkObjectGroup"` + "\n"
-	config += `	name = "Web Servers - Datacenter 10"` + "\n"
-	config += `	object_ids = [meraki_organization_policy_object.test.id]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  category = "NetworkObjectGroup"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  object_ids = [meraki_organization_policy_object.test.id]` + "\n"
 	config += `}` + "\n"
 	return config
 }

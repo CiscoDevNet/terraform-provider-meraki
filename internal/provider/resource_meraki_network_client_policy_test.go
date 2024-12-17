@@ -106,9 +106,9 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkClientPolicyConfig_minimum() string {
 	config := `resource "meraki_network_client_policy" "test" {` + "\n"
-	config += `	network_id = meraki_network_vlan_profile.default.network_id` + "\n"
-	config += `	client_id = 1.2.3.4` + "\n"
-	config += `	device_policy = "Group policy"` + "\n"
+	config += `  network_id = meraki_network_vlan_profile.default.network_id` + "\n"
+	config += `  client_id = 1.2.3.4` + "\n"
+	config += `  device_policy = "Group policy"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -119,10 +119,10 @@ func testAccMerakiNetworkClientPolicyConfig_minimum() string {
 
 func testAccMerakiNetworkClientPolicyConfig_all() string {
 	config := `resource "meraki_network_client_policy" "test" {` + "\n"
-	config += `	network_id = meraki_network_vlan_profile.default.network_id` + "\n"
-	config += `	client_id = 1.2.3.4` + "\n"
-	config += `	device_policy = "Group policy"` + "\n"
-	config += `	group_policy_id = "101"` + "\n"
+	config += `  network_id = meraki_network_vlan_profile.default.network_id` + "\n"
+	config += `  client_id = 1.2.3.4` + "\n"
+	config += `  device_policy = "Group policy"` + "\n"
+	config += `  group_policy_id = "101"` + "\n"
 	config += `}` + "\n"
 	return config
 }

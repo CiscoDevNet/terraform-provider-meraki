@@ -105,9 +105,9 @@ resource "meraki_network" "test" {
 
 func testAccMerakiNetworkWebhookHTTPServerConfig_minimum() string {
 	config := `resource "meraki_network_webhook_http_server" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	name = "Example Webhook Server"` + "\n"
-	config += `	url = "https://example.com"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  name = "Example Webhook Server"` + "\n"
+	config += `  url = "https://example.com"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,12 +118,12 @@ func testAccMerakiNetworkWebhookHTTPServerConfig_minimum() string {
 
 func testAccMerakiNetworkWebhookHTTPServerConfig_all() string {
 	config := `resource "meraki_network_webhook_http_server" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	name = "Example Webhook Server"` + "\n"
-	config += `	shared_secret = "shhh"` + "\n"
-	config += `	url = "https://example.com"` + "\n"
-	config += `	payload_template_name = "Meraki (included)"` + "\n"
-	config += `	payload_template_payload_template_id = "wpt_00001"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  name = "Example Webhook Server"` + "\n"
+	config += `  shared_secret = "shhh"` + "\n"
+	config += `  url = "https://example.com"` + "\n"
+	config += `  payload_template_name = "Meraki (included)"` + "\n"
+	config += `  payload_template_payload_template_id = "wpt_00001"` + "\n"
 	config += `}` + "\n"
 	return config
 }
