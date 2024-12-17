@@ -67,12 +67,12 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiNetworkConfig() string {
 	config := `resource "meraki_network" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "${var.test_network}-TEST"` + "\n"
-	config += `	notes = "Additional description of the network"` + "\n"
-	config += `	time_zone = "America/Los_Angeles"` + "\n"
-	config += `	product_types = ["switch"]` + "\n"
-	config += `	tags = ["tag1"]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  name = "${var.test_network}-TEST"` + "\n"
+	config += `  notes = "Additional description of the network"` + "\n"
+	config += `  time_zone = "America/Los_Angeles"` + "\n"
+	config += `  product_types = ["switch"]` + "\n"
+	config += `  tags = ["tag1"]` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -87,12 +87,12 @@ func testAccDataSourceMerakiNetworkConfig() string {
 
 func testAccNamedDataSourceMerakiNetworkConfig() string {
 	config := `resource "meraki_network" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	name = "${var.test_network}-TEST"` + "\n"
-	config += `	notes = "Additional description of the network"` + "\n"
-	config += `	time_zone = "America/Los_Angeles"` + "\n"
-	config += `	product_types = ["switch"]` + "\n"
-	config += `	tags = ["tag1"]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  name = "${var.test_network}-TEST"` + "\n"
+	config += `  notes = "Additional description of the network"` + "\n"
+	config += `  time_zone = "America/Los_Angeles"` + "\n"
+	config += `  product_types = ["switch"]` + "\n"
+	config += `  tags = ["tag1"]` + "\n"
 	config += `}` + "\n"
 
 	config += `

@@ -73,8 +73,8 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiOrganizationAdaptivePolicySettingsConfig() string {
 	config := `resource "meraki_organization_adaptive_policy_settings" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	enabled_networks = [meraki_network.test.id]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  enabled_networks = [meraki_network.test.id]` + "\n"
 	config += `}` + "\n"
 
 	config += `

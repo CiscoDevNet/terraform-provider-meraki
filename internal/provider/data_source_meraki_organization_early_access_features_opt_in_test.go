@@ -65,8 +65,8 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptInConfig() string {
 	config := `resource "meraki_organization_early_access_features_opt_in" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	short_name = "has_cloud_pcap_support"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  short_name = "has_cloud_pcap_support"` + "\n"
 	config += `}` + "\n"
 
 	config += `

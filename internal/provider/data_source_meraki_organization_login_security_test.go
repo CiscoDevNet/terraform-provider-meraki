@@ -73,17 +73,17 @@ resource "meraki_organization" "test" {
 
 func testAccDataSourceMerakiOrganizationLoginSecurityConfig() string {
 	config := `resource "meraki_organization_login_security" "test" {` + "\n"
-	config += `	organization_id = meraki_organization.test.id` + "\n"
-	config += `	account_lockout_attempts = 3` + "\n"
-	config += `	enforce_account_lockout = true` + "\n"
-	config += `	enforce_different_passwords = true` + "\n"
-	config += `	enforce_idle_timeout = true` + "\n"
-	config += `	enforce_password_expiration = true` + "\n"
-	config += `	enforce_strong_passwords = true` + "\n"
-	config += `	enforce_two_factor_auth = true` + "\n"
-	config += `	idle_timeout_minutes = 30` + "\n"
-	config += `	num_different_passwords = 3` + "\n"
-	config += `	password_expiration_days = 90` + "\n"
+	config += `  organization_id = meraki_organization.test.id` + "\n"
+	config += `  account_lockout_attempts = 3` + "\n"
+	config += `  enforce_account_lockout = true` + "\n"
+	config += `  enforce_different_passwords = true` + "\n"
+	config += `  enforce_idle_timeout = true` + "\n"
+	config += `  enforce_password_expiration = true` + "\n"
+	config += `  enforce_strong_passwords = true` + "\n"
+	config += `  enforce_two_factor_auth = true` + "\n"
+	config += `  idle_timeout_minutes = 30` + "\n"
+	config += `  num_different_passwords = 3` + "\n"
+	config += `  password_expiration_days = 90` + "\n"
 	config += `}` + "\n"
 
 	config += `

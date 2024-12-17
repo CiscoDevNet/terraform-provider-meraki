@@ -80,13 +80,13 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccDataSourceMerakiDeviceConfig() string {
 	config := `resource "meraki_device" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	address = "1600 Pennsylvania Ave"` + "\n"
-	config += `	lat = 37.4180951010362` + "\n"
-	config += `	lng = -122.098531723022` + "\n"
-	config += `	name = "My AP"` + "\n"
-	config += `	notes = "My AP's note"` + "\n"
-	config += `	tags = ["recently-added"]` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  address = "1600 Pennsylvania Ave"` + "\n"
+	config += `  lat = 37.4180951010362` + "\n"
+	config += `  lng = -122.098531723022` + "\n"
+	config += `  name = "My AP"` + "\n"
+	config += `  notes = "My AP's note"` + "\n"
+	config += `  tags = ["recently-added"]` + "\n"
 	config += `}` + "\n"
 
 	config += `

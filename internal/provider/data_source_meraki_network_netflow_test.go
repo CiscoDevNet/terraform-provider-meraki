@@ -76,10 +76,10 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiNetworkNetflowConfig() string {
 	config := `resource "meraki_network_netflow" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	collector_ip = "1.2.3.4"` + "\n"
-	config += `	collector_port = 1234` + "\n"
-	config += `	reporting_enabled = true` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  collector_ip = "1.2.3.4"` + "\n"
+	config += `  collector_port = 1234` + "\n"
+	config += `  reporting_enabled = true` + "\n"
 	config += `}` + "\n"
 
 	config += `

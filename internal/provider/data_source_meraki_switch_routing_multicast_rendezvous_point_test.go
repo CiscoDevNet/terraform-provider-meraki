@@ -85,9 +85,9 @@ resource "meraki_switch_routing_interface" "test" {
 
 func testAccDataSourceMerakiSwitchRoutingMulticastRendezvousPointConfig() string {
 	config := `resource "meraki_switch_routing_multicast_rendezvous_point" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	interface_ip = meraki_switch_routing_interface.test.interface_ip` + "\n"
-	config += `	multicast_group = "Any"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  interface_ip = meraki_switch_routing_interface.test.interface_ip` + "\n"
+	config += `  multicast_group = "Any"` + "\n"
 	config += `}` + "\n"
 
 	config += `

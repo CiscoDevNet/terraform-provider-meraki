@@ -73,12 +73,12 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiNetworkSNMPConfig() string {
 	config := `resource "meraki_network_snmp" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	access = "users"` + "\n"
-	config += `	users = [{` + "\n"
-	config += `		passphrase = "hunter2"` + "\n"
-	config += `		username = "AzureDiamond"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  access = "users"` + "\n"
+	config += `  users = [{` + "\n"
+	config += `    passphrase = "hunter2"` + "\n"
+	config += `    username = "AzureDiamond"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

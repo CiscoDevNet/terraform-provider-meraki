@@ -76,13 +76,13 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiWirelessNetworkBluetoothSettingsConfig() string {
 	config := `resource "meraki_wireless_network_bluetooth_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	advertising_enabled = true` + "\n"
-	config += `	major = 1` + "\n"
-	config += `	major_minor_assignment_mode = "Non-unique"` + "\n"
-	config += `	minor = 1` + "\n"
-	config += `	scanning_enabled = true` + "\n"
-	config += `	uuid = "00000000-0000-0000-0000-000000000000"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  advertising_enabled = true` + "\n"
+	config += `  major = 1` + "\n"
+	config += `  major_minor_assignment_mode = "Non-unique"` + "\n"
+	config += `  minor = 1` + "\n"
+	config += `  scanning_enabled = true` + "\n"
+	config += `  uuid = "00000000-0000-0000-0000-000000000000"` + "\n"
 	config += `}` + "\n"
 
 	config += `

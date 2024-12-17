@@ -78,13 +78,13 @@ resource "meraki_wireless_ssid" "test" {
 
 func testAccDataSourceMerakiWirelessSSIDDeviceTypeGroupPoliciesConfig() string {
 	config := `resource "meraki_wireless_ssid_device_type_group_policies" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	device_type_policies = [{` + "\n"
-	config += `		device_policy = "Allowed"` + "\n"
-	config += `		device_type = "Android"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  device_type_policies = [{` + "\n"
+	config += `    device_policy = "Allowed"` + "\n"
+	config += `    device_type = "Android"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

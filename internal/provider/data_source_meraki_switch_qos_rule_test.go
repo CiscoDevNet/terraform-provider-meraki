@@ -75,12 +75,12 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiSwitchQoSRuleConfig() string {
 	config := `resource "meraki_switch_qos_rule" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	dscp = 0` + "\n"
-	config += `	dst_port_range = "3000-3100"` + "\n"
-	config += `	protocol = "TCP"` + "\n"
-	config += `	src_port = 2000` + "\n"
-	config += `	vlan = 100` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  dscp = 0` + "\n"
+	config += `  dst_port_range = "3000-3100"` + "\n"
+	config += `  protocol = "TCP"` + "\n"
+	config += `  src_port = 2000` + "\n"
+	config += `  vlan = 100` + "\n"
 	config += `}` + "\n"
 
 	config += `

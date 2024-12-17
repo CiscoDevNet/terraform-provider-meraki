@@ -71,8 +71,8 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceFirewallSettingsConfig() string {
 	config := `resource "meraki_appliance_firewall_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	spoofing_protection_ip_source_guard_mode = "block"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  spoofing_protection_ip_source_guard_mode = "block"` + "\n"
 	config += `}` + "\n"
 
 	config += `

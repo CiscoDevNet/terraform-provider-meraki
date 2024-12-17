@@ -81,17 +81,17 @@ resource "meraki_wireless_ssid" "test" {
 
 func testAccDataSourceMerakiWirelessSSIDL3FirewallRulesConfig() string {
 	config := `resource "meraki_wireless_ssid_l3_firewall_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	allow_lan_access = true` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
-	config += `		dest_cidr = "Any"` + "\n"
-	config += `		dest_port = "443"` + "\n"
-	config += `		policy = "allow"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		ip_version = "ipv4"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  allow_lan_access = true` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
+	config += `    dest_cidr = "Any"` + "\n"
+	config += `    dest_port = "443"` + "\n"
+	config += `    policy = "allow"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    ip_version = "ipv4"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

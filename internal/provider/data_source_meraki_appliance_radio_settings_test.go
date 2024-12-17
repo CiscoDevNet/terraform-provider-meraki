@@ -80,12 +80,12 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccDataSourceMerakiApplianceRadioSettingsConfig() string {
 	config := `resource "meraki_appliance_radio_settings" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	five_ghz_settings_channel = 40` + "\n"
-	config += `	five_ghz_settings_channel_width = 20` + "\n"
-	config += `	five_ghz_settings_target_power = 15` + "\n"
-	config += `	two_four_ghz_settings_channel = 11` + "\n"
-	config += `	two_four_ghz_settings_target_power = 5` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  five_ghz_settings_channel = 40` + "\n"
+	config += `  five_ghz_settings_channel_width = 20` + "\n"
+	config += `  five_ghz_settings_target_power = 15` + "\n"
+	config += `  two_four_ghz_settings_channel = 11` + "\n"
+	config += `  two_four_ghz_settings_target_power = 5` + "\n"
 	config += `}` + "\n"
 
 	config += `

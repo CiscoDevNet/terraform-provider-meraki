@@ -68,8 +68,8 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiOrganizationBrandingPoliciesPrioritiesConfig() string {
 	config := `resource "meraki_organization_branding_policies_priorities" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	branding_policy_ids = ["123"]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  branding_policy_ids = ["123"]` + "\n"
 	config += `}` + "\n"
 
 	config += `

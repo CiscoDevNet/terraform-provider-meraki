@@ -72,9 +72,9 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceTrafficShapingConfig() string {
 	config := `resource "meraki_appliance_traffic_shaping" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	global_bandwidth_limit_down = 5120` + "\n"
-	config += `	global_bandwidth_limit_up = 2048` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  global_bandwidth_limit_down = 5120` + "\n"
+	config += `  global_bandwidth_limit_up = 2048` + "\n"
 	config += `}` + "\n"
 
 	config += `

@@ -77,12 +77,12 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccDataSourceMerakiSwitchMTUConfig() string {
 	config := `resource "meraki_switch_mtu" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	default_mtu_size = 9578` + "\n"
-	config += `	overrides = [{` + "\n"
-	config += `		mtu_size = 1500` + "\n"
-	config += `		switches = [tolist(meraki_network_device_claim.test.serials)[0]]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  default_mtu_size = 9578` + "\n"
+	config += `  overrides = [{` + "\n"
+	config += `    mtu_size = 1500` + "\n"
+	config += `    switches = [tolist(meraki_network_device_claim.test.serials)[0]]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

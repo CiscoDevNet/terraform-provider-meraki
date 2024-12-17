@@ -75,10 +75,10 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiNetworkClientSplashAuthorizationStatusConfig() string {
 	config := `resource "meraki_network_client_splash_authorization_status" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	client_id = "1.2.3.4"` + "\n"
-	config += `	ssids_0_is_authorized = true` + "\n"
-	config += `	ssids_2_is_authorized = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  client_id = "1.2.3.4"` + "\n"
+	config += `  ssids_0_is_authorized = true` + "\n"
+	config += `  ssids_2_is_authorized = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

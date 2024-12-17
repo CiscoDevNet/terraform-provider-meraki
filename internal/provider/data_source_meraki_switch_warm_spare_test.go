@@ -76,8 +76,8 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccDataSourceMerakiSwitchWarmSpareConfig() string {
 	config := `resource "meraki_switch_warm_spare" "test" {` + "\n"
-	config += `	serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
-	config += `	enabled = false` + "\n"
+	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

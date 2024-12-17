@@ -66,9 +66,9 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiOrganizationSAMLIdPConfig() string {
 	config := `resource "meraki_organization_saml_idp" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	slo_logout_url = "https://somewhere.com"` + "\n"
-	config += `	x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  slo_logout_url = "https://somewhere.com"` + "\n"
+	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA"` + "\n"
 	config += `}` + "\n"
 
 	config += `

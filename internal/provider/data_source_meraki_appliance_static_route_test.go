@@ -73,10 +73,10 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceStaticRouteConfig() string {
 	config := `resource "meraki_appliance_static_route" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	gateway_ip = "192.168.128.254"` + "\n"
-	config += `	name = "My route"` + "\n"
-	config += `	subnet = "5.5.5.0/24"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  gateway_ip = "192.168.128.254"` + "\n"
+	config += `  name = "My route"` + "\n"
+	config += `  subnet = "5.5.5.0/24"` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -91,10 +91,10 @@ func testAccDataSourceMerakiApplianceStaticRouteConfig() string {
 
 func testAccNamedDataSourceMerakiApplianceStaticRouteConfig() string {
 	config := `resource "meraki_appliance_static_route" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	gateway_ip = "192.168.128.254"` + "\n"
-	config += `	name = "My route"` + "\n"
-	config += `	subnet = "5.5.5.0/24"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  gateway_ip = "192.168.128.254"` + "\n"
+	config += `  name = "My route"` + "\n"
+	config += `  subnet = "5.5.5.0/24"` + "\n"
 	config += `}` + "\n"
 
 	config += `

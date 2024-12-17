@@ -58,11 +58,11 @@ func TestAccDataSourceMerakiOrganization(t *testing.T) {
 
 func testAccDataSourceMerakiOrganizationConfig() string {
 	config := `resource "meraki_organization" "test" {` + "\n"
-	config += `	name = "My organization"` + "\n"
-	config += `	management_details = [{` + "\n"
-	config += `		name = "MSP ID"` + "\n"
-	config += `		value = "123456"` + "\n"
-	config += `	}]` + "\n"
+	config += `  name = "My organization"` + "\n"
+	config += `  management_details = [{` + "\n"
+	config += `    name = "MSP ID"` + "\n"
+	config += `    value = "123456"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -76,11 +76,11 @@ func testAccDataSourceMerakiOrganizationConfig() string {
 
 func testAccNamedDataSourceMerakiOrganizationConfig() string {
 	config := `resource "meraki_organization" "test" {` + "\n"
-	config += `	name = "My organization"` + "\n"
-	config += `	management_details = [{` + "\n"
-	config += `		name = "MSP ID"` + "\n"
-	config += `		value = "123456"` + "\n"
-	config += `	}]` + "\n"
+	config += `  name = "My organization"` + "\n"
+	config += `  management_details = [{` + "\n"
+	config += `    name = "MSP ID"` + "\n"
+	config += `    value = "123456"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

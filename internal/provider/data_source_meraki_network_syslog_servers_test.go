@@ -72,12 +72,12 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiNetworkSyslogServersConfig() string {
 	config := `resource "meraki_network_syslog_servers" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	servers = [{` + "\n"
-	config += `		host = "1.2.3.4"` + "\n"
-	config += `		port = 443` + "\n"
-	config += `		roles = ["Wireless event log"]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  servers = [{` + "\n"
+	config += `    host = "1.2.3.4"` + "\n"
+	config += `    port = 443` + "\n"
+	config += `    roles = ["Wireless event log"]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

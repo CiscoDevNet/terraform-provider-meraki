@@ -71,16 +71,16 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiOrganizationAdaptivePolicyACLConfig() string {
 	config := `resource "meraki_organization_adaptive_policy_acl" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	description = "Blocks sensitive web traffic"` + "\n"
-	config += `	ip_version = "ipv6"` + "\n"
-	config += `	name = "Block sensitive web traffic"` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		dst_port = "22-30"` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		src_port = "1,33"` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  description = "Blocks sensitive web traffic"` + "\n"
+	config += `  ip_version = "ipv6"` + "\n"
+	config += `  name = "Block sensitive web traffic"` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    dst_port = "22-30"` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    src_port = "1,33"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -95,16 +95,16 @@ func testAccDataSourceMerakiOrganizationAdaptivePolicyACLConfig() string {
 
 func testAccNamedDataSourceMerakiOrganizationAdaptivePolicyACLConfig() string {
 	config := `resource "meraki_organization_adaptive_policy_acl" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	description = "Blocks sensitive web traffic"` + "\n"
-	config += `	ip_version = "ipv6"` + "\n"
-	config += `	name = "Block sensitive web traffic"` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		dst_port = "22-30"` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		protocol = "tcp"` + "\n"
-	config += `		src_port = "1,33"` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  description = "Blocks sensitive web traffic"` + "\n"
+	config += `  ip_version = "ipv6"` + "\n"
+	config += `  name = "Block sensitive web traffic"` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    dst_port = "22-30"` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    src_port = "1,33"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

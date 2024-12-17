@@ -74,13 +74,13 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiNetworkWebhookPayloadTemplateConfig() string {
 	config := `resource "meraki_network_webhook_payload_template" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
-	config += `	name = "Custom Template"` + "\n"
-	config += `	headers = [{` + "\n"
-	config += `		name = "Authorization"` + "\n"
-	config += `		template = "Bearer {{sharedSecret}}"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
+	config += `  name = "Custom Template"` + "\n"
+	config += `  headers = [{` + "\n"
+	config += `    name = "Authorization"` + "\n"
+	config += `    template = "Bearer {{sharedSecret}}"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -95,13 +95,13 @@ func testAccDataSourceMerakiNetworkWebhookPayloadTemplateConfig() string {
 
 func testAccNamedDataSourceMerakiNetworkWebhookPayloadTemplateConfig() string {
 	config := `resource "meraki_network_webhook_payload_template" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
-	config += `	name = "Custom Template"` + "\n"
-	config += `	headers = [{` + "\n"
-	config += `		name = "Authorization"` + "\n"
-	config += `		template = "Bearer {{sharedSecret}}"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
+	config += `  name = "Custom Template"` + "\n"
+	config += `  headers = [{` + "\n"
+	config += `    name = "Authorization"` + "\n"
+	config += `    template = "Bearer {{sharedSecret}}"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

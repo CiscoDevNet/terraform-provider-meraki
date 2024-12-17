@@ -86,10 +86,10 @@ resource "meraki_switch_routing_interface" "test" {
 
 func testAccDataSourceMerakiSwitchRoutingStaticRouteConfig() string {
 	config := `resource "meraki_switch_routing_static_route" "test" {` + "\n"
-	config += `	serial = meraki_switch_routing_interface.test.serial` + "\n"
-	config += `	name = "My route"` + "\n"
-	config += `	next_hop_ip = "192.168.1.1"` + "\n"
-	config += `	subnet = "192.168.2.0/24"` + "\n"
+	config += `  serial = meraki_switch_routing_interface.test.serial` + "\n"
+	config += `  name = "My route"` + "\n"
+	config += `  next_hop_ip = "192.168.1.1"` + "\n"
+	config += `  subnet = "192.168.2.0/24"` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -104,10 +104,10 @@ func testAccDataSourceMerakiSwitchRoutingStaticRouteConfig() string {
 
 func testAccNamedDataSourceMerakiSwitchRoutingStaticRouteConfig() string {
 	config := `resource "meraki_switch_routing_static_route" "test" {` + "\n"
-	config += `	serial = meraki_switch_routing_interface.test.serial` + "\n"
-	config += `	name = "My route"` + "\n"
-	config += `	next_hop_ip = "192.168.1.1"` + "\n"
-	config += `	subnet = "192.168.2.0/24"` + "\n"
+	config += `  serial = meraki_switch_routing_interface.test.serial` + "\n"
+	config += `  name = "My route"` + "\n"
+	config += `  next_hop_ip = "192.168.1.1"` + "\n"
+	config += `  subnet = "192.168.2.0/24"` + "\n"
 	config += `}` + "\n"
 
 	config += `

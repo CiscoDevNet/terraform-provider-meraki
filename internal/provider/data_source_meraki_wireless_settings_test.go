@@ -77,14 +77,14 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiWirelessSettingsConfig() string {
 	config := `resource "meraki_wireless_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	ipv6_bridge_enabled = true` + "\n"
-	config += `	led_lights_on = true` + "\n"
-	config += `	location_analytics_enabled = false` + "\n"
-	config += `	meshing_enabled = true` + "\n"
-	config += `	upgrade_strategy = "minimizeUpgradeTime"` + "\n"
-	config += `	named_vlans_pool_dhcp_monitoring_duration = 5` + "\n"
-	config += `	named_vlans_pool_dhcp_monitoring_enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  ipv6_bridge_enabled = true` + "\n"
+	config += `  led_lights_on = true` + "\n"
+	config += `  location_analytics_enabled = false` + "\n"
+	config += `  meshing_enabled = true` + "\n"
+	config += `  upgrade_strategy = "minimizeUpgradeTime"` + "\n"
+	config += `  named_vlans_pool_dhcp_monitoring_duration = 5` + "\n"
+	config += `  named_vlans_pool_dhcp_monitoring_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

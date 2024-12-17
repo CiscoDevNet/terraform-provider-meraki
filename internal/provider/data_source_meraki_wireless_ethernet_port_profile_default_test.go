@@ -80,8 +80,8 @@ resource "meraki_wireless_ethernet_port_profile" "test" {
 
 func testAccDataSourceMerakiWirelessEthernetPortProfileDefaultConfig() string {
 	config := `resource "meraki_wireless_ethernet_port_profile_default" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	profile_id = meraki_wireless_ethernet_port_profile.test.id` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  profile_id = meraki_wireless_ethernet_port_profile.test.id` + "\n"
 	config += `}` + "\n"
 
 	config += `

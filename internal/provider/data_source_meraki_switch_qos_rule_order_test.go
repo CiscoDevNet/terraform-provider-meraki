@@ -74,8 +74,8 @@ resource "meraki_switch_qos_rule" "test" {
 
 func testAccDataSourceMerakiSwitchQoSRuleOrderConfig() string {
 	config := `resource "meraki_switch_qos_rule_order" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rule_ids = [meraki_switch_qos_rule.test.id]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rule_ids = [meraki_switch_qos_rule.test.id]` + "\n"
 	config += `}` + "\n"
 
 	config += `

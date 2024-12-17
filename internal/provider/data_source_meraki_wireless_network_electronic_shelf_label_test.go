@@ -72,9 +72,9 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiWirelessNetworkElectronicShelfLabelConfig() string {
 	config := `resource "meraki_wireless_network_electronic_shelf_label" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	enabled = true` + "\n"
-	config += `	hostname = "N_24329156"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  hostname = "N_24329156"` + "\n"
 	config += `}` + "\n"
 
 	config += `

@@ -71,8 +71,8 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiWirelessAirMarshalSettingsConfig() string {
 	config := `resource "meraki_wireless_air_marshal_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	default_policy = "allow"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  default_policy = "allow"` + "\n"
 	config += `}` + "\n"
 
 	config += `

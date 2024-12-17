@@ -79,14 +79,14 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccDataSourceMerakiSwitchRoutingMulticastConfig() string {
 	config := `resource "meraki_switch_routing_multicast" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	default_settings_flood_unknown_multicast_traffic_enabled = true` + "\n"
-	config += `	default_settings_igmp_snooping_enabled = true` + "\n"
-	config += `	overrides = [{` + "\n"
-	config += `		flood_unknown_multicast_traffic_enabled = true` + "\n"
-	config += `		igmp_snooping_enabled = true` + "\n"
-	config += `		switches = [tolist(meraki_network_device_claim.test.serials)[0]]` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  default_settings_flood_unknown_multicast_traffic_enabled = true` + "\n"
+	config += `  default_settings_igmp_snooping_enabled = true` + "\n"
+	config += `  overrides = [{` + "\n"
+	config += `    flood_unknown_multicast_traffic_enabled = true` + "\n"
+	config += `    igmp_snooping_enabled = true` + "\n"
+	config += `    switches = [tolist(meraki_network_device_claim.test.serials)[0]]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

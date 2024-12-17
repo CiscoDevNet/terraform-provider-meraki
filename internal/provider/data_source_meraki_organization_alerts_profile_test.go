@@ -76,15 +76,15 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiOrganizationAlertsProfileConfig() string {
 	config := `resource "meraki_organization_alerts_profile" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	description = "WAN 1 high utilization"` + "\n"
-	config += `	type = "wanUtilization"` + "\n"
-	config += `	alert_condition_bit_rate_bps = 10000` + "\n"
-	config += `	alert_condition_duration = 60` + "\n"
-	config += `	alert_condition_interface = "wan1"` + "\n"
-	config += `	alert_condition_window = 600` + "\n"
-	config += `	recipients_emails = ["admin@example.org"]` + "\n"
-	config += `	network_tags = ["tag1"]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  description = "WAN 1 high utilization"` + "\n"
+	config += `  type = "wanUtilization"` + "\n"
+	config += `  alert_condition_bit_rate_bps = 10000` + "\n"
+	config += `  alert_condition_duration = 60` + "\n"
+	config += `  alert_condition_interface = "wan1"` + "\n"
+	config += `  alert_condition_window = 600` + "\n"
+	config += `  recipients_emails = ["admin@example.org"]` + "\n"
+	config += `  network_tags = ["tag1"]` + "\n"
 	config += `}` + "\n"
 
 	config += `

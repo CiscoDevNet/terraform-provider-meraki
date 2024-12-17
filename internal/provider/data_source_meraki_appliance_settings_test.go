@@ -74,11 +74,11 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceSettingsConfig() string {
 	config := `resource "meraki_appliance_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	client_tracking_method = "MAC address"` + "\n"
-	config += `	deployment_mode = "routed"` + "\n"
-	config += `	dynamic_dns_enabled = true` + "\n"
-	config += `	dynamic_dns_prefix = "test"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  client_tracking_method = "MAC address"` + "\n"
+	config += `  deployment_mode = "routed"` + "\n"
+	config += `  dynamic_dns_enabled = true` + "\n"
+	config += `  dynamic_dns_prefix = "test"` + "\n"
 	config += `}` + "\n"
 
 	config += `

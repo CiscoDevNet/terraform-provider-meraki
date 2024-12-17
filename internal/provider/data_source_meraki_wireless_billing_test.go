@@ -75,14 +75,14 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiWirelessBillingConfig() string {
 	config := `resource "meraki_wireless_billing" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	currency = "USD"` + "\n"
-	config += `	plans = [{` + "\n"
-	config += `		price = 5` + "\n"
-	config += `		time_limit = "1 hour"` + "\n"
-	config += `		bandwidth_limits_limit_down = 1000000` + "\n"
-	config += `		bandwidth_limits_limit_up = 1000000` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  currency = "USD"` + "\n"
+	config += `  plans = [{` + "\n"
+	config += `    price = 5` + "\n"
+	config += `    time_limit = "1 hour"` + "\n"
+	config += `    bandwidth_limits_limit_down = 1000000` + "\n"
+	config += `    bandwidth_limits_limit_up = 1000000` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

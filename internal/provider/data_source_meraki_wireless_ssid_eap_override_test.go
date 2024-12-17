@@ -81,14 +81,14 @@ resource "meraki_wireless_ssid" "test" {
 
 func testAccDataSourceMerakiWirelessSSIDEAPOverrideConfig() string {
 	config := `resource "meraki_wireless_ssid_eap_override" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	max_retries = 5` + "\n"
-	config += `	timeout = 5` + "\n"
-	config += `	eapol_key_retries = 4` + "\n"
-	config += `	eapol_key_timeout_in_ms = 5000` + "\n"
-	config += `	identity_retries = 5` + "\n"
-	config += `	identity_timeout = 5` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  max_retries = 5` + "\n"
+	config += `  timeout = 5` + "\n"
+	config += `  eapol_key_retries = 4` + "\n"
+	config += `  eapol_key_timeout_in_ms = 5000` + "\n"
+	config += `  identity_retries = 5` + "\n"
+	config += `  identity_timeout = 5` + "\n"
 	config += `}` + "\n"
 
 	config += `

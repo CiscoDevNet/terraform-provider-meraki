@@ -73,10 +73,10 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiSwitchDHCPServerPolicyARPInspectionTrustedServerConfig() string {
 	config := `resource "meraki_switch_dhcp_server_policy_arp_inspection_trusted_server" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mac = "00:11:22:33:44:55"` + "\n"
-	config += `	vlan = 100` + "\n"
-	config += `	ipv4_address = "1.2.3.4"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mac = "00:11:22:33:44:55"` + "\n"
+	config += `  vlan = 100` + "\n"
+	config += `  ipv4_address = "1.2.3.4"` + "\n"
 	config += `}` + "\n"
 
 	config += `

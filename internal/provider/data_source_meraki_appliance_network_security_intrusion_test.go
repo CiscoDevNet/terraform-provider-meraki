@@ -78,12 +78,12 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceNetworkSecurityIntrusionConfig() string {
 	config := `resource "meraki_appliance_network_security_intrusion" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	ids_rulesets = "balanced"` + "\n"
-	config += `	mode = "prevention"` + "\n"
-	config += `	protected_networks_use_default = false` + "\n"
-	config += `	protected_networks_excluded_cidr = ["10.0.0.0/8"]` + "\n"
-	config += `	protected_networks_included_cidr = ["10.0.0.0/8"]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  ids_rulesets = "balanced"` + "\n"
+	config += `  mode = "prevention"` + "\n"
+	config += `  protected_networks_use_default = false` + "\n"
+	config += `  protected_networks_excluded_cidr = ["10.0.0.0/8"]` + "\n"
+	config += `  protected_networks_included_cidr = ["10.0.0.0/8"]` + "\n"
 	config += `}` + "\n"
 
 	config += `

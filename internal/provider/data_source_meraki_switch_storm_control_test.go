@@ -78,10 +78,10 @@ resource "meraki_network_device_claim" "test" {
 
 func testAccDataSourceMerakiSwitchStormControlConfig() string {
 	config := `resource "meraki_switch_storm_control" "test" {` + "\n"
-	config += `	network_id = meraki_network_device_claim.test.id` + "\n"
-	config += `	broadcast_threshold = 30` + "\n"
-	config += `	multicast_threshold = 30` + "\n"
-	config += `	unknown_unicast_threshold = 30` + "\n"
+	config += `  network_id = meraki_network_device_claim.test.id` + "\n"
+	config += `  broadcast_threshold = 30` + "\n"
+	config += `  multicast_threshold = 30` + "\n"
+	config += `  unknown_unicast_threshold = 30` + "\n"
 	config += `}` + "\n"
 
 	config += `

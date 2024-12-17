@@ -69,9 +69,9 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiOrganizationLicenseConfig() string {
 	config := `resource "meraki_organization_license" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	license_id = "123"` + "\n"
-	config += `	device_serial = "Q234-ABCD-5678"` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  license_id = "123"` + "\n"
+	config += `  device_serial = "Q234-ABCD-5678"` + "\n"
 	config += `}` + "\n"
 
 	config += `

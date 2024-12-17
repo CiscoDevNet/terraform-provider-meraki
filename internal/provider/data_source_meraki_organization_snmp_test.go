@@ -68,14 +68,14 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiOrganizationSNMPConfig() string {
 	config := `resource "meraki_organization_snmp" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	v2c_enabled = false` + "\n"
-	config += `	v3_auth_mode = "SHA"` + "\n"
-	config += `	v3_auth_pass = "password"` + "\n"
-	config += `	v3_enabled = true` + "\n"
-	config += `	v3_priv_mode = "AES128"` + "\n"
-	config += `	v3_priv_pass = "password"` + "\n"
-	config += `	peer_ips = ["123.123.123.1"]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  v2c_enabled = false` + "\n"
+	config += `  v3_auth_mode = "SHA"` + "\n"
+	config += `  v3_auth_pass = "password"` + "\n"
+	config += `  v3_enabled = true` + "\n"
+	config += `  v3_priv_mode = "AES128"` + "\n"
+	config += `  v3_priv_pass = "password"` + "\n"
+	config += `  peer_ips = ["123.123.123.1"]` + "\n"
 	config += `}` + "\n"
 
 	config += `

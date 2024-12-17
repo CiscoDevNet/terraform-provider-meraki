@@ -71,8 +71,8 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceVLANsSettingsConfig() string {
 	config := `resource "meraki_appliance_vlans_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	vlans_enabled = true` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  vlans_enabled = true` + "\n"
 	config += `}` + "\n"
 
 	config += `

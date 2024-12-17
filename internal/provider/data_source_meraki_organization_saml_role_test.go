@@ -75,17 +75,17 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiOrganizationSAMLRoleConfig() string {
 	config := `resource "meraki_organization_saml_role" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	org_access = "none"` + "\n"
-	config += `	role = "myrole"` + "\n"
-	config += `	networks = [{` + "\n"
-	config += `		access = "full"` + "\n"
-	config += `		id = meraki_network.test.id` + "\n"
-	config += `	}]` + "\n"
-	config += `	tags = [{` + "\n"
-	config += `		access = "read-only"` + "\n"
-	config += `		tag = "west"` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  org_access = "none"` + "\n"
+	config += `  role = "myrole"` + "\n"
+	config += `  networks = [{` + "\n"
+	config += `    access = "full"` + "\n"
+	config += `    id = meraki_network.test.id` + "\n"
+	config += `  }]` + "\n"
+	config += `  tags = [{` + "\n"
+	config += `    access = "read-only"` + "\n"
+	config += `    tag = "west"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

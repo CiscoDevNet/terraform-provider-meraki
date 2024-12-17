@@ -76,15 +76,15 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiNetworkMQTTBrokerConfig() string {
 	config := `resource "meraki_network_mqtt_broker" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	host = "1.2.3.4"` + "\n"
-	config += `	name = "MQTT_Broker_1"` + "\n"
-	config += `	port = 443` + "\n"
-	config += `	authentication_password = "*****"` + "\n"
-	config += `	authentication_username = "milesmeraki"` + "\n"
-	config += `	security_mode = "tls"` + "\n"
-	config += `	security_tls_ca_certificate = "*****"` + "\n"
-	config += `	security_tls_verify_hostnames = true` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  host = "1.2.3.4"` + "\n"
+	config += `  name = "MQTT_Broker_1"` + "\n"
+	config += `  port = 443` + "\n"
+	config += `  authentication_password = "*****"` + "\n"
+	config += `  authentication_username = "milesmeraki"` + "\n"
+	config += `  security_mode = "tls"` + "\n"
+	config += `  security_tls_ca_certificate = "*****"` + "\n"
+	config += `  security_tls_verify_hostnames = true` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -99,15 +99,15 @@ func testAccDataSourceMerakiNetworkMQTTBrokerConfig() string {
 
 func testAccNamedDataSourceMerakiNetworkMQTTBrokerConfig() string {
 	config := `resource "meraki_network_mqtt_broker" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	host = "1.2.3.4"` + "\n"
-	config += `	name = "MQTT_Broker_1"` + "\n"
-	config += `	port = 443` + "\n"
-	config += `	authentication_password = "*****"` + "\n"
-	config += `	authentication_username = "milesmeraki"` + "\n"
-	config += `	security_mode = "tls"` + "\n"
-	config += `	security_tls_ca_certificate = "*****"` + "\n"
-	config += `	security_tls_verify_hostnames = true` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  host = "1.2.3.4"` + "\n"
+	config += `  name = "MQTT_Broker_1"` + "\n"
+	config += `  port = 443` + "\n"
+	config += `  authentication_password = "*****"` + "\n"
+	config += `  authentication_username = "milesmeraki"` + "\n"
+	config += `  security_mode = "tls"` + "\n"
+	config += `  security_tls_ca_certificate = "*****"` + "\n"
+	config += `  security_tls_verify_hostnames = true` + "\n"
 	config += `}` + "\n"
 
 	config += `

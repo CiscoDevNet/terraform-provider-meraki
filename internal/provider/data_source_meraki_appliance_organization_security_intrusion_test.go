@@ -69,11 +69,11 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiApplianceOrganizationSecurityIntrusionConfig() string {
 	config := `resource "meraki_appliance_organization_security_intrusion" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	allowed_rules = [{` + "\n"
-	config += `		message = "SQL sa login failed"` + "\n"
-	config += `		rule_id = "meraki:intrusion/snort/GID/01/SID/688"` + "\n"
-	config += `	}]` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  allowed_rules = [{` + "\n"
+	config += `    message = "SQL sa login failed"` + "\n"
+	config += `    rule_id = "meraki:intrusion/snort/GID/01/SID/688"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

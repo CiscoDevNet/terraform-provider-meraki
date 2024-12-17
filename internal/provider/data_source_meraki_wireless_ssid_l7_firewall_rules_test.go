@@ -78,13 +78,13 @@ resource "meraki_wireless_ssid" "test" {
 
 func testAccDataSourceMerakiWirelessSSIDL7FirewallRulesConfig() string {
 	config := `resource "meraki_wireless_ssid_l7_firewall_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		type = "host"` + "\n"
-	config += `		value = "google.com"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    type = "host"` + "\n"
+	config += `    value = "google.com"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

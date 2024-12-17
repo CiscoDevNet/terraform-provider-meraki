@@ -82,12 +82,12 @@ resource "meraki_network_group_policy" "test" {
 
 func testAccDataSourceMerakiWirelessSSIDIdentityPSKConfig() string {
 	config := `resource "meraki_wireless_ssid_identity_psk" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	expires_at = "2018-02-11T00:00:00.090209Z"` + "\n"
-	config += `	group_policy_id = meraki_network_group_policy.test.id` + "\n"
-	config += `	name = "Sample Identity PSK"` + "\n"
-	config += `	passphrase = "Cisco123"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  expires_at = "2018-02-11T00:00:00.090209Z"` + "\n"
+	config += `  group_policy_id = meraki_network_group_policy.test.id` + "\n"
+	config += `  name = "Sample Identity PSK"` + "\n"
+	config += `  passphrase = "Cisco123"` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -103,12 +103,12 @@ func testAccDataSourceMerakiWirelessSSIDIdentityPSKConfig() string {
 
 func testAccNamedDataSourceMerakiWirelessSSIDIdentityPSKConfig() string {
 	config := `resource "meraki_wireless_ssid_identity_psk" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	number = meraki_wireless_ssid.test.id` + "\n"
-	config += `	expires_at = "2018-02-11T00:00:00.090209Z"` + "\n"
-	config += `	group_policy_id = meraki_network_group_policy.test.id` + "\n"
-	config += `	name = "Sample Identity PSK"` + "\n"
-	config += `	passphrase = "Cisco123"` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  number = meraki_wireless_ssid.test.id` + "\n"
+	config += `  expires_at = "2018-02-11T00:00:00.090209Z"` + "\n"
+	config += `  group_policy_id = meraki_network_group_policy.test.id` + "\n"
+	config += `  name = "Sample Identity PSK"` + "\n"
+	config += `  passphrase = "Cisco123"` + "\n"
 	config += `}` + "\n"
 
 	config += `

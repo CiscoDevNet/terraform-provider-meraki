@@ -74,13 +74,13 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiNetworkTrafficAnalysisConfig() string {
 	config := `resource "meraki_network_traffic_analysis" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mode = "basic"` + "\n"
-	config += `	custom_pie_chart_items = [{` + "\n"
-	config += `		name = "Item from hostname"` + "\n"
-	config += `		type = "host"` + "\n"
-	config += `		value = "example.com"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mode = "basic"` + "\n"
+	config += `  custom_pie_chart_items = [{` + "\n"
+	config += `    name = "Item from hostname"` + "\n"
+	config += `    type = "host"` + "\n"
+	config += `    value = "example.com"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

@@ -74,11 +74,11 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceSingleLANConfig() string {
 	config := `resource "meraki_appliance_single_lan" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	appliance_ip = "192.168.128.1"` + "\n"
-	config += `	subnet = "192.168.128.0/24"` + "\n"
-	config += `	ipv6_enabled = true` + "\n"
-	config += `	mandatory_dhcp_enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  appliance_ip = "192.168.128.1"` + "\n"
+	config += `  subnet = "192.168.128.0/24"` + "\n"
+	config += `  ipv6_enabled = true` + "\n"
+	config += `  mandatory_dhcp_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

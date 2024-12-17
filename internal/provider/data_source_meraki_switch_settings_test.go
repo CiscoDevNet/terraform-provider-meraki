@@ -74,11 +74,11 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiSwitchSettingsConfig() string {
 	config := `resource "meraki_switch_settings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	use_combined_power = false` + "\n"
-	config += `	vlan = 1` + "\n"
-	config += `	mac_blocklist_enabled = true` + "\n"
-	config += `	uplink_client_sampling_enabled = false` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  use_combined_power = false` + "\n"
+	config += `  vlan = 1` + "\n"
+	config += `  mac_blocklist_enabled = true` + "\n"
+	config += `  uplink_client_sampling_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

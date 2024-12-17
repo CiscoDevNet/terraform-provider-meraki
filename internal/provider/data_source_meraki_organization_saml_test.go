@@ -65,8 +65,8 @@ data "meraki_organization" "test" {
 
 func testAccDataSourceMerakiOrganizationSAMLConfig() string {
 	config := `resource "meraki_organization_saml" "test" {` + "\n"
-	config += `	organization_id = data.meraki_organization.test.id` + "\n"
-	config += `	enabled = true` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  enabled = true` + "\n"
 	config += `}` + "\n"
 
 	config += `

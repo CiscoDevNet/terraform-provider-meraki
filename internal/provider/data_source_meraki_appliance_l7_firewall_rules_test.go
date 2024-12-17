@@ -73,12 +73,12 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceL7FirewallRulesConfig() string {
 	config := `resource "meraki_appliance_l7_firewall_rules" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	rules = [{` + "\n"
-	config += `		policy = "deny"` + "\n"
-	config += `		type = "host"` + "\n"
-	config += `		value = "google.com"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  rules = [{` + "\n"
+	config += `    policy = "deny"` + "\n"
+	config += `    type = "host"` + "\n"
+	config += `    value = "google.com"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

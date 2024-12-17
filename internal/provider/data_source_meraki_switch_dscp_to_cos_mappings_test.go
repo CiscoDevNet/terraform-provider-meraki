@@ -73,12 +73,12 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiSwitchDSCPToCoSMappingsConfig() string {
 	config := `resource "meraki_switch_dscp_to_cos_mappings" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	mappings = [{` + "\n"
-	config += `		cos = 1` + "\n"
-	config += `		dscp = 1` + "\n"
-	config += `		title = "Video"` + "\n"
-	config += `	}]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  mappings = [{` + "\n"
+	config += `    cos = 1` + "\n"
+	config += `    dscp = 1` + "\n"
+	config += `    title = "Video"` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `

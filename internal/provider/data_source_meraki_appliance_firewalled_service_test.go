@@ -73,10 +73,10 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceFirewalledServiceConfig() string {
 	config := `resource "meraki_appliance_firewalled_service" "test" {` + "\n"
-	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	service = "ICMP"` + "\n"
-	config += `	access = "restricted"` + "\n"
-	config += `	allowed_ips = ["123.123.123.1"]` + "\n"
+	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  service = "ICMP"` + "\n"
+	config += `  access = "restricted"` + "\n"
+	config += `  allowed_ips = ["123.123.123.1"]` + "\n"
 	config += `}` + "\n"
 
 	config += `
