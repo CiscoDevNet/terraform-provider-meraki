@@ -132,6 +132,22 @@ func (d *ApplianceVLANDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN",
 				Computed:            true,
 			},
+			"fixed_ip_assignments": schema.MapNestedAttribute{
+				MarkdownDescription: "The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address.",
+				Computed:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"ip": schema.StringAttribute{
+							MarkdownDescription: "The IP address to assign to the client",
+							Computed:            true,
+						},
+						"name": schema.StringAttribute{
+							MarkdownDescription: "The name of the client",
+							Computed:            true,
+						},
+					},
+				},
+			},
 			"ipv6_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Enable IPv6 on VLAN.",
 				Computed:            true,

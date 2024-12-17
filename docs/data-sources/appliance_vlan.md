@@ -43,6 +43,7 @@ data "meraki_appliance_vlan" "example" {
 - `dhcp_options` (Attributes List) The list of DHCP options that will be included in DHCP responses. Each object in the list should have 'code', 'type', and 'value' properties. (see [below for nested schema](#nestedatt--dhcp_options))
 - `dhcp_relay_server_ips` (List of String) The IPs of the DHCP servers that DHCP requests should be relayed to
 - `dns_nameservers` (String) The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names
+- `fixed_ip_assignments` (Attributes Map) The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address. (see [below for nested schema](#nestedatt--fixed_ip_assignments))
 - `group_policy_id` (String) The id of the desired group policy to apply to the VLAN
 - `ipv6_enabled` (Boolean) Enable IPv6 on VLAN.
 - `ipv6_prefix_assignments` (Attributes List) Prefix assignments on the VLAN (see [below for nested schema](#nestedatt--ipv6_prefix_assignments))
@@ -62,6 +63,15 @@ Read-Only:
 - `code` (String) The code for the DHCP option. This should be an integer between 2 and 254.
 - `type` (String) The type for the DHCP option. One of: `text`, `ip`, `hex` or `integer`
 - `value` (String) The value for the DHCP option
+
+
+<a id="nestedatt--fixed_ip_assignments"></a>
+### Nested Schema for `fixed_ip_assignments`
+
+Read-Only:
+
+- `ip` (String) The IP address to assign to the client
+- `name` (String) The name of the client
 
 
 <a id="nestedatt--ipv6_prefix_assignments"></a>

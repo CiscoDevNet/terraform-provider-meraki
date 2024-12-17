@@ -53,7 +53,7 @@ type {{camelCase .Name}} struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
@@ -73,10 +73,10 @@ type {{.GoTypeName}} struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
@@ -99,13 +99,13 @@ type {{.GoTypeName}} struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}

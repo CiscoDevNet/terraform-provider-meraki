@@ -633,6 +633,9 @@ func cutYamlConfigAttribute(i int, attributes []YamlConfigAttributeP) []YamlConf
 }
 
 func MergeYamlConfigAttributes(existing *[]YamlConfigAttributeP, new *[]YamlConfigAttributeP) *[]YamlConfigAttributeP {
+	if new == nil {
+		return existing
+	}
 	// Merge existing into new
 	var c []YamlConfigAttributeP
 	for _, existingAttr := range *existing {

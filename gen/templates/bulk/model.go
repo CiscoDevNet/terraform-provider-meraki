@@ -51,6 +51,8 @@ type {{camelCase .BulkName}}Items struct {
 {{- if and (not .Reference) (not .Value)}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
+{{- else if isNestedMap .}}
+	{{toGoName .TfName}} map[string]{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -60,12 +62,14 @@ type {{camelCase .BulkName}}Items struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 type {{.GoTypeBulkName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
+{{- else if isNestedMap .}}
+	{{toGoName .TfName}} map[string]{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -78,15 +82,17 @@ type {{.GoTypeBulkName}} struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 type {{.GoTypeBulkName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
+{{- else if isNestedMap .}}
+	{{toGoName .TfName}} map[string]{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
@@ -102,13 +108,13 @@ type {{.GoTypeBulkName}} struct {
 
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 {{range .Attributes}}
 {{- if not .Value}}
-{{- if isNestedListSet .}}
+{{- if isNestedListSetMap .}}
 type {{.GoTypeBulkName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
@@ -167,14 +173,22 @@ func (data *{{camelCase .BulkName}}) fromBody(ctx context.Context, res meraki.Re
 			} else {
 				data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
 			}
-			{{- else if isNestedListSet .}}
+			{{- else if isNestedListSetMap .}}
 			if value := res{{if .ModelName}}.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"){{end}}; value.Exists() && value.Value() != nil {
+				{{- if isNestedMap .}}
+				data.{{toGoName .TfName}} = make(map[string]{{.GoTypeBulkName}})
+				{{- else}}
 				data.{{toGoName .TfName}} = make([]{{.GoTypeBulkName}}, 0)
+				{{- end}}
 				value.ForEach(func(k, res gjson.Result) bool {
 					parent := &data
 					data := {{.GoTypeBulkName}}{}
 					{{- template "fromBodyTemplate" .}}
+					{{- if isNestedMap .}}
+					(*parent).{{toGoName .TfName}}[k.String()] = data
+					{{- else}}
 					(*parent).{{toGoName .TfName}} = append((*parent).{{toGoName .TfName}}, data)
+					{{- end}}
 					return true
 				})
 			}

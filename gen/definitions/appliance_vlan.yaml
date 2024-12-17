@@ -5,7 +5,6 @@ bulk_data_source: true
 data_source_name_query: true
 doc_category: Appliances
 test_variables: [test_org, test_network]
-ignore_attributes: [fixedIpAssignments]
 attributes:
   - tf_name: network_id
     type: String
@@ -88,6 +87,22 @@ attributes:
     exclude_test: true
     description: The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
     example: 192.168.1.0/24
+  - model_name: fixedIpAssignments
+    type: Map
+    exclude_test: true
+    description: The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address.
+    map_key_example: 22:33:44:55:66:77
+    attributes:
+      - model_name: ip
+        type: String
+        mandatory: true
+        description: The IP address to assign to the client
+        example: 192.168.1.100
+      - model_name: name
+        type: String
+        mandatory: true
+        description: The name of the client
+        example: Some client name
   - model_name: enabled
     type: Bool
     data_path: [ipv6]

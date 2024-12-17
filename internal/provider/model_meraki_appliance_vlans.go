@@ -39,28 +39,34 @@ type ApplianceVLANs struct {
 }
 
 type ApplianceVLANsItems struct {
-	Id                     types.String                          `tfsdk:"id"`
-	ApplianceIp            types.String                          `tfsdk:"appliance_ip"`
-	Cidr                   types.String                          `tfsdk:"cidr"`
-	DhcpBootFilename       types.String                          `tfsdk:"dhcp_boot_filename"`
-	DhcpBootNextServer     types.String                          `tfsdk:"dhcp_boot_next_server"`
-	DhcpBootOptionsEnabled types.Bool                            `tfsdk:"dhcp_boot_options_enabled"`
-	DhcpHandling           types.String                          `tfsdk:"dhcp_handling"`
-	DhcpLeaseTime          types.String                          `tfsdk:"dhcp_lease_time"`
-	DnsNameservers         types.String                          `tfsdk:"dns_nameservers"`
-	GroupPolicyId          types.String                          `tfsdk:"group_policy_id"`
-	VlanId                 types.String                          `tfsdk:"vlan_id"`
-	Mask                   types.Int64                           `tfsdk:"mask"`
-	Name                   types.String                          `tfsdk:"name"`
-	Subnet                 types.String                          `tfsdk:"subnet"`
-	TemplateVlanType       types.String                          `tfsdk:"template_vlan_type"`
-	VpnNatSubnet           types.String                          `tfsdk:"vpn_nat_subnet"`
-	Ipv6Enabled            types.Bool                            `tfsdk:"ipv6_enabled"`
-	Ipv6PrefixAssignments  []ApplianceVLANsIpv6PrefixAssignments `tfsdk:"ipv6_prefix_assignments"`
-	MandatoryDhcpEnabled   types.Bool                            `tfsdk:"mandatory_dhcp_enabled"`
-	DhcpOptions            []ApplianceVLANsDhcpOptions           `tfsdk:"dhcp_options"`
-	DhcpRelayServerIps     types.List                            `tfsdk:"dhcp_relay_server_ips"`
-	ReservedIpRanges       []ApplianceVLANsReservedIpRanges      `tfsdk:"reserved_ip_ranges"`
+	Id                     types.String                                `tfsdk:"id"`
+	ApplianceIp            types.String                                `tfsdk:"appliance_ip"`
+	Cidr                   types.String                                `tfsdk:"cidr"`
+	DhcpBootFilename       types.String                                `tfsdk:"dhcp_boot_filename"`
+	DhcpBootNextServer     types.String                                `tfsdk:"dhcp_boot_next_server"`
+	DhcpBootOptionsEnabled types.Bool                                  `tfsdk:"dhcp_boot_options_enabled"`
+	DhcpHandling           types.String                                `tfsdk:"dhcp_handling"`
+	DhcpLeaseTime          types.String                                `tfsdk:"dhcp_lease_time"`
+	DnsNameservers         types.String                                `tfsdk:"dns_nameservers"`
+	GroupPolicyId          types.String                                `tfsdk:"group_policy_id"`
+	VlanId                 types.String                                `tfsdk:"vlan_id"`
+	Mask                   types.Int64                                 `tfsdk:"mask"`
+	Name                   types.String                                `tfsdk:"name"`
+	Subnet                 types.String                                `tfsdk:"subnet"`
+	TemplateVlanType       types.String                                `tfsdk:"template_vlan_type"`
+	VpnNatSubnet           types.String                                `tfsdk:"vpn_nat_subnet"`
+	FixedIpAssignments     map[string]ApplianceVLANsFixedIpAssignments `tfsdk:"fixed_ip_assignments"`
+	Ipv6Enabled            types.Bool                                  `tfsdk:"ipv6_enabled"`
+	Ipv6PrefixAssignments  []ApplianceVLANsIpv6PrefixAssignments       `tfsdk:"ipv6_prefix_assignments"`
+	MandatoryDhcpEnabled   types.Bool                                  `tfsdk:"mandatory_dhcp_enabled"`
+	DhcpOptions            []ApplianceVLANsDhcpOptions                 `tfsdk:"dhcp_options"`
+	DhcpRelayServerIps     types.List                                  `tfsdk:"dhcp_relay_server_ips"`
+	ReservedIpRanges       []ApplianceVLANsReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
+}
+
+type ApplianceVLANsFixedIpAssignments struct {
+	Ip   types.String `tfsdk:"ip"`
+	Name types.String `tfsdk:"name"`
 }
 
 type ApplianceVLANsIpv6PrefixAssignments struct {
@@ -175,6 +181,25 @@ func (data *ApplianceVLANs) fromBody(ctx context.Context, res meraki.Res) {
 			data.VpnNatSubnet = types.StringValue(value.String())
 		} else {
 			data.VpnNatSubnet = types.StringNull()
+		}
+		if value := res.Get("fixedIpAssignments"); value.Exists() && value.Value() != nil {
+			data.FixedIpAssignments = make(map[string]ApplianceVLANsFixedIpAssignments)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := ApplianceVLANsFixedIpAssignments{}
+				if value := res.Get("ip"); value.Exists() && value.Value() != nil {
+					data.Ip = types.StringValue(value.String())
+				} else {
+					data.Ip = types.StringNull()
+				}
+				if value := res.Get("name"); value.Exists() && value.Value() != nil {
+					data.Name = types.StringValue(value.String())
+				} else {
+					data.Name = types.StringNull()
+				}
+				(*parent).FixedIpAssignments[k.String()] = data
+				return true
+			})
 		}
 		if value := res.Get("ipv6.enabled"); value.Exists() && value.Value() != nil {
 			data.Ipv6Enabled = types.BoolValue(value.Bool())
