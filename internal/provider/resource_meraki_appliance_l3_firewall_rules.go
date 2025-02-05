@@ -251,8 +251,6 @@ func (r *ApplianceL3FirewallRulesResource) Update(ctx context.Context, req resou
 
 // End of section. //template:end update
 
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
-
 func (r *ApplianceL3FirewallRulesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state ApplianceL3FirewallRules
 
@@ -264,12 +262,19 @@ func (r *ApplianceL3FirewallRulesResource) Delete(ctx context.Context, req resou
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 
+	state.Rules = []ApplianceL3FirewallRulesRules{}
+
+	body := state.toBody(ctx, state)
+	res, err := r.client.Put(state.getPath(), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *ApplianceL3FirewallRulesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
