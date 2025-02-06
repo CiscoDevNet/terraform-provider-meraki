@@ -103,6 +103,7 @@ resource "meraki_network" "test" {
 func testAccMerakiNetworkCellularGatewayUplinkConfig_minimum() string {
 	config := `resource "meraki_network_cellular_gateway_uplink" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  bandwidth_limits_limit_down = 10000` + "\n"
 	config += `}` + "\n"
 	return config
 }

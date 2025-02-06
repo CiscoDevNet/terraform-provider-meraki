@@ -1,0 +1,67 @@
+name: Device Cellular Gateway LAN
+spec_endpoint: /devices/{serial}/cellularGateway/lan
+rest_endpoint: /devices/%v/cellularGateway/lan
+put_create: true
+no_delete: true
+doc_category: Cellular Gateways
+test_variables: [test_org, test_network, test_switch_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: fixedIpAssignments
+    type: List
+    description: list of all fixed IP assignments for a single MG
+    mandatory: true
+    attributes:
+      - model_name: ip
+        type: String
+        mandatory: true
+        description: The IP address you want to assign to a specific server or device
+        example: 172.31.128.10
+      - model_name: mac
+        type: String
+        mandatory: true
+        description: The MAC address of the server or device that hosts the internal resource that you wish to receive the specified IP address
+        example: 0b:00:00:00:00:ac
+      - model_name: name
+        type: String
+        description: A descriptive name of the assignment
+        example: server 1
+  - model_name: reservedIpRanges
+    type: List
+    description: list of all reserved IP ranges for a single MG
+    mandatory: true
+    attributes:
+      - model_name: comment
+        type: String
+        mandatory: true
+        description: Comment explaining the reserved IP range
+        example: A reserved IP range
+      - model_name: end
+        type: String
+        mandatory: true
+        description: Ending IP included in the reserved range of IPs
+        example: 172.31.128.1
+      - model_name: start
+        type: String
+        mandatory: true
+        description: Starting IP included in the reserved range of IPs
+        example: 172.31.128.0
+test_prerequisites: |2
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["cellularGateway"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_switch_1_serial]
+  }

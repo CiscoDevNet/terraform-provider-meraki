@@ -18,6 +18,7 @@ attributes:
     data_path: [bandwidthLimits]
     description: The maximum download limit (integer, in Kbps). null indicates no limit
     example: "1000000"
+    minimum_test_value: "10000"
   - model_name: limitUp
     type: Int64
     data_path: [bandwidthLimits]
