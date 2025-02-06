@@ -1,0 +1,43 @@
+name: Network Cellular Gateway Connectivity Monitoring Destinations
+spec_endpoint: /networks/{networkId}/cellularGateway/connectivityMonitoringDestinations
+rest_endpoint: /networks/%v/cellularGateway/connectivityMonitoringDestinations
+put_create: true
+no_delete: true
+doc_category: Cellular Gateways
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: destinations
+    type: List
+    description: The list of connectivity monitoring destinations
+    mandatory: true
+    attributes:
+      - model_name: default
+        type: Bool
+        description: Boolean indicating whether this is the default testing destination (true) or not (false). Defaults to false. Only one default is allowed
+        example: "true"
+        minimum_test_value: "true"
+      - model_name: description
+        type: String
+        description: Description of the testing destination. Optional, defaults to an empty string
+        example: Google
+      - model_name: ip
+        type: String
+        mandatory: true
+        description: The IP address to test connectivity with
+        example: 1.2.3.4
+test_prerequisites: |2
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["cellularGateway"]
+  }
