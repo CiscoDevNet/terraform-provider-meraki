@@ -1,0 +1,1 @@
+terraform import meraki_device_cellular_gateway_port_forwarding_rules.example "<serial>"
