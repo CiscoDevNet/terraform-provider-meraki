@@ -100,3 +100,12 @@ func (data *WirelessEthernetPortProfileDefault) fromBodyUnknowns(ctx context.Con
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data WirelessEthernetPortProfileDefault) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

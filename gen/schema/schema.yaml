@@ -60,5 +60,6 @@ attribute:
   value: any(str(), int(), bool(), required=False) # Hardcoded value for the attribute
   test_value: str(required=False) # Value used for acceptance test
   minimum_test_value: str(required=False) # Value used for "minimum" resource acceptance test
+  destroy_value: str(required=False) # Value used when destroying resource using PUT
   test_tags: list(str(), required=False) # List of test tags, attribute is only included in acceptance tests if an environment variable with one of these tags is configured
   attributes: list(include('attribute'), required=False) # List of attributes, only relevant if type is "List" or "Set"
