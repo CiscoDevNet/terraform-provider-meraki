@@ -7,6 +7,12 @@
 - Add `log` and `tcp_established` attributes to `meraki_organization_adaptive_policy_acl` resource and data sources
 - Add `stackwise_virtual_is_dual_active_detector` and `stackwise_virtual_is_stack_wise_virtual_link` attributes to `meraki_switch_ports` data source
 - Add `radius_radsec_tls_tunnel_timeout` attribute to `meraki_wireless_ssid` resource and data source
+- Add `meraki_cellular_gateway_connectivity_monitoring_destinations` resource and data sources
+- Add `meraki_cellular_gateway_dhcp` resource and data sources
+- Add `meraki_cellular_gateway_lan` resource and data sources
+- Add `meraki_cellular_gateway_port_forwarding_rules` resource and data sources
+- Add `meraki_cellular_gateway_subnet_pool` resource and data sources
+- Add `meraki_cellular_gateway_uplink` resource and data sources
 
 ## 0.1.4
 
