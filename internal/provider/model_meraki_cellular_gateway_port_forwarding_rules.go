@@ -22,7 +22,6 @@ import (
 	"context"
 	"fmt"
 	"net/url"
-	"slices"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -159,42 +158,18 @@ func (data *CellularGatewayPortForwardingRules) fromBody(ctx context.Context, re
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *CellularGatewayPortForwardingRules) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	for i := 0; i < len(data.Rules); i++ {
-		keys := [...]string{"access", "lanIp", "localPort", "name", "protocol", "publicPort"}
-		keyValues := [...]string{data.Rules[i].Access.ValueString(), data.Rules[i].LanIp.ValueString(), data.Rules[i].LocalPort.ValueString(), data.Rules[i].Name.ValueString(), data.Rules[i].Protocol.ValueString(), data.Rules[i].PublicPort.ValueString()}
-
+	{
+		l := len(res.Get("rules").Array())
+		tflog.Debug(ctx, fmt.Sprintf("rules array resizing from %d to %d", len(data.Rules), l))
+		if len(data.Rules) > l {
+			data.Rules = data.Rules[:l]
+		}
+	}
+	for i := range data.Rules {
 		parent := &data
 		data := (*parent).Rules[i]
 		parentRes := &res
-		var res gjson.Result
-
-		parentRes.Get("rules").ForEach(
-			func(_, v gjson.Result) bool {
-				found := false
-				for ik := range keys {
-					if v.Get(keys[ik]).String() != keyValues[ik] {
-						found = false
-						break
-					}
-					found = true
-				}
-				if found {
-					res = v
-					return false
-				}
-				return true
-			},
-		)
-		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("removing Rules[%d] = %+v",
-				i,
-				(*parent).Rules[i],
-			))
-			(*parent).Rules = slices.Delete((*parent).Rules, i, i+1)
-			i--
-
-			continue
-		}
+		res := parentRes.Get(fmt.Sprintf("rules.%d", i))
 		if value := res.Get("access"); value.Exists() && !data.Access.IsNull() {
 			data.Access = types.StringValue(value.String())
 		} else {
@@ -249,6 +224,7 @@ func (data *CellularGatewayPortForwardingRules) fromBodyUnknowns(ctx context.Con
 
 func (data CellularGatewayPortForwardingRules) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "rules", []interface{}{})
 	return body
 }
 

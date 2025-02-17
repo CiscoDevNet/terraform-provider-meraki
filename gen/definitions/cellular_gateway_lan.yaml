@@ -17,6 +17,7 @@ attributes:
     type: List
     mandatory: true
     description: list of all fixed IP assignments for a single MG
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: ip
         type: String
@@ -36,6 +37,7 @@ attributes:
     type: List
     mandatory: true
     description: list of all reserved IP ranges for a single MG
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: comment
         type: String

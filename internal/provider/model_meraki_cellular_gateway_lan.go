@@ -290,6 +290,8 @@ func (data *CellularGatewayLAN) fromBodyUnknowns(ctx context.Context, res meraki
 
 func (data CellularGatewayLAN) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "fixedIpAssignments", []interface{}{})
+	body, _ = sjson.Set(body, "reservedIpRanges", []interface{}{})
 	return body
 }
 
