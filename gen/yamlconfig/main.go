@@ -109,6 +109,7 @@ type YamlConfigAttribute struct {
 	Value              string                `yaml:"value,omitempty"`
 	TestValue          string                `yaml:"test_value,omitempty"`
 	MinimumTestValue   string                `yaml:"minimum_test_value,omitempty"`
+	DestroyValue       string                `yaml:"destroy_value,omitempty"`
 	TestTags           []string              `yaml:"test_tags,omitempty,flow"`
 	Attributes         []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	GoTypeName         string                `yaml:"gotypename,omitempty"`
@@ -149,6 +150,7 @@ type YamlConfigAttributeP struct {
 	Value              *string                 `yaml:"value,omitempty"`
 	TestValue          *string                 `yaml:"test_value,omitempty"`
 	MinimumTestValue   *string                 `yaml:"minimum_test_value,omitempty"`
+	DestroyValue       *string                 `yaml:"destroy_value,omitempty"`
 	TestTags           *[]string               `yaml:"test_tags,omitempty,flow"`
 	Attributes         *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
 	GoTypeName         *string                 `yaml:"gotypename,omitempty"`
@@ -410,6 +412,19 @@ func BuildTestPath(attr ...YamlConfigAttribute) string {
 	return strings.Join(path, ".") + "."
 }
 
+// HasDestroyValues returns true if any attributes have explicit destroy values
+func HasDestroyValues(attributes []YamlConfigAttribute) bool {
+	for _, attr := range attributes {
+		if attr.DestroyValue != "" {
+			return true
+		}
+		if len(attr.Attributes) > 0 && HasDestroyValues(attr.Attributes) {
+			return true
+		}
+	}
+	return false
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":              ToGoName,
@@ -439,6 +454,7 @@ var Functions = template.FuncMap{
 	"getFullModelName":      GetFullModelName,
 	"hasComputedAttributes": HasComputedAttributes,
 	"buildTestPath":         BuildTestPath,
+	"hasDestroyValues":      HasDestroyValues,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
@@ -794,6 +810,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.MinimumTestValue != nil {
 		new.MinimumTestValue = existing.MinimumTestValue
+	}
+	if existing.DestroyValue != nil {
+		new.DestroyValue = existing.DestroyValue
 	}
 	if existing.TestTags != nil {
 		new.TestTags = existing.TestTags

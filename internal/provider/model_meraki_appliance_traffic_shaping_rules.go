@@ -289,3 +289,13 @@ func (data *ApplianceTrafficShapingRules) fromBodyUnknowns(ctx context.Context, 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ApplianceTrafficShapingRules) toDestroyBody(ctx context.Context) string {
+	body := ""
+	body, _ = sjson.Set(body, "rules", []interface{}{})
+	return body
+}
+
+// End of section. //template:end toDestroyBody

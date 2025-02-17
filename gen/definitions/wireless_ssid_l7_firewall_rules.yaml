@@ -24,6 +24,7 @@ attributes:
     type: List
     description: An array of L7 firewall rules for this SSID. Rules will get applied in the same order user has specified in request. Empty array will clear the L7 firewall rule configuration.
     ordered_list: true
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: policy
         type: String

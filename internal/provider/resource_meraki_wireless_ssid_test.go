@@ -61,6 +61,7 @@ func TestAccMerakiWirelessSSID(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "dot11r_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "dot11w_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "dot11w_required", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "radius_radsec_tls_tunnel_timeout", "600"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "speed_burst_enabled", "false"))
 
 	var steps []resource.TestStep
@@ -166,6 +167,7 @@ func testAccMerakiWirelessSSIDConfig_all() string {
 	config += `  dot11r_enabled = false` + "\n"
 	config += `  dot11w_enabled = false` + "\n"
 	config += `  dot11w_required = false` + "\n"
+	config += `  radius_radsec_tls_tunnel_timeout = 600` + "\n"
 	config += `  speed_burst_enabled = false` + "\n"
 	config += `  availability_tags = ["tag1"]` + "\n"
 	config += `}` + "\n"

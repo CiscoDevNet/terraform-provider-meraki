@@ -14,34 +14,35 @@ This resource can manage the `Wireless SSID` configuration.
 
 ```terraform
 resource "meraki_wireless_ssid" "example" {
-  network_id                      = "L_123456"
-  number                          = "0"
-  auth_mode                       = "psk"
-  available_on_all_aps            = false
-  band_selection                  = "5 GHz band only"
-  enabled                         = false
-  encryption_mode                 = "wpa"
-  ip_assignment_mode              = "Bridge mode"
-  lan_isolation_enabled           = false
-  mandatory_dhcp_enabled          = false
-  min_bitrate                     = 5.5
-  name                            = "My SSID"
-  per_client_bandwidth_limit_down = 0
-  per_client_bandwidth_limit_up   = 0
-  per_ssid_bandwidth_limit_down   = 0
-  per_ssid_bandwidth_limit_up     = 0
-  psk                             = "deadbeef"
-  splash_page                     = "Click-through splash page"
-  use_vlan_tagging                = false
-  visible                         = false
-  walled_garden_enabled           = false
-  wpa_encryption_mode             = "WPA2 only"
-  dot11r_adaptive                 = false
-  dot11r_enabled                  = false
-  dot11w_enabled                  = false
-  dot11w_required                 = false
-  speed_burst_enabled             = false
-  availability_tags               = ["tag1"]
+  network_id                       = "L_123456"
+  number                           = "0"
+  auth_mode                        = "psk"
+  available_on_all_aps             = false
+  band_selection                   = "5 GHz band only"
+  enabled                          = false
+  encryption_mode                  = "wpa"
+  ip_assignment_mode               = "Bridge mode"
+  lan_isolation_enabled            = false
+  mandatory_dhcp_enabled           = false
+  min_bitrate                      = 5.5
+  name                             = "My SSID"
+  per_client_bandwidth_limit_down  = 0
+  per_client_bandwidth_limit_up    = 0
+  per_ssid_bandwidth_limit_down    = 0
+  per_ssid_bandwidth_limit_up      = 0
+  psk                              = "deadbeef"
+  splash_page                      = "Click-through splash page"
+  use_vlan_tagging                 = false
+  visible                          = false
+  walled_garden_enabled            = false
+  wpa_encryption_mode              = "WPA2 only"
+  dot11r_adaptive                  = false
+  dot11r_enabled                   = false
+  dot11w_enabled                   = false
+  dot11w_required                  = false
+  radius_radsec_tls_tunnel_timeout = 600
+  speed_burst_enabled              = false
+  availability_tags                = ["tag1"]
 }
 ```
 
@@ -126,6 +127,7 @@ resource "meraki_wireless_ssid" "example" {
   - Choices: `Round robin`, `Strict priority order`
 - `radius_override` (Boolean) If true, the RADIUS response can override VLAN tag. This is not valid when ipAssignmentMode is `NAT mode`.
 - `radius_proxy_enabled` (Boolean) If true, Meraki devices will proxy RADIUS messages through the Meraki cloud to the configured RADIUS auth and accounting servers.
+- `radius_radsec_tls_tunnel_timeout` (Number) The interval (in seconds) to determines how long a TLS session can remain idle for a RADSec server before it is automatically terminated
 - `radius_server_attempts_limit` (Number) The maximum number of transmit attempts after which a RADIUS server is failed over (must be between 1-5).
 - `radius_server_timeout` (Number) The amount of time for which a RADIUS client waits for a reply from the RADIUS server (must be between 1-10 seconds).
 - `radius_servers` (Attributes List) The RADIUS 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` (see [below for nested schema](#nestedatt--radius_servers))

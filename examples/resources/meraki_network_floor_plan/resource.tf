@@ -1,5 +1,6 @@
 resource "meraki_network_floor_plan" "example" {
   network_id              = "L_123456"
+  floor_number            = 0
   image_contents          = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="
   name                    = "HQ Floor Plan"
   bottom_left_corner_lat  = 37.770040510499996

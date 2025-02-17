@@ -93,6 +93,10 @@ func (d *OrganizationAdaptivePolicyACLDataSource) Schema(ctx context.Context, re
 							MarkdownDescription: "Destination port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.",
 							Computed:            true,
 						},
+						"log": schema.BoolAttribute{
+							MarkdownDescription: "If enabled, when this rule is hit an entry will be logged to the event log",
+							Computed:            true,
+						},
 						"policy": schema.StringAttribute{
 							MarkdownDescription: "`allow` or `deny` traffic specified by this rule.",
 							Computed:            true,
@@ -103,6 +107,10 @@ func (d *OrganizationAdaptivePolicyACLDataSource) Schema(ctx context.Context, re
 						},
 						"src_port": schema.StringAttribute{
 							MarkdownDescription: "Source port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.",
+							Computed:            true,
+						},
+						"tcp_established": schema.BoolAttribute{
+							MarkdownDescription: "If enabled, means TCP connection with this node must be established.",
 							Computed:            true,
 						},
 					},

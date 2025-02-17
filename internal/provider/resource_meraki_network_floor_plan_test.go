@@ -36,6 +36,7 @@ func TestAccMerakiNetworkFloorPlan(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_floor_plan.test", "floor_number", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_floor_plan.test", "name", "HQ Floor Plan"))
 
 	var steps []resource.TestStep
@@ -53,7 +54,7 @@ func TestAccMerakiNetworkFloorPlan(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkFloorPlanImportStateIdFunc("meraki_network_floor_plan.test"),
-		ImportStateVerifyIgnore: []string{"image_contents", "bottom_left_corner_lat", "bottom_left_corner_lng", "bottom_right_corner_lat", "bottom_right_corner_lng", "center_lat", "center_lng", "top_left_corner_lat", "top_left_corner_lng", "top_right_corner_lat", "top_right_corner_lng"},
+		ImportStateVerifyIgnore: []string{"floor_number", "image_contents", "bottom_left_corner_lat", "bottom_left_corner_lng", "bottom_right_corner_lat", "bottom_right_corner_lng", "center_lat", "center_lng", "top_left_corner_lat", "top_left_corner_lng", "top_right_corner_lat", "top_right_corner_lng"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -118,6 +119,7 @@ func testAccMerakiNetworkFloorPlanConfig_minimum() string {
 func testAccMerakiNetworkFloorPlanConfig_all() string {
 	config := `resource "meraki_network_floor_plan" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  floor_number = 0` + "\n"
 	config += `  image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
 	config += `  name = "HQ Floor Plan"` + "\n"
 	config += `  bottom_left_corner_lat = 37.770040510499996` + "\n"

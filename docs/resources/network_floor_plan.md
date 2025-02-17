@@ -15,6 +15,7 @@ This resource can manage the `Network Floor Plan` configuration.
 ```terraform
 resource "meraki_network_floor_plan" "example" {
   network_id              = "L_123456"
+  floor_number            = 0
   image_contents          = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="
   name                    = "HQ Floor Plan"
   bottom_left_corner_lat  = 37.770040510499996
@@ -45,6 +46,7 @@ resource "meraki_network_floor_plan" "example" {
 - `bottom_right_corner_lng` (Number) Longitude
 - `center_lat` (Number) Latitude
 - `center_lng` (Number) Longitude
+- `floor_number` (Number) The floor number of the floors within the building
 - `top_left_corner_lat` (Number) Latitude
 - `top_left_corner_lng` (Number) Longitude
 - `top_right_corner_lat` (Number) Latitude

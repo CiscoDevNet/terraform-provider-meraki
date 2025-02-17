@@ -34,6 +34,7 @@ func TestAccDataSourceMerakiNetworkFloorPlan(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_floor_plan.test", "floor_number", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_floor_plan.test", "name", "HQ Floor Plan"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -72,6 +73,7 @@ resource "meraki_network" "test" {
 func testAccDataSourceMerakiNetworkFloorPlanConfig() string {
 	config := `resource "meraki_network_floor_plan" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  floor_number = 0` + "\n"
 	config += `  image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
 	config += `  name = "HQ Floor Plan"` + "\n"
 	config += `  bottom_left_corner_lat = 37.770040510499996` + "\n"
@@ -97,6 +99,7 @@ func testAccDataSourceMerakiNetworkFloorPlanConfig() string {
 func testAccNamedDataSourceMerakiNetworkFloorPlanConfig() string {
 	config := `resource "meraki_network_floor_plan" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  floor_number = 0` + "\n"
 	config += `  image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
 	config += `  name = "HQ Floor Plan"` + "\n"
 	config += `  bottom_left_corner_lat = 37.770040510499996` + "\n"

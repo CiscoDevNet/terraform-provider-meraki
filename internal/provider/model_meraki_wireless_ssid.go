@@ -113,6 +113,7 @@ type WirelessSSID struct {
 	NamedVlansTaggingEnabled                                            types.Bool                              `tfsdk:"named_vlans_tagging_enabled"`
 	NamedVlansTaggingByApTags                                           []WirelessSSIDNamedVlansTaggingByApTags `tfsdk:"named_vlans_tagging_by_ap_tags"`
 	OauthAllowedDomains                                                 types.Set                               `tfsdk:"oauth_allowed_domains"`
+	RadiusRadsecTlsTunnelTimeout                                        types.Int64                             `tfsdk:"radius_radsec_tls_tunnel_timeout"`
 	SpeedBurstEnabled                                                   types.Bool                              `tfsdk:"speed_burst_enabled"`
 	ApTagsAndVlanIds                                                    []WirelessSSIDApTagsAndVlanIds          `tfsdk:"ap_tags_and_vlan_ids"`
 	AvailabilityTags                                                    types.Set                               `tfsdk:"availability_tags"`
@@ -424,6 +425,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 		var values []string
 		data.OauthAllowedDomains.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "oauth.allowedDomains", values)
+	}
+	if !data.RadiusRadsecTlsTunnelTimeout.IsNull() {
+		body, _ = sjson.Set(body, "radiusRadsec.tlsTunnel.timeout", data.RadiusRadsecTlsTunnelTimeout.ValueInt64())
 	}
 	if !data.SpeedBurstEnabled.IsNull() {
 		body, _ = sjson.Set(body, "speedBurst.enabled", data.SpeedBurstEnabled.ValueBool())
@@ -914,6 +918,11 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 		data.OauthAllowedDomains = helpers.GetStringSet(value.Array())
 	} else {
 		data.OauthAllowedDomains = types.SetNull(types.StringType)
+	}
+	if value := res.Get("radiusRadsec.tlsTunnel.timeout"); value.Exists() && value.Value() != nil {
+		data.RadiusRadsecTlsTunnelTimeout = types.Int64Value(value.Int())
+	} else {
+		data.RadiusRadsecTlsTunnelTimeout = types.Int64Null()
 	}
 	if value := res.Get("speedBurst.enabled"); value.Exists() && value.Value() != nil {
 		data.SpeedBurstEnabled = types.BoolValue(value.Bool())
@@ -1493,6 +1502,11 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	} else {
 		data.OauthAllowedDomains = types.SetNull(types.StringType)
 	}
+	if value := res.Get("radiusRadsec.tlsTunnel.timeout"); value.Exists() && !data.RadiusRadsecTlsTunnelTimeout.IsNull() {
+		data.RadiusRadsecTlsTunnelTimeout = types.Int64Value(value.Int())
+	} else {
+		data.RadiusRadsecTlsTunnelTimeout = types.Int64Null()
+	}
 	if value := res.Get("speedBurst.enabled"); value.Exists() && !data.SpeedBurstEnabled.IsNull() {
 		data.SpeedBurstEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -1646,3 +1660,12 @@ func (data *WirelessSSID) fromBodyUnknowns(ctx context.Context, res meraki.Res) 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data WirelessSSID) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

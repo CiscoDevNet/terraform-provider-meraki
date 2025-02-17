@@ -39,6 +39,7 @@ type NetworkSettings struct {
 	RemoteStatusPageEnabled               types.Bool   `tfsdk:"remote_status_page_enabled"`
 	LocalStatusPageAuthenticationEnabled  types.Bool   `tfsdk:"local_status_page_authentication_enabled"`
 	LocalStatusPageAuthenticationPassword types.String `tfsdk:"local_status_page_authentication_password"`
+	LocalStatusPageAuthenticationUsername types.String `tfsdk:"local_status_page_authentication_username"`
 	NamedVlansEnabled                     types.Bool   `tfsdk:"named_vlans_enabled"`
 	SecurePortEnabled                     types.Bool   `tfsdk:"secure_port_enabled"`
 }
@@ -69,6 +70,9 @@ func (data NetworkSettings) toBody(ctx context.Context, state NetworkSettings) s
 	if !data.LocalStatusPageAuthenticationPassword.IsNull() {
 		body, _ = sjson.Set(body, "localStatusPage.authentication.password", data.LocalStatusPageAuthenticationPassword.ValueString())
 	}
+	if !data.LocalStatusPageAuthenticationUsername.IsNull() {
+		body, _ = sjson.Set(body, "localStatusPage.authentication.username", data.LocalStatusPageAuthenticationUsername.ValueString())
+	}
 	if !data.NamedVlansEnabled.IsNull() {
 		body, _ = sjson.Set(body, "namedVlans.enabled", data.NamedVlansEnabled.ValueBool())
 	}
@@ -97,6 +101,11 @@ func (data *NetworkSettings) fromBody(ctx context.Context, res meraki.Res) {
 		data.LocalStatusPageAuthenticationEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.LocalStatusPageAuthenticationEnabled = types.BoolNull()
+	}
+	if value := res.Get("localStatusPage.authentication.username"); value.Exists() && value.Value() != nil {
+		data.LocalStatusPageAuthenticationUsername = types.StringValue(value.String())
+	} else {
+		data.LocalStatusPageAuthenticationUsername = types.StringNull()
 	}
 	if value := res.Get("namedVlans.enabled"); value.Exists() && value.Value() != nil {
 		data.NamedVlansEnabled = types.BoolValue(value.Bool())
@@ -134,6 +143,11 @@ func (data *NetworkSettings) fromBodyPartial(ctx context.Context, res meraki.Res
 	} else {
 		data.LocalStatusPageAuthenticationEnabled = types.BoolNull()
 	}
+	if value := res.Get("localStatusPage.authentication.username"); value.Exists() && !data.LocalStatusPageAuthenticationUsername.IsNull() {
+		data.LocalStatusPageAuthenticationUsername = types.StringValue(value.String())
+	} else {
+		data.LocalStatusPageAuthenticationUsername = types.StringNull()
+	}
 	if value := res.Get("namedVlans.enabled"); value.Exists() && !data.NamedVlansEnabled.IsNull() {
 		data.NamedVlansEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -156,3 +170,12 @@ func (data *NetworkSettings) fromBodyUnknowns(ctx context.Context, res meraki.Re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data NetworkSettings) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

@@ -160,3 +160,13 @@ func (data *ApplianceL7FirewallRules) fromBodyUnknowns(ctx context.Context, res 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ApplianceL7FirewallRules) toDestroyBody(ctx context.Context) string {
+	body := ""
+	body, _ = sjson.Set(body, "rules", []interface{}{})
+	return body
+}
+
+// End of section. //template:end toDestroyBody

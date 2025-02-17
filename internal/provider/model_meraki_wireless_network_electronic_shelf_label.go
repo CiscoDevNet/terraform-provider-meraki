@@ -110,3 +110,12 @@ func (data *WirelessNetworkElectronicShelfLabel) fromBodyUnknowns(ctx context.Co
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data WirelessNetworkElectronicShelfLabel) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

@@ -70,6 +70,10 @@ func (d *NetworkFloorPlansDataSource) Schema(ctx context.Context, req datasource
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
+						"floor_number": schema.Int64Attribute{
+							MarkdownDescription: "The floor number of the floors within the building",
+							Computed:            true,
+						},
 						"image_contents": schema.StringAttribute{
 							MarkdownDescription: "The file contents (a base 64 encoded string) of your image. Supported formats are PNG, GIF, and JPG. Note that all images are saved as PNG files, regardless of the format they are uploaded in.",
 							Computed:            true,

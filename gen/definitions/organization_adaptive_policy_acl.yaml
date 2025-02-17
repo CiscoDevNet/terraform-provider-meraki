@@ -38,6 +38,10 @@ attributes:
         type: String
         description: 'Destination port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.'
         example: 22-30
+      - model_name: log
+        type: Bool
+        description: If enabled, when this rule is hit an entry will be logged to the event log
+        example: "true"
       - model_name: policy
         type: String
         mandatory: true
@@ -54,6 +58,10 @@ attributes:
         type: String
         description: 'Source port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.'
         example: 1,33
+      - model_name: tcpEstablished
+        type: Bool
+        description: If enabled, means TCP connection with this node must be established.
+        example: "true"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

@@ -38,9 +38,11 @@ func TestAccDataSourceMerakiOrganizationAdaptivePolicyACL(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "ip_version", "ipv6"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "name", "Block sensitive web traffic"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "rules.0.dst_port", "22-30"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "rules.0.log", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "rules.0.policy", "deny"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "rules.0.protocol", "tcp"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "rules.0.src_port", "1,33"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_adaptive_policy_acl.test", "rules.0.tcp_established", "true"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -77,9 +79,11 @@ func testAccDataSourceMerakiOrganizationAdaptivePolicyACLConfig() string {
 	config += `  name = "Block sensitive web traffic"` + "\n"
 	config += `  rules = [{` + "\n"
 	config += `    dst_port = "22-30"` + "\n"
+	config += `    log = true` + "\n"
 	config += `    policy = "deny"` + "\n"
 	config += `    protocol = "tcp"` + "\n"
 	config += `    src_port = "1,33"` + "\n"
+	config += `    tcp_established = true` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 
@@ -101,9 +105,11 @@ func testAccNamedDataSourceMerakiOrganizationAdaptivePolicyACLConfig() string {
 	config += `  name = "Block sensitive web traffic"` + "\n"
 	config += `  rules = [{` + "\n"
 	config += `    dst_port = "22-30"` + "\n"
+	config += `    log = true` + "\n"
 	config += `    policy = "deny"` + "\n"
 	config += `    protocol = "tcp"` + "\n"
 	config += `    src_port = "1,33"` + "\n"
+	config += `    tcp_established = true` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 

@@ -20,10 +20,12 @@ resource "meraki_organization_adaptive_policy_acl" "example" {
   name            = "Block sensitive web traffic"
   rules = [
     {
-      dst_port = "22-30"
-      policy   = "deny"
-      protocol = "tcp"
-      src_port = "1,33"
+      dst_port        = "22-30"
+      log             = true
+      policy          = "deny"
+      protocol        = "tcp"
+      src_port        = "1,33"
+      tcp_established = true
     }
   ]
 }
@@ -61,7 +63,9 @@ Required:
 Optional:
 
 - `dst_port` (String) Destination port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.
+- `log` (Boolean) If enabled, when this rule is hit an entry will be logged to the event log
 - `src_port` (String) Source port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.
+- `tcp_established` (Boolean) If enabled, means TCP connection with this node must be established.
 
 ## Import
 

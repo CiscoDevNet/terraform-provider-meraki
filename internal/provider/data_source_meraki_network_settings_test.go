@@ -37,6 +37,7 @@ func TestAccDataSourceMerakiNetworkSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "remote_status_page_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_authentication_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "local_status_page_authentication_username", "admin"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "named_vlans_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_settings.test", "secure_port_enabled", "false"))
 	resource.Test(t, resource.TestCase{
@@ -80,6 +81,7 @@ func testAccDataSourceMerakiNetworkSettingsConfig() string {
 	config += `  remote_status_page_enabled = true` + "\n"
 	config += `  local_status_page_authentication_enabled = false` + "\n"
 	config += `  local_status_page_authentication_password = "miles123"` + "\n"
+	config += `  local_status_page_authentication_username = "admin"` + "\n"
 	config += `  named_vlans_enabled = true` + "\n"
 	config += `  secure_port_enabled = false` + "\n"
 	config += `}` + "\n"
