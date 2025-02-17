@@ -1,0 +1,34 @@
+name: Cellular Gateway Subnet Pool
+spec_endpoint: /networks/{networkId}/cellularGateway/subnetPool
+rest_endpoint: /networks/%v/cellularGateway/subnetPool
+put_create: true
+no_delete: true
+doc_category: Cellular Gateways
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: cidr
+    type: String
+    mandatory: true
+    description: CIDR of the pool of subnets. Each MG in this network will automatically pick a subnet from this pool.
+    example: 192.168.0.0/24
+  - model_name: mask
+    type: Int64
+    mandatory: true
+    description: Mask used for the subnet of all MGs in this network.
+    example: "26"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["cellularGateway"]
+  }
