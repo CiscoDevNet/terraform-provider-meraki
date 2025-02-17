@@ -31,6 +31,7 @@ attributes:
     type: List
     description: An array of traffic shaping rules. Rules are applied in the order that they are specified in. An empty list (or null) means no rules. Note that you are allowed a maximum of 8 rules.
     ordered_list: true
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: dscpTagValue
         type: Int64

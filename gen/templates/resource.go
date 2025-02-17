@@ -580,7 +580,14 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 
-	{{- if not .NoDelete}}
+	{{- if hasDestroyValues .Attributes}}
+	body := state.toDestroyBody(ctx)
+	res, err := r.client.Put(state.getPath(), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
+	{{- else if not .NoDelete}}
 	res, err := r.client.Delete(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && !strings.Contains(err.Error(), "StatusCode 404") {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete object (DELETE), got error: %s, %s", err, res.String()))
