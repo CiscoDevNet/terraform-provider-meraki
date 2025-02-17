@@ -95,6 +95,7 @@ data "meraki_wireless_ssid" "example" {
 - `radius_load_balancing_policy` (String) This policy determines which RADIUS server will be contacted first in an authentication attempt and the ordering of any necessary retry attempts (`Strict priority order` or `Round robin`)
 - `radius_override` (Boolean) If true, the RADIUS response can override VLAN tag. This is not valid when ipAssignmentMode is `NAT mode`.
 - `radius_proxy_enabled` (Boolean) If true, Meraki devices will proxy RADIUS messages through the Meraki cloud to the configured RADIUS auth and accounting servers.
+- `radius_radsec_tls_tunnel_timeout` (Number) The interval (in seconds) to determines how long a TLS session can remain idle for a RADSec server before it is automatically terminated
 - `radius_server_attempts_limit` (Number) The maximum number of transmit attempts after which a RADIUS server is failed over (must be between 1-5).
 - `radius_server_timeout` (Number) The amount of time for which a RADIUS client waits for a reply from the RADIUS server (must be between 1-10 seconds).
 - `radius_servers` (Attributes List) The RADIUS 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` (see [below for nested schema](#nestedatt--radius_servers))

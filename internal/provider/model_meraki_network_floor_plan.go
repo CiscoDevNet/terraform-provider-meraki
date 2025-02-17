@@ -35,6 +35,7 @@ import (
 type NetworkFloorPlan struct {
 	Id                   types.String  `tfsdk:"id"`
 	NetworkId            types.String  `tfsdk:"network_id"`
+	FloorNumber          types.Int64   `tfsdk:"floor_number"`
 	ImageContents        types.String  `tfsdk:"image_contents"`
 	Name                 types.String  `tfsdk:"name"`
 	BottomLeftCornerLat  types.Float64 `tfsdk:"bottom_left_corner_lat"`
@@ -63,6 +64,9 @@ func (data NetworkFloorPlan) getPath() string {
 
 func (data NetworkFloorPlan) toBody(ctx context.Context, state NetworkFloorPlan) string {
 	body := ""
+	if !data.FloorNumber.IsNull() {
+		body, _ = sjson.Set(body, "floorNumber", data.FloorNumber.ValueInt64())
+	}
 	if !data.ImageContents.IsNull() {
 		body, _ = sjson.Set(body, "imageContents", data.ImageContents.ValueString())
 	}
@@ -107,6 +111,11 @@ func (data NetworkFloorPlan) toBody(ctx context.Context, state NetworkFloorPlan)
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkFloorPlan) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("floorNumber"); value.Exists() && value.Value() != nil {
+		data.FloorNumber = types.Int64Value(value.Int())
+	} else {
+		data.FloorNumber = types.Int64Null()
+	}
 	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
@@ -123,6 +132,11 @@ func (data *NetworkFloorPlan) fromBody(ctx context.Context, res meraki.Res) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *NetworkFloorPlan) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("floorNumber"); value.Exists() && !data.FloorNumber.IsNull() {
+		data.FloorNumber = types.Int64Value(value.Int())
+	} else {
+		data.FloorNumber = types.Int64Null()
+	}
 	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {

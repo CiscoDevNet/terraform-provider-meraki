@@ -195,6 +195,14 @@ func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.Schem
 							MarkdownDescription: "The name of the port schedule.",
 							Computed:            true,
 						},
+						"stackwise_virtual_is_dual_active_detector": schema.BoolAttribute{
+							MarkdownDescription: "For SVL devices, whether or not the port is used for Dual Active Detection.",
+							Computed:            true,
+						},
+						"stackwise_virtual_is_stack_wise_virtual_link": schema.BoolAttribute{
+							MarkdownDescription: "For SVL devices, whether or not the port is used for StackWise Virtual Link.",
+							Computed:            true,
+						},
 						"link_negotiation_capabilities": schema.ListAttribute{
 							MarkdownDescription: "Available link speeds for the switch port.",
 							ElementType:         types.StringType,

@@ -91,6 +91,10 @@ func (r *NetworkSettingsResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: helpers.NewAttributeDescription("The password used for Local Status Page(s). Set this to null to clear the password.").String,
 				Optional:            true,
 			},
+			"local_status_page_authentication_username": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The username used for Local Status Page(s).").String,
+				Optional:            true,
+			},
 			"named_vlans_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Enables / disables Named VLANs on the Network.").String,
 				Optional:            true,

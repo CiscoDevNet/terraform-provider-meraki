@@ -40,6 +40,7 @@ Read-Only:
 - `bottom_right_corner_lng` (Number) Longitude
 - `center_lat` (Number) Latitude
 - `center_lng` (Number) Longitude
+- `floor_number` (Number) The floor number of the floors within the building
 - `id` (String) The id of the object
 - `image_contents` (String) The file contents (a base 64 encoded string) of your image. Supported formats are PNG, GIF, and JPG. Note that all images are saved as PNG files, regardless of the format they are uploaded in.
 - `name` (String) The name of your floor plan.

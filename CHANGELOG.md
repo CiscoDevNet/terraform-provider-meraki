@@ -1,6 +1,12 @@
 ## 0.1.5 (unreleased)
 
 - Delete all rules when destroying `meraki_appliance_cellular_firewall_rules`, `meraki_appliance_inbound_cellular_firewall_rules`, `meraki_appliance_inbound_firewall_rules`, `meraki_appliance_l3_firewall_rules`, `meraki_appliance_l7_firewall_rules`, `meraki_appliance_one_to_many_nat_rules`, `meraki_appliance_one_to_one_nat_rules`, `meraki_appliance_port_forwarding_rules`, `meraki_appliance_traffic_shaping_rules`, `meraki_appliance_vpn_firewall_rules`, `meraki_wireless_ssid_l3_firewall_rules`, `meraki_wireless_ssid_l7_firewall_rules`, `meraki_wireless_ssid_traffic_shaping_rules` resources
+- Add `floor_number` attribute to `meraki_network_floor_plan` resource and data sources
+- Add `local_status_page_authentication_username` attribute to `meraki_network_settings` resource and data source
+- Add encryption attributes to `meraki_network_syslog_servers` resource and data source
+- Add `log` and `tcp_established` attributes to `meraki_organization_adaptive_policy_acl` resource and data sources
+- Add `stackwise_virtual_is_dual_active_detector` and `stackwise_virtual_is_stack_wise_virtual_link` attributes to `meraki_switch_ports` data source
+- Add `radius_radsec_tls_tunnel_timeout` attribute to `meraki_wireless_ssid` resource and data source
 
 ## 0.1.4
 

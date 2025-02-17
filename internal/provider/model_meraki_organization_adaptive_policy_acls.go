@@ -46,10 +46,12 @@ type OrganizationAdaptivePolicyACLsItems struct {
 }
 
 type OrganizationAdaptivePolicyACLsRules struct {
-	DstPort  types.String `tfsdk:"dst_port"`
-	Policy   types.String `tfsdk:"policy"`
-	Protocol types.String `tfsdk:"protocol"`
-	SrcPort  types.String `tfsdk:"src_port"`
+	DstPort        types.String `tfsdk:"dst_port"`
+	Log            types.Bool   `tfsdk:"log"`
+	Policy         types.String `tfsdk:"policy"`
+	Protocol       types.String `tfsdk:"protocol"`
+	SrcPort        types.String `tfsdk:"src_port"`
+	TcpEstablished types.Bool   `tfsdk:"tcp_established"`
 }
 
 // End of section. //template:end types
@@ -95,6 +97,11 @@ func (data *OrganizationAdaptivePolicyACLs) fromBody(ctx context.Context, res me
 				} else {
 					data.DstPort = types.StringNull()
 				}
+				if value := res.Get("log"); value.Exists() && value.Value() != nil {
+					data.Log = types.BoolValue(value.Bool())
+				} else {
+					data.Log = types.BoolNull()
+				}
 				if value := res.Get("policy"); value.Exists() && value.Value() != nil {
 					data.Policy = types.StringValue(value.String())
 				} else {
@@ -109,6 +116,11 @@ func (data *OrganizationAdaptivePolicyACLs) fromBody(ctx context.Context, res me
 					data.SrcPort = types.StringValue(value.String())
 				} else {
 					data.SrcPort = types.StringNull()
+				}
+				if value := res.Get("tcpEstablished"); value.Exists() && value.Value() != nil {
+					data.TcpEstablished = types.BoolValue(value.Bool())
+				} else {
+					data.TcpEstablished = types.BoolNull()
 				}
 				(*parent).Rules = append((*parent).Rules, data)
 				return true

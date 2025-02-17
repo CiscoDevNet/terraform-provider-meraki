@@ -158,6 +158,16 @@ attributes:
     data_path: [schedule]
     description: The name of the port schedule.
     example: Port Schedule
+  - model_name: isDualActiveDetector
+    type: Bool
+    data_path: [stackwiseVirtual]
+    description: For SVL devices, whether or not the port is used for Dual Active Detection.
+    example: "false"
+  - model_name: isStackWiseVirtualLink
+    type: Bool
+    data_path: [stackwiseVirtual]
+    description: For SVL devices, whether or not the port is used for StackWise Virtual Link.
+    example: "false"
   - model_name: linkNegotiationCapabilities
     type: List
     element_type: String

@@ -61,6 +61,8 @@ Read-Only:
 - `rstp_enabled` (Boolean) The rapid spanning tree protocol status.
 - `schedule_id` (String) The ID of the port schedule.
 - `schedule_name` (String) The name of the port schedule.
+- `stackwise_virtual_is_dual_active_detector` (Boolean) For SVL devices, whether or not the port is used for Dual Active Detection.
+- `stackwise_virtual_is_stack_wise_virtual_link` (Boolean) For SVL devices, whether or not the port is used for StackWise Virtual Link.
 - `sticky_mac_allow_list` (List of String) The initial list of MAC addresses for sticky Mac allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
 - `sticky_mac_allow_list_limit` (Number) The maximum number of MAC addresses for sticky MAC allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
 - `storm_control_enabled` (Boolean) The storm control status of the switch port.

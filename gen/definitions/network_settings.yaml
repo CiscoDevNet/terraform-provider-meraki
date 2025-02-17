@@ -33,6 +33,11 @@ attributes:
     write_only: true
     description: The password used for Local Status Page(s). Set this to null to clear the password.
     example: miles123
+  - model_name: username
+    type: String
+    data_path: [localStatusPage, authentication]
+    description: The username used for Local Status Page(s).
+    example: admin
   - model_name: enabled
     type: Bool
     data_path: [namedVlans]

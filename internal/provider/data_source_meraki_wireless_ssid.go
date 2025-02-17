@@ -397,6 +397,10 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
+			"radius_radsec_tls_tunnel_timeout": schema.Int64Attribute{
+				MarkdownDescription: "The interval (in seconds) to determines how long a TLS session can remain idle for a RADSec server before it is automatically terminated",
+				Computed:            true,
+			},
 			"speed_burst_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.",
 				Computed:            true,

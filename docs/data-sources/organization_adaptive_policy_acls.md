@@ -46,6 +46,8 @@ Read-Only:
 Read-Only:
 
 - `dst_port` (String) Destination port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.
+- `log` (Boolean) If enabled, when this rule is hit an entry will be logged to the event log
 - `policy` (String) `allow` or `deny` traffic specified by this rule.
 - `protocol` (String) The type of protocol (must be `tcp`, `udp`, `icmp` or `any`).
 - `src_port` (String) Source port. Must be in the format of single port: `1`, port list: `1,2` or port range: `1-10`, and in the range of 1-65535, or `any`. Default is `any`.
+- `tcp_established` (Boolean) If enabled, means TCP connection with this node must be established.

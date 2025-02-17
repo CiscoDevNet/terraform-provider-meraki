@@ -17,9 +17,10 @@ resource "meraki_network_syslog_servers" "example" {
   network_id = "L_123456"
   servers = [
     {
-      host  = "1.2.3.4"
-      port  = 443
-      roles = ["Wireless event log"]
+      host               = "1.2.3.4"
+      port               = 443
+      encryption_enabled = false
+      roles              = ["Wireless event log"]
     }
   ]
 }
@@ -45,6 +46,11 @@ Required:
 - `host` (String) The IP address of the syslog server
 - `port` (Number) The port of the syslog server
 - `roles` (Set of String) A list of roles for the syslog server. Options (case-insensitive): `Wireless event log`, `Appliance event log`, `Switch event log`, `Air Marshal events`, `Flows`, `URLs`, `IDS alerts`, `Security events`
+
+Optional:
+
+- `encryption_certificate_id` (String) The ID of the certificate for encryption with the syslog server
+- `encryption_enabled` (Boolean) When true, traffic will be encrypted to the syslog server
 
 ## Import
 

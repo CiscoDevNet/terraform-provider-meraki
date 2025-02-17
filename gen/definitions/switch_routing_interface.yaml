@@ -6,6 +6,7 @@ id_name: interfaceId
 data_source_name_query: true
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial]
+ignore_attributes: [vrf]
 attributes:
   - tf_name: serial
     type: String

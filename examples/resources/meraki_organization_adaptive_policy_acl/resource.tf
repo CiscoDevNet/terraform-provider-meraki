@@ -5,10 +5,12 @@ resource "meraki_organization_adaptive_policy_acl" "example" {
   name            = "Block sensitive web traffic"
   rules = [
     {
-      dst_port = "22-30"
-      policy   = "deny"
-      protocol = "tcp"
-      src_port = "1,33"
+      dst_port        = "22-30"
+      log             = true
+      policy          = "deny"
+      protocol        = "tcp"
+      src_port        = "1,33"
+      tcp_established = true
     }
   ]
 }

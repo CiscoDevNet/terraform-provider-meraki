@@ -77,6 +77,10 @@ func (r *NetworkFloorPlanResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"floor_number": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The floor number of the floors within the building").String,
+				Optional:            true,
+			},
 			"image_contents": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The file contents (a base 64 encoded string) of your image. Supported formats are PNG, GIF, and JPG. Note that all images are saved as PNG files, regardless of the format they are uploaded in.").String,
 				Required:            true,
