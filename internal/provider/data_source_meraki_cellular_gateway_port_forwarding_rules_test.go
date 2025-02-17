@@ -30,8 +30,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiCellularGatewayPortForwardingRules(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_cellular_1_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_cellular_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_cellular_gateway_port_forwarding_rules.test", "rules.0.access", "restricted"))
@@ -60,7 +60,7 @@ func TestAccDataSourceMerakiCellularGatewayPortForwardingRules(t *testing.T) {
 const testAccDataSourceMerakiCellularGatewayPortForwardingRulesPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
-variable "test_switch_1_serial" {}
+variable "test_cellular_1_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
@@ -71,7 +71,7 @@ resource "meraki_network" "test" {
 }
 resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
-  serials    = [var.test_switch_1_serial]
+  serials    = [var.test_cellular_1_serial]
 }
 
 `

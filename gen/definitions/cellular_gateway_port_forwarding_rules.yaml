@@ -4,7 +4,7 @@ rest_endpoint: /devices/%v/cellularGateway/portForwardingRules
 put_create: true
 no_delete: true
 doc_category: Cellular Gateways
-test_variables: [test_org, test_network, test_switch_1_serial]
+test_variables: [test_org, test_network, test_cellular_1_serial]
 attributes:
   - tf_name: serial
     type: String
@@ -66,5 +66,5 @@ test_prerequisites: |
   }
   resource "meraki_network_device_claim" "test" {
     network_id = meraki_network.test.id
-    serials    = [var.test_switch_1_serial]
+    serials    = [var.test_cellular_1_serial]
   }
