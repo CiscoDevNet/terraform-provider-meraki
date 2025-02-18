@@ -1,0 +1,35 @@
+name: Cellular Gateway Uplink
+spec_endpoint: /networks/{networkId}/cellularGateway/uplink
+rest_endpoint: /networks/%v/cellularGateway/uplink
+put_create: true
+no_delete: true
+doc_category: Cellular Gateways
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: limitDown
+    type: Int64
+    data_path: [bandwidthLimits]
+    description: The maximum download limit (integer, in Kbps). null indicates no limit
+    example: "1000000"
+    minimum_test_value: "10000"
+  - model_name: limitUp
+    type: Int64
+    data_path: [bandwidthLimits]
+    description: The maximum upload limit (integer, in Kbps). null indicates no limit
+    example: "1000000"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["cellularGateway"]
+  }

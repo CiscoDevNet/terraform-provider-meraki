@@ -1,0 +1,70 @@
+name: Cellular Gateway Port Forwarding Rules
+spec_endpoint: /devices/{serial}/cellularGateway/portForwardingRules
+rest_endpoint: /devices/%v/cellularGateway/portForwardingRules
+put_create: true
+no_delete: true
+doc_category: Cellular Gateways
+test_variables: [test_org, test_network, test_cellular_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: rules
+    type: List
+    mandatory: true
+    description: An array of port forwarding params
+    ordered_list: true
+    destroy_value: '[]interface{}{}'
+    attributes:
+      - model_name: access
+        type: String
+        mandatory: true
+        description: '`any` or `restricted`. Specify the right to make inbound connections on the specified ports or port ranges. If `restricted`, a list of allowed IPs is mandatory.'
+        example: restricted
+        minimum_test_value: '"any"'
+      - model_name: lanIp
+        type: String
+        mandatory: true
+        description: The IP address of the server or device that hosts the internal resource that you wish to make available on the WAN
+        example: 172.31.128.5
+      - model_name: localPort
+        type: String
+        mandatory: true
+        description: A port or port ranges that will receive the forwarded traffic from the WAN
+        example: "4"
+      - model_name: name
+        type: String
+        description: A descriptive name for the rule
+        example: test
+      - model_name: protocol
+        type: String
+        mandatory: true
+        description: TCP or UDP
+        example: tcp
+      - model_name: publicPort
+        type: String
+        mandatory: true
+        description: A port or port ranges that will be forwarded to the host on the LAN
+        example: 11-12
+      - model_name: allowedIps
+        type: List
+        element_type: String
+        description: An array of ranges of WAN IP addresses that are allowed to make inbound connections on the specified ports or port ranges.
+        example: 10.10.10.10
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["cellularGateway"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_cellular_1_serial]
+  }
