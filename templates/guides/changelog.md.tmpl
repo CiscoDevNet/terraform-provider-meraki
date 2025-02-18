@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## 0.1.5 (unreleased)
+## 0.1.5
 
 - Delete all rules when destroying `meraki_appliance_cellular_firewall_rules`, `meraki_appliance_inbound_cellular_firewall_rules`, `meraki_appliance_inbound_firewall_rules`, `meraki_appliance_l3_firewall_rules`, `meraki_appliance_l7_firewall_rules`, `meraki_appliance_one_to_many_nat_rules`, `meraki_appliance_one_to_one_nat_rules`, `meraki_appliance_port_forwarding_rules`, `meraki_appliance_traffic_shaping_rules`, `meraki_appliance_vpn_firewall_rules`, `meraki_wireless_ssid_l3_firewall_rules`, `meraki_wireless_ssid_l7_firewall_rules`, `meraki_wireless_ssid_traffic_shaping_rules` resources
 - Add `floor_number` attribute to `meraki_network_floor_plan` resource and data sources
