@@ -22,6 +22,7 @@ description: |-
 - Add `meraki_cellular_gateway_port_forwarding_rules` resource and data sources
 - Add `meraki_cellular_gateway_subnet_pool` resource and data sources
 - Add `meraki_cellular_gateway_uplink` resource and data sources
+- Add provider configuration to define a list of HTTP error codes to retry on
 
 ## 0.1.4
 

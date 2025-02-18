@@ -40,3 +40,4 @@ provider "meraki" {
 - `base_url` (String) Base URL to be used. The default value is `https://api.meraki.com/api/v1`. This can also be set as the MERAKI_BASE_URL environment variable.
 - `req_timeout` (String) Timeout for a single HTTPS request made to REST API before it is retried. This can also be set as the MERAKI_REQ_TIMEOUT environment variable. A string like `"1s"` means one second. Defaults to `"5s"`.
 - `retries` (Number) Number of retries for REST API calls. This can also be set as the MERAKI_RETRIES environment variable. Defaults to `3`.
+- `retry_on_error_codes` (Set of Number) A list of HTTP error codes to retry on. This can also be set as the MERAKI_RETRY_ON_ERROR_CODES environment variable using a comma separated list.

@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
@@ -46,10 +47,11 @@ type MerakiProvider struct {
 
 // MerakiProviderModel describes the provider data model.
 type MerakiProviderModel struct {
-	ApiKey     types.String `tfsdk:"api_key"`
-	BaseUrl    types.String `tfsdk:"base_url"`
-	ReqTimeout types.String `tfsdk:"req_timeout"`
-	Retries    types.Int64  `tfsdk:"retries"`
+	ApiKey            types.String `tfsdk:"api_key"`
+	BaseUrl           types.String `tfsdk:"base_url"`
+	ReqTimeout        types.String `tfsdk:"req_timeout"`
+	Retries           types.Int64  `tfsdk:"retries"`
+	RetryOnErrorCodes types.Set    `tfsdk:"retry_on_error_codes"`
 }
 
 // MerakiProviderData describes the data maintained by the provider.
@@ -85,6 +87,11 @@ func (p *MerakiProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 				Validators: []validator.Int64{
 					int64validator.Between(0, 9),
 				},
+			},
+			"retry_on_error_codes": schema.SetAttribute{
+				MarkdownDescription: "A list of HTTP error codes to retry on. This can also be set as the MERAKI_RETRY_ON_ERROR_CODES environment variable using a comma separated list.",
+				ElementType:         types.Int64Type,
+				Optional:            true,
 			},
 		},
 	}
@@ -194,6 +201,31 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		retries = config.Retries.ValueInt64()
 	}
 
+	var retryOnErrorCodes []int
+	if config.RetryOnErrorCodes.IsUnknown() {
+		// Cannot connect to client with an unknown value
+		resp.Diagnostics.AddWarning(
+			"Unable to create client",
+			"Cannot use unknown value as retry_on_error_codes",
+		)
+		return
+	}
+
+	if config.RetryOnErrorCodes.IsNull() {
+		retryOnErrorCodesStr := os.Getenv("MERAKI_RETRY_ON_ERROR_CODES")
+		if retryOnErrorCodesStr == "" {
+			retryOnErrorCodes = []int{}
+		} else {
+			codesStr := strings.Split(retryOnErrorCodesStr, ",")
+			retryOnErrorCodes := make([]int, len(codesStr))
+			for i := range retryOnErrorCodes {
+				retryOnErrorCodes[i], _ = strconv.Atoi(codesStr[i])
+			}
+		}
+	} else {
+		config.RetryOnErrorCodes.ElementsAs(ctx, &retryOnErrorCodes, false)
+	}
+
 	tflog.Debug(ctx, fmt.Sprint("Creating a new Meraki client",
 		"  base_url=", baseUrl,
 		"  req_timeout=", reqTimeout,
@@ -201,7 +233,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	))
 
 	// Create a new Meraki client and set it to the provider client
-	c, err := meraki.NewClient(apiKey, meraki.BaseUrl(baseUrl), meraki.MaxRetries(int(retries)), meraki.RequestTimeout(reqTimeout))
+	c, err := meraki.NewClient(apiKey, meraki.BaseUrl(baseUrl), meraki.MaxRetries(int(retries)), meraki.RequestTimeout(reqTimeout), meraki.RetryOnErrorCodes(retryOnErrorCodes))
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to create client",
