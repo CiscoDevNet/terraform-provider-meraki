@@ -1,0 +1,239 @@
+name: Sensor Alerts Profile
+spec_endpoint: /networks/{networkId}/sensor/alerts/profiles/{id}
+rest_endpoint: /networks/%v/sensor/alerts/profiles
+bulk_data_source: true
+id_name: profileId
+data_source_name_query: true
+doc_category: Sensors
+test_variables: [test_org, test_network, test_sensor_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the sensor alert profile.
+    example: My Sensor Alert Profile
+  - model_name: emails
+    type: List
+    element_type: String
+    data_path: [recipients]
+    description: A list of emails that will receive information about the alert.
+    example: miles@meraki.com
+  - model_name: httpServerIds
+    type: List
+    element_type: String
+    data_path: [recipients]
+    exclude_test: true
+    description: A list of webhook endpoint IDs that will receive information about the alert.
+    example: aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M=
+  - model_name: smsNumbers
+    type: List
+    element_type: String
+    data_path: [recipients]
+    description: A list of SMS numbers that will receive information about the alert.
+    example: "+15555555555"
+  - model_name: id
+    type: String
+    data_path: [schedule]
+    exclude_test: true
+    description: ID of the sensor schedule to use with the alert profile. If not defined, the alert profile will be active at all times.
+    example: "5"
+  - model_name: conditions
+    type: List
+    mandatory: true
+    description: List of conditions that will cause the profile to send an alert.
+    attributes:
+      - model_name: direction
+        type: String
+        id: true
+        mandatory: true
+        description: If `above`, an alert will be sent when a sensor reads above the threshold. If `below`, an alert will be sent when a sensor reads below the threshold. Only applicable for temperature, humidity, realPower, apparentPower, powerFactor, voltage, current, and frequency thresholds.
+        example: above
+        enum_values: [above, below]
+        minimum_test_value: '"below"'
+      - model_name: duration
+        type: Int64
+        description: Length of time in seconds that the triggering state must persist before an alert is sent. Available options are 0 seconds, 1 minute, 2 minutes, 3 minutes, 4 minutes, 5 minutes, 10 minutes, 15 minutes, 30 minutes, 1 hour, 2 hours, 4 hours, and 8 hours. Default is 0.
+        example: "60"
+      - model_name: metric
+        type: String
+        id: true
+        mandatory: true
+        description: The type of sensor metric that will be monitored for changes.
+        example: temperature
+        enum_values: [apparentPower, co2, current, door, frequency, humidity, indoorAirQuality, noise, pm25, powerFactor, realPower, temperature, tvoc, upstreamPower, voltage, water]
+      - model_name: draw
+        type: Float64
+        data_path: [threshold, apparentPower]
+        exclude_test: true
+        description: Alerting threshold in volt-amps. Must be between 0 and 3750.
+        example: "17.2"
+      - model_name: concentration
+        type: Int64
+        data_path: [threshold, co2]
+        exclude_test: true
+        description: Alerting threshold as CO2 parts per million.
+        example: "400"
+      - model_name: quality
+        type: String
+        data_path: [threshold, co2]
+        exclude_test: true
+        description: Alerting threshold as a qualitative CO2 level.
+        example: poor
+        enum_values: [fair, good, inadequate, poor]
+      - model_name: draw
+        type: Float64
+        data_path: [threshold, current]
+        exclude_test: true
+        description: Alerting threshold in amps. Must be between 0 and 15.
+        example: "0.14"
+      - model_name: open
+        type: Bool
+        data_path: [threshold, door]
+        exclude_test: true
+        description: Alerting threshold for a door open event. Must be set to true.
+        example: "true"
+      - model_name: level
+        type: Float64
+        data_path: [threshold, frequency]
+        exclude_test: true
+        description: Alerting threshold in hertz. Must be between 0 and 60.
+        example: "58.8"
+      - model_name: quality
+        type: String
+        data_path: [threshold, humidity]
+        exclude_test: true
+        description: Alerting threshold as a qualitative humidity level.
+        example: inadequate
+        enum_values: [fair, good, inadequate, poor]
+      - model_name: relativePercentage
+        type: Int64
+        data_path: [threshold, humidity]
+        exclude_test: true
+        description: Alerting threshold in %RH.
+        example: "65"
+      - model_name: quality
+        type: String
+        data_path: [threshold, indoorAirQuality]
+        exclude_test: true
+        description: Alerting threshold as a qualitative indoor air quality level.
+        example: fair
+        enum_values: [fair, good, inadequate, poor]
+      - model_name: score
+        type: Int64
+        data_path: [threshold, indoorAirQuality]
+        exclude_test: true
+        description: Alerting threshold as indoor air quality score.
+        example: "80"
+      - model_name: level
+        type: Int64
+        data_path: [threshold, noise, ambient]
+        exclude_test: true
+        description: Alerting threshold as adjusted decibels.
+        example: "120"
+      - model_name: quality
+        type: String
+        data_path: [threshold, noise, ambient]
+        exclude_test: true
+        description: Alerting threshold as a qualitative ambient noise level.
+        example: poor
+        enum_values: [fair, good, inadequate, poor]
+      - model_name: concentration
+        type: Int64
+        data_path: [threshold, pm25]
+        exclude_test: true
+        description: Alerting threshold as PM2.5 parts per million.
+        example: "90"
+      - model_name: quality
+        type: String
+        data_path: [threshold, pm25]
+        exclude_test: true
+        description: Alerting threshold as a qualitative PM2.5 level.
+        example: fair
+        enum_values: [fair, good, inadequate, poor]
+      - model_name: percentage
+        type: Int64
+        data_path: [threshold, powerFactor]
+        exclude_test: true
+        description: Alerting threshold as the ratio of active power to apparent power. Must be between 0 and 100.
+        example: "81"
+      - model_name: draw
+        type: Float64
+        data_path: [threshold, realPower]
+        exclude_test: true
+        description: Alerting threshold in watts. Must be between 0 and 3750.
+        example: "14.1"
+      - model_name: celsius
+        type: Float64
+        data_path: [threshold, temperature]
+        description: Alerting threshold in degrees Celsius.
+        example: "20.5"
+        minimum_test_value: "10.5"
+      - model_name: fahrenheit
+        type: Float64
+        data_path: [threshold, temperature]
+        exclude_test: true
+        description: Alerting threshold in degrees Fahrenheit.
+        example: "70"
+      - model_name: quality
+        type: String
+        data_path: [threshold, temperature]
+        exclude_test: true
+        description: Alerting threshold as a qualitative temperature level.
+        example: good
+        enum_values: [fair, good, inadequate, poor]
+      - model_name: concentration
+        type: Int64
+        data_path: [threshold, tvoc]
+        exclude_test: true
+        description: Alerting threshold as TVOC micrograms per cubic meter.
+        example: "400"
+      - model_name: quality
+        type: String
+        data_path: [threshold, tvoc]
+        exclude_test: true
+        description: Alerting threshold as a qualitative TVOC level.
+        example: poor
+        enum_values: [fair, good, inadequate, poor]
+      - model_name: outageDetected
+        type: Bool
+        data_path: [threshold, upstreamPower]
+        exclude_test: true
+        description: Alerting threshold for an upstream power event. Must be set to true.
+        example: "true"
+      - model_name: level
+        type: Float64
+        data_path: [threshold, voltage]
+        exclude_test: true
+        description: Alerting threshold in volts. Must be between 0 and 250.
+        example: "119.5"
+      - model_name: present
+        type: Bool
+        data_path: [threshold, water]
+        exclude_test: true
+        description: Alerting threshold for a water detection event. Must be set to true.
+        example: "true"
+  - model_name: serials
+    type: List
+    element_type: String
+    description: List of device serials assigned to this sensor alert profile.
+    example: Q234-ABCD-0001
+    test_value: tolist(meraki_network_device_claim.test.serials)
+test_prerequisites: |-
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_sensor_1_serial]
+  }
