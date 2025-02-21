@@ -1,0 +1,38 @@
+name: Sensor Relationships
+spec_endpoint: /devices/{serial}/sensor/relationships
+rest_endpoint: /devices/%v/sensor/relationships
+put_create: true
+no_delete: true
+doc_category: Sensors
+test_tags: [SENSOR_RELATIONSHIPS]
+test_variables: [test_org, test_network, test_sensor_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: relatedDevices
+    type: List
+    data_path: [livestream]
+    description: An array of the related devices for the role
+    attributes:
+      - model_name: serial
+        type: String
+        mandatory: true
+        description: The serial of the related device
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["sensor", "wireless", "appliance", "sensor"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_sensor_1_serial]
+  }
