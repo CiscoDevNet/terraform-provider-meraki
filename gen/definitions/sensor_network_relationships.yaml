@@ -1,0 +1,58 @@
+name: Sensor Network Relationships
+bulk_name: Sensor Network Relationships
+spec_endpoint: /networks/{networkId}/sensor/relationships
+rest_endpoint: /networks/%v/sensor/relationships
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+doc_category: Sensors
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: name
+    type: String
+    data_path: [device]
+    description: The name of the device
+    example: My sensor
+  - model_name: productType
+    type: String
+    data_path: [device]
+    description: The product type of the device
+    example: sensor
+    enum_values: [camera, sensor]
+  - model_name: serial
+    type: String
+    data_path: [device]
+    description: The serial of the device
+    example: Q234-ABCD-0001
+  - model_name: relatedDevices
+    type: List
+    data_path: [relationships, livestream]
+    description: An array of the related devices for the role
+    attributes:
+      - model_name: productType
+        type: String
+        description: The product type of the related device
+        example: camera
+        enum_values: [camera, sensor]
+      - model_name: serial
+        type: String
+        description: The serial of the related device
+        example: Q234-ABCD-5678
+test_prerequisites: |2
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor"]
+  }

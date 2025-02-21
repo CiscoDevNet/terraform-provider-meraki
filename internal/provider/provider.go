@@ -518,6 +518,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewSensorAlertsProfilesDataSource,
 		NewSensorMQTTBrokerDataSource,
 		NewSensorMQTTBrokersDataSource,
+		NewSensorNetworkRelationshipsDataSource,
 		NewSensorRelationshipsDataSource,
 		NewSwitchAccessControlListsDataSource,
 		NewSwitchAccessPolicyDataSource,

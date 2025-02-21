@@ -3,6 +3,7 @@
 - Add `meraki_sensor_alerts_profile` resource and data source
 - Add `meraki_sensor_mqtt_broker` resource and data sources
 - Add `meraki_sensor_relationships` resource and data source
+- Add `meraki_sensor_network_relationships` data source
 
 ## 0.1.5
 
