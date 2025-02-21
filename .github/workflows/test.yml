@@ -83,5 +83,5 @@ jobs:
           TF_VAR_test_appliance_1_serial: ${{ secrets.TF_VAR_test_appliance_1_serial }}
           TF_VAR_test_appliance_2_serial: ${{ secrets.TF_VAR_test_appliance_2_serial }}
           TF_VAR_test_sensor_1_serial: ${{ secrets.TF_VAR_test_sensor_1_serial }}
-        run: go test -v -cover -timeout 90m ./internal/provider/
-        timeout-minutes: 120
+        run: go test -v -cover -timeout 120m ./internal/provider/
+        timeout-minutes: 150
