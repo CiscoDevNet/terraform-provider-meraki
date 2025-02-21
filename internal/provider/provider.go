@@ -217,7 +217,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 			retryOnErrorCodes = []int{}
 		} else {
 			codesStr := strings.Split(retryOnErrorCodesStr, ",")
-			retryOnErrorCodes := make([]int, len(codesStr))
+			retryOnErrorCodes = make([]int, len(codesStr))
 			for i := range retryOnErrorCodes {
 				retryOnErrorCodes[i], _ = strconv.Atoi(codesStr[i])
 			}
@@ -230,6 +230,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		"  base_url=", baseUrl,
 		"  req_timeout=", reqTimeout,
 		"  retries=", retries,
+		"  retry_on_error_codes=", retryOnErrorCodes,
 	))
 
 	// Create a new Meraki client and set it to the provider client
