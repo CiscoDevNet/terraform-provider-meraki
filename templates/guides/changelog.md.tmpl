@@ -10,6 +10,7 @@ description: |-
 ## 0.1.6 (unreleased)
 
 - Add `meraki_sensor_alerts_profile` resource and data source
+- Add `meraki_sensor_mqtt_broker` resource and data sources
 
 ## 0.1.5
 

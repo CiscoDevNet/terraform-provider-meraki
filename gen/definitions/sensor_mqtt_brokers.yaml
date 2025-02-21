@@ -1,0 +1,36 @@
+name: Sensor MQTT Brokers
+bulk_name: Sensor MQTT Brokers
+spec_endpoint: /networks/{networkId}/sensor/mqttBrokers
+rest_endpoint: /networks/%v/sensor/mqttBrokers
+no_data_source: true
+no_resource: true
+bulk_data_source: true
+no_update: true
+no_delete: true
+doc_category: Sensors
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: enabled
+    type: Bool
+    description: Specifies whether the broker is enabled for sensor data. Currently, only a single broker may be enabled for sensor data.
+    example: "true"
+  - model_name: mqttBrokerId
+    type: String
+    description: ID of the MQTT Broker.
+    example: "1234"
+test_prerequisites: |2
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor"]
+  }
