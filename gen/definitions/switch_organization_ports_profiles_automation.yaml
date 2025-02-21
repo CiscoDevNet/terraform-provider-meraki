@@ -37,6 +37,7 @@ attributes:
     example: Profile 1
   - model_name: assignedSwitchPorts
     type: List
+    exclude_test: true
     description: assigned switch ports
     attributes:
       - model_name: serial
