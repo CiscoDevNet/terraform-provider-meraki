@@ -1,0 +1,73 @@
+name: Camera Role
+spec_endpoint: /organizations/{organizationId}/camera/roles/{roleId}
+rest_endpoint: /organizations/%v/camera/roles
+bulk_data_source: true
+data_source_name_query: true
+doc_category: Cameras
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the new role. Must be unique. This parameter is required.
+    example: Security_Guard
+  - model_name: appliedOnDevices
+    type: List
+    exclude_test: true
+    description: Device tag on which this specified permission is applied.
+    attributes:
+      - model_name: id
+        type: String
+        description: Device id.
+      - model_name: inNetworksWithId
+        type: String
+        description: Network id scope
+      - model_name: inNetworksWithTag
+        type: String
+        description: Network tag scope
+      - model_name: permissionScopeId
+        type: String
+        mandatory: true
+        description: Permission scope id
+        example: "1"
+      - model_name: tag
+        type: String
+        description: Device tag.
+        example: reception-desk
+  - model_name: appliedOnNetworks
+    type: List
+    exclude_test: true
+    description: Network tag on which this specified permission is applied.
+    attributes:
+      - model_name: id
+        type: String
+        description: Network id.
+      - model_name: permissionScopeId
+        type: String
+        mandatory: true
+        description: Permission scope id
+        example: "2"
+      - model_name: tag
+        type: String
+        description: Network tag
+        example: building-a
+  - model_name: appliedOrgWide
+    type: List
+    exclude_test: true
+    description: Permissions to be applied org wide.
+    attributes:
+      - model_name: permissionScopeId
+        type: String
+        mandatory: true
+        description: Permission scope id
+        example: "2"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

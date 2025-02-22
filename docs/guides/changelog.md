@@ -13,6 +13,7 @@ description: |-
 - Add `meraki_camera_custom_analytics` resource and data source
 - Add `meraki_camera_quality_retention` resource and data source
 - Add `meraki_camera_quality_retention_profile` resource and data sources
+- Add `meraki_camera_role` resource and data sources
 
 ## 0.1.6
 
