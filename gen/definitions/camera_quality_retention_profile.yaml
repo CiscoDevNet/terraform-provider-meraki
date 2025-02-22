@@ -1,0 +1,325 @@
+name: Camera Quality Retention Profile
+spec_endpoint: /networks/{networkId}/camera/qualityRetentionProfiles/{qualityRetentionProfileId}
+rest_endpoint: /networks/%v/camera/qualityRetentionProfiles
+bulk_data_source: true
+data_source_name_query: true
+doc_category: Cameras
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: audioRecordingEnabled
+    type: Bool
+    description: Whether or not to record audio. Can be either true or false. Defaults to false.
+    example: "false"
+  - model_name: cloudArchiveEnabled
+    type: Bool
+    description: Create redundant video backup using Cloud Archive. Can be either true or false. Defaults to false.
+    example: "false"
+  - model_name: maxRetentionDays
+    type: Int64
+    description: The maximum number of days for which the data will be stored, or `null` to keep data until storage space runs out. If the former, it can be in the range of one to ninety days.
+    example: "1"
+  - model_name: motionBasedRetentionEnabled
+    type: Bool
+    description: Deletes footage older than 3 days in which no motion was detected. Can be either true or false. Defaults to false. This setting does not apply to MV2 cameras.
+    example: "false"
+  - model_name: motionDetectorVersion
+    type: Int64
+    description: The version of the motion detector that will be used by the camera. Only applies to Gen 2 cameras. Defaults to v2.
+    example: "2"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the new profile. Must be unique. This parameter is required.
+    example: Sample quality retention profile
+  - model_name: restrictedBandwidthModeEnabled
+    type: Bool
+    description: Disable features that require additional bandwidth such as Motion Recap. Can be either true or false. Defaults to false. This setting does not apply to MV2 cameras.
+    example: "false"
+  - model_name: scheduleId
+    type: String
+    exclude_test: true
+    description: Schedule for which this camera will record video, or `null` to always record.
+  - model_name: enabled
+    type: Bool
+    data_path: [smartRetention]
+    description: Boolean indicating if Smart Retention is enabled(true) or disabled(false).
+    example: "false"
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV12/MV22/MV72]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV12/MV22/MV72]
+    description: Resolution of the camera. Can be one of `1280x720` or `1920x1080`.
+    example: 1280x720
+    enum_values: [1280x720, 1920x1080]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV12WE]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV12WE]
+    description: Resolution of the camera. Can be one of `1280x720` or `1920x1080`.
+    example: 1280x720
+    enum_values: [1280x720, 1920x1080]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV13]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV13]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV13M]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV13M]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV21/MV71]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV21/MV71]
+    description: Resolution of the camera. Can be one of `1280x720`.
+    example: 1280x720
+    enum_values: [1280x720]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV22X/MV72X]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV22X/MV72X]
+    description: Resolution of the camera. Can be one of `1280x720`, `1920x1080` or `2688x1512`.
+    example: 1280x720
+    enum_values: [1280x720, 1920x1080, 2688x1512]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV23]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV23]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV23M]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV23M]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV23X]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV23X]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV32]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV32]
+    description: Resolution of the camera. Can be one of `1080x1080` or `2112x2112`.
+    example: 1080x1080
+    enum_values: [1080x1080, 2112x2112]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV33]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV33]
+    description: Resolution of the camera. Can be one of `1080x1080`, `2112x2112` or `2880x2880`.
+    example: 1080x1080
+    enum_values: [1080x1080, 2112x2112, 2880x2880]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV33M]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV33M]
+    description: Resolution of the camera. Can be one of `1080x1080`, `2112x2112` or `2880x2880`.
+    example: 1080x1080
+    enum_values: [1080x1080, 2112x2112, 2880x2880]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV52]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV52]
+    description: Resolution of the camera. Can be one of `1280x720`, `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1280x720
+    enum_values: [1280x720, 1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV63]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV63]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV63M]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV63M]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV63X]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV63X]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV73]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV73]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV73M]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV73M]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV73X]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV73X]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV93]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV93]
+    description: Resolution of the camera. Can be one of `1080x1080`, `2112x2112` or `2880x2880`.
+    example: 1080x1080
+    enum_values: [1080x1080, 2112x2112, 2880x2880]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV93M]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV93M]
+    description: Resolution of the camera. Can be one of `1080x1080`, `2112x2112` or `2880x2880`.
+    example: 1080x1080
+    enum_values: [1080x1080, 2112x2112, 2880x2880]
+  - model_name: quality
+    type: String
+    data_path: [videoSettings, MV93X]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV93X]
+    description: Resolution of the camera. Can be one of `1080x1080`, `2112x2112` or `2880x2880`.
+    example: 1080x1080
+    enum_values: [1080x1080, 2112x2112, 2880x2880]
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }

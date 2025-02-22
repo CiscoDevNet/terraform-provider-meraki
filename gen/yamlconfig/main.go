@@ -165,6 +165,7 @@ func P[T any](v T) *T {
 func ToGoName(s string) string {
 	var g []string
 
+	s = strings.ReplaceAll(s, "/", "")
 	p := strings.Split(s, "_")
 
 	for _, value := range p {
@@ -180,6 +181,7 @@ func CamelCase(s string) string {
 
 	s = strings.ReplaceAll(s, "-", " ")
 	s = strings.ReplaceAll(s, ".", "")
+	s = strings.ReplaceAll(s, "/", "")
 	p := strings.Fields(s)
 
 	for _, value := range p {
@@ -194,6 +196,7 @@ func SnakeCase(s string) string {
 
 	s = strings.ReplaceAll(s, "-", " ")
 	s = strings.ReplaceAll(s, ".", "")
+	s = strings.ReplaceAll(s, "/", "")
 	p := strings.Fields(s)
 
 	for _, value := range p {
@@ -475,6 +478,7 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 		}
 		fullString += CamelToSnake(strings.ToUpper(string(attr.ModelName[0])) + attr.ModelName[1:])
 
+		fullString = strings.ReplaceAll(fullString, "/", "_")
 		attr.TfName = fullString
 	}
 
