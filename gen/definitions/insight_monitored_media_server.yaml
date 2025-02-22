@@ -1,0 +1,35 @@
+name: Insight Monitored Media Server
+spec_endpoint: /organizations/{organizationId}/insight/monitoredMediaServers
+rest_endpoint: /organizations/%v/insight/monitoredMediaServers
+no_update: true
+no_delete: true
+data_source_name_query: true
+doc_category: Insight
+test_tags: [INSIGHT]
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: address
+    type: String
+    mandatory: true
+    description: The IP address (IPv4 only) or hostname of the media server to monitor
+    example: 123.123.123.1
+  - model_name: bestEffortMonitoringEnabled
+    type: Bool
+    description: Indicates that if the media server doesn`t respond to ICMP pings, the nearest hop will be used in its stead.
+    example: "true"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the VoIP provider
+    example: Sample VoIP Provider
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
