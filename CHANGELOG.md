@@ -1,4 +1,4 @@
-## 0.1.7 (unreleased)
+## 0.1.7
 
 - Add `meraki_organization_auth_radius_server` resource and data sources
 - Add `meraki_camera_custom_analytics` resource and data source
