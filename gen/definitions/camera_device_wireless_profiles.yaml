@@ -1,0 +1,69 @@
+name: Camera Device Wireless Profiles
+spec_endpoint: /devices/{serial}/camera/wirelessProfiles
+rest_endpoint: /devices/%v/camera/wirelessProfiles
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network, test_camera_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: backup
+    type: String
+    data_path: [ids]
+    description: The id of the backup wireless profile
+    example: "1"
+    test_value: meraki_camera_wireless_profile.test3.id
+  - model_name: primary
+    type: String
+    data_path: [ids]
+    mandatory: true
+    description: The id of the primary wireless profile
+    example: "3"
+    test_value: meraki_camera_wireless_profile.test.id
+  - model_name: secondary
+    type: String
+    data_path: [ids]
+    mandatory: true
+    description: The id of the secondary wireless profile
+    example: "2"
+    test_value: meraki_camera_wireless_profile.test2.id
+test_prerequisites: |-
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_camera_1_serial]
+  }
+  resource "meraki_camera_wireless_profile" "test" {
+    network_id = meraki_network.test.id
+    name = "wireless profile A"
+    ssid_auth_mode = "psk"
+    ssid_name = "ssid test"
+    ssid_psk = "password123"
+  }
+  resource "meraki_camera_wireless_profile" "test2" {
+    network_id = meraki_network.test.id
+    name = "wireless profile B"
+    ssid_auth_mode = "psk"
+    ssid_name = "ssid test2"
+    ssid_psk = "password123"
+  }
+  resource "meraki_camera_wireless_profile" "test3" {
+    network_id = meraki_network.test.id
+    name = "wireless profile C"
+    ssid_auth_mode = "psk"
+    ssid_name = "ssid test3"
+    ssid_psk = "password123"
+  }
