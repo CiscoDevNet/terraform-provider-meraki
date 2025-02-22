@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 0.1.7 (unreleased)
+
+- Add `meraki_organization_auth_radius_server` resource and data sources
+
 ## 0.1.6
 
 - Add `meraki_sensor_alerts_profile` resource and data source

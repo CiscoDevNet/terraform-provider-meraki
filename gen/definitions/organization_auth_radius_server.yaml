@@ -1,0 +1,51 @@
+name: Organization Auth RADIUS Server
+spec_endpoint: /organizations/{organizationId}/auth/radius/servers/{serverId}
+rest_endpoint: /organizations/%v/auth/radius/servers
+bulk_data_source: true
+id_name: serverId
+early_access: true
+data_source_name_query: true
+doc_category: Organizations
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: address
+    type: String
+    mandatory: true
+    description: The IP address or FQDN of the RADIUS server
+    example: 1.2.3.4
+  - model_name: name
+    type: String
+    description: The name of the RADIUS server
+    example: HQ RADIUS server
+  - model_name: secret
+    type: String
+    mandatory: true
+    write_only: true
+    description: Shared secret of the RADIUS server
+    example: secret
+  - model_name: modes
+    type: List
+    mandatory: true
+    description: Available server modes
+    attributes:
+      - model_name: mode
+        type: String
+        mandatory: true
+        description: Type of server
+        example: auth
+        enum_values: [accounting, auth]
+      - model_name: port
+        type: Int64
+        mandatory: true
+        description: TCP port number for the corresponding server mode
+        example: "1812"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
