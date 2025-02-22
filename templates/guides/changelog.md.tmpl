@@ -16,6 +16,7 @@ description: |-
 - Add `meraki_camera_role` resource and data sources
 - Add `meraki_camera_sense` resource and data source
 - Add `meraki_camera_video_settings` resource and data source
+- Add `meraki_camera_wireless_profile` resource and data sources
 
 ## 0.1.6
 

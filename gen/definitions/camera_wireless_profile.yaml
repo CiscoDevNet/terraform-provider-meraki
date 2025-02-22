@@ -1,0 +1,64 @@
+name: Camera Wireless Profile
+spec_endpoint: /networks/{networkId}/camera/wirelessProfiles/{wirelessProfileId}
+rest_endpoint: /networks/%v/camera/wirelessProfiles
+bulk_data_source: true
+data_source_name_query: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the camera wireless profile. This parameter is required.
+    example: wireless profile A
+  - model_name: password
+    type: String
+    data_path: [identity]
+    description: The password of the identity.
+    example: password123
+  - model_name: username
+    type: String
+    data_path: [identity]
+    description: The username of the identity.
+    example: identityname
+  - model_name: authMode
+    type: String
+    data_path: [ssid]
+    mandatory: true
+    description: The auth mode of the SSID. It can be set to (`psk`, `8021x-radius`).
+    example: 8021x-radius
+    enum_values: [8021x-radius, psk]
+    minimum_test_value: '"psk"'
+  - model_name: encryptionMode
+    type: String
+    data_path: [ssid]
+    description: The encryption mode of the SSID. It can be set to (`wpa`, `wpa-eap`). With `wpa` mode, the authMode should be `psk` and with `wpa-eap` the authMode should be `8021x-radius`
+    example: wpa-eap
+  - model_name: name
+    type: String
+    data_path: [ssid]
+    mandatory: true
+    description: The name of the SSID.
+    example: ssid test
+  - model_name: psk
+    type: String
+    data_path: [ssid]
+    exclude_test: true
+    description: The pre-shared key of the SSID.
+    example: sampleKey
+    minimum_test_value: '"password123"'
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
