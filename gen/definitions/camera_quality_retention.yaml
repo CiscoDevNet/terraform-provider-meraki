@@ -1,4 +1,4 @@
-name: Camera Quality And Retention
+name: Camera Quality Retention
 spec_endpoint: /devices/{serial}/camera/qualityAndRetention
 rest_endpoint: /devices/%v/camera/qualityAndRetention
 put_create: true

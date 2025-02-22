@@ -41,26 +41,26 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &CameraQualityAndRetentionResource{}
-	_ resource.ResourceWithImportState = &CameraQualityAndRetentionResource{}
+	_ resource.Resource                = &CameraQualityRetentionResource{}
+	_ resource.ResourceWithImportState = &CameraQualityRetentionResource{}
 )
 
-func NewCameraQualityAndRetentionResource() resource.Resource {
-	return &CameraQualityAndRetentionResource{}
+func NewCameraQualityRetentionResource() resource.Resource {
+	return &CameraQualityRetentionResource{}
 }
 
-type CameraQualityAndRetentionResource struct {
+type CameraQualityRetentionResource struct {
 	client *meraki.Client
 }
 
-func (r *CameraQualityAndRetentionResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_camera_quality_and_retention"
+func (r *CameraQualityRetentionResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_camera_quality_retention"
 }
 
-func (r *CameraQualityAndRetentionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *CameraQualityRetentionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Camera Quality And Retention` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Camera Quality Retention` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -115,7 +115,7 @@ func (r *CameraQualityAndRetentionResource) Schema(ctx context.Context, req reso
 	}
 }
 
-func (r *CameraQualityAndRetentionResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *CameraQualityRetentionResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -127,8 +127,8 @@ func (r *CameraQualityAndRetentionResource) Configure(_ context.Context, req res
 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
-func (r *CameraQualityAndRetentionResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan CameraQualityAndRetention
+func (r *CameraQualityRetentionResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan CameraQualityRetention
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -139,7 +139,7 @@ func (r *CameraQualityAndRetentionResource) Create(ctx context.Context, req reso
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
 	// Create object
-	body := plan.toBody(ctx, CameraQualityAndRetention{})
+	body := plan.toBody(ctx, CameraQualityRetention{})
 	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
@@ -160,8 +160,8 @@ func (r *CameraQualityAndRetentionResource) Create(ctx context.Context, req reso
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (r *CameraQualityAndRetentionResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state CameraQualityAndRetention
+func (r *CameraQualityRetentionResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state CameraQualityRetention
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -203,8 +203,8 @@ func (r *CameraQualityAndRetentionResource) Read(ctx context.Context, req resour
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
-func (r *CameraQualityAndRetentionResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state CameraQualityAndRetention
+func (r *CameraQualityRetentionResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state CameraQualityRetention
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -237,8 +237,8 @@ func (r *CameraQualityAndRetentionResource) Update(ctx context.Context, req reso
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *CameraQualityAndRetentionResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state CameraQualityAndRetention
+func (r *CameraQualityRetentionResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state CameraQualityRetention
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -256,7 +256,7 @@ func (r *CameraQualityAndRetentionResource) Delete(ctx context.Context, req reso
 // End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
-func (r *CameraQualityAndRetentionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *CameraQualityRetentionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
 	if len(idParts) != 1 || idParts[0] == "" {

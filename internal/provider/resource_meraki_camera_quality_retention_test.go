@@ -31,33 +31,33 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiCameraQualityAndRetention(t *testing.T) {
+func TestAccMerakiCameraQualityRetention(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_camera_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_camera_1_serial")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_and_retention.test", "audio_recording_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_and_retention.test", "motion_based_retention_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_and_retention.test", "motion_detector_version", "2"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_and_retention.test", "quality", "Standard"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_and_retention.test", "resolution", "1280x720"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_and_retention.test", "restricted_bandwidth_mode_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_retention.test", "audio_recording_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_retention.test", "motion_based_retention_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_retention.test", "motion_detector_version", "2"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_retention.test", "quality", "Standard"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_retention.test", "resolution", "1280x720"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_retention.test", "restricted_bandwidth_mode_enabled", "false"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiCameraQualityAndRetentionPrerequisitesConfig + testAccMerakiCameraQualityAndRetentionConfig_minimum(),
+			Config: testAccMerakiCameraQualityRetentionPrerequisitesConfig + testAccMerakiCameraQualityRetentionConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiCameraQualityAndRetentionPrerequisitesConfig + testAccMerakiCameraQualityAndRetentionConfig_all(),
+		Config: testAccMerakiCameraQualityRetentionPrerequisitesConfig + testAccMerakiCameraQualityRetentionConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_camera_quality_and_retention.test",
+		ResourceName:            "meraki_camera_quality_retention.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiCameraQualityAndRetentionImportStateIdFunc("meraki_camera_quality_and_retention.test"),
+		ImportStateIdFunc:       merakiCameraQualityRetentionImportStateIdFunc("meraki_camera_quality_retention.test"),
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
@@ -73,7 +73,7 @@ func TestAccMerakiCameraQualityAndRetention(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
 
-func merakiCameraQualityAndRetentionImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+func merakiCameraQualityRetentionImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		Serial := primary.Attributes["serial"]
@@ -86,7 +86,7 @@ func merakiCameraQualityAndRetentionImportStateIdFunc(resourceName string) resou
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccMerakiCameraQualityAndRetentionPrerequisitesConfig = `
+const testAccMerakiCameraQualityRetentionPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 variable "test_camera_1_serial" {}
@@ -109,8 +109,8 @@ resource "meraki_network_device_claim" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiCameraQualityAndRetentionConfig_minimum() string {
-	config := `resource "meraki_camera_quality_and_retention" "test" {` + "\n"
+func testAccMerakiCameraQualityRetentionConfig_minimum() string {
+	config := `resource "meraki_camera_quality_retention" "test" {` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `  audio_recording_enabled = true` + "\n"
 	config += `}` + "\n"
@@ -121,8 +121,8 @@ func testAccMerakiCameraQualityAndRetentionConfig_minimum() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-func testAccMerakiCameraQualityAndRetentionConfig_all() string {
-	config := `resource "meraki_camera_quality_and_retention" "test" {` + "\n"
+func testAccMerakiCameraQualityRetentionConfig_all() string {
+	config := `resource "meraki_camera_quality_retention" "test" {` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `  audio_recording_enabled = false` + "\n"
 	config += `  motion_based_retention_enabled = false` + "\n"

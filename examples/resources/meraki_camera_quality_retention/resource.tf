@@ -1,4 +1,4 @@
-resource "meraki_camera_quality_and_retention" "example" {
+resource "meraki_camera_quality_retention" "example" {
   serial                            = "1234-ABCD-1234"
   audio_recording_enabled           = false
   motion_based_retention_enabled    = false

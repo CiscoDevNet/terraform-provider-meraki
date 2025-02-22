@@ -29,23 +29,23 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiCameraQualityAndRetention(t *testing.T) {
+func TestAccDataSourceMerakiCameraQualityRetention(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_camera_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_camera_1_serial")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_and_retention.test", "audio_recording_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_and_retention.test", "motion_based_retention_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_and_retention.test", "motion_detector_version", "2"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_and_retention.test", "quality", "Standard"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_and_retention.test", "resolution", "1280x720"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_and_retention.test", "restricted_bandwidth_mode_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention.test", "audio_recording_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention.test", "motion_based_retention_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention.test", "motion_detector_version", "2"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention.test", "quality", "Standard"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention.test", "resolution", "1280x720"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention.test", "restricted_bandwidth_mode_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiCameraQualityAndRetentionPrerequisitesConfig + testAccDataSourceMerakiCameraQualityAndRetentionConfig(),
+				Config: testAccDataSourceMerakiCameraQualityRetentionPrerequisitesConfig + testAccDataSourceMerakiCameraQualityRetentionConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
@@ -56,7 +56,7 @@ func TestAccDataSourceMerakiCameraQualityAndRetention(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiCameraQualityAndRetentionPrerequisitesConfig = `
+const testAccDataSourceMerakiCameraQualityRetentionPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 variable "test_camera_1_serial" {}
@@ -79,8 +79,8 @@ resource "meraki_network_device_claim" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiCameraQualityAndRetentionConfig() string {
-	config := `resource "meraki_camera_quality_and_retention" "test" {` + "\n"
+func testAccDataSourceMerakiCameraQualityRetentionConfig() string {
+	config := `resource "meraki_camera_quality_retention" "test" {` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `  audio_recording_enabled = false` + "\n"
 	config += `  motion_based_retention_enabled = false` + "\n"
@@ -91,9 +91,9 @@ func testAccDataSourceMerakiCameraQualityAndRetentionConfig() string {
 	config += `}` + "\n"
 
 	config += `
-		data "meraki_camera_quality_and_retention" "test" {
+		data "meraki_camera_quality_retention" "test" {
 			serial = tolist(meraki_network_device_claim.test.serials)[0]
-			depends_on = [meraki_camera_quality_and_retention.test]
+			depends_on = [meraki_camera_quality_retention.test]
 		}
 	`
 	return config

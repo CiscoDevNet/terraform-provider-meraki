@@ -35,26 +35,26 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &CameraQualityAndRetentionDataSource{}
-	_ datasource.DataSourceWithConfigure = &CameraQualityAndRetentionDataSource{}
+	_ datasource.DataSource              = &CameraQualityRetentionDataSource{}
+	_ datasource.DataSourceWithConfigure = &CameraQualityRetentionDataSource{}
 )
 
-func NewCameraQualityAndRetentionDataSource() datasource.DataSource {
-	return &CameraQualityAndRetentionDataSource{}
+func NewCameraQualityRetentionDataSource() datasource.DataSource {
+	return &CameraQualityRetentionDataSource{}
 }
 
-type CameraQualityAndRetentionDataSource struct {
+type CameraQualityRetentionDataSource struct {
 	client *meraki.Client
 }
 
-func (d *CameraQualityAndRetentionDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_camera_quality_and_retention"
+func (d *CameraQualityRetentionDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_camera_quality_retention"
 }
 
-func (d *CameraQualityAndRetentionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *CameraQualityRetentionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Camera Quality And Retention` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Camera Quality Retention` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -97,7 +97,7 @@ func (d *CameraQualityAndRetentionDataSource) Schema(ctx context.Context, req da
 	}
 }
 
-func (d *CameraQualityAndRetentionDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *CameraQualityRetentionDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -109,8 +109,8 @@ func (d *CameraQualityAndRetentionDataSource) Configure(_ context.Context, req d
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (d *CameraQualityAndRetentionDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CameraQualityAndRetention
+func (d *CameraQualityRetentionDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config CameraQualityRetention
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

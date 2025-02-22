@@ -32,7 +32,7 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type CameraQualityAndRetention struct {
+type CameraQualityRetention struct {
 	Id                             types.String `tfsdk:"id"`
 	Serial                         types.String `tfsdk:"serial"`
 	AudioRecordingEnabled          types.Bool   `tfsdk:"audio_recording_enabled"`
@@ -48,7 +48,7 @@ type CameraQualityAndRetention struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data CameraQualityAndRetention) getPath() string {
+func (data CameraQualityRetention) getPath() string {
 	return fmt.Sprintf("/devices/%v/camera/qualityAndRetention", url.QueryEscape(data.Serial.ValueString()))
 }
 
@@ -56,7 +56,7 @@ func (data CameraQualityAndRetention) getPath() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data CameraQualityAndRetention) toBody(ctx context.Context, state CameraQualityAndRetention) string {
+func (data CameraQualityRetention) toBody(ctx context.Context, state CameraQualityRetention) string {
 	body := ""
 	if !data.AudioRecordingEnabled.IsNull() {
 		body, _ = sjson.Set(body, "audioRecordingEnabled", data.AudioRecordingEnabled.ValueBool())
@@ -86,7 +86,7 @@ func (data CameraQualityAndRetention) toBody(ctx context.Context, state CameraQu
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *CameraQualityAndRetention) fromBody(ctx context.Context, res meraki.Res) {
+func (data *CameraQualityRetention) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("audioRecordingEnabled"); value.Exists() && value.Value() != nil {
 		data.AudioRecordingEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -132,7 +132,7 @@ func (data *CameraQualityAndRetention) fromBody(ctx context.Context, res meraki.
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *CameraQualityAndRetention) fromBodyPartial(ctx context.Context, res meraki.Res) {
+func (data *CameraQualityRetention) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("audioRecordingEnabled"); value.Exists() && !data.AudioRecordingEnabled.IsNull() {
 		data.AudioRecordingEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -176,14 +176,14 @@ func (data *CameraQualityAndRetention) fromBodyPartial(ctx context.Context, res 
 
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
-func (data *CameraQualityAndRetention) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+func (data *CameraQualityRetention) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data CameraQualityAndRetention) toDestroyBody(ctx context.Context) string {
+func (data CameraQualityRetention) toDestroyBody(ctx context.Context) string {
 	body := ""
 	return body
 }
