@@ -2,6 +2,7 @@
 
 - Add `meraki_organization_auth_radius_server` resource and data sources
 - Add `meraki_camera_custom_analytics` resource and data source
+- Add `meraki_camera_quality_and_retention` resource and data source
 
 ## 0.1.6
 

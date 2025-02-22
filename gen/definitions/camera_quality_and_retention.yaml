@@ -1,0 +1,60 @@
+name: Camera Quality And Retention
+spec_endpoint: /devices/{serial}/camera/qualityAndRetention
+rest_endpoint: /devices/%v/camera/qualityAndRetention
+put_create: true
+no_delete: true
+doc_category: Cameras
+test_variables: [test_org, test_network, test_camera_1_serial]
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: audioRecordingEnabled
+    type: Bool
+    description: Boolean indicating if audio recording is enabled(true) or disabled(false) on the camera
+    example: "false"
+    minimum_test_value: "true"
+  - model_name: motionBasedRetentionEnabled
+    type: Bool
+    description: Boolean indicating if motion-based retention is enabled(true) or disabled(false) on the camera.
+    example: "false"
+  - model_name: motionDetectorVersion
+    type: Int64
+    description: The version of the motion detector that will be used by the camera. Only applies to Gen 2 cameras. Defaults to v2.
+    example: "2"
+  - model_name: profileId
+    type: String
+    exclude_test: true
+    description: The ID of a quality and retention profile to assign to the camera. The profile`s settings will override all of the per-camera quality and retention settings. If the value of this parameter is null, any existing profile will be unassigned from the camera.
+    example: "1234"
+  - model_name: quality
+    type: String
+    description: Quality of the camera. Can be one of `Standard`, `High` or `Enhanced`. Not all qualities are supported by every camera model.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    description: Resolution of the camera. Can be one of `1280x720`, `1920x1080`, `1080x1080`, `2112x2112`, `2880x2880`, `2688x1512` or `3840x2160`.Not all resolutions are supported by every camera model.
+    example: 1280x720
+    enum_values: [1080x1080, 1280x720, 1920x1080, 2112x2112, 2688x1512, 2880x2880, 3840x2160]
+  - model_name: restrictedBandwidthModeEnabled
+    type: Bool
+    description: Boolean indicating if restricted bandwidth is enabled(true) or disabled(false) on the camera. This setting does not apply to MV2 cameras.
+    example: "false"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_camera_1_serial]
+  }
