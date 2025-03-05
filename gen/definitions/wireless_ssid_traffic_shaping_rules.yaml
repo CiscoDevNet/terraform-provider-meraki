@@ -70,10 +70,16 @@ attributes:
             enum_values: [application, applicationCategory, host, ipRange, localNet, port]
           - model_name: value
             type: String
-            id: true
-            mandatory: true
-            description: 'If ''type'' is `host`, `port`, `ipRange` or `localNet`, then ''value'' must be a string, matching either a hostname (e.g. ''somesite.com''), a port (e.g. 8080), or an IP range (''192.1.0.0'', ''192.1.0.0/16'', or ''10.1.0.0/16:80''). `localNet` also supports CIDR notation, excluding custom ports. If ''type'' is `application` or `applicationCategory`, then ''value'' must be an object with the structure { ''id'': ''meraki:layer7/...'' }, where ''id'' is the application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).'
+            mandatory: false
+            description: If 'type' is `host`, `port`, `ipRange` or `localNet`, then 'value' must be a string, matching either a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0', '192.1.0.0/16', or '10.1.0.0/16:80'). `localNet` also supports CIDR notation, excluding custom ports.
             example: google.com
+          - model_name: id
+            tf_name: application_value
+            type: String
+            data_path: [value]
+            exclude_test: true
+            description: If 'type' is `application` or `applicationCategory`, then 'application_value' must be an application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).
+            example: meraki:layer7/application/2214
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

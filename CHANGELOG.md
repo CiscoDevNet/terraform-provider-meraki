@@ -1,3 +1,7 @@
+## 0.1.8 (unreleased)
+
+- Add `application_value` attribute to `meraki_wireless_ssid_traffic_shaping_rules` resource and data source
+
 ## 0.1.7
 
 - Add `meraki_organization_auth_radius_server` resource and data sources

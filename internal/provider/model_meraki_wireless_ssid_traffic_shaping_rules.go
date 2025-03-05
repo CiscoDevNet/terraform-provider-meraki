@@ -54,8 +54,9 @@ type WirelessSSIDTrafficShapingRulesRules struct {
 }
 
 type WirelessSSIDTrafficShapingRulesRulesDefinitions struct {
-	Type  types.String `tfsdk:"type"`
-	Value types.String `tfsdk:"value"`
+	Type             types.String `tfsdk:"type"`
+	Value            types.String `tfsdk:"value"`
+	ApplicationValue types.String `tfsdk:"application_value"`
 }
 
 // End of section. //template:end types
@@ -106,6 +107,9 @@ func (data WirelessSSIDTrafficShapingRules) toBody(ctx context.Context, state Wi
 					}
 					if !childItem.Value.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "value", childItem.Value.ValueString())
+					}
+					if !childItem.ApplicationValue.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "value.id", childItem.ApplicationValue.ValueString())
 					}
 					itemBody, _ = sjson.SetRaw(itemBody, "definitions.-1", itemChildBody)
 				}
@@ -176,6 +180,11 @@ func (data *WirelessSSIDTrafficShapingRules) fromBody(ctx context.Context, res m
 					} else {
 						data.Value = types.StringNull()
 					}
+					if value := res.Get("value.id"); value.Exists() && value.Value() != nil {
+						data.ApplicationValue = types.StringValue(value.String())
+					} else {
+						data.ApplicationValue = types.StringNull()
+					}
 					(*parent).Definitions = append((*parent).Definitions, data)
 					return true
 				})
@@ -243,8 +252,8 @@ func (data *WirelessSSIDTrafficShapingRules) fromBodyPartial(ctx context.Context
 			data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Null()
 		}
 		for i := 0; i < len(data.Definitions); i++ {
-			keys := [...]string{"type", "value"}
-			keyValues := [...]string{data.Definitions[i].Type.ValueString(), data.Definitions[i].Value.ValueString()}
+			keys := [...]string{"type"}
+			keyValues := [...]string{data.Definitions[i].Type.ValueString()}
 
 			parent := &data
 			data := (*parent).Definitions[i]
@@ -287,6 +296,11 @@ func (data *WirelessSSIDTrafficShapingRules) fromBodyPartial(ctx context.Context
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()
+			}
+			if value := res.Get("value.id"); value.Exists() && !data.ApplicationValue.IsNull() {
+				data.ApplicationValue = types.StringValue(value.String())
+			} else {
+				data.ApplicationValue = types.StringNull()
 			}
 			(*parent).Definitions[i] = data
 		}

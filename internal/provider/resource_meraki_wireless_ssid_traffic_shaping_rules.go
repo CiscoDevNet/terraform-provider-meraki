@@ -133,11 +133,12 @@ func (r *WirelessSSIDTrafficShapingRulesResource) Schema(ctx context.Context, re
 										},
 									},
 									"value": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("If 'type' is `host`, `port`, `ipRange` or `localNet`, then 'value' must be a string, matching either a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0', '192.1.0.0/16', or '10.1.0.0/16:80'). `localNet` also supports CIDR notation, excluding custom ports. If 'type' is `application` or `applicationCategory`, then 'value' must be an object with the structure { 'id': 'meraki:layer7/...' }, where 'id' is the application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).").String,
-										Required:            true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.RequiresReplace(),
-										},
+										MarkdownDescription: helpers.NewAttributeDescription("If 'type' is `host`, `port`, `ipRange` or `localNet`, then 'value' must be a string, matching either a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0', '192.1.0.0/16', or '10.1.0.0/16:80'). `localNet` also supports CIDR notation, excluding custom ports.").String,
+										Optional:            true,
+									},
+									"application_value": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("If 'type' is `application` or `applicationCategory`, then 'application_value' must be an application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).").String,
+										Optional:            true,
 									},
 								},
 							},
