@@ -112,11 +112,7 @@ func (d *WirelessSSIDTrafficShapingRulesDataSource) Schema(ctx context.Context, 
 										Computed:            true,
 									},
 									"value": schema.StringAttribute{
-										MarkdownDescription: "If 'type' is `host`, `port`, `ipRange` or `localNet`, then 'value' must be a string, matching either a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0', '192.1.0.0/16', or '10.1.0.0/16:80'). `localNet` also supports CIDR notation, excluding custom ports.",
-										Computed:            true,
-									},
-									"application_value": schema.StringAttribute{
-										MarkdownDescription: "If 'type' is `application` or `applicationCategory`, then 'application_value' must be an application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).",
+										MarkdownDescription: "If 'type' is `host`, `port`, `ipRange` or `localNet`, then 'value' must be a string, matching either a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0', '192.1.0.0/16', or '10.1.0.0/16:80'). `localNet` also supports CIDR notation, excluding custom ports. If 'type' is `application` or `applicationCategory`, then 'value' must be an application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).",
 										Computed:            true,
 									},
 								},

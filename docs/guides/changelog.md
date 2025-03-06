@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 0.1.9 (unreleased)
+
+- BREAKING CHANGE: Remove `application_value` attribute from `meraki_wireless_ssid_traffic_shaping_rules` resource and data source
+
 ## 0.1.8
 
 - Add `application_value` attribute to `meraki_wireless_ssid_traffic_shaping_rules` resource and data source
