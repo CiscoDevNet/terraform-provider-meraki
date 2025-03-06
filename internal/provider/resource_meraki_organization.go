@@ -82,9 +82,6 @@ func (r *OrganizationResource) Schema(ctx context.Context, req resource.SchemaRe
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Name of management data").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"value": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Value of management data").String,

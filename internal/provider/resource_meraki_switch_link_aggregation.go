@@ -86,16 +86,10 @@ func (r *SwitchLinkAggregationResource) Schema(ctx context.Context, req resource
 						"port_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Port identifier of switch port. For modules, the identifier is 'SlotNumber_ModuleType_PortNumber' (Ex: '1_8X10G_1'), otherwise it is just the port number (Ex: '8').").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"serial": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Serial number of the switch.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},
@@ -108,16 +102,10 @@ func (r *SwitchLinkAggregationResource) Schema(ctx context.Context, req resource
 						"port_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Port identifier of switch port. For modules, the identifier is 'SlotNumber_ModuleType_PortNumber' (Ex: '1_8X10G_1'), otherwise it is just the port number (Ex: '8').").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"profile": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Profile identifier.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},

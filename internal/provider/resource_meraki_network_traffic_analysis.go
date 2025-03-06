@@ -92,9 +92,6 @@ func (r *NetworkTrafficAnalysisResource) Schema(ctx context.Context, req resourc
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The name of the custom pie chart item.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"type": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The signature type for the custom pie chart item. Can be one of `host`, `port` or `ipRange`.").AddStringEnumDescription("host", "ipRange", "port").String,

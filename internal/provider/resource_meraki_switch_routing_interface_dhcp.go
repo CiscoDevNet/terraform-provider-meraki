@@ -126,9 +126,6 @@ func (r *SwitchRoutingInterfaceDHCPResource) Schema(ctx context.Context, req res
 						"code": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The code for DHCP option which should be from 2 to 254").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"type": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The type of the DHCP option which should be one of (`text`, `ip`, `integer` or `hex`)").AddStringEnumDescription("hex", "integer", "ip", "text").String,
@@ -162,9 +159,6 @@ func (r *SwitchRoutingInterfaceDHCPResource) Schema(ctx context.Context, req res
 						"ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address of the client which has fixed IP address assigned to it").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"mac": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The MAC address of the client which has fixed IP address").String,
@@ -189,16 +183,10 @@ func (r *SwitchRoutingInterfaceDHCPResource) Schema(ctx context.Context, req res
 						"end": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The ending IP address of the reserved IP range").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"start": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The starting IP address of the reserved IP range").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},

@@ -122,9 +122,6 @@ func (r *ApplianceSDWANInternetPoliciesResource) Schema(ctx context.Context, req
 										Validators: []validator.String{
 											stringvalidator.OneOf("application", "custom", "majorApplication"),
 										},
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.RequiresReplace(),
-										},
 									},
 									"protocol": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("Protocol of the traffic filter. Must be one of: `tcp`, `udp`, `icmp6` or `any`").AddStringEnumDescription("any", "icmp6", "tcp", "udp").String,
@@ -149,23 +146,14 @@ func (r *ApplianceSDWANInternetPoliciesResource) Schema(ctx context.Context, req
 												"id": schema.StringAttribute{
 													MarkdownDescription: helpers.NewAttributeDescription("Id of the major application, or a list of NBAR Application Category or Application selections").String,
 													Optional:            true,
-													PlanModifiers: []planmodifier.String{
-														stringplanmodifier.RequiresReplace(),
-													},
 												},
 												"name": schema.StringAttribute{
 													MarkdownDescription: helpers.NewAttributeDescription("Name of the major application or application category selected").String,
 													Optional:            true,
-													PlanModifiers: []planmodifier.String{
-														stringplanmodifier.RequiresReplace(),
-													},
 												},
 												"type": schema.StringAttribute{
 													MarkdownDescription: helpers.NewAttributeDescription("app type (major or nbar)").String,
 													Optional:            true,
-													PlanModifiers: []planmodifier.String{
-														stringplanmodifier.RequiresReplace(),
-													},
 												},
 											},
 										},

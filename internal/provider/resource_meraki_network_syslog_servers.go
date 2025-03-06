@@ -27,7 +27,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -85,16 +84,10 @@ func (r *NetworkSyslogServersResource) Schema(ctx context.Context, req resource.
 						"host": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address of the syslog server").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"port": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The port of the syslog server").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.RequiresReplace(),
-							},
 						},
 						"encryption_enabled": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("When true, traffic will be encrypted to the syslog server").String,

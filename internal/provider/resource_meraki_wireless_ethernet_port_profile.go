@@ -93,9 +93,6 @@ func (r *WirelessEthernetPortProfileResource) Schema(ctx context.Context, req re
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("AP port name").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"psk_group_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("AP port PSK Group ID").String,
@@ -120,9 +117,6 @@ func (r *WirelessEthernetPortProfileResource) Schema(ctx context.Context, req re
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("AP usb port name").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"ssid": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("AP usb port ssid number").String,

@@ -121,9 +121,6 @@ func (r *SwitchRoutingOSPFResource) Schema(ctx context.Context, req resource.Sch
 						"area_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("OSPF area ID").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"area_name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Name of the OSPF area").String,
@@ -147,9 +144,6 @@ func (r *SwitchRoutingOSPFResource) Schema(ctx context.Context, req resource.Sch
 						"area_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("OSPF area ID").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"area_name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Name of the OSPF area").String,

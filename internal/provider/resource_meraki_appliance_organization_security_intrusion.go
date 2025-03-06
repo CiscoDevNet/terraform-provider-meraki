@@ -87,9 +87,6 @@ func (r *ApplianceOrganizationSecurityIntrusionResource) Schema(ctx context.Cont
 						"rule_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A rule identifier of the format meraki:intrusion/snort/GID//SID/. gid and sid can be obtained from either https://www.snort.org/rule-docs or as ruleIds from the security events in /organization/[orgId]/securityEvents").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},

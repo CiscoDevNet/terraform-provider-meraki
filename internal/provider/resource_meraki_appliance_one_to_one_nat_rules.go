@@ -86,9 +86,6 @@ func (r *ApplianceOneToOneNATRulesResource) Schema(ctx context.Context, req reso
 						"lan_ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address of the server or device that hosts the internal resource that you wish to make available on the WAN").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A descriptive name for the rule").String,
@@ -97,9 +94,6 @@ func (r *ApplianceOneToOneNATRulesResource) Schema(ctx context.Context, req reso
 						"public_ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address that will be used to access the internal resource from the WAN").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"uplink": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The physical WAN interface on which the traffic will arrive (`internet1` or, if available, `internet2`)").AddStringEnumDescription("internet1", "internet2").String,

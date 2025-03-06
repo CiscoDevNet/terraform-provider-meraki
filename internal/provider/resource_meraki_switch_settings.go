@@ -108,9 +108,6 @@ func (r *SwitchSettingsResource) Schema(ctx context.Context, req resource.Schema
 						"serial": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Serial number of the switch").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},

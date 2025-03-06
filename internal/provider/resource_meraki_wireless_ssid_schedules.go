@@ -27,7 +27,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -95,30 +94,18 @@ func (r *WirelessSSIDSchedulesResource) Schema(ctx context.Context, req resource
 						"end_day": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Day of when the outage ends. Can be either full day name, or three letter abbreviation").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"end_time": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("24 hour time when the outage ends.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"start_day": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Day of when the outage starts. Can be either full day name, or three letter abbreviation.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"start_time": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("24 hour time when the outage starts.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},
@@ -131,16 +118,10 @@ func (r *WirelessSSIDSchedulesResource) Schema(ctx context.Context, req resource
 						"end": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Seconds since Sunday at midnight when that outage range ends.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.RequiresReplace(),
-							},
 						},
 						"start": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Seconds since Sunday at midnight when the outage range starts.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},

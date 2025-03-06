@@ -105,9 +105,6 @@ func (r *SwitchAlternateManagementInterfaceResource) Schema(ctx context.Context,
 						"serial": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Switch serial number").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"subnet_mask": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Switch subnet mask must be in IP format. Only and must be specified for Polaris switches").String,

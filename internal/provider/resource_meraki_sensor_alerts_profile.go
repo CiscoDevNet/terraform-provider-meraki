@@ -113,9 +113,6 @@ func (r *SensorAlertsProfileResource) Schema(ctx context.Context, req resource.S
 							Validators: []validator.String{
 								stringvalidator.OneOf("above", "below"),
 							},
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"duration": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Length of time in seconds that the triggering state must persist before an alert is sent. Available options are 0 seconds, 1 minute, 2 minutes, 3 minutes, 4 minutes, 5 minutes, 10 minutes, 15 minutes, 30 minutes, 1 hour, 2 hours, 4 hours, and 8 hours. Default is 0.").String,
@@ -126,9 +123,6 @@ func (r *SensorAlertsProfileResource) Schema(ctx context.Context, req resource.S
 							Required:            true,
 							Validators: []validator.String{
 								stringvalidator.OneOf("apparentPower", "co2", "current", "door", "frequency", "humidity", "indoorAirQuality", "noise", "pm25", "powerFactor", "realPower", "temperature", "tvoc", "upstreamPower", "voltage", "water"),
-							},
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
 							},
 						},
 						"threshold_apparent_power_draw": schema.Float64Attribute{

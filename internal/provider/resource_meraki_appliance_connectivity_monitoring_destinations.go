@@ -91,9 +91,6 @@ func (r *ApplianceConnectivityMonitoringDestinationsResource) Schema(ctx context
 						"ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address to test connectivity with").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},

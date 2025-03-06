@@ -212,9 +212,6 @@ func (r *ApplianceVLANResource) Schema(ctx context.Context, req resource.SchemaR
 						"code": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The code for the DHCP option. This should be an integer between 2 and 254.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"type": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The type for the DHCP option. One of: `text`, `ip`, `hex` or `integer`").AddStringEnumDescription("hex", "integer", "ip", "text").String,
@@ -222,16 +219,10 @@ func (r *ApplianceVLANResource) Schema(ctx context.Context, req resource.SchemaR
 							Validators: []validator.String{
 								stringvalidator.OneOf("hex", "integer", "ip", "text"),
 							},
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"value": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The value for the DHCP option").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},
@@ -249,23 +240,14 @@ func (r *ApplianceVLANResource) Schema(ctx context.Context, req resource.SchemaR
 						"comment": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A text comment for the reserved range").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"end": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The last IP in the reserved range").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"start": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The first IP in the reserved range").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},

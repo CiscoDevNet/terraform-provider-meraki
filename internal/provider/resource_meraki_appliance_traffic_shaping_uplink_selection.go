@@ -144,9 +144,6 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 										Validators: []validator.String{
 											stringvalidator.OneOf("application", "applicationCategory", "custom"),
 										},
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.RequiresReplace(),
-										},
 									},
 									"id": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("ID of this applicationCategory or application type traffic filter. E.g.: 'meraki:layer7/category/1', 'meraki:layer7/application/4'").String,
@@ -231,9 +228,6 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 										Required:            true,
 										Validators: []validator.String{
 											stringvalidator.OneOf("custom"),
-										},
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.RequiresReplace(),
 										},
 									},
 									"protocol": schema.StringAttribute{

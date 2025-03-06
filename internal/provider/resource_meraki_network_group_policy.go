@@ -124,9 +124,6 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 						"vlan_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The ID of the service VLAN. Required.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"services": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A list of Bonjour services. At least one service must be specified. Available services are `All Services`, `AirPlay`, `AFP`, `BitTorrent`, `FTP`, `iChat`, `iTunes`, `Printers`, `Samba`, `Scanners` and `SSH`").String,
@@ -273,16 +270,10 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 										Validators: []validator.String{
 											stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "localNet", "port"),
 										},
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.RequiresReplace(),
-										},
 									},
 									"value": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("If 'type' is `host`, `port`, `ipRange` or `localNet`, then 'value' must be a string, matching either a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0', '192.1.0.0/16', or '10.1.0.0/16:80'). `localNet` also supports CIDR notation, excluding custom ports. If 'type' is `application` or `applicationCategory`, then 'value' must be an object with the structure { 'id': 'meraki:layer7/...' }, where 'id' is the application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).").String,
 										Required:            true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.RequiresReplace(),
-										},
 									},
 								},
 							},

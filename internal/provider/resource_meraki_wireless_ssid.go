@@ -298,9 +298,6 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 						"host": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("IP address (or FQDN) of your Active Directory server.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"port": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("(Optional) UDP port the Active Directory server listens on. By default, uses port 3268.").String,
@@ -426,9 +423,6 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 						"vlan_name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("VLAN name that will be used to tag traffic.").String,
 							Optional:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"tags": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of AP tags.").String,

@@ -95,9 +95,6 @@ func (r *NetworkVLANProfileResource) Schema(ctx context.Context, req resource.Sc
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Name of the VLAN, string length must be from 1 to 32 characters").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"vlan_ids": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Comma-separated VLAN IDs or ID ranges").String,
@@ -114,9 +111,6 @@ func (r *NetworkVLANProfileResource) Schema(ctx context.Context, req resource.Sc
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Name of the VLAN, string length must be from 1 to 32 characters").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"vlan_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("VLAN ID").String,

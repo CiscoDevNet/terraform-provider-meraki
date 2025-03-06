@@ -107,9 +107,6 @@ func (r *ApplianceVPNBGPResource) Schema(ctx context.Context, req resource.Schem
 						"ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IPv4 address of the neighbor").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"next_hop_ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IPv4 address of the remote BGP peer that will establish a TCP session with the local MX.").String,

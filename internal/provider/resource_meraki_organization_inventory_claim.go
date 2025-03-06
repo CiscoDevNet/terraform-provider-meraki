@@ -88,9 +88,6 @@ func (r *OrganizationInventoryClaimResource) Schema(ctx context.Context, req res
 						"key": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The key of the license").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"mode": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Co-term licensing only: either `renew` or `addDevices`. `addDevices` will increase the license limit, while `renew` will extend the amount of time until expiration. Defaults to `addDevices`. All licenses must be claimed with the same mode, and at most one renewal can be claimed at a time. Does not apply to organizations using per-device licensing model.").AddStringEnumDescription("addDevices", "renew").String,

@@ -101,16 +101,10 @@ func (r *OrganizationSAMLRoleResource) Schema(ctx context.Context, req resource.
 							Validators: []validator.String{
 								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin"),
 							},
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The network ID").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},
@@ -126,16 +120,10 @@ func (r *OrganizationSAMLRoleResource) Schema(ctx context.Context, req resource.
 							Validators: []validator.String{
 								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only"),
 							},
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"tag": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The name of the tag").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},

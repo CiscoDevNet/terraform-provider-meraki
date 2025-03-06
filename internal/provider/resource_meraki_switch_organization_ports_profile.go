@@ -107,9 +107,6 @@ func (r *SwitchOrganizationPortsProfileResource) Schema(ctx context.Context, req
 						"id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The network identifier").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The network name").String,

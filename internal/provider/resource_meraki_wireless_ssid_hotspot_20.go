@@ -124,16 +124,10 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 						"mcc": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("MCC value").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"mnc": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("MNC value").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 					},
 				},
@@ -153,9 +147,6 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 						"realm": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The name of the realm").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"methods": schema.ListNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("An array of EAP methods for the realm.").String,
@@ -165,9 +156,6 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 									"id": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("ID of method").String,
 										Required:            true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.RequiresReplace(),
-										},
 									},
 									"authentication_types_non_eap_inner_authentication": schema.SetAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("An array of autentication types. Possible values are `Reserved`, `PAP`, `CHAP`, `MSCHAP`, `MSCHAPV2`.").String,

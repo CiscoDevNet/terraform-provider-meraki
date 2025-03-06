@@ -109,9 +109,6 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 						"id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Application`s Meraki ID.").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Application`s name.").AddStringEnumDescription("AWS", "Box", "Office 365 Sharepoint", "Office 365 Suite", "Oracle", "SAP", "Salesforce", "Skype & Teams", "Slack", "Webex", "Webex Calling", "Webex Meetings", "Zoom").String,
