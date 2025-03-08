@@ -1,7 +1,6 @@
 module github.com/CiscoDevNet/terraform-provider-meraki
 
-go 1.22.7
-toolchain go1.23.7
+go 1.23.6
 
 require (
 	github.com/hashicorp/terraform-plugin-docs v0.21.0
@@ -86,8 +85,8 @@ require (
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250212204824-5a70512c5d8b // indirect
-	google.golang.org/grpc v1.70.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250303144028-a0af3efb3deb // indirect
+	google.golang.org/grpc v1.71.0 // indirect
 	google.golang.org/protobuf v1.36.5 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
