@@ -42,6 +42,7 @@ type YamlConfig struct {
 	IgnoreAttributes    []string              `yaml:"ignore_attributes,omitempty,flow"`
 	Attributes          []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	TestPrerequisites   string                `yaml:"test_prerequisites,omitempty"`
+	AdditionalTests     []string              `yaml:"additional_tests,omitempty"`
 }
 
 type YamlConfigP struct {
@@ -73,6 +74,7 @@ type YamlConfigP struct {
 	IgnoreAttributes    *[]string               `yaml:"ignore_attributes,omitempty,flow"`
 	Attributes          *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
 	TestPrerequisites   *string                 `yaml:"test_prerequisites,omitempty"`
+	AdditionalTests     *[]string               `yaml:"additional_tests,omitempty"`
 }
 
 type YamlConfigAttribute struct {
@@ -643,6 +645,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.TestPrerequisites != nil {
 		new.TestPrerequisites = existing.TestPrerequisites
+	}
+	if existing.AdditionalTests != nil {
+		new.AdditionalTests = existing.AdditionalTests
 	}
 	return new
 }

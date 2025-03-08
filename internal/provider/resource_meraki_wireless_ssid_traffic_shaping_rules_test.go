@@ -64,6 +64,9 @@ func TestAccMerakiWirelessSSIDTrafficShapingRules(t *testing.T) {
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig + testAccConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -147,3 +150,40 @@ func testAccMerakiWirelessSSIDTrafficShapingRulesConfig_all() string {
 }
 
 // End of section. //template:end testAccConfigAll
+
+// Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccConfigAdditional0 = `
+resource "meraki_wireless_ssid_traffic_shaping_rules" "test" {
+  network_id = meraki_network.test.id
+  number = meraki_wireless_ssid.test.id
+  rules = [
+    {
+      definitions = [
+        {
+          type  = "application"
+          value = "meraki:layer7/application/171"
+        },
+        {
+          type  = "host"
+          value = "google.com"
+        },
+        {
+          type  = "application"
+          value = "meraki:layer7/application/132"
+        },
+        {
+          type  = "application"
+          value = "meraki:layer7/application/133"
+        },
+        {
+          type  = "host"
+          value = "test.com"
+        }
+      ]
+    }
+  ]
+}
+`
+
+// End of section. //template:end testAccConfigAdditional

@@ -25,6 +25,7 @@ id_name: str(required=False) # the identifier field name of the resource as seen
 early_access: bool(required=False) # indicates this is using an early access API endpoint
 attributes: list(include('attribute'), required=False) # List of attributes
 ignore_attributes: list(str(), required=False) # List of attribute paths (example: routing.ospf.areaId) to ignore when re-generating the definition
+additional_tests: list(str(), required=False) # List of additional acceptance tests
 ---
 attribute:
   model_name: str(required=False) # Name of the attribute in the model (payload)

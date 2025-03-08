@@ -136,3 +136,7 @@ func testAccMerakiCameraCustomAnalyticsConfig_all() string {
 }
 
 // End of section. //template:end testAccConfigAll
+
+// Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+// End of section. //template:end testAccConfigAdditional

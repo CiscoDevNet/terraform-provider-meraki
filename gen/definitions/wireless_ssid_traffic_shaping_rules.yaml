@@ -88,3 +88,35 @@ test_prerequisites: |
     number     = "0"
     name       = "My SSID"
   }
+additional_tests:
+  - |-
+    resource "meraki_wireless_ssid_traffic_shaping_rules" "test" {
+      network_id = meraki_network.test.id
+      number = meraki_wireless_ssid.test.id
+      rules = [
+        {
+          definitions = [
+            {
+              type  = "application"
+              value = "meraki:layer7/application/171"
+            },
+            {
+              type  = "host"
+              value = "google.com"
+            },
+            {
+              type  = "application"
+              value = "meraki:layer7/application/132"
+            },
+            {
+              type  = "application"
+              value = "meraki:layer7/application/133"
+            },
+            {
+              type  = "host"
+              value = "test.com"
+            }
+          ]
+        }
+      ]
+    }

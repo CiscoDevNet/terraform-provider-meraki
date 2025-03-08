@@ -140,6 +140,14 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	{{- end}}
+	{{- $TestPrerequisites := .TestPrerequisites}}
+	{{- $TestVariables := .TestVariables}}
+	{{- $Name := .Name}}
+	{{- range $i, $e := .AdditionalTests}}
+	steps = append(steps, resource.TestStep{
+		Config: {{if or $TestPrerequisites (len $TestVariables)}}testAccMeraki{{camelCase $Name}}PrerequisitesConfig+{{end}}testAccConfigAdditional{{$i}},
+	})
+	{{- end}}
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -405,3 +413,13 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 }
 
 // End of section. //template:end testAccConfigAll
+
+// Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+{{range $i, $e := .AdditionalTests}}
+const testAccConfigAdditional{{$i}} = `
+{{$e}}
+`
+{{end}}
+
+// End of section. //template:end testAccConfigAdditional
