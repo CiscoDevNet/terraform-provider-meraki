@@ -10,6 +10,9 @@ description: |-
 ## 0.1.9 (unreleased)
 
 - BREAKING CHANGE: Remove `application_value` attribute from `meraki_wireless_ssid_traffic_shaping_rules` resource and data source
+- Add `subnet_nat_is_allowed`, `nat_enabled` and `nat_remote_subnet` attributes to `meraki_appliance_site_to_site_vpn` resource and data source
+- Add `video_settings_mv53_x_quality` and `video_settings_mv53_x_resolution` attributes to `meraki_camera_quality_retention_profile` resource and data sources
+- Add `self_registration_authorization_type` and `self_registration_enabled` attributes to `meraki_wireless_ssid_splash_settings` resource and data source
 
 ## 0.1.8
 
