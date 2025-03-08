@@ -67,6 +67,8 @@ data "meraki_camera_quality_retention_profile" "example" {
 - `video_settings_mv33_resolution` (String) Resolution of the camera. Can be one of `1080x1080`, `2112x2112` or `2880x2880`.
 - `video_settings_mv52_quality` (String) Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
 - `video_settings_mv52_resolution` (String) Resolution of the camera. Can be one of `1280x720`, `1920x1080`, `2688x1512` or `3840x2160`.
+- `video_settings_mv53_x_quality` (String) Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+- `video_settings_mv53_x_resolution` (String) Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
 - `video_settings_mv63_m_quality` (String) Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
 - `video_settings_mv63_m_resolution` (String) Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
 - `video_settings_mv63_quality` (String) Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.

@@ -15,4 +15,6 @@ resource "meraki_wireless_ssid_splash_settings" "example" {
   billing_free_access_enabled                   = false
   guest_sponsorship_duration_in_minutes         = 30
   guest_sponsorship_guest_can_request_timeframe = false
+  self_registration_authorization_type          = "admin"
+  self_registration_enabled                     = true
 }

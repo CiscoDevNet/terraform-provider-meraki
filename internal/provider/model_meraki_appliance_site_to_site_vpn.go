@@ -36,11 +36,12 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type ApplianceSiteToSiteVPN struct {
-	Id        types.String                    `tfsdk:"id"`
-	NetworkId types.String                    `tfsdk:"network_id"`
-	Mode      types.String                    `tfsdk:"mode"`
-	Hubs      []ApplianceSiteToSiteVPNHubs    `tfsdk:"hubs"`
-	Subnets   []ApplianceSiteToSiteVPNSubnets `tfsdk:"subnets"`
+	Id                 types.String                    `tfsdk:"id"`
+	NetworkId          types.String                    `tfsdk:"network_id"`
+	Mode               types.String                    `tfsdk:"mode"`
+	SubnetNatIsAllowed types.Bool                      `tfsdk:"subnet_nat_is_allowed"`
+	Hubs               []ApplianceSiteToSiteVPNHubs    `tfsdk:"hubs"`
+	Subnets            []ApplianceSiteToSiteVPNSubnets `tfsdk:"subnets"`
 }
 
 type ApplianceSiteToSiteVPNHubs struct {
@@ -49,8 +50,10 @@ type ApplianceSiteToSiteVPNHubs struct {
 }
 
 type ApplianceSiteToSiteVPNSubnets struct {
-	LocalSubnet types.String `tfsdk:"local_subnet"`
-	UseVpn      types.Bool   `tfsdk:"use_vpn"`
+	LocalSubnet     types.String `tfsdk:"local_subnet"`
+	UseVpn          types.Bool   `tfsdk:"use_vpn"`
+	NatEnabled      types.Bool   `tfsdk:"nat_enabled"`
+	NatRemoteSubnet types.String `tfsdk:"nat_remote_subnet"`
 }
 
 // End of section. //template:end types
@@ -69,6 +72,9 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 	body := ""
 	if !data.Mode.IsNull() {
 		body, _ = sjson.Set(body, "mode", data.Mode.ValueString())
+	}
+	if !data.SubnetNatIsAllowed.IsNull() {
+		body, _ = sjson.Set(body, "subnet.nat.isAllowed", data.SubnetNatIsAllowed.ValueBool())
 	}
 	if len(data.Hubs) > 0 {
 		body, _ = sjson.Set(body, "hubs", []interface{}{})
@@ -93,6 +99,12 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 			if !item.UseVpn.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "useVpn", item.UseVpn.ValueBool())
 			}
+			if !item.NatEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "nat.enabled", item.NatEnabled.ValueBool())
+			}
+			if !item.NatRemoteSubnet.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "nat.remoteSubnet", item.NatRemoteSubnet.ValueString())
+			}
 			body, _ = sjson.SetRaw(body, "subnets.-1", itemBody)
 		}
 	}
@@ -108,6 +120,11 @@ func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
+	}
+	if value := res.Get("subnet.nat.isAllowed"); value.Exists() && value.Value() != nil {
+		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())
+	} else {
+		data.SubnetNatIsAllowed = types.BoolNull()
 	}
 	if value := res.Get("hubs"); value.Exists() && value.Value() != nil {
 		data.Hubs = make([]ApplianceSiteToSiteVPNHubs, 0)
@@ -143,6 +160,16 @@ func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res
 			} else {
 				data.UseVpn = types.BoolNull()
 			}
+			if value := res.Get("nat.enabled"); value.Exists() && value.Value() != nil {
+				data.NatEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.NatEnabled = types.BoolNull()
+			}
+			if value := res.Get("nat.remoteSubnet"); value.Exists() && value.Value() != nil {
+				data.NatRemoteSubnet = types.StringValue(value.String())
+			} else {
+				data.NatRemoteSubnet = types.StringNull()
+			}
 			(*parent).Subnets = append((*parent).Subnets, data)
 			return true
 		})
@@ -162,6 +189,11 @@ func (data *ApplianceSiteToSiteVPN) fromBodyPartial(ctx context.Context, res mer
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
+	}
+	if value := res.Get("subnet.nat.isAllowed"); value.Exists() && !data.SubnetNatIsAllowed.IsNull() {
+		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())
+	} else {
+		data.SubnetNatIsAllowed = types.BoolNull()
 	}
 	for i := 0; i < len(data.Hubs); i++ {
 		keys := [...]string{"hubId"}
@@ -256,6 +288,16 @@ func (data *ApplianceSiteToSiteVPN) fromBodyPartial(ctx context.Context, res mer
 			data.UseVpn = types.BoolValue(value.Bool())
 		} else {
 			data.UseVpn = types.BoolNull()
+		}
+		if value := res.Get("nat.enabled"); value.Exists() && !data.NatEnabled.IsNull() {
+			data.NatEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.NatEnabled = types.BoolNull()
+		}
+		if value := res.Get("nat.remoteSubnet"); value.Exists() && !data.NatRemoteSubnet.IsNull() {
+			data.NatRemoteSubnet = types.StringValue(value.String())
+		} else {
+			data.NatRemoteSubnet = types.StringNull()
 		}
 		(*parent).Subnets[i] = data
 	}

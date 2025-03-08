@@ -53,6 +53,8 @@ type WirelessSSIDSplashSettings struct {
 	BillingFreeAccessEnabled                 types.Bool   `tfsdk:"billing_free_access_enabled"`
 	GuestSponsorshipDurationInMinutes        types.Int64  `tfsdk:"guest_sponsorship_duration_in_minutes"`
 	GuestSponsorshipGuestCanRequestTimeframe types.Bool   `tfsdk:"guest_sponsorship_guest_can_request_timeframe"`
+	SelfRegistrationAuthorizationType        types.String `tfsdk:"self_registration_authorization_type"`
+	SelfRegistrationEnabled                  types.Bool   `tfsdk:"self_registration_enabled"`
 	SentryEnrollmentStrength                 types.String `tfsdk:"sentry_enrollment_strength"`
 	SentryEnrollmentSystemsManagerNetworkId  types.String `tfsdk:"sentry_enrollment_systems_manager_network_id"`
 	SentryEnrollmentEnforcedSystems          types.Set    `tfsdk:"sentry_enrollment_enforced_systems"`
@@ -131,6 +133,12 @@ func (data WirelessSSIDSplashSettings) toBody(ctx context.Context, state Wireles
 	}
 	if !data.GuestSponsorshipGuestCanRequestTimeframe.IsNull() {
 		body, _ = sjson.Set(body, "guestSponsorship.guestCanRequestTimeframe", data.GuestSponsorshipGuestCanRequestTimeframe.ValueBool())
+	}
+	if !data.SelfRegistrationAuthorizationType.IsNull() {
+		body, _ = sjson.Set(body, "selfRegistration.authorizationType", data.SelfRegistrationAuthorizationType.ValueString())
+	}
+	if !data.SelfRegistrationEnabled.IsNull() {
+		body, _ = sjson.Set(body, "selfRegistration.enabled", data.SelfRegistrationEnabled.ValueBool())
 	}
 	if !data.SentryEnrollmentStrength.IsNull() {
 		body, _ = sjson.Set(body, "sentryEnrollment.strength", data.SentryEnrollmentStrength.ValueString())
@@ -266,6 +274,16 @@ func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res meraki
 		data.GuestSponsorshipGuestCanRequestTimeframe = types.BoolValue(value.Bool())
 	} else {
 		data.GuestSponsorshipGuestCanRequestTimeframe = types.BoolNull()
+	}
+	if value := res.Get("selfRegistration.authorizationType"); value.Exists() && value.Value() != nil {
+		data.SelfRegistrationAuthorizationType = types.StringValue(value.String())
+	} else {
+		data.SelfRegistrationAuthorizationType = types.StringNull()
+	}
+	if value := res.Get("selfRegistration.enabled"); value.Exists() && value.Value() != nil {
+		data.SelfRegistrationEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SelfRegistrationEnabled = types.BoolNull()
 	}
 	if value := res.Get("sentryEnrollment.strength"); value.Exists() && value.Value() != nil {
 		data.SentryEnrollmentStrength = types.StringValue(value.String())
@@ -432,6 +450,16 @@ func (data *WirelessSSIDSplashSettings) fromBodyPartial(ctx context.Context, res
 		data.GuestSponsorshipGuestCanRequestTimeframe = types.BoolValue(value.Bool())
 	} else {
 		data.GuestSponsorshipGuestCanRequestTimeframe = types.BoolNull()
+	}
+	if value := res.Get("selfRegistration.authorizationType"); value.Exists() && !data.SelfRegistrationAuthorizationType.IsNull() {
+		data.SelfRegistrationAuthorizationType = types.StringValue(value.String())
+	} else {
+		data.SelfRegistrationAuthorizationType = types.StringNull()
+	}
+	if value := res.Get("selfRegistration.enabled"); value.Exists() && !data.SelfRegistrationEnabled.IsNull() {
+		data.SelfRegistrationEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SelfRegistrationEnabled = types.BoolNull()
 	}
 	if value := res.Get("sentryEnrollment.strength"); value.Exists() && !data.SentryEnrollmentStrength.IsNull() {
 		data.SentryEnrollmentStrength = types.StringValue(value.String())

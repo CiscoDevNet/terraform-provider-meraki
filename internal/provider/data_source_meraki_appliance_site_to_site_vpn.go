@@ -69,6 +69,10 @@ func (d *ApplianceSiteToSiteVPNDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "The site-to-site VPN mode. Can be one of `none`, `spoke` or `hub`",
 				Computed:            true,
 			},
+			"subnet_nat_is_allowed": schema.BoolAttribute{
+				MarkdownDescription: "If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.",
+				Computed:            true,
+			},
 			"hubs": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.",
 				Computed:            true,
@@ -96,6 +100,14 @@ func (d *ApplianceSiteToSiteVPNDataSource) Schema(ctx context.Context, req datas
 						},
 						"use_vpn": schema.BoolAttribute{
 							MarkdownDescription: "Indicates the presence of the subnet in the VPN",
+							Computed:            true,
+						},
+						"nat_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether or not VPN subnet translation is enabled for the subnet",
+							Computed:            true,
+						},
+						"nat_remote_subnet": schema.StringAttribute{
+							MarkdownDescription: "The translated subnet to be used in the VPN",
 							Computed:            true,
 						},
 					},

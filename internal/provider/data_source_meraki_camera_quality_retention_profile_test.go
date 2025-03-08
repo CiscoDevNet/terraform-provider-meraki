@@ -68,6 +68,8 @@ func TestAccDataSourceMerakiCameraQualityRetentionProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv33_m_resolution", "1080x1080"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv52_quality", "Standard"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv52_resolution", "1280x720"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv53_x_quality", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv53_x_resolution", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv63_quality", "Standard"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv63_resolution", "1920x1080"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv63_m_quality", "Standard"))
@@ -157,6 +159,8 @@ func testAccDataSourceMerakiCameraQualityRetentionProfileConfig() string {
 	config += `  video_settings_mv33_m_resolution = "1080x1080"` + "\n"
 	config += `  video_settings_mv52_quality = "Standard"` + "\n"
 	config += `  video_settings_mv52_resolution = "1280x720"` + "\n"
+	config += `  video_settings_mv53_x_quality = ""` + "\n"
+	config += `  video_settings_mv53_x_resolution = ""` + "\n"
 	config += `  video_settings_mv63_quality = "Standard"` + "\n"
 	config += `  video_settings_mv63_resolution = "1920x1080"` + "\n"
 	config += `  video_settings_mv63_m_quality = "Standard"` + "\n"
@@ -224,6 +228,8 @@ func testAccNamedDataSourceMerakiCameraQualityRetentionProfileConfig() string {
 	config += `  video_settings_mv33_m_resolution = "1080x1080"` + "\n"
 	config += `  video_settings_mv52_quality = "Standard"` + "\n"
 	config += `  video_settings_mv52_resolution = "1280x720"` + "\n"
+	config += `  video_settings_mv53_x_quality = ""` + "\n"
+	config += `  video_settings_mv53_x_resolution = ""` + "\n"
 	config += `  video_settings_mv63_quality = "Standard"` + "\n"
 	config += `  video_settings_mv63_resolution = "1920x1080"` + "\n"
 	config += `  video_settings_mv63_m_quality = "Standard"` + "\n"

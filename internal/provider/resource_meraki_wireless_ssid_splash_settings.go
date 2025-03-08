@@ -152,6 +152,17 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not guests can specify how much time they are requesting.").String,
 				Optional:            true,
 			},
+			"self_registration_authorization_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How created user accounts should be authorized. Must be included in: [admin, auto, self_email]").AddStringEnumDescription("admin", "auto", "self_email").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("admin", "auto", "self_email"),
+				},
+			},
+			"self_registration_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not to allow users to create their own account on the network.").String,
+				Optional:            true,
+			},
 			"sentry_enrollment_strength": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The strength of the enforcement of selected system types. Must be one of: `focused`, `click-through`, and `strict`.").AddStringEnumDescription("click-through", "focused", "strict").String,
 				Optional:            true,

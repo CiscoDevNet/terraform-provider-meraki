@@ -93,6 +93,17 @@ attributes:
     data_path: [guestSponsorship]
     description: Whether or not guests can specify how much time they are requesting.
     example: "false"
+  - model_name: authorizationType
+    type: String
+    data_path: [selfRegistration]
+    description: 'How created user accounts should be authorized. Must be included in: [admin, auto, self_email]'
+    example: admin
+    enum_values: [admin, auto, self_email]
+  - model_name: enabled
+    type: Bool
+    data_path: [selfRegistration]
+    description: Whether or not to allow users to create their own account on the network.
+    example: "true"
   - model_name: strength
     type: String
     data_path: [sentryEnrollment]

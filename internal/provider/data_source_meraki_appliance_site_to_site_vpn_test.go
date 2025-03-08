@@ -35,8 +35,11 @@ func TestAccDataSourceMerakiApplianceSiteToSiteVPN(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "mode", "hub"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnet_nat_is_allowed", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.local_subnet", "192.168.128.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.use_vpn", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.nat_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.nat_remote_subnet", "192.168.2.0/24"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -75,9 +78,12 @@ func testAccDataSourceMerakiApplianceSiteToSiteVPNConfig() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  mode = "hub"` + "\n"
+	config += `  subnet_nat_is_allowed = true` + "\n"
 	config += `  subnets = [{` + "\n"
 	config += `    local_subnet = "192.168.128.0/24"` + "\n"
 	config += `    use_vpn = true` + "\n"
+	config += `    nat_enabled = true` + "\n"
+	config += `    nat_remote_subnet = "192.168.2.0/24"` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 

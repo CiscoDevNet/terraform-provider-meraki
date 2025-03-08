@@ -84,6 +84,10 @@ func (r *ApplianceSiteToSiteVPNResource) Schema(ctx context.Context, req resourc
 					stringvalidator.OneOf("hub", "none", "spoke"),
 				},
 			},
+			"subnet_nat_is_allowed": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.").String,
+				Optional:            true,
+			},
 			"hubs": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.").String,
 				Optional:            true,
@@ -111,6 +115,14 @@ func (r *ApplianceSiteToSiteVPNResource) Schema(ctx context.Context, req resourc
 						},
 						"use_vpn": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Indicates the presence of the subnet in the VPN").String,
+							Optional:            true,
+						},
+						"nat_enabled": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Whether or not VPN subnet translation is enabled for the subnet").String,
+							Optional:            true,
+						},
+						"nat_remote_subnet": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The translated subnet to be used in the VPN").String,
 							Optional:            true,
 						},
 					},

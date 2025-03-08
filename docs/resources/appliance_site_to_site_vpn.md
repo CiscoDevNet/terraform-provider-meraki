@@ -14,12 +14,15 @@ This resource can manage the `Appliance Site to Site VPN` configuration.
 
 ```terraform
 resource "meraki_appliance_site_to_site_vpn" "example" {
-  network_id = "L_123456"
-  mode       = "hub"
+  network_id            = "L_123456"
+  mode                  = "hub"
+  subnet_nat_is_allowed = true
   subnets = [
     {
-      local_subnet = "192.168.128.0/24"
-      use_vpn      = true
+      local_subnet      = "192.168.128.0/24"
+      use_vpn           = true
+      nat_enabled       = true
+      nat_remote_subnet = "192.168.2.0/24"
     }
   ]
 }
@@ -37,6 +40,7 @@ resource "meraki_appliance_site_to_site_vpn" "example" {
 ### Optional
 
 - `hubs` (Attributes List) The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required. (see [below for nested schema](#nestedatt--hubs))
+- `subnet_nat_is_allowed` (Boolean) If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
 - `subnets` (Attributes List) The list of subnets and their VPN presence. (see [below for nested schema](#nestedatt--subnets))
 
 ### Read-Only
@@ -64,6 +68,8 @@ Required:
 
 Optional:
 
+- `nat_enabled` (Boolean) Whether or not VPN subnet translation is enabled for the subnet
+- `nat_remote_subnet` (String) The translated subnet to be used in the VPN
 - `use_vpn` (Boolean) Indicates the presence of the subnet in the VPN
 
 ## Import

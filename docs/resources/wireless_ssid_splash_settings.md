@@ -30,6 +30,8 @@ resource "meraki_wireless_ssid_splash_settings" "example" {
   billing_free_access_enabled                   = false
   guest_sponsorship_duration_in_minutes         = 30
   guest_sponsorship_guest_can_request_timeframe = false
+  self_registration_authorization_type          = "admin"
+  self_registration_enabled                     = true
 }
 ```
 
@@ -54,6 +56,9 @@ resource "meraki_wireless_ssid_splash_settings" "example" {
 - `guest_sponsorship_duration_in_minutes` (Number) Duration in minutes of sponsored guest authorization. Must be between 1 and 60480 (6 weeks)
 - `guest_sponsorship_guest_can_request_timeframe` (Boolean) Whether or not guests can specify how much time they are requesting.
 - `redirect_url` (String) The custom redirect URL where the users will go after the splash page.
+- `self_registration_authorization_type` (String) How created user accounts should be authorized. Must be included in: [admin, auto, self_email]
+  - Choices: `admin`, `auto`, `self_email`
+- `self_registration_enabled` (Boolean) Whether or not to allow users to create their own account on the network.
 - `sentry_enrollment_enforced_systems` (Set of String) The system types that the Sentry enforces. Must be included in: `iOS, `Android`, `macOS`, and `Windows`.
 - `sentry_enrollment_strength` (String) The strength of the enforcement of selected system types. Must be one of: `focused`, `click-through`, and `strict`.
   - Choices: `click-through`, `focused`, `strict`

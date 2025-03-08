@@ -208,6 +208,18 @@ attributes:
     enum_values: [1280x720, 1920x1080, 2688x1512, 3840x2160]
   - model_name: quality
     type: String
+    data_path: [videoSettings, MV53X]
+    description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
+    example: Standard
+    enum_values: [Enhanced, High, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV53X]
+    description: Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+    example: 1920x1080
+    enum_values: [1920x1080, 2688x1512, 3840x2160]
+  - model_name: quality
+    type: String
     data_path: [videoSettings, MV63]
     description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
     example: Standard

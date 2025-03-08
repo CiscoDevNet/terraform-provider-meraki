@@ -50,6 +50,8 @@ func TestAccMerakiWirelessSSIDSplashSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "billing_free_access_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "guest_sponsorship_duration_in_minutes", "30"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "guest_sponsorship_guest_can_request_timeframe", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "self_registration_authorization_type", "admin"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "self_registration_enabled", "true"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -149,6 +151,8 @@ func testAccMerakiWirelessSSIDSplashSettingsConfig_all() string {
 	config += `  billing_free_access_enabled = false` + "\n"
 	config += `  guest_sponsorship_duration_in_minutes = 30` + "\n"
 	config += `  guest_sponsorship_guest_can_request_timeframe = false` + "\n"
+	config += `  self_registration_authorization_type = "admin"` + "\n"
+	config += `  self_registration_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }
