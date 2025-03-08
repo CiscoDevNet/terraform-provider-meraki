@@ -1,4 +1,4 @@
-## 0.1.9 (unreleased)
+## 0.1.9
 
 - BREAKING CHANGE: Remove `application_value` attribute from `meraki_wireless_ssid_traffic_shaping_rules` resource and data source
 - Add `subnet_nat_is_allowed`, `nat_enabled` and `nat_remote_subnet` attributes to `meraki_appliance_site_to_site_vpn` resource and data source
