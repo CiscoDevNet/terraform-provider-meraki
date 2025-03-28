@@ -115,14 +115,18 @@ func (data *ApplianceL7FirewallRules) fromBody(ctx context.Context, res meraki.R
 			if !(data.Type.ValueString() == "blockedCountries") && !(data.Type.ValueString() == "allowedCountries") {
 				if value := res.Get(valuePath); value.Exists() && value.Value() != nil {
 					data.Value = types.StringValue(value.String())
+					data.ValueCountries = types.ListNull(types.StringType)
 				} else {
 					data.Value = types.StringNull()
+					data.ValueCountries = types.ListNull(types.StringType)
 				}
 			} else {
 				if value := res.Get("value"); value.Exists() && value.Value() != nil {
 					data.ValueCountries = helpers.GetStringList(value.Array())
+					data.Value = types.StringNull()
 				} else {
 					data.ValueCountries = types.ListNull(types.StringType)
+					data.Value = types.StringNull()
 				}
 			}
 			(*parent).Rules = append((*parent).Rules, data)
@@ -167,14 +171,18 @@ func (data *ApplianceL7FirewallRules) fromBodyPartial(ctx context.Context, res m
 		if !(data.Type.ValueString() == "blockedCountries") && !(data.Type.ValueString() == "allowedCountries") {
 			if value := res.Get(valuePath); value.Exists() && !data.Value.IsNull() {
 				data.Value = types.StringValue(value.String())
+				data.ValueCountries = types.ListNull(types.StringType)
 			} else {
 				data.Value = types.StringNull()
+				data.ValueCountries = types.ListNull(types.StringType)
 			}
 		} else {
 			if value := res.Get("value"); value.Exists() && !data.ValueCountries.IsNull() {
 				data.ValueCountries = helpers.GetStringList(value.Array())
+				data.Value = types.StringNull()
 			} else {
 				data.ValueCountries = types.ListNull(types.StringType)
+				data.Value = types.StringNull()
 			}
 		}
 		(*parent).Rules[i] = data
