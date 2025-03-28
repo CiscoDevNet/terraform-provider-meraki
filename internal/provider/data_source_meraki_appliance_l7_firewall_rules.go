@@ -25,6 +25,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -75,11 +76,16 @@ func (d *ApplianceL7FirewallRulesDataSource) Schema(ctx context.Context, req dat
 							Computed:            true,
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: "Type of the L7 rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`",
+							MarkdownDescription: "Type of the L7 rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`, `blockedCountries`, `allowedCountries`",
 							Computed:            true,
 						},
 						"value": schema.StringAttribute{
-							MarkdownDescription: "The `value` of what you want to block. Format of `value` varies depending on type of the rule. The application categories and application ids can be retrieved from the the `MX L7 application categories` endpoint. The countries follow the two-letter ISO 3166-1 alpha-2 format.",
+							MarkdownDescription: "The `value` of what you want to block. The application categories and application ids can be retrieved from the the `MX L7 application categories` endpoint.",
+							Computed:            true,
+						},
+						"value_countries": schema.ListAttribute{
+							MarkdownDescription: "If type is `blockedCountries` or `allowedCountries` this attribute should be used instead of `value`. A list of countries, that follow the two-letter ISO 3166-1 alpha-2 format.",
+							ElementType:         types.StringType,
 							Computed:            true,
 						},
 					},

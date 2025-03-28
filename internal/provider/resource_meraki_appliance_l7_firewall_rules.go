@@ -31,6 +31,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -90,14 +91,19 @@ func (r *ApplianceL7FirewallRulesResource) Schema(ctx context.Context, req resou
 							},
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Type of the L7 rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`").AddStringEnumDescription("application", "applicationCategory", "host", "ipRange", "port").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Type of the L7 rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`, `blockedCountries`, `allowedCountries`").AddStringEnumDescription("application", "applicationCategory", "host", "ipRange", "port", "blockedCountries", "allowedCountries").String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "port"),
+								stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "port", "blockedCountries", "allowedCountries"),
 							},
 						},
 						"value": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The `value` of what you want to block. Format of `value` varies depending on type of the rule. The application categories and application ids can be retrieved from the the `MX L7 application categories` endpoint. The countries follow the two-letter ISO 3166-1 alpha-2 format.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The `value` of what you want to block. The application categories and application ids can be retrieved from the the `MX L7 application categories` endpoint.").String,
+							Optional:            true,
+						},
+						"value_countries": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("If type is `blockedCountries` or `allowedCountries` this attribute should be used instead of `value`. A list of countries, that follow the two-letter ISO 3166-1 alpha-2 format.").String,
+							ElementType:         types.StringType,
 							Optional:            true,
 						},
 					},

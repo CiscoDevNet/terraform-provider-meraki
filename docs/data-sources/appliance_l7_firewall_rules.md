@@ -36,5 +36,6 @@ data "meraki_appliance_l7_firewall_rules" "example" {
 Read-Only:
 
 - `policy` (String) `Deny` traffic specified by this rule
-- `type` (String) Type of the L7 rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`
-- `value` (String) The `value` of what you want to block. Format of `value` varies depending on type of the rule. The application categories and application ids can be retrieved from the the `MX L7 application categories` endpoint. The countries follow the two-letter ISO 3166-1 alpha-2 format.
+- `type` (String) Type of the L7 rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`, `blockedCountries`, `allowedCountries`
+- `value` (String) The `value` of what you want to block. The application categories and application ids can be retrieved from the the `MX L7 application categories` endpoint.
+- `value_countries` (List of String) If type is `blockedCountries` or `allowedCountries` this attribute should be used instead of `value`. A list of countries, that follow the two-letter ISO 3166-1 alpha-2 format.

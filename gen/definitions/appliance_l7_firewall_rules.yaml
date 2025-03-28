@@ -28,15 +28,22 @@ attributes:
         minimum_test_value: '"deny"'
       - model_name: type
         type: String
-        description: 'Type of the L7 rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`'
+        description: 'Type of the L7 rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`, `blockedCountries`, `allowedCountries`'
         example: host
-        enum_values: [application, applicationCategory, host, ipRange, port]
+        enum_values: [application, applicationCategory, host, ipRange, port, blockedCountries, allowedCountries]
         minimum_test_value: '"port"'
       - model_name: value
         type: String
-        description: The `value` of what you want to block. Format of `value` varies depending on type of the rule. The application categories and application ids can be retrieved from the the `MX L7 application categories` endpoint. The countries follow the two-letter ISO 3166-1 alpha-2 format.
+        description: The `value` of what you want to block. The application categories and application ids can be retrieved from the the `MX L7 application categories` endpoint.
         example: google.com
         minimum_test_value: '"1234"'
+      - model_name: value
+        tf_name: value_countries
+        type: List
+        element_type: String
+        exclude_test: true
+        description: If type is `blockedCountries` or `allowedCountries` this attribute should be used instead of `value`. A list of countries, that follow the two-letter ISO 3166-1 alpha-2 format.
+        example: AT
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

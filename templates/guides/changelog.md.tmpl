@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 0.1.10
+
+- Add `value_countries` attribute to `meraki_appliance_l7_firewall_rules` resource and data source
+
 ## 0.1.9
 
 - BREAKING CHANGE: Remove `application_value` attribute from `meraki_wireless_ssid_traffic_shaping_rules` resource and data source
