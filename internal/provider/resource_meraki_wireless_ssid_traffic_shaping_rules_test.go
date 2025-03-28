@@ -65,7 +65,7 @@ func TestAccMerakiWirelessSSIDTrafficShapingRules(t *testing.T) {
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig + testAccConfigAdditional0,
+		Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig + testAccWirelessSSIDTrafficShapingRulesConfigAdditional0,
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -153,7 +153,7 @@ func testAccMerakiWirelessSSIDTrafficShapingRulesConfig_all() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
 
-const testAccConfigAdditional0 = `
+const testAccWirelessSSIDTrafficShapingRulesConfigAdditional0 = `
 resource "meraki_wireless_ssid_traffic_shaping_rules" "test" {
   network_id = meraki_network.test.id
   number = meraki_wireless_ssid.test.id

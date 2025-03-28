@@ -59,7 +59,7 @@ func TestAccMerakiApplianceL7FirewallRules(t *testing.T) {
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiApplianceL7FirewallRulesPrerequisitesConfig + testAccConfigAdditional0,
+		Config: testAccMerakiApplianceL7FirewallRulesPrerequisitesConfig + testAccApplianceL7FirewallRulesConfigAdditional0,
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -136,7 +136,7 @@ func testAccMerakiApplianceL7FirewallRulesConfig_all() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
 
-const testAccConfigAdditional0 = `
+const testAccApplianceL7FirewallRulesConfigAdditional0 = `
 resource "meraki_appliance_l7_firewall_rules" "test" {
   network_id = meraki_network.test.id
   rules = [

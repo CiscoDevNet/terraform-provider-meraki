@@ -145,7 +145,7 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- $Name := .Name}}
 	{{- range $i, $e := .AdditionalTests}}
 	steps = append(steps, resource.TestStep{
-		Config: {{if or $TestPrerequisites (len $TestVariables)}}testAccMeraki{{camelCase $Name}}PrerequisitesConfig+{{end}}testAccConfigAdditional{{$i}},
+		Config: {{if or $TestPrerequisites (len $TestVariables)}}testAccMeraki{{camelCase $Name}}PrerequisitesConfig+{{end}}testAcc{{camelCase $Name}}ConfigAdditional{{$i}},
 	})
 	{{- end}}
 
@@ -417,7 +417,7 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
 
 {{range $i, $e := .AdditionalTests}}
-const testAccConfigAdditional{{$i}} = `
+const testAcc{{camelCase $Name}}ConfigAdditional{{$i}} = `
 {{$e}}
 `
 {{end}}
