@@ -53,3 +53,20 @@ test_prerequisites: |
     name            = var.test_network
     product_types   = ["switch", "wireless", "appliance"]
   }
+additional_tests:
+  - |-
+    resource "meraki_appliance_l7_firewall_rules" "test" {
+      network_id = meraki_network.test.id
+      rules = [
+        {
+          policy = "deny"
+          type   = "host"
+          value  = "google.com"
+        },
+        {
+          policy = "deny"
+          type   = "applicationCategory"
+          value  = "meraki:layer7/category/17"
+        }
+      ]
+    }

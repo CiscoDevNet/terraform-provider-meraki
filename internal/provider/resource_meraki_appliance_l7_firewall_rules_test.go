@@ -58,6 +58,9 @@ func TestAccMerakiApplianceL7FirewallRules(t *testing.T) {
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceL7FirewallRulesPrerequisitesConfig + testAccConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -132,5 +135,23 @@ func testAccMerakiApplianceL7FirewallRulesConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccConfigAdditional0 = `
+resource "meraki_appliance_l7_firewall_rules" "test" {
+  network_id = meraki_network.test.id
+  rules = [
+    {
+      policy = "deny"
+      type   = "host"
+      value  = "google.com"
+    },
+    {
+      policy = "deny"
+      type   = "applicationCategory"
+      value  = "meraki:layer7/category/17"
+    }
+  ]
+}
+`
 
 // End of section. //template:end testAccConfigAdditional

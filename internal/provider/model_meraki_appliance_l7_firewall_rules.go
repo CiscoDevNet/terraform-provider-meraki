@@ -79,7 +79,7 @@ func (data ApplianceL7FirewallRules) toBody(ctx context.Context, state Appliance
 			if !item.Value.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, valuePath, item.Value.ValueString())
 			}
-			if !item.ValueCountries.IsNull() && item.Type.ValueString() == "blockedCountries" || item.Type.ValueString() == "allowedCountries" {
+			if !item.ValueCountries.IsNull() && (item.Type.ValueString() == "blockedCountries" || item.Type.ValueString() == "allowedCountries") {
 				var values []string
 				item.ValueCountries.ElementsAs(ctx, &values, false)
 				itemBody, _ = sjson.Set(itemBody, "value", values)
