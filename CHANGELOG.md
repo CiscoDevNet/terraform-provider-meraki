@@ -1,4 +1,4 @@
-## 0.1.10 (unreleased)
+## 0.1.10
 
 - Add `value_countries` attribute to `meraki_appliance_l7_firewall_rules` resource and data source
 
