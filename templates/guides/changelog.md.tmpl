@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## 0.1.11 (unreleased)
+## 0.1.11
 
 - Do not import default rule for `meraki_appliance_cellular_firewall_rules`, `meraki_appliance_inbound_cellular_firewall_rules`, `meraki_appliance_inbound_firewall_rules`, `meraki_appliance_l3_firewall_rules`, `meraki_appliance_vpn_firewall_rules` and `meraki_switch_access_control_lists` resource
 - Do not import default and local LAN access rules for `meraki_wireless_ssid_l3_firewall_rules` resource
