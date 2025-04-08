@@ -60,7 +60,7 @@ func TestAccMerakiApplianceVPNFirewallRules(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceVPNFirewallRulesImportStateIdFunc("meraki_appliance_vpn_firewall_rules.test"),
-		ImportStateVerifyIgnore: []string{"rules"},
+		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

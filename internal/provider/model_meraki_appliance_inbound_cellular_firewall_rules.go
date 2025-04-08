@@ -107,6 +107,9 @@ func (data *ApplianceInboundCellularFirewallRules) fromBody(ctx context.Context,
 	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]ApplianceInboundCellularFirewallRulesRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
+			if value := res.Get("comment"); value.String() == "Default rule" {
+				return true
+			}
 			parent := &data
 			data := ApplianceInboundCellularFirewallRulesRules{}
 			if value := res.Get("comment"); value.Exists() && value.Value() != nil {

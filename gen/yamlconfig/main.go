@@ -112,6 +112,7 @@ type YamlConfigAttribute struct {
 	TestValue          string                `yaml:"test_value,omitempty"`
 	MinimumTestValue   string                `yaml:"minimum_test_value,omitempty"`
 	DestroyValue       string                `yaml:"destroy_value,omitempty"`
+	IgnoreImportValues []string              `yaml:"ignore_import_values,omitempty,flow"`
 	TestTags           []string              `yaml:"test_tags,omitempty,flow"`
 	Attributes         []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	GoTypeName         string                `yaml:"gotypename,omitempty"`
@@ -153,6 +154,7 @@ type YamlConfigAttributeP struct {
 	TestValue          *string                 `yaml:"test_value,omitempty"`
 	MinimumTestValue   *string                 `yaml:"minimum_test_value,omitempty"`
 	DestroyValue       *string                 `yaml:"destroy_value,omitempty"`
+	IgnoreImportValues *[]string               `yaml:"ignore_import_values,omitempty,flow"`
 	TestTags           *[]string               `yaml:"test_tags,omitempty,flow"`
 	Attributes         *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
 	GoTypeName         *string                 `yaml:"gotypename,omitempty"`
@@ -377,10 +379,10 @@ func GetImportExcludes(attributes []YamlConfigAttribute) []string {
 }
 
 // GetFullModelName returns the full model name for an attribute, including data path
-func GetFullModelName(attr YamlConfigAttribute) string {
+func GetFullModelName(attr YamlConfigAttribute, write bool) string {
 	r := ""
 	for i := range attr.DataPath {
-		if _, err := strconv.Atoi(attr.DataPath[i]); err == nil {
+		if _, err := strconv.Atoi(attr.DataPath[i]); err == nil && write {
 			r += fmt.Sprintf(":%s.", attr.DataPath[i])
 		} else {
 			r += attr.DataPath[i] + "."
@@ -822,6 +824,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.DestroyValue != nil {
 		new.DestroyValue = existing.DestroyValue
+	}
+	if existing.IgnoreImportValues != nil {
+		new.IgnoreImportValues = existing.IgnoreImportValues
 	}
 	if existing.TestTags != nil {
 		new.TestTags = existing.TestTags

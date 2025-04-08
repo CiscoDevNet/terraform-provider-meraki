@@ -60,7 +60,7 @@ func TestAccMerakiApplianceInboundCellularFirewallRules(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceInboundCellularFirewallRulesImportStateIdFunc("meraki_appliance_inbound_cellular_firewall_rules.test"),
-		ImportStateVerifyIgnore: []string{"rules"},
+		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -104,6 +104,12 @@ func (data *WirelessSSIDL3FirewallRules) fromBody(ctx context.Context, res merak
 	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]WirelessSSIDL3FirewallRulesRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
+			if value := res.Get("comment"); value.String() == "Default rule" {
+				return true
+			}
+			if value := res.Get("comment"); value.String() == "Wireless clients accessing LAN" {
+				return true
+			}
 			parent := &data
 			data := WirelessSSIDL3FirewallRulesRules{}
 			if value := res.Get("comment"); value.Exists() && value.Value() != nil {

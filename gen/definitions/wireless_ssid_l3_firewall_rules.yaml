@@ -27,7 +27,6 @@ attributes:
     minimum_test_value: "false"
   - model_name: rules
     type: List
-    allow_import_changes: true
     description: An ordered array of the firewall rules for this SSID (not including the local LAN access rule or the default rule).
     ordered_list: true
     destroy_value: '[]interface{}{}'
@@ -36,6 +35,7 @@ attributes:
         type: String
         description: Description of the rule (optional)
         example: Allow TCP traffic to subnet with HTTP servers.
+        ignore_import_values: [Default rule, Wireless clients accessing LAN]
       - model_name: destCidr
         type: String
         mandatory: true

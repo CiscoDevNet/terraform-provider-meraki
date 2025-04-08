@@ -111,6 +111,9 @@ func (data *SwitchAccessControlLists) fromBody(ctx context.Context, res meraki.R
 	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]SwitchAccessControlListsRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
+			if value := res.Get("comment"); value.String() == "Default rule" {
+				return true
+			}
 			parent := &data
 			data := SwitchAccessControlListsRules{}
 			if value := res.Get("comment"); value.Exists() && value.Value() != nil {

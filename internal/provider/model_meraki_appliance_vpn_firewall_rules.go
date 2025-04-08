@@ -116,6 +116,9 @@ func (data *ApplianceVPNFirewallRules) fromBody(ctx context.Context, res meraki.
 	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]ApplianceVPNFirewallRulesRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
+			if value := res.Get("comment"); value.String() == "Default rule" {
+				return true
+			}
 			parent := &data
 			data := ApplianceVPNFirewallRulesRules{}
 			if value := res.Get("comment"); value.Exists() && value.Value() != nil {

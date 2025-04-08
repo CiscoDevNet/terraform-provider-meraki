@@ -205,214 +205,214 @@ func (data WirelessRFProfile) toBody(ctx context.Context, state WirelessRFProfil
 	}
 	body, _ = sjson.Set(body, "perSsidSettings", map[string]interface{}{})
 	if !data.PerSsidSettings0BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.0.bandOperationMode", data.PerSsidSettings0BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:0.bandOperationMode", data.PerSsidSettings0BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings0BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.0.bandSteeringEnabled", data.PerSsidSettings0BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:0.bandSteeringEnabled", data.PerSsidSettings0BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings0MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.0.minBitrate", data.PerSsidSettings0MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:0.minBitrate", data.PerSsidSettings0MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings0BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings0BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.0.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:0.bands.enabled", values)
 	}
 	if !data.PerSsidSettings1BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.1.bandOperationMode", data.PerSsidSettings1BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:1.bandOperationMode", data.PerSsidSettings1BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings1BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.1.bandSteeringEnabled", data.PerSsidSettings1BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:1.bandSteeringEnabled", data.PerSsidSettings1BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings1MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.1.minBitrate", data.PerSsidSettings1MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:1.minBitrate", data.PerSsidSettings1MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings1BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings1BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.1.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:1.bands.enabled", values)
 	}
 	if !data.PerSsidSettings10BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.10.bandOperationMode", data.PerSsidSettings10BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:10.bandOperationMode", data.PerSsidSettings10BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings10BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.10.bandSteeringEnabled", data.PerSsidSettings10BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:10.bandSteeringEnabled", data.PerSsidSettings10BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings10MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.10.minBitrate", data.PerSsidSettings10MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:10.minBitrate", data.PerSsidSettings10MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings10BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings10BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.10.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:10.bands.enabled", values)
 	}
 	if !data.PerSsidSettings11BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.11.bandOperationMode", data.PerSsidSettings11BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:11.bandOperationMode", data.PerSsidSettings11BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings11BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.11.bandSteeringEnabled", data.PerSsidSettings11BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:11.bandSteeringEnabled", data.PerSsidSettings11BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings11MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.11.minBitrate", data.PerSsidSettings11MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:11.minBitrate", data.PerSsidSettings11MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings11BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings11BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.11.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:11.bands.enabled", values)
 	}
 	if !data.PerSsidSettings12BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.12.bandOperationMode", data.PerSsidSettings12BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:12.bandOperationMode", data.PerSsidSettings12BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings12BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.12.bandSteeringEnabled", data.PerSsidSettings12BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:12.bandSteeringEnabled", data.PerSsidSettings12BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings12MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.12.minBitrate", data.PerSsidSettings12MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:12.minBitrate", data.PerSsidSettings12MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings12BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings12BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.12.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:12.bands.enabled", values)
 	}
 	if !data.PerSsidSettings13BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.13.bandOperationMode", data.PerSsidSettings13BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:13.bandOperationMode", data.PerSsidSettings13BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings13BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.13.bandSteeringEnabled", data.PerSsidSettings13BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:13.bandSteeringEnabled", data.PerSsidSettings13BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings13MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.13.minBitrate", data.PerSsidSettings13MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:13.minBitrate", data.PerSsidSettings13MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings13BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings13BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.13.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:13.bands.enabled", values)
 	}
 	if !data.PerSsidSettings14BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.14.bandOperationMode", data.PerSsidSettings14BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:14.bandOperationMode", data.PerSsidSettings14BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings14BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.14.bandSteeringEnabled", data.PerSsidSettings14BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:14.bandSteeringEnabled", data.PerSsidSettings14BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings14MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.14.minBitrate", data.PerSsidSettings14MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:14.minBitrate", data.PerSsidSettings14MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings14BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings14BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.14.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:14.bands.enabled", values)
 	}
 	if !data.PerSsidSettings2BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.2.bandOperationMode", data.PerSsidSettings2BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:2.bandOperationMode", data.PerSsidSettings2BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings2BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.2.bandSteeringEnabled", data.PerSsidSettings2BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:2.bandSteeringEnabled", data.PerSsidSettings2BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings2MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.2.minBitrate", data.PerSsidSettings2MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:2.minBitrate", data.PerSsidSettings2MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings2BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings2BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.2.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:2.bands.enabled", values)
 	}
 	if !data.PerSsidSettings3BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.3.bandOperationMode", data.PerSsidSettings3BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:3.bandOperationMode", data.PerSsidSettings3BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings3BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.3.bandSteeringEnabled", data.PerSsidSettings3BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:3.bandSteeringEnabled", data.PerSsidSettings3BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings3MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.3.minBitrate", data.PerSsidSettings3MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:3.minBitrate", data.PerSsidSettings3MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings3BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings3BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.3.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:3.bands.enabled", values)
 	}
 	if !data.PerSsidSettings4BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.4.bandOperationMode", data.PerSsidSettings4BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:4.bandOperationMode", data.PerSsidSettings4BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings4BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.4.bandSteeringEnabled", data.PerSsidSettings4BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:4.bandSteeringEnabled", data.PerSsidSettings4BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings4MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.4.minBitrate", data.PerSsidSettings4MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:4.minBitrate", data.PerSsidSettings4MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings4BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings4BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.4.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:4.bands.enabled", values)
 	}
 	if !data.PerSsidSettings5BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.5.bandOperationMode", data.PerSsidSettings5BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:5.bandOperationMode", data.PerSsidSettings5BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings5BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.5.bandSteeringEnabled", data.PerSsidSettings5BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:5.bandSteeringEnabled", data.PerSsidSettings5BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings5MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.5.minBitrate", data.PerSsidSettings5MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:5.minBitrate", data.PerSsidSettings5MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings5BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings5BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.5.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:5.bands.enabled", values)
 	}
 	if !data.PerSsidSettings6BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.6.bandOperationMode", data.PerSsidSettings6BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:6.bandOperationMode", data.PerSsidSettings6BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings6BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.6.bandSteeringEnabled", data.PerSsidSettings6BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:6.bandSteeringEnabled", data.PerSsidSettings6BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings6MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.6.minBitrate", data.PerSsidSettings6MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:6.minBitrate", data.PerSsidSettings6MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings6BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings6BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.6.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:6.bands.enabled", values)
 	}
 	if !data.PerSsidSettings7BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.7.bandOperationMode", data.PerSsidSettings7BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:7.bandOperationMode", data.PerSsidSettings7BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings7BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.7.bandSteeringEnabled", data.PerSsidSettings7BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:7.bandSteeringEnabled", data.PerSsidSettings7BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings7MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.7.minBitrate", data.PerSsidSettings7MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:7.minBitrate", data.PerSsidSettings7MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings7BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings7BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.7.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:7.bands.enabled", values)
 	}
 	if !data.PerSsidSettings8BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.8.bandOperationMode", data.PerSsidSettings8BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:8.bandOperationMode", data.PerSsidSettings8BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings8BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.8.bandSteeringEnabled", data.PerSsidSettings8BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:8.bandSteeringEnabled", data.PerSsidSettings8BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings8MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.8.minBitrate", data.PerSsidSettings8MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:8.minBitrate", data.PerSsidSettings8MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings8BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings8BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.8.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:8.bands.enabled", values)
 	}
 	if !data.PerSsidSettings9BandOperationMode.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.9.bandOperationMode", data.PerSsidSettings9BandOperationMode.ValueString())
+		body, _ = sjson.Set(body, "perSsidSettings.:9.bandOperationMode", data.PerSsidSettings9BandOperationMode.ValueString())
 	}
 	if !data.PerSsidSettings9BandSteeringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.9.bandSteeringEnabled", data.PerSsidSettings9BandSteeringEnabled.ValueBool())
+		body, _ = sjson.Set(body, "perSsidSettings.:9.bandSteeringEnabled", data.PerSsidSettings9BandSteeringEnabled.ValueBool())
 	}
 	if !data.PerSsidSettings9MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "perSsidSettings.9.minBitrate", data.PerSsidSettings9MinBitrate.ValueFloat64())
+		body, _ = sjson.Set(body, "perSsidSettings.:9.minBitrate", data.PerSsidSettings9MinBitrate.ValueFloat64())
 	}
 	if !data.PerSsidSettings9BandsEnabled.IsNull() {
 		var values []string
 		data.PerSsidSettings9BandsEnabled.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "perSsidSettings.9.bands.enabled", values)
+		body, _ = sjson.Set(body, "perSsidSettings.:9.bands.enabled", values)
 	}
 	if !data.SixGhzSettingsChannelWidth.IsNull() {
 		body, _ = sjson.Set(body, "sixGhzSettings.channelWidth", data.SixGhzSettingsChannelWidth.ValueString())

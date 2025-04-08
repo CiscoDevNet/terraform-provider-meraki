@@ -16,7 +16,6 @@ attributes:
   - model_name: rules
     type: List
     mandatory: true
-    allow_import_changes: true
     description: An ordered array of the access control list rules (not including the default rule). An empty array will clear the rules.
     ordered_list: true
     attributes:
@@ -24,6 +23,7 @@ attributes:
         type: String
         description: Description of the rule (optional).
         example: Deny SSH
+        ignore_import_values: [Default rule]
       - model_name: dstCidr
         type: String
         mandatory: true

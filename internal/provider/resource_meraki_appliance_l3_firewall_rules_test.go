@@ -60,8 +60,11 @@ func TestAccMerakiApplianceL3FirewallRules(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceL3FirewallRulesImportStateIdFunc("meraki_appliance_l3_firewall_rules.test"),
-		ImportStateVerifyIgnore: []string{"rules"},
+		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceL3FirewallRulesPrerequisitesConfig + testAccApplianceL3FirewallRulesConfigAdditional0,
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -143,5 +146,17 @@ func testAccMerakiApplianceL3FirewallRulesConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccApplianceL3FirewallRulesConfigAdditional0 = `
+resource "meraki_appliance_l3_firewall_rules" "test" {
+  network_id = meraki_network.test.id
+  rules = [{
+    dest_cidr = "192.168.1.0/24"
+    policy = "allow"
+    protocol = "any"
+    src_cidr = "Any"
+  }]
+}
+`
 
 // End of section. //template:end testAccConfigAdditional

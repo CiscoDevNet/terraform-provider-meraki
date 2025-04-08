@@ -21,7 +21,6 @@ attributes:
   - model_name: rules
     type: List
     mandatory: true
-    allow_import_changes: true
     description: An ordered array of the firewall rules (not including the default rule)
     ordered_list: true
     destroy_value: '[]interface{}{}'
@@ -30,6 +29,7 @@ attributes:
         type: String
         description: Description of the rule (optional)
         example: Allow TCP traffic to subnet with HTTP servers.
+        ignore_import_values: [Default rule]
       - model_name: destCidr
         type: String
         mandatory: true
@@ -74,3 +74,14 @@ test_prerequisites: |
     name            = var.test_network
     product_types   = ["switch", "wireless", "appliance"]
   }
+additional_tests:
+  - |-
+    resource "meraki_appliance_l3_firewall_rules" "test" {
+      network_id = meraki_network.test.id
+      rules = [{
+        dest_cidr = "192.168.1.0/24"
+        policy = "allow"
+        protocol = "any"
+        src_cidr = "Any"
+      }]
+    }
