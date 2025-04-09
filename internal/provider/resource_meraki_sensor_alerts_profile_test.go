@@ -36,6 +36,8 @@ func TestAccMerakiSensorAlertsProfile(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_sensor_1_serial")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "include_sensor_url", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "message", "Check with Miles on what to do."))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "name", "My Sensor Alert Profile"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "recipients_emails.0", "miles@meraki.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "recipients_sms_numbers.0", "+15555555555"))
@@ -130,6 +132,8 @@ func testAccMerakiSensorAlertsProfileConfig_minimum() string {
 func testAccMerakiSensorAlertsProfileConfig_all() string {
 	config := `resource "meraki_sensor_alerts_profile" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  include_sensor_url = true` + "\n"
+	config += `  message = "Check with Miles on what to do."` + "\n"
 	config += `  name = "My Sensor Alert Profile"` + "\n"
 	config += `  recipients_emails = ["miles@meraki.com"]` + "\n"
 	config += `  recipients_sms_numbers = ["+15555555555"]` + "\n"

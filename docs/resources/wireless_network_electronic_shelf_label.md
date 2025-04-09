@@ -17,6 +17,7 @@ resource "meraki_wireless_network_electronic_shelf_label" "example" {
   network_id = "L_123456"
   enabled    = true
   hostname   = "N_24329156"
+  mode       = "high frequency"
 }
 ```
 
@@ -31,6 +32,8 @@ resource "meraki_wireless_network_electronic_shelf_label" "example" {
 
 - `enabled` (Boolean) Turn ESL features on and off for this network
 - `hostname` (String) Desired ESL hostname of the network
+- `mode` (String) Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`
+  - Choices: `Bluetooth`, `high frequency`
 
 ### Read-Only
 

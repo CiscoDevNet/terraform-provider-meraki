@@ -84,6 +84,8 @@ Read-Only:
 - `video_settings_mv73_resolution` (String) Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
 - `video_settings_mv73_x_quality` (String) Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
 - `video_settings_mv73_x_resolution` (String) Resolution of the camera. Can be one of `1920x1080`, `2688x1512` or `3840x2160`.
+- `video_settings_mv84_x_quality` (String) Quality of the camera. Can be one of `Standard` or `Enhanced`.
+- `video_settings_mv84_x_resolution` (String) Resolution of the camera. Can be one of `1440x1080` or `2560x1920`.
 - `video_settings_mv93_m_quality` (String) Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
 - `video_settings_mv93_m_resolution` (String) Resolution of the camera. Can be one of `1080x1080`, `2112x2112` or `2880x2880`.
 - `video_settings_mv93_quality` (String) Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.

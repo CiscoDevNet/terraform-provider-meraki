@@ -24,11 +24,13 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -111,6 +113,13 @@ func (r *OrganizationLoginSecurityResource) Schema(ctx context.Context, req reso
 			"idle_timeout_minutes": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Number of minutes users can remain idle before being logged out of their accounts.").String,
 				Optional:            true,
+			},
+			"minimum_password_length": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Minimum number of characters required in admins` passwords.").AddIntegerRangeDescription(8, 16).String,
+				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.Between(8, 16),
+				},
 			},
 			"num_different_passwords": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Number of recent passwords that new password must be distinct from.").String,

@@ -79,6 +79,14 @@ func (r *SensorAlertsProfileResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"include_sensor_url": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Include dashboard link to sensor in messages (default: true).").String,
+				Optional:            true,
+			},
+			"message": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("A custom message that will appear in email and text message alerts.").String,
+				Optional:            true,
+			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Name of the sensor alert profile.").String,
 				Required:            true,

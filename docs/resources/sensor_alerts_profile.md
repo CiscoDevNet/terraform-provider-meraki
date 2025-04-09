@@ -15,6 +15,8 @@ This resource can manage the `Sensor Alerts Profile` configuration.
 ```terraform
 resource "meraki_sensor_alerts_profile" "example" {
   network_id             = "L_123456"
+  include_sensor_url     = true
+  message                = "Check with Miles on what to do."
   name                   = "My Sensor Alert Profile"
   recipients_emails      = ["miles@meraki.com"]
   recipients_sms_numbers = ["+15555555555"]
@@ -41,6 +43,8 @@ resource "meraki_sensor_alerts_profile" "example" {
 
 ### Optional
 
+- `include_sensor_url` (Boolean) Include dashboard link to sensor in messages (default: true).
+- `message` (String) A custom message that will appear in email and text message alerts.
 - `recipients_emails` (List of String) A list of emails that will receive information about the alert.
 - `recipients_http_server_ids` (List of String) A list of webhook endpoint IDs that will receive information about the alert.
 - `recipients_sms_numbers` (List of String) A list of SMS numbers that will receive information about the alert.

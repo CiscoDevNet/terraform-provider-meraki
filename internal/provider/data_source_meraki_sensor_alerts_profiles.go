@@ -71,6 +71,14 @@ func (d *SensorAlertsProfilesDataSource) Schema(ctx context.Context, req datasou
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
+						"include_sensor_url": schema.BoolAttribute{
+							MarkdownDescription: "Include dashboard link to sensor in messages (default: true).",
+							Computed:            true,
+						},
+						"message": schema.StringAttribute{
+							MarkdownDescription: "A custom message that will appear in email and text message alerts.",
+							Computed:            true,
+						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: "Name of the sensor alert profile.",
 							Computed:            true,

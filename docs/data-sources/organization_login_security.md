@@ -40,5 +40,6 @@ data "meraki_organization_login_security" "example" {
 - `id` (String) The id of the object
 - `idle_timeout_minutes` (Number) Number of minutes users can remain idle before being logged out of their accounts.
 - `login_ip_ranges` (Set of String) List of acceptable IP ranges. Entries can be single IP addresses, IP address ranges, and CIDR subnets.
+- `minimum_password_length` (Number) Minimum number of characters required in admins` passwords.
 - `num_different_passwords` (Number) Number of recent passwords that new password must be distinct from.
 - `password_expiration_days` (Number) Number of days after which users will be forced to change their password.

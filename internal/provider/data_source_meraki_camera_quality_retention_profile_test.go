@@ -82,6 +82,8 @@ func TestAccDataSourceMerakiCameraQualityRetentionProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv73_m_resolution", "1920x1080"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv73_x_quality", "Standard"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv73_x_resolution", "1920x1080"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv84_x_quality", "Standard"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv84_x_resolution", "1440x1080"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv93_quality", "Standard"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv93_resolution", "1080x1080"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_camera_quality_retention_profile.test", "video_settings_mv93_m_quality", "Standard"))
@@ -173,6 +175,8 @@ func testAccDataSourceMerakiCameraQualityRetentionProfileConfig() string {
 	config += `  video_settings_mv73_m_resolution = "1920x1080"` + "\n"
 	config += `  video_settings_mv73_x_quality = "Standard"` + "\n"
 	config += `  video_settings_mv73_x_resolution = "1920x1080"` + "\n"
+	config += `  video_settings_mv84_x_quality = "Standard"` + "\n"
+	config += `  video_settings_mv84_x_resolution = "1440x1080"` + "\n"
 	config += `  video_settings_mv93_quality = "Standard"` + "\n"
 	config += `  video_settings_mv93_resolution = "1080x1080"` + "\n"
 	config += `  video_settings_mv93_m_quality = "Standard"` + "\n"
@@ -242,6 +246,8 @@ func testAccNamedDataSourceMerakiCameraQualityRetentionProfileConfig() string {
 	config += `  video_settings_mv73_m_resolution = "1920x1080"` + "\n"
 	config += `  video_settings_mv73_x_quality = "Standard"` + "\n"
 	config += `  video_settings_mv73_x_resolution = "1920x1080"` + "\n"
+	config += `  video_settings_mv84_x_quality = "Standard"` + "\n"
+	config += `  video_settings_mv84_x_resolution = "1440x1080"` + "\n"
 	config += `  video_settings_mv93_quality = "Standard"` + "\n"
 	config += `  video_settings_mv93_resolution = "1080x1080"` + "\n"
 	config += `  video_settings_mv93_m_quality = "Standard"` + "\n"

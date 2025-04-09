@@ -42,6 +42,7 @@ func TestAccDataSourceMerakiOrganizationLoginSecurity(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_login_security.test", "enforce_strong_passwords", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_login_security.test", "enforce_two_factor_auth", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_login_security.test", "idle_timeout_minutes", "30"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_login_security.test", "minimum_password_length", "12"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_login_security.test", "num_different_passwords", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_login_security.test", "password_expiration_days", "90"))
 	resource.Test(t, resource.TestCase{
@@ -62,7 +63,7 @@ func TestAccDataSourceMerakiOrganizationLoginSecurity(t *testing.T) {
 
 const testAccDataSourceMerakiOrganizationLoginSecurityPrerequisitesConfig = `
 resource "meraki_organization" "test" {
-  name = "TF-Test"
+  name = "TF-Test1"
 }
 
 `
@@ -82,6 +83,7 @@ func testAccDataSourceMerakiOrganizationLoginSecurityConfig() string {
 	config += `  enforce_strong_passwords = true` + "\n"
 	config += `  enforce_two_factor_auth = true` + "\n"
 	config += `  idle_timeout_minutes = 30` + "\n"
+	config += `  minimum_password_length = 12` + "\n"
 	config += `  num_different_passwords = 3` + "\n"
 	config += `  password_expiration_days = 90` + "\n"
 	config += `}` + "\n"

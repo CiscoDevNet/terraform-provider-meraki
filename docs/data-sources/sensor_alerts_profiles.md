@@ -36,6 +36,8 @@ Read-Only:
 
 - `conditions` (Attributes List) List of conditions that will cause the profile to send an alert. (see [below for nested schema](#nestedatt--items--conditions))
 - `id` (String) The id of the object
+- `include_sensor_url` (Boolean) Include dashboard link to sensor in messages (default: true).
+- `message` (String) A custom message that will appear in email and text message alerts.
 - `name` (String) Name of the sensor alert profile.
 - `recipients_emails` (List of String) A list of emails that will receive information about the alert.
 - `recipients_http_server_ids` (List of String) A list of webhook endpoint IDs that will receive information about the alert.

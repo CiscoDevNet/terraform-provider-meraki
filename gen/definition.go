@@ -530,14 +530,30 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			}
 			if min, ok := propMap["minimum"]; ok {
 				if *attr.Type == "Int64" {
-					attr.MinInt = P(min.(int64))
+					value, ok := min.(int64)
+					if ok {
+						attr.MinInt = P(value)
+					} else {
+						value, ok := min.(float64)
+						if ok {
+							attr.MinInt = P(int64(value))
+						}
+					}
 				} else if *attr.Type == "Float64" {
 					attr.MinFloat = P(min.(float64))
 				}
 			}
 			if max, ok := propMap["maximum"]; ok {
 				if *attr.Type == "Int64" {
-					attr.MaxInt = P(max.(int64))
+					value, ok := max.(int64)
+					if ok {
+						attr.MaxInt = P(value)
+					} else {
+						value, ok := max.(float64)
+						if ok {
+							attr.MaxInt = P(int64(value))
+						}
+					}
 				} else if *attr.Type == "Float64" {
 					attr.MaxFloat = P(max.(float64))
 				}

@@ -30,3 +30,4 @@ data "meraki_wireless_network_electronic_shelf_label" "example" {
 - `enabled` (Boolean) Turn ESL features on and off for this network
 - `hostname` (String) Desired ESL hostname of the network
 - `id` (String) The id of the object
+- `mode` (String) Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`

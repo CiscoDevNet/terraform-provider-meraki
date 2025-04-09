@@ -22,6 +22,11 @@ attributes:
     type: String
     description: Desired ESL hostname of the network
     example: N_24329156
+  - model_name: mode
+    type: String
+    description: Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`
+    example: high frequency
+    enum_values: [Bluetooth, high frequency]
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

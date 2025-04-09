@@ -39,6 +39,8 @@ import (
 type SensorAlertsProfile struct {
 	Id                      types.String                    `tfsdk:"id"`
 	NetworkId               types.String                    `tfsdk:"network_id"`
+	IncludeSensorUrl        types.Bool                      `tfsdk:"include_sensor_url"`
+	Message                 types.String                    `tfsdk:"message"`
 	Name                    types.String                    `tfsdk:"name"`
 	RecipientsEmails        types.List                      `tfsdk:"recipients_emails"`
 	RecipientsHttpServerIds types.List                      `tfsdk:"recipients_http_server_ids"`
@@ -92,6 +94,12 @@ func (data SensorAlertsProfile) getPath() string {
 
 func (data SensorAlertsProfile) toBody(ctx context.Context, state SensorAlertsProfile) string {
 	body := ""
+	if !data.IncludeSensorUrl.IsNull() {
+		body, _ = sjson.Set(body, "includeSensorUrl", data.IncludeSensorUrl.ValueBool())
+	}
+	if !data.Message.IsNull() {
+		body, _ = sjson.Set(body, "message", data.Message.ValueString())
+	}
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
@@ -214,6 +222,16 @@ func (data SensorAlertsProfile) toBody(ctx context.Context, state SensorAlertsPr
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SensorAlertsProfile) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("includeSensorUrl"); value.Exists() && value.Value() != nil {
+		data.IncludeSensorUrl = types.BoolValue(value.Bool())
+	} else {
+		data.IncludeSensorUrl = types.BoolNull()
+	}
+	if value := res.Get("message"); value.Exists() && value.Value() != nil {
+		data.Message = types.StringValue(value.String())
+	} else {
+		data.Message = types.StringNull()
+	}
 	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
@@ -399,6 +417,16 @@ func (data *SensorAlertsProfile) fromBody(ctx context.Context, res meraki.Res) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *SensorAlertsProfile) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("includeSensorUrl"); value.Exists() && !data.IncludeSensorUrl.IsNull() {
+		data.IncludeSensorUrl = types.BoolValue(value.Bool())
+	} else {
+		data.IncludeSensorUrl = types.BoolNull()
+	}
+	if value := res.Get("message"); value.Exists() && !data.Message.IsNull() {
+		data.Message = types.StringValue(value.String())
+	} else {
+		data.Message = types.StringNull()
+	}
 	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())
 	} else {

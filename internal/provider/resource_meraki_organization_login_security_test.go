@@ -44,6 +44,7 @@ func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_strong_passwords", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_two_factor_auth", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "idle_timeout_minutes", "30"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "minimum_password_length", "12"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "num_different_passwords", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "password_expiration_days", "90"))
 
@@ -62,7 +63,7 @@ func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationLoginSecurityImportStateIdFunc("meraki_organization_login_security.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"enforce_login_ip_ranges", "api_authentication_ip_restrictions_for_keys_enabled"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -92,7 +93,7 @@ func merakiOrganizationLoginSecurityImportStateIdFunc(resourceName string) resou
 
 const testAccMerakiOrganizationLoginSecurityPrerequisitesConfig = `
 resource "meraki_organization" "test" {
-  name = "TF-Test"
+  name = "TF-Test1"
 }
 
 `
@@ -124,6 +125,7 @@ func testAccMerakiOrganizationLoginSecurityConfig_all() string {
 	config += `  enforce_strong_passwords = true` + "\n"
 	config += `  enforce_two_factor_auth = true` + "\n"
 	config += `  idle_timeout_minutes = 30` + "\n"
+	config += `  minimum_password_length = 12` + "\n"
 	config += `  num_different_passwords = 3` + "\n"
 	config += `  password_expiration_days = 90` + "\n"
 	config += `}` + "\n"

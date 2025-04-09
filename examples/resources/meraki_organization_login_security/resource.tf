@@ -8,6 +8,7 @@ resource "meraki_organization_login_security" "example" {
   enforce_strong_passwords    = true
   enforce_two_factor_auth     = true
   idle_timeout_minutes        = 30
+  minimum_password_length     = 12
   num_different_passwords     = 3
   password_expiration_days    = 90
 }

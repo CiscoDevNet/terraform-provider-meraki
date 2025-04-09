@@ -10,7 +10,10 @@
             "request": "launch",
             "mode": "auto",
             "program": "gen/generator.go",
-            "cwd": "./"
+            "cwd": "./",
+            "args": [
+                "-a",
+            ]
         },
         {
             "name": "Launch definition generator",

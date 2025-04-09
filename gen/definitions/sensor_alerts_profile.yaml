@@ -13,6 +13,14 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
+  - model_name: includeSensorUrl
+    type: Bool
+    description: 'Include dashboard link to sensor in messages (default: true).'
+    example: "true"
+  - model_name: message
+    type: String
+    description: A custom message that will appear in email and text message alerts.
+    example: Check with Miles on what to do.
   - model_name: name
     type: String
     mandatory: true

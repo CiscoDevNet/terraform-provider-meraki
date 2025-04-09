@@ -225,8 +225,8 @@ func updateDefinitions() {
 		}
 
 		cmd := exec.Command("go", "run", "gen/definition.go", config.SpecEndpoint, config.Name)
-		if out, err := cmd.Output(); err != nil {
-			log.Fatal(string(out), err)
+		if out, err := cmd.CombinedOutput(); err != nil {
+			log.Fatalf("Error creating definition '%s' for endpoint '%s': %s, %+v", config.SpecEndpoint, config.Name, out, err)
 		}
 	}
 }

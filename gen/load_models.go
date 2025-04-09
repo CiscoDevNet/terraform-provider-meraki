@@ -29,8 +29,8 @@ import (
 )
 
 var models = []string{
-	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.56.0/openapi/spec3.json",
-	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.56.0-beta.3/openapi/spec3.json",
+	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.57.0/openapi/spec3.json",
+	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.57.0-beta.1/openapi/spec3.json",
 }
 
 const (

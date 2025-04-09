@@ -45,6 +45,7 @@ type OrganizationLoginSecurity struct {
 	EnforceStrongPasswords                        types.Bool   `tfsdk:"enforce_strong_passwords"`
 	EnforceTwoFactorAuth                          types.Bool   `tfsdk:"enforce_two_factor_auth"`
 	IdleTimeoutMinutes                            types.Int64  `tfsdk:"idle_timeout_minutes"`
+	MinimumPasswordLength                         types.Int64  `tfsdk:"minimum_password_length"`
 	NumDifferentPasswords                         types.Int64  `tfsdk:"num_different_passwords"`
 	PasswordExpirationDays                        types.Int64  `tfsdk:"password_expiration_days"`
 	ApiAuthenticationIpRestrictionsForKeysEnabled types.Bool   `tfsdk:"api_authentication_ip_restrictions_for_keys_enabled"`
@@ -92,6 +93,9 @@ func (data OrganizationLoginSecurity) toBody(ctx context.Context, state Organiza
 	}
 	if !data.IdleTimeoutMinutes.IsNull() {
 		body, _ = sjson.Set(body, "idleTimeoutMinutes", data.IdleTimeoutMinutes.ValueInt64())
+	}
+	if !data.MinimumPasswordLength.IsNull() {
+		body, _ = sjson.Set(body, "minimumPasswordLength", data.MinimumPasswordLength.ValueInt64())
 	}
 	if !data.NumDifferentPasswords.IsNull() {
 		body, _ = sjson.Set(body, "numDifferentPasswords", data.NumDifferentPasswords.ValueInt64())
@@ -164,6 +168,11 @@ func (data *OrganizationLoginSecurity) fromBody(ctx context.Context, res meraki.
 		data.IdleTimeoutMinutes = types.Int64Value(value.Int())
 	} else {
 		data.IdleTimeoutMinutes = types.Int64Null()
+	}
+	if value := res.Get("minimumPasswordLength"); value.Exists() && value.Value() != nil {
+		data.MinimumPasswordLength = types.Int64Value(value.Int())
+	} else {
+		data.MinimumPasswordLength = types.Int64Null()
 	}
 	if value := res.Get("numDifferentPasswords"); value.Exists() && value.Value() != nil {
 		data.NumDifferentPasswords = types.Int64Value(value.Int())
@@ -245,6 +254,11 @@ func (data *OrganizationLoginSecurity) fromBodyPartial(ctx context.Context, res 
 		data.IdleTimeoutMinutes = types.Int64Value(value.Int())
 	} else {
 		data.IdleTimeoutMinutes = types.Int64Null()
+	}
+	if value := res.Get("minimumPasswordLength"); value.Exists() && !data.MinimumPasswordLength.IsNull() {
+		data.MinimumPasswordLength = types.Int64Value(value.Int())
+	} else {
+		data.MinimumPasswordLength = types.Int64Null()
 	}
 	if value := res.Get("numDifferentPasswords"); value.Exists() && !data.NumDifferentPasswords.IsNull() {
 		data.NumDifferentPasswords = types.Int64Value(value.Int())

@@ -37,6 +37,7 @@ type WirelessNetworkElectronicShelfLabel struct {
 	NetworkId types.String `tfsdk:"network_id"`
 	Enabled   types.Bool   `tfsdk:"enabled"`
 	Hostname  types.String `tfsdk:"hostname"`
+	Mode      types.String `tfsdk:"mode"`
 }
 
 // End of section. //template:end types
@@ -59,6 +60,9 @@ func (data WirelessNetworkElectronicShelfLabel) toBody(ctx context.Context, stat
 	if !data.Hostname.IsNull() {
 		body, _ = sjson.Set(body, "hostname", data.Hostname.ValueString())
 	}
+	if !data.Mode.IsNull() {
+		body, _ = sjson.Set(body, "mode", data.Mode.ValueString())
+	}
 	return body
 }
 
@@ -76,6 +80,11 @@ func (data *WirelessNetworkElectronicShelfLabel) fromBody(ctx context.Context, r
 		data.Hostname = types.StringValue(value.String())
 	} else {
 		data.Hostname = types.StringNull()
+	}
+	if value := res.Get("mode"); value.Exists() && value.Value() != nil {
+		data.Mode = types.StringValue(value.String())
+	} else {
+		data.Mode = types.StringNull()
 	}
 }
 
@@ -97,6 +106,11 @@ func (data *WirelessNetworkElectronicShelfLabel) fromBodyPartial(ctx context.Con
 		data.Hostname = types.StringValue(value.String())
 	} else {
 		data.Hostname = types.StringNull()
+	}
+	if value := res.Get("mode"); value.Exists() && !data.Mode.IsNull() {
+		data.Mode = types.StringValue(value.String())
+	} else {
+		data.Mode = types.StringNull()
 	}
 }
 

@@ -96,7 +96,7 @@ func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resourc
 			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("A friendly name or description for the interface or VLAN.").String,
-				Optional:            true,
+				Required:            true,
 			},
 			"subnet": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).").String,

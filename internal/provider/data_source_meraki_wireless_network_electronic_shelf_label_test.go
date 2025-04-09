@@ -36,6 +36,7 @@ func TestAccDataSourceMerakiWirelessNetworkElectronicShelfLabel(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_network_electronic_shelf_label.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_network_electronic_shelf_label.test", "hostname", "N_24329156"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_network_electronic_shelf_label.test", "mode", "high frequency"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -75,6 +76,7 @@ func testAccDataSourceMerakiWirelessNetworkElectronicShelfLabelConfig() string {
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  enabled = true` + "\n"
 	config += `  hostname = "N_24329156"` + "\n"
+	config += `  mode = "high frequency"` + "\n"
 	config += `}` + "\n"
 
 	config += `

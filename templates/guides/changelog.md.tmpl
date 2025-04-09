@@ -7,6 +7,14 @@ description: |-
 
 # Changelog
 
+## 0.1.12 (unreleased)
+
+- Add MV84X settings to `meraki_camera_quality_retention_profile` resource and data source
+- Add `minimum_password_length` attribute to `meraki_organization_login_security` resource and data source
+- Add `include_sensor_url` and `message` attributes to `meraki_sensor_alerts_profile` resource and data source
+- Make `name` attribute of `meraki_switch_routing_interface` resource and data source required
+- Add `mode` attribute to `meraki_wireless_network_electronic_shelf_label` resource and data source
+
 ## 0.1.11
 
 - Do not import default rule for `meraki_appliance_cellular_firewall_rules`, `meraki_appliance_inbound_cellular_firewall_rules`, `meraki_appliance_inbound_firewall_rules`, `meraki_appliance_l3_firewall_rules`, `meraki_appliance_vpn_firewall_rules` and `meraki_switch_access_control_lists` resource

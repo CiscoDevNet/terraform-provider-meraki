@@ -102,6 +102,10 @@ func (d *OrganizationLoginSecurityDataSource) Schema(ctx context.Context, req da
 				MarkdownDescription: "Number of minutes users can remain idle before being logged out of their accounts.",
 				Computed:            true,
 			},
+			"minimum_password_length": schema.Int64Attribute{
+				MarkdownDescription: "Minimum number of characters required in admins` passwords.",
+				Computed:            true,
+			},
 			"num_different_passwords": schema.Int64Attribute{
 				MarkdownDescription: "Number of recent passwords that new password must be distinct from.",
 				Computed:            true,

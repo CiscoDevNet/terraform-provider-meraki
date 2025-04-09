@@ -40,6 +40,8 @@ type SensorAlertsProfiles struct {
 
 type SensorAlertsProfilesItems struct {
 	Id                      types.String                     `tfsdk:"id"`
+	IncludeSensorUrl        types.Bool                       `tfsdk:"include_sensor_url"`
+	Message                 types.String                     `tfsdk:"message"`
 	Name                    types.String                     `tfsdk:"name"`
 	RecipientsEmails        types.List                       `tfsdk:"recipients_emails"`
 	RecipientsHttpServerIds types.List                       `tfsdk:"recipients_http_server_ids"`
@@ -97,6 +99,16 @@ func (data *SensorAlertsProfiles) fromBody(ctx context.Context, res meraki.Res) 
 		parent := &data
 		data := SensorAlertsProfilesItems{}
 		data.Id = types.StringValue(res.Get("profileId").String())
+		if value := res.Get("includeSensorUrl"); value.Exists() && value.Value() != nil {
+			data.IncludeSensorUrl = types.BoolValue(value.Bool())
+		} else {
+			data.IncludeSensorUrl = types.BoolNull()
+		}
+		if value := res.Get("message"); value.Exists() && value.Value() != nil {
+			data.Message = types.StringValue(value.String())
+		} else {
+			data.Message = types.StringNull()
+		}
 		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
