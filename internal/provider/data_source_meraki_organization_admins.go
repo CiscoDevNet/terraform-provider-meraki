@@ -155,6 +155,9 @@ func (d *OrganizationAdminsDataSource) Read(ctx context.Context, req datasource.
 		return
 	}
 
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	config.fromBody(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", "OrganizationAdminsDataSource"))

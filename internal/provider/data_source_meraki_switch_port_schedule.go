@@ -228,6 +228,9 @@ func (d *SwitchPortScheduleDataSource) Read(ctx context.Context, req datasource.
 			return
 		}
 	}
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
 			if config.Id.ValueString() == v.Get("id").String() {

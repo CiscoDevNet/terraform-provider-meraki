@@ -1,4 +1,3 @@
-# Customize Read() to handle items[] in GET response
 name: Wireless SSID Firewall Isolation Allowlist Entry
 spec_endpoint: /organizations/{organizationId}/wireless/ssids/firewall/isolation/allowlist/entries/{entryId}
 rest_endpoint: /organizations/%v/wireless/ssids/firewall/isolation/allowlist/entries

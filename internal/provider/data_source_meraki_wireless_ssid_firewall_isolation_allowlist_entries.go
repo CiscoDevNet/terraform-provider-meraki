@@ -103,6 +103,8 @@ func (d *WirelessSSIDFirewallIsolationAllowlistEntriesDataSource) Configure(_ co
 
 // End of section. //template:end model
 
+// Section below is generated&owned by "gen/generator.go". //template:begin read
+
 func (d *WirelessSSIDFirewallIsolationAllowlistEntriesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var config WirelessSSIDFirewallIsolationAllowlistEntries
 
@@ -121,10 +123,15 @@ func (d *WirelessSSIDFirewallIsolationAllowlistEntriesDataSource) Read(ctx conte
 		return
 	}
 
-	config.fromBody(ctx, meraki.Res{Result: res.Get("items")})
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	config.fromBody(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", "WirelessSSIDFirewallIsolationAllowlistEntriesDataSource"))
 
 	diags = resp.State.Set(ctx, &config)
 	resp.Diagnostics.Append(diags...)
 }
+
+// End of section. //template:end read

@@ -139,6 +139,9 @@ func (d *NetworkVLANProfileAssignmentsByDeviceDataSource) Read(ctx context.Conte
 		return
 	}
 
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	config.fromBody(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", "NetworkVLANProfileAssignmentsByDeviceDataSource"))

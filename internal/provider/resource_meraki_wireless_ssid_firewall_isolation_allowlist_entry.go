@@ -141,6 +141,8 @@ func (r *WirelessSSIDFirewallIsolationAllowlistEntryResource) Create(ctx context
 
 // End of section. //template:end create
 
+// Section below is generated&owned by "gen/generator.go". //template:begin read
+
 func (r *WirelessSSIDFirewallIsolationAllowlistEntryResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state WirelessSSIDFirewallIsolationAllowlistEntry
 
@@ -159,8 +161,11 @@ func (r *WirelessSSIDFirewallIsolationAllowlistEntryResource) Read(ctx context.C
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
 		return
 	}
-	if len(res.Get("items").Array()) > 0 {
-		res.Get("items").ForEach(func(k, v gjson.Result) bool {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	if len(res.Array()) > 0 {
+		res.ForEach(func(k, v gjson.Result) bool {
 			if state.Id.ValueString() == v.Get("entryId").String() {
 				res = meraki.Res{Result: v}
 				return false
@@ -188,6 +193,8 @@ func (r *WirelessSSIDFirewallIsolationAllowlistEntryResource) Read(ctx context.C
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
+
+// End of section. //template:end read
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 

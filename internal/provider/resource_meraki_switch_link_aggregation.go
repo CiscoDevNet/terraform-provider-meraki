@@ -177,6 +177,9 @@ func (r *SwitchLinkAggregationResource) Read(ctx context.Context, req resource.R
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
 		return
 	}
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
 			if state.Id.ValueString() == v.Get("id").String() {
