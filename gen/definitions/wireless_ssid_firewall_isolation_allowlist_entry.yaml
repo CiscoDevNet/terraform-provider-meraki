@@ -1,0 +1,48 @@
+# Customize Read() to handle items[] in GET response
+name: Wireless SSID Firewall Isolation Allowlist Entry
+spec_endpoint: /organizations/{organizationId}/wireless/ssids/firewall/isolation/allowlist/entries/{entryId}
+rest_endpoint: /organizations/%v/wireless/ssids/firewall/isolation/allowlist/entries
+bulk_data_source: true
+get_from_all: true
+id_name: entryId
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: The description of mac address
+    example: Example mac address
+  - model_name: mac
+    type: String
+    data_path: [client]
+    mandatory: true
+    description: L2 Isolation mac address
+    example: A1:B2:C3:D4:E5:F6
+  - model_name: id
+    type: String
+    data_path: [network]
+    mandatory: true
+    description: The ID of network
+    example: N_123
+    test_value: meraki_network.test.id
+  - model_name: number
+    type: Int64
+    data_path: [ssid]
+    mandatory: true
+    description: The number of SSID
+    example: "2"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["wireless"]
+  }

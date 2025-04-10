@@ -15,6 +15,7 @@ description: |-
 - Make `name` attribute of `meraki_switch_routing_interface` resource and data source required
 - Add `mode` attribute to `meraki_wireless_network_electronic_shelf_label` resource and data source
 - Change type of `floor_number` attribute of `meraki_network_floor_plan` resource and data source from `integer` to `float`
+- Add `meraki_wireless_ssid_firewall_isolation_allowlist_entry` resource and data sources
 
 ## 0.1.11
 
