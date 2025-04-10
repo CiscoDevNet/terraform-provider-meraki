@@ -44,11 +44,9 @@ type NetworkSyslogServers struct {
 }
 
 type NetworkSyslogServersServers struct {
-	Host                    types.String `tfsdk:"host"`
-	Port                    types.Int64  `tfsdk:"port"`
-	EncryptionEnabled       types.Bool   `tfsdk:"encryption_enabled"`
-	EncryptionCertificateId types.String `tfsdk:"encryption_certificate_id"`
-	Roles                   types.Set    `tfsdk:"roles"`
+	Host  types.String `tfsdk:"host"`
+	Port  types.Int64  `tfsdk:"port"`
+	Roles types.Set    `tfsdk:"roles"`
 }
 
 // End of section. //template:end types
@@ -74,12 +72,6 @@ func (data NetworkSyslogServers) toBody(ctx context.Context, state NetworkSyslog
 			}
 			if !item.Port.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "port", item.Port.ValueInt64())
-			}
-			if !item.EncryptionEnabled.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "encryption.enabled", item.EncryptionEnabled.ValueBool())
-			}
-			if !item.EncryptionCertificateId.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "encryption.certificate.id", item.EncryptionCertificateId.ValueString())
 			}
 			if !item.Roles.IsNull() {
 				var values []string
@@ -111,16 +103,6 @@ func (data *NetworkSyslogServers) fromBody(ctx context.Context, res meraki.Res) 
 				data.Port = types.Int64Value(value.Int())
 			} else {
 				data.Port = types.Int64Null()
-			}
-			if value := res.Get("encryption.enabled"); value.Exists() && value.Value() != nil {
-				data.EncryptionEnabled = types.BoolValue(value.Bool())
-			} else {
-				data.EncryptionEnabled = types.BoolNull()
-			}
-			if value := res.Get("encryption.certificate.id"); value.Exists() && value.Value() != nil {
-				data.EncryptionCertificateId = types.StringValue(value.String())
-			} else {
-				data.EncryptionCertificateId = types.StringNull()
 			}
 			if value := res.Get("roles"); value.Exists() && value.Value() != nil {
 				data.Roles = helpers.GetStringSet(value.Array())
@@ -187,16 +169,6 @@ func (data *NetworkSyslogServers) fromBodyPartial(ctx context.Context, res merak
 			data.Port = types.Int64Value(value.Int())
 		} else {
 			data.Port = types.Int64Null()
-		}
-		if value := res.Get("encryption.enabled"); value.Exists() && !data.EncryptionEnabled.IsNull() {
-			data.EncryptionEnabled = types.BoolValue(value.Bool())
-		} else {
-			data.EncryptionEnabled = types.BoolNull()
-		}
-		if value := res.Get("encryption.certificate.id"); value.Exists() && !data.EncryptionCertificateId.IsNull() {
-			data.EncryptionCertificateId = types.StringValue(value.String())
-		} else {
-			data.EncryptionCertificateId = types.StringNull()
 		}
 		if value := res.Get("roles"); value.Exists() && !data.Roles.IsNull() {
 			data.Roles = helpers.GetStringSet(value.Array())

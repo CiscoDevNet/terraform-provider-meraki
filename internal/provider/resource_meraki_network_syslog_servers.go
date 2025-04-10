@@ -89,14 +89,6 @@ func (r *NetworkSyslogServersResource) Schema(ctx context.Context, req resource.
 							MarkdownDescription: helpers.NewAttributeDescription("The port of the syslog server").String,
 							Required:            true,
 						},
-						"encryption_enabled": schema.BoolAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("When true, traffic will be encrypted to the syslog server").String,
-							Optional:            true,
-						},
-						"encryption_certificate_id": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The ID of the certificate for encryption with the syslog server").String,
-							Optional:            true,
-						},
 						"roles": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A list of roles for the syslog server. Options (case-insensitive): `Wireless event log`, `Appliance event log`, `Switch event log`, `Air Marshal events`, `Flows`, `URLs`, `IDS alerts`, `Security events`").String,
 							ElementType:         types.StringType,

@@ -30,18 +30,6 @@ attributes:
         mandatory: true
         description: The port of the syslog server
         example: "443"
-      - model_name: enabled
-        type: Bool
-        data_path: [encryption]
-        description: When true, traffic will be encrypted to the syslog server
-        example: "false"
-      - model_name: id
-        type: String
-        data_path: [encryption, certificate]
-        exclude_test: true
-        allow_import_changes: true
-        description: The ID of the certificate for encryption with the syslog server
-        example: "1637"
       - model_name: roles
         type: Set
         element_type: String

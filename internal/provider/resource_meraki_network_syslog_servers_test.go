@@ -38,7 +38,6 @@ func TestAccMerakiNetworkSyslogServers(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_syslog_servers.test", "servers.0.host", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_syslog_servers.test", "servers.0.port", "443"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_syslog_servers.test", "servers.0.encryption_enabled", "false"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -55,7 +54,7 @@ func TestAccMerakiNetworkSyslogServers(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkSyslogServersImportStateIdFunc("meraki_network_syslog_servers.test"),
-		ImportStateVerifyIgnore: []string{"servers.0.encryption_certificate_id"},
+		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -123,7 +122,6 @@ func testAccMerakiNetworkSyslogServersConfig_all() string {
 	config += `  servers = [{` + "\n"
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 443` + "\n"
-	config += `    encryption_enabled = false` + "\n"
 	config += `    roles = ["Wireless event log"]` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
