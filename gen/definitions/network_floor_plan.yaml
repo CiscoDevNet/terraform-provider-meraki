@@ -14,7 +14,7 @@ attributes:
     example: L_123456
     test_value: meraki_network.test.id
   - model_name: floorNumber
-    type: Int64
+    type: Float64
     allow_import_changes: true
     description: The floor number of the floors within the building
     example: "0"

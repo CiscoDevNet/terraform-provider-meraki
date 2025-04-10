@@ -70,7 +70,7 @@ func (d *NetworkFloorPlansDataSource) Schema(ctx context.Context, req datasource
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
-						"floor_number": schema.Int64Attribute{
+						"floor_number": schema.Float64Attribute{
 							MarkdownDescription: "The floor number of the floors within the building",
 							Computed:            true,
 						},

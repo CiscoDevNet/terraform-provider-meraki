@@ -77,7 +77,7 @@ func (r *NetworkFloorPlanResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"floor_number": schema.Int64Attribute{
+			"floor_number": schema.Float64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The floor number of the floors within the building").String,
 				Optional:            true,
 			},

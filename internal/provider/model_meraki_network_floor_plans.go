@@ -39,7 +39,7 @@ type NetworkFloorPlans struct {
 
 type NetworkFloorPlansItems struct {
 	Id                   types.String  `tfsdk:"id"`
-	FloorNumber          types.Int64   `tfsdk:"floor_number"`
+	FloorNumber          types.Float64 `tfsdk:"floor_number"`
 	ImageContents        types.String  `tfsdk:"image_contents"`
 	Name                 types.String  `tfsdk:"name"`
 	BottomLeftCornerLat  types.Float64 `tfsdk:"bottom_left_corner_lat"`
@@ -73,9 +73,9 @@ func (data *NetworkFloorPlans) fromBody(ctx context.Context, res meraki.Res) {
 		data := NetworkFloorPlansItems{}
 		data.Id = types.StringValue(res.Get("floorPlanId").String())
 		if value := res.Get("floorNumber"); value.Exists() && value.Value() != nil {
-			data.FloorNumber = types.Int64Value(value.Int())
+			data.FloorNumber = types.Float64Value(value.Float())
 		} else {
-			data.FloorNumber = types.Int64Null()
+			data.FloorNumber = types.Float64Null()
 		}
 		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())

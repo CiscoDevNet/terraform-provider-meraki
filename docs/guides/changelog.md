@@ -14,6 +14,7 @@ description: |-
 - Add `include_sensor_url` and `message` attributes to `meraki_sensor_alerts_profile` resource and data source
 - Make `name` attribute of `meraki_switch_routing_interface` resource and data source required
 - Add `mode` attribute to `meraki_wireless_network_electronic_shelf_label` resource and data source
+- Change type of `floor_number` attribute of `meraki_network_floor_plan` resource and data source from `integer` to `float`
 
 ## 0.1.11
 
