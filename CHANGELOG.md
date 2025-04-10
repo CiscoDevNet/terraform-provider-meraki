@@ -8,6 +8,7 @@
 - Change type of `floor_number` attribute of `meraki_network_floor_plan` resource and data source from `integer` to `float`
 - Add `meraki_wireless_ssid_firewall_isolation_allowlist_entry` resource and data sources
 - Remove `encryption_enabled` and `encryption_certificate_id` attributes from `meraki_network_syslog_servers` resource and data source
+- Add `meraki_appliance_firewall_multicast_forwarding` resource and data source
 
 ## 0.1.11
 

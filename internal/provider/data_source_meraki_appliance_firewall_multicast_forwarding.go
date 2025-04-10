@@ -25,6 +25,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
@@ -36,26 +37,26 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &ApplianceTrafficShapingVPNExclusionsDataSource{}
-	_ datasource.DataSourceWithConfigure = &ApplianceTrafficShapingVPNExclusionsDataSource{}
+	_ datasource.DataSource              = &ApplianceFirewallMulticastForwardingDataSource{}
+	_ datasource.DataSourceWithConfigure = &ApplianceFirewallMulticastForwardingDataSource{}
 )
 
-func NewApplianceTrafficShapingVPNExclusionsDataSource() datasource.DataSource {
-	return &ApplianceTrafficShapingVPNExclusionsDataSource{}
+func NewApplianceFirewallMulticastForwardingDataSource() datasource.DataSource {
+	return &ApplianceFirewallMulticastForwardingDataSource{}
 }
 
-type ApplianceTrafficShapingVPNExclusionsDataSource struct {
+type ApplianceFirewallMulticastForwardingDataSource struct {
 	client *meraki.Client
 }
 
-func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_appliance_traffic_shaping_vpn_exclusions"
+func (d *ApplianceFirewallMulticastForwardingDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_appliance_firewall_multicast_forwarding"
 }
 
-func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *ApplianceFirewallMulticastForwardingDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Appliance Traffic Shaping VPN Exclusions` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Appliance Firewall Multicast Forwarding` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -66,37 +67,22 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Schema(ctx context.Cont
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"custom": schema.ListNestedAttribute{
-				MarkdownDescription: "Custom VPN exclusion rules. Pass an empty array to clear existing rules.",
+			"rules": schema.ListNestedAttribute{
+				MarkdownDescription: "Static multicast forwarding rules. Pass an empty array to clear all rules.",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"destination": schema.StringAttribute{
-							MarkdownDescription: "Destination address; hostname required for DNS, IPv4 otherwise.",
+						"address": schema.StringAttribute{
+							MarkdownDescription: "IP address",
 							Computed:            true,
 						},
-						"port": schema.StringAttribute{
-							MarkdownDescription: "Destination port.",
+						"description": schema.StringAttribute{
+							MarkdownDescription: "Forwarding rule description.",
 							Computed:            true,
 						},
-						"protocol": schema.StringAttribute{
-							MarkdownDescription: "Protocol.",
-							Computed:            true,
-						},
-					},
-				},
-			},
-			"major_applications": schema.ListNestedAttribute{
-				MarkdownDescription: "Major Application based VPN exclusion rules. Pass an empty array to clear existing rules.",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Application`s Meraki ID.",
-							Computed:            true,
-						},
-						"name": schema.StringAttribute{
-							MarkdownDescription: "Application`s name.",
+						"vlan_ids": schema.ListAttribute{
+							MarkdownDescription: "List of VLAN IDs",
+							ElementType:         types.StringType,
 							Computed:            true,
 						},
 					},
@@ -106,7 +92,7 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Schema(ctx context.Cont
 	}
 }
 
-func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *ApplianceFirewallMulticastForwardingDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -116,8 +102,8 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Configure(_ context.Con
 
 // End of section. //template:end model
 
-func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceTrafficShapingVPNExclusions
+func (d *ApplianceFirewallMulticastForwardingDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config ApplianceFirewallMulticastForwarding
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
@@ -136,16 +122,16 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Read(ctx context.Contex
 	}
 	orgId := res.Get("organizationId").String()
 
-	rulesPath := fmt.Sprintf("/organizations/%v/appliance/trafficShaping/vpnExclusions/byNetwork", orgId)
+	rulesPath := fmt.Sprintf("/organizations/%v/appliance/firewall/multicastForwarding/byNetwork", orgId)
 	res, err = d.client.Get(rulesPath)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve vpn exceptions (GET), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve multicast forwarding (GET), got error: %s, %s", err, res.String()))
 		return
 	}
 
 	if len(res.Get("items").Array()) > 0 {
 		res.Get("items").ForEach(func(k, v gjson.Result) bool {
-			if config.NetworkId.ValueString() == v.Get("networkId").String() {
+			if config.NetworkId.ValueString() == v.Get("network.id").String() {
 				res = meraki.Res{Result: v}
 				return false
 			}
@@ -153,9 +139,8 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Read(ctx context.Contex
 		})
 	}
 
-	config.Id = config.NetworkId
-
 	config.fromBody(ctx, res)
+	config.Id = config.NetworkId
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", config.Id.ValueString()))
 
