@@ -43,6 +43,18 @@ func GetStringList(result []gjson.Result) types.List {
 	return types.ListValueMust(types.StringType, v)
 }
 
+func GetStringListFromMapList(result []gjson.Result, key string) types.List {
+	v := make([]attr.Value, len(result))
+	for r := range result {
+		if value := result[r].Get(key); value.Exists() && value.Value() != nil {
+			v[r] = types.StringValue(value.String())
+		} else {
+			v[r] = types.StringNull()
+		}
+	}
+	return types.ListValueMust(types.StringType, v)
+}
+
 func GetInt64List(result []gjson.Result) types.List {
 	v := make([]attr.Value, len(result))
 	for r := range result {

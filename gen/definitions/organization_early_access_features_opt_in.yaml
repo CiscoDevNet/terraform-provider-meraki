@@ -3,7 +3,7 @@ spec_endpoint: /organizations/{organizationId}/earlyAccess/features/optIns/{optI
 rest_endpoint: /organizations/%v/earlyAccess/features/optIns
 bulk_data_source: true
 doc_category: Organizations
-test_variables: [test_org]
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: organization_id
     type: String
@@ -15,14 +15,19 @@ attributes:
     type: String
     mandatory: true
     description: Short name of the early access feature
-    example: has_cloud_pcap_support
+    example: has_mx_no_nat_early_access
   - model_name: limitScopeToNetworks
     type: List
     element_type: String
-    exclude_test: true
     description: A list of network IDs to apply the opt-in to
     example: N_12345
+    test_value: '[meraki_network.test.id]'
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["appliance"]
   }

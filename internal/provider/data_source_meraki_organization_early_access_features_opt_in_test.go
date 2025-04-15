@@ -30,11 +30,11 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptIn(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_early_access_features_opt_in.test", "short_name", "has_cloud_pcap_support"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_early_access_features_opt_in.test", "short_name", "has_mx_no_nat_early_access"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -53,8 +53,14 @@ func TestAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptIn(t *testing.T) {
 
 const testAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptInPrerequisitesConfig = `
 variable "test_org" {}
+variable "test_network" {}
 data "meraki_organization" "test" {
   name = var.test_org
+}
+resource "meraki_network" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = var.test_network
+  product_types   = ["appliance"]
 }
 
 `
@@ -66,7 +72,8 @@ data "meraki_organization" "test" {
 func testAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptInConfig() string {
 	config := `resource "meraki_organization_early_access_features_opt_in" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  short_name = "has_cloud_pcap_support"` + "\n"
+	config += `  short_name = "has_mx_no_nat_early_access"` + "\n"
+	config += `  limit_scope_to_networks = [meraki_network.test.id]` + "\n"
 	config += `}` + "\n"
 
 	config += `
