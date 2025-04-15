@@ -30,8 +30,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptIns(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -50,8 +50,14 @@ func TestAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptIns(t *testing.T) 
 
 const testAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptInsPrerequisitesConfig = `
 variable "test_org" {}
+variable "test_network" {}
 data "meraki_organization" "test" {
   name = var.test_org
+}
+resource "meraki_network" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = var.test_network
+  product_types   = ["appliance"]
 }
 
 `
