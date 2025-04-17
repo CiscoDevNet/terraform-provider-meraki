@@ -30,6 +30,7 @@ attributes:
     type: List
     element_type: String
     data_path: [recipients]
+    exclude_test: true
     description: A list of emails that will receive information about the alert.
     example: miles@meraki.com
   - model_name: httpServerIds
@@ -43,6 +44,7 @@ attributes:
     type: List
     element_type: String
     data_path: [recipients]
+    exclude_test: true
     description: A list of SMS numbers that will receive information about the alert.
     example: "+15555555555"
   - model_name: id

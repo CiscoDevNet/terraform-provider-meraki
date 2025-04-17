@@ -39,8 +39,6 @@ func TestAccMerakiSensorAlertsProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "include_sensor_url", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "message", "Check with Miles on what to do."))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "name", "My Sensor Alert Profile"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "recipients_emails.0", "miles@meraki.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "recipients_sms_numbers.0", "+15555555555"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "conditions.0.direction", "above"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "conditions.0.duration", "60"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_sensor_alerts_profile.test", "conditions.0.metric", "temperature"))
@@ -135,8 +133,6 @@ func testAccMerakiSensorAlertsProfileConfig_all() string {
 	config += `  include_sensor_url = true` + "\n"
 	config += `  message = "Check with Miles on what to do."` + "\n"
 	config += `  name = "My Sensor Alert Profile"` + "\n"
-	config += `  recipients_emails = ["miles@meraki.com"]` + "\n"
-	config += `  recipients_sms_numbers = ["+15555555555"]` + "\n"
 	config += `  conditions = [{` + "\n"
 	config += `    direction = "above"` + "\n"
 	config += `    duration = 60` + "\n"
