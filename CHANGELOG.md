@@ -1,4 +1,4 @@
-## 0.1.12 (unreleased)
+## 0.1.12
 
 - Add MV84X settings to `meraki_camera_quality_retention_profile` resource and data source
 - Add `minimum_password_length` attribute to `meraki_organization_login_security` resource and data source
