@@ -35,7 +35,7 @@ func TestAccDataSourceMerakiApplianceInboundFirewallRules(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_inbound_firewall_rules.test", "rules.0.comment", "Allow TCP traffic to subnet with HTTP servers."))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_inbound_firewall_rules.test", "rules.0.dest_cidr", "192.168.1.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_inbound_firewall_rules.test", "rules.0.dest_cidr", "2001::/64"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_inbound_firewall_rules.test", "rules.0.dest_port", "443"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_inbound_firewall_rules.test", "rules.0.policy", "allow"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_inbound_firewall_rules.test", "rules.0.protocol", "tcp"))
@@ -81,7 +81,7 @@ func testAccDataSourceMerakiApplianceInboundFirewallRulesConfig() string {
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  rules = [{` + "\n"
 	config += `    comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
-	config += `    dest_cidr = "192.168.1.0/24"` + "\n"
+	config += `    dest_cidr = "2001::/64"` + "\n"
 	config += `    dest_port = "443"` + "\n"
 	config += `    policy = "allow"` + "\n"
 	config += `    protocol = "tcp"` + "\n"

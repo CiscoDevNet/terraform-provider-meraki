@@ -34,7 +34,7 @@ attributes:
         type: String
         mandatory: true
         description: Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `any`
-        example: 192.168.1.0/24
+        example: 2001::/64
       - model_name: destPort
         type: String
         description: Comma-separated list of destination port(s) (integer in the range 1-65535), or `any`
@@ -51,7 +51,7 @@ attributes:
         description: The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)
         example: tcp
         enum_values: [any, icmp, icmp6, tcp, udp]
-        minimum_test_value: '"icmp"'
+        minimum_test_value: '"icmp6"'
       - model_name: srcCidr
         type: String
         mandatory: true

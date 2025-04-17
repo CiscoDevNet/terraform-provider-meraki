@@ -37,7 +37,7 @@ func TestAccMerakiApplianceInboundFirewallRules(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_inbound_firewall_rules.test", "rules.0.comment", "Allow TCP traffic to subnet with HTTP servers."))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_inbound_firewall_rules.test", "rules.0.dest_cidr", "192.168.1.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_inbound_firewall_rules.test", "rules.0.dest_cidr", "2001::/64"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_inbound_firewall_rules.test", "rules.0.dest_port", "443"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_inbound_firewall_rules.test", "rules.0.policy", "allow"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_inbound_firewall_rules.test", "rules.0.protocol", "tcp"))
@@ -110,9 +110,9 @@ func testAccMerakiApplianceInboundFirewallRulesConfig_minimum() string {
 	config := `resource "meraki_appliance_inbound_firewall_rules" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  rules = [{` + "\n"
-	config += `    dest_cidr = "192.168.1.0/24"` + "\n"
+	config += `    dest_cidr = "2001::/64"` + "\n"
 	config += `    policy = "allow"` + "\n"
-	config += `    protocol = "icmp"` + "\n"
+	config += `    protocol = "icmp6"` + "\n"
 	config += `    src_cidr = "Any"` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
@@ -128,7 +128,7 @@ func testAccMerakiApplianceInboundFirewallRulesConfig_all() string {
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  rules = [{` + "\n"
 	config += `    comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
-	config += `    dest_cidr = "192.168.1.0/24"` + "\n"
+	config += `    dest_cidr = "2001::/64"` + "\n"
 	config += `    dest_port = "443"` + "\n"
 	config += `    policy = "allow"` + "\n"
 	config += `    protocol = "tcp"` + "\n"
