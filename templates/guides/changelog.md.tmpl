@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 0.1.13 (unreleased)
+
+- Add `meraki_network_device_claim_vmx` resource
+
 ## 0.1.12
 
 - Add MV84X settings to `meraki_camera_quality_retention_profile` resource and data source
