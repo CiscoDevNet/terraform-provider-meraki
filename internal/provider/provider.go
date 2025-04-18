@@ -254,6 +254,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewApplianceConnectivityMonitoringDestinationsResource,
 		NewApplianceContentFilteringResource,
 		NewApplianceDNSLocalProfileResource,
+		NewApplianceDNSLocalProfileAssignmentsResource,
 		NewApplianceFirewallMulticastForwardingResource,
 		NewApplianceFirewallSettingsResource,
 		NewApplianceFirewalledServiceResource,
