@@ -11,6 +11,7 @@ description: |-
 
 - Add `meraki_network_device_claim_vmx` resource
 - Add `meraki_appliance_dns_local_profile_assignments` resource
+- Add `meraki_appliance_dns_local_record` resource and data sources
 
 ## 0.1.12
 

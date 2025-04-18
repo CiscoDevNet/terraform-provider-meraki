@@ -1,0 +1,41 @@
+# Customize Delete() to avoid error if last record in profile
+name: Appliance DNS Local Record
+spec_endpoint: /organizations/{organizationId}/appliance/dns/local/records/{recordId}
+rest_endpoint: /organizations/%v/appliance/dns/local/records
+bulk_data_source: true
+get_from_all: true
+id_name: recordId
+doc_category: Appliances
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: address
+    type: String
+    mandatory: true
+    description: IP for the DNS record
+    example: 10.1.1.0
+  - model_name: hostname
+    type: String
+    mandatory: true
+    description: Hostname for the DNS record
+    example: www.test.com
+  - model_name: id
+    type: String
+    data_path: [profile]
+    mandatory: true
+    description: Profile ID
+    example: "1"
+    test_value: meraki_appliance_dns_local_profile.test.id
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_appliance_dns_local_profile" "test" {
+    organization_id = data.meraki_organization.test.id
+    name = "Default Profile"
+  }
