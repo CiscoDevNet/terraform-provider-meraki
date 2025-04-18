@@ -1,0 +1,38 @@
+name: Appliance DNS Split Profile
+spec_endpoint: /organizations/{organizationId}/appliance/dns/split/profiles/{profileId}
+rest_endpoint: /organizations/%v/appliance/dns/split/profiles
+bulk_data_source: true
+get_from_all: true
+id_name: profileId
+data_source_name_query: true
+doc_category: Appliances
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of profile
+    example: Default profile
+  - model_name: addresses
+    type: List
+    element_type: String
+    data_path: [nameservers]
+    mandatory: true
+    description: The nameserver address(es) to use for redirection. A maximum of one address is supported.
+    example: 12.1.10.1
+  - model_name: hostnames
+    type: List
+    element_type: String
+    mandatory: true
+    description: The hostname patterns to match for redirection. For more information on Split DNS hostname pattern formatting, please consult the Split DNS KB.
+    example: '*.test1.com'
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
