@@ -13,6 +13,7 @@ description: |-
 - Add `meraki_appliance_dns_local_profile_assignments` resource
 - Add `meraki_appliance_dns_local_record` resource and data sources
 - Add `meraki_appliance_dns_split_profile` resource and data sources
+- Add `meraki_appliance_dns_split_profile_assignments` resource
 
 ## 0.1.12
 

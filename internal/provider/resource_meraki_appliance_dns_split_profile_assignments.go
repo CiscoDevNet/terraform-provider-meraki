@@ -38,25 +38,25 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &ApplianceDNSLocalProfileAssignmentsResource{}
+	_ resource.Resource = &ApplianceDNSSplitProfileAssignmentsResource{}
 )
 
-func NewApplianceDNSLocalProfileAssignmentsResource() resource.Resource {
-	return &ApplianceDNSLocalProfileAssignmentsResource{}
+func NewApplianceDNSSplitProfileAssignmentsResource() resource.Resource {
+	return &ApplianceDNSSplitProfileAssignmentsResource{}
 }
 
-type ApplianceDNSLocalProfileAssignmentsResource struct {
+type ApplianceDNSSplitProfileAssignmentsResource struct {
 	client *meraki.Client
 }
 
-func (r *ApplianceDNSLocalProfileAssignmentsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_appliance_dns_local_profile_assignments"
+func (r *ApplianceDNSSplitProfileAssignmentsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_appliance_dns_split_profile_assignments"
 }
 
-func (r *ApplianceDNSLocalProfileAssignmentsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *ApplianceDNSSplitProfileAssignmentsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance DNS Local Profile Assignments` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance DNS Split Profile Assignments` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -100,7 +100,7 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Schema(ctx context.Context
 	}
 }
 
-func (r *ApplianceDNSLocalProfileAssignmentsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *ApplianceDNSSplitProfileAssignmentsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -112,8 +112,8 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Configure(_ context.Contex
 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
-func (r *ApplianceDNSLocalProfileAssignmentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan ApplianceDNSLocalProfileAssignments
+func (r *ApplianceDNSSplitProfileAssignmentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan ApplianceDNSSplitProfileAssignments
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -124,7 +124,7 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Create(ctx context.Context
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
 	// Create object
-	body := plan.toBody(ctx, ApplianceDNSLocalProfileAssignments{})
+	body := plan.toBody(ctx, ApplianceDNSSplitProfileAssignments{})
 	res, err := r.client.Post(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
@@ -143,8 +143,8 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Create(ctx context.Context
 
 // End of section. //template:end create
 
-func (r *ApplianceDNSLocalProfileAssignmentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state ApplianceDNSLocalProfileAssignments
+func (r *ApplianceDNSSplitProfileAssignmentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state ApplianceDNSSplitProfileAssignments
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -179,8 +179,8 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Read(ctx context.Context, 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-func (r *ApplianceDNSLocalProfileAssignmentsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state ApplianceDNSLocalProfileAssignments
+func (r *ApplianceDNSSplitProfileAssignmentsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state ApplianceDNSSplitProfileAssignments
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -237,8 +237,8 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Update(ctx context.Context
 	resp.Diagnostics.Append(diags...)
 }
 
-func (r *ApplianceDNSLocalProfileAssignmentsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state ApplianceDNSLocalProfileAssignments
+func (r *ApplianceDNSSplitProfileAssignmentsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state ApplianceDNSSplitProfileAssignments
 
 	// Read state
 	diags := req.State.Get(ctx, &state)

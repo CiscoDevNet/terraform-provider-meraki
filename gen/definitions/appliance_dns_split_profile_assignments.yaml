@@ -1,0 +1,57 @@
+name: Appliance DNS Split Profile Assignments
+spec_endpoint: /organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkCreate
+rest_endpoint: /organizations/%v/appliance/dns/split/profiles/assignments/bulkCreate
+no_data_source: true
+no_update: false
+no_delete: false
+no_import: true
+no_read: false
+doc_category: Appliances
+test_tags: [APPLIANCE_DNS_SPLIT_PROFILE_ASSIGNMENTS]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: items
+    type: List
+    mandatory: true
+    description: List containing the network ID and Profile ID
+    attributes:
+      - model_name: assignmentId
+        type: String
+        description: Assignment ID
+        computed: true
+      - model_name: id
+        type: String
+        data_path: [network]
+        mandatory: true
+        description: ID of the network
+        example: N_123456
+        test_value: meraki_network.test.id
+      - model_name: id
+        type: String
+        data_path: [profile]
+        mandatory: true
+        description: ID of the profile
+        example: "1234"
+        test_value: meraki_appliance_dns_split_profile.test.id
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["appliance"]
+  }
+  resource "meraki_appliance_dns_split_profile" "test" {
+    organization_id = data.meraki_organization.test.id
+    name = "Default profile"
+    nameservers_addresses = ["12.1.10.1"]
+    hostnames = ["*.test1.com"]
+  }
