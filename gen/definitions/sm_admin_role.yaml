@@ -1,0 +1,36 @@
+name: SM Admin Role
+spec_endpoint: /organizations/{organizationId}/sm/admins/roles/{roleId}
+rest_endpoint: /organizations/%v/sm/admins/roles
+bulk_data_source: true
+id_name: roleId
+data_source_name_query: true
+doc_category: Systems Manager
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the Limited Access Role
+    example: sample name
+  - model_name: scope
+    type: String
+    mandatory: true
+    description: The scope of the Limited Access Role
+    example: all_tags
+    enum_values: [all_tags, some, without_all_tags, without_some]
+  - model_name: tags
+    type: List
+    element_type: String
+    mandatory: true
+    description: The tags of the Limited Access Role
+    example: tag
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

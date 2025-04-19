@@ -85,6 +85,17 @@ resource "meraki_network_device_claim" "test" {
 }
 `
 
+const smPrerequisites = `
+data "meraki_organization" "test" {
+  name = var.test_org
+}
+resource "meraki_network" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = var.test_network
+  product_types   = ["systemsManager"]
+}
+`
+
 func P[T any](v T) *T {
 	return &v
 }
@@ -225,7 +236,9 @@ func generateDefinition(endpointPath, resourceName string) {
 	}
 	config.DataSourceNameQuery = dataSourceNameQuery
 
-	if slices.Contains(*config.TestVariables, "test_switch_1_serial") {
+	if urlResult.category == "Systems Manager" && slices.Contains(*config.TestVariables, "test_network") {
+		config.TestPrerequisites = P(smPrerequisites)
+	} else if slices.Contains(*config.TestVariables, "test_switch_1_serial") {
 		config.TestPrerequisites = P(devicePrerequisites)
 	} else if slices.Contains(*config.TestVariables, "test_network") {
 		config.TestPrerequisites = P(networkPrerequisites)

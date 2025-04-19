@@ -14,6 +14,8 @@ description: |-
 - Add `meraki_appliance_dns_local_record` resource and data sources
 - Add `meraki_appliance_dns_split_profile` resource and data sources
 - Add `meraki_appliance_dns_split_profile_assignments` resource
+- Add `meraki_sm_admin_role` resource and data sources
+- Add `meraki_sm_target_group` resource and data sources
 
 ## 0.1.12
 
