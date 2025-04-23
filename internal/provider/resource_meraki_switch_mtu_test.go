@@ -36,7 +36,7 @@ func TestAccMerakiSwitchMTU(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_mtu.test", "default_mtu_size", "9578"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_mtu.test", "default_mtu_size", "9198"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_mtu.test", "overrides.0.mtu_size", "1500"))
 
 	var steps []resource.TestStep
@@ -108,7 +108,7 @@ resource "meraki_network_device_claim" "test" {
 func testAccMerakiSwitchMTUConfig_minimum() string {
 	config := `resource "meraki_switch_mtu" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  default_mtu_size = 9578` + "\n"
+	config += `  default_mtu_size = 9198` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -120,7 +120,7 @@ func testAccMerakiSwitchMTUConfig_minimum() string {
 func testAccMerakiSwitchMTUConfig_all() string {
 	config := `resource "meraki_switch_mtu" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  default_mtu_size = 9578` + "\n"
+	config += `  default_mtu_size = 9198` + "\n"
 	config += `  overrides = [{` + "\n"
 	config += `    mtu_size = 1500` + "\n"
 	config += `    switches = [tolist(meraki_network_device_claim.test.serials)[0]]` + "\n"

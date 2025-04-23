@@ -16,8 +16,8 @@ attributes:
   - model_name: defaultMtuSize
     type: Int64
     description: MTU size for the entire network. Default value is 9578.
-    example: "9578"
-    minimum_test_value: "9578"
+    example: "9198"
+    minimum_test_value: "9198"
   - model_name: overrides
     type: List
     description: Override MTU size for individual switches or switch templates. An empty array will clear overrides.
