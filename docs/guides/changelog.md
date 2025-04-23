@@ -16,6 +16,7 @@ description: |-
 - Add `meraki_appliance_dns_split_profile_assignments` resource
 - Add `meraki_sm_admin_role` resource and data sources
 - Add `meraki_sm_target_group` resource and data sources
+- Add warning if name query option of data source is being used and multiple objects with the same name exist
 
 ## 0.1.12
 

@@ -163,13 +163,17 @@ func (d *OrganizationAdminDataSource) Read(ctx context.Context, req datasource.R
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve objects, got error: %s", err))
 			return
 		}
+		found := false
 		if len(res.Array()) > 0 {
 			res.ForEach(func(k, v gjson.Result) bool {
 				if config.Name.ValueString() == v.Get("name").String() {
+					if found {
+						resp.Diagnostics.AddWarning("Multiple objects with same name", fmt.Sprintf("Found multiple objects with name: %s", config.Name.ValueString()))
+					}
 					config.Id = types.StringValue(v.Get("id").String())
 					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
 					res = meraki.Res{Result: v}
-					return false
+					found = true
 				}
 				return true
 			})
