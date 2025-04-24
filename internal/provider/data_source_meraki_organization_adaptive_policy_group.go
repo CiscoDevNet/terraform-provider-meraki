@@ -150,6 +150,7 @@ func (d *OrganizationAdaptivePolicyGroupDataSource) Read(ctx context.Context, re
 				if config.Name.ValueString() == v.Get("name").String() {
 					if found {
 						resp.Diagnostics.AddWarning("Multiple objects with same name", fmt.Sprintf("Found multiple objects with name: %s", config.Name.ValueString()))
+						return false
 					}
 					config.Id = types.StringValue(v.Get("groupId").String())
 					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
