@@ -50,7 +50,7 @@ Read-Only:
 
 Read-Only:
 
-- `switch_port_ids` (List of String) List of port ids
+- `port_ids` (List of String) List of port ids
 - `switch_serial` (String) Serial number of the switch
 
 

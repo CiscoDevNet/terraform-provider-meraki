@@ -96,7 +96,7 @@ func (d *SwitchOrganizationPortsProfilesAutomationsDataSource) Schema(ctx contex
 										MarkdownDescription: "Serial number of the switch",
 										Computed:            true,
 									},
-									"switch_port_ids": schema.ListAttribute{
+									"port_ids": schema.ListAttribute{
 										MarkdownDescription: "List of port ids",
 										ElementType:         types.StringType,
 										Computed:            true,

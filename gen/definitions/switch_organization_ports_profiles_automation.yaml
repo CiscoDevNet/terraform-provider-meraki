@@ -7,6 +7,7 @@ early_access: true
 data_source_name_query: true
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_3_serial]
+ignore_attributes: [switch.portIds]
 attributes:
   - tf_name: organization_id
     type: String
@@ -37,7 +38,6 @@ attributes:
     example: Profile 1
   - model_name: assignedSwitchPorts
     type: List
-    exclude_test: true
     description: assigned switch ports
     attributes:
       - model_name: serial
@@ -49,7 +49,6 @@ attributes:
       - model_name: portIds
         type: List
         element_type: String
-        data_path: [switch]
         description: List of port ids
         example: "3"
   - model_name: rules

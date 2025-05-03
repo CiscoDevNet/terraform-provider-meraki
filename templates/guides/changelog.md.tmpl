@@ -17,6 +17,7 @@ description: |-
 - Add `meraki_sm_admin_role` resource and data sources
 - Add `meraki_sm_target_group` resource and data sources
 - Add warning if name query option of data source is being used and multiple objects with the same name exist
+- BREAKING CHANGE: Rename `switch_port_ids` attribute of `meraki_switch_organization_ports_profiles_automation` resource and data source to `port_ids`
 
 ## 0.1.12
 

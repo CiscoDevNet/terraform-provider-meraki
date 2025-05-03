@@ -20,6 +20,12 @@ resource "meraki_switch_organization_ports_profiles_automation" "example" {
   organization_id = "123456"
   description     = "A full length description of the automation."
   name            = "Automation 1"
+  assigned_switch_ports = [
+    {
+      switch_serial = "Q234-ABCD-5678"
+      port_ids      = ["3"]
+    }
+  ]
   rules = [
     {
       priority     = 1
@@ -85,7 +91,7 @@ Required:
 
 Optional:
 
-- `switch_port_ids` (List of String) List of port ids
+- `port_ids` (List of String) List of port ids
 - `switch_serial` (String) Serial number of the switch
 
 ## Import

@@ -49,8 +49,8 @@ type SwitchOrganizationPortsProfilesAutomation struct {
 }
 
 type SwitchOrganizationPortsProfilesAutomationAssignedSwitchPorts struct {
-	SwitchSerial  types.String `tfsdk:"switch_serial"`
-	SwitchPortIds types.List   `tfsdk:"switch_port_ids"`
+	SwitchSerial types.String `tfsdk:"switch_serial"`
+	PortIds      types.List   `tfsdk:"port_ids"`
 }
 
 type SwitchOrganizationPortsProfilesAutomationRules struct {
@@ -98,10 +98,10 @@ func (data SwitchOrganizationPortsProfilesAutomation) toBody(ctx context.Context
 			if !item.SwitchSerial.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "switch.serial", item.SwitchSerial.ValueString())
 			}
-			if !item.SwitchPortIds.IsNull() {
+			if !item.PortIds.IsNull() {
 				var values []string
-				item.SwitchPortIds.ElementsAs(ctx, &values, false)
-				itemBody, _ = sjson.Set(itemBody, "switch.portIds", values)
+				item.PortIds.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "portIds", values)
 			}
 			body, _ = sjson.SetRaw(body, "assignedSwitchPorts.-1", itemBody)
 		}
@@ -175,10 +175,10 @@ func (data *SwitchOrganizationPortsProfilesAutomation) fromBody(ctx context.Cont
 			} else {
 				data.SwitchSerial = types.StringNull()
 			}
-			if value := res.Get("switch.portIds"); value.Exists() && value.Value() != nil {
-				data.SwitchPortIds = helpers.GetStringList(value.Array())
+			if value := res.Get("portIds"); value.Exists() && value.Value() != nil {
+				data.PortIds = helpers.GetStringList(value.Array())
 			} else {
-				data.SwitchPortIds = types.ListNull(types.StringType)
+				data.PortIds = types.ListNull(types.StringType)
 			}
 			(*parent).AssignedSwitchPorts = append((*parent).AssignedSwitchPorts, data)
 			return true
@@ -299,10 +299,10 @@ func (data *SwitchOrganizationPortsProfilesAutomation) fromBodyPartial(ctx conte
 		} else {
 			data.SwitchSerial = types.StringNull()
 		}
-		if value := res.Get("switch.portIds"); value.Exists() && !data.SwitchPortIds.IsNull() {
-			data.SwitchPortIds = helpers.GetStringList(value.Array())
+		if value := res.Get("portIds"); value.Exists() && !data.PortIds.IsNull() {
+			data.PortIds = helpers.GetStringList(value.Array())
 		} else {
-			data.SwitchPortIds = types.ListNull(types.StringType)
+			data.PortIds = types.ListNull(types.StringType)
 		}
 		(*parent).AssignedSwitchPorts[i] = data
 	}

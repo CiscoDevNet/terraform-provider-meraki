@@ -105,7 +105,7 @@ func (r *SwitchOrganizationPortsProfilesAutomationResource) Schema(ctx context.C
 							MarkdownDescription: helpers.NewAttributeDescription("Serial number of the switch").String,
 							Optional:            true,
 						},
-						"switch_port_ids": schema.ListAttribute{
+						"port_ids": schema.ListAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of port ids").String,
 							ElementType:         types.StringType,
 							Optional:            true,
