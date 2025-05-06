@@ -1,0 +1,205 @@
+name: Network Alerts Settings
+spec_endpoint: /networks/{networkId}/alerts/settings
+rest_endpoint: /networks/%v/alerts/settings
+put_create: true
+no_delete: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: allAdmins
+    type: Bool
+    data_path: [defaultDestinations]
+    description: If true, then all network admins will receive emails.
+    example: "true"
+    minimum_test_value: "true"
+  - model_name: snmp
+    type: Bool
+    data_path: [defaultDestinations]
+    description: If true, then an SNMP trap will be sent if there is an SNMP trap server configured for this network.
+    example: "true"
+  - model_name: emails
+    type: List
+    element_type: String
+    data_path: [defaultDestinations]
+    description: A list of emails that will receive the alert(s).
+    example: miles@meraki.com
+  - model_name: httpServerIds
+    type: List
+    element_type: String
+    data_path: [defaultDestinations]
+    exclude_test: true
+    description: A list of HTTP server IDs to send a Webhook to
+    example: aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M=
+  - model_name: enabled
+    type: Bool
+    data_path: [muting, byPortSchedules]
+    description: If true, then wireless unreachable alerts will be muted when caused by a port schedule
+    example: "true"
+  - model_name: alerts
+    type: List
+    allow_import_changes: true
+    description: Alert-specific configuration for each type. Only alerts that pertain to the network can be updated.
+    attributes:
+      - model_name: enabled
+        type: Bool
+        description: A boolean depicting if the alert is turned on or off
+        example: "true"
+      - model_name: type
+        type: String
+        id: true
+        mandatory: true
+        description: The type of alert
+        example: gatewayDown
+      - model_name: allAdmins
+        type: Bool
+        data_path: [alertDestinations]
+        description: If true, then all network admins will receive emails for this alert
+        example: "false"
+      - model_name: snmp
+        type: Bool
+        data_path: [alertDestinations]
+        description: If true, then an SNMP trap will be sent for this alert if there is an SNMP trap server configured for this network
+        example: "false"
+      - model_name: emails
+        type: List
+        element_type: String
+        data_path: [alertDestinations]
+        description: A list of emails that will receive information about the alert
+        example: miles@meraki.com
+      - model_name: httpServerIds
+        type: List
+        element_type: String
+        data_path: [alertDestinations]
+        exclude_test: true
+        description: A list of HTTP server IDs to send a Webhook to for this alert
+        example: aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M=
+      - model_name: smsNumbers
+        type: List
+        element_type: String
+        data_path: [alertDestinations]
+        exclude_test: true
+        description: A list of phone numbers that will receive text messages about the alert. Only available for sensors status alerts.
+        example: "+15555555555"
+      - model_name: failureType
+        type: String
+        data_path: [filters]
+        exclude_test: true
+        description: Failure Type
+        example: 802.1X auth fail
+      - model_name: lookbackWindow
+        type: Int64
+        data_path: [filters]
+        exclude_test: true
+        description: Loopback Window (in sec)
+        example: "360"
+      - model_name: minDuration
+        type: Int64
+        data_path: [filters]
+        exclude_test: true
+        description: Min Duration
+        example: "60"
+      - model_name: name
+        type: String
+        data_path: [filters]
+        exclude_test: true
+        description: Name
+        example: Filter
+      - model_name: period
+        type: Int64
+        data_path: [filters]
+        exclude_test: true
+        description: Period
+        example: "1800"
+      - model_name: priority
+        type: String
+        data_path: [filters]
+        exclude_test: true
+        description: Priority
+      - model_name: regex
+        type: String
+        data_path: [filters]
+        exclude_test: true
+        description: Regex
+        example: '[a-z]'
+      - model_name: selector
+        type: String
+        data_path: [filters]
+        exclude_test: true
+        description: Selector
+        example: '{\"smartSensitivity\":\"medium\",\"smartEnabled\":false,\"eventReminderPeriodSecs\":10800}'
+      - model_name: ssidNum
+        type: Int64
+        data_path: [filters]
+        exclude_test: true
+        description: SSID Number
+        example: "1"
+      - model_name: tag
+        type: String
+        data_path: [filters]
+        exclude_test: true
+        description: Tag
+        example: tag1
+      - model_name: threshold
+        type: Int64
+        data_path: [filters]
+        exclude_test: true
+        description: Threshold
+        example: "30"
+      - model_name: timeout
+        type: Int64
+        data_path: [filters]
+        exclude_test: true
+        description: Timeout
+        example: "60"
+      - model_name: conditions
+        type: List
+        data_path: [filters]
+        exclude_test: true
+        description: Conditions
+        attributes:
+          - model_name: direction
+            type: String
+            description: Direction
+            example: +
+            enum_values: [+, '-']
+          - model_name: duration
+            type: Int64
+            description: Duration
+            example: "0"
+          - model_name: threshold
+            type: Float64
+            description: Threshold
+            example: "72.5"
+          - model_name: type
+            type: String
+            id: true
+            mandatory: true
+            description: Type of condition
+            example: temperature
+          - model_name: unit
+            type: String
+            description: Unit
+            example: celsius
+      - model_name: serials
+        type: Set
+        element_type: String
+        data_path: [filters]
+        exclude_test: true
+        description: Serials
+        example: Q234-ABCD-0001
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }

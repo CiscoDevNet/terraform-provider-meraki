@@ -528,7 +528,8 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 			childGjsonPath := (gjsonPath + "." + propName)[1:]
 			res := gjson.Get(exampleStr, childGjsonPath)
 			if res.String() != "" {
-				attr.Example = P(res.String())
+				example := strings.ReplaceAll(res.String(), "\"", "\\\"")
+				attr.Example = P(example)
 			}
 			if desc, ok := propMap["description"]; ok {
 				attr.Description = P(sanitizeDescription(desc.(string)))
@@ -630,7 +631,8 @@ func traverseProperties(m map[string]interface{}, path []string, gjsonPath strin
 				childGjsonPath := (gjsonPath + "." + propName + ".0")[1:]
 				res := gjson.Get(exampleStr, childGjsonPath)
 				if res.String() != "" {
-					attr.Example = P(res.String())
+					example := strings.ReplaceAll(res.String(), "\"", "\\\"")
+					attr.Example = P(example)
 				}
 			} else if items["type"].(string) == "object" {
 				childGjsonPath := gjsonPath + "." + propName + ".0"

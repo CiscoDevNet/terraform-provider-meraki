@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 1.1.0 (unreleased)
+
+- Add `meraki_network_alerts_settings` resource and data source
+
 ## 1.0.0
 
 - Add `meraki_network_device_claim_vmx` resource
