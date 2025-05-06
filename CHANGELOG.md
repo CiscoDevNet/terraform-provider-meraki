@@ -1,4 +1,4 @@
-## 0.1.13 (unreleased)
+## 1.0.0
 
 - Add `meraki_network_device_claim_vmx` resource
 - Add `meraki_appliance_dns_local_profile_assignments` resource
