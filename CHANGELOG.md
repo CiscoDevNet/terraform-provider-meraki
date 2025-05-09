@@ -6,6 +6,7 @@
 - Add `details_by_device` attribute to `meraki_network_device_claim` resource
 - Add `mac_whitelist_limit` attribute to `meraki_switch_port` resource and data sources
 - Add `adaptive_policy_group_id` attribute to `meraki_wireless_ssid` resource and data source
+- Add `meraki_wireless_location_scanning` resource and data source
 
 ## 1.0.0
 
