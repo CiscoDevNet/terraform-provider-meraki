@@ -142,7 +142,7 @@ func (data {{camelCase .Name}}) getPath() string {
 func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .Name}}) string {
 	body := ""
 	{{- range .Attributes}}
-	{{- if .Computed}}{{- continue}}{{- end}}
+	{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if not .Reference}}
@@ -167,7 +167,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 		{{- end}}
 			itemBody := ""
 			{{- range .Attributes}}
-			{{- if .Computed}}{{- continue}}{{- end}}
+			{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
 			{{- if .Value}}
 			itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 			{{- else if not .Reference}}
@@ -192,7 +192,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 				{{- end}}
 					itemChildBody := ""
 					{{- range .Attributes}}
-					{{- if .Computed}}{{- continue}}{{- end}}
+					{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
 					{{- if .Value}}
 					itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 					{{- else if not .Reference}}
@@ -217,7 +217,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 						{{- end}}
 							itemChildChildBody := ""
 							{{- range .Attributes}}
-							{{- if .Computed}}{{- continue}}{{- end}}
+							{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
 							{{- if .Value}}
 							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 							{{- else if not .Reference}}
@@ -274,7 +274,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res meraki.Res) {
 {{- define "fromBodyTemplate"}}
 	{{- range .Attributes}}
-	{{- if and (not .Value) (not .WriteOnly) (not .Reference)}}
+	{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
 	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if value := res.Get("{{getFullModelName . false}}"); value.Exists() && value.Value() != nil {
 		data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
@@ -336,7 +336,7 @@ func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res meraki.Res) {
 func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki.Res) {
 {{- define "fromBodyPartialTemplate"}}
 	{{- range .Attributes}}
-	{{- if and (not .Value) (not .WriteOnly) (not .Reference)}}
+	{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
 	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
 		data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())

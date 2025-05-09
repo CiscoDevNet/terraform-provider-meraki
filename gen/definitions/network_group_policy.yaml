@@ -1,3 +1,4 @@
+# Modify Delete() to support 'force' parameter
 name: Network Group Policy
 spec_endpoint: /networks/{networkId}/groupPolicies/{groupPolicyId}
 rest_endpoint: /networks/%v/groupPolicies
@@ -343,6 +344,11 @@ attributes:
     data_path: [vlanTagging]
     description: The ID of the vlan you want to tag. This only applies if `settings` is set to `custom`.
     example: "1"
+  - tf_name: force_delete
+    type: Bool
+    exclude_test: true
+    description: If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.
+    example: "true"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
@@ -352,3 +358,10 @@ test_prerequisites: |
     name            = var.test_network
     product_types   = ["switch", "wireless"]
   }
+additional_tests:
+  - |-
+    resource "meraki_network_group_policy" "test" {
+      network_id   = meraki_network.test.id
+      name         = "No video streaming"
+      force_delete = true
+    }

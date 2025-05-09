@@ -380,6 +380,10 @@ func (r *NetworkGroupPolicyResource) Schema(ctx context.Context, req resource.Sc
 				MarkdownDescription: helpers.NewAttributeDescription("The ID of the vlan you want to tag. This only applies if `settings` is set to `custom`.").String,
 				Optional:            true,
 			},
+			"force_delete": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.").String,
+				Optional:            true,
+			},
 		},
 	}
 }
@@ -504,8 +508,6 @@ func (r *NetworkGroupPolicyResource) Update(ctx context.Context, req resource.Up
 
 // End of section. //template:end update
 
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
-
 func (r *NetworkGroupPolicyResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state NetworkGroupPolicy
 
@@ -515,8 +517,12 @@ func (r *NetworkGroupPolicyResource) Delete(ctx context.Context, req resource.De
 		return
 	}
 
+	path := state.getPath() + "/" + url.QueryEscape(state.Id.ValueString())
+	if state.ForceDelete.ValueBool() {
+		path += "?force=true"
+	}
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	res, err := r.client.Delete(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
+	res, err := r.client.Delete(path)
 	if err != nil && !strings.Contains(err.Error(), "StatusCode 404") {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete object (DELETE), got error: %s, %s", err, res.String()))
 		return
@@ -526,8 +532,6 @@ func (r *NetworkGroupPolicyResource) Delete(ctx context.Context, req resource.De
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *NetworkGroupPolicyResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

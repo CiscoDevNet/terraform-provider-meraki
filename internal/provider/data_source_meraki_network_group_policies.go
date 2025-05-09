@@ -339,6 +339,10 @@ func (d *NetworkGroupPoliciesDataSource) Schema(ctx context.Context, req datasou
 							MarkdownDescription: "The ID of the vlan you want to tag. This only applies if `settings` is set to `custom`.",
 							Computed:            true,
 						},
+						"force_delete": schema.BoolAttribute{
+							MarkdownDescription: "If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.",
+							Computed:            true,
+						},
 					},
 				},
 			},

@@ -116,6 +116,7 @@ resource "meraki_network_group_policy" "example" {
   - Choices: `append`, `network default`, `override`
 - `firewall_and_traffic_shaping_settings` (String) How firewall and traffic shaping rules are enforced. Can be `network default`, `ignore` or `custom`.
   - Choices: `custom`, `ignore`, `network default`
+- `force_delete` (Boolean) If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.
 - `l3_firewall_rules` (Attributes List) An ordered array of the L3 firewall rules (see [below for nested schema](#nestedatt--l3_firewall_rules))
 - `l7_firewall_rules` (Attributes List) An ordered array of L7 firewall rules (see [below for nested schema](#nestedatt--l7_firewall_rules))
 - `scheduling_enabled` (Boolean) Whether scheduling is enabled (true) or disabled (false). Defaults to false. If true, the schedule objects for each day of the week (monday - sunday) are parsed.

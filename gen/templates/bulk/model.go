@@ -156,7 +156,7 @@ func (data *{{camelCase .BulkName}}) fromBody(ctx context.Context, res meraki.Re
 		data.Id = types.StringValue(res.Get("{{if hasId .Attributes}}{{(getId .Attributes).ModelName}}{{else if .IdName}}{{.IdName}}{{else}}id{{end}}").String())
 		{{- define "fromBodyTemplate"}}
 			{{- range .Attributes}}
-			{{- if and (not .Value) (not .WriteOnly) (not .Reference)}}
+			{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
 			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 			if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && value.Value() != nil {
 				data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())

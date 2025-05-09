@@ -46,6 +46,7 @@ Read-Only:
 - `content_filtering_blocked_url_patterns` (Set of String) A list of URL patterns that are blocked
 - `content_filtering_blocked_url_patterns_settings` (String) How URL patterns are applied. Can be `network default`, `append` or `override`.
 - `firewall_and_traffic_shaping_settings` (String) How firewall and traffic shaping rules are enforced. Can be `network default`, `ignore` or `custom`.
+- `force_delete` (Boolean) If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.
 - `id` (String) The id of the object
 - `l3_firewall_rules` (Attributes List) An ordered array of the L3 firewall rules (see [below for nested schema](#nestedatt--items--l3_firewall_rules))
 - `l7_firewall_rules` (Attributes List) An ordered array of L7 firewall rules (see [below for nested schema](#nestedatt--items--l7_firewall_rules))
