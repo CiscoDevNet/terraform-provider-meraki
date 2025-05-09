@@ -70,6 +70,10 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				MarkdownDescription: "Wireless SSID number",
 				Required:            true,
 			},
+			"adaptive_policy_group_id": schema.StringAttribute{
+				MarkdownDescription: "Adaptive policy group ID this SSID is assigned to.",
+				Computed:            true,
+			},
 			"adult_content_filtering_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Boolean indicating whether or not adult content will be blocked",
 				Computed:            true,

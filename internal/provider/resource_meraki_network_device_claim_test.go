@@ -36,6 +36,8 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_claim_serial_1 and TF_VAR_test_claim_serial_2")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim.test", "details_by_device.0.details.0.name", "username"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim.test", "details_by_device.0.details.0.value", "milesmeraki"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -52,7 +54,7 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkDeviceClaimImportStateIdFunc("meraki_network_device_claim.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"details_by_device"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -114,6 +116,19 @@ func testAccMerakiNetworkDeviceClaimConfig_all() string {
 	config := `resource "meraki_network_device_claim" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `	serials = [var.test_claim_serial_1, var.test_claim_serial_2]` + "\n"
+	config += `	details_by_device = [{` + "\n"
+	config += `	  serial = var.test_claim_serial_2` + "\n"
+	config += `	  details = [` + "\n"
+	config += `	    {` + "\n"
+	config += `	      name = "username"` + "\n"
+	config += `	      value = "milesmeraki"` + "\n"
+	config += `	    },` + "\n"
+	config += `	    {` + "\n"
+	config += `	      name = "password"` + "\n"
+	config += `	      value = "cisco"` + "\n"
+	config += `	    }` + "\n"
+	config += `	  ]` + "\n"
+	config += `	}]` + "\n"
 	config += `}` + "\n"
 	return config
 }

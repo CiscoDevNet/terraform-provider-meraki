@@ -48,6 +48,7 @@ type SwitchPortsItems struct {
 	FlexibleStackingEnabled                types.Bool   `tfsdk:"flexible_stacking_enabled"`
 	IsolationEnabled                       types.Bool   `tfsdk:"isolation_enabled"`
 	LinkNegotiation                        types.String `tfsdk:"link_negotiation"`
+	MacWhitelistLimit                      types.Int64  `tfsdk:"mac_whitelist_limit"`
 	Name                                   types.String `tfsdk:"name"`
 	PeerSgtCapable                         types.Bool   `tfsdk:"peer_sgt_capable"`
 	PoeEnabled                             types.Bool   `tfsdk:"poe_enabled"`
@@ -136,6 +137,11 @@ func (data *SwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 			data.LinkNegotiation = types.StringValue(value.String())
 		} else {
 			data.LinkNegotiation = types.StringNull()
+		}
+		if value := res.Get("macWhitelistLimit"); value.Exists() && value.Value() != nil {
+			data.MacWhitelistLimit = types.Int64Value(value.Int())
+		} else {
+			data.MacWhitelistLimit = types.Int64Null()
 		}
 		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())

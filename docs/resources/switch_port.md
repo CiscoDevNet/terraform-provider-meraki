@@ -59,6 +59,7 @@ resource "meraki_switch_port" "example" {
 - `isolation_enabled` (Boolean) The isolation status of the switch port.
 - `link_negotiation` (String) The link speed for the switch port.
 - `mac_allow_list` (Set of String) Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.
+- `mac_whitelist_limit` (Number) The maximum number of MAC addresses for regular MAC allow list. Only applicable when `accessPolicyType` is `MAC allow list`. Note: Config only supported on verions greater than ms18 only for classic switches.
 - `name` (String) The name of the switch port.
 - `peer_sgt_capable` (Boolean) If true, Peer SGT is enabled for traffic through this switch port. Applicable to trunk port only, not access port. Cannot be applied to a port on a switch bound to profile.
 - `poe_enabled` (Boolean) The PoE status of the switch port.

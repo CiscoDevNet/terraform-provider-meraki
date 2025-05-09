@@ -106,6 +106,10 @@ func (d *SwitchPortDataSource) Schema(ctx context.Context, req datasource.Schema
 				MarkdownDescription: "The link speed for the switch port.",
 				Computed:            true,
 			},
+			"mac_whitelist_limit": schema.Int64Attribute{
+				MarkdownDescription: "The maximum number of MAC addresses for regular MAC allow list. Only applicable when `accessPolicyType` is `MAC allow list`. Note: Config only supported on verions greater than ms18 only for classic switches.",
+				Computed:            true,
+			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: "The name of the switch port.",
 				Computed:            true,

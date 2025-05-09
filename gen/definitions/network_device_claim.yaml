@@ -14,9 +14,34 @@ attributes:
     type: String
     id: true
     reference: true
-    description: Netowrk ID
+    description: Network ID
     example: "123456"
     test_value: meraki_network.test.id
+  - model_name: detailsByDevice
+    type: List
+    allow_import_changes: true
+    description: Optional details for claimed devices (currently only used for Catalyst devices)
+    attributes:
+      - model_name: serial
+        type: String
+        mandatory: true
+        description: The serial of the device these details relate to
+        example: Q234-ABCD-5678
+        test_value: var.test_claim_serial_2
+      - model_name: details
+        type: List
+        mandatory: true
+        description: 'An array of details. Supported list of details includes: ''device mode'', ''username'', ''password'', ''enable password'', ''ap mapping type'' and ''ap network id''. For onboarding into hybrid mode, the value of the device mode detail must be ''monitored'''
+        attributes:
+          - model_name: name
+            type: String
+            mandatory: true
+            description: Name of device detail
+            example: username
+          - model_name: value
+            type: String
+            description: Value of device detail
+            example: milesmeraki
   - model_name: serials
     type: Set
     element_type: String

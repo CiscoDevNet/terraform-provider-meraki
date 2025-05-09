@@ -32,6 +32,7 @@ data "meraki_wireless_ssid" "example" {
 - `active_directory_credentials_logon_name` (String) The logon name of the Active Directory account.
 - `active_directory_credentials_password` (String) The password to the Active Directory user account.
 - `active_directory_servers` (Attributes List) The Active Directory servers to be used for authentication. (see [below for nested schema](#nestedatt--active_directory_servers))
+- `adaptive_policy_group_id` (String) Adaptive policy group ID this SSID is assigned to.
 - `adult_content_filtering_enabled` (Boolean) Boolean indicating whether or not adult content will be blocked
 - `ap_tags_and_vlan_ids` (Attributes List) The list of tags and VLAN IDs used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming` (see [below for nested schema](#nestedatt--ap_tags_and_vlan_ids))
 - `auth_mode` (String) The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)

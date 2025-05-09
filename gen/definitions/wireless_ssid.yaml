@@ -18,6 +18,11 @@ attributes:
     reference: true
     description: Wireless SSID number
     example: "0"
+  - model_name: adaptivePolicyGroupId
+    type: String
+    exclude_test: true
+    description: Adaptive policy group ID this SSID is assigned to.
+    example: "1234"
   - model_name: adultContentFilteringEnabled
     type: Bool
     exclude_test: true

@@ -46,6 +46,7 @@ type SwitchPort struct {
 	FlexibleStackingEnabled types.Bool   `tfsdk:"flexible_stacking_enabled"`
 	IsolationEnabled        types.Bool   `tfsdk:"isolation_enabled"`
 	LinkNegotiation         types.String `tfsdk:"link_negotiation"`
+	MacWhitelistLimit       types.Int64  `tfsdk:"mac_whitelist_limit"`
 	Name                    types.String `tfsdk:"name"`
 	PeerSgtCapable          types.Bool   `tfsdk:"peer_sgt_capable"`
 	PoeEnabled              types.Bool   `tfsdk:"poe_enabled"`
@@ -107,6 +108,9 @@ func (data SwitchPort) toBody(ctx context.Context, state SwitchPort) string {
 	}
 	if !data.LinkNegotiation.IsNull() {
 		body, _ = sjson.Set(body, "linkNegotiation", data.LinkNegotiation.ValueString())
+	}
+	if !data.MacWhitelistLimit.IsNull() {
+		body, _ = sjson.Set(body, "macWhitelistLimit", data.MacWhitelistLimit.ValueInt64())
 	}
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
@@ -223,6 +227,11 @@ func (data *SwitchPort) fromBody(ctx context.Context, res meraki.Res) {
 		data.LinkNegotiation = types.StringValue(value.String())
 	} else {
 		data.LinkNegotiation = types.StringNull()
+	}
+	if value := res.Get("macWhitelistLimit"); value.Exists() && value.Value() != nil {
+		data.MacWhitelistLimit = types.Int64Value(value.Int())
+	} else {
+		data.MacWhitelistLimit = types.Int64Null()
 	}
 	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
@@ -374,6 +383,11 @@ func (data *SwitchPort) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.LinkNegotiation = types.StringValue(value.String())
 	} else {
 		data.LinkNegotiation = types.StringNull()
+	}
+	if value := res.Get("macWhitelistLimit"); value.Exists() && !data.MacWhitelistLimit.IsNull() {
+		data.MacWhitelistLimit = types.Int64Value(value.Int())
+	} else {
+		data.MacWhitelistLimit = types.Int64Null()
 	}
 	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())

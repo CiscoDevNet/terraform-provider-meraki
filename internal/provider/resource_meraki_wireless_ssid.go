@@ -86,6 +86,10 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"adaptive_policy_group_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Adaptive policy group ID this SSID is assigned to.").String,
+				Optional:            true,
+			},
 			"adult_content_filtering_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether or not adult content will be blocked").String,
 				Optional:            true,

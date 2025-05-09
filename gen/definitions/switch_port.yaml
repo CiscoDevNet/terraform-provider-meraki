@@ -59,6 +59,11 @@ attributes:
     type: String
     description: The link speed for the switch port.
     example: Auto negotiate
+  - model_name: macWhitelistLimit
+    type: Int64
+    exclude_test: true
+    description: 'The maximum number of MAC addresses for regular MAC allow list. Only applicable when `accessPolicyType` is `MAC allow list`. Note: Config only supported on verions greater than ms18 only for classic switches.'
+    example: "10"
   - model_name: name
     type: String
     description: The name of the switch port.

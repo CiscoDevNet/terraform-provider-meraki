@@ -33,6 +33,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
 
@@ -72,10 +73,38 @@ func (r *NetworkDeviceClaimResource) Schema(ctx context.Context, req resource.Sc
 				},
 			},
 			"network_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Netowrk ID").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"details_by_device": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Optional details for claimed devices (currently only used for Catalyst devices)").String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"serial": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The serial of the device these details relate to").String,
+							Required:            true,
+						},
+						"details": schema.ListNestedAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("An array of details. Supported list of details includes: 'device mode', 'username', 'password', 'enable password', 'ap mapping type' and 'ap network id'. For onboarding into hybrid mode, the value of the device mode detail must be 'monitored'").String,
+							Required:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"name": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Name of device detail").String,
+										Required:            true,
+									},
+									"value": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Value of device detail").String,
+										Optional:            true,
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 			"serials": schema.SetAttribute{
@@ -202,10 +231,11 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
-	var planSerials, stateSerials, claimSerials, removeSerials []string
+	var planSerials, stateSerials, removeSerials []string
 	plan.Serials.ElementsAs(ctx, &planSerials, false)
 	state.Serials.ElementsAs(ctx, &stateSerials, false)
 
+	claimBody := ""
 	for _, planSerial := range planSerials {
 		found := false
 		for _, stateSerial := range stateSerials {
@@ -214,7 +244,18 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 			}
 		}
 		if !found {
-			claimSerials = append(claimSerials, planSerial)
+			claimBody, _ = sjson.Set(claimBody, "serials.-1", planSerial)
+			for _, details := range plan.DetailsByDevice {
+				if details.Serial.ValueString() == planSerial {
+					deviceDetailsBody, _ := sjson.Set("", "serial", details.Serial.ValueString())
+					for _, detail := range details.Details {
+						detailsBody, _ := sjson.Set("", "name", detail.Name.ValueString())
+						detailsBody, _ = sjson.Set(detailsBody, "value", detail.Value.ValueString())
+						deviceDetailsBody, _ = sjson.SetRaw(deviceDetailsBody, "details.-1", detailsBody)
+					}
+					claimBody, _ = sjson.SetRaw(claimBody, "detailsByDevice.-1", deviceDetailsBody)
+				}
+			}
 		}
 	}
 
@@ -230,10 +271,9 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 		}
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Serials to be claimed: %v", plan.Id.ValueString(), claimSerials))
-	if len(claimSerials) > 0 {
-		body, _ := sjson.Set("", "serials", claimSerials)
-		res, err := r.client.Post(plan.getPath(), body)
+	tflog.Debug(ctx, fmt.Sprintf("%s: Serials to be claimed: %v", plan.Id.ValueString(), gjson.Get(claimBody, "serials").String()))
+	if len(gjson.Get(claimBody, "serials").Array()) > 0 {
+		res, err := r.client.Post(plan.getPath(), claimBody)
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to claim devices to network, got error: %s, %s", err, res.String()))
 			return

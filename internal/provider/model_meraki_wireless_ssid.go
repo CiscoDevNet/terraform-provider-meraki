@@ -41,6 +41,7 @@ type WirelessSSID struct {
 	Id                                                                  types.String                            `tfsdk:"id"`
 	NetworkId                                                           types.String                            `tfsdk:"network_id"`
 	Number                                                              types.String                            `tfsdk:"number"`
+	AdaptivePolicyGroupId                                               types.String                            `tfsdk:"adaptive_policy_group_id"`
 	AdultContentFilteringEnabled                                        types.Bool                              `tfsdk:"adult_content_filtering_enabled"`
 	AuthMode                                                            types.String                            `tfsdk:"auth_mode"`
 	AvailableOnAllAps                                                   types.Bool                              `tfsdk:"available_on_all_aps"`
@@ -174,6 +175,9 @@ func (data WirelessSSID) getPath() string {
 
 func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string {
 	body := ""
+	if !data.AdaptivePolicyGroupId.IsNull() {
+		body, _ = sjson.Set(body, "adaptivePolicyGroupId", data.AdaptivePolicyGroupId.ValueString())
+	}
 	if !data.AdultContentFilteringEnabled.IsNull() {
 		body, _ = sjson.Set(body, "adultContentFilteringEnabled", data.AdultContentFilteringEnabled.ValueBool())
 	}
@@ -517,6 +521,11 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("adaptivePolicyGroupId"); value.Exists() && value.Value() != nil {
+		data.AdaptivePolicyGroupId = types.StringValue(value.String())
+	} else {
+		data.AdaptivePolicyGroupId = types.StringNull()
+	}
 	if value := res.Get("adultContentFilteringEnabled"); value.Exists() && value.Value() != nil {
 		data.AdultContentFilteringEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -1037,6 +1046,11 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("adaptivePolicyGroupId"); value.Exists() && !data.AdaptivePolicyGroupId.IsNull() {
+		data.AdaptivePolicyGroupId = types.StringValue(value.String())
+	} else {
+		data.AdaptivePolicyGroupId = types.StringNull()
+	}
 	if value := res.Get("adultContentFilteringEnabled"); value.Exists() && !data.AdultContentFilteringEnabled.IsNull() {
 		data.AdultContentFilteringEnabled = types.BoolValue(value.Bool())
 	} else {

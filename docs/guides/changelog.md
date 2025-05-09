@@ -12,6 +12,9 @@ description: |-
 - Add `meraki_network_alerts_settings` resource and data source
 - Fix issue with not handling paginated responses correctly, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/71)
 - Add `force_delete` attribute to `meraki_network_group_policy` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/72)
+- Add `details_by_device` attribute to `meraki_network_device_claim` resource
+- Add `mac_whitelist_limit` attribute to `meraki_switch_port` resource and data sources
+- Add `adaptive_policy_group_id` attribute to `meraki_wireless_ssid` resource and data source
 
 ## 1.0.0
 

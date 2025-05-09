@@ -48,6 +48,7 @@ Read-Only:
 - `link_negotiation` (String) The link speed for the switch port.
 - `link_negotiation_capabilities` (List of String) Available link speeds for the switch port.
 - `mac_allow_list` (List of String) Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.
+- `mac_whitelist_limit` (Number) The maximum number of MAC addresses for regular MAC allow list. Only applicable when `accessPolicyType` is `MAC allow list`. Note: Config only supported on verions greater than ms18 only for classic switches.
 - `mirror_mode` (String) The port mirror mode. Can be one of (`Destination port`, `Source port` or `Not mirroring traffic`).
 - `module_model` (String) The model of the expansion module.
 - `name` (String) The name of the switch port.

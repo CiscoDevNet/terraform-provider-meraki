@@ -15,7 +15,18 @@ This resource allows claiming and removing serials to a network. It will not not
 ```terraform
 resource "meraki_network_device_claim" "example" {
   network_id = "123456"
-  serials    = ["1234-1234-1234"]
+  details_by_device = [
+    {
+      serial = "Q234-ABCD-5678"
+      details = [
+        {
+          name  = "username"
+          value = "milesmeraki"
+        }
+      ]
+    }
+  ]
+  serials = ["1234-1234-1234"]
 }
 ```
 
@@ -24,12 +35,35 @@ resource "meraki_network_device_claim" "example" {
 
 ### Required
 
-- `network_id` (String) Netowrk ID
+- `network_id` (String) Network ID
 - `serials` (Set of String) A list of serials of devices to claim
+
+### Optional
+
+- `details_by_device` (Attributes List) Optional details for claimed devices (currently only used for Catalyst devices) (see [below for nested schema](#nestedatt--details_by_device))
 
 ### Read-Only
 
 - `id` (String) The id of the object
+
+<a id="nestedatt--details_by_device"></a>
+### Nested Schema for `details_by_device`
+
+Required:
+
+- `details` (Attributes List) An array of details. Supported list of details includes: 'device mode', 'username', 'password', 'enable password', 'ap mapping type' and 'ap network id'. For onboarding into hybrid mode, the value of the device mode detail must be 'monitored' (see [below for nested schema](#nestedatt--details_by_device--details))
+- `serial` (String) The serial of the device these details relate to
+
+<a id="nestedatt--details_by_device--details"></a>
+### Nested Schema for `details_by_device.details`
+
+Required:
+
+- `name` (String) Name of device detail
+
+Optional:
+
+- `value` (String) Value of device detail
 
 ## Import
 
