@@ -15,9 +15,9 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: syslogDefaultRule
     type: Bool
-    exclude_test: true
+    write_only: true
     description: Log the special default rule (boolean value - enable only if you`ve configured a syslog server) (optional)
-    example: "true"
+    example: "false"
   - model_name: rules
     type: List
     mandatory: true

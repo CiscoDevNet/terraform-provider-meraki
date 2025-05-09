@@ -73,6 +73,7 @@ data "meraki_organization" "test" {
 func testAccDataSourceMerakiApplianceVPNFirewallRulesConfig() string {
 	config := `resource "meraki_appliance_vpn_firewall_rules" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  syslog_default_rule = false` + "\n"
 	config += `  rules = [{` + "\n"
 	config += `    comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
 	config += `    dest_cidr = "192.168.1.0/24"` + "\n"

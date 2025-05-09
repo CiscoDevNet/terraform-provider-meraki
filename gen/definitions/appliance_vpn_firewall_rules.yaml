@@ -15,7 +15,7 @@ attributes:
     test_value: data.meraki_organization.test.id
   - model_name: syslogDefaultRule
     type: Bool
-    exclude_test: true
+    write_only: true
     description: Log the special default rule (boolean value - enable only if you`ve configured a syslog server) (optional)
     example: "false"
   - model_name: rules

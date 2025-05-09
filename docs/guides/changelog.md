@@ -17,6 +17,9 @@ description: |-
 - Add `adaptive_policy_group_id` attribute to `meraki_wireless_ssid` resource and data source
 - Add `meraki_wireless_location_scanning` resource and data source
 - Add `meraki_wireless_location_scanning_receiver` resource and data sources
+- Fix idempotency issue with `syslog_default_rule` attribute of `meraki_appliance_vpn_firewall_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/73)
+- Fix idempotency issue with `syslog_default_rule` attribute of `meraki_appliance_l3_firewall_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/73)
+- Fix idempotency issue with `syslog_default_rule` attribute of `meraki_appliance_inbound_firewall_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/73)
 
 ## 1.0.0
 

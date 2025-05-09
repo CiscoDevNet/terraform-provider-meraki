@@ -60,7 +60,7 @@ func TestAccMerakiApplianceInboundFirewallRules(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceInboundFirewallRulesImportStateIdFunc("meraki_appliance_inbound_firewall_rules.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"syslog_default_rule"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

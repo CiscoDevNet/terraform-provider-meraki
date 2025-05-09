@@ -1,5 +1,6 @@
 resource "meraki_appliance_vpn_firewall_rules" "example" {
-  organization_id = "123456"
+  organization_id     = "123456"
+  syslog_default_rule = false
   rules = [
     {
       comment        = "Allow TCP traffic to subnet with HTTP servers."

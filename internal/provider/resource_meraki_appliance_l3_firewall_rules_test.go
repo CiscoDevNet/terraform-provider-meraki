@@ -60,7 +60,7 @@ func TestAccMerakiApplianceL3FirewallRules(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceL3FirewallRulesImportStateIdFunc("meraki_appliance_l3_firewall_rules.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"syslog_default_rule"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -129,6 +129,7 @@ func testAccMerakiApplianceL3FirewallRulesConfig_minimum() string {
 func testAccMerakiApplianceL3FirewallRulesConfig_all() string {
 	config := `resource "meraki_appliance_l3_firewall_rules" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  syslog_default_rule = false` + "\n"
 	config += `  rules = [{` + "\n"
 	config += `    comment = "Allow TCP traffic to subnet with HTTP servers."` + "\n"
 	config += `    dest_cidr = "192.168.1.0/24"` + "\n"

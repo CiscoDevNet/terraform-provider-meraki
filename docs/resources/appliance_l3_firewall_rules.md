@@ -14,7 +14,8 @@ This resource can manage the `Appliance L3 Firewall Rules` configuration.
 
 ```terraform
 resource "meraki_appliance_l3_firewall_rules" "example" {
-  network_id = "L_123456"
+  network_id          = "L_123456"
+  syslog_default_rule = false
   rules = [
     {
       comment        = "Allow TCP traffic to subnet with HTTP servers."

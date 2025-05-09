@@ -108,11 +108,6 @@ func (data ApplianceInboundFirewallRules) toBody(ctx context.Context, state Appl
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceInboundFirewallRules) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("syslogDefaultRule"); value.Exists() && value.Value() != nil {
-		data.SyslogDefaultRule = types.BoolValue(value.Bool())
-	} else {
-		data.SyslogDefaultRule = types.BoolNull()
-	}
 	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]ApplianceInboundFirewallRulesRules, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -176,11 +171,6 @@ func (data *ApplianceInboundFirewallRules) fromBody(ctx context.Context, res mer
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceInboundFirewallRules) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	if value := res.Get("syslogDefaultRule"); value.Exists() && !data.SyslogDefaultRule.IsNull() {
-		data.SyslogDefaultRule = types.BoolValue(value.Bool())
-	} else {
-		data.SyslogDefaultRule = types.BoolNull()
-	}
 	{
 		l := len(res.Get("rules").Array())
 		tflog.Debug(ctx, fmt.Sprintf("rules array resizing from %d to %d", len(data.Rules), l))
