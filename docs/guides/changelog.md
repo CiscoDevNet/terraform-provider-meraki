@@ -16,6 +16,7 @@ description: |-
 - Add `mac_whitelist_limit` attribute to `meraki_switch_port` resource and data sources
 - Add `adaptive_policy_group_id` attribute to `meraki_wireless_ssid` resource and data source
 - Add `meraki_wireless_location_scanning` resource and data source
+- Add `meraki_wireless_location_scanning_receiver` resource and data sources
 
 ## 1.0.0
 
