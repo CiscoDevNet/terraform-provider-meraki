@@ -1,4 +1,4 @@
-## 1.1.0 (unreleased)
+## 1.1.0
 
 - Add `meraki_network_alerts_settings` resource and data source
 - Fix issue with not handling paginated responses correctly, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/71)
