@@ -73,9 +73,9 @@ func TestAccMerakiOrganization(t *testing.T) {
 func merakiOrganizationImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
-		id := primary.Attributes["id"]
+		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s", id), nil
+		return fmt.Sprintf("%s", Id), nil
 	}
 }
 

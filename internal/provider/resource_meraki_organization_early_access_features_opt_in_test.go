@@ -72,9 +72,9 @@ func merakiOrganizationEarlyAccessFeaturesOptInImportStateIdFunc(resourceName st
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		OrganizationId := primary.Attributes["organization_id"]
-		id := primary.Attributes["id"]
+		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", OrganizationId, id), nil
+		return fmt.Sprintf("%s,%s", OrganizationId, Id), nil
 	}
 }
 

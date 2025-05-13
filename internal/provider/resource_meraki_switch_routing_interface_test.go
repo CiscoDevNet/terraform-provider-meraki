@@ -82,9 +82,9 @@ func merakiSwitchRoutingInterfaceImportStateIdFunc(resourceName string) resource
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		Serial := primary.Attributes["serial"]
-		id := primary.Attributes["id"]
+		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", Serial, id), nil
+		return fmt.Sprintf("%s,%s", Serial, Id), nil
 	}
 }
 

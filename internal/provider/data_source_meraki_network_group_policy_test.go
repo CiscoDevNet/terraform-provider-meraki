@@ -179,6 +179,7 @@ func testAccDataSourceMerakiNetworkGroupPolicyConfig() string {
 	config += `  scheduling_wednesday_to = "17:00"` + "\n"
 	config += `  vlan_tagging_settings = "custom"` + "\n"
 	config += `  vlan_tagging_vlan_id = "1"` + "\n"
+	config += `  force_delete = true` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -254,6 +255,7 @@ func testAccNamedDataSourceMerakiNetworkGroupPolicyConfig() string {
 	config += `  scheduling_wednesday_to = "17:00"` + "\n"
 	config += `  vlan_tagging_settings = "custom"` + "\n"
 	config += `  vlan_tagging_vlan_id = "1"` + "\n"
+	config += `  force_delete = true` + "\n"
 	config += `}` + "\n"
 
 	config += `

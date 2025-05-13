@@ -595,24 +595,19 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != {{importParts .}}{{range $index := (iterate (importParts .))}} || idParts[{{$index}}] == ""{{end}} {
+	if len(idParts) != {{len (importAttributes .)}}{{range $index, $attr := (importAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: {{$idRef := false}}{{range $i, $e := .Attributes}}{{if or .Reference .Id}}{{$idRef = true}}{{if $i}},{{end}}<{{.TfName}}>{{end}}{{end}}{{if not (hasId .Attributes)}}{{if $idRef}},{{end}}<id>{{end}}. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: {{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}. Got: %q", req.ID),
 		)
 		return
 	}
 
-	{{- range $index, $attr := .Attributes}}
-	{{- if or $attr.Reference $attr.Id}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{$attr.TfName}}"), idParts[{{$index}}])...)
+	{{- range $index, $attr := (importAttributes .)}}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
 	{{- if $attr.Id}}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
 	{{- end}}
-	{{- end}}
-	{{- end}}
-	{{- if not (hasId .Attributes)}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{subtract (importParts .) 1}}])...)
 	{{- end}}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

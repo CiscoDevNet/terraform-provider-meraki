@@ -164,16 +164,11 @@ func meraki{{camelCase .Name}}ImportStateIdFunc(resourceName string) resource.Im
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 
-		{{- range .Attributes}}
-		{{- if or .Reference .Id}}
+		{{- range (importAttributes .)}}
 		{{toGoName .TfName}} := primary.Attributes["{{.TfName}}"]
 		{{- end}}
-		{{- end}}
-		{{- if not (hasId .Attributes)}}
-		id := primary.Attributes["id"]
-		{{- end}}
 
-		return fmt.Sprintf("{{range $i := (iterate (importParts .))}}{{if $i}},{{end}}%s{{end}}", {{$idRef := false}}{{range $i, $e := .Attributes}}{{if or .Reference .Id}}{{$idRef = true}}{{if $i}},{{end}}{{toGoName .TfName}}{{end}}{{end}}{{if not (hasId .Attributes)}}{{if $idRef}},{{end}}id{{end}}), nil
+		return fmt.Sprintf("{{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}%s{{end}}", {{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}{{toGoName .TfName}}{{end}}), nil
 	}
 }
 

@@ -75,9 +75,9 @@ func merakiSwitchStackRoutingStaticRouteImportStateIdFunc(resourceName string) r
 		primary := s.RootModule().Resources[resourceName].Primary
 		NetworkId := primary.Attributes["network_id"]
 		SwitchStackId := primary.Attributes["switch_stack_id"]
-		id := primary.Attributes["id"]
+		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s,%s", NetworkId, SwitchStackId, id), nil
+		return fmt.Sprintf("%s,%s,%s", NetworkId, SwitchStackId, Id), nil
 	}
 }
 

@@ -84,6 +84,7 @@ func TestAccMerakiNetworkGroupPolicy(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "scheduling_wednesday_to", "17:00"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "vlan_tagging_settings", "custom"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "vlan_tagging_vlan_id", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_group_policy.test", "force_delete", "true"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -122,9 +123,10 @@ func merakiNetworkGroupPolicyImportStateIdFunc(resourceName string) resource.Imp
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		NetworkId := primary.Attributes["network_id"]
-		id := primary.Attributes["id"]
+		ForceDelete := primary.Attributes["force_delete"]
+		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", NetworkId, id), nil
+		return fmt.Sprintf("%s,%s,%s", NetworkId, ForceDelete, Id), nil
 	}
 }
 
@@ -225,6 +227,7 @@ func testAccMerakiNetworkGroupPolicyConfig_all() string {
 	config += `  scheduling_wednesday_to = "17:00"` + "\n"
 	config += `  vlan_tagging_settings = "custom"` + "\n"
 	config += `  vlan_tagging_vlan_id = "1"` + "\n"
+	config += `  force_delete = true` + "\n"
 	config += `}` + "\n"
 	return config
 }

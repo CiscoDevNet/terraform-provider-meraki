@@ -70,4 +70,5 @@ resource "meraki_network_group_policy" "example" {
   scheduling_wednesday_to     = "17:00"
   vlan_tagging_settings       = "custom"
   vlan_tagging_vlan_id        = "1"
+  force_delete                = true
 }

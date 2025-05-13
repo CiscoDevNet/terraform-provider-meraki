@@ -85,6 +85,7 @@ resource "meraki_network_group_policy" "example" {
   scheduling_wednesday_to     = "17:00"
   vlan_tagging_settings       = "custom"
   vlan_tagging_vlan_id        = "1"
+  force_delete                = true
 }
 ```
 
@@ -222,5 +223,5 @@ Required:
 Import is supported using the following syntax:
 
 ```shell
-terraform import meraki_network_group_policy.example "<network_id>,<id>"
+terraform import meraki_network_group_policy.example "<network_id>,<force_delete>,<id>"
 ```

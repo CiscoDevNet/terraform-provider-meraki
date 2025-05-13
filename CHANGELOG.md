@@ -1,6 +1,7 @@
-## 1.1.1 (unreleaesd)
+## 1.2.0 (unreleaesd)
 
 - Handle HTTP error code `400` correctly when trying to read non-existent resources
+- Make `force_delete` attribute of `meraki_network_group_policy` resource "importable"
 
 ## 1.1.0
 

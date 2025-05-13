@@ -1,1 +1,1 @@
-terraform import meraki_{{snakeCase .Name}}.example "{{$idRef := false}}{{range $i, $e := .Attributes}}{{if or .Reference .Id}}{{$idRef = true}}{{if $i}},{{end}}<{{.TfName}}>{{end}}{{end}}{{if not (hasId .Attributes)}}{{if $idRef}},{{end}}<id>{{end}}"
+terraform import meraki_{{snakeCase .Name}}.example "{{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}"

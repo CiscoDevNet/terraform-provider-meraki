@@ -75,9 +75,9 @@ func merakiNetworkWebhookHTTPServerImportStateIdFunc(resourceName string) resour
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		NetworkId := primary.Attributes["network_id"]
-		id := primary.Attributes["id"]
+		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", NetworkId, id), nil
+		return fmt.Sprintf("%s,%s", NetworkId, Id), nil
 	}
 }
 

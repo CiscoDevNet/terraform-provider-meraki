@@ -329,21 +329,23 @@ func IsNestedMap(attribute YamlConfigAttribute) bool {
 	return false
 }
 
-// Templating helper function to return number of import parts
-func ImportParts(config YamlConfig) int {
-	parts := 0
+// Templating helper function to return all import attributes
+func ImportAttributes(config YamlConfig) []YamlConfigAttribute {
+	attributes := []YamlConfigAttribute{}
 	for _, attr := range config.Attributes {
 		if attr.Reference {
-			parts += 1
+			attributes = append(attributes, attr)
 		} else if attr.Id {
-			parts += 1
+			attributes = append(attributes, attr)
+		} else if attr.ModelName == "" {
+			attributes = append(attributes, attr)
 		}
 	}
 	if !HasId(config.Attributes) {
-		parts += 1
+		attributes = append(attributes, YamlConfigAttribute{TfName: "id"})
 	}
 
-	return parts
+	return attributes
 }
 
 // Templating helper function to subtract one number from another
@@ -454,7 +456,7 @@ var Functions = template.FuncMap{
 	"isNestedList":          IsNestedList,
 	"isNestedSet":           IsNestedSet,
 	"isNestedMap":           IsNestedMap,
-	"importParts":           ImportParts,
+	"importAttributes":      ImportAttributes,
 	"subtract":              Subtract,
 	"iterate":               Iterate,
 	"getImportExcludes":     GetImportExcludes,

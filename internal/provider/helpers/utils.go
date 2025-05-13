@@ -88,3 +88,10 @@ func ToLower(s basetypes.StringValue) basetypes.StringValue {
 
 	return types.StringValue(strings.ToLower(s.ValueString()))
 }
+
+func Must[T any](obj T, err error) T {
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}

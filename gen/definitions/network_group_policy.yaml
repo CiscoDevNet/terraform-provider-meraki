@@ -346,7 +346,6 @@ attributes:
     example: "1"
   - tf_name: force_delete
     type: Bool
-    exclude_test: true
     description: If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.
     example: "true"
 test_prerequisites: |

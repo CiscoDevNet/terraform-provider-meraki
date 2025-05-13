@@ -75,9 +75,9 @@ func merakiWirelessSSIDIdentityPSKImportStateIdFunc(resourceName string) resourc
 		primary := s.RootModule().Resources[resourceName].Primary
 		NetworkId := primary.Attributes["network_id"]
 		Number := primary.Attributes["number"]
-		id := primary.Attributes["id"]
+		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s,%s", NetworkId, Number, id), nil
+		return fmt.Sprintf("%s,%s,%s", NetworkId, Number, Id), nil
 	}
 }
 
