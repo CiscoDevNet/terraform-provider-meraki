@@ -43,7 +43,7 @@ func TestAccDataSourceMeraki{{camelCase .Name}}(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	{{- $name := .Name }}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) .ModelName}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (or .ModelName .Reference)}}
 	{{- if isNestedListSetMap .}}
 	{{- $parent0 := .}}
 	{{- if len .TestTags}}
