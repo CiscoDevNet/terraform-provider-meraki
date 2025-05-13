@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 1.1.1 (unreleaesd)
+
+- Handle HTTP error code `400` correctly when trying to read non-existent resources
+
 ## 1.1.0
 
 - Add `meraki_network_alerts_settings` resource and data source

@@ -146,7 +146,7 @@ func (r *OrganizationEarlyAccessFeaturesOptInResource) Read(ctx context.Context,
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
-	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

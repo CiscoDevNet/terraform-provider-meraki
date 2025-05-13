@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -98,10 +97,7 @@ func (d *WirelessAirMarshalSettingsDataSource) Read(ctx context.Context, req dat
 
 	networkPath := fmt.Sprintf("/networks/%v", config.NetworkId.ValueString())
 	res, err := d.client.Get(networkPath)
-	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
-		resp.State.RemoveResource(ctx)
-		return
-	} else if err != nil {
+	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, res.String()))
 		return
 	}
@@ -109,10 +105,7 @@ func (d *WirelessAirMarshalSettingsDataSource) Read(ctx context.Context, req dat
 
 	settingsPath := fmt.Sprintf("/organizations/%v/wireless/airMarshal/settings/byNetwork?networkIds[]=%v", orgId, config.NetworkId.ValueString())
 	res, err = d.client.Get(settingsPath)
-	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
-		resp.State.RemoveResource(ctx)
-		return
-	} else if err != nil {
+	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve rules (GET), got error: %s, %s", err, res.String()))
 		return
 	}

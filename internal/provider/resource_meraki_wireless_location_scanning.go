@@ -144,7 +144,7 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 
 	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
 	res, err := r.client.Get(networkPath)
-	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -155,7 +155,7 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 
 	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
 	res, err = r.client.Get(getPath)
-	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

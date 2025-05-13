@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -103,10 +102,7 @@ func (d *WirelessLocationScanningDataSource) Read(ctx context.Context, req datas
 
 	networkPath := fmt.Sprintf("/networks/%v", config.NetworkId.ValueString())
 	res, err := d.client.Get(networkPath)
-	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
-		resp.State.RemoveResource(ctx)
-		return
-	} else if err != nil {
+	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, res.String()))
 		return
 	}
@@ -114,10 +110,7 @@ func (d *WirelessLocationScanningDataSource) Read(ctx context.Context, req datas
 
 	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
 	res, err = d.client.Get(getPath)
-	if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
-		resp.State.RemoveResource(ctx)
-		return
-	} else if err != nil {
+	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve wireless location scanning (GET), got error: %s, %s", err, res.String()))
 		return
 	}
