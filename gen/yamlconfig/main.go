@@ -22,6 +22,7 @@ type YamlConfig struct {
 	NoDataSource        bool                  `yaml:"no_data_source,omitempty"`
 	NoResource          bool                  `yaml:"no_resource,omitempty"`
 	BulkDataSource      bool                  `yaml:"bulk_data_source,omitempty"`
+	BulkResource        bool                  `yaml:"bulk_resource,omitempty"`
 	PutCreate           bool                  `yaml:"put_create,omitempty"`
 	GetFromAll          bool                  `yaml:"get_from_all,omitempty"`
 	NoUpdate            bool                  `yaml:"no_update,omitempty"`
@@ -54,6 +55,7 @@ type YamlConfigP struct {
 	NoDataSource        *bool                   `yaml:"no_data_source,omitempty"`
 	NoResource          *bool                   `yaml:"no_resource,omitempty"`
 	BulkDataSource      *bool                   `yaml:"bulk_data_source,omitempty"`
+	BulkResource        *bool                   `yaml:"bulk_resource,omitempty"`
 	PutCreate           *bool                   `yaml:"put_create,omitempty"`
 	GetFromAll          *bool                   `yaml:"get_from_all,omitempty"`
 	NoUpdate            *bool                   `yaml:"no_update,omitempty"`
@@ -592,6 +594,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.BulkDataSource != nil {
 		new.BulkDataSource = existing.BulkDataSource
+	}
+	if existing.BulkResource != nil {
+		new.BulkResource = existing.BulkResource
 	}
 	if existing.PutCreate != nil {
 		new.PutCreate = existing.PutCreate

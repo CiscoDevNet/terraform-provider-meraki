@@ -27,6 +27,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
+	"github.com/tidwall/sjson"
 )
 
 // End of section. //template:end imports
@@ -34,8 +35,10 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type SwitchPorts struct {
-	Serial types.String       `tfsdk:"serial"`
-	Items  []SwitchPortsItems `tfsdk:"items"`
+	Id             types.String       `tfsdk:"id"`
+	OrganizationId types.String       `tfsdk:"organization_id"`
+	Serial         types.String       `tfsdk:"serial"`
+	Items          []SwitchPortsItems `tfsdk:"items"`
 }
 
 type SwitchPortsItems struct {
@@ -89,6 +92,144 @@ func (data SwitchPorts) getPath() string {
 }
 
 // End of section. //template:end getPath
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBody
+
+func (data SwitchPorts) toBody(ctx context.Context, state SwitchPorts, id string) string {
+	var item SwitchPortsItems
+	for i := range data.Items {
+		if data.Items[i].Id.ValueString() == id {
+			item = data.Items[i]
+			break
+		}
+	}
+	body := ""
+	if !item.AccessPolicyNumber.IsNull() {
+		body, _ = sjson.Set(body, "accessPolicyNumber", item.AccessPolicyNumber.ValueInt64())
+	}
+	if !item.AccessPolicyType.IsNull() {
+		body, _ = sjson.Set(body, "accessPolicyType", item.AccessPolicyType.ValueString())
+	}
+	if !item.AllowedVlans.IsNull() {
+		body, _ = sjson.Set(body, "allowedVlans", item.AllowedVlans.ValueString())
+	}
+	if !item.DaiTrusted.IsNull() {
+		body, _ = sjson.Set(body, "daiTrusted", item.DaiTrusted.ValueBool())
+	}
+	if !item.Enabled.IsNull() {
+		body, _ = sjson.Set(body, "enabled", item.Enabled.ValueBool())
+	}
+	if !item.FlexibleStackingEnabled.IsNull() {
+		body, _ = sjson.Set(body, "flexibleStackingEnabled", item.FlexibleStackingEnabled.ValueBool())
+	}
+	if !item.IsolationEnabled.IsNull() {
+		body, _ = sjson.Set(body, "isolationEnabled", item.IsolationEnabled.ValueBool())
+	}
+	if !item.LinkNegotiation.IsNull() {
+		body, _ = sjson.Set(body, "linkNegotiation", item.LinkNegotiation.ValueString())
+	}
+	if !item.MacWhitelistLimit.IsNull() {
+		body, _ = sjson.Set(body, "macWhitelistLimit", item.MacWhitelistLimit.ValueInt64())
+	}
+	if !item.Name.IsNull() {
+		body, _ = sjson.Set(body, "name", item.Name.ValueString())
+	}
+	if !item.PeerSgtCapable.IsNull() {
+		body, _ = sjson.Set(body, "peerSgtCapable", item.PeerSgtCapable.ValueBool())
+	}
+	if !item.PoeEnabled.IsNull() {
+		body, _ = sjson.Set(body, "poeEnabled", item.PoeEnabled.ValueBool())
+	}
+	if !item.PortId.IsNull() {
+		body, _ = sjson.Set(body, "portId", item.PortId.ValueString())
+	}
+	if !item.PortScheduleId.IsNull() {
+		body, _ = sjson.Set(body, "portScheduleId", item.PortScheduleId.ValueString())
+	}
+	if !item.RstpEnabled.IsNull() {
+		body, _ = sjson.Set(body, "rstpEnabled", item.RstpEnabled.ValueBool())
+	}
+	if !item.StickyMacAllowListLimit.IsNull() {
+		body, _ = sjson.Set(body, "stickyMacAllowListLimit", item.StickyMacAllowListLimit.ValueInt64())
+	}
+	if !item.StormControlEnabled.IsNull() {
+		body, _ = sjson.Set(body, "stormControlEnabled", item.StormControlEnabled.ValueBool())
+	}
+	if !item.StpGuard.IsNull() {
+		body, _ = sjson.Set(body, "stpGuard", item.StpGuard.ValueString())
+	}
+	if !item.Type.IsNull() {
+		body, _ = sjson.Set(body, "type", item.Type.ValueString())
+	}
+	if !item.Udld.IsNull() {
+		body, _ = sjson.Set(body, "udld", item.Udld.ValueString())
+	}
+	if !item.Vlan.IsNull() {
+		body, _ = sjson.Set(body, "vlan", item.Vlan.ValueInt64())
+	}
+	if !item.VoiceVlan.IsNull() {
+		body, _ = sjson.Set(body, "voiceVlan", item.VoiceVlan.ValueInt64())
+	}
+	if !item.AdaptivePolicyGroupId.IsNull() {
+		body, _ = sjson.Set(body, "adaptivePolicyGroup.id", item.AdaptivePolicyGroupId.ValueString())
+	}
+	if !item.AdaptivePolicyGroupName.IsNull() {
+		body, _ = sjson.Set(body, "adaptivePolicyGroup.name", item.AdaptivePolicyGroupName.ValueString())
+	}
+	if !item.Dot3azEnabled.IsNull() {
+		body, _ = sjson.Set(body, "dot3az.enabled", item.Dot3azEnabled.ValueBool())
+	}
+	if !item.MirrorMode.IsNull() {
+		body, _ = sjson.Set(body, "mirror.mode", item.MirrorMode.ValueString())
+	}
+	if !item.ModuleModel.IsNull() {
+		body, _ = sjson.Set(body, "module.model", item.ModuleModel.ValueString())
+	}
+	if !item.ProfileEnabled.IsNull() {
+		body, _ = sjson.Set(body, "profile.enabled", item.ProfileEnabled.ValueBool())
+	}
+	if !item.ProfileId.IsNull() {
+		body, _ = sjson.Set(body, "profile.id", item.ProfileId.ValueString())
+	}
+	if !item.ProfileIname.IsNull() {
+		body, _ = sjson.Set(body, "profile.iname", item.ProfileIname.ValueString())
+	}
+	if !item.ScheduleId.IsNull() {
+		body, _ = sjson.Set(body, "schedule.id", item.ScheduleId.ValueString())
+	}
+	if !item.ScheduleName.IsNull() {
+		body, _ = sjson.Set(body, "schedule.name", item.ScheduleName.ValueString())
+	}
+	if !item.StackwiseVirtualIsDualActiveDetector.IsNull() {
+		body, _ = sjson.Set(body, "stackwiseVirtual.isDualActiveDetector", item.StackwiseVirtualIsDualActiveDetector.ValueBool())
+	}
+	if !item.StackwiseVirtualIsStackWiseVirtualLink.IsNull() {
+		body, _ = sjson.Set(body, "stackwiseVirtual.isStackWiseVirtualLink", item.StackwiseVirtualIsStackWiseVirtualLink.ValueBool())
+	}
+	if !item.LinkNegotiationCapabilities.IsNull() {
+		var values []string
+		item.LinkNegotiationCapabilities.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "linkNegotiationCapabilities", values)
+	}
+	if !item.MacAllowList.IsNull() {
+		var values []string
+		item.MacAllowList.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "macAllowList", values)
+	}
+	if !item.StickyMacAllowList.IsNull() {
+		var values []string
+		item.StickyMacAllowList.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "stickyMacAllowList", values)
+	}
+	if !item.Tags.IsNull() {
+		var values []string
+		item.Tags.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "tags", values)
+	}
+	return body
+}
+
+// End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 

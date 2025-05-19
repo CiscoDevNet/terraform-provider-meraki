@@ -5,13 +5,20 @@ rest_endpoint: /devices/%v/switch/ports
 no_data_source: true
 no_resource: true
 bulk_data_source: true
+bulk_resource: true
 no_update: true
 no_delete: true
+no_import: true
 data_source_name_query: true
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial]
 ignore_attributes: [adaptivePolicyGroupId]
 attributes:
+  - tf_name: organization_id
+    type: String
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
   - tf_name: serial
     type: String
     id: true

@@ -2,6 +2,8 @@ module github.com/CiscoDevNet/terraform-provider-meraki
 
 go 1.23.6
 
+replace github.com/netascode/go-meraki => /Users/danischm/Documents/Code/go-meraki
+
 require (
 	github.com/hashicorp/terraform-plugin-docs v0.21.0
 	github.com/hashicorp/terraform-plugin-framework v1.14.1

@@ -37,8 +37,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type {{camelCase .BulkName}} struct {
+	Id types.String `tfsdk:"id"`
 {{- range .Attributes}}
-{{- if .Reference}}
+{{- if or .Reference (not .ModelName)}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
 {{- end}}
@@ -48,7 +49,7 @@ type {{camelCase .BulkName}} struct {
 type {{camelCase .BulkName}}Items struct {
 	Id types.String `tfsdk:"id"`
 {{- range .Attributes}}
-{{- if and (not .Reference) (not .Value)}}
+{{- if and (not .Reference) (not .Value) .ModelName}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}
@@ -145,6 +146,147 @@ func (data {{camelCase .BulkName}}) getPath() string {
 }
 
 // End of section. //template:end getPath
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBody
+
+{{if .BulkResource}}
+func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .BulkName}}, id string) string {
+	var item {{camelCase .BulkName}}Items
+	for i := range data.Items {
+		if data.Items[i].Id.ValueString() == id {
+			item = data.Items[i]
+			break
+		}
+	}
+	body := ""
+	{{- range .Attributes}}
+	{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+	{{- if .Value}}
+	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+	{{- else if not .Reference}}
+	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+	if !item.{{toGoName .TfName}}.IsNull() {{if .WriteChangesOnly}}&& item.{{toGoName .TfName}} != state.{{toGoName .TfName}}{{end}} {
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", item.{{toGoName .TfName}}.Value{{.Type}}())
+	}
+	{{- else if isListSet .}}
+	if !item.{{toGoName .TfName}}.IsNull() {
+		var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
+		item.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", values)
+	}
+	{{- else if isNestedListSetMap .}}
+	{{if not .Mandatory}}if len(item.{{toGoName .TfName}}) > 0 {{end}}{
+		{{- if isNestedMap .}}
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", map[string]interface{}{})
+		for key, item := range item.{{toGoName .TfName}} {
+		{{- else}}
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", []interface{}{})
+		for _, item := range item.{{toGoName .TfName}} {
+		{{- end}}
+			itemBody := ""
+			{{- range .Attributes}}
+			{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+			{{- if .Value}}
+			itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+			{{- else if not .Reference}}
+			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+			if !item.{{toGoName .TfName}}.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", item.{{toGoName .TfName}}.Value{{.Type}}())
+			}
+			{{- else if isListSet .}}
+			if !item.{{toGoName .TfName}}.IsNull() {
+				var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
+				item.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", values)
+			}
+			{{- else if isNestedListSetMap .}}
+			{{if not .Mandatory}}if len(item.{{toGoName .TfName}}) > 0 {{end}}{
+				{{- if isNestedMap .}}
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", map[string]interface{}{})
+				for key, childItem := range item.{{toGoName .TfName}} {
+				{{- else}}
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", []interface{}{})
+				for _, childItem := range item.{{toGoName .TfName}} {
+				{{- end}}
+					itemChildBody := ""
+					{{- range .Attributes}}
+					{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+					{{- if .Value}}
+					itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+					{{- else if not .Reference}}
+					{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+					if !childItem.{{toGoName .TfName}}.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", childItem.{{toGoName .TfName}}.Value{{.Type}}())
+					}
+					{{- else if isListSet .}}
+					if !childItem.{{toGoName .TfName}}.IsNull() {
+						var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
+						childItem.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", values)
+					}
+					{{- else if isNestedListSetMap .}}
+					{{if not .Mandatory}}if len(childItem.{{toGoName .TfName}}) > 0 {{end}}{
+						{{- if isNestedMap .}}
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", map[string]interface{}{})
+						for key, childChildItem := range childItem.{{toGoName .TfName}} {
+						{{- else}}
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", []interface{}{})
+						for _, childChildItem := range childItem.{{toGoName .TfName}} {
+						{{- end}}
+							itemChildChildBody := ""
+							{{- range .Attributes}}
+							{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+							{{- if .Value}}
+							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+							{{- else if not .Reference}}
+							{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+							if !childChildItem.{{toGoName .TfName}}.IsNull() {
+								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", childChildItem.{{toGoName .TfName}}.Value{{.Type}}())
+							}
+							{{- else if isListSet .}}
+							if !childChildItem.{{toGoName .TfName}}.IsNull() {
+								var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
+								childChildItem.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
+								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", values)
+							}
+							{{- end}}
+							{{- end}}
+							{{- end}}
+							{{- if isNestedMap .}}
+							itemChildBody, _ = sjson.SetRaw(itemChildBody, "{{getFullModelName . true}}."+key, itemChildChildBody)
+							{{- else}}
+							itemChildBody, _ = sjson.SetRaw(itemChildBody, "{{getFullModelName . true}}.-1", itemChildChildBody)
+							{{- end}}
+						}
+					}
+					{{- end}}
+					{{- end}}
+					{{- end}}
+					{{- if isNestedMap .}}
+					itemBody, _ = sjson.SetRaw(itemBody, "{{getFullModelName . true}}."+key, itemChildBody)
+					{{- else}}
+					itemBody, _ = sjson.SetRaw(itemBody, "{{getFullModelName . true}}.-1", itemChildBody)
+					{{- end}}
+				}
+			}
+			{{- end}}
+			{{- end}}
+			{{- end}}
+			{{- if isNestedMap .}}
+			body, _ = sjson.SetRaw(body, "{{getFullModelName . true}}."+key, itemBody)
+			{{- else}}
+			body, _ = sjson.SetRaw(body, "{{getFullModelName . true}}.-1", itemBody)
+			{{- end}}
+		}
+	}
+	{{- end}}
+	{{- end}}
+	{{- end}}
+	return body
+}
+{{end}}
+
+// End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 

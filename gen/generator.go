@@ -112,6 +112,21 @@ var templates = []t{
 		prefix: "./examples/data-sources/meraki_",
 		suffix: "/data-source.tf",
 	},
+	{
+		path:   "./gen/templates/bulk/resource.go",
+		prefix: "./internal/provider/resource_meraki_",
+		suffix: ".go",
+	},
+	// {
+	// 	path:   "./gen/templates/bulk/resource_test.go",
+	// 	prefix: "./internal/provider/resource_meraki_",
+	// 	suffix: "_test.go",
+	// },
+	{
+		path:   "./gen/templates/bulk/resource.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/resource.tf",
+	},
 }
 
 func getTemplateSection(content, name string) string {
@@ -282,7 +297,10 @@ func main() {
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
-				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") {
+				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") ||
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.go") ||
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource_test.go") ||
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.tf") {
 				continue
 			}
 			if strings.Contains(t.path, "/bulk/") {

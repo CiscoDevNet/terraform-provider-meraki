@@ -52,6 +52,7 @@ Read-Only:
 - `mirror_mode` (String) The port mirror mode. Can be one of (`Destination port`, `Source port` or `Not mirroring traffic`).
 - `module_model` (String) The model of the expansion module.
 - `name` (String) The name of the switch port.
+- `organization_id` (String) Organization ID
 - `peer_sgt_capable` (Boolean) If true, Peer SGT is enabled for traffic through this switch port. Applicable to trunk port only, not access port. Cannot be applied to a port on a switch bound to profile.
 - `poe_enabled` (Boolean) The PoE status of the switch port.
 - `port_id` (String) The identifier of the switch port.
