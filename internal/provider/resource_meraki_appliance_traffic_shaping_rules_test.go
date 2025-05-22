@@ -63,6 +63,9 @@ func TestAccMerakiApplianceTrafficShapingRules(t *testing.T) {
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceTrafficShapingRulesPrerequisitesConfig + testAccApplianceTrafficShapingRulesConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -139,5 +142,49 @@ func testAccMerakiApplianceTrafficShapingRulesConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccApplianceTrafficShapingRulesConfigAdditional0 = `
+resource "meraki_appliance_traffic_shaping_rules" "test" {
+  network_id = meraki_network.test.id
+  rules = [
+    {
+      definitions = [
+        {
+          type  = "application"
+          value = "meraki:layer7/application/171"
+        },
+        {
+          type  = "host"
+          value = "google.com"
+        },
+        {
+          type  = "port"
+          value = "9091"
+        },
+        {
+          type  = "applicationCategory"
+          value = "meraki:layer7/category/27"
+        },
+        {
+          type  = "application"
+          value = "meraki:layer7/application/133"
+        },
+        {
+          type  = "ipRange"
+          value = "192.168.0.3/16:80"
+        },
+        {
+          type  = "localNet"
+          value = "192.168.2.4/16"
+        },
+        {
+          type  = "host"
+          value = "test.com"
+        }
+      ]
+    }
+  ]
+}
+`
 
 // End of section. //template:end testAccConfigAdditional
