@@ -190,7 +190,7 @@ func (d *NetworkGroupPolicyDataSource) Schema(ctx context.Context, req datasourc
 							Computed:            true,
 						},
 						"value": schema.StringAttribute{
-							MarkdownDescription: "The `value` of what you want to block. If `type` is `host`, `port` or `ipRange`, `value` must be a string matching either a hostname (e.g. somewhere.com), a port (e.g. 8080), or an IP range (e.g. 192.1.0.0/16). If `type` is `application` or `applicationCategory`, then `value` must be an object with an ID for the application.",
+							MarkdownDescription: "The `value` of what you want to block. If `type` is `host`, `port` or `ipRange`, `value` must be a string matching either a hostname (e.g. somewhere.com), a port (e.g. 8080), or an IP range (e.g. 192.1.0.0/16). If `type` is `application` or `applicationCategory`, then `value` must be an ID for the application.",
 							Computed:            true,
 						},
 					},

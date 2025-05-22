@@ -107,6 +107,9 @@ func TestAccMerakiNetworkGroupPolicy(t *testing.T) {
 	steps = append(steps, resource.TestStep{
 		Config: testAccMerakiNetworkGroupPolicyPrerequisitesConfig + testAccNetworkGroupPolicyConfigAdditional0,
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiNetworkGroupPolicyPrerequisitesConfig + testAccNetworkGroupPolicyConfigAdditional1,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -241,6 +244,40 @@ resource "meraki_network_group_policy" "test" {
   network_id   = meraki_network.test.id
   name         = "No video streaming"
   force_delete = true
+}
+`
+
+const testAccNetworkGroupPolicyConfigAdditional1 = `
+resource "meraki_network_group_policy" "test" {
+  network_id   = meraki_network.test.id
+  name         = "No video streaming"
+  l7_firewall_rules = [
+    {
+      policy = "deny"
+      type   = "host"
+      value  = "google.com"
+    },
+    {
+      policy = "deny"
+      type   = "port"
+      value  = "9091"
+    },
+    {
+      policy = "deny"
+      type   = "ipRange"
+      value  = "192.168.0.3/16:80"
+    },
+    {
+      policy = "deny"
+      type   = "application"
+      value  = "meraki:layer7/application/171"
+    },
+    {
+      policy = "deny"
+      type   = "applicationCategory"
+      value  = "meraki:layer7/category/17"
+    }
+  ]
 }
 `
 

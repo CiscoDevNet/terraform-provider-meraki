@@ -127,9 +127,6 @@ func (data NetworkGroupPolicy) getPath() string {
 }
 
 // End of section. //template:end getPath
-
-// Section below is generated&owned by "gen/generator.go". //template:begin toBody
-
 func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPolicy) string {
 	body := ""
 	if !data.Name.IsNull() {
@@ -227,8 +224,14 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 			if !item.Type.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "type", item.Type.ValueString())
 			}
+			var valuePath string
+			if item.Type.ValueString() == "application" || item.Type.ValueString() == "applicationCategory" {
+				valuePath = "value.id"
+			} else {
+				valuePath = "value"
+			}
 			if !item.Value.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "value", item.Value.ValueString())
+				itemBody, _ = sjson.Set(itemBody, valuePath, item.Value.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "firewallAndTrafficShaping.l7FirewallRules.-1", itemBody)
 		}
@@ -345,10 +348,6 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 	}
 	return body
 }
-
-// End of section. //template:end toBody
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("name"); value.Exists() && value.Value() != nil {
@@ -489,7 +488,13 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res meraki.Res) {
 			} else {
 				data.Type = types.StringNull()
 			}
-			if value := res.Get("value"); value.Exists() && value.Value() != nil {
+			var valuePath string
+			if data.Type.ValueString() == "application" || data.Type.ValueString() == "applicationCategory" {
+				valuePath = "value.id"
+			} else {
+				valuePath = "value"
+			}
+			if value := res.Get(valuePath); value.Exists() && value.Value() != nil {
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()
@@ -672,10 +677,6 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res meraki.Res) {
 		data.VlanTaggingVlanId = types.StringNull()
 	}
 }
-
-// End of section. //template:end fromBody
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
 
 // fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
@@ -861,7 +862,13 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res meraki.
 		} else {
 			data.Type = types.StringNull()
 		}
-		if value := res.Get("value"); value.Exists() && !data.Value.IsNull() {
+		var valuePath string
+		if data.Type.ValueString() == "application" || data.Type.ValueString() == "applicationCategory" {
+			valuePath = "value.id"
+		} else {
+			valuePath = "value"
+		}
+		if value := res.Get(valuePath); value.Exists() && !data.Value.IsNull() {
 			data.Value = types.StringValue(value.String())
 		} else {
 			data.Value = types.StringNull()
@@ -1076,8 +1083,6 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res meraki.
 		data.VlanTaggingVlanId = types.StringNull()
 	}
 }
-
-// End of section. //template:end fromBodyPartial
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
 
