@@ -265,8 +265,14 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 					if !childItem.Type.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "type", childItem.Type.ValueString())
 					}
+					var valuePath string
+					if childItem.Type.ValueString() == "application" || childItem.Type.ValueString() == "applicationCategory" {
+						valuePath = "value.id"
+					} else {
+						valuePath = "value"
+					}
 					if !childItem.Value.IsNull() {
-						itemChildBody, _ = sjson.Set(itemChildBody, "value", childItem.Value.ValueString())
+						itemChildBody, _ = sjson.Set(itemChildBody, valuePath, childItem.Value.ValueString())
 					}
 					itemBody, _ = sjson.SetRaw(itemBody, "definitions.-1", itemChildBody)
 				}
@@ -543,7 +549,13 @@ func (data *NetworkGroupPolicy) fromBody(ctx context.Context, res meraki.Res) {
 					} else {
 						data.Type = types.StringNull()
 					}
-					if value := res.Get("value"); value.Exists() && value.Value() != nil {
+					var valuePath string
+					if data.Type.ValueString() == "application" || data.Type.ValueString() == "applicationCategory" {
+						valuePath = "value.id"
+					} else {
+						valuePath = "value"
+					}
+					if value := res.Get(valuePath); value.Exists() && value.Value() != nil {
 						data.Value = types.StringValue(value.String())
 					} else {
 						data.Value = types.StringNull()
@@ -924,8 +936,13 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res meraki.
 			parentRes.Get("definitions").ForEach(
 				func(_, v gjson.Result) bool {
 					found := false
-					for ik := range keys {
-						if v.Get(keys[ik]).String() != keyValues[ik] {
+					tKeys := make([]string, len(keys))
+					_ = copy(tKeys, keys[:])
+					if v.Get("type").String() == "application" || v.Get("type").String() == "applicationCategory" {
+						tKeys[1] = "value.id"
+					}
+					for ik := range tKeys {
+						if v.Get(tKeys[ik]).String() != keyValues[ik] {
 							found = false
 							break
 						}
@@ -953,7 +970,13 @@ func (data *NetworkGroupPolicy) fromBodyPartial(ctx context.Context, res meraki.
 			} else {
 				data.Type = types.StringNull()
 			}
-			if value := res.Get("value"); value.Exists() && !data.Value.IsNull() {
+			var valuePath string
+			if data.Type.ValueString() == "application" || data.Type.ValueString() == "applicationCategory" {
+				valuePath = "value.id"
+			} else {
+				valuePath = "value"
+			}
+			if value := res.Get(valuePath); value.Exists() && !data.Value.IsNull() {
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()
