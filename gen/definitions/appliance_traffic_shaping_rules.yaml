@@ -65,7 +65,7 @@ attributes:
             type: String
             id: true
             mandatory: true
-            description: 'If ''type'' is `host`, `port`, `ipRange` or `localNet`, then ''value'' must be a string, matching either a hostname (e.g. ''somesite.com''), a port (e.g. 8080), or an IP range (''192.1.0.0'', ''192.1.0.0/16'', or ''10.1.0.0/16:80''). `localNet` also supports CIDR notation, excluding custom ports. If ''type'' is `application` or `applicationCategory`, then ''value'' must be an object with the structure { ''id'': ''meraki:layer7/...'' }, where ''id'' is the application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).'
+            description: If 'type' is `host`, `port`, `ipRange` or `localNet`, then 'value' must be a string, matching either a hostname (e.g. 'somesite.com'), a port (e.g. 8080), or an IP range ('192.1.0.0', '192.1.0.0/16', or '10.1.0.0/16:80'). `localNet` also supports CIDR notation, excluding custom ports. If 'type' is `application` or `applicationCategory`, then 'value' must be an application category or application ID (for a list of IDs for your network, use the trafficShaping/applicationCategories endpoint).
             example: google.com
 test_prerequisites: |
   data "meraki_organization" "test" {
@@ -76,3 +76,46 @@ test_prerequisites: |
     name            = var.test_network
     product_types   = ["switch", "wireless", "appliance"]
   }
+additional_tests:
+  - |-
+    resource "meraki_appliance_traffic_shaping_rules" "test" {
+      network_id = meraki_network.test.id
+      rules = [
+        {
+          definitions = [
+            {
+              type  = "application"
+              value = "meraki:layer7/application/171"
+            },
+            {
+              type  = "host"
+              value = "google.com"
+            },
+            {
+              type  = "port"
+              value = "9091"
+            },
+            {
+              type  = "applicationCategory"
+              value = "meraki:layer7/category/27"
+            },
+            {
+              type  = "application"
+              value = "meraki:layer7/application/133"
+            },
+            {
+              type  = "ipRange"
+              value = "192.168.0.3/16:80"
+            },
+            {
+              type  = "localNet"
+              value = "192.168.2.4/16"
+            },
+            {
+              type  = "host"
+              value = "test.com"
+            }
+          ]
+        }
+      ]
+    }

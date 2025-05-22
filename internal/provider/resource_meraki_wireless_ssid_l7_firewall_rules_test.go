@@ -53,6 +53,9 @@ func TestAccMerakiWirelessSSIDL7FirewallRules(t *testing.T) {
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiWirelessSSIDL7FirewallRulesPrerequisitesConfig + testAccWirelessSSIDL7FirewallRulesConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -130,5 +133,39 @@ func testAccMerakiWirelessSSIDL7FirewallRulesConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccWirelessSSIDL7FirewallRulesConfigAdditional0 = `
+resource "meraki_wireless_ssid_l7_firewall_rules" "test" {
+  network_id = meraki_network.test.id
+  number     = meraki_wireless_ssid.test.id
+  rules = [
+    {
+      policy = "deny"
+      type   = "host"
+      value  = "google.com"
+    },
+    {
+      policy = "deny"
+      type   = "port"
+      value  = "9091"
+    },
+    {
+      policy = "deny"
+      type   = "ipRange"
+      value  = "192.168.0.3/16:80"
+    },
+    {
+      policy = "deny"
+      type   = "application"
+      value  = "meraki:layer7/application/171"
+    },
+    {
+      policy = "deny"
+      type   = "applicationCategory"
+      value  = "meraki:layer7/category/17"
+    }
+  ]
+}
+`
 
 // End of section. //template:end testAccConfigAdditional
