@@ -21,6 +21,7 @@ attributes:
     mandatory: true
     description: policies with respective traffic filters for an MX network
     ordered_list: true
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: failOverCriterion
         type: String
