@@ -464,6 +464,7 @@ func (data *ApplianceSDWANInternetPolicies) fromBodyUnknowns(ctx context.Context
 
 func (data ApplianceSDWANInternetPolicies) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "wanTrafficUplinkPreferences", []interface{}{})
 	return body
 }
 

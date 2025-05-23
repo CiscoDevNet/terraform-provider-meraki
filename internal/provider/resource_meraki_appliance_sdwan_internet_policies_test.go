@@ -63,6 +63,9 @@ func TestAccMerakiApplianceSDWANInternetPolicies(t *testing.T) {
 		Config: testAccMerakiApplianceSDWANInternetPoliciesPrerequisitesConfig + testAccMerakiApplianceSDWANInternetPoliciesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceSDWANInternetPoliciesPrerequisitesConfig + testAccApplianceSDWANInternetPoliciesConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -159,5 +162,41 @@ func testAccMerakiApplianceSDWANInternetPoliciesConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccApplianceSDWANInternetPoliciesConfigAdditional0 = `
+resource "meraki_appliance_vlans_settings" "test" {
+  network_id    = meraki_network.test.id
+  vlans_enabled = true
+}
+resource "meraki_appliance_vlan" "test" {
+  network_id    = meraki_network.test.id
+  vlan_id       = 20
+  name          = "VLAN 20"
+  appliance_ip  = "192.168.20.1"
+  subnet        = "192.168.20.0/24"
+  depends_on    = [meraki_appliance_vlans_settings.test]
+}
+resource "meraki_appliance_sdwan_internet_policies" "test" {
+  network_id = meraki_network.test.id
+  wan_traffic_uplink_preferences = [
+    {
+      builtin_performance_class_name = "VoIP"
+      fail_over_criterion            = "poorPerformance"
+      performance_class_type         = "builtin"
+      preferred_uplink               = "wan1"
+      traffic_filters                = [
+        {
+          destination_cidr = "any"
+          destination_port = "any"
+          protocol         = "tcp"
+          source_cidr      = "192.168.20.0/24"
+          type             = "custom"
+        }
+      ]
+    }
+  ]
+  depends_on = [meraki_appliance_vlan.test]
+}
+`
 
 // End of section. //template:end testAccConfigAdditional
