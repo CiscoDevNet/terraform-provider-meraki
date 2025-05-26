@@ -7,6 +7,13 @@ description: |-
 
 # Changelog
 
+## 1.3.0 (unreleased)
+
+- Fix API format of `definitions[].value` attribute of `meraki_appliance_traffic_shaping_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+- Fix API format of `l7_firewall_rules[].value` attribute of `meraki_network_group_policy` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+- Fix API format of `traffic_shaping_rules[].definitions[].value` attribute of `meraki_network_group_policy` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+- Fix API format of `rules[].value` attribute of `meraki_wireless_ssid_l7_firewall_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+
 ## 1.2.0
 
 - Handle HTTP error code `400` correctly when trying to read non-existent resources
