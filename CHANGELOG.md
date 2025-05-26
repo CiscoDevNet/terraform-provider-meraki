@@ -1,3 +1,7 @@
+## 1.3.0 (unreleased)
+
+- Fix `meraki_appliance_sdwan_internet_policies` deletion doing nothing, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/83)
+
 ## 1.2.0
 
 - Handle HTTP error code `400` correctly when trying to read non-existent resources
