@@ -4,6 +4,7 @@
 - Fix API format of `l7_firewall_rules[].value` attribute of `meraki_network_group_policy` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
 - Fix API format of `traffic_shaping_rules[].definitions[].value` attribute of `meraki_network_group_policy` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
 - Fix API format of `rules[].value` attribute of `meraki_wireless_ssid_l7_firewall_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+- Fix `meraki_appliance_sdwan_internet_policies` deletion doing nothing, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/83)
 
 ## 1.2.0
 
