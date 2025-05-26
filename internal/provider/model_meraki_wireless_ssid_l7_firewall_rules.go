@@ -56,9 +56,6 @@ func (data WirelessSSIDL7FirewallRules) getPath() string {
 }
 
 // End of section. //template:end getPath
-
-// Section below is generated&owned by "gen/generator.go". //template:begin toBody
-
 func (data WirelessSSIDL7FirewallRules) toBody(ctx context.Context, state WirelessSSIDL7FirewallRules) string {
 	body := ""
 	if len(data.Rules) > 0 {
@@ -71,18 +68,20 @@ func (data WirelessSSIDL7FirewallRules) toBody(ctx context.Context, state Wirele
 			if !item.Type.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "type", item.Type.ValueString())
 			}
+			var valuePath string
+			if item.Type.ValueString() == "application" || item.Type.ValueString() == "applicationCategory" {
+				valuePath = "value.id"
+			} else {
+				valuePath = "value"
+			}
 			if !item.Value.IsNull() {
-				itemBody, _ = sjson.Set(itemBody, "value", item.Value.ValueString())
+				itemBody, _ = sjson.Set(itemBody, valuePath, item.Value.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "rules.-1", itemBody)
 		}
 	}
 	return body
 }
-
-// End of section. //template:end toBody
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDL7FirewallRules) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
@@ -100,7 +99,13 @@ func (data *WirelessSSIDL7FirewallRules) fromBody(ctx context.Context, res merak
 			} else {
 				data.Type = types.StringNull()
 			}
-			if value := res.Get("value"); value.Exists() && value.Value() != nil {
+			var valuePath string
+			if data.Type.ValueString() == "application" || data.Type.ValueString() == "applicationCategory" {
+				valuePath = "value.id"
+			} else {
+				valuePath = "value"
+			}
+			if value := res.Get(valuePath); value.Exists() && value.Value() != nil {
 				data.Value = types.StringValue(value.String())
 			} else {
 				data.Value = types.StringNull()
@@ -110,10 +115,6 @@ func (data *WirelessSSIDL7FirewallRules) fromBody(ctx context.Context, res merak
 		})
 	}
 }
-
-// End of section. //template:end fromBody
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
 
 // fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
@@ -142,7 +143,13 @@ func (data *WirelessSSIDL7FirewallRules) fromBodyPartial(ctx context.Context, re
 		} else {
 			data.Type = types.StringNull()
 		}
-		if value := res.Get("value"); value.Exists() && !data.Value.IsNull() {
+		var valuePath string
+		if data.Type.ValueString() == "application" || data.Type.ValueString() == "applicationCategory" {
+			valuePath = "value.id"
+		} else {
+			valuePath = "value"
+		}
+		if value := res.Get(valuePath); value.Exists() && !data.Value.IsNull() {
 			data.Value = types.StringValue(value.String())
 		} else {
 			data.Value = types.StringNull()
@@ -150,8 +157,6 @@ func (data *WirelessSSIDL7FirewallRules) fromBodyPartial(ctx context.Context, re
 		(*parent).Rules[i] = data
 	}
 }
-
-// End of section. //template:end fromBodyPartial
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
 
