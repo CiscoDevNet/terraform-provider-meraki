@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## 1.3.0 (unreleased)
+## 1.2.1
 
 - Fix API format of `definitions[].value` attribute of `meraki_appliance_traffic_shaping_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
 - Fix API format of `l7_firewall_rules[].value` attribute of `meraki_network_group_policy` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
