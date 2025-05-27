@@ -80,13 +80,75 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			{{- range  .Attributes}}
+			{{- if not .ModelName}}
+			"{{.TfName}}": schema.{{.Type}}Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
+					{{- if len .EnumValues -}}
+					.AddStringEnumDescription({{range .EnumValues}}"{{.}}", {{end}})
+					{{- end -}}
+					{{- if or (ne .MinInt 0) (ne .MaxInt 0) -}}
+					.AddIntegerRangeDescription({{.MinInt}}, {{.MaxInt}})
+					{{- end -}}
+					{{- if or (ne .MinFloat 0.0) (ne .MaxFloat 0.0) -}}
+					.AddFloatRangeDescription({{.MinFloat}}, {{.MaxFloat}})
+					{{- end -}}
+					{{- if .DefaultValue -}}
+					.AddDefaultValueDescription("{{.DefaultValue}}")
+					{{- end -}}
+					.String,
+				{{- if or .Reference .Mandatory}}
+				Required:            true,
+				{{- else if not .Computed}}
+				Optional:            true,
+				{{- end}}
+				{{- if or (len .DefaultValue) .Computed}}
+				Computed:            true,
+				{{- end}}
+				{{- if len .EnumValues}}
+				Validators: []validator.String{
+					stringvalidator.OneOf({{range .EnumValues}}"{{.}}", {{end}}),
+				},
+				{{- else if or (len .StringPatterns) (ne .StringMinLength 0) (ne .StringMaxLength 0) }}
+				Validators: []validator.String{
+					{{- if or (ne .StringMinLength 0) (ne .StringMaxLength 0)}}
+					stringvalidator.LengthBetween({{.StringMinLength}}, {{.StringMaxLength}}),
+					{{- end}}
+					{{- range .StringPatterns}}
+					stringvalidator.RegexMatches(regexp.MustCompile(`{{.}}`), ""),
+					{{- end}}
+				},
+				{{- else if or (ne .MinInt 0) (ne .MaxInt 0)}}
+				Validators: []validator.Int64{
+					int64validator.Between({{.MinInt}}, {{.MaxInt}}),
+				},
+				{{- else if or (ne .MinFloat 0.0) (ne .MaxFloat 0.0)}}
+				Validators: []validator.Float64{
+					float64validator.Between({{.MinFloat}}, {{.MaxFloat}}),
+				},
+				{{- end}}
+				{{- if and (len .DefaultValue) (eq .Type "Int64")}}
+				Default:             int64default.StaticInt64({{.DefaultValue}}),
+				{{- else if and (len .DefaultValue) (eq .Type "Bool")}}
+				Default:             booldefault.StaticBool({{.DefaultValue}}),
+				{{- else if and (len .DefaultValue) (eq .Type "String")}}
+				Default:             stringdefault.StaticString("{{.DefaultValue}}"),
+				{{- end}}
+				{{- if .Computed}}
+				PlanModifiers: []planmodifier.{{.Type}}{
+					{{snakeCase .Type}}planmodifier.UseStateForUnknown(),
+				},
+				{{- end}}
+			},
+			{{- end}}
+			{{- end}}
 			"items": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						{{- range  .Attributes}}
-						{{- if not .Value}}
+						{{- if and (not .Value) (.ModelName)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 								{{- if len .EnumValues -}}

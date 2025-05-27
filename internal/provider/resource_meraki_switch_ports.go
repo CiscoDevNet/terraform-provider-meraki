@@ -68,22 +68,19 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"organization_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Organization ID").String,
+				Optional:            true,
+			},
+			"serial": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Device serial").String,
+				Required:            true,
+			},
 			"items": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"organization_id": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Organization ID").String,
-							Optional:            true,
-						},
-						"serial": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Device serial").String,
-							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
-						},
 						"access_policy_number": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The number of a custom access policy to configure on the switch port. Only applicable when `accessPolicyType` is `Custom access policy`.").String,
 							Optional:            true,
@@ -282,6 +279,10 @@ func (r *SwitchPortsResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+
+	for _, item := range plan.Items {
+		plan.toBody(ctx, SwitchPorts{}, item.I)
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
