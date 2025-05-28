@@ -433,6 +433,7 @@ func (data *ApplianceThirdPartyVPNPeers) fromBodyUnknowns(ctx context.Context, r
 
 func (data ApplianceThirdPartyVPNPeers) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "peers", []interface{}{})
 	return body
 }
 

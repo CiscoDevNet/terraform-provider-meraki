@@ -191,6 +191,7 @@ func (data *CellularGatewayConnectivityMonitoringDestinations) fromBodyUnknowns(
 
 func (data CellularGatewayConnectivityMonitoringDestinations) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "destinations", []interface{}{})
 	return body
 }
 

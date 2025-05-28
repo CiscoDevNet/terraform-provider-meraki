@@ -17,6 +17,7 @@ attributes:
     type: List
     mandatory: true
     description: The list of connectivity monitoring destinations
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: default
         type: Bool

@@ -162,6 +162,7 @@ func (data *SensorRelationships) fromBodyUnknowns(ctx context.Context, res merak
 
 func (data SensorRelationships) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "livestream.relatedDevices", []interface{}{})
 	return body
 }
 

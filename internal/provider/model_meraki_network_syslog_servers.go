@@ -194,6 +194,7 @@ func (data *NetworkSyslogServers) fromBodyUnknowns(ctx context.Context, res mera
 
 func (data NetworkSyslogServers) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "servers", []interface{}{})
 	return body
 }
 

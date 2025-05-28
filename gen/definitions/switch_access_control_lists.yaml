@@ -18,6 +18,7 @@ attributes:
     mandatory: true
     description: An ordered array of the access control list rules (not including the default rule). An empty array will clear the rules.
     ordered_list: true
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: comment
         type: String
