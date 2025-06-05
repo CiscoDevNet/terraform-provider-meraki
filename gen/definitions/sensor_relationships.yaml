@@ -18,7 +18,6 @@ attributes:
     type: List
     data_path: [livestream]
     description: An array of the related devices for the role
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: serial
         type: String
