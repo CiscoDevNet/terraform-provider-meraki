@@ -52,7 +52,7 @@ resource "meraki_appliance_sdwan_internet_policies" "example" {
 ### Required
 
 - `network_id` (String) Network ID
-- `wan_traffic_uplink_preferences` (Attributes List) policies with respective traffic filters for an MX network (see [below for nested schema](#nestedatt--wan_traffic_uplink_preferences))
+- `wan_traffic_uplink_preferences` (Attributes List) Policies with respective traffic filters for an MX network. Note: these policies are shared (merged) with meraki_appliance_traffic_shaping_uplink_selection resource's wan_traffic_uplink_preferences attribute. It is recommended to only use one resource for them, not both at the same time: Deleting this resource clears preferences created in meraki_appliance_traffic_shaping_uplink_selection, which is detected as a change by the provider on a subsequent apply. The same happens the other way around, but the change is not detected in sdwan_internet_policies. (see [below for nested schema](#nestedatt--wan_traffic_uplink_preferences))
 
 ### Read-Only
 
