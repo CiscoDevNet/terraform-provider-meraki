@@ -172,7 +172,6 @@ attributes:
     type: List
     description: Array of uplink preference rules for WAN traffic
     ordered_list: true
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: preferredUplink
         type: String
