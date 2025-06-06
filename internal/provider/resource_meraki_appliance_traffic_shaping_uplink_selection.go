@@ -207,7 +207,7 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 				},
 			},
 			"wan_traffic_uplink_preferences": schema.ListNestedAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Array of uplink preference rules for WAN traffic").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Array of uplink preference rules for WAN traffic. Note: these preferences are shared (merged) with meraki_appliance_sdwan_internet_policies resource. It is recommended to only use one resource for these preferences, not both at the same time: Deleting this resource clears preferences created in meraki_appliance_sdwan_internet_policies, which isn't detected as a change by the provider. The same happens the other way around, but the change is detected in uplink_selection on a subsequent apply.").String,
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -391,8 +391,6 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Update(ctx context.Cont
 
 // End of section. //template:end update
 
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
-
 func (r *ApplianceTrafficShapingUplinkSelectionResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state ApplianceTrafficShapingUplinkSelection
 
@@ -404,12 +402,32 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Delete(ctx context.Cont
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 
+	body := state.toDestroyBody(ctx)
+	res, err := r.client.Put(state.getPath(), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	// Clear the shared wanTrafficUplinkPreferences
+	// by PUTting "wanTrafficUplinkPreferences": []
+	// to appliance/sdwan/internetPolicies endpoint,
+	// as PUTting "wanTrafficUplinkPreferences": []
+	// to appliance/trafficShaping/uplinkSelection endpoint does nothing.
+	sdwanInternetPolicies := ApplianceSDWANInternetPolicies{
+		NetworkId: state.NetworkId,
+	}
+	body = sdwanInternetPolicies.toDestroyBody(ctx)
+	res, err = r.client.Put(sdwanInternetPolicies.getPath(), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to clear Appliance Traffic Shaping Uplink Preferences wan_traffic_uplink_preferences via Appliance SDWAN Internet Policies endpoint (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *ApplianceTrafficShapingUplinkSelectionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

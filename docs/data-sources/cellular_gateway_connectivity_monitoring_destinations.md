@@ -27,7 +27,7 @@ data "meraki_cellular_gateway_connectivity_monitoring_destinations" "example" {
 
 ### Read-Only
 
-- `destinations` (Attributes List) The list of connectivity monitoring destinations (see [below for nested schema](#nestedatt--destinations))
+- `destinations` (Attributes List) The list of connectivity monitoring destinations. Is set to Google DNS (8.8.8.8) when the resource is not created and gets reset to it on resource deletion (see [below for nested schema](#nestedatt--destinations))
 - `id` (String) The id of the object
 
 <a id="nestedatt--destinations"></a>

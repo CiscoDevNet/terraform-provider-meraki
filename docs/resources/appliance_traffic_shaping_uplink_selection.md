@@ -51,7 +51,7 @@ resource "meraki_appliance_traffic_shaping_uplink_selection" "example" {
 - `failover_and_failback_immediate_enabled` (Boolean) Toggle for enabling or disabling immediate WAN failover and failback
 - `load_balancing_enabled` (Boolean) Toggle for enabling or disabling load balancing
 - `vpn_traffic_uplink_preferences` (Attributes List) Array of uplink preference rules for VPN traffic (see [below for nested schema](#nestedatt--vpn_traffic_uplink_preferences))
-- `wan_traffic_uplink_preferences` (Attributes List) Array of uplink preference rules for WAN traffic (see [below for nested schema](#nestedatt--wan_traffic_uplink_preferences))
+- `wan_traffic_uplink_preferences` (Attributes List) Array of uplink preference rules for WAN traffic. Note: these preferences are shared (merged) with meraki_appliance_sdwan_internet_policies resource. It is recommended to only use one resource for these preferences, not both at the same time: Deleting this resource clears preferences created in meraki_appliance_sdwan_internet_policies, which isn't detected as a change by the provider. The same happens the other way around, but the change is detected in uplink_selection on a subsequent apply. (see [below for nested schema](#nestedatt--wan_traffic_uplink_preferences))
 
 ### Read-Only
 

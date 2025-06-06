@@ -174,7 +174,7 @@ func (d *ApplianceTrafficShapingUplinkSelectionDataSource) Schema(ctx context.Co
 				},
 			},
 			"wan_traffic_uplink_preferences": schema.ListNestedAttribute{
-				MarkdownDescription: "Array of uplink preference rules for WAN traffic",
+				MarkdownDescription: "Array of uplink preference rules for WAN traffic. Note: these preferences are shared (merged) with meraki_appliance_sdwan_internet_policies resource. It is recommended to only use one resource for these preferences, not both at the same time: Deleting this resource clears preferences created in meraki_appliance_sdwan_internet_policies, which isn't detected as a change by the provider. The same happens the other way around, but the change is detected in uplink_selection on a subsequent apply.",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{

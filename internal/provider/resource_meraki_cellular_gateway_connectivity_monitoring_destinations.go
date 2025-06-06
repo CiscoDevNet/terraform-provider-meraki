@@ -76,7 +76,7 @@ func (r *CellularGatewayConnectivityMonitoringDestinationsResource) Schema(ctx c
 				},
 			},
 			"destinations": schema.ListNestedAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The list of connectivity monitoring destinations").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The list of connectivity monitoring destinations. Is set to Google DNS (8.8.8.8) when the resource is not created and gets reset to it on resource deletion").String,
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -231,6 +231,12 @@ func (r *CellularGatewayConnectivityMonitoringDestinationsResource) Delete(ctx c
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+	body := state.toDestroyBody(ctx)
+	res, err := r.client.Put(state.getPath(), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 

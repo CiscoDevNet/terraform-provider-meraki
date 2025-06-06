@@ -30,7 +30,7 @@ resource "meraki_appliance_connectivity_monitoring_destinations" "example" {
 
 ### Required
 
-- `destinations` (Attributes List) The list of connectivity monitoring destinations (see [below for nested schema](#nestedatt--destinations))
+- `destinations` (Attributes List) The list of connectivity monitoring destinations. Is set to Google DNS (8.8.8.8) when the resource is not created and gets reset to it on resource deletion (see [below for nested schema](#nestedatt--destinations))
 - `network_id` (String) Network ID
 
 ### Read-Only

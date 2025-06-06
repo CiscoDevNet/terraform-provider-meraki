@@ -252,6 +252,7 @@ func (data *SwitchAccessControlLists) fromBodyUnknowns(ctx context.Context, res 
 
 func (data SwitchAccessControlLists) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "rules", []interface{}{})
 	return body
 }
 
