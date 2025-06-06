@@ -190,7 +190,13 @@ func (data *ApplianceConnectivityMonitoringDestinations) fromBodyUnknowns(ctx co
 
 func (data ApplianceConnectivityMonitoringDestinations) toDestroyBody(ctx context.Context) string {
 	body := ""
-	body, _ = sjson.Set(body, "destinations", []interface{}{})
+	body, _ = sjson.Set(body, "destinations", []interface{}{
+		map[string]interface{}{
+			"ip":          "8.8.8.8",
+			"default":     true,
+			"description": "Google",
+		},
+	})
 	return body
 }
 

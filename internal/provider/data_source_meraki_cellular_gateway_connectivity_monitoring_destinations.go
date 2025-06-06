@@ -66,7 +66,7 @@ func (d *CellularGatewayConnectivityMonitoringDestinationsDataSource) Schema(ctx
 				Required:            true,
 			},
 			"destinations": schema.ListNestedAttribute{
-				MarkdownDescription: "The list of connectivity monitoring destinations",
+				MarkdownDescription: "The list of connectivity monitoring destinations. Is set to Google DNS (8.8.8.8) when the resource is not created and gets reset to it on resource deletion",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{

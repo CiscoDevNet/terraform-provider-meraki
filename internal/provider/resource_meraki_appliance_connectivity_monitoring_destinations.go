@@ -76,7 +76,7 @@ func (r *ApplianceConnectivityMonitoringDestinationsResource) Schema(ctx context
 				},
 			},
 			"destinations": schema.ListNestedAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The list of connectivity monitoring destinations").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The list of connectivity monitoring destinations. Is set to Google DNS (8.8.8.8) when the resource is not created and gets reset to it on resource deletion").String,
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
