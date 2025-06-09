@@ -497,14 +497,17 @@ func (data *SwitchPort) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
-
 func (data SwitchPort) toDestroyBody(ctx context.Context) string {
 	body := ""
 	body, _ = sjson.Set(body, "accessPolicyType", "Open")
-	body, _ = sjson.Set(body, "adaptivePolicyGroupId", nil)
+	if !data.AdaptivePolicyGroupId.IsNull() {
+		// This can fail with "Adaptive Policy is not enabled in this network"
+		// if meraki_organization_adaptive_policy_settings resource
+		// does not have adaptive policy enabled for this network.
+		// Unset adaptive policy group ID only if it was already set
+		// (which could only be done if adaptive policy *is* enabled on the network first).
+		body, _ = sjson.Set(body, "adaptivePolicyGroupId", nil)
+	}
 	body, _ = sjson.Set(body, "profile.enabled", false)
 	return body
 }
-
-// End of section. //template:end toDestroyBody
