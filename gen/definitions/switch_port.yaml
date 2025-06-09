@@ -28,11 +28,13 @@ attributes:
     description: The type of the access policy of the switch port. Only applicable to access ports. Can be one of `Open`, `Custom access policy`, `MAC allow list` or `Sticky MAC allow list`.
     example: Sticky MAC allow list
     enum_values: [Custom access policy, MAC allow list, Open, Sticky MAC allow list]
+    destroy_value: '"Open"'
   - model_name: adaptivePolicyGroupId
     type: String
     exclude_test: true
     description: The adaptive policy group ID that will be used to tag traffic through this switch port. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API. Cannot be applied to a port on a switch bound to profile.
     example: "123"
+    destroy_value: nil
   - model_name: allowedVlans
     type: String
     description: The VLANs allowed on the switch port. Only applicable to trunk ports.
@@ -129,6 +131,7 @@ attributes:
     data_path: [profile]
     description: When enabled, override this port`s configuration with a port profile.
     example: "false"
+    destroy_value: "false"
   - model_name: id
     type: String
     data_path: [profile]

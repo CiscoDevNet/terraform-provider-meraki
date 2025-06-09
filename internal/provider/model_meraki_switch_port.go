@@ -501,6 +501,9 @@ func (data *SwitchPort) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 
 func (data SwitchPort) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "accessPolicyType", "Open")
+	body, _ = sjson.Set(body, "adaptivePolicyGroupId", nil)
+	body, _ = sjson.Set(body, "profile.enabled", false)
 	return body
 }
 
