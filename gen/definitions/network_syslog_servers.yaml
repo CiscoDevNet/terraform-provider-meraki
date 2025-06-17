@@ -17,6 +17,7 @@ attributes:
     type: List
     mandatory: true
     description: A list of the syslog servers for this network
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: host
         type: String

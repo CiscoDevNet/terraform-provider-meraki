@@ -193,6 +193,7 @@ func (data *ApplianceFirewallMulticastForwarding) fromBodyUnknowns(ctx context.C
 
 func (data ApplianceFirewallMulticastForwarding) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "rules", []interface{}{})
 	return body
 }
 
