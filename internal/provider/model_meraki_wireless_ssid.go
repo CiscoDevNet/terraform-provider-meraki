@@ -122,6 +122,8 @@ type WirelessSSID struct {
 	RadiusServers                                                       []WirelessSSIDRadiusServers             `tfsdk:"radius_servers"`
 	SplashGuestSponsorDomains                                           types.Set                               `tfsdk:"splash_guest_sponsor_domains"`
 	WalledGardenRanges                                                  types.Set                               `tfsdk:"walled_garden_ranges"`
+	RadiusDasClientsIps                                                 types.Set                               `tfsdk:"radius_das_clients_ips"`
+	RadiusDasClientsSharedSecret                                        types.String                            `tfsdk:"radius_das_clients_shared_secret"`
 }
 
 type WirelessSSIDActiveDirectoryServers struct {
@@ -512,6 +514,14 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 		var values []string
 		data.WalledGardenRanges.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "walledGardenRanges", values)
+	}
+	if !data.RadiusDasClientsIps.IsNull() {
+		var values []string
+		data.RadiusDasClientsIps.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "radiusDasClients.clientsIps", values)
+	}
+	if !data.RadiusDasClientsSharedSecret.IsNull() {
+		body, _ = sjson.Set(body, "radiusDasClients.clientsSharedSecret", data.RadiusDasClientsSharedSecret.ValueString())
 	}
 	return body
 }
@@ -1034,6 +1044,11 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 		data.WalledGardenRanges = helpers.GetStringSet(value.Array())
 	} else {
 		data.WalledGardenRanges = types.SetNull(types.StringType)
+	}
+	if value := res.Get("radiusDasClients.clientsIps"); value.Exists() && value.Value() != nil {
+		data.RadiusDasClientsIps = helpers.GetStringSet(value.Array())
+	} else {
+		data.RadiusDasClientsIps = types.SetNull(types.StringType)
 	}
 }
 
@@ -1661,6 +1676,11 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.WalledGardenRanges = helpers.GetStringSet(value.Array())
 	} else {
 		data.WalledGardenRanges = types.SetNull(types.StringType)
+	}
+	if value := res.Get("radiusDasClients.clientsIps"); value.Exists() && !data.RadiusDasClientsIps.IsNull() {
+		data.RadiusDasClientsIps = helpers.GetStringSet(value.Array())
+	} else {
+		data.RadiusDasClientsIps = types.SetNull(types.StringType)
 	}
 }
 
