@@ -1,4 +1,4 @@
-## 1.3.0
+## 1.3.0 (unreleased)
 
 - Add `group_active_active_tunnel`, `group_failover_direct_to_internet`, `group_number`, `is_route_based`, `network_ids`, `peer_id`, `priority_in_group`, `sla_policy_id` and `ebgp_neighbor_*` attributes to `meraki_appliance_third_party_vpn_peers` resource and data source
 - Make `name` attribute of `organization_brnading_policy` resource mandatory
@@ -6,6 +6,8 @@
 - Add `meraki_appliance_vpn_site_to_site_ipsec_peers_slas` resource and data source
 - Fix idempotency issue with `move_map_marker` attribute of `meraki_device` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/88)
 - Add unsupported `radius_das_clients_ips` and `radius_das_clients_shared_secret` attributes to `meraki_wireless_ssid` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/85)
+- Delete lists when destroying `meraki_appliance_connectivity_monitoring_destinations`, `meraki_appliance_firewall_multicast_forwarding`, `meraki_appliance_organization_security_intrusion`, `meraki_appliance_sdwan_internet_policies`, `meraki_appliance_third_party_vpn_peers`, `meraki_appliance_traffic_shaping_uplink_selection`, `meraki_pliance_traffic_shaping_vpn_exclusions`, `meraki_cellular_gateway_connectivity_monitoring_destinations`, `meraki_network_syslog_servers`, `meraki_switch_access_control_lists` and `meraki_switch_dscp_to_cos_mappings` resources
+- Reset `access_policy_type`, `adaptive_policy_group_id` and `profile_enabled` attributes of `meraki_switch_port` resource when destroying the resource
 
 ## 1.2.1
 
