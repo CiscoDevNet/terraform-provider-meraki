@@ -85,7 +85,7 @@ func (r *OrganizationBrandingPolicyResource) Schema(ctx context.Context, req res
 			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Name of the Dashboard branding policy.").String,
-				Optional:            true,
+				Required:            true,
 			},
 			"admin_settings_applies_to": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Which kinds of admins this policy applies to. Can be one of `All organization admins`, `All enterprise admins`, `All network admins`, `All admins of networks...`, `All admins of networks tagged...`, `Specific admins...`, `All admins` or `All SAML admins`.").AddStringEnumDescription("All SAML admins", "All admins", "All admins of networks tagged...", "All admins of networks...", "All enterprise admins", "All network admins", "All organization admins", "Specific admins...").String,

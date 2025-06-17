@@ -36,31 +36,41 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type SwitchAccessPolicy struct {
-	Id                                  types.String                                `tfsdk:"id"`
-	NetworkId                           types.String                                `tfsdk:"network_id"`
-	AccessPolicyType                    types.String                                `tfsdk:"access_policy_type"`
-	GuestPortBouncing                   types.Bool                                  `tfsdk:"guest_port_bouncing"`
-	GuestVlanId                         types.Int64                                 `tfsdk:"guest_vlan_id"`
-	HostMode                            types.String                                `tfsdk:"host_mode"`
-	IncreaseAccessSpeed                 types.Bool                                  `tfsdk:"increase_access_speed"`
-	Name                                types.String                                `tfsdk:"name"`
-	RadiusAccountingEnabled             types.Bool                                  `tfsdk:"radius_accounting_enabled"`
-	RadiusCoaSupportEnabled             types.Bool                                  `tfsdk:"radius_coa_support_enabled"`
-	RadiusGroupAttribute                types.String                                `tfsdk:"radius_group_attribute"`
-	RadiusTestingEnabled                types.Bool                                  `tfsdk:"radius_testing_enabled"`
-	UrlRedirectWalledGardenEnabled      types.Bool                                  `tfsdk:"url_redirect_walled_garden_enabled"`
-	VoiceVlanClients                    types.Bool                                  `tfsdk:"voice_vlan_clients"`
-	Dot1xControlDirection               types.String                                `tfsdk:"dot1x_control_direction"`
-	RadiusFailedAuthVlanId              types.Int64                                 `tfsdk:"radius_failed_auth_vlan_id"`
-	RadiusReAuthenticationInterval      types.Int64                                 `tfsdk:"radius_re_authentication_interval"`
-	RadiusCacheEnabled                  types.Bool                                  `tfsdk:"radius_cache_enabled"`
-	RadiusCacheTimeout                  types.Int64                                 `tfsdk:"radius_cache_timeout"`
-	RadiusCriticalAuthDataVlanId        types.Int64                                 `tfsdk:"radius_critical_auth_data_vlan_id"`
-	RadiusCriticalAuthSuspendPortBounce types.Bool                                  `tfsdk:"radius_critical_auth_suspend_port_bounce"`
-	RadiusCriticalAuthVoiceVlanId       types.Int64                                 `tfsdk:"radius_critical_auth_voice_vlan_id"`
-	RadiusAccountingServers             []SwitchAccessPolicyRadiusAccountingServers `tfsdk:"radius_accounting_servers"`
-	RadiusServers                       []SwitchAccessPolicyRadiusServers           `tfsdk:"radius_servers"`
-	UrlRedirectWalledGardenRanges       types.Set                                   `tfsdk:"url_redirect_walled_garden_ranges"`
+	Id                                   types.String                                `tfsdk:"id"`
+	NetworkId                            types.String                                `tfsdk:"network_id"`
+	AccessPolicyType                     types.String                                `tfsdk:"access_policy_type"`
+	GuestGroupPolicyId                   types.String                                `tfsdk:"guest_group_policy_id"`
+	GuestPortBouncing                    types.Bool                                  `tfsdk:"guest_port_bouncing"`
+	GuestSgtId                           types.Int64                                 `tfsdk:"guest_sgt_id"`
+	GuestVlanId                          types.Int64                                 `tfsdk:"guest_vlan_id"`
+	HostMode                             types.String                                `tfsdk:"host_mode"`
+	IncreaseAccessSpeed                  types.Bool                                  `tfsdk:"increase_access_speed"`
+	Name                                 types.String                                `tfsdk:"name"`
+	RadiusAccountingEnabled              types.Bool                                  `tfsdk:"radius_accounting_enabled"`
+	RadiusCoaSupportEnabled              types.Bool                                  `tfsdk:"radius_coa_support_enabled"`
+	RadiusGroupAttribute                 types.String                                `tfsdk:"radius_group_attribute"`
+	RadiusTestingEnabled                 types.Bool                                  `tfsdk:"radius_testing_enabled"`
+	UrlRedirectWalledGardenEnabled       types.Bool                                  `tfsdk:"url_redirect_walled_garden_enabled"`
+	VoiceVlanClients                     types.Bool                                  `tfsdk:"voice_vlan_clients"`
+	Dot1xControlDirection                types.String                                `tfsdk:"dot1x_control_direction"`
+	RadiusFailedAuthGroupPolicyId        types.String                                `tfsdk:"radius_failed_auth_group_policy_id"`
+	RadiusFailedAuthSgtId                types.Int64                                 `tfsdk:"radius_failed_auth_sgt_id"`
+	RadiusFailedAuthVlanId               types.Int64                                 `tfsdk:"radius_failed_auth_vlan_id"`
+	RadiusPreAuthenticationGroupPolicyId types.String                                `tfsdk:"radius_pre_authentication_group_policy_id"`
+	RadiusReAuthenticationInterval       types.Int64                                 `tfsdk:"radius_re_authentication_interval"`
+	RadiusAuthenticationMode             types.String                                `tfsdk:"radius_authentication_mode"`
+	RadiusCacheEnabled                   types.Bool                                  `tfsdk:"radius_cache_enabled"`
+	RadiusCacheTimeout                   types.Int64                                 `tfsdk:"radius_cache_timeout"`
+	RadiusCriticalAuthDataGroupPolicyId  types.String                                `tfsdk:"radius_critical_auth_data_group_policy_id"`
+	RadiusCriticalAuthDataSgtId          types.Int64                                 `tfsdk:"radius_critical_auth_data_sgt_id"`
+	RadiusCriticalAuthDataVlanId         types.Int64                                 `tfsdk:"radius_critical_auth_data_vlan_id"`
+	RadiusCriticalAuthSuspendPortBounce  types.Bool                                  `tfsdk:"radius_critical_auth_suspend_port_bounce"`
+	RadiusCriticalAuthVoiceGroupPolicyId types.String                                `tfsdk:"radius_critical_auth_voice_group_policy_id"`
+	RadiusCriticalAuthVoiceSgtId         types.Int64                                 `tfsdk:"radius_critical_auth_voice_sgt_id"`
+	RadiusCriticalAuthVoiceVlanId        types.Int64                                 `tfsdk:"radius_critical_auth_voice_vlan_id"`
+	RadiusAccountingServers              []SwitchAccessPolicyRadiusAccountingServers `tfsdk:"radius_accounting_servers"`
+	RadiusServers                        []SwitchAccessPolicyRadiusServers           `tfsdk:"radius_servers"`
+	UrlRedirectWalledGardenRanges        types.Set                                   `tfsdk:"url_redirect_walled_garden_ranges"`
 }
 
 type SwitchAccessPolicyRadiusAccountingServers struct {
@@ -94,8 +104,14 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 	if !data.AccessPolicyType.IsNull() {
 		body, _ = sjson.Set(body, "accessPolicyType", data.AccessPolicyType.ValueString())
 	}
+	if !data.GuestGroupPolicyId.IsNull() {
+		body, _ = sjson.Set(body, "guestGroupPolicyId", data.GuestGroupPolicyId.ValueString())
+	}
 	if !data.GuestPortBouncing.IsNull() {
 		body, _ = sjson.Set(body, "guestPortBouncing", data.GuestPortBouncing.ValueBool())
+	}
+	if !data.GuestSgtId.IsNull() {
+		body, _ = sjson.Set(body, "guestSgtId", data.GuestSgtId.ValueInt64())
 	}
 	if !data.GuestVlanId.IsNull() {
 		body, _ = sjson.Set(body, "guestVlanId", data.GuestVlanId.ValueInt64())
@@ -130,11 +146,23 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 	if !data.Dot1xControlDirection.IsNull() {
 		body, _ = sjson.Set(body, "dot1x.controlDirection", data.Dot1xControlDirection.ValueString())
 	}
+	if !data.RadiusFailedAuthGroupPolicyId.IsNull() {
+		body, _ = sjson.Set(body, "radius.failedAuthGroupPolicyId", data.RadiusFailedAuthGroupPolicyId.ValueString())
+	}
+	if !data.RadiusFailedAuthSgtId.IsNull() {
+		body, _ = sjson.Set(body, "radius.failedAuthSgtId", data.RadiusFailedAuthSgtId.ValueInt64())
+	}
 	if !data.RadiusFailedAuthVlanId.IsNull() {
 		body, _ = sjson.Set(body, "radius.failedAuthVlanId", data.RadiusFailedAuthVlanId.ValueInt64())
 	}
+	if !data.RadiusPreAuthenticationGroupPolicyId.IsNull() {
+		body, _ = sjson.Set(body, "radius.preAuthenticationGroupPolicyId", data.RadiusPreAuthenticationGroupPolicyId.ValueString())
+	}
 	if !data.RadiusReAuthenticationInterval.IsNull() {
 		body, _ = sjson.Set(body, "radius.reAuthenticationInterval", data.RadiusReAuthenticationInterval.ValueInt64())
+	}
+	if !data.RadiusAuthenticationMode.IsNull() {
+		body, _ = sjson.Set(body, "radius.authentication.mode", data.RadiusAuthenticationMode.ValueString())
 	}
 	if !data.RadiusCacheEnabled.IsNull() {
 		body, _ = sjson.Set(body, "radius.cache.enabled", data.RadiusCacheEnabled.ValueBool())
@@ -142,11 +170,23 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 	if !data.RadiusCacheTimeout.IsNull() {
 		body, _ = sjson.Set(body, "radius.cache.timeout", data.RadiusCacheTimeout.ValueInt64())
 	}
+	if !data.RadiusCriticalAuthDataGroupPolicyId.IsNull() {
+		body, _ = sjson.Set(body, "radius.criticalAuth.dataGroupPolicyId", data.RadiusCriticalAuthDataGroupPolicyId.ValueString())
+	}
+	if !data.RadiusCriticalAuthDataSgtId.IsNull() {
+		body, _ = sjson.Set(body, "radius.criticalAuth.dataSgtId", data.RadiusCriticalAuthDataSgtId.ValueInt64())
+	}
 	if !data.RadiusCriticalAuthDataVlanId.IsNull() {
 		body, _ = sjson.Set(body, "radius.criticalAuth.dataVlanId", data.RadiusCriticalAuthDataVlanId.ValueInt64())
 	}
 	if !data.RadiusCriticalAuthSuspendPortBounce.IsNull() {
 		body, _ = sjson.Set(body, "radius.criticalAuth.suspendPortBounce", data.RadiusCriticalAuthSuspendPortBounce.ValueBool())
+	}
+	if !data.RadiusCriticalAuthVoiceGroupPolicyId.IsNull() {
+		body, _ = sjson.Set(body, "radius.criticalAuth.voiceGroupPolicyId", data.RadiusCriticalAuthVoiceGroupPolicyId.ValueString())
+	}
+	if !data.RadiusCriticalAuthVoiceSgtId.IsNull() {
+		body, _ = sjson.Set(body, "radius.criticalAuth.voiceSgtId", data.RadiusCriticalAuthVoiceSgtId.ValueInt64())
 	}
 	if !data.RadiusCriticalAuthVoiceVlanId.IsNull() {
 		body, _ = sjson.Set(body, "radius.criticalAuth.voiceVlanId", data.RadiusCriticalAuthVoiceVlanId.ValueInt64())
@@ -207,10 +247,20 @@ func (data *SwitchAccessPolicy) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.AccessPolicyType = types.StringNull()
 	}
+	if value := res.Get("guestGroupPolicyId"); value.Exists() && value.Value() != nil {
+		data.GuestGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.GuestGroupPolicyId = types.StringNull()
+	}
 	if value := res.Get("guestPortBouncing"); value.Exists() && value.Value() != nil {
 		data.GuestPortBouncing = types.BoolValue(value.Bool())
 	} else {
 		data.GuestPortBouncing = types.BoolNull()
+	}
+	if value := res.Get("guestSgtId"); value.Exists() && value.Value() != nil {
+		data.GuestSgtId = types.Int64Value(value.Int())
+	} else {
+		data.GuestSgtId = types.Int64Null()
 	}
 	if value := res.Get("guestVlanId"); value.Exists() && value.Value() != nil {
 		data.GuestVlanId = types.Int64Value(value.Int())
@@ -267,15 +317,45 @@ func (data *SwitchAccessPolicy) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.Dot1xControlDirection = types.StringNull()
 	}
+	if value := res.Get("radius.failedAuthGroupPolicyId"); value.Exists() && value.Value() != nil {
+		data.RadiusFailedAuthGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.RadiusFailedAuthGroupPolicyId = types.StringNull()
+	}
+	if value := res.Get("radius.failedAuthSgtId"); value.Exists() && value.Value() != nil {
+		data.RadiusFailedAuthSgtId = types.Int64Value(value.Int())
+	} else {
+		data.RadiusFailedAuthSgtId = types.Int64Null()
+	}
 	if value := res.Get("radius.failedAuthVlanId"); value.Exists() && value.Value() != nil {
 		data.RadiusFailedAuthVlanId = types.Int64Value(value.Int())
 	} else {
 		data.RadiusFailedAuthVlanId = types.Int64Null()
 	}
+	if value := res.Get("radius.preAuthenticationGroupPolicyId"); value.Exists() && value.Value() != nil {
+		data.RadiusPreAuthenticationGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.RadiusPreAuthenticationGroupPolicyId = types.StringNull()
+	}
 	if value := res.Get("radius.reAuthenticationInterval"); value.Exists() && value.Value() != nil {
 		data.RadiusReAuthenticationInterval = types.Int64Value(value.Int())
 	} else {
 		data.RadiusReAuthenticationInterval = types.Int64Null()
+	}
+	if value := res.Get("radius.authentication.mode"); value.Exists() && value.Value() != nil {
+		data.RadiusAuthenticationMode = types.StringValue(value.String())
+	} else {
+		data.RadiusAuthenticationMode = types.StringNull()
+	}
+	if value := res.Get("radius.criticalAuth.dataGroupPolicyId"); value.Exists() && value.Value() != nil {
+		data.RadiusCriticalAuthDataGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.RadiusCriticalAuthDataGroupPolicyId = types.StringNull()
+	}
+	if value := res.Get("radius.criticalAuth.dataSgtId"); value.Exists() && value.Value() != nil {
+		data.RadiusCriticalAuthDataSgtId = types.Int64Value(value.Int())
+	} else {
+		data.RadiusCriticalAuthDataSgtId = types.Int64Null()
 	}
 	if value := res.Get("radius.criticalAuth.dataVlanId"); value.Exists() && value.Value() != nil {
 		data.RadiusCriticalAuthDataVlanId = types.Int64Value(value.Int())
@@ -286,6 +366,16 @@ func (data *SwitchAccessPolicy) fromBody(ctx context.Context, res meraki.Res) {
 		data.RadiusCriticalAuthSuspendPortBounce = types.BoolValue(value.Bool())
 	} else {
 		data.RadiusCriticalAuthSuspendPortBounce = types.BoolNull()
+	}
+	if value := res.Get("radius.criticalAuth.voiceGroupPolicyId"); value.Exists() && value.Value() != nil {
+		data.RadiusCriticalAuthVoiceGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.RadiusCriticalAuthVoiceGroupPolicyId = types.StringNull()
+	}
+	if value := res.Get("radius.criticalAuth.voiceSgtId"); value.Exists() && value.Value() != nil {
+		data.RadiusCriticalAuthVoiceSgtId = types.Int64Value(value.Int())
+	} else {
+		data.RadiusCriticalAuthVoiceSgtId = types.Int64Null()
 	}
 	if value := res.Get("radius.criticalAuth.voiceVlanId"); value.Exists() && value.Value() != nil {
 		data.RadiusCriticalAuthVoiceVlanId = types.Int64Value(value.Int())
@@ -361,10 +451,20 @@ func (data *SwitchAccessPolicy) fromBodyPartial(ctx context.Context, res meraki.
 	} else {
 		data.AccessPolicyType = types.StringNull()
 	}
+	if value := res.Get("guestGroupPolicyId"); value.Exists() && !data.GuestGroupPolicyId.IsNull() {
+		data.GuestGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.GuestGroupPolicyId = types.StringNull()
+	}
 	if value := res.Get("guestPortBouncing"); value.Exists() && !data.GuestPortBouncing.IsNull() {
 		data.GuestPortBouncing = types.BoolValue(value.Bool())
 	} else {
 		data.GuestPortBouncing = types.BoolNull()
+	}
+	if value := res.Get("guestSgtId"); value.Exists() && !data.GuestSgtId.IsNull() {
+		data.GuestSgtId = types.Int64Value(value.Int())
+	} else {
+		data.GuestSgtId = types.Int64Null()
 	}
 	if value := res.Get("guestVlanId"); value.Exists() && !data.GuestVlanId.IsNull() {
 		data.GuestVlanId = types.Int64Value(value.Int())
@@ -421,15 +521,45 @@ func (data *SwitchAccessPolicy) fromBodyPartial(ctx context.Context, res meraki.
 	} else {
 		data.Dot1xControlDirection = types.StringNull()
 	}
+	if value := res.Get("radius.failedAuthGroupPolicyId"); value.Exists() && !data.RadiusFailedAuthGroupPolicyId.IsNull() {
+		data.RadiusFailedAuthGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.RadiusFailedAuthGroupPolicyId = types.StringNull()
+	}
+	if value := res.Get("radius.failedAuthSgtId"); value.Exists() && !data.RadiusFailedAuthSgtId.IsNull() {
+		data.RadiusFailedAuthSgtId = types.Int64Value(value.Int())
+	} else {
+		data.RadiusFailedAuthSgtId = types.Int64Null()
+	}
 	if value := res.Get("radius.failedAuthVlanId"); value.Exists() && !data.RadiusFailedAuthVlanId.IsNull() {
 		data.RadiusFailedAuthVlanId = types.Int64Value(value.Int())
 	} else {
 		data.RadiusFailedAuthVlanId = types.Int64Null()
 	}
+	if value := res.Get("radius.preAuthenticationGroupPolicyId"); value.Exists() && !data.RadiusPreAuthenticationGroupPolicyId.IsNull() {
+		data.RadiusPreAuthenticationGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.RadiusPreAuthenticationGroupPolicyId = types.StringNull()
+	}
 	if value := res.Get("radius.reAuthenticationInterval"); value.Exists() && !data.RadiusReAuthenticationInterval.IsNull() {
 		data.RadiusReAuthenticationInterval = types.Int64Value(value.Int())
 	} else {
 		data.RadiusReAuthenticationInterval = types.Int64Null()
+	}
+	if value := res.Get("radius.authentication.mode"); value.Exists() && !data.RadiusAuthenticationMode.IsNull() {
+		data.RadiusAuthenticationMode = types.StringValue(value.String())
+	} else {
+		data.RadiusAuthenticationMode = types.StringNull()
+	}
+	if value := res.Get("radius.criticalAuth.dataGroupPolicyId"); value.Exists() && !data.RadiusCriticalAuthDataGroupPolicyId.IsNull() {
+		data.RadiusCriticalAuthDataGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.RadiusCriticalAuthDataGroupPolicyId = types.StringNull()
+	}
+	if value := res.Get("radius.criticalAuth.dataSgtId"); value.Exists() && !data.RadiusCriticalAuthDataSgtId.IsNull() {
+		data.RadiusCriticalAuthDataSgtId = types.Int64Value(value.Int())
+	} else {
+		data.RadiusCriticalAuthDataSgtId = types.Int64Null()
 	}
 	if value := res.Get("radius.criticalAuth.dataVlanId"); value.Exists() && !data.RadiusCriticalAuthDataVlanId.IsNull() {
 		data.RadiusCriticalAuthDataVlanId = types.Int64Value(value.Int())
@@ -440,6 +570,16 @@ func (data *SwitchAccessPolicy) fromBodyPartial(ctx context.Context, res meraki.
 		data.RadiusCriticalAuthSuspendPortBounce = types.BoolValue(value.Bool())
 	} else {
 		data.RadiusCriticalAuthSuspendPortBounce = types.BoolNull()
+	}
+	if value := res.Get("radius.criticalAuth.voiceGroupPolicyId"); value.Exists() && !data.RadiusCriticalAuthVoiceGroupPolicyId.IsNull() {
+		data.RadiusCriticalAuthVoiceGroupPolicyId = types.StringValue(value.String())
+	} else {
+		data.RadiusCriticalAuthVoiceGroupPolicyId = types.StringNull()
+	}
+	if value := res.Get("radius.criticalAuth.voiceSgtId"); value.Exists() && !data.RadiusCriticalAuthVoiceSgtId.IsNull() {
+		data.RadiusCriticalAuthVoiceSgtId = types.Int64Value(value.Int())
+	} else {
+		data.RadiusCriticalAuthVoiceSgtId = types.Int64Null()
 	}
 	if value := res.Get("radius.criticalAuth.voiceVlanId"); value.Exists() && !data.RadiusCriticalAuthVoiceVlanId.IsNull() {
 		data.RadiusCriticalAuthVoiceVlanId = types.Int64Value(value.Int())

@@ -121,6 +121,7 @@ data "meraki_organization" "test" {
 func testAccMerakiOrganizationBrandingPolicyConfig_minimum() string {
 	config := `resource "meraki_organization_branding_policy" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  name = "My Branding Policy"` + "\n"
 	config += `}` + "\n"
 	return config
 }

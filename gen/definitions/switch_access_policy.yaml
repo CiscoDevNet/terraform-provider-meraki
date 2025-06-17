@@ -18,10 +18,20 @@ attributes:
     description: Access Type of the policy. Automatically `Hybrid authentication` when hostMode is `Multi-Domain`.
     example: Hybrid authentication
     enum_values: [802.1x, Hybrid authentication, MAC authentication bypass]
+  - model_name: guestGroupPolicyId
+    type: String
+    exclude_test: true
+    description: Group policy Number for guest group policy
+    example: "1234"
   - model_name: guestPortBouncing
     type: Bool
     description: If enabled, Meraki devices will periodically send access-request messages to these RADIUS servers
     example: "true"
+  - model_name: guestSgtId
+    type: Int64
+    exclude_test: true
+    description: Security Group Tag ID for guest group policy
+    example: "1284392014819"
   - model_name: guestVlanId
     type: Int64
     description: ID for the guest VLAN allow unauthorized devices access to limited network resources
@@ -77,16 +87,41 @@ attributes:
     description: Supports either `both` or `inbound`. Set to `inbound` to allow unauthorized egress on the switchport. Set to `both` to control both traffic directions with authorization. Defaults to `both`
     example: inbound
     enum_values: [both, inbound]
+  - model_name: failedAuthGroupPolicyId
+    type: String
+    data_path: [radius]
+    exclude_test: true
+    description: Group policy Number for failed authentication group policy
+    example: "1234"
+  - model_name: failedAuthSgtId
+    type: Int64
+    data_path: [radius]
+    exclude_test: true
+    description: Security Group Tag ID for failed authentication group policy
+    example: "1284392014819"
   - model_name: failedAuthVlanId
     type: Int64
     data_path: [radius]
     description: VLAN that clients will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth
     example: "100"
+  - model_name: preAuthenticationGroupPolicyId
+    type: String
+    data_path: [radius]
+    exclude_test: true
+    description: Group policy Number for pre-authentication group policy
+    example: "1234"
   - model_name: reAuthenticationInterval
     type: Int64
     data_path: [radius]
     description: Re-authentication period in seconds. Will be null if hostMode is Multi-Auth
     example: "120"
+  - model_name: mode
+    type: String
+    data_path: [radius, authentication]
+    exclude_test: true
+    description: Authentication mode of the policy ( Open | Closed )
+    example: Open
+    enum_values: [Closed, Open]
   - model_name: enabled
     type: Bool
     data_path: [radius, cache]
@@ -99,6 +134,18 @@ attributes:
     write_only: true
     description: If RADIUS caching is enabled, this value dictates how long the cache will remain in the RADIUS server, in hours, to allow network access without authentication
     example: "24"
+  - model_name: dataGroupPolicyId
+    type: String
+    data_path: [radius, criticalAuth]
+    exclude_test: true
+    description: Group policy Number for data VLAN
+    example: "1234"
+  - model_name: dataSgtId
+    type: Int64
+    data_path: [radius, criticalAuth]
+    exclude_test: true
+    description: Security Group Tag ID for data VLAN
+    example: "1234"
   - model_name: dataVlanId
     type: Int64
     data_path: [radius, criticalAuth]
@@ -109,6 +156,18 @@ attributes:
     data_path: [radius, criticalAuth]
     description: Enable to suspend port bounce when RADIUS servers are unreachable
     example: "true"
+  - model_name: voiceGroupPolicyId
+    type: String
+    data_path: [radius, criticalAuth]
+    exclude_test: true
+    description: Group policy Number for voice VLAN
+    example: "1234"
+  - model_name: voiceSgtId
+    type: Int64
+    data_path: [radius, criticalAuth]
+    exclude_test: true
+    description: Security Group Tag ID for voice VLAN
+    example: "1234"
   - model_name: voiceVlanId
     type: Int64
     data_path: [radius, criticalAuth]

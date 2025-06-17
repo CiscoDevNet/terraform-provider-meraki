@@ -35,6 +35,18 @@ data "meraki_appliance_third_party_vpn_peers" "example" {
 
 Read-Only:
 
+- `ebgp_neighbor_ebgp_hold_timer` (Number) The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.
+- `ebgp_neighbor_ebgp_multihop` (Number) Configure this if the neighbor is not adjacent. The eBGP multi-hop must be an integer between 1 and 255.
+- `ebgp_neighbor_ip_version` (Number) The IP version of the neighbor
+- `ebgp_neighbor_multi_exit_discriminator` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
+- `ebgp_neighbor_neighbor_ip` (String) IPv4/IPv6 address of the neighbor
+- `ebgp_neighbor_path_prepend` (List of Number) Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.
+- `ebgp_neighbor_remote_as_number` (Number) Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.
+- `ebgp_neighbor_source_ip` (String) Source IP of eBGP neighbor
+- `ebgp_neighbor_weight` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
+- `group_active_active_tunnel` (Boolean) [optional] Both primary and backup tunnels are active.
+- `group_failover_direct_to_internet` (Boolean) [optional] When both primary and backup tunnels are down, direct traffic to the internet. Traffic will be routed via the WAN
+- `group_number` (Number) [optional] Represents the ordering of primary and backup tunnels group. primary and backup tunnels are grouped by this number. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.
 - `ike_version` (String) [optional] The IKE version to be used for the IPsec VPN peer configuration. Defaults to `1` when omitted.
 - `ipsec_policies_child_auth_algo` (List of String) This is the authentication algorithms to be used in Phase 2. The value should be an array with one of the following algorithms: `sha256`, `sha1`, `md5`
 - `ipsec_policies_child_cipher_algo` (List of String) This is the cipher algorithms to be used in Phase 2. The value should be an array with one or more of the following algorithms: `aes256`, `aes192`, `aes128`, `tripledes`, `des`, `null`
@@ -46,11 +58,16 @@ Read-Only:
 - `ipsec_policies_ike_lifetime` (Number) The lifetime of the Phase 1 SA in seconds.
 - `ipsec_policies_ike_prf_algo` (List of String) [optional] This is the pseudo-random function to be used in IKE_SA. The value should be an array with one of the following algorithms: `prfsha256`, `prfsha1`, `prfmd5`, `default`. The `default` option can be used to default to the Authentication algorithm.
 - `ipsec_policies_preset` (String) One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.
+- `is_route_based` (Boolean) [optional] If true, the VPN peer is route-based. If not included, the default is false. Supported only for MX 19.1 and above.
 - `local_id` (String) [optional] The local ID is used to identify the MX to the peer. This will apply to all MXs this peer applies to.
 - `name` (String) The name of the VPN peer
+- `network_ids` (List of String) [optional] A list of network IDs.
 - `network_tags` (List of String) A list of network tags that will connect with this peer. Use [`all`] for all networks. Use [`none`] for no networks. If not included, the default is [`all`].
+- `peer_id` (String) The ID of the IPsec peer
+- `priority_in_group` (Number) [optional] Represents the order of peer inside a group. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.
 - `private_subnets` (List of String) The list of the private subnets of the VPN peer
 - `public_hostname` (String) [optional] The public hostname of the VPN peer
 - `public_ip` (String) [optional] The public IP of the VPN peer
 - `remote_id` (String) [optional] The remote ID is used to identify the connecting VPN peer. This can either be a valid IPv4 Address, FQDN or User FQDN.
 - `secret` (String) The shared secret with the VPN peer
+- `sla_policy_id` (String) The ID of the SLA policy
