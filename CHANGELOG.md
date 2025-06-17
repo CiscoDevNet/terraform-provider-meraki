@@ -3,6 +3,7 @@
 - Add `group_active_active_tunnel`, `group_failover_direct_to_internet`, `group_number`, `is_route_based`, `network_ids`, `peer_id`, `priority_in_group`, `sla_policy_id` and `ebgp_neighbor_*` attributes to `meraki_appliance_third_party_vpn_peers` resource and data source
 - Make `name` attribute of `organization_brnading_policy` resource mandatory
 - Add `guest_group_policy_id`, `guest_sgt_id`, `radius_authentication_mode`, `radius_critical_auth_data_group_policy_id`, `radius_critical_auth_data_sgt_id`, `radius_critical_auth_voice_group_policy_id`, `radius_critical_auth_voice_sgt_id`, `radius_failed_auth_group_policy_id`, `radius_failed_auth_sgt_id` and `radius_pre_authentication_group_policy_id` attributes to `meraki_switch_access_policy` resource and data sources
+- Add `meraki_appliance_vpn_site_to_site_ipsec_peers_slas` resource and data source
 
 ## 1.2.1
 
