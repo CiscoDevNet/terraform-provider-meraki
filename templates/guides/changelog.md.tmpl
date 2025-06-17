@@ -13,6 +13,7 @@ description: |-
 - Make `name` attribute of `organization_brnading_policy` resource mandatory
 - Add `guest_group_policy_id`, `guest_sgt_id`, `radius_authentication_mode`, `radius_critical_auth_data_group_policy_id`, `radius_critical_auth_data_sgt_id`, `radius_critical_auth_voice_group_policy_id`, `radius_critical_auth_voice_sgt_id`, `radius_failed_auth_group_policy_id`, `radius_failed_auth_sgt_id` and `radius_pre_authentication_group_policy_id` attributes to `meraki_switch_access_policy` resource and data sources
 - Add `meraki_appliance_vpn_site_to_site_ipsec_peers_slas` resource and data source
+- Fix idempotency issue with `move_map_marker` attribute of `meraki_device` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/88)
 
 ## 1.2.1
 
