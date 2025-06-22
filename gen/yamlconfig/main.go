@@ -434,6 +434,15 @@ func HasDestroyValues(attributes []YamlConfigAttribute) bool {
 	return false
 }
 
+func GetBulkPath(path string) string {
+	// Remove the last element from the slash separated path, if the last element starts with "%"
+	parts := strings.Split(path, "/")
+	if len(parts) > 1 && strings.HasPrefix(parts[len(parts)-1], "%") {
+		return strings.Join(parts[:len(parts)-1], "/")
+	}
+	return path
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":              ToGoName,
@@ -464,6 +473,7 @@ var Functions = template.FuncMap{
 	"hasComputedAttributes": HasComputedAttributes,
 	"buildTestPath":         BuildTestPath,
 	"hasDestroyValues":      HasDestroyValues,
+	"getBulkPath":           GetBulkPath,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")

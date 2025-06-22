@@ -39,45 +39,36 @@ type SwitchPorts struct {
 }
 
 type SwitchPortsItems struct {
-	Id                                     types.String `tfsdk:"id"`
-	AccessPolicyNumber                     types.Int64  `tfsdk:"access_policy_number"`
-	AccessPolicyType                       types.String `tfsdk:"access_policy_type"`
-	AllowedVlans                           types.String `tfsdk:"allowed_vlans"`
-	DaiTrusted                             types.Bool   `tfsdk:"dai_trusted"`
-	Enabled                                types.Bool   `tfsdk:"enabled"`
-	FlexibleStackingEnabled                types.Bool   `tfsdk:"flexible_stacking_enabled"`
-	IsolationEnabled                       types.Bool   `tfsdk:"isolation_enabled"`
-	LinkNegotiation                        types.String `tfsdk:"link_negotiation"`
-	MacWhitelistLimit                      types.Int64  `tfsdk:"mac_whitelist_limit"`
-	Name                                   types.String `tfsdk:"name"`
-	PeerSgtCapable                         types.Bool   `tfsdk:"peer_sgt_capable"`
-	PoeEnabled                             types.Bool   `tfsdk:"poe_enabled"`
-	PortId                                 types.String `tfsdk:"port_id"`
-	PortScheduleId                         types.String `tfsdk:"port_schedule_id"`
-	RstpEnabled                            types.Bool   `tfsdk:"rstp_enabled"`
-	StickyMacAllowListLimit                types.Int64  `tfsdk:"sticky_mac_allow_list_limit"`
-	StormControlEnabled                    types.Bool   `tfsdk:"storm_control_enabled"`
-	StpGuard                               types.String `tfsdk:"stp_guard"`
-	Type                                   types.String `tfsdk:"type"`
-	Udld                                   types.String `tfsdk:"udld"`
-	Vlan                                   types.Int64  `tfsdk:"vlan"`
-	VoiceVlan                              types.Int64  `tfsdk:"voice_vlan"`
-	AdaptivePolicyGroupId                  types.String `tfsdk:"adaptive_policy_group_id"`
-	AdaptivePolicyGroupName                types.String `tfsdk:"adaptive_policy_group_name"`
-	Dot3azEnabled                          types.Bool   `tfsdk:"dot3az_enabled"`
-	MirrorMode                             types.String `tfsdk:"mirror_mode"`
-	ModuleModel                            types.String `tfsdk:"module_model"`
-	ProfileEnabled                         types.Bool   `tfsdk:"profile_enabled"`
-	ProfileId                              types.String `tfsdk:"profile_id"`
-	ProfileIname                           types.String `tfsdk:"profile_iname"`
-	ScheduleId                             types.String `tfsdk:"schedule_id"`
-	ScheduleName                           types.String `tfsdk:"schedule_name"`
-	StackwiseVirtualIsDualActiveDetector   types.Bool   `tfsdk:"stackwise_virtual_is_dual_active_detector"`
-	StackwiseVirtualIsStackWiseVirtualLink types.Bool   `tfsdk:"stackwise_virtual_is_stack_wise_virtual_link"`
-	LinkNegotiationCapabilities            types.List   `tfsdk:"link_negotiation_capabilities"`
-	MacAllowList                           types.List   `tfsdk:"mac_allow_list"`
-	StickyMacAllowList                     types.List   `tfsdk:"sticky_mac_allow_list"`
-	Tags                                   types.List   `tfsdk:"tags"`
+	PortId                  types.String `tfsdk:"port_id"`
+	AccessPolicyNumber      types.Int64  `tfsdk:"access_policy_number"`
+	AccessPolicyType        types.String `tfsdk:"access_policy_type"`
+	AdaptivePolicyGroupId   types.String `tfsdk:"adaptive_policy_group_id"`
+	AllowedVlans            types.String `tfsdk:"allowed_vlans"`
+	DaiTrusted              types.Bool   `tfsdk:"dai_trusted"`
+	Enabled                 types.Bool   `tfsdk:"enabled"`
+	FlexibleStackingEnabled types.Bool   `tfsdk:"flexible_stacking_enabled"`
+	IsolationEnabled        types.Bool   `tfsdk:"isolation_enabled"`
+	LinkNegotiation         types.String `tfsdk:"link_negotiation"`
+	MacWhitelistLimit       types.Int64  `tfsdk:"mac_whitelist_limit"`
+	Name                    types.String `tfsdk:"name"`
+	PeerSgtCapable          types.Bool   `tfsdk:"peer_sgt_capable"`
+	PoeEnabled              types.Bool   `tfsdk:"poe_enabled"`
+	PortScheduleId          types.String `tfsdk:"port_schedule_id"`
+	RstpEnabled             types.Bool   `tfsdk:"rstp_enabled"`
+	StickyMacAllowListLimit types.Int64  `tfsdk:"sticky_mac_allow_list_limit"`
+	StormControlEnabled     types.Bool   `tfsdk:"storm_control_enabled"`
+	StpGuard                types.String `tfsdk:"stp_guard"`
+	Type                    types.String `tfsdk:"type"`
+	Udld                    types.String `tfsdk:"udld"`
+	Vlan                    types.Int64  `tfsdk:"vlan"`
+	VoiceVlan               types.Int64  `tfsdk:"voice_vlan"`
+	Dot3azEnabled           types.Bool   `tfsdk:"dot3az_enabled"`
+	ProfileEnabled          types.Bool   `tfsdk:"profile_enabled"`
+	ProfileId               types.String `tfsdk:"profile_id"`
+	ProfileIname            types.String `tfsdk:"profile_iname"`
+	MacAllowList            types.Set    `tfsdk:"mac_allow_list"`
+	StickyMacAllowList      types.Set    `tfsdk:"sticky_mac_allow_list"`
+	Tags                    types.Set    `tfsdk:"tags"`
 }
 
 // End of section. //template:end types
@@ -97,7 +88,11 @@ func (data *SwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := SwitchPortsItems{}
-		data.Id = types.StringValue(res.Get("").String())
+		if value := res.Get("portId"); value.Exists() && value.Value() != nil {
+			data.PortId = types.StringValue(value.String())
+		} else {
+			data.PortId = types.StringNull()
+		}
 		if value := res.Get("accessPolicyNumber"); value.Exists() && value.Value() != nil {
 			data.AccessPolicyNumber = types.Int64Value(value.Int())
 		} else {
@@ -107,6 +102,11 @@ func (data *SwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 			data.AccessPolicyType = types.StringValue(value.String())
 		} else {
 			data.AccessPolicyType = types.StringNull()
+		}
+		if value := res.Get("adaptivePolicyGroupId"); value.Exists() && value.Value() != nil {
+			data.AdaptivePolicyGroupId = types.StringValue(value.String())
+		} else {
+			data.AdaptivePolicyGroupId = types.StringNull()
 		}
 		if value := res.Get("allowedVlans"); value.Exists() && value.Value() != nil {
 			data.AllowedVlans = types.StringValue(value.String())
@@ -158,11 +158,6 @@ func (data *SwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 		} else {
 			data.PoeEnabled = types.BoolNull()
 		}
-		if value := res.Get("portId"); value.Exists() && value.Value() != nil {
-			data.PortId = types.StringValue(value.String())
-		} else {
-			data.PortId = types.StringNull()
-		}
 		if value := res.Get("portScheduleId"); value.Exists() && value.Value() != nil {
 			data.PortScheduleId = types.StringValue(value.String())
 		} else {
@@ -208,30 +203,10 @@ func (data *SwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 		} else {
 			data.VoiceVlan = types.Int64Null()
 		}
-		if value := res.Get("adaptivePolicyGroup.id"); value.Exists() && value.Value() != nil {
-			data.AdaptivePolicyGroupId = types.StringValue(value.String())
-		} else {
-			data.AdaptivePolicyGroupId = types.StringNull()
-		}
-		if value := res.Get("adaptivePolicyGroup.name"); value.Exists() && value.Value() != nil {
-			data.AdaptivePolicyGroupName = types.StringValue(value.String())
-		} else {
-			data.AdaptivePolicyGroupName = types.StringNull()
-		}
 		if value := res.Get("dot3az.enabled"); value.Exists() && value.Value() != nil {
 			data.Dot3azEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.Dot3azEnabled = types.BoolNull()
-		}
-		if value := res.Get("mirror.mode"); value.Exists() && value.Value() != nil {
-			data.MirrorMode = types.StringValue(value.String())
-		} else {
-			data.MirrorMode = types.StringNull()
-		}
-		if value := res.Get("module.model"); value.Exists() && value.Value() != nil {
-			data.ModuleModel = types.StringValue(value.String())
-		} else {
-			data.ModuleModel = types.StringNull()
 		}
 		if value := res.Get("profile.enabled"); value.Exists() && value.Value() != nil {
 			data.ProfileEnabled = types.BoolValue(value.Bool())
@@ -248,45 +223,20 @@ func (data *SwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 		} else {
 			data.ProfileIname = types.StringNull()
 		}
-		if value := res.Get("schedule.id"); value.Exists() && value.Value() != nil {
-			data.ScheduleId = types.StringValue(value.String())
-		} else {
-			data.ScheduleId = types.StringNull()
-		}
-		if value := res.Get("schedule.name"); value.Exists() && value.Value() != nil {
-			data.ScheduleName = types.StringValue(value.String())
-		} else {
-			data.ScheduleName = types.StringNull()
-		}
-		if value := res.Get("stackwiseVirtual.isDualActiveDetector"); value.Exists() && value.Value() != nil {
-			data.StackwiseVirtualIsDualActiveDetector = types.BoolValue(value.Bool())
-		} else {
-			data.StackwiseVirtualIsDualActiveDetector = types.BoolNull()
-		}
-		if value := res.Get("stackwiseVirtual.isStackWiseVirtualLink"); value.Exists() && value.Value() != nil {
-			data.StackwiseVirtualIsStackWiseVirtualLink = types.BoolValue(value.Bool())
-		} else {
-			data.StackwiseVirtualIsStackWiseVirtualLink = types.BoolNull()
-		}
-		if value := res.Get("linkNegotiationCapabilities"); value.Exists() && value.Value() != nil {
-			data.LinkNegotiationCapabilities = helpers.GetStringList(value.Array())
-		} else {
-			data.LinkNegotiationCapabilities = types.ListNull(types.StringType)
-		}
 		if value := res.Get("macAllowList"); value.Exists() && value.Value() != nil {
-			data.MacAllowList = helpers.GetStringList(value.Array())
+			data.MacAllowList = helpers.GetStringSet(value.Array())
 		} else {
-			data.MacAllowList = types.ListNull(types.StringType)
+			data.MacAllowList = types.SetNull(types.StringType)
 		}
 		if value := res.Get("stickyMacAllowList"); value.Exists() && value.Value() != nil {
-			data.StickyMacAllowList = helpers.GetStringList(value.Array())
+			data.StickyMacAllowList = helpers.GetStringSet(value.Array())
 		} else {
-			data.StickyMacAllowList = types.ListNull(types.StringType)
+			data.StickyMacAllowList = types.SetNull(types.StringType)
 		}
 		if value := res.Get("tags"); value.Exists() && value.Value() != nil {
-			data.Tags = helpers.GetStringList(value.Array())
+			data.Tags = helpers.GetStringSet(value.Array())
 		} else {
-			data.Tags = types.ListNull(types.StringType)
+			data.Tags = types.SetNull(types.StringType)
 		}
 		(*parent).Items = append((*parent).Items, data)
 		return true

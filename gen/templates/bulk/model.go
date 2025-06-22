@@ -38,7 +38,7 @@ import (
 
 type {{camelCase .BulkName}} struct {
 {{- range .Attributes}}
-{{- if .Reference}}
+{{- if and .Reference (not .Id)}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
 {{- end}}
@@ -46,9 +46,8 @@ type {{camelCase .BulkName}} struct {
 }
 
 type {{camelCase .BulkName}}Items struct {
-	Id types.String `tfsdk:"id"`
 {{- range .Attributes}}
-{{- if and (not .Reference) (not .Value)}}
+{{- if and (or (not .Reference) .Id) (not .Value)}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}
@@ -138,7 +137,7 @@ type {{.GoTypeBulkName}} struct {
 
 func (data {{camelCase .BulkName}}) getPath() string {
 	{{- if hasReference .Attributes}}
-		return fmt.Sprintf("{{.RestEndpoint}}"{{range .Attributes}}{{if .Reference}}, url.QueryEscape(data.{{toGoName .TfName}}.Value{{.Type}}()){{end}}{{end}})
+		return fmt.Sprintf("{{getBulkPath .RestEndpoint}}"{{range .Attributes}}{{if and .Reference (not .Id)}}, url.QueryEscape(data.{{toGoName .TfName}}.Value{{.Type}}()){{end}}{{end}})
 	{{- else}}
 		return "{{.RestEndpoint}}"
 	{{- end}}
@@ -153,10 +152,9 @@ func (data *{{camelCase .BulkName}}) fromBody(ctx context.Context, res meraki.Re
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := {{camelCase .BulkName}}Items{}
-		data.Id = types.StringValue(res.Get("{{if hasId .Attributes}}{{(getId .Attributes).ModelName}}{{else if .IdName}}{{.IdName}}{{else}}id{{end}}").String())
 		{{- define "fromBodyTemplate"}}
 			{{- range .Attributes}}
-			{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
+			{{- if and (not .Value) (not .WriteOnly) (or (not .Reference) .Id) .ModelName}}
 			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 			if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && value.Value() != nil {
 				data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())

@@ -63,7 +63,7 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 
 		Attributes: map[string]schema.Attribute{
 			{{- range .Attributes}}
-			{{- if .Reference}}
+			{{- if and .Reference (not .Id)}}
 			"{{.TfName}}": schema.{{.Type}}Attribute{
 				MarkdownDescription: "{{.Description}}",
 				Required:            true,
@@ -75,12 +75,8 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							MarkdownDescription: "The id of the object",
-							Computed:            true,
-						},
 						{{- range .Attributes}}
-						{{- if and (not .Value) (not .Reference)}}
+						{{- if and (or (not .Reference) .Id) (not .Value)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: "{{.Description}}",
 							{{- if isListSet .}}

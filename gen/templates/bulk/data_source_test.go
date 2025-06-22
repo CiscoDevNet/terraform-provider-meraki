@@ -71,7 +71,7 @@ variable "{{.}}" {}
 func testAccDataSourceMeraki{{camelCase .BulkName}}Config() string {
 	config := `data "meraki_{{snakeCase .BulkName}}" "test" {
 			{{- range  .Attributes}}
-			{{- if .Reference}}
+			{{- if and .Reference (not .Id)}}
 			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}
 			{{- end}}
 			{{- end}}
