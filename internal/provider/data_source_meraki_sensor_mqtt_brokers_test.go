@@ -59,6 +59,12 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["switch", "wireless", "appliance", "sensor"]
 }
+resource "meraki_network_mqtt_broker" "test" {
+  network_id = meraki_network.test.id
+  host = "1.2.3.4"
+  name = "MQTT_Broker_1"
+  port = 443
+}
 
 `
 

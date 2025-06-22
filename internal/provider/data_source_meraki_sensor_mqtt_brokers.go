@@ -54,7 +54,7 @@ func (d *SensorMQTTBrokersDataSource) Metadata(_ context.Context, req datasource
 func (d *SensorMQTTBrokersDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sensor MQTT Brokers` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sensor MQTT Broker` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -66,16 +66,12 @@ func (d *SensorMQTTBrokersDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							MarkdownDescription: "The id of the object",
+						"mqtt_broker_id": schema.StringAttribute{
+							MarkdownDescription: "MQTT Broker ID",
 							Computed:            true,
 						},
 						"enabled": schema.BoolAttribute{
-							MarkdownDescription: "Specifies whether the broker is enabled for sensor data. Currently, only a single broker may be enabled for sensor data.",
-							Computed:            true,
-						},
-						"mqtt_broker_id": schema.StringAttribute{
-							MarkdownDescription: "ID of the MQTT Broker.",
+							MarkdownDescription: "Set to true to enable MQTT broker for sensor network",
 							Computed:            true,
 						},
 					},

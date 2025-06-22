@@ -38,9 +38,8 @@ type SensorMQTTBrokers struct {
 }
 
 type SensorMQTTBrokersItems struct {
-	Id           types.String `tfsdk:"id"`
-	Enabled      types.Bool   `tfsdk:"enabled"`
 	MqttBrokerId types.String `tfsdk:"mqtt_broker_id"`
+	Enabled      types.Bool   `tfsdk:"enabled"`
 }
 
 // End of section. //template:end types
@@ -60,16 +59,15 @@ func (data *SensorMQTTBrokers) fromBody(ctx context.Context, res meraki.Res) {
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := SensorMQTTBrokersItems{}
-		data.Id = types.StringValue(res.Get("").String())
-		if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
-			data.Enabled = types.BoolValue(value.Bool())
-		} else {
-			data.Enabled = types.BoolNull()
-		}
 		if value := res.Get("mqttBrokerId"); value.Exists() && value.Value() != nil {
 			data.MqttBrokerId = types.StringValue(value.String())
 		} else {
 			data.MqttBrokerId = types.StringNull()
+		}
+		if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
+			data.Enabled = types.BoolValue(value.Bool())
+		} else {
+			data.Enabled = types.BoolNull()
 		}
 		(*parent).Items = append((*parent).Items, data)
 		return true

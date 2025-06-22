@@ -3,12 +3,12 @@
 page_title: "meraki_sensor_mqtt_brokers Data Source - terraform-provider-meraki"
 subcategory: "Sensors"
 description: |-
-  This data source can read the Sensor MQTT Brokers configuration.
+  This data source can read the Sensor MQTT Broker configuration.
 ---
 
 # meraki_sensor_mqtt_brokers (Data Source)
 
-This data source can read the `Sensor MQTT Brokers` configuration.
+This data source can read the `Sensor MQTT Broker` configuration.
 
 ## Example Usage
 
@@ -34,6 +34,5 @@ data "meraki_sensor_mqtt_brokers" "example" {
 
 Read-Only:
 
-- `enabled` (Boolean) Specifies whether the broker is enabled for sensor data. Currently, only a single broker may be enabled for sensor data.
-- `id` (String) The id of the object
-- `mqtt_broker_id` (String) ID of the MQTT Broker.
+- `enabled` (Boolean) Set to true to enable MQTT broker for sensor network
+- `mqtt_broker_id` (String) MQTT Broker ID
