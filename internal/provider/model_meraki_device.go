@@ -118,11 +118,6 @@ func (data *Device) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.Lng = types.Float64Null()
 	}
-	if value := res.Get("moveMapMarker"); value.Exists() && value.Value() != nil {
-		data.MoveMapMarker = types.BoolValue(value.Bool())
-	} else {
-		data.MoveMapMarker = types.BoolNull()
-	}
 	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
 	} else {
@@ -173,11 +168,6 @@ func (data *Device) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.Lng = types.Float64Value(value.Float())
 	} else {
 		data.Lng = types.Float64Null()
-	}
-	if value := res.Get("moveMapMarker"); value.Exists() && !data.MoveMapMarker.IsNull() {
-		data.MoveMapMarker = types.BoolValue(value.Bool())
-	} else {
-		data.MoveMapMarker = types.BoolNull()
 	}
 	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())

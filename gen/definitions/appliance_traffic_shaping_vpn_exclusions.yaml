@@ -22,6 +22,7 @@ attributes:
     type: List
     description: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
     ordered_list: true
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: destination
         type: String
@@ -40,6 +41,7 @@ attributes:
   - model_name: majorApplications
     type: List
     description: Major Application based VPN exclusion rules. Pass an empty array to clear existing rules.
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: id
         type: String

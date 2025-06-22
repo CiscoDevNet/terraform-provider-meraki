@@ -79,12 +79,24 @@ func (d *ApplianceThirdPartyVPNPeersDataSource) Schema(ctx context.Context, req 
 							MarkdownDescription: "One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.",
 							Computed:            true,
 						},
+						"is_route_based": schema.BoolAttribute{
+							MarkdownDescription: "[optional] If true, the VPN peer is route-based. If not included, the default is false. Supported only for MX 19.1 and above.",
+							Computed:            true,
+						},
 						"local_id": schema.StringAttribute{
 							MarkdownDescription: "[optional] The local ID is used to identify the MX to the peer. This will apply to all MXs this peer applies to.",
 							Computed:            true,
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: "The name of the VPN peer",
+							Computed:            true,
+						},
+						"peer_id": schema.StringAttribute{
+							MarkdownDescription: "The ID of the IPsec peer",
+							Computed:            true,
+						},
+						"priority_in_group": schema.Int64Attribute{
+							MarkdownDescription: "[optional] Represents the order of peer inside a group. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.",
 							Computed:            true,
 						},
 						"public_hostname": schema.StringAttribute{
@@ -101,6 +113,55 @@ func (d *ApplianceThirdPartyVPNPeersDataSource) Schema(ctx context.Context, req 
 						},
 						"secret": schema.StringAttribute{
 							MarkdownDescription: "The shared secret with the VPN peer",
+							Computed:            true,
+						},
+						"ebgp_neighbor_ebgp_hold_timer": schema.Int64Attribute{
+							MarkdownDescription: "The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.",
+							Computed:            true,
+						},
+						"ebgp_neighbor_ebgp_multihop": schema.Int64Attribute{
+							MarkdownDescription: "Configure this if the neighbor is not adjacent. The eBGP multi-hop must be an integer between 1 and 255.",
+							Computed:            true,
+						},
+						"ebgp_neighbor_ip_version": schema.Int64Attribute{
+							MarkdownDescription: "The IP version of the neighbor",
+							Computed:            true,
+						},
+						"ebgp_neighbor_multi_exit_discriminator": schema.Int64Attribute{
+							MarkdownDescription: "Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.",
+							Computed:            true,
+						},
+						"ebgp_neighbor_neighbor_ip": schema.StringAttribute{
+							MarkdownDescription: "IPv4/IPv6 address of the neighbor",
+							Computed:            true,
+						},
+						"ebgp_neighbor_remote_as_number": schema.Int64Attribute{
+							MarkdownDescription: "Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.",
+							Computed:            true,
+						},
+						"ebgp_neighbor_source_ip": schema.StringAttribute{
+							MarkdownDescription: "Source IP of eBGP neighbor",
+							Computed:            true,
+						},
+						"ebgp_neighbor_weight": schema.Int64Attribute{
+							MarkdownDescription: "Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.",
+							Computed:            true,
+						},
+						"ebgp_neighbor_path_prepend": schema.ListAttribute{
+							MarkdownDescription: "Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.",
+							ElementType:         types.Int64Type,
+							Computed:            true,
+						},
+						"group_active_active_tunnel": schema.BoolAttribute{
+							MarkdownDescription: "[optional] Both primary and backup tunnels are active.",
+							Computed:            true,
+						},
+						"group_number": schema.Int64Attribute{
+							MarkdownDescription: "[optional] Represents the ordering of primary and backup tunnels group. primary and backup tunnels are grouped by this number. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.",
+							Computed:            true,
+						},
+						"group_failover_direct_to_internet": schema.BoolAttribute{
+							MarkdownDescription: "[optional] When both primary and backup tunnels are down, direct traffic to the internet. Traffic will be routed via the WAN",
 							Computed:            true,
 						},
 						"ipsec_policies_child_lifetime": schema.Int64Attribute{
@@ -144,6 +205,15 @@ func (d *ApplianceThirdPartyVPNPeersDataSource) Schema(ctx context.Context, req 
 						"ipsec_policies_ike_prf_algo": schema.ListAttribute{
 							MarkdownDescription: "[optional] This is the pseudo-random function to be used in IKE_SA. The value should be an array with one of the following algorithms: `prfsha256`, `prfsha1`, `prfmd5`, `default`. The `default` option can be used to default to the Authentication algorithm.",
 							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"network_ids": schema.ListAttribute{
+							MarkdownDescription: "[optional] A list of network IDs.",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"sla_policy_id": schema.StringAttribute{
+							MarkdownDescription: "The ID of the SLA policy",
 							Computed:            true,
 						},
 						"network_tags": schema.ListAttribute{

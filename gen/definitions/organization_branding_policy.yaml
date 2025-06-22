@@ -19,6 +19,7 @@ attributes:
     example: "true"
   - model_name: name
     type: String
+    mandatory: true
     description: Name of the Dashboard branding policy.
     example: My Branding Policy
   - model_name: appliesTo

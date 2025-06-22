@@ -78,7 +78,7 @@ func TestAccMerakiWirelessSSID(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDImportStateIdFunc("meraki_wireless_ssid.test"),
-		ImportStateVerifyIgnore: []string{"radius_accounting_servers.0.secret", "radius_servers.0.secret"},
+		ImportStateVerifyIgnore: []string{"radius_accounting_servers.0.secret", "radius_servers.0.secret", "radius_das_clients_shared_secret"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

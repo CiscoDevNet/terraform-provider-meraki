@@ -533,6 +533,22 @@ attributes:
     exclude_test: true
     description: Specify your walled garden by entering an array of addresses, ranges using CIDR notation, domain names, and domain wildcards (e.g. `192.168.1.1/24`, `192.168.37.10/32`, `www.yahoo.com`, `*.google.com`]). Meraki`s splash page is automatically included in your walled garden.
     example: example.com
+  - model_name: clientsIps
+    tf_name: radius_das_clients_ips
+    type: Set
+    element_type: String
+    data_path: [radiusDasClients]
+    exclude_test: true
+    description: List of DAS (Dynamic Authorization Server) IPs. This is an unsupported attribute and is subject to breaking changes without prior notice.
+    example: 1.1.1.1
+  - model_name: clientsSharedSecret
+    tf_name: radius_das_clients_shared_secret
+    type: String
+    data_path: [radiusDasClients]
+    write_only: true
+    exclude_test: true
+    description: Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.
+    example: secret-string
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

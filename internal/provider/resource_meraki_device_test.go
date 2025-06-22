@@ -57,7 +57,7 @@ func TestAccMerakiDevice(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiDeviceImportStateIdFunc("meraki_device.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"move_map_marker"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

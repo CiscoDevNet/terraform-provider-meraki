@@ -54,3 +54,36 @@ test_prerequisites: |
     number     = "0"
     name       = "My SSID"
   }
+additional_tests:
+  - |-
+    resource "meraki_wireless_ssid_l7_firewall_rules" "test" {
+      network_id = meraki_network.test.id
+      number     = meraki_wireless_ssid.test.id
+      rules = [
+        {
+          policy = "deny"
+          type   = "host"
+          value  = "google.com"
+        },
+        {
+          policy = "deny"
+          type   = "port"
+          value  = "9091"
+        },
+        {
+          policy = "deny"
+          type   = "ipRange"
+          value  = "192.168.0.3/16:80"
+        },
+        {
+          policy = "deny"
+          type   = "application"
+          value  = "meraki:layer7/application/171"
+        },
+        {
+          policy = "deny"
+          type   = "applicationCategory"
+          value  = "meraki:layer7/category/17"
+        }
+      ]
+    }

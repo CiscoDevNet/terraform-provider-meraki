@@ -86,8 +86,16 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 					stringvalidator.OneOf("802.1x", "Hybrid authentication", "MAC authentication bypass"),
 				},
 			},
+			"guest_group_policy_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Group policy Number for guest group policy").String,
+				Optional:            true,
+			},
 			"guest_port_bouncing": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("If enabled, Meraki devices will periodically send access-request messages to these RADIUS servers").String,
+				Optional:            true,
+			},
+			"guest_sgt_id": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Security Group Tag ID for guest group policy").String,
 				Optional:            true,
 			},
 			"guest_vlan_id": schema.Int64Attribute{
@@ -140,13 +148,32 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 					stringvalidator.OneOf("both", "inbound"),
 				},
 			},
+			"radius_failed_auth_group_policy_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Group policy Number for failed authentication group policy").String,
+				Optional:            true,
+			},
+			"radius_failed_auth_sgt_id": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Security Group Tag ID for failed authentication group policy").String,
+				Optional:            true,
+			},
 			"radius_failed_auth_vlan_id": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("VLAN that clients will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth").String,
+				Optional:            true,
+			},
+			"radius_pre_authentication_group_policy_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Group policy Number for pre-authentication group policy").String,
 				Optional:            true,
 			},
 			"radius_re_authentication_interval": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Re-authentication period in seconds. Will be null if hostMode is Multi-Auth").String,
 				Optional:            true,
+			},
+			"radius_authentication_mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Authentication mode of the policy ( Open | Closed )").AddStringEnumDescription("Closed", "Open").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Closed", "Open"),
+				},
 			},
 			"radius_cache_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Enable to cache authorization and authentication responses on the RADIUS server").String,
@@ -156,12 +183,28 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 				MarkdownDescription: helpers.NewAttributeDescription("If RADIUS caching is enabled, this value dictates how long the cache will remain in the RADIUS server, in hours, to allow network access without authentication").String,
 				Optional:            true,
 			},
+			"radius_critical_auth_data_group_policy_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Group policy Number for data VLAN").String,
+				Optional:            true,
+			},
+			"radius_critical_auth_data_sgt_id": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Security Group Tag ID for data VLAN").String,
+				Optional:            true,
+			},
 			"radius_critical_auth_data_vlan_id": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("VLAN that clients who use data will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth").String,
 				Optional:            true,
 			},
 			"radius_critical_auth_suspend_port_bounce": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Enable to suspend port bounce when RADIUS servers are unreachable").String,
+				Optional:            true,
+			},
+			"radius_critical_auth_voice_group_policy_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Group policy Number for voice VLAN").String,
+				Optional:            true,
+			},
+			"radius_critical_auth_voice_sgt_id": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Security Group Tag ID for voice VLAN").String,
 				Optional:            true,
 			},
 			"radius_critical_auth_voice_vlan_id": schema.Int64Attribute{

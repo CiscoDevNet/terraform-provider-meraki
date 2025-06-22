@@ -118,6 +118,8 @@ resource "meraki_wireless_ssid" "example" {
 - `radius_authentication_nas_id` (String) The template of the NAS identifier to be used for RADIUS authentication (ex. $NODE_MAC$:$VAP_NUM$).
 - `radius_called_station_id` (String) The template of the called station identifier to be used for RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
 - `radius_coa_enabled` (Boolean) If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server.
+- `radius_das_clients_ips` (Set of String) List of DAS (Dynamic Authorization Server) IPs. This is an unsupported attribute and is subject to breaking changes without prior notice.
+- `radius_das_clients_shared_secret` (String) Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.
 - `radius_failover_policy` (String) This policy determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable (`Deny access` or `Allow access`)
   - Choices: `Allow access`, `Deny access`
 - `radius_fallback_enabled` (Boolean) Whether or not higher priority RADIUS servers should be retried after 60 seconds.

@@ -1,3 +1,22 @@
+## 1.3.0
+
+- Add `group_active_active_tunnel`, `group_failover_direct_to_internet`, `group_number`, `is_route_based`, `network_ids`, `peer_id`, `priority_in_group`, `sla_policy_id` and `ebgp_neighbor_*` attributes to `meraki_appliance_third_party_vpn_peers` resource and data source
+- Make `name` attribute of `organization_brnading_policy` resource mandatory
+- Add `guest_group_policy_id`, `guest_sgt_id`, `radius_authentication_mode`, `radius_critical_auth_data_group_policy_id`, `radius_critical_auth_data_sgt_id`, `radius_critical_auth_voice_group_policy_id`, `radius_critical_auth_voice_sgt_id`, `radius_failed_auth_group_policy_id`, `radius_failed_auth_sgt_id` and `radius_pre_authentication_group_policy_id` attributes to `meraki_switch_access_policy` resource and data sources
+- Add `meraki_appliance_vpn_site_to_site_ipsec_peers_slas` resource and data source
+- Fix idempotency issue with `move_map_marker` attribute of `meraki_device` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/88)
+- Add unsupported `radius_das_clients_ips` and `radius_das_clients_shared_secret` attributes to `meraki_wireless_ssid` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/85)
+- Delete lists when destroying `meraki_appliance_connectivity_monitoring_destinations`, `meraki_appliance_firewall_multicast_forwarding`, `meraki_appliance_organization_security_intrusion`, `meraki_appliance_sdwan_internet_policies`, `meraki_appliance_third_party_vpn_peers`, `meraki_appliance_traffic_shaping_uplink_selection`, `meraki_pliance_traffic_shaping_vpn_exclusions`, `meraki_cellular_gateway_connectivity_monitoring_destinations`, `meraki_network_syslog_servers`, `meraki_switch_access_control_lists` and `meraki_switch_dscp_to_cos_mappings` resources
+- Reset `access_policy_type`, `adaptive_policy_group_id` and `profile_enabled` attributes of `meraki_switch_port` resource when destroying the resource
+
+## 1.2.1
+
+- Fix API format of `definitions[].value` attribute of `meraki_appliance_traffic_shaping_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+- Fix API format of `l7_firewall_rules[].value` attribute of `meraki_network_group_policy` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+- Fix API format of `traffic_shaping_rules[].definitions[].value` attribute of `meraki_network_group_policy` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+- Fix API format of `rules[].value` attribute of `meraki_wireless_ssid_l7_firewall_rules` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/81)
+- Fix `meraki_appliance_sdwan_internet_policies` deletion doing nothing, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/83)
+
 ## 1.2.0
 
 - Handle HTTP error code `400` correctly when trying to read non-existent resources

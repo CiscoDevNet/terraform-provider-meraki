@@ -541,6 +541,15 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
+			"radius_das_clients_ips": schema.SetAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("List of DAS (Dynamic Authorization Server) IPs. This is an unsupported attribute and is subject to breaking changes without prior notice.").String,
+				ElementType:         types.StringType,
+				Optional:            true,
+			},
+			"radius_das_clients_shared_secret": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.").String,
+				Optional:            true,
+			},
 		},
 	}
 }

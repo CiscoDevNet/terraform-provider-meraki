@@ -75,8 +75,16 @@ func (d *SwitchAccessPoliciesDataSource) Schema(ctx context.Context, req datasou
 							MarkdownDescription: "Access Type of the policy. Automatically `Hybrid authentication` when hostMode is `Multi-Domain`.",
 							Computed:            true,
 						},
+						"guest_group_policy_id": schema.StringAttribute{
+							MarkdownDescription: "Group policy Number for guest group policy",
+							Computed:            true,
+						},
 						"guest_port_bouncing": schema.BoolAttribute{
 							MarkdownDescription: "If enabled, Meraki devices will periodically send access-request messages to these RADIUS servers",
+							Computed:            true,
+						},
+						"guest_sgt_id": schema.Int64Attribute{
+							MarkdownDescription: "Security Group Tag ID for guest group policy",
 							Computed:            true,
 						},
 						"guest_vlan_id": schema.Int64Attribute{
@@ -123,12 +131,28 @@ func (d *SwitchAccessPoliciesDataSource) Schema(ctx context.Context, req datasou
 							MarkdownDescription: "Supports either `both` or `inbound`. Set to `inbound` to allow unauthorized egress on the switchport. Set to `both` to control both traffic directions with authorization. Defaults to `both`",
 							Computed:            true,
 						},
+						"radius_failed_auth_group_policy_id": schema.StringAttribute{
+							MarkdownDescription: "Group policy Number for failed authentication group policy",
+							Computed:            true,
+						},
+						"radius_failed_auth_sgt_id": schema.Int64Attribute{
+							MarkdownDescription: "Security Group Tag ID for failed authentication group policy",
+							Computed:            true,
+						},
 						"radius_failed_auth_vlan_id": schema.Int64Attribute{
 							MarkdownDescription: "VLAN that clients will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth",
 							Computed:            true,
 						},
+						"radius_pre_authentication_group_policy_id": schema.StringAttribute{
+							MarkdownDescription: "Group policy Number for pre-authentication group policy",
+							Computed:            true,
+						},
 						"radius_re_authentication_interval": schema.Int64Attribute{
 							MarkdownDescription: "Re-authentication period in seconds. Will be null if hostMode is Multi-Auth",
+							Computed:            true,
+						},
+						"radius_authentication_mode": schema.StringAttribute{
+							MarkdownDescription: "Authentication mode of the policy ( Open | Closed )",
 							Computed:            true,
 						},
 						"radius_cache_enabled": schema.BoolAttribute{
@@ -139,12 +163,28 @@ func (d *SwitchAccessPoliciesDataSource) Schema(ctx context.Context, req datasou
 							MarkdownDescription: "If RADIUS caching is enabled, this value dictates how long the cache will remain in the RADIUS server, in hours, to allow network access without authentication",
 							Computed:            true,
 						},
+						"radius_critical_auth_data_group_policy_id": schema.StringAttribute{
+							MarkdownDescription: "Group policy Number for data VLAN",
+							Computed:            true,
+						},
+						"radius_critical_auth_data_sgt_id": schema.Int64Attribute{
+							MarkdownDescription: "Security Group Tag ID for data VLAN",
+							Computed:            true,
+						},
 						"radius_critical_auth_data_vlan_id": schema.Int64Attribute{
 							MarkdownDescription: "VLAN that clients who use data will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth",
 							Computed:            true,
 						},
 						"radius_critical_auth_suspend_port_bounce": schema.BoolAttribute{
 							MarkdownDescription: "Enable to suspend port bounce when RADIUS servers are unreachable",
+							Computed:            true,
+						},
+						"radius_critical_auth_voice_group_policy_id": schema.StringAttribute{
+							MarkdownDescription: "Group policy Number for voice VLAN",
+							Computed:            true,
+						},
+						"radius_critical_auth_voice_sgt_id": schema.Int64Attribute{
+							MarkdownDescription: "Security Group Tag ID for voice VLAN",
 							Computed:            true,
 						},
 						"radius_critical_auth_voice_vlan_id": schema.Int64Attribute{

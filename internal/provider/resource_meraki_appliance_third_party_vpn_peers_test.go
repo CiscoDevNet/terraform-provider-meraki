@@ -37,11 +37,15 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ike_version", "2"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.is_route_based", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.local_id", "myMXId@meraki.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.name", "Peer Name"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.priority_in_group", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.public_ip", "123.123.123.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.remote_id", "miles@meraki.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.secret", "Sample Password"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_number", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_failover_direct_to_internet", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_child_lifetime", "28800"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_ike_lifetime", "28800"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_child_auth_algo.0", "sha1"))
@@ -69,7 +73,7 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceThirdPartyVPNPeersImportStateIdFunc("meraki_appliance_third_party_vpn_peers.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"peers.0.peer_id"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -131,11 +135,15 @@ func testAccMerakiApplianceThirdPartyVPNPeersConfig_all() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  peers = [{` + "\n"
 	config += `    ike_version = "2"` + "\n"
+	config += `    is_route_based = false` + "\n"
 	config += `    local_id = "myMXId@meraki.com"` + "\n"
 	config += `    name = "Peer Name"` + "\n"
+	config += `    priority_in_group = 1` + "\n"
 	config += `    public_ip = "123.123.123.1"` + "\n"
 	config += `    remote_id = "miles@meraki.com"` + "\n"
 	config += `    secret = "Sample Password"` + "\n"
+	config += `    group_number = 1` + "\n"
+	config += `    group_failover_direct_to_internet = false` + "\n"
 	config += `    ipsec_policies_child_lifetime = 28800` + "\n"
 	config += `    ipsec_policies_ike_lifetime = 28800` + "\n"
 	config += `    ipsec_policies_child_auth_algo = ["sha1"]` + "\n"

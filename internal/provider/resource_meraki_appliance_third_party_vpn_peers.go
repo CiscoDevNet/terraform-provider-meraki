@@ -94,6 +94,10 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 							MarkdownDescription: helpers.NewAttributeDescription("One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.").String,
 							Optional:            true,
 						},
+						"is_route_based": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] If true, the VPN peer is route-based. If not included, the default is false. Supported only for MX 19.1 and above.").String,
+							Optional:            true,
+						},
 						"local_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("[optional] The local ID is used to identify the MX to the peer. This will apply to all MXs this peer applies to.").String,
 							Optional:            true,
@@ -101,6 +105,14 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The name of the VPN peer").String,
 							Required:            true,
+						},
+						"peer_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The ID of the IPsec peer").String,
+							Optional:            true,
+						},
+						"priority_in_group": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] Represents the order of peer inside a group. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.").String,
+							Optional:            true,
 						},
 						"public_hostname": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("[optional] The public hostname of the VPN peer").String,
@@ -117,6 +129,55 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 						"secret": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The shared secret with the VPN peer").String,
 							Required:            true,
+						},
+						"ebgp_neighbor_ebgp_hold_timer": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_ebgp_multihop": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Configure this if the neighbor is not adjacent. The eBGP multi-hop must be an integer between 1 and 255.").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_ip_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The IP version of the neighbor").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_multi_exit_discriminator": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_neighbor_ip": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv4/IPv6 address of the neighbor").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_remote_as_number": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_source_ip": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Source IP of eBGP neighbor").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_weight": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_path_prepend": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.").String,
+							ElementType:         types.Int64Type,
+							Optional:            true,
+						},
+						"group_active_active_tunnel": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] Both primary and backup tunnels are active.").String,
+							Optional:            true,
+						},
+						"group_number": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] Represents the ordering of primary and backup tunnels group. primary and backup tunnels are grouped by this number. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.").String,
+							Optional:            true,
+						},
+						"group_failover_direct_to_internet": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] When both primary and backup tunnels are down, direct traffic to the internet. Traffic will be routed via the WAN").String,
+							Optional:            true,
 						},
 						"ipsec_policies_child_lifetime": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The lifetime of the Phase 2 SA in seconds.").String,
@@ -159,6 +220,15 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 						"ipsec_policies_ike_prf_algo": schema.ListAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("[optional] This is the pseudo-random function to be used in IKE_SA. The value should be an array with one of the following algorithms: `prfsha256`, `prfsha1`, `prfmd5`, `default`. The `default` option can be used to default to the Authentication algorithm.").String,
 							ElementType:         types.StringType,
+							Optional:            true,
+						},
+						"network_ids": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] A list of network IDs.").String,
+							ElementType:         types.StringType,
+							Optional:            true,
+						},
+						"sla_policy_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The ID of the SLA policy").String,
 							Optional:            true,
 						},
 						"network_tags": schema.ListAttribute{
@@ -310,6 +380,12 @@ func (r *ApplianceThirdPartyVPNPeersResource) Delete(ctx context.Context, req re
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+	body := state.toDestroyBody(ctx)
+	res, err := r.client.Put(state.getPath(), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 

@@ -176,6 +176,7 @@ func (data *ApplianceOrganizationSecurityIntrusion) fromBodyUnknowns(ctx context
 
 func (data ApplianceOrganizationSecurityIntrusion) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "allowedRules", []interface{}{})
 	return body
 }
 

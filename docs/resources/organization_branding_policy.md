@@ -45,6 +45,7 @@ resource "meraki_organization_branding_policy" "example" {
 
 ### Required
 
+- `name` (String) Name of the Dashboard branding policy.
 - `organization_id` (String) Organization ID
 
 ### Optional
@@ -84,7 +85,6 @@ resource "meraki_organization_branding_policy" "example" {
 - `help_settings_support_contact_info` (String) The `Contact Meraki Support` section of the `Help -> Get Help` subtab. Can be one of `default or inherit`, `hide`, `show`, or a replacement custom HTML string.
 - `help_settings_universal_search_knowledge_base_search` (String) The universal search box always visible on Dashboard will, by default, present results from the Meraki KB. This configures whether these Meraki KB results should be returned. Can be one of `default or inherit`, `hide` or `show`.
   - Choices: `default or inherit`, `hide`, `show`
-- `name` (String) Name of the Dashboard branding policy.
 
 ### Read-Only
 

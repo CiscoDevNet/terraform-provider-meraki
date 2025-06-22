@@ -17,6 +17,7 @@ attributes:
     type: List
     mandatory: true
     description: The list of VPN peers
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: ikeVersion
         type: String
@@ -28,6 +29,10 @@ attributes:
         exclude_test: true
         description: 'One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.'
         example: default
+      - model_name: isRouteBased
+        type: Bool
+        description: '[optional] If true, the VPN peer is route-based. If not included, the default is false. Supported only for MX 19.1 and above.'
+        example: "false"
       - model_name: localId
         type: String
         description: '[optional] The local ID is used to identify the MX to the peer. This will apply to all MXs this peer applies to.'
@@ -38,6 +43,16 @@ attributes:
         mandatory: true
         description: The name of the VPN peer
         example: Peer Name
+      - model_name: peerId
+        type: String
+        exclude_test: true
+        allow_import_changes: true
+        description: The ID of the IPsec peer
+        example: "1234"
+      - model_name: priorityInGroup
+        type: Int64
+        description: '[optional] Represents the order of peer inside a group. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.'
+        example: "1"
       - model_name: publicHostname
         type: String
         exclude_test: true
@@ -57,6 +72,77 @@ attributes:
         mandatory: true
         description: The shared secret with the VPN peer
         example: Sample Password
+      - model_name: ebgpHoldTimer
+        type: Int64
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.
+        example: "180"
+      - model_name: ebgpMultihop
+        type: Int64
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: Configure this if the neighbor is not adjacent. The eBGP multi-hop must be an integer between 1 and 255.
+        example: "2"
+      - model_name: ipVersion
+        type: Int64
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: The IP version of the neighbor
+        example: "4"
+      - model_name: multiExitDiscriminator
+        type: Int64
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
+        example: "1"
+      - model_name: neighborIp
+        type: String
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: IPv4/IPv6 address of the neighbor
+        example: 10.10.10.22
+      - model_name: remoteAsNumber
+        type: Int64
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.
+        example: "64343"
+      - model_name: sourceIp
+        type: String
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: Source IP of eBGP neighbor
+        example: 10.10.10.22
+      - model_name: weight
+        type: Int64
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
+        example: "10"
+      - model_name: pathPrepend
+        type: List
+        element_type: Int64
+        data_path: [ebgpNeighbor]
+        exclude_test: true
+        description: Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.
+        example: "1"
+      - model_name: activeActiveTunnel
+        type: Bool
+        data_path: [group]
+        exclude_test: true
+        description: '[optional] Both primary and backup tunnels are active.'
+        example: "true"
+      - model_name: number
+        type: Int64
+        data_path: [group]
+        description: '[optional] Represents the ordering of primary and backup tunnels group. primary and backup tunnels are grouped by this number. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.'
+        example: "1"
+      - model_name: directToInternet
+        type: Bool
+        data_path: [group, failover]
+        description: '[optional] When both primary and backup tunnels are down, direct traffic to the internet. Traffic will be routed via the WAN'
+        example: "false"
       - model_name: childLifetime
         type: Int64
         data_path: [ipsecPolicies]
@@ -109,6 +195,19 @@ attributes:
         data_path: [ipsecPolicies]
         description: '[optional] This is the pseudo-random function to be used in IKE_SA. The value should be an array with one of the following algorithms: `prfsha256`, `prfsha1`, `prfmd5`, `default`. The `default` option can be used to default to the Authentication algorithm.'
         example: prfsha1
+      - model_name: ids
+        type: List
+        element_type: String
+        data_path: [network]
+        exclude_test: true
+        description: '[optional] A list of network IDs.'
+        example: N_1
+      - model_name: id
+        type: String
+        data_path: [slaPolicy]
+        exclude_test: true
+        description: The ID of the SLA policy
+        example: "1234"
       - model_name: networkTags
         type: List
         element_type: String

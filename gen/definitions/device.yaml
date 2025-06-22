@@ -32,6 +32,7 @@ attributes:
     example: "-122.098531723022"
   - model_name: moveMapMarker
     type: Bool
+    write_only: true
     exclude_test: true
     description: Whether or not to set the latitude and longitude of a device based on the new address. Only applies when lat and lng are not specified.
     example: "true"

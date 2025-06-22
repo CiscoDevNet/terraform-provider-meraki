@@ -74,17 +74,28 @@ resource "meraki_switch_access_policy" "example" {
   - Choices: `802.1x`, `Hybrid authentication`, `MAC authentication bypass`
 - `dot1x_control_direction` (String) Supports either `both` or `inbound`. Set to `inbound` to allow unauthorized egress on the switchport. Set to `both` to control both traffic directions with authorization. Defaults to `both`
   - Choices: `both`, `inbound`
+- `guest_group_policy_id` (String) Group policy Number for guest group policy
 - `guest_port_bouncing` (Boolean) If enabled, Meraki devices will periodically send access-request messages to these RADIUS servers
+- `guest_sgt_id` (Number) Security Group Tag ID for guest group policy
 - `guest_vlan_id` (Number) ID for the guest VLAN allow unauthorized devices access to limited network resources
 - `increase_access_speed` (Boolean) Enabling this option will make switches execute 802.1X and MAC-bypass authentication simultaneously so that clients authenticate faster. Only required when accessPolicyType is `Hybrid Authentication.
 - `radius_accounting_servers` (Attributes List) List of RADIUS accounting servers to require connecting devices to authenticate against before granting network access (see [below for nested schema](#nestedatt--radius_accounting_servers))
+- `radius_authentication_mode` (String) Authentication mode of the policy ( Open | Closed )
+  - Choices: `Closed`, `Open`
 - `radius_cache_enabled` (Boolean) Enable to cache authorization and authentication responses on the RADIUS server
 - `radius_cache_timeout` (Number) If RADIUS caching is enabled, this value dictates how long the cache will remain in the RADIUS server, in hours, to allow network access without authentication
+- `radius_critical_auth_data_group_policy_id` (String) Group policy Number for data VLAN
+- `radius_critical_auth_data_sgt_id` (Number) Security Group Tag ID for data VLAN
 - `radius_critical_auth_data_vlan_id` (Number) VLAN that clients who use data will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth
 - `radius_critical_auth_suspend_port_bounce` (Boolean) Enable to suspend port bounce when RADIUS servers are unreachable
+- `radius_critical_auth_voice_group_policy_id` (String) Group policy Number for voice VLAN
+- `radius_critical_auth_voice_sgt_id` (Number) Security Group Tag ID for voice VLAN
 - `radius_critical_auth_voice_vlan_id` (Number) VLAN that clients who use voice will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth
+- `radius_failed_auth_group_policy_id` (String) Group policy Number for failed authentication group policy
+- `radius_failed_auth_sgt_id` (Number) Security Group Tag ID for failed authentication group policy
 - `radius_failed_auth_vlan_id` (Number) VLAN that clients will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth
 - `radius_group_attribute` (String) Acceptable values are `''` for None, or `'11'` for Group Policies ACL
+- `radius_pre_authentication_group_policy_id` (String) Group policy Number for pre-authentication group policy
 - `radius_re_authentication_interval` (Number) Re-authentication period in seconds. Will be null if hostMode is Multi-Auth
 - `url_redirect_walled_garden_ranges` (Set of String) IP address ranges, in CIDR notation, to restrict access for clients to a specific set of IP addresses or hostnames prior to authentication
 - `voice_vlan_clients` (Boolean) CDP/LLDP capable voice clients will be able to use this VLAN. Automatically true when hostMode is `Multi-Domain`.

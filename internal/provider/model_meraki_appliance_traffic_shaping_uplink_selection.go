@@ -722,6 +722,7 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyUnknowns(ctx context
 
 func (data ApplianceTrafficShapingUplinkSelection) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "vpnTrafficUplinkPreferences", []interface{}{})
 	return body
 }
 

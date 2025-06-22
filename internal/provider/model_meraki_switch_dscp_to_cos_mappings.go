@@ -191,6 +191,7 @@ func (data *SwitchDSCPToCoSMappings) fromBodyUnknowns(ctx context.Context, res m
 
 func (data SwitchDSCPToCoSMappings) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "mappings", []interface{}{})
 	return body
 }
 
