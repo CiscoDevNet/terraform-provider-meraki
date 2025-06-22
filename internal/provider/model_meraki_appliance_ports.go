@@ -38,12 +38,11 @@ type AppliancePorts struct {
 }
 
 type AppliancePortsItems struct {
-	Id                  types.String `tfsdk:"id"`
+	PortId              types.String `tfsdk:"port_id"`
 	AccessPolicy        types.String `tfsdk:"access_policy"`
 	AllowedVlans        types.String `tfsdk:"allowed_vlans"`
 	DropUntaggedTraffic types.Bool   `tfsdk:"drop_untagged_traffic"`
 	Enabled             types.Bool   `tfsdk:"enabled"`
-	Number              types.Int64  `tfsdk:"number"`
 	Type                types.String `tfsdk:"type"`
 	Vlan                types.Int64  `tfsdk:"vlan"`
 }
@@ -65,7 +64,11 @@ func (data *AppliancePorts) fromBody(ctx context.Context, res meraki.Res) {
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := AppliancePortsItems{}
-		data.Id = types.StringValue(res.Get("").String())
+		if value := res.Get("number"); value.Exists() && value.Value() != nil {
+			data.PortId = types.StringValue(value.String())
+		} else {
+			data.PortId = types.StringNull()
+		}
 		if value := res.Get("accessPolicy"); value.Exists() && value.Value() != nil {
 			data.AccessPolicy = types.StringValue(value.String())
 		} else {
@@ -85,11 +88,6 @@ func (data *AppliancePorts) fromBody(ctx context.Context, res meraki.Res) {
 			data.Enabled = types.BoolValue(value.Bool())
 		} else {
 			data.Enabled = types.BoolNull()
-		}
-		if value := res.Get("number"); value.Exists() && value.Value() != nil {
-			data.Number = types.Int64Value(value.Int())
-		} else {
-			data.Number = types.Int64Null()
 		}
 		if value := res.Get("type"); value.Exists() && value.Value() != nil {
 			data.Type = types.StringValue(value.String())

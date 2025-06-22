@@ -1,6 +1,7 @@
 name: Appliance Port
 spec_endpoint: /networks/{networkId}/appliance/ports/{portId}
 rest_endpoint: /networks/%v/appliance/ports/%v
+bulk_data_source: true
 put_create: true
 no_delete: true
 doc_category: Appliances
@@ -12,7 +13,8 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_appliance_vlans_settings.test.network_id
-  - tf_name: port_id
+  - model_name: number
+    tf_name: port_id
     type: String
     id: true
     reference: true

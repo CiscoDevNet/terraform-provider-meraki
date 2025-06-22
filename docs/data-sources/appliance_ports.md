@@ -3,12 +3,12 @@
 page_title: "meraki_appliance_ports Data Source - terraform-provider-meraki"
 subcategory: "Appliances"
 description: |-
-  This data source can read the Appliance Ports configuration.
+  This data source can read the Appliance Port configuration.
 ---
 
 # meraki_appliance_ports (Data Source)
 
-This data source can read the `Appliance Ports` configuration.
+This data source can read the `Appliance Port` configuration.
 
 ## Example Usage
 
@@ -34,11 +34,10 @@ data "meraki_appliance_ports" "example" {
 
 Read-Only:
 
-- `access_policy` (String) The name of the policy. Only applicable to Access ports.
+- `access_policy` (String) The name of the policy. Only applicable to Access ports. Valid values are: `open`, `8021x-radius`, `mac-radius`, `hybris-radius` for MX64 or Z3 or any MX supporting the per port authentication feature. Otherwise, `open` is the only valid value and `open` is the default value if the field is missing.
 - `allowed_vlans` (String) Comma-delimited list of the VLAN ID`s allowed on the port, or `all` to permit all VLAN`s on the port.
-- `drop_untagged_traffic` (Boolean) Whether the trunk port can drop all untagged traffic.
+- `drop_untagged_traffic` (Boolean) Trunk port can Drop all Untagged traffic. When true, no VLAN is required. Access ports cannot have dropUntaggedTraffic set to true.
 - `enabled` (Boolean) The status of the port
-- `id` (String) The id of the object
-- `number` (Number) Number of the port
+- `port_id` (String) Port ID
 - `type` (String) The type of the port: `access` or `trunk`.
 - `vlan` (Number) Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.

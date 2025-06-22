@@ -54,7 +54,7 @@ func (d *AppliancePortsDataSource) Metadata(_ context.Context, req datasource.Me
 func (d *AppliancePortsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Appliance Ports` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Appliance Port` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -66,12 +66,12 @@ func (d *AppliancePortsDataSource) Schema(ctx context.Context, req datasource.Sc
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							MarkdownDescription: "The id of the object",
+						"port_id": schema.StringAttribute{
+							MarkdownDescription: "Port ID",
 							Computed:            true,
 						},
 						"access_policy": schema.StringAttribute{
-							MarkdownDescription: "The name of the policy. Only applicable to Access ports.",
+							MarkdownDescription: "The name of the policy. Only applicable to Access ports. Valid values are: `open`, `8021x-radius`, `mac-radius`, `hybris-radius` for MX64 or Z3 or any MX supporting the per port authentication feature. Otherwise, `open` is the only valid value and `open` is the default value if the field is missing.",
 							Computed:            true,
 						},
 						"allowed_vlans": schema.StringAttribute{
@@ -79,15 +79,11 @@ func (d *AppliancePortsDataSource) Schema(ctx context.Context, req datasource.Sc
 							Computed:            true,
 						},
 						"drop_untagged_traffic": schema.BoolAttribute{
-							MarkdownDescription: "Whether the trunk port can drop all untagged traffic.",
+							MarkdownDescription: "Trunk port can Drop all Untagged traffic. When true, no VLAN is required. Access ports cannot have dropUntaggedTraffic set to true.",
 							Computed:            true,
 						},
 						"enabled": schema.BoolAttribute{
 							MarkdownDescription: "The status of the port",
-							Computed:            true,
-						},
-						"number": schema.Int64Attribute{
-							MarkdownDescription: "Number of the port",
 							Computed:            true,
 						},
 						"type": schema.StringAttribute{
