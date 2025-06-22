@@ -38,21 +38,25 @@ type ApplianceSSIDs struct {
 }
 
 type ApplianceSSIDsItems struct {
-	Id                types.String                  `tfsdk:"id"`
-	AuthMode          types.String                  `tfsdk:"auth_mode"`
-	DefaultVlanId     types.Int64                   `tfsdk:"default_vlan_id"`
-	Enabled           types.Bool                    `tfsdk:"enabled"`
-	EncryptionMode    types.String                  `tfsdk:"encryption_mode"`
-	Name              types.String                  `tfsdk:"name"`
-	Number            types.Int64                   `tfsdk:"number"`
-	Visible           types.Bool                    `tfsdk:"visible"`
-	WpaEncryptionMode types.String                  `tfsdk:"wpa_encryption_mode"`
-	RadiusServers     []ApplianceSSIDsRadiusServers `tfsdk:"radius_servers"`
+	Number                              types.String                  `tfsdk:"number"`
+	AuthMode                            types.String                  `tfsdk:"auth_mode"`
+	DefaultVlanId                       types.Int64                   `tfsdk:"default_vlan_id"`
+	Enabled                             types.Bool                    `tfsdk:"enabled"`
+	EncryptionMode                      types.String                  `tfsdk:"encryption_mode"`
+	Name                                types.String                  `tfsdk:"name"`
+	Psk                                 types.String                  `tfsdk:"psk"`
+	Visible                             types.Bool                    `tfsdk:"visible"`
+	WpaEncryptionMode                   types.String                  `tfsdk:"wpa_encryption_mode"`
+	DhcpEnforcedDeauthenticationEnabled types.Bool                    `tfsdk:"dhcp_enforced_deauthentication_enabled"`
+	Dot11wEnabled                       types.Bool                    `tfsdk:"dot11w_enabled"`
+	Dot11wRequired                      types.Bool                    `tfsdk:"dot11w_required"`
+	RadiusServers                       []ApplianceSSIDsRadiusServers `tfsdk:"radius_servers"`
 }
 
 type ApplianceSSIDsRadiusServers struct {
-	Host types.String `tfsdk:"host"`
-	Port types.Int64  `tfsdk:"port"`
+	Host   types.String `tfsdk:"host"`
+	Port   types.Int64  `tfsdk:"port"`
+	Secret types.String `tfsdk:"secret"`
 }
 
 // End of section. //template:end types
@@ -72,7 +76,11 @@ func (data *ApplianceSSIDs) fromBody(ctx context.Context, res meraki.Res) {
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := ApplianceSSIDsItems{}
-		data.Id = types.StringValue(res.Get("").String())
+		if value := res.Get("number"); value.Exists() && value.Value() != nil {
+			data.Number = types.StringValue(value.String())
+		} else {
+			data.Number = types.StringNull()
+		}
 		if value := res.Get("authMode"); value.Exists() && value.Value() != nil {
 			data.AuthMode = types.StringValue(value.String())
 		} else {
@@ -98,10 +106,10 @@ func (data *ApplianceSSIDs) fromBody(ctx context.Context, res meraki.Res) {
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("number"); value.Exists() && value.Value() != nil {
-			data.Number = types.Int64Value(value.Int())
+		if value := res.Get("psk"); value.Exists() && value.Value() != nil {
+			data.Psk = types.StringValue(value.String())
 		} else {
-			data.Number = types.Int64Null()
+			data.Psk = types.StringNull()
 		}
 		if value := res.Get("visible"); value.Exists() && value.Value() != nil {
 			data.Visible = types.BoolValue(value.Bool())
@@ -112,6 +120,21 @@ func (data *ApplianceSSIDs) fromBody(ctx context.Context, res meraki.Res) {
 			data.WpaEncryptionMode = types.StringValue(value.String())
 		} else {
 			data.WpaEncryptionMode = types.StringNull()
+		}
+		if value := res.Get("dhcpEnforcedDeauthentication.enabled"); value.Exists() && value.Value() != nil {
+			data.DhcpEnforcedDeauthenticationEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.DhcpEnforcedDeauthenticationEnabled = types.BoolNull()
+		}
+		if value := res.Get("dot11w.enabled"); value.Exists() && value.Value() != nil {
+			data.Dot11wEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.Dot11wEnabled = types.BoolNull()
+		}
+		if value := res.Get("dot11w.required"); value.Exists() && value.Value() != nil {
+			data.Dot11wRequired = types.BoolValue(value.Bool())
+		} else {
+			data.Dot11wRequired = types.BoolNull()
 		}
 		if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil {
 			data.RadiusServers = make([]ApplianceSSIDsRadiusServers, 0)

@@ -3,12 +3,12 @@
 page_title: "meraki_appliance_ssids Data Source - terraform-provider-meraki"
 subcategory: "Appliances"
 description: |-
-  This data source can read the Appliance SSIDs configuration.
+  This data source can read the Appliance SSID configuration.
 ---
 
 # meraki_appliance_ssids (Data Source)
 
-This data source can read the `Appliance SSIDs` configuration.
+This data source can read the `Appliance SSID` configuration.
 
 ## Example Usage
 
@@ -34,16 +34,19 @@ data "meraki_appliance_ssids" "example" {
 
 Read-Only:
 
-- `auth_mode` (String) The association control method for the SSID.
-- `default_vlan_id` (Number) The VLAN ID of the VLAN associated to this SSID.
+- `auth_mode` (String) The association control method for the SSID (`open`, `psk`, `8021x-meraki` or `8021x-radius`).
+- `default_vlan_id` (Number) The VLAN ID of the VLAN associated to this SSID. This parameter is only valid if the network is in routed mode.
+- `dhcp_enforced_deauthentication_enabled` (Boolean) Enable DCHP Enforced Deauthentication on the SSID.
+- `dot11w_enabled` (Boolean) Whether 802.11w is enabled or not.
+- `dot11w_required` (Boolean) (Optional) Whether 802.11w is required or not.
 - `enabled` (Boolean) Whether or not the SSID is enabled.
-- `encryption_mode` (String) The psk encryption mode for the SSID.
-- `id` (String) The id of the object
+- `encryption_mode` (String) The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`.
 - `name` (String) The name of the SSID.
-- `number` (Number) The number of the SSID.
-- `radius_servers` (Attributes List) The RADIUS 802.1x servers to be used for authentication. (see [below for nested schema](#nestedatt--items--radius_servers))
+- `number` (String) Wireless SSID number
+- `psk` (String) The passkey for the SSID. This param is only valid if the authMode is `psk`.
+- `radius_servers` (Attributes List) The RADIUS 802.1x servers to be used for authentication. This param is only valid if the authMode is `8021x-radius`. (see [below for nested schema](#nestedatt--items--radius_servers))
 - `visible` (Boolean) Boolean indicating whether the MX should advertise or hide this SSID.
-- `wpa_encryption_mode` (String) WPA encryption mode for the SSID.
+- `wpa_encryption_mode` (String) The types of WPA encryption. (`WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode` or `WPA3 only`). This param is only valid if (1) the authMode is `psk` & the encryptionMode is `wpa` OR (2) the authMode is `8021x-meraki` OR (3) the authMode is `8021x-radius`
 
 <a id="nestedatt--items--radius_servers"></a>
 ### Nested Schema for `items.radius_servers`
@@ -52,3 +55,4 @@ Read-Only:
 
 - `host` (String) The IP address of your RADIUS server.
 - `port` (Number) The UDP port your RADIUS servers listens on for Access-requests.
+- `secret` (String) The RADIUS client shared secret.
