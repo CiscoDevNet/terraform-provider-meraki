@@ -42,7 +42,6 @@ type SwitchPorts struct {
 }
 
 type SwitchPortsItems struct {
-	Id                                     types.String `tfsdk:"id"`
 	AccessPolicyNumber                     types.Int64  `tfsdk:"access_policy_number"`
 	AccessPolicyType                       types.String `tfsdk:"access_policy_type"`
 	AllowedVlans                           types.String `tfsdk:"allowed_vlans"`
@@ -238,7 +237,6 @@ func (data *SwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := SwitchPortsItems{}
-		data.Id = types.StringValue(res.Get("").String())
 		if value := res.Get("accessPolicyNumber"); value.Exists() && value.Value() != nil {
 			data.AccessPolicyNumber = types.Int64Value(value.Int())
 		} else {

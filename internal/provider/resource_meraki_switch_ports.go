@@ -280,9 +280,18 @@ func (r *SwitchPortsResource) Create(ctx context.Context, req resource.CreateReq
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
+	actions := make([]meraki.ActionModel, 0, len(plan.Items))
 	for _, item := range plan.Items {
-		plan.toBody(ctx, SwitchPorts{}, item.I)
+		body := plan.toBody(ctx, SwitchPorts{}, item.PortId.ValueString())
+		actions = append(actions, meraki.NewAction("update", "/networks/{networkId}/appliance/ports/{portId}", body))
 	}
+
+	res, err := r.client.Batch(plan.OrganizationId.String(), actions)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to create objects (Batch), got error: %s, %s", err, res.String()))
+		return
+	}
+	plan.Id = plan.Serial
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

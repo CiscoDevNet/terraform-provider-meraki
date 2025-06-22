@@ -47,7 +47,6 @@ type {{camelCase .BulkName}} struct {
 }
 
 type {{camelCase .BulkName}}Items struct {
-	Id types.String `tfsdk:"id"`
 {{- range .Attributes}}
 {{- if and (not .Reference) (not .Value) .ModelName}}
 {{- if isNestedListSet .}}
@@ -295,7 +294,6 @@ func (data *{{camelCase .BulkName}}) fromBody(ctx context.Context, res meraki.Re
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := {{camelCase .BulkName}}Items{}
-		data.Id = types.StringValue(res.Get("{{if hasId .Attributes}}{{(getId .Attributes).ModelName}}{{else if .IdName}}{{.IdName}}{{else}}id{{end}}").String())
 		{{- define "fromBodyTemplate"}}
 			{{- range .Attributes}}
 			{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
