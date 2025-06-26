@@ -36,7 +36,6 @@ attributes:
     exclude_test: true
     description: The adaptive policy group ID that will be used to tag traffic through this switch port. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API. Cannot be applied to a port on a switch bound to profile.
     example: "123"
-    destroy_value: nil
   - model_name: allowedVlans
     type: String
     description: The VLANs allowed on the switch port. Only applicable to trunk ports.

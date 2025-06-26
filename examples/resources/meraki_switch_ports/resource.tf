@@ -1,5 +1,6 @@
 resource "meraki_switch_ports" "example" {
-  serial = "1234-ABCD-1234"
+  serial          = "1234-ABCD-1234"
+  organization_id = "123456"
   items = [{
     port_id                     = "1"
     access_policy_type          = "Sticky MAC allow list"

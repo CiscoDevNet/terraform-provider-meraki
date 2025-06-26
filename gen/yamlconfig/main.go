@@ -476,6 +476,24 @@ func GetBulkItemAttributes(config YamlConfig) []YamlConfigAttribute {
 	return itemAttributes
 }
 
+// GetBulkImportAttributes returns a list of import attributes that are used in bulk operations
+func GetBulkImportAttributes(config YamlConfig) []YamlConfigAttribute {
+	var importAttributes []YamlConfigAttribute
+	if !HasOrganizationId(config) {
+		importAttributes = append(importAttributes, YamlConfigAttribute{ModelName: "organizationId", TfName: "organization_id"})
+	}
+	for _, attr := range config.Attributes {
+		if !attr.Reference {
+			continue
+		}
+		if attr.Id && config.PutCreate {
+			continue
+		}
+		importAttributes = append(importAttributes, attr)
+	}
+	return importAttributes
+}
+
 // HasOrganizationId checks if the list of attributes contains an organization_id attribute
 func HasOrganizationId(config YamlConfig) bool {
 	for _, attr := range config.Attributes {
@@ -519,6 +537,7 @@ var Functions = template.FuncMap{
 	"getBulkPath":             GetBulkPath,
 	"getBulkParentAttributes": GetBulkParentAttributes,
 	"getBulkItemAttributes":   GetBulkItemAttributes,
+	"getBulkImportAttributes": GetBulkImportAttributes,
 	"hasOrganizationId":       HasOrganizationId,
 }
 

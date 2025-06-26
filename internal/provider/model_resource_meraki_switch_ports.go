@@ -42,7 +42,6 @@ type ResourceSwitchPorts struct {
 }
 
 type ResourceSwitchPortsItems struct {
-	Id                      types.String `tfsdk:"id"`
 	PortId                  types.String `tfsdk:"port_id"`
 	AccessPolicyNumber      types.Int64  `tfsdk:"access_policy_number"`
 	AccessPolicyType        types.String `tfsdk:"access_policy_type"`
@@ -83,6 +82,10 @@ func (data ResourceSwitchPorts) getPath() string {
 	return fmt.Sprintf("/devices/%v/switch/ports", url.QueryEscape(data.Serial.ValueString()))
 }
 
+func (data ResourceSwitchPorts) getItemPath(id string) string {
+	return fmt.Sprintf("/devices/%v/switch/ports/%v", url.QueryEscape(data.Serial.ValueString()), url.QueryEscape(id))
+}
+
 // End of section. //template:end getPath
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
@@ -90,7 +93,7 @@ func (data ResourceSwitchPorts) getPath() string {
 func (data ResourceSwitchPorts) toBody(ctx context.Context, state ResourceSwitchPorts, id string) string {
 	var item ResourceSwitchPortsItems
 	for i := range data.Items {
-		if data.Items[i].Id.ValueString() == id {
+		if data.Items[i].PortId.ValueString() == id {
 			item = data.Items[i]
 			break
 		}
@@ -201,7 +204,6 @@ func (data *ResourceSwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := ResourceSwitchPortsItems{}
-		data.Id = types.StringValue(res.Get("portId").String())
 		if value := res.Get("portId"); value.Exists() && value.Value() != nil {
 			data.PortId = types.StringValue(value.String())
 		} else {
@@ -358,3 +360,195 @@ func (data *ResourceSwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
+
+// fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
+// uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
+// easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
+// "managed" elements, instead of all elements.
+func (data *ResourceSwitchPorts) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	for i := 0; i < len(data.Items); i++ {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("portId").String() != (*parent).Items[i].PortId.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("accessPolicyNumber"); value.Exists() && !data.AccessPolicyNumber.IsNull() {
+			data.AccessPolicyNumber = types.Int64Value(value.Int())
+		} else {
+			data.AccessPolicyNumber = types.Int64Null()
+		}
+		if value := res.Get("accessPolicyType"); value.Exists() && !data.AccessPolicyType.IsNull() {
+			data.AccessPolicyType = types.StringValue(value.String())
+		} else {
+			data.AccessPolicyType = types.StringNull()
+		}
+		if value := res.Get("adaptivePolicyGroupId"); value.Exists() && !data.AdaptivePolicyGroupId.IsNull() {
+			data.AdaptivePolicyGroupId = types.StringValue(value.String())
+		} else {
+			data.AdaptivePolicyGroupId = types.StringNull()
+		}
+		if value := res.Get("allowedVlans"); value.Exists() && !data.AllowedVlans.IsNull() {
+			data.AllowedVlans = types.StringValue(value.String())
+		} else {
+			data.AllowedVlans = types.StringNull()
+		}
+		if value := res.Get("daiTrusted"); value.Exists() && !data.DaiTrusted.IsNull() {
+			data.DaiTrusted = types.BoolValue(value.Bool())
+		} else {
+			data.DaiTrusted = types.BoolNull()
+		}
+		if value := res.Get("enabled"); value.Exists() && !data.Enabled.IsNull() {
+			data.Enabled = types.BoolValue(value.Bool())
+		} else {
+			data.Enabled = types.BoolNull()
+		}
+		if value := res.Get("flexibleStackingEnabled"); value.Exists() && !data.FlexibleStackingEnabled.IsNull() {
+			data.FlexibleStackingEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.FlexibleStackingEnabled = types.BoolNull()
+		}
+		if value := res.Get("isolationEnabled"); value.Exists() && !data.IsolationEnabled.IsNull() {
+			data.IsolationEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.IsolationEnabled = types.BoolNull()
+		}
+		if value := res.Get("linkNegotiation"); value.Exists() && !data.LinkNegotiation.IsNull() {
+			data.LinkNegotiation = types.StringValue(value.String())
+		} else {
+			data.LinkNegotiation = types.StringNull()
+		}
+		if value := res.Get("macWhitelistLimit"); value.Exists() && !data.MacWhitelistLimit.IsNull() {
+			data.MacWhitelistLimit = types.Int64Value(value.Int())
+		} else {
+			data.MacWhitelistLimit = types.Int64Null()
+		}
+		if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("peerSgtCapable"); value.Exists() && !data.PeerSgtCapable.IsNull() {
+			data.PeerSgtCapable = types.BoolValue(value.Bool())
+		} else {
+			data.PeerSgtCapable = types.BoolNull()
+		}
+		if value := res.Get("poeEnabled"); value.Exists() && !data.PoeEnabled.IsNull() {
+			data.PoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PoeEnabled = types.BoolNull()
+		}
+		if value := res.Get("portScheduleId"); value.Exists() && !data.PortScheduleId.IsNull() {
+			data.PortScheduleId = types.StringValue(value.String())
+		} else {
+			data.PortScheduleId = types.StringNull()
+		}
+		if value := res.Get("rstpEnabled"); value.Exists() && !data.RstpEnabled.IsNull() {
+			data.RstpEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RstpEnabled = types.BoolNull()
+		}
+		if value := res.Get("stickyMacAllowListLimit"); value.Exists() && !data.StickyMacAllowListLimit.IsNull() {
+			data.StickyMacAllowListLimit = types.Int64Value(value.Int())
+		} else {
+			data.StickyMacAllowListLimit = types.Int64Null()
+		}
+		if value := res.Get("stormControlEnabled"); value.Exists() && !data.StormControlEnabled.IsNull() {
+			data.StormControlEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.StormControlEnabled = types.BoolNull()
+		}
+		if value := res.Get("stpGuard"); value.Exists() && !data.StpGuard.IsNull() {
+			data.StpGuard = types.StringValue(value.String())
+		} else {
+			data.StpGuard = types.StringNull()
+		}
+		if value := res.Get("type"); value.Exists() && !data.Type.IsNull() {
+			data.Type = types.StringValue(value.String())
+		} else {
+			data.Type = types.StringNull()
+		}
+		if value := res.Get("udld"); value.Exists() && !data.Udld.IsNull() {
+			data.Udld = types.StringValue(value.String())
+		} else {
+			data.Udld = types.StringNull()
+		}
+		if value := res.Get("vlan"); value.Exists() && !data.Vlan.IsNull() {
+			data.Vlan = types.Int64Value(value.Int())
+		} else {
+			data.Vlan = types.Int64Null()
+		}
+		if value := res.Get("voiceVlan"); value.Exists() && !data.VoiceVlan.IsNull() {
+			data.VoiceVlan = types.Int64Value(value.Int())
+		} else {
+			data.VoiceVlan = types.Int64Null()
+		}
+		if value := res.Get("dot3az.enabled"); value.Exists() && !data.Dot3azEnabled.IsNull() {
+			data.Dot3azEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.Dot3azEnabled = types.BoolNull()
+		}
+		if value := res.Get("profile.enabled"); value.Exists() && !data.ProfileEnabled.IsNull() {
+			data.ProfileEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.ProfileEnabled = types.BoolNull()
+		}
+		if value := res.Get("profile.id"); value.Exists() && !data.ProfileId.IsNull() {
+			data.ProfileId = types.StringValue(value.String())
+		} else {
+			data.ProfileId = types.StringNull()
+		}
+		if value := res.Get("profile.iname"); value.Exists() && !data.ProfileIname.IsNull() {
+			data.ProfileIname = types.StringValue(value.String())
+		} else {
+			data.ProfileIname = types.StringNull()
+		}
+		if value := res.Get("macAllowList"); value.Exists() && !data.MacAllowList.IsNull() {
+			data.MacAllowList = helpers.GetStringSet(value.Array())
+		} else {
+			data.MacAllowList = types.SetNull(types.StringType)
+		}
+		if value := res.Get("stickyMacAllowList"); value.Exists() && !data.StickyMacAllowList.IsNull() {
+			data.StickyMacAllowList = helpers.GetStringSet(value.Array())
+		} else {
+			data.StickyMacAllowList = types.SetNull(types.StringType)
+		}
+		if value := res.Get("tags"); value.Exists() && !data.Tags.IsNull() {
+			data.Tags = helpers.GetStringSet(value.Array())
+		} else {
+			data.Tags = types.SetNull(types.StringType)
+		}
+	}
+}
+
+// End of section. //template:end fromBodyPartial
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
+
+// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
+// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
+func (data *ResourceSwitchPorts) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+}
+
+// End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceSwitchPorts) toDestroyBody(ctx context.Context) string {
+	body := ""
+	body, _ = sjson.Set(body, "accessPolicyType", "Open")
+	body, _ = sjson.Set(body, "profile.enabled", false)
+	return body
+}
+
+// End of section. //template:end toDestroyBody

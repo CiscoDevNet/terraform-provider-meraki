@@ -50,7 +50,6 @@ type Resource{{camelCase .BulkName}} struct {
 }
 
 type Resource{{camelCase .BulkName}}Items struct {
-	Id types.String `tfsdk:"id"`
 {{- range getBulkItemAttributes .}}
 {{- if and (not .Value) .ModelName}}
 {{- if isNestedListSet .}}
@@ -148,6 +147,14 @@ func (data Resource{{camelCase .BulkName}}) getPath() string {
 	{{- end}}
 }
 
+func (data Resource{{camelCase .BulkName}}) getItemPath(id string) string {
+	{{- if hasReference .Attributes}}
+		return fmt.Sprintf("{{.RestEndpoint}}"{{range getBulkParentAttributes .}}, url.QueryEscape(data.{{toGoName .TfName}}.Value{{.Type}}()){{end}}, url.QueryEscape(id))
+	{{- else}}
+		return "{{.RestEndpoint}}"
+	{{- end}}
+}
+
 // End of section. //template:end getPath
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
@@ -156,7 +163,7 @@ func (data Resource{{camelCase .BulkName}}) getPath() string {
 func (data Resource{{camelCase .BulkName}}) toBody(ctx context.Context, state Resource{{camelCase .BulkName}}, id string) string {
 	var item Resource{{camelCase .BulkName}}Items
 	for i := range data.Items {
-		if data.Items[i].Id.ValueString() == id {
+		if data.Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() == id {
 			item = data.Items[i]
 			break
 		}
@@ -298,7 +305,6 @@ func (data *Resource{{camelCase .BulkName}}) fromBody(ctx context.Context, res m
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := Resource{{camelCase .BulkName}}Items{}
-		data.Id = types.StringValue(res.Get("{{if hasId .Attributes}}{{(getId .Attributes).ModelName}}{{else if .IdName}}{{.IdName}}{{else}}id{{end}}").String())
 		{{- define "fromBodyTemplate"}}
 			{{- range .Attributes}}
 			{{- if and (not .Value) (not .WriteOnly) .ModelName}}
@@ -348,6 +354,244 @@ func (data *Resource{{camelCase .BulkName}}) fromBody(ctx context.Context, res m
 }
 
 // End of section. //template:end fromBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
+
+// fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
+// uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
+// easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
+// "managed" elements, instead of all elements.
+func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	for i := 0; i < len(data.Items); i++ {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("{{(getId .Attributes).ModelName}}").String() != (*parent).Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+	{{- define "fromBodyPartialTemplate"}}
+		{{- range .Attributes}}
+		{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
+		{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+		if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
+			data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
+		} else {{if .DefaultValue}}if data.{{toGoName .TfName}}.Value{{.Type}}() != {{if eq .Type "String"}}"{{end}}{{.DefaultValue}}{{if eq .Type "String"}}"{{end}} {{end}}{
+			data.{{toGoName .TfName}} = types.{{.Type}}Null()
+		}
+		{{- else if isListSet .}}
+		if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
+			data.{{toGoName .TfName}} = helpers.Get{{.ElementType}}{{.Type}}(value.Array())
+		} else {
+			data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
+		}
+		{{- else if isNestedListSetMap .}}
+		{{- $list := (toGoName .TfName)}}
+		{{- if .OrderedList }}
+		{
+			l := len(res.Get("{{getFullModelName . false}}").Array())
+			tflog.Debug(ctx, fmt.Sprintf("{{getFullModelName . false}} array resizing from %d to %d", len(data.{{toGoName .TfName}}), l))
+			if len(data.{{toGoName .TfName}}) > l {
+				data.{{toGoName .TfName}} = data.{{toGoName .TfName}}[:l]
+			}
+		}
+		for i := range data.{{toGoName .TfName}} {
+			parent := &data
+			data := (*parent).{{toGoName .TfName}}[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%d", i))
+		{{- else if isNestedMap .}}
+		for i, item := range data.{{toGoName .TfName}} {
+			parent := &data
+			data := item
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%s", i))
+		{{- else }}
+		for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
+			keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
+			keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
+
+			parent := &data
+			data := (*parent).{{toGoName .TfName}}[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.{{if .ModelName}}Get("{{getFullModelName . false}}").{{end}}ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing {{toGoName .TfName}}[%d] = %+v",
+					i,
+					(*parent).{{toGoName .TfName}}[i],
+				))
+				(*parent).{{toGoName .TfName}} = slices.Delete((*parent).{{toGoName .TfName}}, i, i+1)
+				i--
+
+				continue
+			}
+		{{- end}}
+
+			{{- template "fromBodyPartialTemplate" .}}
+			(*parent).{{toGoName .TfName}}[i] = data
+		}
+		{{- end}}
+		{{- end}}
+		{{- end}}
+	{{- end}}
+	{{- template "fromBodyPartialTemplate" .}}
+	}
+}
+
+// End of section. //template:end fromBodyPartial
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
+
+// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
+// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
+func (data *Resource{{camelCase .BulkName}}) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+	{{- if hasComputedAttributes .Attributes}}
+	for i := 0; i < len(data.Items); i++ {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("{{(getId .Attributes).ModelName}}").String() != (*parent).Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+	{{- end}}
+	{{- define "fromBodyUnknownsTemplate"}}
+		{{- range .Attributes}}
+		{{- if and (or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")) .Computed}}
+		if data.{{toGoName .TfName}}.IsUnknown() {
+			if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
+				data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
+			} else {
+				data.{{toGoName .TfName}} = types.{{.Type}}Null()
+			}
+		}
+		{{- else if and (isListSet .) .Computed}}
+		if data.{{toGoName .TfName}}.IsUnknown() {
+			if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
+				data.{{toGoName .TfName}} = helpers.Get{{.ElementType}}{{.Type}}(value.Array())
+			} else {
+				data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
+			}
+		}
+		{{- else if and (isNestedListSetMap .) (hasComputedAttributes .Attributes)}}
+		{{- $list := (toGoName .TfName)}}
+		{{- if .OrderedList }}
+		{
+			l := len(res.Get("{{getFullModelName . false}}").Array())
+			tflog.Debug(ctx, fmt.Sprintf("{{getFullModelName . false}} array resizing from %d to %d", len(data.{{toGoName .TfName}}), l))
+			if len(data.{{toGoName .TfName}}) > l {
+				data.{{toGoName .TfName}} = data.{{toGoName .TfName}}[:l]
+			}
+		}
+		for i := range data.{{toGoName .TfName}} {
+			parent := &data
+			data := (*parent).{{toGoName .TfName}}[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%d", i))
+		{{- else if isNestedMap .}}
+		for i, item := range data.{{toGoName .TfName}} {
+			parent := &data
+			data := item
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%s", i))
+		{{- else }}
+		for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
+			keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
+			keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
+
+			parent := &data
+			data := (*parent).{{toGoName .TfName}}[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.{{if .ModelName}}Get("{{getFullModelName . false}}").{{end}}ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing {{toGoName .TfName}}[%d] = %+v",
+					i,
+					(*parent).{{toGoName .TfName}}[i],
+				))
+				(*parent).{{toGoName .TfName}} = slices.Delete((*parent).{{toGoName .TfName}}, i, i+1)
+				i--
+
+				continue
+			}
+		{{- end}}
+
+			{{- template "fromBodyUnknownsTemplate" .}}
+			(*parent).{{toGoName .TfName}}[i] = data
+		}
+		{{- end}}
+		{{- end}}
+	{{- end}}
+	{{- template "fromBodyUnknownsTemplate" .}}
+	{{- if hasComputedAttributes .Attributes}}
+	}
+	{{- end}}
+}
+
+// End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data Resource{{camelCase .BulkName}}) toDestroyBody(ctx context.Context) string {
+	body := ""
+	{{- range getBulkItemAttributes .}}
+	{{- if .DestroyValue}}
+	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{.DestroyValue}})
+	{{- end}}
+	{{- end}}
+	return body
+}
+
+// End of section. //template:end toDestroyBody
 
 {{- range .Attributes}}
 	{{- range .Attributes}}

@@ -371,6 +371,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewSwitchOrganizationPortsProfileResource,
 		NewSwitchOrganizationPortsProfilesAutomationResource,
 		NewSwitchPortResource,
+		NewSwitchPortsResource,
 		NewSwitchPortScheduleResource,
 		NewSwitchQoSRuleResource,
 		NewSwitchQoSRuleOrderResource,

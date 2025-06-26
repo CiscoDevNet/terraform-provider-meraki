@@ -252,6 +252,22 @@ func (r *SwitchPortsResource) Create(ctx context.Context, req resource.CreateReq
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
+	actions := make([]meraki.ActionModel, len(plan.Items))
+
+	for i, item := range plan.Items {
+		actions[i] = meraki.ActionModel{
+			Operation: "update",
+			Resource:  plan.getItemPath(item.PortId.ValueString()),
+			Body:      plan.toBody(ctx, ResourceSwitchPorts{}, item.PortId.ValueString()),
+		}
+	}
+	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+		return
+	}
+	plan.Id = plan.OrganizationId
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -274,6 +290,27 @@ func (r *SwitchPortsResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
+	res, err := r.client.Get(state.getPath())
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		resp.State.RemoveResource(ctx)
+		return
+	} else if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	imp, diags := helpers.IsFlagImporting(ctx, req)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// After `terraform import` we switch to a full read.
+	if imp {
+		state.Id = state.OrganizationId
+		state.fromBody(ctx, res)
+	} else {
+		state.fromBodyPartial(ctx, res)
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
@@ -303,6 +340,20 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+	actions := make([]meraki.ActionModel, len(plan.Items))
+
+	for i, item := range plan.Items {
+		actions[i] = meraki.ActionModel{
+			Operation: "update",
+			Resource:  plan.getItemPath(item.PortId.ValueString()),
+			Body:      plan.toBody(ctx, ResourceSwitchPorts{}, item.PortId.ValueString()),
+		}
+	}
+	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+		return
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
@@ -324,6 +375,20 @@ func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteReq
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+	actions := make([]meraki.ActionModel, len(state.Items))
+
+	for i, item := range state.Items {
+		actions[i] = meraki.ActionModel{
+			Operation: "update",
+			Resource:  state.getItemPath(item.PortId.ValueString()),
+			Body:      state.toDestroyBody(ctx),
+		}
+	}
+	res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+		return
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 
@@ -339,13 +404,12 @@ func (r *SwitchPortsResource) ImportState(ctx context.Context, req resource.Impo
 	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <serial>,<port_id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: <organization_id>,<serial>. Got: %q", req.ID),
 		)
 		return
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("port_id"), idParts[1])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

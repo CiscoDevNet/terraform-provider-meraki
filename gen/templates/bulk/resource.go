@@ -496,6 +496,22 @@ func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resour
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
+	actions := make([]meraki.ActionModel, len(plan.Items))
+
+	for i, item := range plan.Items {
+		actions[i] = meraki.ActionModel{
+			Operation: "update",
+			Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+			Body:      plan.toBody(ctx, Resource{{camelCase .BulkName}}{}, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+		}
+	}
+	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+		return
+	}
+	plan.Id = plan.OrganizationId
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -518,8 +534,29 @@ func (r *{{camelCase .BulkName}}Resource) Read(ctx context.Context, req resource
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	{{- if not .NoRead}}
 
+	{{- if not .NoRead}}
+	res, err := r.client.Get(state.getPath())
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		resp.State.RemoveResource(ctx)
+		return
+	} else if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	imp, diags := helpers.IsFlagImporting(ctx, req)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// After `terraform import` we switch to a full read.
+	if imp {
+		state.Id = state.OrganizationId
+		state.fromBody(ctx, res)
+	} else {
+		state.fromBodyPartial(ctx, res)
+	}
 	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
@@ -550,8 +587,22 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
-	{{- if not .NoUpdate}}
 
+	{{- if not .NoUpdate}}
+	actions := make([]meraki.ActionModel, len(plan.Items))
+
+	for i, item := range plan.Items {
+		actions[i] = meraki.ActionModel{
+			Operation: "update",
+			Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+			Body:      plan.toBody(ctx, Resource{{camelCase .BulkName}}{}, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+		}
+	}
+	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+		return
+	}
 	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
@@ -575,6 +626,26 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 
+	{{- if hasDestroyValues .Attributes}}
+	actions := make([]meraki.ActionModel, len(state.Items))
+
+	for i, item := range state.Items {
+		actions[i] = meraki.ActionModel{
+			Operation: "update",
+			Resource:  state.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+			Body:      state.toDestroyBody(ctx),
+		}
+	}
+	res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	{{- else if not .NoDelete}}
+
+	{{- end}}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 
 	resp.State.RemoveResource(ctx)
@@ -587,19 +658,16 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 func (r *{{camelCase .BulkName}}Resource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != {{len (importAttributes .)}}{{range $index, $attr := (importAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
+	if len(idParts) != {{len (getBulkImportAttributes .)}}{{range $index, $attr := (getBulkImportAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: {{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: {{range $i, $e := (getBulkImportAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}. Got: %q", req.ID),
 		)
 		return
 	}
 
-	{{- range $index, $attr := (importAttributes .)}}
+	{{- range $index, $attr := (getBulkImportAttributes .)}}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
-	{{- if $attr.Id}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
-	{{- end}}
 	{{- end}}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
