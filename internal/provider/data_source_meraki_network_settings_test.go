@@ -80,7 +80,7 @@ func testAccDataSourceMerakiNetworkSettingsConfig() string {
 	config += `  local_status_page_enabled = true` + "\n"
 	config += `  remote_status_page_enabled = true` + "\n"
 	config += `  local_status_page_authentication_enabled = false` + "\n"
-	config += `  local_status_page_authentication_password = "Miles123!"` + "\n"
+	config += `  local_status_page_authentication_password = "MilesMiles123!"` + "\n"
 	config += `  local_status_page_authentication_username = "admin"` + "\n"
 	config += `  named_vlans_enabled = true` + "\n"
 	config += `  secure_port_enabled = false` + "\n"
