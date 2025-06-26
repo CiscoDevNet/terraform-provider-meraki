@@ -71,10 +71,6 @@ func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.Schem
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
-						"organization_id": schema.StringAttribute{
-							MarkdownDescription: "Organization ID",
-							Computed:            true,
-						},
 						"access_policy_number": schema.Int64Attribute{
 							MarkdownDescription: "The number of a custom access policy to configure on the switch port. Only applicable when `accessPolicyType` is `Custom access policy`.",
 							Computed:            true,

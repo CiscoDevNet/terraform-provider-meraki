@@ -40,7 +40,6 @@ type DataSourceSwitchPorts struct {
 
 type DataSourceSwitchPortsItems struct {
 	Id                                     types.String `tfsdk:"id"`
-	OrganizationId                         types.String `tfsdk:"organization_id"`
 	AccessPolicyNumber                     types.Int64  `tfsdk:"access_policy_number"`
 	AccessPolicyType                       types.String `tfsdk:"access_policy_type"`
 	AllowedVlans                           types.String `tfsdk:"allowed_vlans"`
