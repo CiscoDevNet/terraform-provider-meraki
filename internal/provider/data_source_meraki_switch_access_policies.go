@@ -264,7 +264,7 @@ func (d *SwitchAccessPoliciesDataSource) Configure(_ context.Context, req dataso
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchAccessPoliciesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchAccessPolicies
+	var config DataSourceSwitchAccessPolicies
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

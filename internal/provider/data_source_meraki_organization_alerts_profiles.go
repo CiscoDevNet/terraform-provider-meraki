@@ -146,7 +146,7 @@ func (d *OrganizationAlertsProfilesDataSource) Configure(_ context.Context, req 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationAlertsProfilesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationAlertsProfiles
+	var config DataSourceOrganizationAlertsProfiles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

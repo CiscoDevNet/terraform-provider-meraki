@@ -436,36 +436,90 @@ func HasDestroyValues(attributes []YamlConfigAttribute) bool {
 	return false
 }
 
+// GetBulkPath returns the bulk path for a given path
+func GetBulkPath(path string) string {
+	// Remove the last element from the slash separated path, if the last element starts with "%"
+	parts := strings.Split(path, "/")
+	if len(parts) > 1 && strings.HasPrefix(parts[len(parts)-1], "%") {
+		return strings.Join(parts[:len(parts)-1], "/")
+	}
+	return path
+}
+
+// GetBulkParentAttributes returns a list of parent attributes that are used in bulk operations
+func GetBulkParentAttributes(config YamlConfig) []YamlConfigAttribute {
+	var parentAttributes []YamlConfigAttribute
+	for _, attr := range config.Attributes {
+		if !attr.Reference {
+			continue
+		}
+		if attr.Id && config.PutCreate {
+			continue
+		}
+		parentAttributes = append(parentAttributes, attr)
+	}
+	return parentAttributes
+}
+
+// GetBulkItemAttributes returns a list of item attributes that are used in bulk operations
+func GetBulkItemAttributes(config YamlConfig) []YamlConfigAttribute {
+	var itemAttributes []YamlConfigAttribute
+	for _, attr := range config.Attributes {
+		if attr.Reference && attr.Id && config.PutCreate {
+			itemAttributes = append(itemAttributes, attr)
+			continue
+		} else if attr.Reference {
+			continue
+		}
+		itemAttributes = append(itemAttributes, attr)
+	}
+	return itemAttributes
+}
+
+// HasOrganizationId checks if the list of attributes contains an organization_id attribute
+func HasOrganizationId(config YamlConfig) bool {
+	for _, attr := range config.Attributes {
+		if attr.TfName == "organization_id" {
+			return true
+		}
+	}
+	return false
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
-	"toGoName":              ToGoName,
-	"camelCase":             CamelCase,
-	"snakeCase":             SnakeCase,
-	"sprintf":               fmt.Sprintf,
-	"errorf":                Errorf,
-	"toLower":               strings.ToLower,
-	"path":                  BuildPath,
-	"hasId":                 HasId,
-	"getId":                 GetId,
-	"hasReference":          HasReference,
-	"isListSet":             IsListSet,
-	"isList":                IsList,
-	"isSet":                 IsSet,
-	"isStringListSet":       IsStringListSet,
-	"isInt64ListSet":        IsInt64ListSet,
-	"isNestedListSet":       IsNestedListSet,
-	"isNestedListSetMap":    IsNestedListSetMap,
-	"isNestedList":          IsNestedList,
-	"isNestedSet":           IsNestedSet,
-	"isNestedMap":           IsNestedMap,
-	"importAttributes":      ImportAttributes,
-	"subtract":              Subtract,
-	"iterate":               Iterate,
-	"getImportExcludes":     GetImportExcludes,
-	"getFullModelName":      GetFullModelName,
-	"hasComputedAttributes": HasComputedAttributes,
-	"buildTestPath":         BuildTestPath,
-	"hasDestroyValues":      HasDestroyValues,
+	"toGoName":                ToGoName,
+	"camelCase":               CamelCase,
+	"snakeCase":               SnakeCase,
+	"sprintf":                 fmt.Sprintf,
+	"errorf":                  Errorf,
+	"toLower":                 strings.ToLower,
+	"path":                    BuildPath,
+	"hasId":                   HasId,
+	"getId":                   GetId,
+	"hasReference":            HasReference,
+	"isListSet":               IsListSet,
+	"isList":                  IsList,
+	"isSet":                   IsSet,
+	"isStringListSet":         IsStringListSet,
+	"isInt64ListSet":          IsInt64ListSet,
+	"isNestedListSet":         IsNestedListSet,
+	"isNestedListSetMap":      IsNestedListSetMap,
+	"isNestedList":            IsNestedList,
+	"isNestedSet":             IsNestedSet,
+	"isNestedMap":             IsNestedMap,
+	"importAttributes":        ImportAttributes,
+	"subtract":                Subtract,
+	"iterate":                 Iterate,
+	"getImportExcludes":       GetImportExcludes,
+	"getFullModelName":        GetFullModelName,
+	"hasComputedAttributes":   HasComputedAttributes,
+	"buildTestPath":           BuildTestPath,
+	"hasDestroyValues":        HasDestroyValues,
+	"getBulkPath":             GetBulkPath,
+	"getBulkParentAttributes": GetBulkParentAttributes,
+	"getBulkItemAttributes":   GetBulkItemAttributes,
+	"hasOrganizationId":       HasOrganizationId,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")

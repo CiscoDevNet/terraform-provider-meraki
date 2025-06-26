@@ -102,7 +102,7 @@ func (d *SwitchDHCPServerPolicyARPInspectionTrustedServersDataSource) Configure(
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchDHCPServerPolicyARPInspectionTrustedServersDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchDHCPServerPolicyARPInspectionTrustedServers
+	var config DataSourceSwitchDHCPServerPolicyARPInspectionTrustedServers
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

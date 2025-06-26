@@ -106,7 +106,7 @@ func (d *ApplianceStaticRoutesDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceStaticRoutesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceStaticRoutes
+	var config DataSourceApplianceStaticRoutes
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

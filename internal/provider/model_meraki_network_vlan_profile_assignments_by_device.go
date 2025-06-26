@@ -25,7 +25,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -33,12 +32,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkVLANProfileAssignmentsByDevice struct {
-	NetworkId types.String                                 `tfsdk:"network_id"`
-	Items     []NetworkVLANProfileAssignmentsByDeviceItems `tfsdk:"items"`
-}
-
-type NetworkVLANProfileAssignmentsByDeviceItems struct {
 	Id                   types.String `tfsdk:"id"`
+	NetworkId            types.String `tfsdk:"network_id"`
 	Mac                  types.String `tfsdk:"mac"`
 	Name                 types.String `tfsdk:"name"`
 	ProductType          types.String `tfsdk:"product_type"`
@@ -62,54 +57,46 @@ func (data NetworkVLANProfileAssignmentsByDevice) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkVLANProfileAssignmentsByDevice) fromBody(ctx context.Context, res meraki.Res) {
-	data.Items = make([]NetworkVLANProfileAssignmentsByDeviceItems, 0)
-	res.ForEach(func(k, res gjson.Result) bool {
-		parent := &data
-		data := NetworkVLANProfileAssignmentsByDeviceItems{}
-		data.Id = types.StringValue(res.Get("").String())
-		if value := res.Get("mac"); value.Exists() && value.Value() != nil {
-			data.Mac = types.StringValue(value.String())
-		} else {
-			data.Mac = types.StringNull()
-		}
-		if value := res.Get("name"); value.Exists() && value.Value() != nil {
-			data.Name = types.StringValue(value.String())
-		} else {
-			data.Name = types.StringNull()
-		}
-		if value := res.Get("productType"); value.Exists() && value.Value() != nil {
-			data.ProductType = types.StringValue(value.String())
-		} else {
-			data.ProductType = types.StringNull()
-		}
-		if value := res.Get("serial"); value.Exists() && value.Value() != nil {
-			data.Serial = types.StringValue(value.String())
-		} else {
-			data.Serial = types.StringNull()
-		}
-		if value := res.Get("stack.id"); value.Exists() && value.Value() != nil {
-			data.StackId = types.StringValue(value.String())
-		} else {
-			data.StackId = types.StringNull()
-		}
-		if value := res.Get("vlanProfile.iname"); value.Exists() && value.Value() != nil {
-			data.VlanProfileIname = types.StringValue(value.String())
-		} else {
-			data.VlanProfileIname = types.StringNull()
-		}
-		if value := res.Get("vlanProfile.isDefault"); value.Exists() && value.Value() != nil {
-			data.VlanProfileIsDefault = types.BoolValue(value.Bool())
-		} else {
-			data.VlanProfileIsDefault = types.BoolNull()
-		}
-		if value := res.Get("vlanProfile.name"); value.Exists() && value.Value() != nil {
-			data.VlanProfileName = types.StringValue(value.String())
-		} else {
-			data.VlanProfileName = types.StringNull()
-		}
-		(*parent).Items = append((*parent).Items, data)
-		return true
-	})
+	if value := res.Get("mac"); value.Exists() && value.Value() != nil {
+		data.Mac = types.StringValue(value.String())
+	} else {
+		data.Mac = types.StringNull()
+	}
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
+		data.Name = types.StringValue(value.String())
+	} else {
+		data.Name = types.StringNull()
+	}
+	if value := res.Get("productType"); value.Exists() && value.Value() != nil {
+		data.ProductType = types.StringValue(value.String())
+	} else {
+		data.ProductType = types.StringNull()
+	}
+	if value := res.Get("serial"); value.Exists() && value.Value() != nil {
+		data.Serial = types.StringValue(value.String())
+	} else {
+		data.Serial = types.StringNull()
+	}
+	if value := res.Get("stack.id"); value.Exists() && value.Value() != nil {
+		data.StackId = types.StringValue(value.String())
+	} else {
+		data.StackId = types.StringNull()
+	}
+	if value := res.Get("vlanProfile.iname"); value.Exists() && value.Value() != nil {
+		data.VlanProfileIname = types.StringValue(value.String())
+	} else {
+		data.VlanProfileIname = types.StringNull()
+	}
+	if value := res.Get("vlanProfile.isDefault"); value.Exists() && value.Value() != nil {
+		data.VlanProfileIsDefault = types.BoolValue(value.Bool())
+	} else {
+		data.VlanProfileIsDefault = types.BoolNull()
+	}
+	if value := res.Get("vlanProfile.name"); value.Exists() && value.Value() != nil {
+		data.VlanProfileName = types.StringValue(value.String())
+	} else {
+		data.VlanProfileName = types.StringNull()
+	}
 }
 
 // End of section. //template:end fromBody

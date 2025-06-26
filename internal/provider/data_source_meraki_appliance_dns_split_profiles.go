@@ -105,7 +105,7 @@ func (d *ApplianceDNSSplitProfilesDataSource) Configure(_ context.Context, req d
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceDNSSplitProfilesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceDNSSplitProfiles
+	var config DataSourceApplianceDNSSplitProfiles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

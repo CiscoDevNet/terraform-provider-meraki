@@ -21,9 +21,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -40,7 +42,8 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &SwitchPortsResource{}
+	_ resource.Resource                = &SwitchPortsResource{}
+	_ resource.ResourceWithImportState = &SwitchPortsResource{}
 )
 
 func NewSwitchPortsResource() resource.Resource {
@@ -58,7 +61,7 @@ func (r *SwitchPortsResource) Metadata(ctx context.Context, req resource.Metadat
 func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Ports` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Port` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -69,11 +72,11 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 				},
 			},
 			"organization_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Organization ID").String,
-				Optional:            true,
+				MarkdownDescription: "The organization ID",
+				Required:            true,
 			},
 			"serial": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Device serial").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Switch serial").String,
 				Required:            true,
 			},
 			"items": schema.ListNestedAttribute{
@@ -81,6 +84,13 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"port_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Port ID").String,
+							Required:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.RequiresReplace(),
+							},
+						},
 						"access_policy_number": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The number of a custom access policy to configure on the switch port. Only applicable when `accessPolicyType` is `Custom access policy`.").String,
 							Optional:            true,
@@ -91,6 +101,10 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 							Validators: []validator.String{
 								stringvalidator.OneOf("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list"),
 							},
+						},
+						"adaptive_policy_group_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The adaptive policy group ID that will be used to tag traffic through this switch port. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API. Cannot be applied to a port on a switch bound to profile.").String,
+							Optional:            true,
 						},
 						"allowed_vlans": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The VLANs allowed on the switch port. Only applicable to trunk ports.").String,
@@ -130,10 +144,6 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 						},
 						"poe_enabled": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The PoE status of the switch port.").String,
-							Optional:            true,
-						},
-						"port_id": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The identifier of the switch port.").String,
 							Optional:            true,
 						},
 						"port_schedule_id": schema.StringAttribute{
@@ -181,27 +191,8 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 							MarkdownDescription: helpers.NewAttributeDescription("The voice VLAN of the switch port. Only applicable to access ports.").String,
 							Optional:            true,
 						},
-						"adaptive_policy_group_id": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The ID of the adaptive policy group.").String,
-							Optional:            true,
-						},
-						"adaptive_policy_group_name": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The name of the adaptive policy group.").String,
-							Optional:            true,
-						},
 						"dot3az_enabled": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The Energy Efficient Ethernet status of the switch port.").String,
-							Optional:            true,
-						},
-						"mirror_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The port mirror mode. Can be one of (`Destination port`, `Source port` or `Not mirroring traffic`).").AddStringEnumDescription("Destination port", "Not mirroring traffic", "Source port").String,
-							Optional:            true,
-							Validators: []validator.String{
-								stringvalidator.OneOf("Destination port", "Not mirroring traffic", "Source port"),
-							},
-						},
-						"module_model": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The model of the expansion module.").String,
 							Optional:            true,
 						},
 						"profile_enabled": schema.BoolAttribute{
@@ -216,38 +207,17 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 							MarkdownDescription: helpers.NewAttributeDescription("When enabled, the IName of the profile.").String,
 							Optional:            true,
 						},
-						"schedule_id": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The ID of the port schedule.").String,
-							Optional:            true,
-						},
-						"schedule_name": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The name of the port schedule.").String,
-							Optional:            true,
-						},
-						"stackwise_virtual_is_dual_active_detector": schema.BoolAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("For SVL devices, whether or not the port is used for Dual Active Detection.").String,
-							Optional:            true,
-						},
-						"stackwise_virtual_is_stack_wise_virtual_link": schema.BoolAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("For SVL devices, whether or not the port is used for StackWise Virtual Link.").String,
-							Optional:            true,
-						},
-						"link_negotiation_capabilities": schema.ListAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Available link speeds for the switch port.").String,
-							ElementType:         types.StringType,
-							Optional:            true,
-						},
-						"mac_allow_list": schema.ListAttribute{
+						"mac_allow_list": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.").String,
 							ElementType:         types.StringType,
 							Optional:            true,
 						},
-						"sticky_mac_allow_list": schema.ListAttribute{
+						"sticky_mac_allow_list": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The initial list of MAC addresses for sticky Mac allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.").String,
 							ElementType:         types.StringType,
 							Optional:            true,
 						},
-						"tags": schema.ListAttribute{
+						"tags": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The list of tags of the switch port.").String,
 							ElementType:         types.StringType,
 							Optional:            true,
@@ -269,8 +239,10 @@ func (r *SwitchPortsResource) Configure(_ context.Context, req resource.Configur
 
 // End of section. //template:end model
 
+// Section below is generated&owned by "gen/generator.go". //template:begin create
+
 func (r *SwitchPortsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan SwitchPorts
+	var plan ResourceSwitchPorts
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -280,19 +252,6 @@ func (r *SwitchPortsResource) Create(ctx context.Context, req resource.CreateReq
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
-	actions := make([]meraki.ActionModel, 0, len(plan.Items))
-	for _, item := range plan.Items {
-		body := plan.toBody(ctx, SwitchPorts{}, item.PortId.ValueString())
-		actions = append(actions, meraki.NewAction("update", "/networks/{networkId}/appliance/ports/{portId}", body))
-	}
-
-	res, err := r.client.Batch(plan.OrganizationId.String(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to create objects (Batch), got error: %s, %s", err, res.String()))
-		return
-	}
-	plan.Id = plan.Serial
-
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -301,10 +260,12 @@ func (r *SwitchPortsResource) Create(ctx context.Context, req resource.CreateReq
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
+// End of section. //template:end create
+
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (r *SwitchPortsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state SwitchPorts
+	var state ResourceSwitchPorts
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -327,7 +288,7 @@ func (r *SwitchPortsResource) Read(ctx context.Context, req resource.ReadRequest
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
 func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state SwitchPorts
+	var plan, state ResourceSwitchPorts
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -354,7 +315,7 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
 func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state SwitchPorts
+	var state ResourceSwitchPorts
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -372,4 +333,21 @@ func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteReq
 // End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
+func (r *SwitchPortsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	idParts := strings.Split(req.ID, ",")
+
+	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
+		resp.Diagnostics.AddError(
+			"Unexpected Import Identifier",
+			fmt.Sprintf("Expected import identifier with format: <serial>,<port_id>. Got: %q", req.ID),
+		)
+		return
+	}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("port_id"), idParts[1])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
+
+	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
+}
+
 // End of section. //template:end import

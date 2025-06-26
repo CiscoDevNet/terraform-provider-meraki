@@ -161,7 +161,7 @@ func (d *SwitchOrganizationPortsProfilesAutomationsDataSource) Configure(_ conte
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchOrganizationPortsProfilesAutomationsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchOrganizationPortsProfilesAutomations
+	var config DataSourceSwitchOrganizationPortsProfilesAutomations
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

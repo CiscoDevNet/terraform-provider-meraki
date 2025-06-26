@@ -118,7 +118,7 @@ func (d *OrganizationAuthRADIUSServersDataSource) Configure(_ context.Context, r
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationAuthRADIUSServersDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationAuthRADIUSServers
+	var config DataSourceOrganizationAuthRADIUSServers
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

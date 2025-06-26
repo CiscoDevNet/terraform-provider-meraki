@@ -80,7 +80,13 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			{{- range  .Attributes}}
+			{{- if not (hasOrganizationId .)}}
+			"organization_id": schema.StringAttribute{
+				MarkdownDescription: "The organization ID",
+				Required:            true,
+			},
+			{{- end}}
+			{{- range getBulkParentAttributes .}}
 			{{- if not .ModelName}}
 			"{{.TfName}}": schema.{{.Type}}Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
@@ -147,7 +153,7 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						{{- range  .Attributes}}
+						{{- range getBulkItemAttributes .}}
 						{{- if and (not .Value) (.ModelName)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
@@ -480,7 +486,7 @@ func (r *{{camelCase .BulkName}}Resource) Configure(_ context.Context, req resou
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
 func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan {{camelCase .BulkName}}
+	var plan Resource{{camelCase .BulkName}}
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -503,7 +509,7 @@ func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (r *{{camelCase .BulkName}}Resource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state {{camelCase .BulkName}}
+	var state Resource{{camelCase .BulkName}}
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -529,7 +535,7 @@ func (r *{{camelCase .BulkName}}Resource) Read(ctx context.Context, req resource
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
 func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state {{camelCase .BulkName}}
+	var plan, state Resource{{camelCase .BulkName}}
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -559,7 +565,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
 func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state {{camelCase .BulkName}}
+	var state Resource{{camelCase .BulkName}}
 
 	// Read state
 	diags := req.State.Get(ctx, &state)

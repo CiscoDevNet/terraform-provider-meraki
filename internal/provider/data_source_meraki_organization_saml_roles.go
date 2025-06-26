@@ -130,7 +130,7 @@ func (d *OrganizationSAMLRolesDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationSAMLRolesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationSAMLRoles
+	var config DataSourceOrganizationSAMLRoles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

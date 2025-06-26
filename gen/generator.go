@@ -93,8 +93,8 @@ var templates = []t{
 		suffix: "/import.sh",
 	},
 	{
-		path:   "./gen/templates/bulk/model.go",
-		prefix: "./internal/provider/model_meraki_",
+		path:   "./gen/templates/bulk/model_data_source.go",
+		prefix: "./internal/provider/model_data_source_meraki_",
 		suffix: ".go",
 	},
 	{
@@ -111,6 +111,11 @@ var templates = []t{
 		path:   "./gen/templates/bulk/data-source.tf",
 		prefix: "./examples/data-sources/meraki_",
 		suffix: "/data-source.tf",
+	},
+	{
+		path:   "./gen/templates/bulk/model_resource.go",
+		prefix: "./internal/provider/model_resource_meraki_",
+		suffix: ".go",
 	},
 	{
 		path:   "./gen/templates/bulk/resource.go",
@@ -294,10 +299,12 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/resource_test.go") ||
 				(configs[i].NoResource && t.path == "./gen/templates/resource.tf") ||
 				(configs[i].NoResource && t.path == "./gen/templates/import.sh") ||
-				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model.go") ||
+				(configs[i].NoResource && configs[i].NoDataSource && t.path == "./gen/templates/model.go") ||
+				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model_data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") ||
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/model_resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource_test.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.tf") {

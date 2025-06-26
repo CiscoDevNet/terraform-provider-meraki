@@ -1,6 +1,7 @@
 name: Switch Port
 spec_endpoint: /devices/{serial}/switch/ports/{portId}
 rest_endpoint: /devices/%v/switch/ports/%v
+bulk_resource: true
 put_create: true
 no_delete: true
 doc_category: Switches
@@ -12,7 +13,8 @@ attributes:
     description: Switch serial
     example: 1234-ABCD-1234
     test_value: tolist(meraki_network_device_claim.test.serials)[0]
-  - tf_name: port_id
+  - model_name: portId
+    tf_name: port_id
     type: String
     id: true
     reference: true

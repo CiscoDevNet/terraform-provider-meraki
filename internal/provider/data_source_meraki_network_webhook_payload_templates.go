@@ -122,7 +122,7 @@ func (d *NetworkWebhookPayloadTemplatesDataSource) Configure(_ context.Context, 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkWebhookPayloadTemplatesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkWebhookPayloadTemplates
+	var config DataSourceNetworkWebhookPayloadTemplates
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
