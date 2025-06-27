@@ -1,3 +1,12 @@
+## 1.4.0 (unreleased)
+
+- Add `meraki_switch_ports` resource
+- Add `meraki_appliance_ports` resource
+- Add `meraki_appliance_ssids` resource
+- Add `meraki_organization_licenses` resource
+- Add `meraki_sensor_mqtt_brokers` resource
+- Add `meraki_wireless_ssids` resource
+
 ## 1.3.0
 
 - Add `group_active_active_tunnel`, `group_failover_direct_to_internet`, `group_number`, `is_route_based`, `network_ids`, `peer_id`, `priority_in_group`, `sla_policy_id` and `ebgp_neighbor_*` attributes to `meraki_appliance_third_party_vpn_peers` resource and data source

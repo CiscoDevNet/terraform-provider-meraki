@@ -2,7 +2,9 @@ resource "meraki_{{snakeCase .BulkName}}" "example" {
 {{- range getBulkParentAttributes .}}
   {{.TfName}} = {{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}
 {{- end}}
+{{- if not (hasOrganizationId .)}}
   organization_id = "123456"
+{{- end}}
   items = [{
   {{- range getBulkItemAttributes .}}
   {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed)}}

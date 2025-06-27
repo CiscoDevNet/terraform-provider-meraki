@@ -114,7 +114,9 @@ func testAccMeraki{{camelCase .BulkName}}Config_minimum() string {
 	{{- range getBulkParentAttributes .}}
 	config += ` {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	{{- end}}
+	{{- if not (hasOrganizationId .)}}
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
+	{{- end}}
 	config += ` items = [{` + "\n"
 	{{- range getBulkItemAttributes .}}
 	{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
@@ -231,7 +233,9 @@ func testAccMeraki{{camelCase .BulkName}}Config_all() string {
 	{{- range getBulkParentAttributes .}}
 	config += ` {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 	{{- end}}
+	{{- if not (hasOrganizationId .)}}
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
+	{{- end}}
 	config += ` items = [{` + "\n"
 	{{- range getBulkItemAttributes .}}
 	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}

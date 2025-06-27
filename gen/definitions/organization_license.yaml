@@ -1,6 +1,7 @@
 name: Organization License
 spec_endpoint: /organizations/{organizationId}/licenses/{licenseId}
 rest_endpoint: /organizations/%v/licenses/%v
+bulk_resource: true
 put_create: true
 no_delete: true
 doc_category: Organizations
@@ -13,7 +14,8 @@ attributes:
     description: Organization ID
     example: "123456"
     test_value: data.meraki_organization.test.id
-  - tf_name: license_id
+  - model_name: licenseId
+    tf_name: license_id
     type: String
     id: true
     reference: true

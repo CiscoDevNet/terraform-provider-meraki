@@ -552,3 +552,117 @@ func (data ResourceSwitchPorts) toDestroyBody(ctx context.Context) string {
 }
 
 // End of section. //template:end toDestroyBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
+
+func (data *ResourceSwitchPorts) hasChanges(ctx context.Context, state *ResourceSwitchPorts, id string) bool {
+	hasChanges := false
+
+	item := ResourceSwitchPortsItems{}
+	for i := range data.Items {
+		if data.Items[i].PortId.ValueString() == id {
+			item = data.Items[i]
+			break
+		}
+	}
+	stateItem := ResourceSwitchPortsItems{}
+	for i := range state.Items {
+		if state.Items[i].PortId.ValueString() == id {
+			stateItem = state.Items[i]
+			break
+		}
+	}
+	if !item.PortId.Equal(stateItem.PortId) {
+		hasChanges = true
+	}
+	if !item.AccessPolicyNumber.Equal(stateItem.AccessPolicyNumber) {
+		hasChanges = true
+	}
+	if !item.AccessPolicyType.Equal(stateItem.AccessPolicyType) {
+		hasChanges = true
+	}
+	if !item.AdaptivePolicyGroupId.Equal(stateItem.AdaptivePolicyGroupId) {
+		hasChanges = true
+	}
+	if !item.AllowedVlans.Equal(stateItem.AllowedVlans) {
+		hasChanges = true
+	}
+	if !item.DaiTrusted.Equal(stateItem.DaiTrusted) {
+		hasChanges = true
+	}
+	if !item.Enabled.Equal(stateItem.Enabled) {
+		hasChanges = true
+	}
+	if !item.FlexibleStackingEnabled.Equal(stateItem.FlexibleStackingEnabled) {
+		hasChanges = true
+	}
+	if !item.IsolationEnabled.Equal(stateItem.IsolationEnabled) {
+		hasChanges = true
+	}
+	if !item.LinkNegotiation.Equal(stateItem.LinkNegotiation) {
+		hasChanges = true
+	}
+	if !item.MacWhitelistLimit.Equal(stateItem.MacWhitelistLimit) {
+		hasChanges = true
+	}
+	if !item.Name.Equal(stateItem.Name) {
+		hasChanges = true
+	}
+	if !item.PeerSgtCapable.Equal(stateItem.PeerSgtCapable) {
+		hasChanges = true
+	}
+	if !item.PoeEnabled.Equal(stateItem.PoeEnabled) {
+		hasChanges = true
+	}
+	if !item.PortScheduleId.Equal(stateItem.PortScheduleId) {
+		hasChanges = true
+	}
+	if !item.RstpEnabled.Equal(stateItem.RstpEnabled) {
+		hasChanges = true
+	}
+	if !item.StickyMacAllowListLimit.Equal(stateItem.StickyMacAllowListLimit) {
+		hasChanges = true
+	}
+	if !item.StormControlEnabled.Equal(stateItem.StormControlEnabled) {
+		hasChanges = true
+	}
+	if !item.StpGuard.Equal(stateItem.StpGuard) {
+		hasChanges = true
+	}
+	if !item.Type.Equal(stateItem.Type) {
+		hasChanges = true
+	}
+	if !item.Udld.Equal(stateItem.Udld) {
+		hasChanges = true
+	}
+	if !item.Vlan.Equal(stateItem.Vlan) {
+		hasChanges = true
+	}
+	if !item.VoiceVlan.Equal(stateItem.VoiceVlan) {
+		hasChanges = true
+	}
+	if !item.Dot3azEnabled.Equal(stateItem.Dot3azEnabled) {
+		hasChanges = true
+	}
+	if !item.ProfileEnabled.Equal(stateItem.ProfileEnabled) {
+		hasChanges = true
+	}
+	if !item.ProfileId.Equal(stateItem.ProfileId) {
+		hasChanges = true
+	}
+	if !item.ProfileIname.Equal(stateItem.ProfileIname) {
+		hasChanges = true
+	}
+	if !item.MacAllowList.Equal(stateItem.MacAllowList) {
+		hasChanges = true
+	}
+	if !item.StickyMacAllowList.Equal(stateItem.StickyMacAllowList) {
+		hasChanges = true
+	}
+	if !item.Tags.Equal(stateItem.Tags) {
+		hasChanges = true
+	}
+	return hasChanges
+}
+
+// End of section. //template:end hasChanges

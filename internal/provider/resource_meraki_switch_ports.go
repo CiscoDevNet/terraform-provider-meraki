@@ -340,15 +340,51 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
-	actions := make([]meraki.ActionModel, len(plan.Items))
-
-	for i, item := range plan.Items {
-		actions[i] = meraki.ActionModel{
-			Operation: "update",
-			Resource:  plan.getItemPath(item.PortId.ValueString()),
-			Body:      plan.toBody(ctx, ResourceSwitchPorts{}, item.PortId.ValueString()),
+	var actions []meraki.ActionModel
+	// If there are destroy values, we need to compare the plan and state to determine what to delete
+	for _, itemState := range state.Items {
+		for _, item := range plan.Items {
+			if item.PortId.ValueString() == itemState.PortId.ValueString() {
+				// If the item is present in both plan and state, we can skip it
+				continue
+			}
+			// If the item is present in state, but not in plan, we need to delete it
+			actions = append(actions, meraki.ActionModel{
+				Operation: "update",
+				Resource:  plan.getItemPath(itemState.PortId.ValueString()),
+				Body:      plan.toDestroyBody(ctx),
+			})
 		}
 	}
+
+	// Check for new and updated items
+	for _, item := range plan.Items {
+		found := false
+		for _, itemState := range state.Items {
+			if item.PortId.ValueString() == itemState.PortId.ValueString() {
+				found = true
+				// If the item is present in both plan and state, we need to check if it has changes
+				hasChanges := plan.hasChanges(ctx, &state, item.PortId.ValueString())
+				if hasChanges {
+					actions = append(actions, meraki.ActionModel{
+						Operation: "update",
+						Resource:  plan.getItemPath(item.PortId.ValueString()),
+						Body:      plan.toBody(ctx, ResourceSwitchPorts{}, item.PortId.ValueString()),
+					})
+				}
+				break
+			}
+		}
+		if !found {
+			// If the item is present in plan, but not in state, we need to create it
+			actions = append(actions, meraki.ActionModel{
+				Operation: "update",
+				Resource:  plan.getItemPath(item.PortId.ValueString()),
+				Body:      plan.toBody(ctx, ResourceSwitchPorts{}, item.PortId.ValueString()),
+			})
+		}
+	}
+
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))

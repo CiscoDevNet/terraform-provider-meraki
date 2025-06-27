@@ -589,15 +589,54 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	{{- if not .NoUpdate}}
-	actions := make([]meraki.ActionModel, len(plan.Items))
+	var actions []meraki.ActionModel
 
-	for i, item := range plan.Items {
-		actions[i] = meraki.ActionModel{
-			Operation: "update",
-			Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
-			Body:      plan.toBody(ctx, Resource{{camelCase .BulkName}}{}, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+	{{- if hasDestroyValues .Attributes}}
+	// If there are destroy values, we need to compare the plan and state to determine what to delete
+	for _, itemState := range state.Items {
+		for _, item := range plan.Items {
+			if item.{{toGoName ((getId .Attributes).TfName)}}.ValueString() == itemState.{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
+				// If the item is present in both plan and state, we can skip it
+				continue
+			}
+			// If the item is present in state, but not in plan, we need to delete it
+			actions = append(actions, meraki.ActionModel{
+				Operation: "update",
+				Resource:  plan.getItemPath(itemState.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+				Body:      plan.toDestroyBody(ctx),
+			})
 		}
 	}
+	{{- end}}
+
+	// Check for new and updated items
+	for _, item := range plan.Items {
+		found := false
+		for _, itemState := range state.Items {
+			if item.{{toGoName ((getId .Attributes).TfName)}}.ValueString() == itemState.{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
+				found = true
+				// If the item is present in both plan and state, we need to check if it has changes
+				hasChanges := plan.hasChanges(ctx, &state, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString())
+				if hasChanges {
+					actions = append(actions, meraki.ActionModel{
+						Operation: "update",
+						Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+						Body:      plan.toBody(ctx, Resource{{camelCase .BulkName}}{}, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+					})					
+				}
+				break
+			}
+		}
+		if !found {
+			// If the item is present in plan, but not in state, we need to create it
+			actions = append(actions, meraki.ActionModel{
+				Operation: "update",
+				Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+				Body:      plan.toBody(ctx, Resource{{camelCase .BulkName}}{}, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+			})
+		}
+	}
+
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))

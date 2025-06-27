@@ -333,7 +333,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBody(ctx context.Context, res m
 				{{- end}}
 				value.ForEach(func(k, res gjson.Result) bool {
 					parent := &data
-					data := {{.GoTypeBulkName}}{}
+					data := Resource{{.GoTypeBulkName}}{}
 					{{- template "fromBodyTemplate" .}}
 					{{- if isNestedMap .}}
 					(*parent).{{toGoName .TfName}}[k.String()] = data
@@ -592,6 +592,88 @@ func (data Resource{{camelCase .BulkName}}) toDestroyBody(ctx context.Context) s
 }
 
 // End of section. //template:end toDestroyBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
+
+func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, state *Resource{{camelCase .BulkName}}, id string) bool {
+	hasChanges := false
+
+	item := Resource{{camelCase .BulkName}}Items{}
+	for i := range data.Items {
+		if data.Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() == id {
+			item = data.Items[i]
+			break
+		}
+	}
+	stateItem := Resource{{camelCase .BulkName}}Items{}
+	for i := range state.Items {
+		if state.Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() == id {
+			stateItem = state.Items[i]
+			break
+		}
+	}
+	{{- range .Attributes}}
+	{{- $name := toGoName .TfName}}
+	{{- if and (not .Value) .ModelName}}
+	{{- if not (isNestedListSet .)}}
+	if !item.{{toGoName .TfName}}.Equal(stateItem.{{toGoName .TfName}}) {
+		hasChanges = true
+	}
+	{{- else}}
+	if len(item.{{toGoName .TfName}}) != len(stateItem.{{toGoName .TfName}}) {
+		hasChanges = true
+	} else {
+		for i := range item.{{toGoName .TfName}} {
+			{{- range .Attributes}}
+			{{- $cname := toGoName .TfName}}
+			{{- if and (not .Value) .ModelName}}
+			{{- if not (isNestedListSet .)}}
+			if !item.{{$name}}[i].{{toGoName .TfName}}.Equal(stateItem.{{$name}}[i].{{toGoName .TfName}}) {
+				hasChanges = true
+			}
+			{{- else}}
+			if len(item.{{$name}}[i].{{toGoName .TfName}}) != len(stateItem.{{$name}}[i].{{toGoName .TfName}}) {
+				hasChanges = true
+			} else {
+				for ii := range item.{{$name}}[i].{{toGoName .TfName}} {
+					{{- range .Attributes}}
+					{{- $ccname := toGoName .TfName}}
+					{{- if and (not .Value) .ModelName}}
+					{{- if not (isNestedListSet .)}}
+					if !item.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}.Equal(stateItem.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}) {
+						hasChanges = true
+					}
+					{{- else}}
+					if len(item.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}) != len(stateItem.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}) {
+						hasChanges = true
+					} else {
+						for iii := range item.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}} {
+							{{- range .Attributes}}
+							{{- if and (not .Value) .ModelName}}
+							if !item.{{$name}}[i].{{$cname}}[ii].{{$ccname}}[iii].{{toGoName .TfName}}.Equal(stateItem.{{$name}}[i].{{$cname}}[ii].{{$ccname}}[iii].{{toGoName .TfName}}) {
+								hasChanges = true
+							}
+							{{- end}}
+							{{- end}}
+						}
+					}
+					{{- end}}
+					{{- end}}
+					{{- end}}
+				}
+			}
+			{{- end}}
+			{{- end}}
+			{{- end}}
+		}
+	}
+	{{- end}}
+	{{- end}}
+	{{- end}}
+	return hasChanges
+}
+
+// End of section. //template:end hasChanges
 
 {{- range .Attributes}}
 	{{- range .Attributes}}

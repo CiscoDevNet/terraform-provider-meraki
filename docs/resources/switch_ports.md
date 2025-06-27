@@ -101,5 +101,5 @@ Optional:
 Import is supported using the following syntax:
 
 ```shell
-terraform import meraki_switch_port.example "<organization_id>,<serial>"
+terraform import meraki_switch_ports.example "<organization_id>,<serial>"
 ```

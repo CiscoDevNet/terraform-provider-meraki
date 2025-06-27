@@ -1,6 +1,7 @@
 name: Wireless SSID
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}
 rest_endpoint: /networks/%v/wireless/ssids/%v
+bulk_resource: true
 put_create: true
 no_delete: false
 doc_category: Wireless
@@ -12,7 +13,8 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
-  - tf_name: number
+  - model_name: number
+    tf_name: number
     type: String
     id: true
     reference: true
