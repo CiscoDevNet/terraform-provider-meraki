@@ -87,9 +87,6 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 						"port_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Port ID").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"access_policy_number": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The number of a custom access policy to configure on the switch port. Only applicable when `accessPolicyType` is `Custom access policy`.").String,
@@ -343,11 +340,15 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 	var actions []meraki.ActionModel
 	// If there are destroy values, we need to compare the plan and state to determine what to delete
 	for _, itemState := range state.Items {
+		found := false
 		for _, item := range plan.Items {
 			if item.PortId.ValueString() == itemState.PortId.ValueString() {
 				// If the item is present in both plan and state, we can skip it
-				continue
+				found = true
+				break
 			}
+		}
+		if !found {
 			// If the item is present in state, but not in plan, we need to delete it
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",

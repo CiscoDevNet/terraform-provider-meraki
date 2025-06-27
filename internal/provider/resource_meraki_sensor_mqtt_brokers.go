@@ -84,9 +84,6 @@ func (r *SensorMQTTBrokersResource) Schema(ctx context.Context, req resource.Sch
 						"mqtt_broker_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("MQTT Broker ID").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"enabled": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Set to true to enable MQTT broker for sensor network").String,
@@ -213,11 +210,15 @@ func (r *SensorMQTTBrokersResource) Update(ctx context.Context, req resource.Upd
 	var actions []meraki.ActionModel
 	// If there are destroy values, we need to compare the plan and state to determine what to delete
 	for _, itemState := range state.Items {
+		found := false
 		for _, item := range plan.Items {
 			if item.MqttBrokerId.ValueString() == itemState.MqttBrokerId.ValueString() {
 				// If the item is present in both plan and state, we can skip it
-				continue
+				found = true
+				break
 			}
+		}
+		if !found {
 			// If the item is present in state, but not in plan, we need to delete it
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",

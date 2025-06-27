@@ -86,9 +86,6 @@ func (r *ApplianceSSIDsResource) Schema(ctx context.Context, req resource.Schema
 						"number": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Wireless SSID number").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"auth_mode": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The association control method for the SSID (`open`, `psk`, `8021x-meraki` or `8021x-radius`).").AddStringEnumDescription("8021x-meraki", "8021x-radius", "open", "psk").String,

@@ -210,9 +210,9 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 							{{- else if and (len .DefaultValue) (eq .Type "String")}}
 							Default:             stringdefault.StaticString("{{.DefaultValue}}"),
 							{{- end}}
-							{{- if or .Id .Reference .RequiresReplace .Computed}}
+							{{- if or .RequiresReplace .Computed}}
 							PlanModifiers: []planmodifier.{{.Type}}{
-								{{- if or .Id .Reference .RequiresReplace}}
+								{{- if or .RequiresReplace}}
 								{{snakeCase .Type}}planmodifier.RequiresReplace(),
 								{{end}}
 								{{- if .Computed}}
@@ -594,11 +594,15 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	{{- if hasDestroyValues .Attributes}}
 	// If there are destroy values, we need to compare the plan and state to determine what to delete
 	for _, itemState := range state.Items {
+		found := false
 		for _, item := range plan.Items {
 			if item.{{toGoName ((getId .Attributes).TfName)}}.ValueString() == itemState.{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
 				// If the item is present in both plan and state, we can skip it
-				continue
+				found = true
+				break
 			}
+		}
+		if !found {
 			// If the item is present in state, but not in plan, we need to delete it
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",

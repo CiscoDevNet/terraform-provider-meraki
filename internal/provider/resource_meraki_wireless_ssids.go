@@ -87,9 +87,6 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 						"number": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Wireless SSID number").String,
 							Required:            true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.RequiresReplace(),
-							},
 						},
 						"adaptive_policy_group_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Adaptive policy group ID this SSID is assigned to.").String,
