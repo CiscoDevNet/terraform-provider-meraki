@@ -217,7 +217,7 @@ func (r *OrganizationLicensesResource) Update(ctx context.Context, req resource.
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.LicenseId.ValueString()),
-						Body:      item.toBody(ctx, ResourceOrganizationLicensesItems{}),
+						Body:      item.toBody(ctx, itemState),
 					})
 				}
 				break

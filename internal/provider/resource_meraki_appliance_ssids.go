@@ -292,7 +292,7 @@ func (r *ApplianceSSIDsResource) Update(ctx context.Context, req resource.Update
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.Number.ValueString()),
-						Body:      item.toBody(ctx, ResourceApplianceSSIDsItems{}),
+						Body:      item.toBody(ctx, itemState),
 					})
 				}
 				break

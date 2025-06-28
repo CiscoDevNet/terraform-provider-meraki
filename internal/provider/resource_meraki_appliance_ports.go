@@ -241,7 +241,7 @@ func (r *AppliancePortsResource) Update(ctx context.Context, req resource.Update
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.PortId.ValueString()),
-						Body:      item.toBody(ctx, ResourceAppliancePortsItems{}),
+						Body:      item.toBody(ctx, itemState),
 					})
 				}
 				break

@@ -274,7 +274,7 @@ func (r *OrganizationPolicyObjectsResource) Update(ctx context.Context, req reso
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
-						Body:      item.toBody(ctx, ResourceOrganizationPolicyObjectsItems{}),
+						Body:      item.toBody(ctx, itemState),
 					})
 				}
 				break

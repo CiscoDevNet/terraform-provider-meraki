@@ -659,7 +659,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 						{{- else}}
 						Resource:  plan.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
 						{{- end}}
-						Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
+						Body:      item.toBody(ctx, itemState),
 					})					
 				}
 				break

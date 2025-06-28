@@ -240,7 +240,7 @@ func (r *SensorMQTTBrokersResource) Update(ctx context.Context, req resource.Upd
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.MqttBrokerId.ValueString()),
-						Body:      item.toBody(ctx, ResourceSensorMQTTBrokersItems{}),
+						Body:      item.toBody(ctx, itemState),
 					})
 				}
 				break

@@ -17,6 +17,7 @@ description: |-
 - Add `meraki_wireless_ssids` resource
 - Add `meraki_organization_policy_objects` resource
 - Add `meraki_organization_policy_object_groups` resource
+- Add `meraki_switch_routing_interfaces` resource
 
 ## 1.3.0
 
