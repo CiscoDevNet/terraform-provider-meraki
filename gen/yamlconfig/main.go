@@ -504,6 +504,18 @@ func HasOrganizationId(config YamlConfig) bool {
 	return false
 }
 
+// GetBulkItemId returns the id attribute for bulk items, or a default id attribute if none is found
+func GetBulkItemId(config YamlConfig) YamlConfigAttribute {
+	// Get the id attribute from the bulk item attributes
+	for _, attr := range config.Attributes {
+		if attr.Id {
+			return attr
+		}
+	}
+	// If no id attribute is found, return an empty attribute
+	return YamlConfigAttribute{ModelName: "id", TfName: "id"}
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":                ToGoName,
@@ -539,6 +551,7 @@ var Functions = template.FuncMap{
 	"getBulkItemAttributes":   GetBulkItemAttributes,
 	"getBulkImportAttributes": GetBulkImportAttributes,
 	"hasOrganizationId":       HasOrganizationId,
+	"getBulkItemId":           GetBulkItemId,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")

@@ -360,7 +360,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBody(ctx context.Context, res m
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	for i := 0; i < len(data.Items); i++ {
+	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
 		parentRes := &res
@@ -368,7 +368,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("{{(getId .Attributes).ModelName}}").String() != (*parent).Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
+				if v.Get("{{(getBulkItemId .).ModelName}}").String() != (*parent).Items[i].{{toGoName ((getBulkItemId .).TfName)}}.ValueString() {
 					res = v
 					return false
 				}
@@ -469,7 +469,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
 func (data *Resource{{camelCase .BulkName}}) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 	{{- if hasComputedAttributes .Attributes}}
-	for i := 0; i < len(data.Items); i++ {
+	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
 		parentRes := &res
@@ -477,7 +477,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyUnknowns(ctx context.Contex
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("{{(getId .Attributes).ModelName}}").String() != (*parent).Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
+				if v.Get("{{(getBulkItemId .).ModelName}}").String() != (*parent).Items[i].{{toGoName ((getBulkItemId .).TfName)}}.ValueString() {
 					res = v
 					return false
 				}
@@ -598,14 +598,14 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 
 	item := Resource{{camelCase .BulkName}}Items{}
 	for i := range data.Items {
-		if data.Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() == id {
+		if data.Items[i].{{toGoName ((getBulkItemId .).TfName)}}.ValueString() == id {
 			item = data.Items[i]
 			break
 		}
 	}
 	stateItem := Resource{{camelCase .BulkName}}Items{}
 	for i := range state.Items {
-		if state.Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() == id {
+		if state.Items[i].{{toGoName ((getBulkItemId .).TfName)}}.ValueString() == id {
 			stateItem = state.Items[i]
 			break
 		}

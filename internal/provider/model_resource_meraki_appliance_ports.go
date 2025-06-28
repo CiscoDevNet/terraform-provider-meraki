@@ -147,7 +147,7 @@ func (data *ResourceAppliancePorts) fromBody(ctx context.Context, res meraki.Res
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ResourceAppliancePorts) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	for i := 0; i < len(data.Items); i++ {
+	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
 		parentRes := &res

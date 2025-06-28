@@ -153,6 +153,15 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						{{- if not .PutCreate}}
+						"id": schema.StringAttribute{
+							MarkdownDescription: "The id of the item",
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						{{- end}}
 						{{- range getBulkItemAttributes .}}
 						{{- if and (not .Value) (.ModelName)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
@@ -499,11 +508,19 @@ func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resour
 	actions := make([]meraki.ActionModel, len(plan.Items))
 
 	for i, item := range plan.Items {
+		{{- if .PutCreate}}
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
 			Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 		}
+		{{- else}}
+		actions[i] = meraki.ActionModel{
+			Operation: "create",
+			Resource:  plan.getPath(),
+			Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
+		}
+		{{- end}}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
 	if err != nil {
@@ -511,6 +528,11 @@ func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resour
 		return
 	}
 	plan.Id = plan.OrganizationId
+	{{- if not .PutCreate}}
+	for i := range plan.Items {
+		plan.Items[i].Id = types.StringValue(res.Get("status.createdResources." + strconv.Itoa(i) + ".id").String())
+	}
+	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
@@ -591,12 +613,12 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	{{- if not .NoUpdate}}
 	var actions []meraki.ActionModel
 
-	{{- if hasDestroyValues .Attributes}}
+	{{- if or (hasDestroyValues .Attributes) (not .NoDelete)}}
 	// If there are destroy values, we need to compare the plan and state to determine what to delete
 	for _, itemState := range state.Items {
 		found := false
 		for _, item := range plan.Items {
-			if item.{{toGoName ((getId .Attributes).TfName)}}.ValueString() == itemState.{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
+			if item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString() == itemState.{{toGoName ((getBulkItemId .).TfName)}}.ValueString() {
 				// If the item is present in both plan and state, we can skip it
 				found = true
 				break
@@ -604,11 +626,19 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 		}
 		if !found {
 			// If the item is present in state, but not in plan, we need to delete it
+			{{- if hasDestroyValues .Attributes}}
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(itemState.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
 				Body:      plan.toDestroyBody(ctx),
 			})
+			{{- else if not .NoDelete}}
+			actions = append(actions, meraki.ActionModel{
+				Operation: "destroy",
+				Resource:  plan.getPath() + "/" + url.QueryEscape(itemState.Id.ValueString()),
+				Body:      "{}",
+			})
+			{{- end}}
 		}
 	}
 	{{- end}}
@@ -617,14 +647,18 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	for _, item := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if item.{{toGoName ((getId .Attributes).TfName)}}.ValueString() == itemState.{{toGoName ((getId .Attributes).TfName)}}.ValueString() {
+			if item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString() == itemState.{{toGoName ((getBulkItemId .).TfName)}}.ValueString() {
 				found = true
 				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString())
+				hasChanges := plan.hasChanges(ctx, &state, item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString())
 				if hasChanges {
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
-						Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+						{{- if .PutCreate}}
+						Resource:  plan.getItemPath(item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString()),
+						{{- else}}
+						Resource:  plan.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
+						{{- end}}
 						Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 					})					
 				}
@@ -633,11 +667,19 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 		}
 		if !found {
 			// If the item is present in plan, but not in state, we need to create it
+			{{- if .PutCreate}}
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
-				Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+				Resource:  plan.getItemPath(item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString()),
 				Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 			})
+			{{- else}}
+			actions = append(actions, meraki.ActionModel{
+				Operation: "create",
+				Resource:  plan.getPath(),
+				Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
+			})
+			{{- end}}
 		}
 	}
 
@@ -684,9 +726,21 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
 		return
 	}
-
 	{{- else if not .NoDelete}}
+	actions := make([]meraki.ActionModel, len(state.Items))
 
+	for i, item := range state.Items {
+		actions[i] = meraki.ActionModel{
+			Operation: "destroy",
+			Resource:  state.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
+			Body:      "{}",
+		}
+	}
+	res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+		return
+	}
 	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))

@@ -353,6 +353,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewOrganizationLicensesResource,
 		NewOrganizationLoginSecurityResource,
 		NewOrganizationPolicyObjectResource,
+		NewOrganizationPolicyObjectsResource,
 		NewOrganizationPolicyObjectGroupResource,
 		NewOrganizationSAMLResource,
 		NewOrganizationSAMLIdPResource,
