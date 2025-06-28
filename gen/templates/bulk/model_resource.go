@@ -50,6 +50,9 @@ type Resource{{camelCase .BulkName}} struct {
 }
 
 type Resource{{camelCase .BulkName}}Items struct {
+{{- if not .PutCreate}}
+	Id types.String `tfsdk:"id"`
+{{- end}}
 {{- range getBulkItemAttributes .}}
 {{- if and (not .Value) .ModelName}}
 {{- if isNestedListSet .}}
@@ -147,6 +150,7 @@ func (data Resource{{camelCase .BulkName}}) getPath() string {
 	{{- end}}
 }
 
+{{if .PutCreate}}
 func (data Resource{{camelCase .BulkName}}) getItemPath(id string) string {
 	{{- if hasReference .Attributes}}
 		return fmt.Sprintf("{{.RestEndpoint}}"{{range getBulkParentAttributes .}}, url.QueryEscape(data.{{toGoName .TfName}}.Value{{.Type}}()){{end}}, url.QueryEscape(id))
@@ -154,44 +158,38 @@ func (data Resource{{camelCase .BulkName}}) getItemPath(id string) string {
 		return "{{.RestEndpoint}}"
 	{{- end}}
 }
+{{end}}
 
 // End of section. //template:end getPath
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
 {{if .BulkResource}}
-func (data Resource{{camelCase .BulkName}}) toBody(ctx context.Context, state Resource{{camelCase .BulkName}}, id string) string {
-	var item Resource{{camelCase .BulkName}}Items
-	for i := range data.Items {
-		if data.Items[i].{{toGoName ((getId .Attributes).TfName)}}.ValueString() == id {
-			item = data.Items[i]
-			break
-		}
-	}
+func (data Resource{{camelCase .BulkName}}Items) toBody(ctx context.Context, state Resource{{camelCase .BulkName}}Items) string {
 	body := ""
-	{{- range .Attributes}}
+	{{- range getBulkItemAttributes .}}
 	{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if not .Reference}}
 	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
-	if !item.{{toGoName .TfName}}.IsNull() {{if .WriteChangesOnly}}&& item.{{toGoName .TfName}} != state.{{toGoName .TfName}}{{end}} {
-		body, _ = sjson.Set(body, "{{getFullModelName . true}}", item.{{toGoName .TfName}}.Value{{.Type}}())
+	if !data.{{toGoName .TfName}}.IsNull() {{if .WriteChangesOnly}}&& data.{{toGoName .TfName}} != state.{{toGoName .TfName}}{{end}} {
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", data.{{toGoName .TfName}}.Value{{.Type}}())
 	}
 	{{- else if isListSet .}}
-	if !item.{{toGoName .TfName}}.IsNull() {
+	if !data.{{toGoName .TfName}}.IsNull() {
 		var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
-		item.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
+		data.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "{{getFullModelName . true}}", values)
 	}
 	{{- else if isNestedListSetMap .}}
-	{{if not .Mandatory}}if len(item.{{toGoName .TfName}}) > 0 {{end}}{
+	{{if not .Mandatory}}if len(data.{{toGoName .TfName}}) > 0 {{end}}{
 		{{- if isNestedMap .}}
 		body, _ = sjson.Set(body, "{{getFullModelName . true}}", map[string]interface{}{})
-		for key, item := range item.{{toGoName .TfName}} {
+		for key, item := range data.{{toGoName .TfName}} {
 		{{- else}}
 		body, _ = sjson.Set(body, "{{getFullModelName . true}}", []interface{}{})
-		for _, item := range item.{{toGoName .TfName}} {
+		for _, item := range data.{{toGoName .TfName}} {
 		{{- end}}
 			itemBody := ""
 			{{- range .Attributes}}

@@ -90,106 +90,99 @@ func (data ResourceSwitchPorts) getItemPath(id string) string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data ResourceSwitchPorts) toBody(ctx context.Context, state ResourceSwitchPorts, id string) string {
-	var item ResourceSwitchPortsItems
-	for i := range data.Items {
-		if data.Items[i].PortId.ValueString() == id {
-			item = data.Items[i]
-			break
-		}
-	}
+func (data ResourceSwitchPortsItems) toBody(ctx context.Context, state ResourceSwitchPortsItems) string {
 	body := ""
-	if !item.AccessPolicyNumber.IsNull() {
-		body, _ = sjson.Set(body, "accessPolicyNumber", item.AccessPolicyNumber.ValueInt64())
+	if !data.AccessPolicyNumber.IsNull() {
+		body, _ = sjson.Set(body, "accessPolicyNumber", data.AccessPolicyNumber.ValueInt64())
 	}
-	if !item.AccessPolicyType.IsNull() {
-		body, _ = sjson.Set(body, "accessPolicyType", item.AccessPolicyType.ValueString())
+	if !data.AccessPolicyType.IsNull() {
+		body, _ = sjson.Set(body, "accessPolicyType", data.AccessPolicyType.ValueString())
 	}
-	if !item.AdaptivePolicyGroupId.IsNull() {
-		body, _ = sjson.Set(body, "adaptivePolicyGroupId", item.AdaptivePolicyGroupId.ValueString())
+	if !data.AdaptivePolicyGroupId.IsNull() {
+		body, _ = sjson.Set(body, "adaptivePolicyGroupId", data.AdaptivePolicyGroupId.ValueString())
 	}
-	if !item.AllowedVlans.IsNull() {
-		body, _ = sjson.Set(body, "allowedVlans", item.AllowedVlans.ValueString())
+	if !data.AllowedVlans.IsNull() {
+		body, _ = sjson.Set(body, "allowedVlans", data.AllowedVlans.ValueString())
 	}
-	if !item.DaiTrusted.IsNull() {
-		body, _ = sjson.Set(body, "daiTrusted", item.DaiTrusted.ValueBool())
+	if !data.DaiTrusted.IsNull() {
+		body, _ = sjson.Set(body, "daiTrusted", data.DaiTrusted.ValueBool())
 	}
-	if !item.Enabled.IsNull() {
-		body, _ = sjson.Set(body, "enabled", item.Enabled.ValueBool())
+	if !data.Enabled.IsNull() {
+		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
-	if !item.FlexibleStackingEnabled.IsNull() {
-		body, _ = sjson.Set(body, "flexibleStackingEnabled", item.FlexibleStackingEnabled.ValueBool())
+	if !data.FlexibleStackingEnabled.IsNull() {
+		body, _ = sjson.Set(body, "flexibleStackingEnabled", data.FlexibleStackingEnabled.ValueBool())
 	}
-	if !item.IsolationEnabled.IsNull() {
-		body, _ = sjson.Set(body, "isolationEnabled", item.IsolationEnabled.ValueBool())
+	if !data.IsolationEnabled.IsNull() {
+		body, _ = sjson.Set(body, "isolationEnabled", data.IsolationEnabled.ValueBool())
 	}
-	if !item.LinkNegotiation.IsNull() {
-		body, _ = sjson.Set(body, "linkNegotiation", item.LinkNegotiation.ValueString())
+	if !data.LinkNegotiation.IsNull() {
+		body, _ = sjson.Set(body, "linkNegotiation", data.LinkNegotiation.ValueString())
 	}
-	if !item.MacWhitelistLimit.IsNull() {
-		body, _ = sjson.Set(body, "macWhitelistLimit", item.MacWhitelistLimit.ValueInt64())
+	if !data.MacWhitelistLimit.IsNull() {
+		body, _ = sjson.Set(body, "macWhitelistLimit", data.MacWhitelistLimit.ValueInt64())
 	}
-	if !item.Name.IsNull() {
-		body, _ = sjson.Set(body, "name", item.Name.ValueString())
+	if !data.Name.IsNull() {
+		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !item.PeerSgtCapable.IsNull() {
-		body, _ = sjson.Set(body, "peerSgtCapable", item.PeerSgtCapable.ValueBool())
+	if !data.PeerSgtCapable.IsNull() {
+		body, _ = sjson.Set(body, "peerSgtCapable", data.PeerSgtCapable.ValueBool())
 	}
-	if !item.PoeEnabled.IsNull() {
-		body, _ = sjson.Set(body, "poeEnabled", item.PoeEnabled.ValueBool())
+	if !data.PoeEnabled.IsNull() {
+		body, _ = sjson.Set(body, "poeEnabled", data.PoeEnabled.ValueBool())
 	}
-	if !item.PortScheduleId.IsNull() {
-		body, _ = sjson.Set(body, "portScheduleId", item.PortScheduleId.ValueString())
+	if !data.PortScheduleId.IsNull() {
+		body, _ = sjson.Set(body, "portScheduleId", data.PortScheduleId.ValueString())
 	}
-	if !item.RstpEnabled.IsNull() {
-		body, _ = sjson.Set(body, "rstpEnabled", item.RstpEnabled.ValueBool())
+	if !data.RstpEnabled.IsNull() {
+		body, _ = sjson.Set(body, "rstpEnabled", data.RstpEnabled.ValueBool())
 	}
-	if !item.StickyMacAllowListLimit.IsNull() {
-		body, _ = sjson.Set(body, "stickyMacAllowListLimit", item.StickyMacAllowListLimit.ValueInt64())
+	if !data.StickyMacAllowListLimit.IsNull() {
+		body, _ = sjson.Set(body, "stickyMacAllowListLimit", data.StickyMacAllowListLimit.ValueInt64())
 	}
-	if !item.StormControlEnabled.IsNull() {
-		body, _ = sjson.Set(body, "stormControlEnabled", item.StormControlEnabled.ValueBool())
+	if !data.StormControlEnabled.IsNull() {
+		body, _ = sjson.Set(body, "stormControlEnabled", data.StormControlEnabled.ValueBool())
 	}
-	if !item.StpGuard.IsNull() {
-		body, _ = sjson.Set(body, "stpGuard", item.StpGuard.ValueString())
+	if !data.StpGuard.IsNull() {
+		body, _ = sjson.Set(body, "stpGuard", data.StpGuard.ValueString())
 	}
-	if !item.Type.IsNull() {
-		body, _ = sjson.Set(body, "type", item.Type.ValueString())
+	if !data.Type.IsNull() {
+		body, _ = sjson.Set(body, "type", data.Type.ValueString())
 	}
-	if !item.Udld.IsNull() {
-		body, _ = sjson.Set(body, "udld", item.Udld.ValueString())
+	if !data.Udld.IsNull() {
+		body, _ = sjson.Set(body, "udld", data.Udld.ValueString())
 	}
-	if !item.Vlan.IsNull() {
-		body, _ = sjson.Set(body, "vlan", item.Vlan.ValueInt64())
+	if !data.Vlan.IsNull() {
+		body, _ = sjson.Set(body, "vlan", data.Vlan.ValueInt64())
 	}
-	if !item.VoiceVlan.IsNull() {
-		body, _ = sjson.Set(body, "voiceVlan", item.VoiceVlan.ValueInt64())
+	if !data.VoiceVlan.IsNull() {
+		body, _ = sjson.Set(body, "voiceVlan", data.VoiceVlan.ValueInt64())
 	}
-	if !item.Dot3azEnabled.IsNull() {
-		body, _ = sjson.Set(body, "dot3az.enabled", item.Dot3azEnabled.ValueBool())
+	if !data.Dot3azEnabled.IsNull() {
+		body, _ = sjson.Set(body, "dot3az.enabled", data.Dot3azEnabled.ValueBool())
 	}
-	if !item.ProfileEnabled.IsNull() {
-		body, _ = sjson.Set(body, "profile.enabled", item.ProfileEnabled.ValueBool())
+	if !data.ProfileEnabled.IsNull() {
+		body, _ = sjson.Set(body, "profile.enabled", data.ProfileEnabled.ValueBool())
 	}
-	if !item.ProfileId.IsNull() {
-		body, _ = sjson.Set(body, "profile.id", item.ProfileId.ValueString())
+	if !data.ProfileId.IsNull() {
+		body, _ = sjson.Set(body, "profile.id", data.ProfileId.ValueString())
 	}
-	if !item.ProfileIname.IsNull() {
-		body, _ = sjson.Set(body, "profile.iname", item.ProfileIname.ValueString())
+	if !data.ProfileIname.IsNull() {
+		body, _ = sjson.Set(body, "profile.iname", data.ProfileIname.ValueString())
 	}
-	if !item.MacAllowList.IsNull() {
+	if !data.MacAllowList.IsNull() {
 		var values []string
-		item.MacAllowList.ElementsAs(ctx, &values, false)
+		data.MacAllowList.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "macAllowList", values)
 	}
-	if !item.StickyMacAllowList.IsNull() {
+	if !data.StickyMacAllowList.IsNull() {
 		var values []string
-		item.StickyMacAllowList.ElementsAs(ctx, &values, false)
+		data.StickyMacAllowList.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "stickyMacAllowList", values)
 	}
-	if !item.Tags.IsNull() {
+	if !data.Tags.IsNull() {
 		var values []string
-		item.Tags.ElementsAs(ctx, &values, false)
+		data.Tags.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "tags", values)
 	}
 	return body

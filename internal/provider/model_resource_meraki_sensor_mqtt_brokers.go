@@ -61,17 +61,10 @@ func (data ResourceSensorMQTTBrokers) getItemPath(id string) string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data ResourceSensorMQTTBrokers) toBody(ctx context.Context, state ResourceSensorMQTTBrokers, id string) string {
-	var item ResourceSensorMQTTBrokersItems
-	for i := range data.Items {
-		if data.Items[i].MqttBrokerId.ValueString() == id {
-			item = data.Items[i]
-			break
-		}
-	}
+func (data ResourceSensorMQTTBrokersItems) toBody(ctx context.Context, state ResourceSensorMQTTBrokersItems) string {
 	body := ""
-	if !item.Enabled.IsNull() {
-		body, _ = sjson.Set(body, "enabled", item.Enabled.ValueBool())
+	if !data.Enabled.IsNull() {
+		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
 	return body
 }

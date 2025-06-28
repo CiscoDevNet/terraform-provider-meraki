@@ -121,7 +121,7 @@ func (r *OrganizationLicensesResource) Create(ctx context.Context, req resource.
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  plan.getItemPath(item.LicenseId.ValueString()),
-			Body:      plan.toBody(ctx, ResourceOrganizationLicenses{}, item.LicenseId.ValueString()),
+			Body:      item.toBody(ctx, ResourceOrganizationLicensesItems{}),
 		}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
@@ -217,7 +217,7 @@ func (r *OrganizationLicensesResource) Update(ctx context.Context, req resource.
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.LicenseId.ValueString()),
-						Body:      plan.toBody(ctx, ResourceOrganizationLicenses{}, item.LicenseId.ValueString()),
+						Body:      item.toBody(ctx, ResourceOrganizationLicensesItems{}),
 					})
 				}
 				break
@@ -228,7 +228,7 @@ func (r *OrganizationLicensesResource) Update(ctx context.Context, req resource.
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(item.LicenseId.ValueString()),
-				Body:      plan.toBody(ctx, ResourceOrganizationLicenses{}, item.LicenseId.ValueString()),
+				Body:      item.toBody(ctx, ResourceOrganizationLicensesItems{}),
 			})
 		}
 	}

@@ -196,7 +196,7 @@ func (r *ApplianceSSIDsResource) Create(ctx context.Context, req resource.Create
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  plan.getItemPath(item.Number.ValueString()),
-			Body:      plan.toBody(ctx, ResourceApplianceSSIDs{}, item.Number.ValueString()),
+			Body:      item.toBody(ctx, ResourceApplianceSSIDsItems{}),
 		}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
@@ -292,7 +292,7 @@ func (r *ApplianceSSIDsResource) Update(ctx context.Context, req resource.Update
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.Number.ValueString()),
-						Body:      plan.toBody(ctx, ResourceApplianceSSIDs{}, item.Number.ValueString()),
+						Body:      item.toBody(ctx, ResourceApplianceSSIDsItems{}),
 					})
 				}
 				break
@@ -303,7 +303,7 @@ func (r *ApplianceSSIDsResource) Update(ctx context.Context, req resource.Update
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(item.Number.ValueString()),
-				Body:      plan.toBody(ctx, ResourceApplianceSSIDs{}, item.Number.ValueString()),
+				Body:      item.toBody(ctx, ResourceApplianceSSIDsItems{}),
 			})
 		}
 	}

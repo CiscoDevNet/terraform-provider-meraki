@@ -588,7 +588,7 @@ func (r *WirelessSSIDsResource) Create(ctx context.Context, req resource.CreateR
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  plan.getItemPath(item.Number.ValueString()),
-			Body:      plan.toBody(ctx, ResourceWirelessSSIDs{}, item.Number.ValueString()),
+			Body:      item.toBody(ctx, ResourceWirelessSSIDsItems{}),
 		}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
@@ -684,7 +684,7 @@ func (r *WirelessSSIDsResource) Update(ctx context.Context, req resource.UpdateR
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.Number.ValueString()),
-						Body:      plan.toBody(ctx, ResourceWirelessSSIDs{}, item.Number.ValueString()),
+						Body:      item.toBody(ctx, ResourceWirelessSSIDsItems{}),
 					})
 				}
 				break
@@ -695,7 +695,7 @@ func (r *WirelessSSIDsResource) Update(ctx context.Context, req resource.UpdateR
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(item.Number.ValueString()),
-				Body:      plan.toBody(ctx, ResourceWirelessSSIDs{}, item.Number.ValueString()),
+				Body:      item.toBody(ctx, ResourceWirelessSSIDsItems{}),
 			})
 		}
 	}

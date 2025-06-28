@@ -184,156 +184,149 @@ func (data ResourceWirelessSSIDs) getItemPath(id string) string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data ResourceWirelessSSIDs) toBody(ctx context.Context, state ResourceWirelessSSIDs, id string) string {
-	var item ResourceWirelessSSIDsItems
-	for i := range data.Items {
-		if data.Items[i].Number.ValueString() == id {
-			item = data.Items[i]
-			break
-		}
-	}
+func (data ResourceWirelessSSIDsItems) toBody(ctx context.Context, state ResourceWirelessSSIDsItems) string {
 	body := ""
-	if !item.AdaptivePolicyGroupId.IsNull() {
-		body, _ = sjson.Set(body, "adaptivePolicyGroupId", item.AdaptivePolicyGroupId.ValueString())
+	if !data.AdaptivePolicyGroupId.IsNull() {
+		body, _ = sjson.Set(body, "adaptivePolicyGroupId", data.AdaptivePolicyGroupId.ValueString())
 	}
-	if !item.AdultContentFilteringEnabled.IsNull() {
-		body, _ = sjson.Set(body, "adultContentFilteringEnabled", item.AdultContentFilteringEnabled.ValueBool())
+	if !data.AdultContentFilteringEnabled.IsNull() {
+		body, _ = sjson.Set(body, "adultContentFilteringEnabled", data.AdultContentFilteringEnabled.ValueBool())
 	}
-	if !item.AuthMode.IsNull() {
-		body, _ = sjson.Set(body, "authMode", item.AuthMode.ValueString())
+	if !data.AuthMode.IsNull() {
+		body, _ = sjson.Set(body, "authMode", data.AuthMode.ValueString())
 	}
-	if !item.AvailableOnAllAps.IsNull() {
-		body, _ = sjson.Set(body, "availableOnAllAps", item.AvailableOnAllAps.ValueBool())
+	if !data.AvailableOnAllAps.IsNull() {
+		body, _ = sjson.Set(body, "availableOnAllAps", data.AvailableOnAllAps.ValueBool())
 	}
-	if !item.BandSelection.IsNull() {
-		body, _ = sjson.Set(body, "bandSelection", item.BandSelection.ValueString())
+	if !data.BandSelection.IsNull() {
+		body, _ = sjson.Set(body, "bandSelection", data.BandSelection.ValueString())
 	}
-	if !item.ConcentratorNetworkId.IsNull() {
-		body, _ = sjson.Set(body, "concentratorNetworkId", item.ConcentratorNetworkId.ValueString())
+	if !data.ConcentratorNetworkId.IsNull() {
+		body, _ = sjson.Set(body, "concentratorNetworkId", data.ConcentratorNetworkId.ValueString())
 	}
-	if !item.DefaultVlanId.IsNull() {
-		body, _ = sjson.Set(body, "defaultVlanId", item.DefaultVlanId.ValueInt64())
+	if !data.DefaultVlanId.IsNull() {
+		body, _ = sjson.Set(body, "defaultVlanId", data.DefaultVlanId.ValueInt64())
 	}
-	if !item.DisassociateClientsOnVpnFailover.IsNull() {
-		body, _ = sjson.Set(body, "disassociateClientsOnVpnFailover", item.DisassociateClientsOnVpnFailover.ValueBool())
+	if !data.DisassociateClientsOnVpnFailover.IsNull() {
+		body, _ = sjson.Set(body, "disassociateClientsOnVpnFailover", data.DisassociateClientsOnVpnFailover.ValueBool())
 	}
-	if !item.Enabled.IsNull() {
-		body, _ = sjson.Set(body, "enabled", item.Enabled.ValueBool())
+	if !data.Enabled.IsNull() {
+		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
-	if !item.EncryptionMode.IsNull() {
-		body, _ = sjson.Set(body, "encryptionMode", item.EncryptionMode.ValueString())
+	if !data.EncryptionMode.IsNull() {
+		body, _ = sjson.Set(body, "encryptionMode", data.EncryptionMode.ValueString())
 	}
-	if !item.EnterpriseAdminAccess.IsNull() {
-		body, _ = sjson.Set(body, "enterpriseAdminAccess", item.EnterpriseAdminAccess.ValueString())
+	if !data.EnterpriseAdminAccess.IsNull() {
+		body, _ = sjson.Set(body, "enterpriseAdminAccess", data.EnterpriseAdminAccess.ValueString())
 	}
-	if !item.IpAssignmentMode.IsNull() {
-		body, _ = sjson.Set(body, "ipAssignmentMode", item.IpAssignmentMode.ValueString())
+	if !data.IpAssignmentMode.IsNull() {
+		body, _ = sjson.Set(body, "ipAssignmentMode", data.IpAssignmentMode.ValueString())
 	}
-	if !item.LanIsolationEnabled.IsNull() {
-		body, _ = sjson.Set(body, "lanIsolationEnabled", item.LanIsolationEnabled.ValueBool())
+	if !data.LanIsolationEnabled.IsNull() {
+		body, _ = sjson.Set(body, "lanIsolationEnabled", data.LanIsolationEnabled.ValueBool())
 	}
-	if !item.MandatoryDhcpEnabled.IsNull() {
-		body, _ = sjson.Set(body, "mandatoryDhcpEnabled", item.MandatoryDhcpEnabled.ValueBool())
+	if !data.MandatoryDhcpEnabled.IsNull() {
+		body, _ = sjson.Set(body, "mandatoryDhcpEnabled", data.MandatoryDhcpEnabled.ValueBool())
 	}
-	if !item.MinBitrate.IsNull() {
-		body, _ = sjson.Set(body, "minBitrate", item.MinBitrate.ValueFloat64())
+	if !data.MinBitrate.IsNull() {
+		body, _ = sjson.Set(body, "minBitrate", data.MinBitrate.ValueFloat64())
 	}
-	if !item.Name.IsNull() {
-		body, _ = sjson.Set(body, "name", item.Name.ValueString())
+	if !data.Name.IsNull() {
+		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !item.PerClientBandwidthLimitDown.IsNull() {
-		body, _ = sjson.Set(body, "perClientBandwidthLimitDown", item.PerClientBandwidthLimitDown.ValueInt64())
+	if !data.PerClientBandwidthLimitDown.IsNull() {
+		body, _ = sjson.Set(body, "perClientBandwidthLimitDown", data.PerClientBandwidthLimitDown.ValueInt64())
 	}
-	if !item.PerClientBandwidthLimitUp.IsNull() {
-		body, _ = sjson.Set(body, "perClientBandwidthLimitUp", item.PerClientBandwidthLimitUp.ValueInt64())
+	if !data.PerClientBandwidthLimitUp.IsNull() {
+		body, _ = sjson.Set(body, "perClientBandwidthLimitUp", data.PerClientBandwidthLimitUp.ValueInt64())
 	}
-	if !item.PerSsidBandwidthLimitDown.IsNull() {
-		body, _ = sjson.Set(body, "perSsidBandwidthLimitDown", item.PerSsidBandwidthLimitDown.ValueInt64())
+	if !data.PerSsidBandwidthLimitDown.IsNull() {
+		body, _ = sjson.Set(body, "perSsidBandwidthLimitDown", data.PerSsidBandwidthLimitDown.ValueInt64())
 	}
-	if !item.PerSsidBandwidthLimitUp.IsNull() {
-		body, _ = sjson.Set(body, "perSsidBandwidthLimitUp", item.PerSsidBandwidthLimitUp.ValueInt64())
+	if !data.PerSsidBandwidthLimitUp.IsNull() {
+		body, _ = sjson.Set(body, "perSsidBandwidthLimitUp", data.PerSsidBandwidthLimitUp.ValueInt64())
 	}
-	if !item.Psk.IsNull() {
-		body, _ = sjson.Set(body, "psk", item.Psk.ValueString())
+	if !data.Psk.IsNull() {
+		body, _ = sjson.Set(body, "psk", data.Psk.ValueString())
 	}
-	if !item.RadiusAccountingEnabled.IsNull() {
-		body, _ = sjson.Set(body, "radiusAccountingEnabled", item.RadiusAccountingEnabled.ValueBool())
+	if !data.RadiusAccountingEnabled.IsNull() {
+		body, _ = sjson.Set(body, "radiusAccountingEnabled", data.RadiusAccountingEnabled.ValueBool())
 	}
-	if !item.RadiusAccountingInterimInterval.IsNull() {
-		body, _ = sjson.Set(body, "radiusAccountingInterimInterval", item.RadiusAccountingInterimInterval.ValueInt64())
+	if !data.RadiusAccountingInterimInterval.IsNull() {
+		body, _ = sjson.Set(body, "radiusAccountingInterimInterval", data.RadiusAccountingInterimInterval.ValueInt64())
 	}
-	if !item.RadiusAttributeForGroupPolicies.IsNull() {
-		body, _ = sjson.Set(body, "radiusAttributeForGroupPolicies", item.RadiusAttributeForGroupPolicies.ValueString())
+	if !data.RadiusAttributeForGroupPolicies.IsNull() {
+		body, _ = sjson.Set(body, "radiusAttributeForGroupPolicies", data.RadiusAttributeForGroupPolicies.ValueString())
 	}
-	if !item.RadiusAuthenticationNasId.IsNull() {
-		body, _ = sjson.Set(body, "radiusAuthenticationNasId", item.RadiusAuthenticationNasId.ValueString())
+	if !data.RadiusAuthenticationNasId.IsNull() {
+		body, _ = sjson.Set(body, "radiusAuthenticationNasId", data.RadiusAuthenticationNasId.ValueString())
 	}
-	if !item.RadiusCalledStationId.IsNull() {
-		body, _ = sjson.Set(body, "radiusCalledStationId", item.RadiusCalledStationId.ValueString())
+	if !data.RadiusCalledStationId.IsNull() {
+		body, _ = sjson.Set(body, "radiusCalledStationId", data.RadiusCalledStationId.ValueString())
 	}
-	if !item.RadiusCoaEnabled.IsNull() {
-		body, _ = sjson.Set(body, "radiusCoaEnabled", item.RadiusCoaEnabled.ValueBool())
+	if !data.RadiusCoaEnabled.IsNull() {
+		body, _ = sjson.Set(body, "radiusCoaEnabled", data.RadiusCoaEnabled.ValueBool())
 	}
-	if !item.RadiusFailoverPolicy.IsNull() {
-		body, _ = sjson.Set(body, "radiusFailoverPolicy", item.RadiusFailoverPolicy.ValueString())
+	if !data.RadiusFailoverPolicy.IsNull() {
+		body, _ = sjson.Set(body, "radiusFailoverPolicy", data.RadiusFailoverPolicy.ValueString())
 	}
-	if !item.RadiusFallbackEnabled.IsNull() {
-		body, _ = sjson.Set(body, "radiusFallbackEnabled", item.RadiusFallbackEnabled.ValueBool())
+	if !data.RadiusFallbackEnabled.IsNull() {
+		body, _ = sjson.Set(body, "radiusFallbackEnabled", data.RadiusFallbackEnabled.ValueBool())
 	}
-	if !item.RadiusGuestVlanEnabled.IsNull() {
-		body, _ = sjson.Set(body, "radiusGuestVlanEnabled", item.RadiusGuestVlanEnabled.ValueBool())
+	if !data.RadiusGuestVlanEnabled.IsNull() {
+		body, _ = sjson.Set(body, "radiusGuestVlanEnabled", data.RadiusGuestVlanEnabled.ValueBool())
 	}
-	if !item.RadiusGuestVlanId.IsNull() {
-		body, _ = sjson.Set(body, "radiusGuestVlanId", item.RadiusGuestVlanId.ValueInt64())
+	if !data.RadiusGuestVlanId.IsNull() {
+		body, _ = sjson.Set(body, "radiusGuestVlanId", data.RadiusGuestVlanId.ValueInt64())
 	}
-	if !item.RadiusLoadBalancingPolicy.IsNull() {
-		body, _ = sjson.Set(body, "radiusLoadBalancingPolicy", item.RadiusLoadBalancingPolicy.ValueString())
+	if !data.RadiusLoadBalancingPolicy.IsNull() {
+		body, _ = sjson.Set(body, "radiusLoadBalancingPolicy", data.RadiusLoadBalancingPolicy.ValueString())
 	}
-	if !item.RadiusOverride.IsNull() {
-		body, _ = sjson.Set(body, "radiusOverride", item.RadiusOverride.ValueBool())
+	if !data.RadiusOverride.IsNull() {
+		body, _ = sjson.Set(body, "radiusOverride", data.RadiusOverride.ValueBool())
 	}
-	if !item.RadiusProxyEnabled.IsNull() {
-		body, _ = sjson.Set(body, "radiusProxyEnabled", item.RadiusProxyEnabled.ValueBool())
+	if !data.RadiusProxyEnabled.IsNull() {
+		body, _ = sjson.Set(body, "radiusProxyEnabled", data.RadiusProxyEnabled.ValueBool())
 	}
-	if !item.RadiusServerAttemptsLimit.IsNull() {
-		body, _ = sjson.Set(body, "radiusServerAttemptsLimit", item.RadiusServerAttemptsLimit.ValueInt64())
+	if !data.RadiusServerAttemptsLimit.IsNull() {
+		body, _ = sjson.Set(body, "radiusServerAttemptsLimit", data.RadiusServerAttemptsLimit.ValueInt64())
 	}
-	if !item.RadiusServerTimeout.IsNull() {
-		body, _ = sjson.Set(body, "radiusServerTimeout", item.RadiusServerTimeout.ValueInt64())
+	if !data.RadiusServerTimeout.IsNull() {
+		body, _ = sjson.Set(body, "radiusServerTimeout", data.RadiusServerTimeout.ValueInt64())
 	}
-	if !item.RadiusTestingEnabled.IsNull() {
-		body, _ = sjson.Set(body, "radiusTestingEnabled", item.RadiusTestingEnabled.ValueBool())
+	if !data.RadiusTestingEnabled.IsNull() {
+		body, _ = sjson.Set(body, "radiusTestingEnabled", data.RadiusTestingEnabled.ValueBool())
 	}
-	if !item.SecondaryConcentratorNetworkId.IsNull() {
-		body, _ = sjson.Set(body, "secondaryConcentratorNetworkId", item.SecondaryConcentratorNetworkId.ValueString())
+	if !data.SecondaryConcentratorNetworkId.IsNull() {
+		body, _ = sjson.Set(body, "secondaryConcentratorNetworkId", data.SecondaryConcentratorNetworkId.ValueString())
 	}
-	if !item.SplashPage.IsNull() {
-		body, _ = sjson.Set(body, "splashPage", item.SplashPage.ValueString())
+	if !data.SplashPage.IsNull() {
+		body, _ = sjson.Set(body, "splashPage", data.SplashPage.ValueString())
 	}
-	if !item.UseVlanTagging.IsNull() {
-		body, _ = sjson.Set(body, "useVlanTagging", item.UseVlanTagging.ValueBool())
+	if !data.UseVlanTagging.IsNull() {
+		body, _ = sjson.Set(body, "useVlanTagging", data.UseVlanTagging.ValueBool())
 	}
-	if !item.Visible.IsNull() {
-		body, _ = sjson.Set(body, "visible", item.Visible.ValueBool())
+	if !data.Visible.IsNull() {
+		body, _ = sjson.Set(body, "visible", data.Visible.ValueBool())
 	}
-	if !item.VlanId.IsNull() {
-		body, _ = sjson.Set(body, "vlanId", item.VlanId.ValueInt64())
+	if !data.VlanId.IsNull() {
+		body, _ = sjson.Set(body, "vlanId", data.VlanId.ValueInt64())
 	}
-	if !item.WalledGardenEnabled.IsNull() {
-		body, _ = sjson.Set(body, "walledGardenEnabled", item.WalledGardenEnabled.ValueBool())
+	if !data.WalledGardenEnabled.IsNull() {
+		body, _ = sjson.Set(body, "walledGardenEnabled", data.WalledGardenEnabled.ValueBool())
 	}
-	if !item.WpaEncryptionMode.IsNull() {
-		body, _ = sjson.Set(body, "wpaEncryptionMode", item.WpaEncryptionMode.ValueString())
+	if !data.WpaEncryptionMode.IsNull() {
+		body, _ = sjson.Set(body, "wpaEncryptionMode", data.WpaEncryptionMode.ValueString())
 	}
-	if !item.ActiveDirectoryCredentialsLogonName.IsNull() {
-		body, _ = sjson.Set(body, "activeDirectory.credentials.logonName", item.ActiveDirectoryCredentialsLogonName.ValueString())
+	if !data.ActiveDirectoryCredentialsLogonName.IsNull() {
+		body, _ = sjson.Set(body, "activeDirectory.credentials.logonName", data.ActiveDirectoryCredentialsLogonName.ValueString())
 	}
-	if !item.ActiveDirectoryCredentialsPassword.IsNull() {
-		body, _ = sjson.Set(body, "activeDirectory.credentials.password", item.ActiveDirectoryCredentialsPassword.ValueString())
+	if !data.ActiveDirectoryCredentialsPassword.IsNull() {
+		body, _ = sjson.Set(body, "activeDirectory.credentials.password", data.ActiveDirectoryCredentialsPassword.ValueString())
 	}
-	if len(item.ActiveDirectoryServers) > 0 {
+	if len(data.ActiveDirectoryServers) > 0 {
 		body, _ = sjson.Set(body, "activeDirectory.servers", []interface{}{})
-		for _, item := range item.ActiveDirectoryServers {
+		for _, item := range data.ActiveDirectoryServers {
 			itemBody := ""
 			if !item.Host.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "host", item.Host.ValueString())
@@ -344,47 +337,47 @@ func (data ResourceWirelessSSIDs) toBody(ctx context.Context, state ResourceWire
 			body, _ = sjson.SetRaw(body, "activeDirectory.servers.-1", itemBody)
 		}
 	}
-	if !item.DnsRewriteEnabled.IsNull() {
-		body, _ = sjson.Set(body, "dnsRewrite.enabled", item.DnsRewriteEnabled.ValueBool())
+	if !data.DnsRewriteEnabled.IsNull() {
+		body, _ = sjson.Set(body, "dnsRewrite.enabled", data.DnsRewriteEnabled.ValueBool())
 	}
-	if !item.DnsRewriteDnsCustomNameservers.IsNull() {
+	if !data.DnsRewriteDnsCustomNameservers.IsNull() {
 		var values []string
-		item.DnsRewriteDnsCustomNameservers.ElementsAs(ctx, &values, false)
+		data.DnsRewriteDnsCustomNameservers.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "dnsRewrite.dnsCustomNameservers", values)
 	}
-	if !item.Dot11rAdaptive.IsNull() {
-		body, _ = sjson.Set(body, "dot11r.adaptive", item.Dot11rAdaptive.ValueBool())
+	if !data.Dot11rAdaptive.IsNull() {
+		body, _ = sjson.Set(body, "dot11r.adaptive", data.Dot11rAdaptive.ValueBool())
 	}
-	if !item.Dot11rEnabled.IsNull() {
-		body, _ = sjson.Set(body, "dot11r.enabled", item.Dot11rEnabled.ValueBool())
+	if !data.Dot11rEnabled.IsNull() {
+		body, _ = sjson.Set(body, "dot11r.enabled", data.Dot11rEnabled.ValueBool())
 	}
-	if !item.Dot11wEnabled.IsNull() {
-		body, _ = sjson.Set(body, "dot11w.enabled", item.Dot11wEnabled.ValueBool())
+	if !data.Dot11wEnabled.IsNull() {
+		body, _ = sjson.Set(body, "dot11w.enabled", data.Dot11wEnabled.ValueBool())
 	}
-	if !item.Dot11wRequired.IsNull() {
-		body, _ = sjson.Set(body, "dot11w.required", item.Dot11wRequired.ValueBool())
+	if !data.Dot11wRequired.IsNull() {
+		body, _ = sjson.Set(body, "dot11w.required", data.Dot11wRequired.ValueBool())
 	}
-	if !item.GreKey.IsNull() {
-		body, _ = sjson.Set(body, "gre.key", item.GreKey.ValueInt64())
+	if !data.GreKey.IsNull() {
+		body, _ = sjson.Set(body, "gre.key", data.GreKey.ValueInt64())
 	}
-	if !item.GreConcentratorHost.IsNull() {
-		body, _ = sjson.Set(body, "gre.concentrator.host", item.GreConcentratorHost.ValueString())
+	if !data.GreConcentratorHost.IsNull() {
+		body, _ = sjson.Set(body, "gre.concentrator.host", data.GreConcentratorHost.ValueString())
 	}
-	if !item.LdapBaseDistinguishedName.IsNull() {
-		body, _ = sjson.Set(body, "ldap.baseDistinguishedName", item.LdapBaseDistinguishedName.ValueString())
+	if !data.LdapBaseDistinguishedName.IsNull() {
+		body, _ = sjson.Set(body, "ldap.baseDistinguishedName", data.LdapBaseDistinguishedName.ValueString())
 	}
-	if !item.LdapCredentialsDistinguishedName.IsNull() {
-		body, _ = sjson.Set(body, "ldap.credentials.distinguishedName", item.LdapCredentialsDistinguishedName.ValueString())
+	if !data.LdapCredentialsDistinguishedName.IsNull() {
+		body, _ = sjson.Set(body, "ldap.credentials.distinguishedName", data.LdapCredentialsDistinguishedName.ValueString())
 	}
-	if !item.LdapCredentialsPassword.IsNull() {
-		body, _ = sjson.Set(body, "ldap.credentials.password", item.LdapCredentialsPassword.ValueString())
+	if !data.LdapCredentialsPassword.IsNull() {
+		body, _ = sjson.Set(body, "ldap.credentials.password", data.LdapCredentialsPassword.ValueString())
 	}
-	if !item.LdapServerCaCertificateContents.IsNull() {
-		body, _ = sjson.Set(body, "ldap.serverCaCertificate.contents", item.LdapServerCaCertificateContents.ValueString())
+	if !data.LdapServerCaCertificateContents.IsNull() {
+		body, _ = sjson.Set(body, "ldap.serverCaCertificate.contents", data.LdapServerCaCertificateContents.ValueString())
 	}
-	if len(item.LdapServers) > 0 {
+	if len(data.LdapServers) > 0 {
 		body, _ = sjson.Set(body, "ldap.servers", []interface{}{})
-		for _, item := range item.LdapServers {
+		for _, item := range data.LdapServers {
 			itemBody := ""
 			if !item.Host.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "host", item.Host.ValueString())
@@ -395,42 +388,42 @@ func (data ResourceWirelessSSIDs) toBody(ctx context.Context, state ResourceWire
 			body, _ = sjson.SetRaw(body, "ldap.servers.-1", itemBody)
 		}
 	}
-	if !item.LocalRadiusCacheTimeout.IsNull() {
-		body, _ = sjson.Set(body, "localRadius.cacheTimeout", item.LocalRadiusCacheTimeout.ValueInt64())
+	if !data.LocalRadiusCacheTimeout.IsNull() {
+		body, _ = sjson.Set(body, "localRadius.cacheTimeout", data.LocalRadiusCacheTimeout.ValueInt64())
 	}
-	if !item.LocalRadiusCertificateAuthenticationEnabled.IsNull() {
-		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.enabled", item.LocalRadiusCertificateAuthenticationEnabled.ValueBool())
+	if !data.LocalRadiusCertificateAuthenticationEnabled.IsNull() {
+		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.enabled", data.LocalRadiusCertificateAuthenticationEnabled.ValueBool())
 	}
-	if !item.LocalRadiusCertificateAuthenticationOcspResponderUrl.IsNull() {
-		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.ocspResponderUrl", item.LocalRadiusCertificateAuthenticationOcspResponderUrl.ValueString())
+	if !data.LocalRadiusCertificateAuthenticationOcspResponderUrl.IsNull() {
+		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.ocspResponderUrl", data.LocalRadiusCertificateAuthenticationOcspResponderUrl.ValueString())
 	}
-	if !item.LocalRadiusCertificateAuthenticationUseLdap.IsNull() {
-		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.useLdap", item.LocalRadiusCertificateAuthenticationUseLdap.ValueBool())
+	if !data.LocalRadiusCertificateAuthenticationUseLdap.IsNull() {
+		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.useLdap", data.LocalRadiusCertificateAuthenticationUseLdap.ValueBool())
 	}
-	if !item.LocalRadiusCertificateAuthenticationUseOcsp.IsNull() {
-		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.useOcsp", item.LocalRadiusCertificateAuthenticationUseOcsp.ValueBool())
+	if !data.LocalRadiusCertificateAuthenticationUseOcsp.IsNull() {
+		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.useOcsp", data.LocalRadiusCertificateAuthenticationUseOcsp.ValueBool())
 	}
-	if !item.LocalRadiusCertificateAuthenticationClientRootCaCertificateContents.IsNull() {
-		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.clientRootCaCertificate.contents", item.LocalRadiusCertificateAuthenticationClientRootCaCertificateContents.ValueString())
+	if !data.LocalRadiusCertificateAuthenticationClientRootCaCertificateContents.IsNull() {
+		body, _ = sjson.Set(body, "localRadius.certificateAuthentication.clientRootCaCertificate.contents", data.LocalRadiusCertificateAuthenticationClientRootCaCertificateContents.ValueString())
 	}
-	if !item.LocalRadiusPasswordAuthenticationEnabled.IsNull() {
-		body, _ = sjson.Set(body, "localRadius.passwordAuthentication.enabled", item.LocalRadiusPasswordAuthenticationEnabled.ValueBool())
+	if !data.LocalRadiusPasswordAuthenticationEnabled.IsNull() {
+		body, _ = sjson.Set(body, "localRadius.passwordAuthentication.enabled", data.LocalRadiusPasswordAuthenticationEnabled.ValueBool())
 	}
-	if !item.NamedVlansRadiusGuestVlanEnabled.IsNull() {
-		body, _ = sjson.Set(body, "namedVlans.radius.guestVlan.enabled", item.NamedVlansRadiusGuestVlanEnabled.ValueBool())
+	if !data.NamedVlansRadiusGuestVlanEnabled.IsNull() {
+		body, _ = sjson.Set(body, "namedVlans.radius.guestVlan.enabled", data.NamedVlansRadiusGuestVlanEnabled.ValueBool())
 	}
-	if !item.NamedVlansRadiusGuestVlanName.IsNull() {
-		body, _ = sjson.Set(body, "namedVlans.radius.guestVlan.name", item.NamedVlansRadiusGuestVlanName.ValueString())
+	if !data.NamedVlansRadiusGuestVlanName.IsNull() {
+		body, _ = sjson.Set(body, "namedVlans.radius.guestVlan.name", data.NamedVlansRadiusGuestVlanName.ValueString())
 	}
-	if !item.NamedVlansTaggingDefaultVlanName.IsNull() {
-		body, _ = sjson.Set(body, "namedVlans.tagging.defaultVlanName", item.NamedVlansTaggingDefaultVlanName.ValueString())
+	if !data.NamedVlansTaggingDefaultVlanName.IsNull() {
+		body, _ = sjson.Set(body, "namedVlans.tagging.defaultVlanName", data.NamedVlansTaggingDefaultVlanName.ValueString())
 	}
-	if !item.NamedVlansTaggingEnabled.IsNull() {
-		body, _ = sjson.Set(body, "namedVlans.tagging.enabled", item.NamedVlansTaggingEnabled.ValueBool())
+	if !data.NamedVlansTaggingEnabled.IsNull() {
+		body, _ = sjson.Set(body, "namedVlans.tagging.enabled", data.NamedVlansTaggingEnabled.ValueBool())
 	}
-	if len(item.NamedVlansTaggingByApTags) > 0 {
+	if len(data.NamedVlansTaggingByApTags) > 0 {
 		body, _ = sjson.Set(body, "namedVlans.tagging.byApTags", []interface{}{})
-		for _, item := range item.NamedVlansTaggingByApTags {
+		for _, item := range data.NamedVlansTaggingByApTags {
 			itemBody := ""
 			if !item.VlanName.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "vlanName", item.VlanName.ValueString())
@@ -443,20 +436,20 @@ func (data ResourceWirelessSSIDs) toBody(ctx context.Context, state ResourceWire
 			body, _ = sjson.SetRaw(body, "namedVlans.tagging.byApTags.-1", itemBody)
 		}
 	}
-	if !item.OauthAllowedDomains.IsNull() {
+	if !data.OauthAllowedDomains.IsNull() {
 		var values []string
-		item.OauthAllowedDomains.ElementsAs(ctx, &values, false)
+		data.OauthAllowedDomains.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "oauth.allowedDomains", values)
 	}
-	if !item.RadiusRadsecTlsTunnelTimeout.IsNull() {
-		body, _ = sjson.Set(body, "radiusRadsec.tlsTunnel.timeout", item.RadiusRadsecTlsTunnelTimeout.ValueInt64())
+	if !data.RadiusRadsecTlsTunnelTimeout.IsNull() {
+		body, _ = sjson.Set(body, "radiusRadsec.tlsTunnel.timeout", data.RadiusRadsecTlsTunnelTimeout.ValueInt64())
 	}
-	if !item.SpeedBurstEnabled.IsNull() {
-		body, _ = sjson.Set(body, "speedBurst.enabled", item.SpeedBurstEnabled.ValueBool())
+	if !data.SpeedBurstEnabled.IsNull() {
+		body, _ = sjson.Set(body, "speedBurst.enabled", data.SpeedBurstEnabled.ValueBool())
 	}
-	if len(item.ApTagsAndVlanIds) > 0 {
+	if len(data.ApTagsAndVlanIds) > 0 {
 		body, _ = sjson.Set(body, "apTagsAndVlanIds", []interface{}{})
-		for _, item := range item.ApTagsAndVlanIds {
+		for _, item := range data.ApTagsAndVlanIds {
 			itemBody := ""
 			if !item.VlanId.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "vlanId", item.VlanId.ValueInt64())
@@ -469,14 +462,14 @@ func (data ResourceWirelessSSIDs) toBody(ctx context.Context, state ResourceWire
 			body, _ = sjson.SetRaw(body, "apTagsAndVlanIds.-1", itemBody)
 		}
 	}
-	if !item.AvailabilityTags.IsNull() {
+	if !data.AvailabilityTags.IsNull() {
 		var values []string
-		item.AvailabilityTags.ElementsAs(ctx, &values, false)
+		data.AvailabilityTags.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "availabilityTags", values)
 	}
-	if len(item.RadiusAccountingServers) > 0 {
+	if len(data.RadiusAccountingServers) > 0 {
 		body, _ = sjson.Set(body, "radiusAccountingServers", []interface{}{})
-		for _, item := range item.RadiusAccountingServers {
+		for _, item := range data.RadiusAccountingServers {
 			itemBody := ""
 			if !item.CaCertificate.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "caCertificate", item.CaCertificate.ValueString())
@@ -496,9 +489,9 @@ func (data ResourceWirelessSSIDs) toBody(ctx context.Context, state ResourceWire
 			body, _ = sjson.SetRaw(body, "radiusAccountingServers.-1", itemBody)
 		}
 	}
-	if len(item.RadiusServers) > 0 {
+	if len(data.RadiusServers) > 0 {
 		body, _ = sjson.Set(body, "radiusServers", []interface{}{})
-		for _, item := range item.RadiusServers {
+		for _, item := range data.RadiusServers {
 			itemBody := ""
 			if !item.CaCertificate.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "caCertificate", item.CaCertificate.ValueString())
@@ -521,23 +514,23 @@ func (data ResourceWirelessSSIDs) toBody(ctx context.Context, state ResourceWire
 			body, _ = sjson.SetRaw(body, "radiusServers.-1", itemBody)
 		}
 	}
-	if !item.SplashGuestSponsorDomains.IsNull() {
+	if !data.SplashGuestSponsorDomains.IsNull() {
 		var values []string
-		item.SplashGuestSponsorDomains.ElementsAs(ctx, &values, false)
+		data.SplashGuestSponsorDomains.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "splashGuestSponsorDomains", values)
 	}
-	if !item.WalledGardenRanges.IsNull() {
+	if !data.WalledGardenRanges.IsNull() {
 		var values []string
-		item.WalledGardenRanges.ElementsAs(ctx, &values, false)
+		data.WalledGardenRanges.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "walledGardenRanges", values)
 	}
-	if !item.RadiusDasClientsIps.IsNull() {
+	if !data.RadiusDasClientsIps.IsNull() {
 		var values []string
-		item.RadiusDasClientsIps.ElementsAs(ctx, &values, false)
+		data.RadiusDasClientsIps.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "radiusDasClients.clientsIps", values)
 	}
-	if !item.RadiusDasClientsSharedSecret.IsNull() {
-		body, _ = sjson.Set(body, "radiusDasClients.clientsSharedSecret", item.RadiusDasClientsSharedSecret.ValueString())
+	if !data.RadiusDasClientsSharedSecret.IsNull() {
+		body, _ = sjson.Set(body, "radiusDasClients.clientsSharedSecret", data.RadiusDasClientsSharedSecret.ValueString())
 	}
 	return body
 }

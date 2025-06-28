@@ -255,7 +255,7 @@ func (r *SwitchPortsResource) Create(ctx context.Context, req resource.CreateReq
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  plan.getItemPath(item.PortId.ValueString()),
-			Body:      plan.toBody(ctx, ResourceSwitchPorts{}, item.PortId.ValueString()),
+			Body:      item.toBody(ctx, ResourceSwitchPortsItems{}),
 		}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
@@ -370,7 +370,7 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.PortId.ValueString()),
-						Body:      plan.toBody(ctx, ResourceSwitchPorts{}, item.PortId.ValueString()),
+						Body:      item.toBody(ctx, ResourceSwitchPortsItems{}),
 					})
 				}
 				break
@@ -381,7 +381,7 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(item.PortId.ValueString()),
-				Body:      plan.toBody(ctx, ResourceSwitchPorts{}, item.PortId.ValueString()),
+				Body:      item.toBody(ctx, ResourceSwitchPortsItems{}),
 			})
 		}
 	}

@@ -502,7 +502,7 @@ func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resour
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
-			Body:      plan.toBody(ctx, Resource{{camelCase .BulkName}}{}, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+			Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 		}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
@@ -625,7 +625,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
-						Body:      plan.toBody(ctx, Resource{{camelCase .BulkName}}{}, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+						Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 					})					
 				}
 				break
@@ -636,7 +636,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
-				Body:      plan.toBody(ctx, Resource{{camelCase .BulkName}}{}, item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
+				Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 			})
 		}
 	}

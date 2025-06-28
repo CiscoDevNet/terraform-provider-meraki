@@ -60,17 +60,10 @@ func (data ResourceOrganizationLicenses) getItemPath(id string) string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data ResourceOrganizationLicenses) toBody(ctx context.Context, state ResourceOrganizationLicenses, id string) string {
-	var item ResourceOrganizationLicensesItems
-	for i := range data.Items {
-		if data.Items[i].LicenseId.ValueString() == id {
-			item = data.Items[i]
-			break
-		}
-	}
+func (data ResourceOrganizationLicensesItems) toBody(ctx context.Context, state ResourceOrganizationLicensesItems) string {
 	body := ""
-	if !item.DeviceSerial.IsNull() {
-		body, _ = sjson.Set(body, "deviceSerial", item.DeviceSerial.ValueString())
+	if !data.DeviceSerial.IsNull() {
+		body, _ = sjson.Set(body, "deviceSerial", data.DeviceSerial.ValueString())
 	}
 	return body
 }

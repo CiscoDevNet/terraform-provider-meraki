@@ -66,32 +66,25 @@ func (data ResourceAppliancePorts) getItemPath(id string) string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data ResourceAppliancePorts) toBody(ctx context.Context, state ResourceAppliancePorts, id string) string {
-	var item ResourceAppliancePortsItems
-	for i := range data.Items {
-		if data.Items[i].PortId.ValueString() == id {
-			item = data.Items[i]
-			break
-		}
-	}
+func (data ResourceAppliancePortsItems) toBody(ctx context.Context, state ResourceAppliancePortsItems) string {
 	body := ""
-	if !item.AccessPolicy.IsNull() {
-		body, _ = sjson.Set(body, "accessPolicy", item.AccessPolicy.ValueString())
+	if !data.AccessPolicy.IsNull() {
+		body, _ = sjson.Set(body, "accessPolicy", data.AccessPolicy.ValueString())
 	}
-	if !item.AllowedVlans.IsNull() {
-		body, _ = sjson.Set(body, "allowedVlans", item.AllowedVlans.ValueString())
+	if !data.AllowedVlans.IsNull() {
+		body, _ = sjson.Set(body, "allowedVlans", data.AllowedVlans.ValueString())
 	}
-	if !item.DropUntaggedTraffic.IsNull() {
-		body, _ = sjson.Set(body, "dropUntaggedTraffic", item.DropUntaggedTraffic.ValueBool())
+	if !data.DropUntaggedTraffic.IsNull() {
+		body, _ = sjson.Set(body, "dropUntaggedTraffic", data.DropUntaggedTraffic.ValueBool())
 	}
-	if !item.Enabled.IsNull() {
-		body, _ = sjson.Set(body, "enabled", item.Enabled.ValueBool())
+	if !data.Enabled.IsNull() {
+		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
-	if !item.Type.IsNull() {
-		body, _ = sjson.Set(body, "type", item.Type.ValueString())
+	if !data.Type.IsNull() {
+		body, _ = sjson.Set(body, "type", data.Type.ValueString())
 	}
-	if !item.Vlan.IsNull() {
-		body, _ = sjson.Set(body, "vlan", item.Vlan.ValueInt64())
+	if !data.Vlan.IsNull() {
+		body, _ = sjson.Set(body, "vlan", data.Vlan.ValueInt64())
 	}
 	return body
 }

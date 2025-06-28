@@ -125,7 +125,7 @@ func (r *SensorMQTTBrokersResource) Create(ctx context.Context, req resource.Cre
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  plan.getItemPath(item.MqttBrokerId.ValueString()),
-			Body:      plan.toBody(ctx, ResourceSensorMQTTBrokers{}, item.MqttBrokerId.ValueString()),
+			Body:      item.toBody(ctx, ResourceSensorMQTTBrokersItems{}),
 		}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
@@ -240,7 +240,7 @@ func (r *SensorMQTTBrokersResource) Update(ctx context.Context, req resource.Upd
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.MqttBrokerId.ValueString()),
-						Body:      plan.toBody(ctx, ResourceSensorMQTTBrokers{}, item.MqttBrokerId.ValueString()),
+						Body:      item.toBody(ctx, ResourceSensorMQTTBrokersItems{}),
 					})
 				}
 				break
@@ -251,7 +251,7 @@ func (r *SensorMQTTBrokersResource) Update(ctx context.Context, req resource.Upd
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(item.MqttBrokerId.ValueString()),
-				Body:      plan.toBody(ctx, ResourceSensorMQTTBrokers{}, item.MqttBrokerId.ValueString()),
+				Body:      item.toBody(ctx, ResourceSensorMQTTBrokersItems{}),
 			})
 		}
 	}

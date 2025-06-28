@@ -145,7 +145,7 @@ func (r *AppliancePortsResource) Create(ctx context.Context, req resource.Create
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  plan.getItemPath(item.PortId.ValueString()),
-			Body:      plan.toBody(ctx, ResourceAppliancePorts{}, item.PortId.ValueString()),
+			Body:      item.toBody(ctx, ResourceAppliancePortsItems{}),
 		}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
@@ -241,7 +241,7 @@ func (r *AppliancePortsResource) Update(ctx context.Context, req resource.Update
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						Resource:  plan.getItemPath(item.PortId.ValueString()),
-						Body:      plan.toBody(ctx, ResourceAppliancePorts{}, item.PortId.ValueString()),
+						Body:      item.toBody(ctx, ResourceAppliancePortsItems{}),
 					})
 				}
 				break
@@ -252,7 +252,7 @@ func (r *AppliancePortsResource) Update(ctx context.Context, req resource.Update
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(item.PortId.ValueString()),
-				Body:      plan.toBody(ctx, ResourceAppliancePorts{}, item.PortId.ValueString()),
+				Body:      item.toBody(ctx, ResourceAppliancePortsItems{}),
 			})
 		}
 	}

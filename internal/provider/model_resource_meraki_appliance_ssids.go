@@ -79,51 +79,44 @@ func (data ResourceApplianceSSIDs) getItemPath(id string) string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data ResourceApplianceSSIDs) toBody(ctx context.Context, state ResourceApplianceSSIDs, id string) string {
-	var item ResourceApplianceSSIDsItems
-	for i := range data.Items {
-		if data.Items[i].Number.ValueString() == id {
-			item = data.Items[i]
-			break
-		}
-	}
+func (data ResourceApplianceSSIDsItems) toBody(ctx context.Context, state ResourceApplianceSSIDsItems) string {
 	body := ""
-	if !item.AuthMode.IsNull() {
-		body, _ = sjson.Set(body, "authMode", item.AuthMode.ValueString())
+	if !data.AuthMode.IsNull() {
+		body, _ = sjson.Set(body, "authMode", data.AuthMode.ValueString())
 	}
-	if !item.DefaultVlanId.IsNull() {
-		body, _ = sjson.Set(body, "defaultVlanId", item.DefaultVlanId.ValueInt64())
+	if !data.DefaultVlanId.IsNull() {
+		body, _ = sjson.Set(body, "defaultVlanId", data.DefaultVlanId.ValueInt64())
 	}
-	if !item.Enabled.IsNull() {
-		body, _ = sjson.Set(body, "enabled", item.Enabled.ValueBool())
+	if !data.Enabled.IsNull() {
+		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
-	if !item.EncryptionMode.IsNull() {
-		body, _ = sjson.Set(body, "encryptionMode", item.EncryptionMode.ValueString())
+	if !data.EncryptionMode.IsNull() {
+		body, _ = sjson.Set(body, "encryptionMode", data.EncryptionMode.ValueString())
 	}
-	if !item.Name.IsNull() {
-		body, _ = sjson.Set(body, "name", item.Name.ValueString())
+	if !data.Name.IsNull() {
+		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !item.Psk.IsNull() {
-		body, _ = sjson.Set(body, "psk", item.Psk.ValueString())
+	if !data.Psk.IsNull() {
+		body, _ = sjson.Set(body, "psk", data.Psk.ValueString())
 	}
-	if !item.Visible.IsNull() {
-		body, _ = sjson.Set(body, "visible", item.Visible.ValueBool())
+	if !data.Visible.IsNull() {
+		body, _ = sjson.Set(body, "visible", data.Visible.ValueBool())
 	}
-	if !item.WpaEncryptionMode.IsNull() {
-		body, _ = sjson.Set(body, "wpaEncryptionMode", item.WpaEncryptionMode.ValueString())
+	if !data.WpaEncryptionMode.IsNull() {
+		body, _ = sjson.Set(body, "wpaEncryptionMode", data.WpaEncryptionMode.ValueString())
 	}
-	if !item.DhcpEnforcedDeauthenticationEnabled.IsNull() {
-		body, _ = sjson.Set(body, "dhcpEnforcedDeauthentication.enabled", item.DhcpEnforcedDeauthenticationEnabled.ValueBool())
+	if !data.DhcpEnforcedDeauthenticationEnabled.IsNull() {
+		body, _ = sjson.Set(body, "dhcpEnforcedDeauthentication.enabled", data.DhcpEnforcedDeauthenticationEnabled.ValueBool())
 	}
-	if !item.Dot11wEnabled.IsNull() {
-		body, _ = sjson.Set(body, "dot11w.enabled", item.Dot11wEnabled.ValueBool())
+	if !data.Dot11wEnabled.IsNull() {
+		body, _ = sjson.Set(body, "dot11w.enabled", data.Dot11wEnabled.ValueBool())
 	}
-	if !item.Dot11wRequired.IsNull() {
-		body, _ = sjson.Set(body, "dot11w.required", item.Dot11wRequired.ValueBool())
+	if !data.Dot11wRequired.IsNull() {
+		body, _ = sjson.Set(body, "dot11w.required", data.Dot11wRequired.ValueBool())
 	}
-	if len(item.RadiusServers) > 0 {
+	if len(data.RadiusServers) > 0 {
 		body, _ = sjson.Set(body, "radiusServers", []interface{}{})
-		for _, item := range item.RadiusServers {
+		for _, item := range data.RadiusServers {
 			itemBody := ""
 			if !item.Host.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "host", item.Host.ValueString())
