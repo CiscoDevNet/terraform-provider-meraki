@@ -365,6 +365,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewSensorMQTTBrokersResource,
 		NewSensorRelationshipsResource,
 		NewSMAdminRoleResource,
+		NewSMAdminRolesResource,
 		NewSMTargetGroupResource,
 		NewSwitchAccessControlListsResource,
 		NewSwitchAccessPolicyResource,
