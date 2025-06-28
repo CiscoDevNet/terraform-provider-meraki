@@ -16,6 +16,7 @@ description: |-
 - Add `meraki_sensor_mqtt_brokers` resource
 - Add `meraki_wireless_ssids` resource
 - Add `meraki_organization_policy_objects` resource
+- Add `meraki_organization_policy_object_groups` resource
 
 ## 1.3.0
 
