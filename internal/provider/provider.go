@@ -416,6 +416,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewWirelessNetworkElectronicShelfLabelResource,
 		NewWirelessRadioSettingsResource,
 		NewWirelessRFProfileResource,
+		NewWirelessRFProfilesResource,
 		NewWirelessSettingsResource,
 		NewWirelessSSIDResource,
 		NewWirelessSSIDsResource,

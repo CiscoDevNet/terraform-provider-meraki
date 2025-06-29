@@ -24,6 +24,7 @@ description: |-
 - Add `meraki_organization_adaptive_policies` resource
 - Add `meraki_organization_adaptive_policy_groups` resource
 - Add `meraki_wireless_ssid_identity_psks` resource
+- Add `meraki_wireless_rf_profiles` resource
 
 ## 1.3.0
 
