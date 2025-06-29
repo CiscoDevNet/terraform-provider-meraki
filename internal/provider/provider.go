@@ -273,6 +273,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewAppliancePortsResource,
 		NewAppliancePortForwardingRulesResource,
 		NewAppliancePrefixDelegatedStaticResource,
+		NewAppliancePrefixDelegatedStaticsResource,
 		NewApplianceRadioSettingsResource,
 		NewApplianceRFProfileResource,
 		NewApplianceRFProfilesResource,

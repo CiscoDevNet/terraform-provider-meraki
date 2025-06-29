@@ -36,6 +36,7 @@ description: |-
 - Add `meraki_appliance_vlans` resource
 - Add `meraki_appliance_traffic_shaping_custom_performance_classes` resource
 - Add `meraki_appliance_rf_profiles` resource
+- Add `meraki_appliance_prefix_delegated_statics` resource
 
 ## 1.3.0
 
