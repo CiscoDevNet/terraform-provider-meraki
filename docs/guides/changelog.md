@@ -31,6 +31,7 @@ description: |-
 - Add `meraki_switch_link_aggregations` resource
 - Add `meraki_switch_access_policies` resource
 - Add `meraki_sensor_alerts_profiles` resource
+- Add `meraki_network_auth_users` resource
 
 ## 1.3.0
 
