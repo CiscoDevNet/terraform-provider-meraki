@@ -29,6 +29,7 @@ description: |-
 - Add `meraki_switch_stack_routing_static_routes` resource
 - Add `meraki_switch_routing_multicast_rendezvous_points` resource
 - Add `meraki_switch_link_aggregations` resource
+- Add `meraki_switch_access_policies` resource
 
 ## 1.3.0
 

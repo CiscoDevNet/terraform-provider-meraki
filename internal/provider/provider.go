@@ -373,6 +373,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewSMTargetGroupResource,
 		NewSwitchAccessControlListsResource,
 		NewSwitchAccessPolicyResource,
+		NewSwitchAccessPoliciesResource,
 		NewSwitchAlternateManagementInterfaceResource,
 		NewSwitchDHCPServerPolicyResource,
 		NewSwitchDHCPServerPolicyARPInspectionTrustedServerResource,
