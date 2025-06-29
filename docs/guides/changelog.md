@@ -25,6 +25,7 @@ description: |-
 - Add `meraki_organization_adaptive_policy_groups` resource
 - Add `meraki_wireless_ssid_identity_psks` resource
 - Add `meraki_wireless_rf_profiles` resource
+- Add `meraki_network_webhook_payload_templates` resource
 
 ## 1.3.0
 

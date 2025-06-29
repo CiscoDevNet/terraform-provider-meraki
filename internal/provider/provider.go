@@ -336,6 +336,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewNetworkVLANProfileResource,
 		NewNetworkWebhookHTTPServerResource,
 		NewNetworkWebhookPayloadTemplateResource,
+		NewNetworkWebhookPayloadTemplatesResource,
 		NewOrganizationResource,
 		NewOrganizationAdaptivePolicyResource,
 		NewOrganizationAdaptivePoliciesResource,
