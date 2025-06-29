@@ -403,6 +403,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewSwitchRoutingMulticastRendezvousPointsResource,
 		NewSwitchRoutingOSPFResource,
 		NewSwitchRoutingStaticRouteResource,
+		NewSwitchRoutingStaticRoutesResource,
 		NewSwitchSettingsResource,
 		NewSwitchStackResource,
 		NewSwitchStackRoutingInterfaceResource,

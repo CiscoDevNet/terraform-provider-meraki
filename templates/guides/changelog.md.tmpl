@@ -37,6 +37,7 @@ description: |-
 - Add `meraki_appliance_traffic_shaping_custom_performance_classes` resource
 - Add `meraki_appliance_rf_profiles` resource
 - Add `meraki_appliance_prefix_delegated_statics` resource
+- Add `meraki_switch_routing_static_routes` resource
 
 ## 1.3.0
 
