@@ -286,6 +286,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewApplianceThirdPartyVPNPeersResource,
 		NewApplianceTrafficShapingResource,
 		NewApplianceTrafficShapingCustomPerformanceClassResource,
+		NewApplianceTrafficShapingCustomPerformanceClassesResource,
 		NewApplianceTrafficShapingRulesResource,
 		NewApplianceTrafficShapingUplinkBandwidthResource,
 		NewApplianceTrafficShapingUplinkSelectionResource,
