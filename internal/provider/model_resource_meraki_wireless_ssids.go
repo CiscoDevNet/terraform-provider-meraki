@@ -177,7 +177,7 @@ func (data ResourceWirelessSSIDs) getPath() string {
 }
 
 func (data ResourceWirelessSSIDs) getItemPath(id string) string {
-	return fmt.Sprintf("/networks/%v/wireless/ssids/%v", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(id))
+	return fmt.Sprintf("/networks/%v/wireless/ssids/%v", url.QueryEscape(data.NetworkId.ValueString()), id)
 }
 
 // End of section. //template:end getPath

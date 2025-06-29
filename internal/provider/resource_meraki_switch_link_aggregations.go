@@ -41,26 +41,26 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &OrganizationPolicyObjectsResource{}
-	_ resource.ResourceWithImportState = &OrganizationPolicyObjectsResource{}
+	_ resource.Resource                = &SwitchLinkAggregationsResource{}
+	_ resource.ResourceWithImportState = &SwitchLinkAggregationsResource{}
 )
 
-func NewOrganizationPolicyObjectsResource() resource.Resource {
-	return &OrganizationPolicyObjectsResource{}
+func NewSwitchLinkAggregationsResource() resource.Resource {
+	return &SwitchLinkAggregationsResource{}
 }
 
-type OrganizationPolicyObjectsResource struct {
+type SwitchLinkAggregationsResource struct {
 	client *meraki.Client
 }
 
-func (r *OrganizationPolicyObjectsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_organization_policy_objects"
+func (r *SwitchLinkAggregationsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_switch_link_aggregations"
 }
 
-func (r *OrganizationPolicyObjectsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *SwitchLinkAggregationsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Policy Object` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Link Aggregation` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -71,7 +71,11 @@ func (r *OrganizationPolicyObjectsResource) Schema(ctx context.Context, req reso
 				},
 			},
 			"organization_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Organization ID").String,
+				MarkdownDescription: "The organization ID",
+				Required:            true,
+			},
+			"network_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
 				Required:            true,
 			},
 			"items": schema.ListNestedAttribute{
@@ -86,38 +90,37 @@ func (r *OrganizationPolicyObjectsResource) Schema(ctx context.Context, req reso
 								stringplanmodifier.UseStateForUnknown(),
 							},
 						},
-						"category": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Category of a policy object (one of: adaptivePolicy, network)").String,
-							Required:            true,
-						},
-						"cidr": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("CIDR Value of a policy object (e.g. 10.11.12.1/24')").String,
+						"switch_ports": schema.ListNestedAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Array of switch or stack ports for creating aggregation group. Minimum 2 and maximum 8 ports are supported.").String,
 							Optional:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"port_id": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Port identifier of switch port. For modules, the identifier is 'SlotNumber_ModuleType_PortNumber' (Ex: '1_8X10G_1'), otherwise it is just the port number (Ex: '8').").String,
+										Required:            true,
+									},
+									"serial": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Serial number of the switch.").String,
+										Required:            true,
+									},
+								},
+							},
 						},
-						"fqdn": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Fully qualified domain name of policy object (e.g. 'example.com')").String,
+						"switch_profile_ports": schema.ListNestedAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Array of switch profile ports for creating aggregation group. Minimum 2 and maximum 8 ports are supported.").String,
 							Optional:            true,
-						},
-						"ip": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("IP Address of a policy object (e.g. '1.2.3.4')").String,
-							Optional:            true,
-						},
-						"mask": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Mask of a policy object (e.g. '255.255.0.0')").String,
-							Optional:            true,
-						},
-						"name": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)").String,
-							Required:            true,
-						},
-						"type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)").String,
-							Required:            true,
-						},
-						"group_ids": schema.SetAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The IDs of policy object groups the policy object belongs to").String,
-							ElementType:         types.StringType,
-							Optional:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"port_id": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Port identifier of switch port. For modules, the identifier is 'SlotNumber_ModuleType_PortNumber' (Ex: '1_8X10G_1'), otherwise it is just the port number (Ex: '8').").String,
+										Required:            true,
+									},
+									"profile": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Profile identifier.").String,
+										Required:            true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -126,7 +129,7 @@ func (r *OrganizationPolicyObjectsResource) Schema(ctx context.Context, req reso
 	}
 }
 
-func (r *OrganizationPolicyObjectsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *SwitchLinkAggregationsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -138,8 +141,8 @@ func (r *OrganizationPolicyObjectsResource) Configure(_ context.Context, req res
 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
-func (r *OrganizationPolicyObjectsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan ResourceOrganizationPolicyObjects
+func (r *SwitchLinkAggregationsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan ResourceSwitchLinkAggregations
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -155,7 +158,7 @@ func (r *OrganizationPolicyObjectsResource) Create(ctx context.Context, req reso
 		actions[i] = meraki.ActionModel{
 			Operation: "create",
 			Resource:  plan.getPath(),
-			Body:      item.toBody(ctx, ResourceOrganizationPolicyObjectsItems{}),
+			Body:      item.toBody(ctx, ResourceSwitchLinkAggregationsItems{}),
 		}
 	}
 	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
@@ -180,8 +183,8 @@ func (r *OrganizationPolicyObjectsResource) Create(ctx context.Context, req reso
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (r *OrganizationPolicyObjectsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state ResourceOrganizationPolicyObjects
+func (r *SwitchLinkAggregationsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state ResourceSwitchLinkAggregations
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -224,8 +227,8 @@ func (r *OrganizationPolicyObjectsResource) Read(ctx context.Context, req resour
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
-func (r *OrganizationPolicyObjectsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state ResourceOrganizationPolicyObjects
+func (r *SwitchLinkAggregationsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state ResourceSwitchLinkAggregations
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -284,7 +287,7 @@ func (r *OrganizationPolicyObjectsResource) Update(ctx context.Context, req reso
 			actions = append(actions, meraki.ActionModel{
 				Operation: "create",
 				Resource:  plan.getPath(),
-				Body:      item.toBody(ctx, ResourceOrganizationPolicyObjectsItems{}),
+				Body:      item.toBody(ctx, ResourceSwitchLinkAggregationsItems{}),
 			})
 		}
 	}
@@ -305,8 +308,8 @@ func (r *OrganizationPolicyObjectsResource) Update(ctx context.Context, req reso
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *OrganizationPolicyObjectsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state ResourceOrganizationPolicyObjects
+func (r *SwitchLinkAggregationsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state ResourceSwitchLinkAggregations
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -338,17 +341,18 @@ func (r *OrganizationPolicyObjectsResource) Delete(ctx context.Context, req reso
 // End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
-func (r *OrganizationPolicyObjectsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *SwitchLinkAggregationsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 1 || idParts[0] == "" {
+	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <organization_id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: <organization_id>,<network_id>. Got: %q", req.ID),
 		)
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

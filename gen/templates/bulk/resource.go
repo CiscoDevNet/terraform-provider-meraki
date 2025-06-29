@@ -635,7 +635,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 			{{- else if not .NoDelete}}
 			actions = append(actions, meraki.ActionModel{
 				Operation: "destroy",
-				Resource:  plan.getPath() + "/" + url.QueryEscape(itemState.Id.ValueString()),
+				Resource:  plan.getPath() + "/" + itemState.Id.ValueString(),
 				Body:      "{}",
 			})
 			{{- end}}
@@ -657,7 +657,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 						{{- if .PutCreate}}
 						Resource:  plan.getItemPath(item.{{getBulkItemId .}}.ValueString()),
 						{{- else}}
-						Resource:  plan.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
+						Resource:  plan.getPath() + "/" + item.Id.ValueString(),
 						{{- end}}
 						Body:      item.toBody(ctx, itemState),
 					})					
@@ -732,7 +732,7 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 	for i, item := range state.Items {
 		actions[i] = meraki.ActionModel{
 			Operation: "destroy",
-			Resource:  state.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
+			Resource:  state.getPath() + "/" + item.Id.ValueString(),
 			Body:      "{}",
 		}
 	}

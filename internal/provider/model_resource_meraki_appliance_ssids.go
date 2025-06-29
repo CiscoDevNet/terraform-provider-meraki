@@ -72,7 +72,7 @@ func (data ResourceApplianceSSIDs) getPath() string {
 }
 
 func (data ResourceApplianceSSIDs) getItemPath(id string) string {
-	return fmt.Sprintf("/networks/%v/appliance/ssids/%v", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(id))
+	return fmt.Sprintf("/networks/%v/appliance/ssids/%v", url.QueryEscape(data.NetworkId.ValueString()), id)
 }
 
 // End of section. //template:end getPath

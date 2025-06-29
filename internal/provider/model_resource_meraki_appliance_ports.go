@@ -59,7 +59,7 @@ func (data ResourceAppliancePorts) getPath() string {
 }
 
 func (data ResourceAppliancePorts) getItemPath(id string) string {
-	return fmt.Sprintf("/networks/%v/appliance/ports/%v", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(id))
+	return fmt.Sprintf("/networks/%v/appliance/ports/%v", url.QueryEscape(data.NetworkId.ValueString()), id)
 }
 
 // End of section. //template:end getPath

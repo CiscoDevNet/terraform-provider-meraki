@@ -53,7 +53,7 @@ func (data ResourceOrganizationLicenses) getPath() string {
 }
 
 func (data ResourceOrganizationLicenses) getItemPath(id string) string {
-	return fmt.Sprintf("/organizations/%v/licenses/%v", url.QueryEscape(data.OrganizationId.ValueString()), url.QueryEscape(id))
+	return fmt.Sprintf("/organizations/%v/licenses/%v", url.QueryEscape(data.OrganizationId.ValueString()), id)
 }
 
 // End of section. //template:end getPath

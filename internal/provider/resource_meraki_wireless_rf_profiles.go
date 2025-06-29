@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"strconv"
 	"strings"
 
@@ -663,7 +662,7 @@ func (r *WirelessRFProfilesResource) Update(ctx context.Context, req resource.Up
 			// If the item is present in state, but not in plan, we need to delete it
 			actions = append(actions, meraki.ActionModel{
 				Operation: "destroy",
-				Resource:  plan.getPath() + "/" + url.QueryEscape(itemState.Id.ValueString()),
+				Resource:  plan.getPath() + "/" + itemState.Id.ValueString(),
 				Body:      "{}",
 			})
 		}
@@ -680,7 +679,7 @@ func (r *WirelessRFProfilesResource) Update(ctx context.Context, req resource.Up
 				if hasChanges {
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
-						Resource:  plan.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
+						Resource:  plan.getPath() + "/" + item.Id.ValueString(),
 						Body:      item.toBody(ctx, itemState),
 					})
 				}
@@ -728,7 +727,7 @@ func (r *WirelessRFProfilesResource) Delete(ctx context.Context, req resource.De
 	for i, item := range state.Items {
 		actions[i] = meraki.ActionModel{
 			Operation: "destroy",
-			Resource:  state.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
+			Resource:  state.getPath() + "/" + item.Id.ValueString(),
 			Body:      "{}",
 		}
 	}

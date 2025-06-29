@@ -83,7 +83,7 @@ func (data ResourceSwitchPorts) getPath() string {
 }
 
 func (data ResourceSwitchPorts) getItemPath(id string) string {
-	return fmt.Sprintf("/devices/%v/switch/ports/%v", url.QueryEscape(data.Serial.ValueString()), url.QueryEscape(id))
+	return fmt.Sprintf("/devices/%v/switch/ports/%v", url.QueryEscape(data.Serial.ValueString()), id)
 }
 
 // End of section. //template:end getPath

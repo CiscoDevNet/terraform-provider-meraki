@@ -54,7 +54,7 @@ func (data ResourceSensorMQTTBrokers) getPath() string {
 }
 
 func (data ResourceSensorMQTTBrokers) getItemPath(id string) string {
-	return fmt.Sprintf("/networks/%v/sensor/mqttBrokers/%v", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(id))
+	return fmt.Sprintf("/networks/%v/sensor/mqttBrokers/%v", url.QueryEscape(data.NetworkId.ValueString()), id)
 }
 
 // End of section. //template:end getPath

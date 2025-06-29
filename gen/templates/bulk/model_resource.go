@@ -153,7 +153,7 @@ func (data Resource{{camelCase .BulkName}}) getPath() string {
 {{if .PutCreate}}
 func (data Resource{{camelCase .BulkName}}) getItemPath(id string) string {
 	{{- if hasReference .Attributes}}
-		return fmt.Sprintf("{{.RestEndpoint}}"{{range getBulkParentAttributes .}}, url.QueryEscape(data.{{toGoName .TfName}}.Value{{.Type}}()){{end}}, url.QueryEscape(id))
+		return fmt.Sprintf("{{.RestEndpoint}}"{{range getBulkParentAttributes .}}, url.QueryEscape(data.{{toGoName .TfName}}.Value{{.Type}}()){{end}}, id)
 	{{- else}}
 		return "{{.RestEndpoint}}"
 	{{- end}}

@@ -19,6 +19,7 @@
 - Add `meraki_network_webhook_payload_templates` resource
 - Add `meraki_switch_stack_routing_static_routes` resource
 - Add `meraki_switch_routing_multicast_rendezvous_points` resource
+- Add `meraki_switch_link_aggregations` resource
 
 ## 1.3.0
 
