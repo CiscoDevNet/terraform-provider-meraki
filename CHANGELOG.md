@@ -14,6 +14,7 @@
 - Add `meraki_organization_saml_idps` resource
 - Add `meraki_organization_adaptive_policies` resource
 - Add `meraki_organization_adaptive_policy_groups` resource
+- Add `meraki_wireless_ssid_identity_psks` resource
 
 ## 1.3.0
 

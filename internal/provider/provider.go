@@ -425,6 +425,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewWirelessSSIDFirewallIsolationAllowlistEntryResource,
 		NewWirelessSSIDHotspot20Resource,
 		NewWirelessSSIDIdentityPSKResource,
+		NewWirelessSSIDIdentityPSKsResource,
 		NewWirelessSSIDL3FirewallRulesResource,
 		NewWirelessSSIDL7FirewallRulesResource,
 		NewWirelessSSIDSchedulesResource,
