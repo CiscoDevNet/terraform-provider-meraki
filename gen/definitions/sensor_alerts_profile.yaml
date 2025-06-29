@@ -2,6 +2,7 @@ name: Sensor Alerts Profile
 spec_endpoint: /networks/{networkId}/sensor/alerts/profiles/{id}
 rest_endpoint: /networks/%v/sensor/alerts/profiles
 bulk_data_source: true
+bulk_resource: true
 id_name: profileId
 data_source_name_query: true
 doc_category: Sensors

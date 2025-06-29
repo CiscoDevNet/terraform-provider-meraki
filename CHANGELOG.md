@@ -21,6 +21,7 @@
 - Add `meraki_switch_routing_multicast_rendezvous_points` resource
 - Add `meraki_switch_link_aggregations` resource
 - Add `meraki_switch_access_policies` resource
+- Add `meraki_sensor_alerts_profiles` resource
 
 ## 1.3.0
 
