@@ -26,6 +26,7 @@ description: |-
 - Add `meraki_wireless_ssid_identity_psks` resource
 - Add `meraki_wireless_rf_profiles` resource
 - Add `meraki_network_webhook_payload_templates` resource
+- Add `meraki_switch_stack_routing_static_routes` resource
 
 ## 1.3.0
 
