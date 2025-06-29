@@ -24,6 +24,7 @@
 - Add `meraki_sensor_alerts_profiles` resource
 - Add `meraki_network_auth_users` resource
 - Add `meraki_network_group_policies` resource
+- Add `meraki_appliance_vlans` resource
 
 ## 1.3.0
 

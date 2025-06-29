@@ -613,7 +613,11 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 	{{- range .Attributes}}
 	{{- $name := toGoName .TfName}}
 	{{- if and (not .Value) .ModelName}}
-	{{- if not (isNestedListSet .)}}
+	{{- if isNestedMap .}}
+	if !maps.Equal(item.{{toGoName .TfName}}, stateItem.{{toGoName .TfName}}) {
+		hasChanges = true
+	}
+	{{- else if not (isNestedListSet .)}}
 	if !item.{{toGoName .TfName}}.Equal(stateItem.{{toGoName .TfName}}) {
 		hasChanges = true
 	}
@@ -625,7 +629,11 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 			{{- range .Attributes}}
 			{{- $cname := toGoName .TfName}}
 			{{- if and (not .Value) .ModelName}}
-			{{- if not (isNestedListSet .)}}
+			{{- if isNestedMap .}}
+			if !maps.Equal(item.{{$name}}[i].{{toGoName .TfName}}, stateItem.{{$name}}[i].{{toGoName .TfName}}) {
+				hasChanges = true
+			}
+			{{- else if not (isNestedListSet .)}}
 			if !item.{{$name}}[i].{{toGoName .TfName}}.Equal(stateItem.{{$name}}[i].{{toGoName .TfName}}) {
 				hasChanges = true
 			}
@@ -637,7 +645,11 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 					{{- range .Attributes}}
 					{{- $ccname := toGoName .TfName}}
 					{{- if and (not .Value) .ModelName}}
-					{{- if not (isNestedListSet .)}}
+					{{- if isNestedMap .}}
+					if !maps.Equal(item.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}, stateItem.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}) {
+						hasChanges = true
+					}
+					{{- else if not (isNestedListSet .)}}
 					if !item.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}.Equal(stateItem.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}) {
 						hasChanges = true
 					}
@@ -648,9 +660,15 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 						for iii := range item.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}} {
 							{{- range .Attributes}}
 							{{- if and (not .Value) .ModelName}}
+							{{- if isNestedMap .}}
+							if !maps.Equal(item.{{$name}}[i].{{$cname}}[ii].{{$ccname}}[iii].{{toGoName .TfName}}, stateItem.{{$name}}[i].{{$cname}}[ii].{{$ccname}}[iii].{{toGoName .TfName}}) {
+								hasChanges = true
+							}
+							{{- else}}
 							if !item.{{$name}}[i].{{$cname}}[ii].{{$ccname}}[iii].{{toGoName .TfName}}.Equal(stateItem.{{$name}}[i].{{$cname}}[ii].{{$ccname}}[iii].{{toGoName .TfName}}) {
 								hasChanges = true
 							}
+							{{- end}}
 							{{- end}}
 							{{- end}}
 						}
