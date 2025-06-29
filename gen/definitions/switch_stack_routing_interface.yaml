@@ -2,6 +2,7 @@ name: Switch Stack Routing Interface
 spec_endpoint: /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}
 rest_endpoint: /networks/%v/switch/stacks/%v/routing/interfaces
 bulk_data_source: true
+bulk_resource: true
 id_name: interfaceId
 data_source_name_query: true
 doc_category: Switches

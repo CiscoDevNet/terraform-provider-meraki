@@ -94,7 +94,7 @@ func (d *ApplianceDNSLocalProfilesDataSource) Configure(_ context.Context, req d
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceDNSLocalProfilesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceDNSLocalProfiles
+	var config DataSourceApplianceDNSLocalProfiles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

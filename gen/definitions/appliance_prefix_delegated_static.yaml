@@ -2,6 +2,7 @@ name: Appliance Prefix Delegated Static
 spec_endpoint: /networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}
 rest_endpoint: /networks/%v/appliance/prefixes/delegated/statics
 bulk_data_source: true
+bulk_resource: true
 id_name: staticDelegatedPrefixId
 doc_category: Appliances
 test_variables: [test_org, test_network]

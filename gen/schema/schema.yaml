@@ -4,6 +4,7 @@ bulk_name: str(required=False) # Name of the bulk resource
 no_data_source: bool(required=False) # Set to true if no data source should be created
 no_resource: bool(required=False) # Set to true if no resource should be created
 bulk_data_source: bool(required=False) # Set to true if a bulk GET operation is supported and a corresponding data source should be added
+bulk_resource: bool(required=False) # Set to true if a bulk operations are supported and a corresponding resource should be added
 rest_endpoint: str(required=False) # REST endpoint path
 spec_endpoint: str(required=False) # this is the endpoint path from the OpenAPI spec in order to generate the definition
 put_create: bool(required=False) # Set to true if the PUT request is used for create

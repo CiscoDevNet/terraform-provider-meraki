@@ -162,7 +162,7 @@ func (d *OrganizationFirmwareUpgradesDataSource) Configure(_ context.Context, re
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationFirmwareUpgradesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationFirmwareUpgrades
+	var config DataSourceOrganizationFirmwareUpgrades
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

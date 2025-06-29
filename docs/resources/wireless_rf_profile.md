@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_rf_profile Resource - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This resource can manage the Wireless RF profile configuration.
+  This resource can manage the Wireless RF Profile configuration.
 ---
 
 # meraki_wireless_rf_profile (Resource)
 
-This resource can manage the `Wireless RF profile` configuration.
+This resource can manage the `Wireless RF Profile` configuration.
 
 ## Example Usage
 

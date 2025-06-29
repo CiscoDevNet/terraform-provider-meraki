@@ -108,7 +108,7 @@ func (d *AppliancePrefixDelegatedStaticsDataSource) Configure(_ context.Context,
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *AppliancePrefixDelegatedStaticsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config AppliancePrefixDelegatedStatics
+	var config DataSourceAppliancePrefixDelegatedStatics
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

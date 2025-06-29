@@ -142,7 +142,7 @@ func (d *NetworkFloorPlansDataSource) Configure(_ context.Context, req datasourc
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkFloorPlansDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkFloorPlans
+	var config DataSourceNetworkFloorPlans
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

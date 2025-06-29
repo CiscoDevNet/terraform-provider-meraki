@@ -363,7 +363,7 @@ func (d *NetworkGroupPoliciesDataSource) Configure(_ context.Context, req dataso
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkGroupPoliciesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkGroupPolicies
+	var config DataSourceNetworkGroupPolicies
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

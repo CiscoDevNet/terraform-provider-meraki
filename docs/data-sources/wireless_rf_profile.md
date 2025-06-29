@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_rf_profile Data Source - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This data source can read the Wireless RF profile configuration.
+  This data source can read the Wireless RF Profile configuration.
 ---
 
 # meraki_wireless_rf_profile (Data Source)
 
-This data source can read the `Wireless RF profile` configuration.
+This data source can read the `Wireless RF Profile` configuration.
 
 ## Example Usage
 

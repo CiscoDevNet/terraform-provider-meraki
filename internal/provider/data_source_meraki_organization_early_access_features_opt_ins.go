@@ -100,7 +100,7 @@ func (d *OrganizationEarlyAccessFeaturesOptInsDataSource) Configure(_ context.Co
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationEarlyAccessFeaturesOptInsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationEarlyAccessFeaturesOptIns
+	var config DataSourceOrganizationEarlyAccessFeaturesOptIns
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

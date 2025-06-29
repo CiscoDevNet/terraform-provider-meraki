@@ -2,6 +2,7 @@ name: Appliance RF Profile
 spec_endpoint: /networks/{networkId}/appliance/rfProfiles/{rfProfileId}
 rest_endpoint: /networks/%v/appliance/rfProfiles
 bulk_data_source: true
+bulk_resource: true
 data_source_name_query: true
 doc_category: Appliances
 test_variables: [test_org, test_network, test_appliance_1_serial]

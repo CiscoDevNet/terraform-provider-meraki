@@ -255,6 +255,9 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		{{- if not .NoResource}}
 		New{{camelCase .Name}}Resource,
 		{{- end}}
+		{{- if .BulkResource}}
+		New{{camelCase .BulkName}}Resource,
+		{{- end}}
 		{{- end}}
 	}
 }

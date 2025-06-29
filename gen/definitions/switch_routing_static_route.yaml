@@ -2,6 +2,7 @@ name: Switch Routing Static Route
 spec_endpoint: /devices/{serial}/switch/routing/staticRoutes/{staticRouteId}
 rest_endpoint: /devices/%v/switch/routing/staticRoutes
 bulk_data_source: true
+bulk_resource: true
 id_name: staticRouteId
 data_source_name_query: true
 doc_category: Switches
