@@ -341,6 +341,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewOrganizationAdaptivePoliciesResource,
 		NewOrganizationAdaptivePolicyACLResource,
 		NewOrganizationAdaptivePolicyGroupResource,
+		NewOrganizationAdaptivePolicyGroupsResource,
 		NewOrganizationAdaptivePolicySettingsResource,
 		NewOrganizationAdminResource,
 		NewOrganizationAlertsProfileResource,

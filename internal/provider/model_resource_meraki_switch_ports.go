@@ -369,7 +369,7 @@ func (data *ResourceSwitchPorts) fromBodyPartial(ctx context.Context, res meraki
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("portId").String() != (*parent).Items[i].PortId.ValueString() {
+				if v.Get("portId").String() == (*parent).Items[i].PortId.ValueString() {
 					res = v
 					return false
 				}

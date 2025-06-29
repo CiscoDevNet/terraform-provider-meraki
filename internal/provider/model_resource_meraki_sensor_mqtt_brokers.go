@@ -110,7 +110,7 @@ func (data *ResourceSensorMQTTBrokers) fromBodyPartial(ctx context.Context, res 
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("mqttBrokerId").String() != (*parent).Items[i].MqttBrokerId.ValueString() {
+				if v.Get("mqttBrokerId").String() == (*parent).Items[i].MqttBrokerId.ValueString() {
 					res = v
 					return false
 				}

@@ -618,7 +618,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	for _, itemState := range state.Items {
 		found := false
 		for _, item := range plan.Items {
-			if item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString() == itemState.{{toGoName ((getBulkItemId .).TfName)}}.ValueString() {
+			if item.{{getBulkItemId .}}.ValueString() == itemState.{{getBulkItemId .}}.ValueString() {
 				// If the item is present in both plan and state, we can skip it
 				found = true
 				break
@@ -647,15 +647,15 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	for _, item := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString() == itemState.{{toGoName ((getBulkItemId .).TfName)}}.ValueString() {
+			if item.{{getBulkItemId .}}.ValueString() == itemState.{{getBulkItemId .}}.ValueString() {
 				found = true
 				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString())
+				hasChanges := plan.hasChanges(ctx, &state, item.{{getBulkItemId .}}.ValueString())
 				if hasChanges {
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						{{- if .PutCreate}}
-						Resource:  plan.getItemPath(item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString()),
+						Resource:  plan.getItemPath(item.{{getBulkItemId .}}.ValueString()),
 						{{- else}}
 						Resource:  plan.getPath() + "/" + url.QueryEscape(item.Id.ValueString()),
 						{{- end}}
@@ -670,7 +670,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 			{{- if .PutCreate}}
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
-				Resource:  plan.getItemPath(item.{{toGoName ((getBulkItemId .).TfName)}}.ValueString()),
+				Resource:  plan.getItemPath(item.{{getBulkItemId .}}.ValueString()),
 				Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 			})
 			{{- else}}

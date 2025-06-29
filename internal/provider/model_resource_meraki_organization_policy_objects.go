@@ -166,7 +166,7 @@ func (data *ResourceOrganizationPolicyObjects) fromBodyPartial(ctx context.Conte
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("id").String() != (*parent).Items[i].Id.ValueString() {
+				if v.Get("id").String() == (*parent).Items[i].Id.ValueString() {
 					res = v
 					return false
 				}

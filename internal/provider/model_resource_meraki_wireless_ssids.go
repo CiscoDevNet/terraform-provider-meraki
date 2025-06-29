@@ -1090,7 +1090,7 @@ func (data *ResourceWirelessSSIDs) fromBodyPartial(ctx context.Context, res mera
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("number").String() != (*parent).Items[i].Number.ValueString() {
+				if v.Get("number").String() == (*parent).Items[i].Number.ValueString() {
 					res = v
 					return false
 				}

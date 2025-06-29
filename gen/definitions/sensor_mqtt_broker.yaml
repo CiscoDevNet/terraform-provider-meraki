@@ -4,6 +4,7 @@ rest_endpoint: /networks/%v/sensor/mqttBrokers/%v
 bulk_resource: true
 put_create: true
 no_delete: true
+id_name: mqttBrokerId
 doc_category: Sensors
 test_variables: [test_org, test_network]
 attributes:

@@ -368,7 +368,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("{{(getBulkItemId .).ModelName}}").String() != (*parent).Items[i].{{toGoName ((getBulkItemId .).TfName)}}.ValueString() {
+				if v.Get("{{.IdName}}").String() == (*parent).Items[i].{{getBulkItemId .}}.ValueString() {
 					res = v
 					return false
 				}
@@ -477,7 +477,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyUnknowns(ctx context.Contex
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("{{(getBulkItemId .).ModelName}}").String() != (*parent).Items[i].{{toGoName ((getBulkItemId .).TfName)}}.ValueString() {
+				if v.Get("{{.IdName}}").String() == (*parent).Items[i].{{getBulkItemId .}}.ValueString() {
 					res = v
 					return false
 				}
@@ -598,14 +598,14 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 
 	item := Resource{{camelCase .BulkName}}Items{}
 	for i := range data.Items {
-		if data.Items[i].{{toGoName ((getBulkItemId .).TfName)}}.ValueString() == id {
+		if data.Items[i].{{getBulkItemId .}}.ValueString() == id {
 			item = data.Items[i]
 			break
 		}
 	}
 	stateItem := Resource{{camelCase .BulkName}}Items{}
 	for i := range state.Items {
-		if state.Items[i].{{toGoName ((getBulkItemId .).TfName)}}.ValueString() == id {
+		if state.Items[i].{{getBulkItemId .}}.ValueString() == id {
 			stateItem = state.Items[i]
 			break
 		}

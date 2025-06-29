@@ -13,6 +13,7 @@
 - Add `meraki_sm_admin_roles` resource
 - Add `meraki_organization_saml_idps` resource
 - Add `meraki_organization_adaptive_policies` resource
+- Add `meraki_organization_adaptive_policy_groups` resource
 
 ## 1.3.0
 

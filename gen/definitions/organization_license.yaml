@@ -14,7 +14,7 @@ attributes:
     description: Organization ID
     example: "123456"
     test_value: data.meraki_organization.test.id
-  - model_name: licenseId
+  - model_name: id
     tf_name: license_id
     type: String
     id: true

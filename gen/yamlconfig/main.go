@@ -504,16 +504,16 @@ func HasOrganizationId(config YamlConfig) bool {
 	return false
 }
 
-// GetBulkItemId returns the id attribute for bulk items, or a default id attribute if none is found
-func GetBulkItemId(config YamlConfig) YamlConfigAttribute {
+// GetBulkItemId returns the Go attribute name of the bulk item id
+func GetBulkItemId(config YamlConfig) string {
 	// Get the id attribute from the bulk item attributes
 	for _, attr := range config.Attributes {
 		if attr.Id {
-			return attr
+			return ToGoName(attr.TfName)
 		}
 	}
-	// If no id attribute is found, return an empty attribute
-	return YamlConfigAttribute{ModelName: "id", TfName: "id"}
+	// If no id attribute is found return default "id"
+	return ToGoName("id")
 }
 
 // Map of templating functions

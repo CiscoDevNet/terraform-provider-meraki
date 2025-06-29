@@ -77,7 +77,7 @@ func (data *ResourceOrganizationLicenses) fromBody(ctx context.Context, res mera
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := ResourceOrganizationLicensesItems{}
-		if value := res.Get("licenseId"); value.Exists() && value.Value() != nil {
+		if value := res.Get("id"); value.Exists() && value.Value() != nil {
 			data.LicenseId = types.StringValue(value.String())
 		} else {
 			data.LicenseId = types.StringNull()
@@ -109,7 +109,7 @@ func (data *ResourceOrganizationLicenses) fromBodyPartial(ctx context.Context, r
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("licenseId").String() != (*parent).Items[i].LicenseId.ValueString() {
+				if v.Get("id").String() == (*parent).Items[i].LicenseId.ValueString() {
 					res = v
 					return false
 				}

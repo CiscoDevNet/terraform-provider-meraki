@@ -4,6 +4,7 @@ rest_endpoint: /devices/%v/switch/ports/%v
 bulk_resource: true
 put_create: true
 no_delete: true
+id_name: portId
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial]
 attributes:

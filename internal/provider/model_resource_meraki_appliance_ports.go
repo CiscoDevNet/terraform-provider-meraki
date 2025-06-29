@@ -98,7 +98,7 @@ func (data *ResourceAppliancePorts) fromBody(ctx context.Context, res meraki.Res
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := ResourceAppliancePortsItems{}
-		if value := res.Get("port_id"); value.Exists() && value.Value() != nil {
+		if value := res.Get("number"); value.Exists() && value.Value() != nil {
 			data.PortId = types.StringValue(value.String())
 		} else {
 			data.PortId = types.StringNull()
@@ -155,7 +155,7 @@ func (data *ResourceAppliancePorts) fromBodyPartial(ctx context.Context, res mer
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("port_id").String() != (*parent).Items[i].PortId.ValueString() {
+				if v.Get("number").String() == (*parent).Items[i].PortId.ValueString() {
 					res = v
 					return false
 				}

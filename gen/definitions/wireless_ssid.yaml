@@ -4,6 +4,7 @@ rest_endpoint: /networks/%v/wireless/ssids/%v
 bulk_resource: true
 put_create: true
 no_delete: true
+id_name: number
 doc_category: Wireless
 test_variables: [test_org, test_network]
 attributes:

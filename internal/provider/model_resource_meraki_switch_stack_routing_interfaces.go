@@ -210,7 +210,7 @@ func (data *ResourceSwitchStackRoutingInterfaces) fromBodyPartial(ctx context.Co
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
-				if v.Get("id").String() != (*parent).Items[i].Id.ValueString() {
+				if v.Get("interfaceId").String() == (*parent).Items[i].Id.ValueString() {
 					res = v
 					return false
 				}
