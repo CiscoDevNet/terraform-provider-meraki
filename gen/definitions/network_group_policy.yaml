@@ -3,6 +3,7 @@ name: Network Group Policy
 spec_endpoint: /networks/{networkId}/groupPolicies/{groupPolicyId}
 rest_endpoint: /networks/%v/groupPolicies
 bulk_data_source: true
+bulk_resource: true
 id_name: groupPolicyId
 data_source_name_query: true
 doc_category: Networks
