@@ -21,6 +21,7 @@ description: |-
 - Add `meraki_switch_stack_routing_interfaces` resource
 - Add `meraki_sm_admin_roles` resource
 - Add `meraki_organization_saml_idps` resource
+- Add `meraki_organization_adaptive_policies` resource
 
 ## 1.3.0
 
