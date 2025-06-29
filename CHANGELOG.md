@@ -18,6 +18,7 @@
 - Add `meraki_wireless_rf_profiles` resource
 - Add `meraki_network_webhook_payload_templates` resource
 - Add `meraki_switch_stack_routing_static_routes` resource
+- Add `meraki_switch_routing_multicast_rendezvous_points` resource
 
 ## 1.3.0
 
