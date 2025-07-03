@@ -473,6 +473,9 @@ func (data ResourceWirelessRFProfilesItems) toBody(ctx context.Context, state Re
 
 func (data *ResourceWirelessRFProfiles) fromBody(ctx context.Context, res meraki.Res) {
 	data.Items = make([]ResourceWirelessRFProfilesItems, 0)
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := ResourceWirelessRFProfilesItems{}
@@ -939,6 +942,9 @@ func (data *ResourceWirelessRFProfiles) fromBody(ctx context.Context, res meraki
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ResourceWirelessRFProfiles) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]

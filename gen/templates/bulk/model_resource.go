@@ -300,6 +300,9 @@ func (data Resource{{camelCase .BulkName}}Items) toBody(ctx context.Context, sta
 
 func (data *Resource{{camelCase .BulkName}}) fromBody(ctx context.Context, res meraki.Res) {
 	data.Items = make([]Resource{{camelCase .BulkName}}Items, 0)
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := Resource{{camelCase .BulkName}}Items{}
@@ -360,6 +363,9 @@ func (data *Resource{{camelCase .BulkName}}) fromBody(ctx context.Context, res m
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
@@ -470,6 +476,9 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
 func (data *Resource{{camelCase .BulkName}}) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 	{{- if hasComputedAttributes .Attributes}}
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]

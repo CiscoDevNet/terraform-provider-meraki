@@ -99,6 +99,9 @@ func (data ResourceOrganizationAdaptivePolicyGroupsItems) toBody(ctx context.Con
 
 func (data *ResourceOrganizationAdaptivePolicyGroups) fromBody(ctx context.Context, res meraki.Res) {
 	data.Items = make([]ResourceOrganizationAdaptivePolicyGroupsItems, 0)
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := ResourceOrganizationAdaptivePolicyGroupsItems{}
@@ -150,6 +153,9 @@ func (data *ResourceOrganizationAdaptivePolicyGroups) fromBody(ctx context.Conte
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ResourceOrganizationAdaptivePolicyGroups) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
 	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
