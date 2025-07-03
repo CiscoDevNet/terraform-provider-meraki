@@ -1102,6 +1102,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyPartial(ctx context.Context, r
 		} else {
 			data.VlanTaggingVlanId = types.StringNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

@@ -718,6 +718,7 @@ func (data *ResourceApplianceVLANs) fromBodyPartial(ctx context.Context, res mer
 			}
 			(*parent).ReservedIpRanges[i] = data
 		}
+		(*parent).Items[i] = data
 	}
 }
 

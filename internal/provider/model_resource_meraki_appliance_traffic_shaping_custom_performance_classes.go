@@ -155,6 +155,7 @@ func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) fromBodyPar
 		} else {
 			data.Name = types.StringNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

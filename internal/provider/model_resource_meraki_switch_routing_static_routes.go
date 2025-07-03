@@ -169,6 +169,7 @@ func (data *ResourceSwitchRoutingStaticRoutes) fromBodyPartial(ctx context.Conte
 		} else {
 			data.Subnet = types.StringNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

@@ -192,6 +192,7 @@ func (data *ResourceAppliancePorts) fromBodyPartial(ctx context.Context, res mer
 		} else {
 			data.Vlan = types.Int64Null()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

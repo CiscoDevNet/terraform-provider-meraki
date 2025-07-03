@@ -228,6 +228,7 @@ func (data *ResourceOrganizationAdaptivePolicyGroups) fromBodyPartial(ctx contex
 			}
 			(*parent).PolicyObjects[i] = data
 		}
+		(*parent).Items[i] = data
 	}
 }
 

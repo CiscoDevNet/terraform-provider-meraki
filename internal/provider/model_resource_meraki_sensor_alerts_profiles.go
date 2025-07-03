@@ -658,6 +658,7 @@ func (data *ResourceSensorAlertsProfiles) fromBodyPartial(ctx context.Context, r
 		} else {
 			data.Serials = types.ListNull(types.StringType)
 		}
+		(*parent).Items[i] = data
 	}
 }
 

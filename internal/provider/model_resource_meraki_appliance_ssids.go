@@ -329,6 +329,7 @@ func (data *ResourceApplianceSSIDs) fromBodyPartial(ctx context.Context, res mer
 			}
 			(*parent).RadiusServers[i] = data
 		}
+		(*parent).Items[i] = data
 	}
 }
 

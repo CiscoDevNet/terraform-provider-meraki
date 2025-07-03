@@ -122,6 +122,7 @@ func (data *ResourceSensorMQTTBrokers) fromBodyPartial(ctx context.Context, res 
 		} else {
 			data.Enabled = types.BoolNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

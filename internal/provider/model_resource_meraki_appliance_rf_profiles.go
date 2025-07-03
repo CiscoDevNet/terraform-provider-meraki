@@ -281,6 +281,7 @@ func (data *ResourceApplianceRFProfiles) fromBodyPartial(ctx context.Context, re
 		} else {
 			data.TwoFourGhzSettingsMinBitrate = types.Float64Null()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

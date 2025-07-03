@@ -243,6 +243,7 @@ func (data *ResourceNetworkWebhookPayloadTemplates) fromBodyPartial(ctx context.
 			}
 			(*parent).Headers[i] = data
 		}
+		(*parent).Items[i] = data
 	}
 }
 

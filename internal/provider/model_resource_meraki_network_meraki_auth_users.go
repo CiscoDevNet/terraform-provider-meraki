@@ -252,6 +252,7 @@ func (data *ResourceNetworkMerakiAuthUsers) fromBodyPartial(ctx context.Context,
 			}
 			(*parent).Authorizations[i] = data
 		}
+		(*parent).Items[i] = data
 	}
 }
 

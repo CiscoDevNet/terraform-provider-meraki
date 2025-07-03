@@ -1718,6 +1718,7 @@ func (data *ResourceWirelessSSIDs) fromBodyPartial(ctx context.Context, res mera
 		} else {
 			data.RadiusDasClientsIps = types.SetNull(types.StringType)
 		}
+		(*parent).Items[i] = data
 	}
 }
 

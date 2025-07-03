@@ -273,6 +273,7 @@ func (data *ResourceSwitchLinkAggregations) fromBodyPartial(ctx context.Context,
 			}
 			(*parent).SwitchProfilePorts[i] = data
 		}
+		(*parent).Items[i] = data
 	}
 }
 

@@ -127,6 +127,7 @@ func (data *ResourceSwitchRoutingMulticastRendezvousPoints) fromBodyPartial(ctx 
 		} else {
 			data.MulticastGroup = types.StringNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

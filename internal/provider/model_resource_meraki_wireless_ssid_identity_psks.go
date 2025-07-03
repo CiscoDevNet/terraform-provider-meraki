@@ -156,6 +156,7 @@ func (data *ResourceWirelessSSIDIdentityPSKs) fromBodyPartial(ctx context.Contex
 		} else {
 			data.Passphrase = types.StringNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

@@ -281,6 +281,7 @@ func (data *ResourceSwitchRoutingInterfaces) fromBodyPartial(ctx context.Context
 		} else {
 			data.OspfSettingsIsPassiveEnabled = types.BoolNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

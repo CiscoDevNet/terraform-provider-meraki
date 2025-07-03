@@ -521,6 +521,7 @@ func (data *ResourceSwitchPorts) fromBodyPartial(ctx context.Context, res meraki
 		} else {
 			data.Tags = types.SetNull(types.StringType)
 		}
+		(*parent).Items[i] = data
 	}
 }
 

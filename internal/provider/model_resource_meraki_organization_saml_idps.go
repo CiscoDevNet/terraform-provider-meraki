@@ -126,6 +126,7 @@ func (data *ResourceOrganizationSAMLIdPs) fromBodyPartial(ctx context.Context, r
 		} else {
 			data.X509certSha1Fingerprint = types.StringNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

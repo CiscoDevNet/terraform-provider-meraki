@@ -213,6 +213,7 @@ func (data *ResourceOrganizationPolicyObjects) fromBodyPartial(ctx context.Conte
 		} else {
 			data.GroupIds = types.SetNull(types.StringType)
 		}
+		(*parent).Items[i] = data
 	}
 }
 

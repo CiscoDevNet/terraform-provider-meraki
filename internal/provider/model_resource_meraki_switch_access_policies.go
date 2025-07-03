@@ -677,6 +677,7 @@ func (data *ResourceSwitchAccessPolicies) fromBodyPartial(ctx context.Context, r
 		} else {
 			data.UrlRedirectWalledGardenRanges = types.SetNull(types.StringType)
 		}
+		(*parent).Items[i] = data
 	}
 }
 

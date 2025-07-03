@@ -143,6 +143,7 @@ func (data *ResourceSMAdminRoles) fromBodyPartial(ctx context.Context, res merak
 		} else {
 			data.Tags = types.ListNull(types.StringType)
 		}
+		(*parent).Items[i] = data
 	}
 }
 

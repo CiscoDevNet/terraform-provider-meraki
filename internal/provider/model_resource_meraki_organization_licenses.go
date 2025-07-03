@@ -121,6 +121,7 @@ func (data *ResourceOrganizationLicenses) fromBodyPartial(ctx context.Context, r
 		} else {
 			data.DeviceSerial = types.StringNull()
 		}
+		(*parent).Items[i] = data
 	}
 }
 

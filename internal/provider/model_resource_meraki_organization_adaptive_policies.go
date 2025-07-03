@@ -259,6 +259,7 @@ func (data *ResourceOrganizationAdaptivePolicies) fromBodyPartial(ctx context.Co
 			}
 			(*parent).Acls[i] = data
 		}
+		(*parent).Items[i] = data
 	}
 }
 

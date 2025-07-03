@@ -1432,6 +1432,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyPartial(ctx context.Context, res
 		} else {
 			data.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 		}
+		(*parent).Items[i] = data
 	}
 }
 

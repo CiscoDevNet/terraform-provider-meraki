@@ -158,6 +158,7 @@ func (data *ResourceAppliancePrefixDelegatedStatics) fromBodyPartial(ctx context
 		} else {
 			data.OriginInterfaces = types.ListNull(types.StringType)
 		}
+		(*parent).Items[i] = data
 	}
 }
 

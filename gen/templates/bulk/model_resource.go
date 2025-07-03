@@ -458,6 +458,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context
 		{{- end}}
 	{{- end}}
 	{{- template "fromBodyPartialTemplate" .}}
+		(*parent).Items[i] = data
 	}
 }
 

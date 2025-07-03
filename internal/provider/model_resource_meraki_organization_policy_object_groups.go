@@ -143,6 +143,7 @@ func (data *ResourceOrganizationPolicyObjectGroups) fromBodyPartial(ctx context.
 		} else {
 			data.ObjectIds = types.SetNull(types.Int64Type)
 		}
+		(*parent).Items[i] = data
 	}
 }
 
