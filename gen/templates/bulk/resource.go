@@ -643,23 +643,26 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	}
 	{{- end}}
 
+	{{- if not .PutCreate}}
+	newIdIndexes := make([]int, 0)
+	{{- end}}
 	// Check for new and updated items
-	for _, item := range plan.Items {
+	for i := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if item.{{getBulkItemId .}}.ValueString() == itemState.{{getBulkItemId .}}.ValueString() {
+			if plan.Items[i].{{getBulkItemId .}}.ValueString() == itemState.{{getBulkItemId .}}.ValueString() {
 				found = true
 				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, item.{{getBulkItemId .}}.ValueString())
+				hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].{{getBulkItemId .}}.ValueString())
 				if hasChanges {
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
 						{{- if .PutCreate}}
-						Resource:  plan.getItemPath(item.{{getBulkItemId .}}.ValueString()),
+						Resource:  plan.getItemPath(plan.Items[i].{{getBulkItemId .}}.ValueString()),
 						{{- else}}
-						Resource:  plan.getPath() + "/" + item.Id.ValueString(),
+						Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
 						{{- end}}
-						Body:      item.toBody(ctx, itemState),
+						Body:      plan.Items[i].toBody(ctx, itemState),
 					})					
 				}
 				break
@@ -670,15 +673,16 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 			{{- if .PutCreate}}
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
-				Resource:  plan.getItemPath(item.{{getBulkItemId .}}.ValueString()),
-				Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
+				Resource:  plan.getItemPath(plan.Items[i].{{getBulkItemId .}}.ValueString()),
+				Body:      plan.Items[i].toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 			})
 			{{- else}}
 			actions = append(actions, meraki.ActionModel{
 				Operation: "create",
 				Resource:  plan.getPath(),
-				Body:      item.toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
+				Body:      plan.Items[i].toBody(ctx, Resource{{camelCase .BulkName}}Items{}),
 			})
+			newIdIndexes = append(newIdIndexes, i)
 			{{- end}}
 		}
 	}
@@ -687,6 +691,15 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
 		return
+	}
+	{{- end}}
+	{{- if not .PutCreate}}
+	responseIndex := 0
+	for i := range plan.Items {
+		if slices.Contains(newIdIndexes, i) {
+			plan.Items[i].Id = types.StringValue(res.Get("status.createdResources." + strconv.Itoa(responseIndex) + ".id").String())
+			responseIndex++
+		}
 	}
 	{{- end}}
 

@@ -228,20 +228,19 @@ func (r *AppliancePortsResource) Update(ctx context.Context, req resource.Update
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 	var actions []meraki.ActionModel
-
 	// Check for new and updated items
-	for _, item := range plan.Items {
+	for i := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if item.PortId.ValueString() == itemState.PortId.ValueString() {
+			if plan.Items[i].PortId.ValueString() == itemState.PortId.ValueString() {
 				found = true
 				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, item.PortId.ValueString())
+				hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].PortId.ValueString())
 				if hasChanges {
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
-						Resource:  plan.getItemPath(item.PortId.ValueString()),
-						Body:      item.toBody(ctx, itemState),
+						Resource:  plan.getItemPath(plan.Items[i].PortId.ValueString()),
+						Body:      plan.Items[i].toBody(ctx, itemState),
 					})
 				}
 				break
@@ -251,8 +250,8 @@ func (r *AppliancePortsResource) Update(ctx context.Context, req resource.Update
 			// If the item is present in plan, but not in state, we need to create it
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
-				Resource:  plan.getItemPath(item.PortId.ValueString()),
-				Body:      item.toBody(ctx, ResourceAppliancePortsItems{}),
+				Resource:  plan.getItemPath(plan.Items[i].PortId.ValueString()),
+				Body:      plan.Items[i].toBody(ctx, ResourceAppliancePortsItems{}),
 			})
 		}
 	}

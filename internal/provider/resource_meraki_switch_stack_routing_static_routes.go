@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -255,20 +256,20 @@ func (r *SwitchStackRoutingStaticRoutesResource) Update(ctx context.Context, req
 			})
 		}
 	}
-
+	newIdIndexes := make([]int, 0)
 	// Check for new and updated items
-	for _, item := range plan.Items {
+	for i := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if item.Id.ValueString() == itemState.Id.ValueString() {
+			if plan.Items[i].Id.ValueString() == itemState.Id.ValueString() {
 				found = true
 				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, item.Id.ValueString())
+				hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].Id.ValueString())
 				if hasChanges {
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
-						Resource:  plan.getPath() + "/" + item.Id.ValueString(),
-						Body:      item.toBody(ctx, itemState),
+						Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
+						Body:      plan.Items[i].toBody(ctx, itemState),
 					})
 				}
 				break
@@ -279,8 +280,9 @@ func (r *SwitchStackRoutingStaticRoutesResource) Update(ctx context.Context, req
 			actions = append(actions, meraki.ActionModel{
 				Operation: "create",
 				Resource:  plan.getPath(),
-				Body:      item.toBody(ctx, ResourceSwitchStackRoutingStaticRoutesItems{}),
+				Body:      plan.Items[i].toBody(ctx, ResourceSwitchStackRoutingStaticRoutesItems{}),
 			})
+			newIdIndexes = append(newIdIndexes, i)
 		}
 	}
 
@@ -288,6 +290,13 @@ func (r *SwitchStackRoutingStaticRoutesResource) Update(ctx context.Context, req
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
 		return
+	}
+	responseIndex := 0
+	for i := range plan.Items {
+		if slices.Contains(newIdIndexes, i) {
+			plan.Items[i].Id = types.StringValue(res.Get("status.createdResources." + strconv.Itoa(responseIndex) + ".id").String())
+			responseIndex++
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))

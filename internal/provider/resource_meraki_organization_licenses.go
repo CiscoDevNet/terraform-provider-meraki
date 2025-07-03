@@ -204,20 +204,19 @@ func (r *OrganizationLicensesResource) Update(ctx context.Context, req resource.
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 	var actions []meraki.ActionModel
-
 	// Check for new and updated items
-	for _, item := range plan.Items {
+	for i := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if item.LicenseId.ValueString() == itemState.LicenseId.ValueString() {
+			if plan.Items[i].LicenseId.ValueString() == itemState.LicenseId.ValueString() {
 				found = true
 				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, item.LicenseId.ValueString())
+				hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].LicenseId.ValueString())
 				if hasChanges {
 					actions = append(actions, meraki.ActionModel{
 						Operation: "update",
-						Resource:  plan.getItemPath(item.LicenseId.ValueString()),
-						Body:      item.toBody(ctx, itemState),
+						Resource:  plan.getItemPath(plan.Items[i].LicenseId.ValueString()),
+						Body:      plan.Items[i].toBody(ctx, itemState),
 					})
 				}
 				break
@@ -227,8 +226,8 @@ func (r *OrganizationLicensesResource) Update(ctx context.Context, req resource.
 			// If the item is present in plan, but not in state, we need to create it
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
-				Resource:  plan.getItemPath(item.LicenseId.ValueString()),
-				Body:      item.toBody(ctx, ResourceOrganizationLicensesItems{}),
+				Resource:  plan.getItemPath(plan.Items[i].LicenseId.ValueString()),
+				Body:      plan.Items[i].toBody(ctx, ResourceOrganizationLicensesItems{}),
 			})
 		}
 	}
