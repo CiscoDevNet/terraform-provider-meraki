@@ -28,10 +28,9 @@ description: |-
 - Add `meraki_network_webhook_payload_templates` resource
 - Add `meraki_switch_stack_routing_static_routes` resource
 - Add `meraki_switch_routing_multicast_rendezvous_points` resource
-- Add `meraki_switch_link_aggregations` resource
 - Add `meraki_switch_access_policies` resource
 - Add `meraki_sensor_alerts_profiles` resource
-- Add `meraki_network_auth_users` resource
+- Add `meraki_network_meraki_auth_users` resource
 - Add `meraki_network_group_policies` resource
 - Add `meraki_appliance_vlans` resource
 - Add `meraki_appliance_traffic_shaping_custom_performance_classes` resource

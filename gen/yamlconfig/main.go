@@ -86,6 +86,7 @@ type YamlConfigAttribute struct {
 	ElementType        string                `yaml:"element_type,omitempty"`
 	DataPath           []string              `yaml:"data_path,omitempty,flow"`
 	Id                 bool                  `yaml:"id,omitempty"`
+	BulkId             bool                  `yaml:"bulk_id,omitempty"`
 	Reference          bool                  `yaml:"reference,omitempty"`
 	RequiresReplace    bool                  `yaml:"requires_replace,omitempty"`
 	Mandatory          bool                  `yaml:"mandatory,omitempty"`
@@ -128,6 +129,7 @@ type YamlConfigAttributeP struct {
 	ElementType        *string                 `yaml:"element_type,omitempty"`
 	DataPath           *[]string               `yaml:"data_path,omitempty,flow"`
 	Id                 *bool                   `yaml:"id,omitempty"`
+	BulkId             *bool                   `yaml:"bulk_id,omitempty"`
 	Reference          *bool                   `yaml:"reference,omitempty"`
 	RequiresReplace    *bool                   `yaml:"requires_replace,omitempty"`
 	Mandatory          *bool                   `yaml:"mandatory,omitempty"`
@@ -836,6 +838,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.Reference != nil {
 		new.Reference = existing.Reference
+	}
+	if existing.BulkId != nil {
+		new.BulkId = existing.BulkId
 	}
 	if existing.RequiresReplace != nil {
 		new.RequiresReplace = existing.RequiresReplace

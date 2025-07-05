@@ -49,6 +49,7 @@ attributes:
     example: "false"
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: Name of the access policy
     example: 'Access policy #1'

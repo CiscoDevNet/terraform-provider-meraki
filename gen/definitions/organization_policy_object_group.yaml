@@ -19,6 +19,7 @@ attributes:
     example: NetworkObjectGroup
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
     example: Web Servers - Datacenter 10

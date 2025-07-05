@@ -59,6 +59,7 @@ attributes:
   - model_name: id
     tf_name: vlan_id
     type: String
+    bulk_id: true
     mandatory: true
     description: The VLAN ID of the new VLAN (must be between 1 and 4094)
     example: "1234"

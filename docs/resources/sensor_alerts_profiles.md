@@ -38,7 +38,7 @@ resource "meraki_sensor_alerts_profiles" "example" {
 
 ### Required
 
-- `items` (Attributes List) The list of items (see [below for nested schema](#nestedatt--items))
+- `items` (Attributes Set) The list of items (see [below for nested schema](#nestedatt--items))
 - `network_id` (String) Network ID
 - `organization_id` (String) The organization ID
 

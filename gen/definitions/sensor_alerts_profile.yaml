@@ -24,6 +24,7 @@ attributes:
     example: Check with Miles on what to do.
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: Name of the sensor alert profile.
     example: My Sensor Alert Profile

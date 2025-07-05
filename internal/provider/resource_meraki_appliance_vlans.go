@@ -46,6 +46,7 @@ import (
 var (
 	_ resource.Resource                = &ApplianceVLANsResource{}
 	_ resource.ResourceWithImportState = &ApplianceVLANsResource{}
+	_ resource.ResourceWithModifyPlan  = &ApplianceVLANsResource{}
 )
 
 func NewApplianceVLANsResource() resource.Resource {
@@ -81,7 +82,7 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
@@ -392,11 +393,13 @@ func (r *ApplianceVLANsResource) Update(ctx context.Context, req resource.Update
 	for _, itemState := range state.Items {
 		found := false
 		for _, item := range plan.Items {
-			if item.Id.ValueString() == itemState.Id.ValueString() {
-				// If the item is present in both plan and state, we can skip it
-				found = true
-				break
+			if item.VlanId.ValueString() != itemState.VlanId.ValueString() {
+				continue
 			}
+
+			// If the item is present in both plan and state, we can skip it
+			found = true
+			break
 		}
 		if !found {
 			// If the item is present in state, but not in plan, we need to delete it
@@ -412,19 +415,21 @@ func (r *ApplianceVLANsResource) Update(ctx context.Context, req resource.Update
 	for i := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if plan.Items[i].Id.ValueString() == itemState.Id.ValueString() {
-				found = true
-				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].Id.ValueString())
-				if hasChanges {
-					actions = append(actions, meraki.ActionModel{
-						Operation: "update",
-						Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
-						Body:      plan.Items[i].toBody(ctx, itemState),
-					})
-				}
-				break
+			if plan.Items[i].VlanId.ValueString() != itemState.VlanId.ValueString() {
+				continue
 			}
+
+			found = true
+			// If the item is present in both plan and state, we need to check if it has changes
+			hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].Id.ValueString())
+			if hasChanges {
+				actions = append(actions, meraki.ActionModel{
+					Operation: "update",
+					Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
+					Body:      plan.Items[i].toBody(ctx, itemState),
+				})
+			}
+			break
 		}
 		if !found {
 			// If the item is present in plan, but not in state, we need to create it
@@ -510,3 +515,47 @@ func (r *ApplianceVLANsResource) ImportState(ctx context.Context, req resource.I
 }
 
 // End of section. //template:end import
+
+// Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
+func (r *ApplianceVLANsResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	var plan, state ResourceApplianceVLANs
+
+	if req.Plan.Raw.IsNull() || req.State.Raw.IsNull() {
+		return
+	}
+
+	// Read plan
+	diags := req.Plan.Get(ctx, &plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Read state
+	diags = req.State.Get(ctx, &state)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		resp.Plan.Set(ctx, &plan)
+		return
+	}
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning ModifyPlan", plan.Id.ValueString()))
+	// Remove incorrectly set IDs in plan (https://developer.hashicorp.com/terraform/plugin/framework/resources/plan-modification#prior-state-under-lists-and-sets)
+	for i, item := range plan.Items {
+		found := false
+		for _, itemState := range state.Items {
+			if item.VlanId.ValueString() != itemState.VlanId.ValueString() {
+				continue
+			}
+			found = true
+		}
+		if !found {
+			plan.Items[i].Id = types.StringUnknown()
+		}
+	}
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: ModifyPlan finished successfully", plan.Id.ValueString()))
+
+	diags = resp.Plan.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+}
+
+// End of section. //template:end modifyPlan

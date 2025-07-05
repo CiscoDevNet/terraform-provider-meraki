@@ -43,6 +43,7 @@ import (
 var (
 	_ resource.Resource                = &ApplianceSSIDsResource{}
 	_ resource.ResourceWithImportState = &ApplianceSSIDsResource{}
+	_ resource.ResourceWithModifyPlan  = &ApplianceSSIDsResource{}
 )
 
 func NewApplianceSSIDsResource() resource.Resource {
@@ -78,7 +79,7 @@ func (r *ApplianceSSIDsResource) Schema(ctx context.Context, req resource.Schema
 				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
@@ -283,19 +284,21 @@ func (r *ApplianceSSIDsResource) Update(ctx context.Context, req resource.Update
 	for i := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if plan.Items[i].Number.ValueString() == itemState.Number.ValueString() {
-				found = true
-				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].Number.ValueString())
-				if hasChanges {
-					actions = append(actions, meraki.ActionModel{
-						Operation: "update",
-						Resource:  plan.getItemPath(plan.Items[i].Number.ValueString()),
-						Body:      plan.Items[i].toBody(ctx, itemState),
-					})
-				}
-				break
+			if plan.Items[i].Number.ValueString() != itemState.Number.ValueString() {
+				continue
 			}
+
+			found = true
+			// If the item is present in both plan and state, we need to check if it has changes
+			hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].Number.ValueString())
+			if hasChanges {
+				actions = append(actions, meraki.ActionModel{
+					Operation: "update",
+					Resource:  plan.getItemPath(plan.Items[i].Number.ValueString()),
+					Body:      plan.Items[i].toBody(ctx, itemState),
+				})
+			}
+			break
 		}
 		if !found {
 			// If the item is present in plan, but not in state, we need to create it
@@ -359,3 +362,34 @@ func (r *ApplianceSSIDsResource) ImportState(ctx context.Context, req resource.I
 }
 
 // End of section. //template:end import
+
+// Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
+func (r *ApplianceSSIDsResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	var plan, state ResourceApplianceSSIDs
+
+	if req.Plan.Raw.IsNull() || req.State.Raw.IsNull() {
+		return
+	}
+
+	// Read plan
+	diags := req.Plan.Get(ctx, &plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Read state
+	diags = req.State.Get(ctx, &state)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		resp.Plan.Set(ctx, &plan)
+		return
+	}
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning ModifyPlan", plan.Id.ValueString()))
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: ModifyPlan finished successfully", plan.Id.ValueString()))
+
+	diags = resp.Plan.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+}
+
+// End of section. //template:end modifyPlan

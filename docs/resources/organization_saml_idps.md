@@ -27,7 +27,7 @@ resource "meraki_organization_saml_idps" "example" {
 
 ### Required
 
-- `items` (Attributes List) The list of items (see [below for nested schema](#nestedatt--items))
+- `items` (Attributes Set) The list of items (see [below for nested schema](#nestedatt--items))
 - `organization_id` (String) Organization ID
 
 ### Read-Only

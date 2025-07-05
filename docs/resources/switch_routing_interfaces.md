@@ -37,7 +37,7 @@ resource "meraki_switch_routing_interfaces" "example" {
 
 ### Required
 
-- `items` (Attributes List) The list of items (see [below for nested schema](#nestedatt--items))
+- `items` (Attributes Set) The list of items (see [below for nested schema](#nestedatt--items))
 - `organization_id` (String) The organization ID
 - `serial` (String) Switch serial
 

@@ -15,6 +15,7 @@ attributes:
     test_value: meraki_network_device_claim.test.network_id
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name of the new profile. Must be unique. This param is required on creation.
     example: MX RF Profile

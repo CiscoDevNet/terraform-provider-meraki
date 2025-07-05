@@ -19,6 +19,7 @@ attributes:
     example: Prefix on WAN 1 of Long Island Office network
   - model_name: prefix
     type: String
+    bulk_id: true
     mandatory: true
     description: A static IPv6 prefix
     example: 2002:db8:3c4d:15::/64

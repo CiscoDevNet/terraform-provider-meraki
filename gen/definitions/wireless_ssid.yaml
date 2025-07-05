@@ -18,6 +18,7 @@ attributes:
     tf_name: number
     type: String
     id: true
+    bulk_id: true
     reference: true
     description: Wireless SSID number
     example: "0"

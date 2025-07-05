@@ -40,6 +40,7 @@ attributes:
     example: 255.255.0.0
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
     example: Web Servers - Datacenter 10

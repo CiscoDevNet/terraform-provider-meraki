@@ -17,6 +17,7 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name for your group policy. Required.
     example: No video streaming

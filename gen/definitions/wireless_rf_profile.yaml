@@ -30,6 +30,7 @@ attributes:
     enum_values: [band, ssid]
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name of the new profile. Must be unique. This param is required on creation.
     example: Main Office

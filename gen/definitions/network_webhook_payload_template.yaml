@@ -31,6 +31,7 @@ attributes:
     example: SGVhZGVycyBGaWxl
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name of the new template
     example: Custom Template

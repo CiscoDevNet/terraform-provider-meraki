@@ -18,6 +18,7 @@ attributes:
     tf_name: mqtt_broker_id
     type: String
     id: true
+    bulk_id: true
     reference: true
     description: MQTT Broker ID
     example: "123456"

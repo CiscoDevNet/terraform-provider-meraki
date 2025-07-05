@@ -53,6 +53,7 @@ var (
 	{{- if not .NoImport}}
 	_ resource.ResourceWithImportState = &{{camelCase .BulkName}}Resource{}
 	{{- end}}
+	_ resource.ResourceWithModifyPlan  = &{{camelCase .BulkName}}Resource{}
 )
 
 func New{{camelCase .BulkName}}Resource() resource.Resource {
@@ -148,7 +149,7 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 			},
 			{{- end}}
 			{{- end}}
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
@@ -618,11 +619,17 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	for _, itemState := range state.Items {
 		found := false
 		for _, item := range plan.Items {
-			if item.{{getBulkItemId .}}.ValueString() == itemState.{{getBulkItemId .}}.ValueString() {
-				// If the item is present in both plan and state, we can skip it
-				found = true
-				break
+			{{- range .Attributes}}
+			{{- if .BulkId}}
+			if item.{{toGoName .TfName}}.Value{{.Type}}() != itemState.{{toGoName .TfName}}.Value{{.Type}}() {
+				continue
 			}
+			{{- end}}
+			{{- end}}
+
+			// If the item is present in both plan and state, we can skip it
+			found = true
+			break
 		}
 		if !found {
 			// If the item is present in state, but not in plan, we need to delete it
@@ -650,23 +657,29 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 	for i := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if plan.Items[i].{{getBulkItemId .}}.ValueString() == itemState.{{getBulkItemId .}}.ValueString() {
-				found = true
-				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].{{getBulkItemId .}}.ValueString())
-				if hasChanges {
-					actions = append(actions, meraki.ActionModel{
-						Operation: "update",
-						{{- if .PutCreate}}
-						Resource:  plan.getItemPath(plan.Items[i].{{getBulkItemId .}}.ValueString()),
-						{{- else}}
-						Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
-						{{- end}}
-						Body:      plan.Items[i].toBody(ctx, itemState),
-					})					
-				}
-				break
+			{{- range .Attributes}}
+			{{- if .BulkId}}
+			if plan.Items[i].{{toGoName .TfName}}.Value{{.Type}}() != itemState.{{toGoName .TfName}}.Value{{.Type}}() {
+				continue
 			}
+			{{- end}}
+			{{- end}}
+
+			found = true
+			// If the item is present in both plan and state, we need to check if it has changes
+			hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].{{getBulkItemId .}}.ValueString())
+			if hasChanges {
+				actions = append(actions, meraki.ActionModel{
+					Operation: "update",
+					{{- if .PutCreate}}
+					Resource:  plan.getItemPath(plan.Items[i].{{getBulkItemId .}}.ValueString()),
+					{{- else}}
+					Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
+					{{- end}}
+					Body:      plan.Items[i].toBody(ctx, itemState),
+				})					
+			}
+			break
 		}
 		if !found {
 			// If the item is present in plan, but not in state, we need to create it
@@ -784,3 +797,52 @@ func (r *{{camelCase .BulkName}}Resource) ImportState(ctx context.Context, req r
 }
 {{- end}}
 // End of section. //template:end import
+
+// Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
+func (r *{{camelCase .BulkName}}Resource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	var plan, state Resource{{camelCase .BulkName}}
+
+	if req.Plan.Raw.IsNull() || req.State.Raw.IsNull() {
+		return
+	}
+
+	// Read plan
+	diags := req.Plan.Get(ctx, &plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Read state
+	diags = req.State.Get(ctx, &state)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning ModifyPlan", plan.Id.ValueString()))
+
+	{{- if not .PutCreate}}
+	// Remove incorrectly set IDs in plan (https://developer.hashicorp.com/terraform/plugin/framework/resources/plan-modification#prior-state-under-lists-and-sets)
+	for i, item := range plan.Items {
+		found := false
+		for _, itemState := range state.Items {
+			{{- range .Attributes}}
+			{{- if .BulkId}}
+			if item.{{toGoName .TfName}}.Value{{.Type}}() != itemState.{{toGoName .TfName}}.Value{{.Type}}() {
+				continue
+			}
+			{{- end}}
+			{{- end}}
+			found = true
+		}
+		if !found {
+			plan.Items[i].Id = types.StringUnknown()
+		}
+	}
+	{{- end}}
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: ModifyPlan finished successfully", plan.Id.ValueString()))
+
+	diags = resp.Plan.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+}
+// End of section. //template:end modifyPlan

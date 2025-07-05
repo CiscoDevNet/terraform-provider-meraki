@@ -44,6 +44,7 @@ import (
 var (
 	_ resource.Resource                = &SwitchPortsResource{}
 	_ resource.ResourceWithImportState = &SwitchPortsResource{}
+	_ resource.ResourceWithModifyPlan  = &SwitchPortsResource{}
 )
 
 func NewSwitchPortsResource() resource.Resource {
@@ -79,7 +80,7 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 				MarkdownDescription: helpers.NewAttributeDescription("Switch serial").String,
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
@@ -342,11 +343,13 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 	for _, itemState := range state.Items {
 		found := false
 		for _, item := range plan.Items {
-			if item.PortId.ValueString() == itemState.PortId.ValueString() {
-				// If the item is present in both plan and state, we can skip it
-				found = true
-				break
+			if item.PortId.ValueString() != itemState.PortId.ValueString() {
+				continue
 			}
+
+			// If the item is present in both plan and state, we can skip it
+			found = true
+			break
 		}
 		if !found {
 			// If the item is present in state, but not in plan, we need to delete it
@@ -361,19 +364,21 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 	for i := range plan.Items {
 		found := false
 		for _, itemState := range state.Items {
-			if plan.Items[i].PortId.ValueString() == itemState.PortId.ValueString() {
-				found = true
-				// If the item is present in both plan and state, we need to check if it has changes
-				hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].PortId.ValueString())
-				if hasChanges {
-					actions = append(actions, meraki.ActionModel{
-						Operation: "update",
-						Resource:  plan.getItemPath(plan.Items[i].PortId.ValueString()),
-						Body:      plan.Items[i].toBody(ctx, itemState),
-					})
-				}
-				break
+			if plan.Items[i].PortId.ValueString() != itemState.PortId.ValueString() {
+				continue
 			}
+
+			found = true
+			// If the item is present in both plan and state, we need to check if it has changes
+			hasChanges := plan.hasChanges(ctx, &state, plan.Items[i].PortId.ValueString())
+			if hasChanges {
+				actions = append(actions, meraki.ActionModel{
+					Operation: "update",
+					Resource:  plan.getItemPath(plan.Items[i].PortId.ValueString()),
+					Body:      plan.Items[i].toBody(ctx, itemState),
+				})
+			}
+			break
 		}
 		if !found {
 			// If the item is present in plan, but not in state, we need to create it
@@ -451,3 +456,34 @@ func (r *SwitchPortsResource) ImportState(ctx context.Context, req resource.Impo
 }
 
 // End of section. //template:end import
+
+// Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
+func (r *SwitchPortsResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	var plan, state ResourceSwitchPorts
+
+	if req.Plan.Raw.IsNull() || req.State.Raw.IsNull() {
+		return
+	}
+
+	// Read plan
+	diags := req.Plan.Get(ctx, &plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Read state
+	diags = req.State.Get(ctx, &state)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		resp.Plan.Set(ctx, &plan)
+		return
+	}
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning ModifyPlan", plan.Id.ValueString()))
+
+	tflog.Debug(ctx, fmt.Sprintf("%s: ModifyPlan finished successfully", plan.Id.ValueString()))
+
+	diags = resp.Plan.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+}
+
+// End of section. //template:end modifyPlan

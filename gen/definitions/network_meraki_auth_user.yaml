@@ -20,6 +20,7 @@ attributes:
     enum_values: [802.1X, Client VPN, Guest]
   - model_name: email
     type: String
+    bulk_id: true
     mandatory: true
     description: Email address of the user
     example: miles@meraki.com

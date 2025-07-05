@@ -38,6 +38,7 @@ attributes:
     enum_values: [IGMP snooping querier, disabled, enabled]
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: A friendly name or description for the interface or VLAN.
     example: L3 interface

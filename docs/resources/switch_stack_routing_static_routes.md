@@ -30,7 +30,7 @@ resource "meraki_switch_stack_routing_static_routes" "example" {
 
 ### Required
 
-- `items` (Attributes List) The list of items (see [below for nested schema](#nestedatt--items))
+- `items` (Attributes Set) The list of items (see [below for nested schema](#nestedatt--items))
 - `network_id` (String) Network ID
 - `organization_id` (String) The organization ID
 - `switch_stack_id` (String) Switch stack ID

@@ -16,6 +16,7 @@ attributes:
     test_value: data.meraki_organization.test.id
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name of the Limited Access Role
     example: sample name

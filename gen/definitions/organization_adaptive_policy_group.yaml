@@ -20,6 +20,7 @@ attributes:
     example: Group of XYZ Corp Employees
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: Name of the group
     example: Employee Group

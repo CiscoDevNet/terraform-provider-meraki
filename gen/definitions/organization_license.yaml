@@ -18,6 +18,7 @@ attributes:
     tf_name: license_id
     type: String
     id: true
+    bulk_id: true
     reference: true
     description: License ID
     example: "123"

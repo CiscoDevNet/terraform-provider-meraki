@@ -30,6 +30,7 @@ attributes:
     example: "5"
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: Name of the custom performance class
     example: myCustomPerformanceClass

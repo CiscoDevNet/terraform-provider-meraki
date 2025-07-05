@@ -386,7 +386,6 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewSwitchDHCPServerPolicyARPInspectionTrustedServerResource,
 		NewSwitchDSCPToCoSMappingsResource,
 		NewSwitchLinkAggregationResource,
-		NewSwitchLinkAggregationsResource,
 		NewSwitchMTUResource,
 		NewSwitchOrganizationPortsProfileResource,
 		NewSwitchOrganizationPortsProfilesAutomationResource,

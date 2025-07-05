@@ -18,6 +18,7 @@ attributes:
     tf_name: port_id
     type: String
     id: true
+    bulk_id: true
     reference: true
     description: Port ID
     example: "1"

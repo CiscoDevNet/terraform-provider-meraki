@@ -31,6 +31,7 @@ attributes:
     test_value: meraki_network_group_policy.test.id
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name of the Identity PSK
     example: Sample Identity PSK
