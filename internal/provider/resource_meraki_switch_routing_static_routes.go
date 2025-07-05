@@ -384,7 +384,6 @@ func (r *SwitchRoutingStaticRoutesResource) ModifyPlan(ctx context.Context, req 
 	// Read state
 	diags = req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		resp.Plan.Set(ctx, &plan)
 		return
 	}
 

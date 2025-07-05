@@ -533,7 +533,6 @@ func (r *ApplianceVLANsResource) ModifyPlan(ctx context.Context, req resource.Mo
 	// Read state
 	diags = req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		resp.Plan.Set(ctx, &plan)
 		return
 	}
 

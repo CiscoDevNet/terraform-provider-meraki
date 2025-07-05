@@ -361,7 +361,6 @@ func (r *OrganizationSAMLIdPsResource) ModifyPlan(ctx context.Context, req resou
 	// Read state
 	diags = req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		resp.Plan.Set(ctx, &plan)
 		return
 	}
 
