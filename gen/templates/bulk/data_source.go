@@ -62,13 +62,11 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 		MarkdownDescription: helpers.NewAttributeDescription("{{.DsDescription}}"){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
 
 		Attributes: map[string]schema.Attribute{
-			{{- range .Attributes}}
-			{{- if .Reference}}
+			{{- range getBulkParentAttributes .}}
 			"{{.TfName}}": schema.{{.Type}}Attribute{
 				MarkdownDescription: "{{.Description}}",
 				Required:            true,
 			},
-			{{- end}}
 			{{- end}}
 			"items": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of items",
@@ -79,7 +77,7 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
-						{{- range .Attributes}}
+						{{- range getBulkItemAttributes .}}
 						{{- if and (not .Value) (not .Reference)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: "{{.Description}}",
@@ -161,7 +159,7 @@ func (d *{{camelCase .BulkName}}DataSource) Configure(_ context.Context, req dat
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *{{camelCase .BulkName}}DataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config {{camelCase .BulkName}}
+	var config DataSource{{camelCase .BulkName}}
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

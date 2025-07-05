@@ -1,8 +1,10 @@
 name: Appliance SSID
 spec_endpoint: /networks/{networkId}/appliance/ssids/{number}
 rest_endpoint: /networks/%v/appliance/ssids/%v
+bulk_resource: true
 put_create: true
 no_delete: true
+id_name: number
 doc_category: Appliances
 test_variables: [test_org, test_network, test_appliance_1_serial]
 attributes:
@@ -12,9 +14,11 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network_device_claim.test.network_id
-  - tf_name: number
+  - model_name: number
+    tf_name: number
     type: String
     id: true
+    bulk_id: true
     reference: true
     description: Wireless SSID number
     example: "1"

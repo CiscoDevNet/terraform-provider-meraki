@@ -33,15 +33,11 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkPoliciesByClient struct {
-	NetworkId types.String                   `tfsdk:"network_id"`
-	Items     []NetworkPoliciesByClientItems `tfsdk:"items"`
-}
-
-type NetworkPoliciesByClientItems struct {
-	Id       types.String                      `tfsdk:"id"`
-	ClientId types.String                      `tfsdk:"client_id"`
-	Name     types.String                      `tfsdk:"name"`
-	Assigned []NetworkPoliciesByClientAssigned `tfsdk:"assigned"`
+	Id        types.String                      `tfsdk:"id"`
+	NetworkId types.String                      `tfsdk:"network_id"`
+	ClientId  types.String                      `tfsdk:"client_id"`
+	Name      types.String                      `tfsdk:"name"`
+	Assigned  []NetworkPoliciesByClientAssigned `tfsdk:"assigned"`
 }
 
 type NetworkPoliciesByClientAssigned struct {
@@ -68,62 +64,54 @@ func (data NetworkPoliciesByClient) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkPoliciesByClient) fromBody(ctx context.Context, res meraki.Res) {
-	data.Items = make([]NetworkPoliciesByClientItems, 0)
-	res.ForEach(func(k, res gjson.Result) bool {
-		parent := &data
-		data := NetworkPoliciesByClientItems{}
-		data.Id = types.StringValue(res.Get("").String())
-		if value := res.Get("clientId"); value.Exists() && value.Value() != nil {
-			data.ClientId = types.StringValue(value.String())
-		} else {
-			data.ClientId = types.StringNull()
-		}
-		if value := res.Get("name"); value.Exists() && value.Value() != nil {
-			data.Name = types.StringValue(value.String())
-		} else {
-			data.Name = types.StringNull()
-		}
-		if value := res.Get("assigned"); value.Exists() && value.Value() != nil {
-			data.Assigned = make([]NetworkPoliciesByClientAssigned, 0)
-			value.ForEach(func(k, res gjson.Result) bool {
-				parent := &data
-				data := NetworkPoliciesByClientAssigned{}
-				if value := res.Get("groupPolicyId"); value.Exists() && value.Value() != nil {
-					data.GroupPolicyId = types.StringValue(value.String())
-				} else {
-					data.GroupPolicyId = types.StringNull()
-				}
-				if value := res.Get("name"); value.Exists() && value.Value() != nil {
-					data.Name = types.StringValue(value.String())
-				} else {
-					data.Name = types.StringNull()
-				}
-				if value := res.Get("type"); value.Exists() && value.Value() != nil {
-					data.Type = types.StringValue(value.String())
-				} else {
-					data.Type = types.StringNull()
-				}
-				if value := res.Get("ssid"); value.Exists() && value.Value() != nil {
-					data.Ssid = make([]NetworkPoliciesByClientAssignedSsid, 0)
-					value.ForEach(func(k, res gjson.Result) bool {
-						parent := &data
-						data := NetworkPoliciesByClientAssignedSsid{}
-						if value := res.Get("ssidNumber"); value.Exists() && value.Value() != nil {
-							data.SsidNumber = types.Int64Value(value.Int())
-						} else {
-							data.SsidNumber = types.Int64Null()
-						}
-						(*parent).Ssid = append((*parent).Ssid, data)
-						return true
-					})
-				}
-				(*parent).Assigned = append((*parent).Assigned, data)
-				return true
-			})
-		}
-		(*parent).Items = append((*parent).Items, data)
-		return true
-	})
+	if value := res.Get("clientId"); value.Exists() && value.Value() != nil {
+		data.ClientId = types.StringValue(value.String())
+	} else {
+		data.ClientId = types.StringNull()
+	}
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
+		data.Name = types.StringValue(value.String())
+	} else {
+		data.Name = types.StringNull()
+	}
+	if value := res.Get("assigned"); value.Exists() && value.Value() != nil {
+		data.Assigned = make([]NetworkPoliciesByClientAssigned, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := NetworkPoliciesByClientAssigned{}
+			if value := res.Get("groupPolicyId"); value.Exists() && value.Value() != nil {
+				data.GroupPolicyId = types.StringValue(value.String())
+			} else {
+				data.GroupPolicyId = types.StringNull()
+			}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("type"); value.Exists() && value.Value() != nil {
+				data.Type = types.StringValue(value.String())
+			} else {
+				data.Type = types.StringNull()
+			}
+			if value := res.Get("ssid"); value.Exists() && value.Value() != nil {
+				data.Ssid = make([]NetworkPoliciesByClientAssignedSsid, 0)
+				value.ForEach(func(k, res gjson.Result) bool {
+					parent := &data
+					data := NetworkPoliciesByClientAssignedSsid{}
+					if value := res.Get("ssidNumber"); value.Exists() && value.Value() != nil {
+						data.SsidNumber = types.Int64Value(value.Int())
+					} else {
+						data.SsidNumber = types.Int64Null()
+					}
+					(*parent).Ssid = append((*parent).Ssid, data)
+					return true
+				})
+			}
+			(*parent).Assigned = append((*parent).Assigned, data)
+			return true
+		})
+	}
 }
 
 // End of section. //template:end fromBody

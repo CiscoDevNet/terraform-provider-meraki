@@ -122,7 +122,7 @@ func (d *NetworkMQTTBrokersDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkMQTTBrokersDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkMQTTBrokers
+	var config DataSourceNetworkMQTTBrokers
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -98,7 +98,7 @@ func (d *SwitchRoutingMulticastRendezvousPointsDataSource) Configure(_ context.C
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchRoutingMulticastRendezvousPointsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchRoutingMulticastRendezvousPoints
+	var config DataSourceSwitchRoutingMulticastRendezvousPoints
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

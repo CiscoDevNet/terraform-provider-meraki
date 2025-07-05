@@ -98,7 +98,7 @@ func (d *SMTargetGroupsDataSource) Configure(_ context.Context, req datasource.C
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SMTargetGroupsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SMTargetGroups
+	var config DataSourceSMTargetGroups
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

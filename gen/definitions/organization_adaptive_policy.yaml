@@ -2,6 +2,7 @@ name: Organization Adaptive Policy
 spec_endpoint: /organizations/{organizationId}/adaptivePolicy/policies/{id}
 rest_endpoint: /organizations/%v/adaptivePolicy/policies
 bulk_data_source: true
+bulk_resource: true
 id_name: adaptivePolicyId
 doc_category: Organizations
 test_variables: [test_org]
@@ -20,6 +21,7 @@ attributes:
   - model_name: id
     type: String
     data_path: [destinationGroup]
+    bulk_id: true
     description: The ID of the destination adaptive policy group
     example: "333"
     test_value: meraki_organization_adaptive_policy_group.test.id
@@ -27,6 +29,7 @@ attributes:
   - model_name: name
     type: String
     data_path: [destinationGroup]
+    bulk_id: true
     description: The name of the destination adaptive policy group
     example: IoT Servers
     test_value: meraki_organization_adaptive_policy_group.test.name
@@ -34,6 +37,7 @@ attributes:
   - model_name: sgt
     type: Int64
     data_path: [destinationGroup]
+    bulk_id: true
     description: The SGT of the destination adaptive policy group
     example: "51"
     test_value: meraki_organization_adaptive_policy_group.test.sgt
@@ -41,6 +45,7 @@ attributes:
   - model_name: id
     type: String
     data_path: [sourceGroup]
+    bulk_id: true
     description: The ID of the source adaptive policy group
     example: "222"
     test_value: meraki_organization_adaptive_policy_group.test.id
@@ -48,6 +53,7 @@ attributes:
   - model_name: name
     type: String
     data_path: [sourceGroup]
+    bulk_id: true
     description: The name of the source adaptive policy group
     example: IoT Devices
     test_value: meraki_organization_adaptive_policy_group.test.name
@@ -55,6 +61,7 @@ attributes:
   - model_name: sgt
     type: Int64
     data_path: [sourceGroup]
+    bulk_id: true
     description: The SGT of the source adaptive policy group
     example: "50"
     test_value: meraki_organization_adaptive_policy_group.test.sgt

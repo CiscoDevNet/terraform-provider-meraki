@@ -110,7 +110,7 @@ func (d *WirelessLocationScanningReceiversDataSource) Configure(_ context.Contex
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessLocationScanningReceiversDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessLocationScanningReceivers
+	var config DataSourceWirelessLocationScanningReceivers
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -2,6 +2,7 @@ name: Wireless SSID Identity PSK
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}
 rest_endpoint: /networks/%v/wireless/ssids/%v/identityPsks
 bulk_data_source: true
+bulk_resource: true
 data_source_name_query: true
 doc_category: Wireless
 test_variables: [test_org, test_network]
@@ -30,6 +31,7 @@ attributes:
     test_value: meraki_network_group_policy.test.id
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name of the Identity PSK
     example: Sample Identity PSK

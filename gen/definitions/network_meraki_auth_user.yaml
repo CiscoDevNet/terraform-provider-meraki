@@ -2,6 +2,7 @@ name: Network Meraki Auth User
 spec_endpoint: /networks/{networkId}/merakiAuthUsers/{merakiAuthUserId}
 rest_endpoint: /networks/%v/merakiAuthUsers
 bulk_data_source: true
+bulk_resource: true
 data_source_name_query: true
 doc_category: Networks
 test_variables: [test_org, test_network]
@@ -19,6 +20,7 @@ attributes:
     enum_values: [802.1X, Client VPN, Guest]
   - model_name: email
     type: String
+    bulk_id: true
     mandatory: true
     description: Email address of the user
     example: miles@meraki.com

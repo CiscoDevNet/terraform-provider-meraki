@@ -7,6 +7,37 @@ description: |-
 
 # Changelog
 
+## 1.4.0 (unreleased)
+
+- Add `meraki_switch_ports` resource
+- Add `meraki_appliance_ports` resource
+- Add `meraki_appliance_ssids` resource
+- Add `meraki_organization_licenses` resource
+- Add `meraki_sensor_mqtt_brokers` resource
+- Add `meraki_wireless_ssids` resource
+- Add `meraki_organization_policy_objects` resource
+- Add `meraki_organization_policy_object_groups` resource
+- Add `meraki_switch_routing_interfaces` resource
+- Add `meraki_switch_stack_routing_interfaces` resource
+- Add `meraki_sm_admin_roles` resource
+- Add `meraki_organization_saml_idps` resource
+- Add `meraki_organization_adaptive_policies` resource
+- Add `meraki_organization_adaptive_policy_groups` resource
+- Add `meraki_wireless_ssid_identity_psks` resource
+- Add `meraki_wireless_rf_profiles` resource
+- Add `meraki_network_webhook_payload_templates` resource
+- Add `meraki_switch_stack_routing_static_routes` resource
+- Add `meraki_switch_routing_multicast_rendezvous_points` resource
+- Add `meraki_switch_access_policies` resource
+- Add `meraki_sensor_alerts_profiles` resource
+- Add `meraki_network_meraki_auth_users` resource
+- Add `meraki_network_group_policies` resource
+- Add `meraki_appliance_vlans` resource
+- Add `meraki_appliance_traffic_shaping_custom_performance_classes` resource
+- Add `meraki_appliance_rf_profiles` resource
+- Add `meraki_appliance_prefix_delegated_statics` resource
+- Add `meraki_switch_routing_static_routes` resource
+
 ## 1.3.0
 
 - Add `group_active_active_tunnel`, `group_failover_direct_to_internet`, `group_number`, `is_route_based`, `network_ids`, `peer_id`, `priority_in_group`, `sla_policy_id` and `ebgp_neighbor_*` attributes to `meraki_appliance_third_party_vpn_peers` resource and data source

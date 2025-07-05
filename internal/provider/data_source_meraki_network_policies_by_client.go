@@ -130,7 +130,7 @@ func (d *NetworkPoliciesByClientDataSource) Configure(_ context.Context, req dat
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkPoliciesByClientDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkPoliciesByClient
+	var config DataSourceNetworkPoliciesByClient
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
