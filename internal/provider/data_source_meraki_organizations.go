@@ -57,7 +57,7 @@ func (d *OrganizationsDataSource) Schema(ctx context.Context, req datasource.Sch
 		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

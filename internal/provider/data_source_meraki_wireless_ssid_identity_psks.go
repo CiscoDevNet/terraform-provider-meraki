@@ -65,7 +65,7 @@ func (d *WirelessSSIDIdentityPSKsDataSource) Schema(ctx context.Context, req dat
 				MarkdownDescription: "Wireless SSID number",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

@@ -27,7 +27,7 @@ data "meraki_switch_dhcp_server_policy_arp_inspection_trusted_servers" "example"
 
 ### Read-Only
 
-- `items` (Attributes List) The list of items (see [below for nested schema](#nestedatt--items))
+- `items` (Attributes Set) The list of items (see [below for nested schema](#nestedatt--items))
 
 <a id="nestedatt--items"></a>
 ### Nested Schema for `items`

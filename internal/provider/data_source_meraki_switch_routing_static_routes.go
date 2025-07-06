@@ -61,7 +61,7 @@ func (d *SwitchRoutingStaticRoutesDataSource) Schema(ctx context.Context, req da
 				MarkdownDescription: "Switch serial",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

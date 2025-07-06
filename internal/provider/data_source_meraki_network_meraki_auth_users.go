@@ -61,7 +61,7 @@ func (d *NetworkMerakiAuthUsersDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

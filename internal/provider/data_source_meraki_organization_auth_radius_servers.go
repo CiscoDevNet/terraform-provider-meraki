@@ -61,7 +61,7 @@ func (d *OrganizationAuthRADIUSServersDataSource) Schema(ctx context.Context, re
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

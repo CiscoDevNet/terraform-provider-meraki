@@ -61,7 +61,7 @@ func (d *NetworkVLANProfilesDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

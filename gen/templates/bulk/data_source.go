@@ -68,7 +68,7 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 				Required:            true,
 			},
 			{{- end}}
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

@@ -61,7 +61,7 @@ func (d *ApplianceStaticRoutesDataSource) Schema(ctx context.Context, req dataso
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

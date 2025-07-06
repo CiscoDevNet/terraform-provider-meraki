@@ -61,7 +61,7 @@ func (d *ApplianceTrafficShapingCustomPerformanceClassesDataSource) Schema(ctx c
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

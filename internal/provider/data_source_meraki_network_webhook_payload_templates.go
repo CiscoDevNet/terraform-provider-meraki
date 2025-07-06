@@ -61,7 +61,7 @@ func (d *NetworkWebhookPayloadTemplatesDataSource) Schema(ctx context.Context, r
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

@@ -61,7 +61,7 @@ func (d *NetworkPoliciesByClientDataSource) Schema(ctx context.Context, req data
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

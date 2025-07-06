@@ -30,7 +30,7 @@ data "meraki_switch_organization_ports_profiles" "example" {
 
 ### Read-Only
 
-- `items` (Attributes List) The list of items (see [below for nested schema](#nestedatt--items))
+- `items` (Attributes Set) The list of items (see [below for nested schema](#nestedatt--items))
 
 <a id="nestedatt--items"></a>
 ### Nested Schema for `items`

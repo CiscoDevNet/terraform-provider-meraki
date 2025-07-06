@@ -65,7 +65,7 @@ func (d *SwitchStackRoutingInterfacesDataSource) Schema(ctx context.Context, req
 				MarkdownDescription: "Switch stack ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

@@ -61,7 +61,7 @@ func (d *OrganizationEarlyAccessFeaturesDataSource) Schema(ctx context.Context, 
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{

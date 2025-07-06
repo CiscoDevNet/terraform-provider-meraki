@@ -62,7 +62,7 @@ func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.Schem
 				MarkdownDescription: "Device serial",
 				Required:            true,
 			},
-			"items": schema.ListNestedAttribute{
+			"items": schema.SetNestedAttribute{
 				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
