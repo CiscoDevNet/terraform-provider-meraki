@@ -51,6 +51,7 @@ type MerakiProviderModel struct {
 	BaseUrl           types.String `tfsdk:"base_url"`
 	ReqTimeout        types.String `tfsdk:"req_timeout"`
 	Retries           types.Int64  `tfsdk:"retries"`
+	RequestsPerSecond types.Int64  `tfsdk:"requests_per_second"`
 	RetryOnErrorCodes types.Set    `tfsdk:"retry_on_error_codes"`
 }
 
@@ -86,6 +87,13 @@ func (p *MerakiProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 				Optional:            true,
 				Validators: []validator.Int64{
 					int64validator.Between(0, 9),
+				},
+			},
+			"requests_per_second": schema.Int64Attribute{
+				MarkdownDescription: "Number of requests per second. This can also be set as the MERAKI_REQUESTS_PER_SECOND environment variable. Defaults to `10`.",
+				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.Between(1, 100),
 				},
 			},
 			"retry_on_error_codes": schema.SetAttribute{
@@ -201,6 +209,27 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		retries = config.Retries.ValueInt64()
 	}
 
+	var requestsPerSecond int64
+	if config.RequestsPerSecond.IsUnknown() {
+		// Cannot connect to client with an unknown value
+		resp.Diagnostics.AddWarning(
+			"Unable to create client",
+			"Cannot use unknown value as requests_per_second",
+		)
+		return
+	}
+
+	if config.RequestsPerSecond.IsNull() {
+		requestsPerSecondStr := os.Getenv("MERAKI_REQUESTS_PER_SECOND")
+		if requestsPerSecondStr == "" {
+			requestsPerSecond = 10
+		} else {
+			requestsPerSecond, _ = strconv.ParseInt(requestsPerSecondStr, 0, 64)
+		}
+	} else {
+		requestsPerSecond = config.RequestsPerSecond.ValueInt64()
+	}
+
 	var retryOnErrorCodes []int
 	if config.RetryOnErrorCodes.IsUnknown() {
 		// Cannot connect to client with an unknown value
@@ -230,11 +259,19 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		"  base_url=", baseUrl,
 		"  req_timeout=", reqTimeout,
 		"  retries=", retries,
+		"  requests_per_second=", requestsPerSecond,
 		"  retry_on_error_codes=", retryOnErrorCodes,
 	))
 
 	// Create a new Meraki client and set it to the provider client
-	c, err := meraki.NewClient(apiKey, meraki.BaseUrl(baseUrl), meraki.MaxRetries(int(retries)), meraki.RequestTimeout(reqTimeout), meraki.RetryOnErrorCodes(retryOnErrorCodes))
+	c, err := meraki.NewClient(
+		apiKey,
+		meraki.BaseUrl(baseUrl),
+		meraki.MaxRetries(int(retries)),
+		meraki.RequestTimeout(reqTimeout),
+		meraki.RetryOnErrorCodes(retryOnErrorCodes),
+		meraki.RequestsPerSecond(int(requestsPerSecond)),
+	)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to create client",

@@ -29,6 +29,7 @@
 - Add `meraki_appliance_prefix_delegated_statics` resource
 - Add `meraki_switch_routing_static_routes` resource
 - Change `items` attribute of bulk data sources from type `List`to `Set`
+- Add `requests_per_second` provider configuration attribute
 
 ## 1.3.0
 
