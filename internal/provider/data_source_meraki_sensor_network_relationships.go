@@ -54,7 +54,7 @@ func (d *SensorNetworkRelationshipsDataSource) Metadata(_ context.Context, req d
 func (d *SensorNetworkRelationshipsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sensor Network Relationships` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sensor Network Relationships` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -118,7 +118,7 @@ func (d *SensorNetworkRelationshipsDataSource) Configure(_ context.Context, req 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SensorNetworkRelationshipsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SensorNetworkRelationships
+	var config DataSourceSensorNetworkRelationships
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -43,6 +43,8 @@ resource "meraki_wireless_network_electronic_shelf_label" "example" {
 
 Import is supported using the following syntax:
 
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
+
 ```shell
 terraform import meraki_wireless_network_electronic_shelf_label.example "<network_id>"
 ```

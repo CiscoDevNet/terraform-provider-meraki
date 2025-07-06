@@ -3,12 +3,12 @@
 page_title: "meraki_appliance_traffic_shaping_custom_performance_classes Data Source - terraform-provider-meraki"
 subcategory: "Appliances"
 description: |-
-  This data source can read the Appliance Traffic Shaping Custom Performance Class configuration.
+  This data source can read the Appliance Traffic Shaping Custom Performance Class configuration in bulk.
 ---
 
 # meraki_appliance_traffic_shaping_custom_performance_classes (Data Source)
 
-This data source can read the `Appliance Traffic Shaping Custom Performance Class` configuration.
+This data source can read the `Appliance Traffic Shaping Custom Performance Class` configuration in bulk.
 
 ## Example Usage
 

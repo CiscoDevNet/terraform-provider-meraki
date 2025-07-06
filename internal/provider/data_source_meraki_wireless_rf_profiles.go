@@ -55,7 +55,7 @@ func (d *WirelessRFProfilesDataSource) Metadata(_ context.Context, req datasourc
 func (d *WirelessRFProfilesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless RF profile` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless RF Profile` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -471,7 +471,7 @@ func (d *WirelessRFProfilesDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessRFProfilesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessRFProfiles
+	var config DataSourceWirelessRFProfiles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

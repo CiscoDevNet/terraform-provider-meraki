@@ -3,12 +3,12 @@
 page_title: "meraki_organization_inventory_devices Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization Inventory Devices configuration.
+  This data source can read the Organization Inventory Devices configuration in bulk.
 ---
 
 # meraki_organization_inventory_devices (Data Source)
 
-This data source can read the `Organization Inventory Devices` configuration.
+This data source can read the `Organization Inventory Devices` configuration in bulk.
 
 ## Example Usage
 

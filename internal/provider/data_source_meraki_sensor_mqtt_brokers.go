@@ -54,7 +54,7 @@ func (d *SensorMQTTBrokersDataSource) Metadata(_ context.Context, req datasource
 func (d *SensorMQTTBrokersDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sensor MQTT Brokers` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sensor MQTT Brokers` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -98,7 +98,7 @@ func (d *SensorMQTTBrokersDataSource) Configure(_ context.Context, req datasourc
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SensorMQTTBrokersDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SensorMQTTBrokers
+	var config DataSourceSensorMQTTBrokers
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

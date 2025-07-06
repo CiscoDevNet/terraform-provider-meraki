@@ -3,12 +3,12 @@
 page_title: "meraki_switch_dhcp_server_policy_arp_inspection_trusted_servers Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch DHCP Server Policy ARP Inspection Trusted Server configuration.
+  This data source can read the Switch DHCP Server Policy ARP Inspection Trusted Server configuration in bulk.
 ---
 
 # meraki_switch_dhcp_server_policy_arp_inspection_trusted_servers (Data Source)
 
-This data source can read the `Switch DHCP Server Policy ARP Inspection Trusted Server` configuration.
+This data source can read the `Switch DHCP Server Policy ARP Inspection Trusted Server` configuration in bulk.
 
 ## Example Usage
 

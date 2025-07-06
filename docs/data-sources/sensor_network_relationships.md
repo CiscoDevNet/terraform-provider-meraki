@@ -3,12 +3,12 @@
 page_title: "meraki_sensor_network_relationships Data Source - terraform-provider-meraki"
 subcategory: "Sensors"
 description: |-
-  This data source can read the Sensor Network Relationships configuration.
+  This data source can read the Sensor Network Relationships configuration in bulk.
 ---
 
 # meraki_sensor_network_relationships (Data Source)
 
-This data source can read the `Sensor Network Relationships` configuration.
+This data source can read the `Sensor Network Relationships` configuration in bulk.
 
 ## Example Usage
 

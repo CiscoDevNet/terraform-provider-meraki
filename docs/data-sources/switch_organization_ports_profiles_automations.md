@@ -3,13 +3,13 @@
 page_title: "meraki_switch_organization_ports_profiles_automations Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch Organization Ports Profiles Automation configuration.
+  This data source can read the Switch Organization Ports Profiles Automation configuration in bulk.
   ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_switch_organization_ports_profiles_automations (Data Source)
 
-This data source can read the `Switch Organization Ports Profiles Automation` configuration.
+This data source can read the `Switch Organization Ports Profiles Automation` configuration in bulk.
 
 ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 

@@ -3,12 +3,12 @@
 page_title: "meraki_appliance_rf_profiles Data Source - terraform-provider-meraki"
 subcategory: "Appliances"
 description: |-
-  This data source can read the Appliance RF Profile configuration.
+  This data source can read the Appliance RF Profile configuration in bulk.
 ---
 
 # meraki_appliance_rf_profiles (Data Source)
 
-This data source can read the `Appliance RF Profile` configuration.
+This data source can read the `Appliance RF Profile` configuration in bulk.
 
 ## Example Usage
 

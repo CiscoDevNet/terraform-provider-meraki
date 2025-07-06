@@ -54,7 +54,7 @@ func (d *OrganizationAuthRADIUSServersDataSource) Metadata(_ context.Context, re
 func (d *OrganizationAuthRADIUSServersDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Auth RADIUS Server` configuration.").AddEarlyAccessDescription().String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Auth RADIUS Server` configuration in bulk.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
@@ -118,7 +118,7 @@ func (d *OrganizationAuthRADIUSServersDataSource) Configure(_ context.Context, r
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationAuthRADIUSServersDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationAuthRADIUSServers
+	var config DataSourceOrganizationAuthRADIUSServers
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

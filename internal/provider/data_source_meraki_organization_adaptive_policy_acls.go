@@ -54,7 +54,7 @@ func (d *OrganizationAdaptivePolicyACLsDataSource) Metadata(_ context.Context, r
 func (d *OrganizationAdaptivePolicyACLsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Adaptive Policy ACL` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Adaptive Policy ACL` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
@@ -134,7 +134,7 @@ func (d *OrganizationAdaptivePolicyACLsDataSource) Configure(_ context.Context, 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationAdaptivePolicyACLsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationAdaptivePolicyACLs
+	var config DataSourceOrganizationAdaptivePolicyACLs
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

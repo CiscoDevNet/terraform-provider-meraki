@@ -3,12 +3,12 @@
 page_title: "meraki_organization_saml_roles Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization SAML Role configuration.
+  This data source can read the Organization SAML Role configuration in bulk.
 ---
 
 # meraki_organization_saml_roles (Data Source)
 
-This data source can read the `Organization SAML Role` configuration.
+This data source can read the `Organization SAML Role` configuration in bulk.
 
 ## Example Usage
 

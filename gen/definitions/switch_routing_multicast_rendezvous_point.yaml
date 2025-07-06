@@ -2,6 +2,7 @@ name: Switch Routing Multicast Rendezvous Point
 spec_endpoint: /networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}
 rest_endpoint: /networks/%v/switch/routing/multicast/rendezvousPoints
 bulk_data_source: true
+bulk_resource: true
 id_name: rendezvousPointId
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial]
@@ -14,12 +15,14 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: interfaceIp
     type: String
+    bulk_id: true
     mandatory: true
     description: The IP address of the interface where the RP needs to be created.
     example: 192.168.1.2
     test_value: meraki_switch_routing_interface.test.interface_ip
   - model_name: multicastGroup
     type: String
+    bulk_id: true
     mandatory: true
     description: '`Any`, or the IP address of a multicast group'
     example: Any

@@ -3,12 +3,12 @@
 page_title: "meraki_switch_routing_multicast_rendezvous_points Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch Routing Multicast Rendezvous Point configuration.
+  This data source can read the Switch Routing Multicast Rendezvous Point configuration in bulk.
 ---
 
 # meraki_switch_routing_multicast_rendezvous_points (Data Source)
 
-This data source can read the `Switch Routing Multicast Rendezvous Point` configuration.
+This data source can read the `Switch Routing Multicast Rendezvous Point` configuration in bulk.
 
 ## Example Usage
 

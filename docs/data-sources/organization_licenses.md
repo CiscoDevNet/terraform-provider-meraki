@@ -3,12 +3,12 @@
 page_title: "meraki_organization_licenses Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization Licenses configuration.
+  This data source can read the Organization Licenses configuration in bulk.
 ---
 
 # meraki_organization_licenses (Data Source)
 
-This data source can read the `Organization Licenses` configuration.
+This data source can read the `Organization Licenses` configuration in bulk.
 
 ## Example Usage
 

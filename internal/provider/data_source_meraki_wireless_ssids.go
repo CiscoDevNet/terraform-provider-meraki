@@ -55,7 +55,7 @@ func (d *WirelessSSIDsDataSource) Metadata(_ context.Context, req datasource.Met
 func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless SSIDs` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless SSIDs` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -257,7 +257,7 @@ func (d *WirelessSSIDsDataSource) Configure(_ context.Context, req datasource.Co
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDs
+	var config DataSourceWirelessSSIDs
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

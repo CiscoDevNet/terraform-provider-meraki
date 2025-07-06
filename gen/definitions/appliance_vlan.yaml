@@ -2,6 +2,7 @@ name: Appliance VLAN
 spec_endpoint: /networks/{networkId}/appliance/vlans/{vlanId}
 rest_endpoint: /networks/%v/appliance/vlans
 bulk_data_source: true
+bulk_resource: true
 data_source_name_query: true
 doc_category: Appliances
 test_variables: [test_org, test_network]
@@ -58,6 +59,7 @@ attributes:
   - model_name: id
     tf_name: vlan_id
     type: String
+    bulk_id: true
     mandatory: true
     description: The VLAN ID of the new VLAN (must be between 1 and 4094)
     example: "1234"

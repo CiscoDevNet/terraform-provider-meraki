@@ -54,7 +54,7 @@ func (d *ApplianceTrafficShapingCustomPerformanceClassesDataSource) Metadata(_ c
 func (d *ApplianceTrafficShapingCustomPerformanceClassesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Appliance Traffic Shaping Custom Performance Class` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Appliance Traffic Shaping Custom Performance Class` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -106,7 +106,7 @@ func (d *ApplianceTrafficShapingCustomPerformanceClassesDataSource) Configure(_ 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceTrafficShapingCustomPerformanceClassesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceTrafficShapingCustomPerformanceClasses
+	var config DataSourceApplianceTrafficShapingCustomPerformanceClasses
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

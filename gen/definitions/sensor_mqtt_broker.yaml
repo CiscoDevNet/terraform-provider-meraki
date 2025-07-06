@@ -1,8 +1,10 @@
 name: Sensor MQTT Broker
 spec_endpoint: /networks/{networkId}/sensor/mqttBrokers/{mqttBrokerId}
 rest_endpoint: /networks/%v/sensor/mqttBrokers/%v
+bulk_resource: true
 put_create: true
 no_delete: true
+id_name: mqttBrokerId
 doc_category: Sensors
 test_variables: [test_org, test_network]
 attributes:
@@ -12,9 +14,11 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
-  - tf_name: mqtt_broker_id
+  - model_name: mqttBrokerId
+    tf_name: mqtt_broker_id
     type: String
     id: true
+    bulk_id: true
     reference: true
     description: MQTT Broker ID
     example: "123456"

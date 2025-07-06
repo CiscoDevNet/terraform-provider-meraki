@@ -54,7 +54,7 @@ func (d *OrganizationSAMLRolesDataSource) Metadata(_ context.Context, req dataso
 func (d *OrganizationSAMLRolesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization SAML Role` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization SAML Role` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
@@ -130,7 +130,7 @@ func (d *OrganizationSAMLRolesDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationSAMLRolesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationSAMLRoles
+	var config DataSourceOrganizationSAMLRoles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

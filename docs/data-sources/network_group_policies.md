@@ -3,12 +3,12 @@
 page_title: "meraki_network_group_policies Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network Group Policy configuration.
+  This data source can read the Network Group Policy configuration in bulk.
 ---
 
 # meraki_network_group_policies (Data Source)
 
-This data source can read the `Network Group Policy` configuration.
+This data source can read the `Network Group Policy` configuration in bulk.
 
 ## Example Usage
 

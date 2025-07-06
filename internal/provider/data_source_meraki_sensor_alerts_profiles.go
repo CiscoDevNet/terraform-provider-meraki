@@ -55,7 +55,7 @@ func (d *SensorAlertsProfilesDataSource) Metadata(_ context.Context, req datasou
 func (d *SensorAlertsProfilesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sensor Alerts Profile` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sensor Alerts Profile` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -243,7 +243,7 @@ func (d *SensorAlertsProfilesDataSource) Configure(_ context.Context, req dataso
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SensorAlertsProfilesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SensorAlertsProfiles
+	var config DataSourceSensorAlertsProfiles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

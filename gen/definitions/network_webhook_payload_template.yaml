@@ -2,6 +2,7 @@ name: Network Webhook Payload Template
 spec_endpoint: /networks/{networkId}/webhooks/payloadTemplates/{payloadTemplateId}
 rest_endpoint: /networks/%v/webhooks/payloadTemplates
 bulk_data_source: true
+bulk_resource: true
 id_name: payloadTemplateId
 data_source_name_query: true
 doc_category: Networks
@@ -30,6 +31,7 @@ attributes:
     example: SGVhZGVycyBGaWxl
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name of the new template
     example: Custom Template

@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_ssid_firewall_isolation_allowlist_entries Data Source - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This data source can read the Wireless SSID Firewall Isolation Allowlist Entry configuration.
+  This data source can read the Wireless SSID Firewall Isolation Allowlist Entry configuration in bulk.
 ---
 
 # meraki_wireless_ssid_firewall_isolation_allowlist_entries (Data Source)
 
-This data source can read the `Wireless SSID Firewall Isolation Allowlist Entry` configuration.
+This data source can read the `Wireless SSID Firewall Isolation Allowlist Entry` configuration in bulk.
 
 ## Example Usage
 

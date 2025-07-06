@@ -54,7 +54,7 @@ func (d *SMTargetGroupsDataSource) Metadata(_ context.Context, req datasource.Me
 func (d *SMTargetGroupsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `SM Target Group` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `SM Target Group` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -98,7 +98,7 @@ func (d *SMTargetGroupsDataSource) Configure(_ context.Context, req datasource.C
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SMTargetGroupsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SMTargetGroups
+	var config DataSourceSMTargetGroups
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

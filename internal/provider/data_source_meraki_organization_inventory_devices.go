@@ -55,7 +55,7 @@ func (d *OrganizationInventoryDevicesDataSource) Metadata(_ context.Context, req
 func (d *OrganizationInventoryDevicesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Inventory Devices` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Inventory Devices` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
@@ -152,7 +152,7 @@ func (d *OrganizationInventoryDevicesDataSource) Configure(_ context.Context, re
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationInventoryDevicesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationInventoryDevices
+	var config DataSourceOrganizationInventoryDevices
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

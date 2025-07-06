@@ -3,12 +3,12 @@
 page_title: "meraki_appliance_static_routes Data Source - terraform-provider-meraki"
 subcategory: "Appliances"
 description: |-
-  This data source can read the Appliance Static Route configuration.
+  This data source can read the Appliance Static Route configuration in bulk.
 ---
 
 # meraki_appliance_static_routes (Data Source)
 
-This data source can read the `Appliance Static Route` configuration.
+This data source can read the `Appliance Static Route` configuration in bulk.
 
 ## Example Usage
 

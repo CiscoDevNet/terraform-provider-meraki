@@ -2,6 +2,7 @@ name: Organization SAML IdP
 spec_endpoint: /organizations/{organizationId}/saml/idps/{idpId}
 rest_endpoint: /organizations/%v/saml/idps
 bulk_data_source: true
+bulk_resource: true
 id_name: idpId
 doc_category: Organizations
 test_variables: [test_org]
@@ -18,6 +19,7 @@ attributes:
     example: https://somewhere.com
   - model_name: x509certSha1Fingerprint
     type: String
+    bulk_id: true
     mandatory: true
     description: Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.
     example: 00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA

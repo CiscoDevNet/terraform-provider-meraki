@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_ssids Data Source - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This data source can read the Wireless SSIDs configuration.
+  This data source can read the Wireless SSIDs configuration in bulk.
 ---
 
 # meraki_wireless_ssids (Data Source)
 
-This data source can read the `Wireless SSIDs` configuration.
+This data source can read the `Wireless SSIDs` configuration in bulk.
 
 ## Example Usage
 

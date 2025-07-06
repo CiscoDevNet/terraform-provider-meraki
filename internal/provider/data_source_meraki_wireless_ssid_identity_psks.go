@@ -54,7 +54,7 @@ func (d *WirelessSSIDIdentityPSKsDataSource) Metadata(_ context.Context, req dat
 func (d *WirelessSSIDIdentityPSKsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless SSID Identity PSK` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless SSID Identity PSK` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -110,7 +110,7 @@ func (d *WirelessSSIDIdentityPSKsDataSource) Configure(_ context.Context, req da
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDIdentityPSKsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDIdentityPSKs
+	var config DataSourceWirelessSSIDIdentityPSKs
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

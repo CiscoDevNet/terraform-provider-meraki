@@ -3,12 +3,12 @@
 page_title: "meraki_camera_roles Data Source - terraform-provider-meraki"
 subcategory: "Cameras"
 description: |-
-  This data source can read the Camera Role configuration.
+  This data source can read the Camera Role configuration in bulk.
 ---
 
 # meraki_camera_roles (Data Source)
 
-This data source can read the `Camera Role` configuration.
+This data source can read the `Camera Role` configuration in bulk.
 
 ## Example Usage
 

@@ -54,7 +54,7 @@ func (d *SwitchPortSchedulesDataSource) Metadata(_ context.Context, req datasour
 func (d *SwitchPortSchedulesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Port Schedule` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Port Schedule` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -178,7 +178,7 @@ func (d *SwitchPortSchedulesDataSource) Configure(_ context.Context, req datasou
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchPortSchedulesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchPortSchedules
+	var config DataSourceSwitchPortSchedules
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

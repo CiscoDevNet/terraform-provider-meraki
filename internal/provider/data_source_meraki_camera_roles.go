@@ -54,7 +54,7 @@ func (d *CameraRolesDataSource) Metadata(_ context.Context, req datasource.Metad
 func (d *CameraRolesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Camera Role` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Camera Role` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
@@ -154,7 +154,7 @@ func (d *CameraRolesDataSource) Configure(_ context.Context, req datasource.Conf
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CameraRolesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CameraRoles
+	var config DataSourceCameraRoles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

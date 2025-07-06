@@ -3,6 +3,7 @@ bulk_name: Appliance Traffic Shaping Custom Performance Classes
 spec_endpoint: /networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}
 rest_endpoint: /networks/%v/appliance/trafficShaping/customPerformanceClasses
 bulk_data_source: true
+bulk_resource: true
 id_name: customPerformanceClassId
 data_source_name_query: true
 doc_category: Appliances
@@ -29,6 +30,7 @@ attributes:
     example: "5"
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: Name of the custom performance class
     example: myCustomPerformanceClass

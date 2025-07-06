@@ -3,12 +3,12 @@
 page_title: "meraki_camera_wireless_profiles Data Source - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This data source can read the Camera Wireless Profile configuration.
+  This data source can read the Camera Wireless Profile configuration in bulk.
 ---
 
 # meraki_camera_wireless_profiles (Data Source)
 
-This data source can read the `Camera Wireless Profile` configuration.
+This data source can read the `Camera Wireless Profile` configuration in bulk.
 
 ## Example Usage
 

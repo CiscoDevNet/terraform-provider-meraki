@@ -55,7 +55,7 @@ func (d *SwitchPortsDataSource) Metadata(_ context.Context, req datasource.Metad
 func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Ports` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Ports` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"serial": schema.StringAttribute{
@@ -247,7 +247,7 @@ func (d *SwitchPortsDataSource) Configure(_ context.Context, req datasource.Conf
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchPortsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchPorts
+	var config DataSourceSwitchPorts
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

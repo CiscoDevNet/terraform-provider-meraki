@@ -3,12 +3,12 @@
 page_title: "meraki_switch_ports Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch Ports configuration.
+  This data source can read the Switch Ports configuration in bulk.
 ---
 
 # meraki_switch_ports (Data Source)
 
-This data source can read the `Switch Ports` configuration.
+This data source can read the `Switch Ports` configuration in bulk.
 
 ## Example Usage
 

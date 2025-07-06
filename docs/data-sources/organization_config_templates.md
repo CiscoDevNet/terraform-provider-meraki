@@ -3,12 +3,12 @@
 page_title: "meraki_organization_config_templates Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization Config Template configuration.
+  This data source can read the Organization Config Template configuration in bulk.
 ---
 
 # meraki_organization_config_templates (Data Source)
 
-This data source can read the `Organization Config Template` configuration.
+This data source can read the `Organization Config Template` configuration in bulk.
 
 ## Example Usage
 

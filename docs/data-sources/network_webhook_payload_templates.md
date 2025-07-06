@@ -3,12 +3,12 @@
 page_title: "meraki_network_webhook_payload_templates Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network Webhook Payload Template configuration.
+  This data source can read the Network Webhook Payload Template configuration in bulk.
 ---
 
 # meraki_network_webhook_payload_templates (Data Source)
 
-This data source can read the `Network Webhook Payload Template` configuration.
+This data source can read the `Network Webhook Payload Template` configuration in bulk.
 
 ## Example Usage
 

@@ -1,8 +1,9 @@
-# Modify Delete() to support 'force' parameter
+# Modify Delete() and Update() (for bulk) to support 'force' parameter
 name: Network Group Policy
 spec_endpoint: /networks/{networkId}/groupPolicies/{groupPolicyId}
 rest_endpoint: /networks/%v/groupPolicies
 bulk_data_source: true
+bulk_resource: true
 id_name: groupPolicyId
 data_source_name_query: true
 doc_category: Networks
@@ -16,6 +17,7 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name for your group policy. Required.
     example: No video streaming

@@ -54,7 +54,7 @@ func (d *NetworkWebhookPayloadTemplatesDataSource) Metadata(_ context.Context, r
 func (d *NetworkWebhookPayloadTemplatesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Network Webhook Payload Template` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Network Webhook Payload Template` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -122,7 +122,7 @@ func (d *NetworkWebhookPayloadTemplatesDataSource) Configure(_ context.Context, 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkWebhookPayloadTemplatesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkWebhookPayloadTemplates
+	var config DataSourceNetworkWebhookPayloadTemplates
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

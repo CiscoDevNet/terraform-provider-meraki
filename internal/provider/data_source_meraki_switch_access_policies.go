@@ -55,7 +55,7 @@ func (d *SwitchAccessPoliciesDataSource) Metadata(_ context.Context, req datasou
 func (d *SwitchAccessPoliciesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Access Policy` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Access Policy` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -264,7 +264,7 @@ func (d *SwitchAccessPoliciesDataSource) Configure(_ context.Context, req dataso
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchAccessPoliciesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchAccessPolicies
+	var config DataSourceSwitchAccessPolicies
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

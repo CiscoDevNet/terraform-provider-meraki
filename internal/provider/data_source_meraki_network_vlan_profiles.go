@@ -54,7 +54,7 @@ func (d *NetworkVLANProfilesDataSource) Metadata(_ context.Context, req datasour
 func (d *NetworkVLANProfilesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Network VLAN Profile` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Network VLAN Profile` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -134,7 +134,7 @@ func (d *NetworkVLANProfilesDataSource) Configure(_ context.Context, req datasou
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkVLANProfilesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkVLANProfiles
+	var config DataSourceNetworkVLANProfiles
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

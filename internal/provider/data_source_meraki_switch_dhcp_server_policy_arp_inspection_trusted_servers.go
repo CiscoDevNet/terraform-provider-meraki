@@ -54,7 +54,7 @@ func (d *SwitchDHCPServerPolicyARPInspectionTrustedServersDataSource) Metadata(_
 func (d *SwitchDHCPServerPolicyARPInspectionTrustedServersDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch DHCP Server Policy ARP Inspection Trusted Server` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch DHCP Server Policy ARP Inspection Trusted Server` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{
@@ -102,7 +102,7 @@ func (d *SwitchDHCPServerPolicyARPInspectionTrustedServersDataSource) Configure(
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchDHCPServerPolicyARPInspectionTrustedServersDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchDHCPServerPolicyARPInspectionTrustedServers
+	var config DataSourceSwitchDHCPServerPolicyARPInspectionTrustedServers
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

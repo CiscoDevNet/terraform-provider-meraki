@@ -3,12 +3,12 @@
 page_title: "meraki_switch_routing_static_routes Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch Routing Static Route configuration.
+  This data source can read the Switch Routing Static Route configuration in bulk.
 ---
 
 # meraki_switch_routing_static_routes (Data Source)
 
-This data source can read the `Switch Routing Static Route` configuration.
+This data source can read the `Switch Routing Static Route` configuration in bulk.
 
 ## Example Usage
 

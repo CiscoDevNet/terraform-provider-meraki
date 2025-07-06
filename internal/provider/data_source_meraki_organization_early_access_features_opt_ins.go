@@ -55,7 +55,7 @@ func (d *OrganizationEarlyAccessFeaturesOptInsDataSource) Metadata(_ context.Con
 func (d *OrganizationEarlyAccessFeaturesOptInsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Early Access Features Opt In` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Early Access Features Opt In` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
@@ -100,7 +100,7 @@ func (d *OrganizationEarlyAccessFeaturesOptInsDataSource) Configure(_ context.Co
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationEarlyAccessFeaturesOptInsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationEarlyAccessFeaturesOptIns
+	var config DataSourceOrganizationEarlyAccessFeaturesOptIns
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

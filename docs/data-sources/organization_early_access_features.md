@@ -3,12 +3,12 @@
 page_title: "meraki_organization_early_access_features Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization Early Access Features configuration.
+  This data source can read the Organization Early Access Features configuration in bulk.
 ---
 
 # meraki_organization_early_access_features (Data Source)
 
-This data source can read the `Organization Early Access Features` configuration.
+This data source can read the `Organization Early Access Features` configuration in bulk.
 
 ## Example Usage
 

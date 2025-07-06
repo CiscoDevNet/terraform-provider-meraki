@@ -2,6 +2,7 @@ name: Switch Routing Interface
 spec_endpoint: /devices/{serial}/switch/routing/interfaces/{interfaceId}
 rest_endpoint: /devices/%v/switch/routing/interfaces
 bulk_data_source: true
+bulk_resource: true
 id_name: interfaceId
 data_source_name_query: true
 doc_category: Switches
@@ -31,6 +32,7 @@ attributes:
     enum_values: [IGMP snooping querier, disabled, enabled]
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: A friendly name or description for the interface or VLAN.
     example: L3 interface

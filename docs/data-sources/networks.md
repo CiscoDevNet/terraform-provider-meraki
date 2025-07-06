@@ -3,12 +3,12 @@
 page_title: "meraki_networks Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network configuration.
+  This data source can read the Network configuration in bulk.
 ---
 
 # meraki_networks (Data Source)
 
-This data source can read the `Network` configuration.
+This data source can read the `Network` configuration in bulk.
 
 ## Example Usage
 

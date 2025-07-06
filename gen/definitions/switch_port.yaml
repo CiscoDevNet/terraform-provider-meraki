@@ -1,8 +1,10 @@
 name: Switch Port
 spec_endpoint: /devices/{serial}/switch/ports/{portId}
 rest_endpoint: /devices/%v/switch/ports/%v
+bulk_resource: true
 put_create: true
 no_delete: true
+id_name: portId
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial]
 attributes:
@@ -12,9 +14,11 @@ attributes:
     description: Switch serial
     example: 1234-ABCD-1234
     test_value: tolist(meraki_network_device_claim.test.serials)[0]
-  - tf_name: port_id
+  - model_name: portId
+    tf_name: port_id
     type: String
     id: true
+    bulk_id: true
     reference: true
     description: Port ID
     example: "1"
@@ -34,7 +38,6 @@ attributes:
     exclude_test: true
     description: The adaptive policy group ID that will be used to tag traffic through this switch port. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API. Cannot be applied to a port on a switch bound to profile.
     example: "123"
-    destroy_value: nil
   - model_name: allowedVlans
     type: String
     description: The VLANs allowed on the switch port. Only applicable to trunk ports.

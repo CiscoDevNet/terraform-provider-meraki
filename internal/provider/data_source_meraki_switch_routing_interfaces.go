@@ -54,7 +54,7 @@ func (d *SwitchRoutingInterfacesDataSource) Metadata(_ context.Context, req data
 func (d *SwitchRoutingInterfacesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Routing Interface` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Routing Interface` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"serial": schema.StringAttribute{
@@ -142,7 +142,7 @@ func (d *SwitchRoutingInterfacesDataSource) Configure(_ context.Context, req dat
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchRoutingInterfacesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchRoutingInterfaces
+	var config DataSourceSwitchRoutingInterfaces
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

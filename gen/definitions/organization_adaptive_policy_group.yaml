@@ -2,6 +2,7 @@ name: Organization Adaptive Policy Group
 spec_endpoint: /organizations/{organizationId}/adaptivePolicy/groups/{id}
 rest_endpoint: /organizations/%v/adaptivePolicy/groups
 bulk_data_source: true
+bulk_resource: true
 id_name: groupId
 data_source_name_query: true
 doc_category: Organizations
@@ -19,6 +20,7 @@ attributes:
     example: Group of XYZ Corp Employees
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: Name of the group
     example: Employee Group

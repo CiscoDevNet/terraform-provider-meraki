@@ -2,6 +2,7 @@ name: Switch Stack Routing Static Route
 spec_endpoint: /networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}
 rest_endpoint: /networks/%v/switch/stacks/%v/routing/staticRoutes
 bulk_data_source: true
+bulk_resource: true
 id_name: staticRouteId
 data_source_name_query: true
 doc_category: Switches
@@ -31,6 +32,7 @@ attributes:
     example: My route
   - model_name: nextHopIp
     type: String
+    bulk_id: true
     mandatory: true
     description: IP address of the next hop device to which the device sends its traffic for the subnet
     example: 192.168.1.1
@@ -42,6 +44,7 @@ attributes:
     example: "false"
   - model_name: subnet
     type: String
+    bulk_id: true
     mandatory: true
     description: The subnet which is routed via this static route and should be specified in CIDR notation (ex. 1.2.3.0/24)
     example: 192.168.2.0/24

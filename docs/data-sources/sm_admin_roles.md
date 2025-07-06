@@ -3,12 +3,12 @@
 page_title: "meraki_sm_admin_roles Data Source - terraform-provider-meraki"
 subcategory: "Systems Manager"
 description: |-
-  This data source can read the SM Admin Role configuration.
+  This data source can read the SM Admin Role configuration in bulk.
 ---
 
 # meraki_sm_admin_roles (Data Source)
 
-This data source can read the `SM Admin Role` configuration.
+This data source can read the `SM Admin Role` configuration in bulk.
 
 ## Example Usage
 

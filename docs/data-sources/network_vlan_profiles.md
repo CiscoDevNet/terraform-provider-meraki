@@ -3,12 +3,12 @@
 page_title: "meraki_network_vlan_profiles Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network VLAN Profile configuration.
+  This data source can read the Network VLAN Profile configuration in bulk.
 ---
 
 # meraki_network_vlan_profiles (Data Source)
 
-This data source can read the `Network VLAN Profile` configuration.
+This data source can read the `Network VLAN Profile` configuration in bulk.
 
 ## Example Usage
 

@@ -1,7 +1,8 @@
-name: Wireless RF profile
+name: Wireless RF Profile
 spec_endpoint: /networks/{networkId}/wireless/rfProfiles/{rfProfileId}
 rest_endpoint: /networks/%v/wireless/rfProfiles
 bulk_data_source: true
+bulk_resource: true
 data_source_name_query: true
 doc_category: Wireless
 test_variables: [test_org, test_network]
@@ -29,6 +30,7 @@ attributes:
     enum_values: [band, ssid]
   - model_name: name
     type: String
+    bulk_id: true
     mandatory: true
     description: The name of the new profile. Must be unique. This param is required on creation.
     example: Main Office

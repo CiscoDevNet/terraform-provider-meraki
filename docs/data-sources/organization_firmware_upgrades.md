@@ -3,12 +3,12 @@
 page_title: "meraki_organization_firmware_upgrades Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization Firmware Upgrades configuration.
+  This data source can read the Organization Firmware Upgrades configuration in bulk.
 ---
 
 # meraki_organization_firmware_upgrades (Data Source)
 
-This data source can read the `Organization Firmware Upgrades` configuration.
+This data source can read the `Organization Firmware Upgrades` configuration in bulk.
 
 ## Example Usage
 

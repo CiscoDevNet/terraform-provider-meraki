@@ -22,6 +22,7 @@ type YamlConfig struct {
 	NoDataSource        bool                  `yaml:"no_data_source,omitempty"`
 	NoResource          bool                  `yaml:"no_resource,omitempty"`
 	BulkDataSource      bool                  `yaml:"bulk_data_source,omitempty"`
+	BulkResource        bool                  `yaml:"bulk_resource,omitempty"`
 	PutCreate           bool                  `yaml:"put_create,omitempty"`
 	GetFromAll          bool                  `yaml:"get_from_all,omitempty"`
 	NoUpdate            bool                  `yaml:"no_update,omitempty"`
@@ -34,6 +35,8 @@ type YamlConfig struct {
 	MinimumVersion      string                `yaml:"minimum_version,omitempty"`
 	DsDescription       string                `yaml:"ds_description,omitempty"`
 	ResDescription      string                `yaml:"res_description,omitempty"`
+	DsBulkDescription   string                `yaml:"ds_bulk_description,omitempty"`
+	ResBulkDescription  string                `yaml:"res_bulk_description,omitempty"`
 	DocCategory         string                `yaml:"doc_category,omitempty"`
 	ExcludeTest         bool                  `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest     bool                  `yaml:"skip_minimum_test,omitempty"`
@@ -54,6 +57,7 @@ type YamlConfigP struct {
 	NoDataSource        *bool                   `yaml:"no_data_source,omitempty"`
 	NoResource          *bool                   `yaml:"no_resource,omitempty"`
 	BulkDataSource      *bool                   `yaml:"bulk_data_source,omitempty"`
+	BulkResource        *bool                   `yaml:"bulk_resource,omitempty"`
 	PutCreate           *bool                   `yaml:"put_create,omitempty"`
 	GetFromAll          *bool                   `yaml:"get_from_all,omitempty"`
 	NoUpdate            *bool                   `yaml:"no_update,omitempty"`
@@ -66,6 +70,8 @@ type YamlConfigP struct {
 	MinimumVersion      *string                 `yaml:"minimum_version,omitempty"`
 	DsDescription       *string                 `yaml:"ds_description,omitempty"`
 	ResDescription      *string                 `yaml:"res_description,omitempty"`
+	DsBulkDescription   *string                 `yaml:"ds_bulk_description,omitempty"`
+	ResBulkDescription  *string                 `yaml:"res_bulk_description,omitempty"`
 	DocCategory         *string                 `yaml:"doc_category,omitempty"`
 	ExcludeTest         *bool                   `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest     *bool                   `yaml:"skip_minimum_test,omitempty"`
@@ -84,6 +90,7 @@ type YamlConfigAttribute struct {
 	ElementType        string                `yaml:"element_type,omitempty"`
 	DataPath           []string              `yaml:"data_path,omitempty,flow"`
 	Id                 bool                  `yaml:"id,omitempty"`
+	BulkId             bool                  `yaml:"bulk_id,omitempty"`
 	Reference          bool                  `yaml:"reference,omitempty"`
 	RequiresReplace    bool                  `yaml:"requires_replace,omitempty"`
 	Mandatory          bool                  `yaml:"mandatory,omitempty"`
@@ -126,6 +133,7 @@ type YamlConfigAttributeP struct {
 	ElementType        *string                 `yaml:"element_type,omitempty"`
 	DataPath           *[]string               `yaml:"data_path,omitempty,flow"`
 	Id                 *bool                   `yaml:"id,omitempty"`
+	BulkId             *bool                   `yaml:"bulk_id,omitempty"`
 	Reference          *bool                   `yaml:"reference,omitempty"`
 	RequiresReplace    *bool                   `yaml:"requires_replace,omitempty"`
 	Mandatory          *bool                   `yaml:"mandatory,omitempty"`
@@ -434,36 +442,122 @@ func HasDestroyValues(attributes []YamlConfigAttribute) bool {
 	return false
 }
 
+// GetBulkPath returns the bulk path for a given path
+func GetBulkPath(path string) string {
+	// Remove the last element from the slash separated path, if the last element starts with "%"
+	parts := strings.Split(path, "/")
+	if len(parts) > 1 && strings.HasPrefix(parts[len(parts)-1], "%") {
+		return strings.Join(parts[:len(parts)-1], "/")
+	}
+	return path
+}
+
+// GetBulkParentAttributes returns a list of parent attributes that are used in bulk operations
+func GetBulkParentAttributes(config YamlConfig) []YamlConfigAttribute {
+	var parentAttributes []YamlConfigAttribute
+	for _, attr := range config.Attributes {
+		if !attr.Reference {
+			continue
+		}
+		if attr.Id && config.PutCreate {
+			continue
+		}
+		parentAttributes = append(parentAttributes, attr)
+	}
+	return parentAttributes
+}
+
+// GetBulkItemAttributes returns a list of item attributes that are used in bulk operations
+func GetBulkItemAttributes(config YamlConfig) []YamlConfigAttribute {
+	var itemAttributes []YamlConfigAttribute
+	for _, attr := range config.Attributes {
+		if attr.Reference && attr.Id && config.PutCreate {
+			itemAttributes = append(itemAttributes, attr)
+			continue
+		} else if attr.Reference {
+			continue
+		}
+		itemAttributes = append(itemAttributes, attr)
+	}
+	return itemAttributes
+}
+
+// GetBulkImportAttributes returns a list of import attributes that are used in bulk operations
+func GetBulkImportAttributes(config YamlConfig) []YamlConfigAttribute {
+	var importAttributes []YamlConfigAttribute
+	if !HasOrganizationId(config) {
+		importAttributes = append(importAttributes, YamlConfigAttribute{ModelName: "organizationId", TfName: "organization_id"})
+	}
+	for _, attr := range config.Attributes {
+		if !attr.Reference {
+			continue
+		}
+		if attr.Id && config.PutCreate {
+			continue
+		}
+		importAttributes = append(importAttributes, attr)
+	}
+	return importAttributes
+}
+
+// HasOrganizationId checks if the list of attributes contains an organization_id attribute
+func HasOrganizationId(config YamlConfig) bool {
+	for _, attr := range config.Attributes {
+		if attr.TfName == "organization_id" {
+			return true
+		}
+	}
+	return false
+}
+
+// GetBulkItemId returns the Go attribute name of the bulk item id
+func GetBulkItemId(config YamlConfig) string {
+	// Get the id attribute from the bulk item attributes
+	for _, attr := range config.Attributes {
+		if attr.Id {
+			return ToGoName(attr.TfName)
+		}
+	}
+	// If no id attribute is found return default "id"
+	return ToGoName("id")
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
-	"toGoName":              ToGoName,
-	"camelCase":             CamelCase,
-	"snakeCase":             SnakeCase,
-	"sprintf":               fmt.Sprintf,
-	"errorf":                Errorf,
-	"toLower":               strings.ToLower,
-	"path":                  BuildPath,
-	"hasId":                 HasId,
-	"getId":                 GetId,
-	"hasReference":          HasReference,
-	"isListSet":             IsListSet,
-	"isList":                IsList,
-	"isSet":                 IsSet,
-	"isStringListSet":       IsStringListSet,
-	"isInt64ListSet":        IsInt64ListSet,
-	"isNestedListSet":       IsNestedListSet,
-	"isNestedListSetMap":    IsNestedListSetMap,
-	"isNestedList":          IsNestedList,
-	"isNestedSet":           IsNestedSet,
-	"isNestedMap":           IsNestedMap,
-	"importAttributes":      ImportAttributes,
-	"subtract":              Subtract,
-	"iterate":               Iterate,
-	"getImportExcludes":     GetImportExcludes,
-	"getFullModelName":      GetFullModelName,
-	"hasComputedAttributes": HasComputedAttributes,
-	"buildTestPath":         BuildTestPath,
-	"hasDestroyValues":      HasDestroyValues,
+	"toGoName":                ToGoName,
+	"camelCase":               CamelCase,
+	"snakeCase":               SnakeCase,
+	"sprintf":                 fmt.Sprintf,
+	"errorf":                  Errorf,
+	"toLower":                 strings.ToLower,
+	"path":                    BuildPath,
+	"hasId":                   HasId,
+	"getId":                   GetId,
+	"hasReference":            HasReference,
+	"isListSet":               IsListSet,
+	"isList":                  IsList,
+	"isSet":                   IsSet,
+	"isStringListSet":         IsStringListSet,
+	"isInt64ListSet":          IsInt64ListSet,
+	"isNestedListSet":         IsNestedListSet,
+	"isNestedListSetMap":      IsNestedListSetMap,
+	"isNestedList":            IsNestedList,
+	"isNestedSet":             IsNestedSet,
+	"isNestedMap":             IsNestedMap,
+	"importAttributes":        ImportAttributes,
+	"subtract":                Subtract,
+	"iterate":                 Iterate,
+	"getImportExcludes":       GetImportExcludes,
+	"getFullModelName":        GetFullModelName,
+	"hasComputedAttributes":   HasComputedAttributes,
+	"buildTestPath":           BuildTestPath,
+	"hasDestroyValues":        HasDestroyValues,
+	"getBulkPath":             GetBulkPath,
+	"getBulkParentAttributes": GetBulkParentAttributes,
+	"getBulkItemAttributes":   GetBulkItemAttributes,
+	"getBulkImportAttributes": GetBulkImportAttributes,
+	"hasOrganizationId":       HasOrganizationId,
+	"getBulkItemId":           GetBulkItemId,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
@@ -557,6 +651,12 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 	if config.ResDescription == "" {
 		config.ResDescription = fmt.Sprintf("This resource can manage the `%s` configuration.", config.Name)
 	}
+	if config.DsBulkDescription == "" {
+		config.DsBulkDescription = fmt.Sprintf("This data source can read the `%s` configuration in bulk.", config.Name)
+	}
+	if config.ResBulkDescription == "" {
+		config.ResBulkDescription = fmt.Sprintf("This resource can manage the `%s` configuration in bulk.", config.Name)
+	}
 	if config.TfName == "" {
 		config.TfName = strings.Replace(config.Name, " ", "_", -1)
 	}
@@ -593,6 +693,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	if existing.BulkDataSource != nil {
 		new.BulkDataSource = existing.BulkDataSource
 	}
+	if existing.BulkResource != nil {
+		new.BulkResource = existing.BulkResource
+	}
 	if existing.PutCreate != nil {
 		new.PutCreate = existing.PutCreate
 	}
@@ -625,6 +728,12 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.ResDescription != nil {
 		new.ResDescription = existing.ResDescription
+	}
+	if existing.DsBulkDescription != nil {
+		new.DsBulkDescription = existing.DsBulkDescription
+	}
+	if existing.ResBulkDescription != nil {
+		new.ResBulkDescription = existing.ResBulkDescription
 	}
 	if existing.DocCategory != nil {
 		new.DocCategory = existing.DocCategory
@@ -745,6 +854,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.Reference != nil {
 		new.Reference = existing.Reference
+	}
+	if existing.BulkId != nil {
+		new.BulkId = existing.BulkId
 	}
 	if existing.RequiresReplace != nil {
 		new.RequiresReplace = existing.RequiresReplace

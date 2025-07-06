@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_rf_profile Resource - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This resource can manage the Wireless RF profile configuration.
+  This resource can manage the Wireless RF Profile configuration.
 ---
 
 # meraki_wireless_rf_profile (Resource)
 
-This resource can manage the `Wireless RF profile` configuration.
+This resource can manage the `Wireless RF Profile` configuration.
 
 ## Example Usage
 
@@ -228,6 +228,8 @@ Optional:
 ## Import
 
 Import is supported using the following syntax:
+
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
 terraform import meraki_wireless_rf_profile.example "<network_id>,<id>"

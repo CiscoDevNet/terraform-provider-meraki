@@ -3,12 +3,12 @@
 page_title: "meraki_organization_adaptive_policy_groups Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization Adaptive Policy Group configuration.
+  This data source can read the Organization Adaptive Policy Group configuration in bulk.
 ---
 
 # meraki_organization_adaptive_policy_groups (Data Source)
 
-This data source can read the `Organization Adaptive Policy Group` configuration.
+This data source can read the `Organization Adaptive Policy Group` configuration in bulk.
 
 ## Example Usage
 

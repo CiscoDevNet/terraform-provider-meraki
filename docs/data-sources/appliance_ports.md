@@ -3,12 +3,12 @@
 page_title: "meraki_appliance_ports Data Source - terraform-provider-meraki"
 subcategory: "Appliances"
 description: |-
-  This data source can read the Appliance Ports configuration.
+  This data source can read the Appliance Ports configuration in bulk.
 ---
 
 # meraki_appliance_ports (Data Source)
 
-This data source can read the `Appliance Ports` configuration.
+This data source can read the `Appliance Ports` configuration in bulk.
 
 ## Example Usage
 

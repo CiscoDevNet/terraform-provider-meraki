@@ -3,12 +3,12 @@
 page_title: "meraki_sensor_alerts_profiles Data Source - terraform-provider-meraki"
 subcategory: "Sensors"
 description: |-
-  This data source can read the Sensor Alerts Profile configuration.
+  This data source can read the Sensor Alerts Profile configuration in bulk.
 ---
 
 # meraki_sensor_alerts_profiles (Data Source)
 
-This data source can read the `Sensor Alerts Profile` configuration.
+This data source can read the `Sensor Alerts Profile` configuration in bulk.
 
 ## Example Usage
 
