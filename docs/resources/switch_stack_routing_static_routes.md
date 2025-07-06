@@ -4,11 +4,17 @@ page_title: "meraki_switch_stack_routing_static_routes Resource - terraform-prov
 subcategory: ""
 description: |-
   This resource can manage the Switch Stack Routing Static Route configuration.
+  This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+  next_hop_ipsubnet
 ---
 
 # meraki_switch_stack_routing_static_routes (Resource)
 
 This resource can manage the `Switch Stack Routing Static Route` configuration.
+
+This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+- `next_hop_ip`
+- `subnet`
 
 ## Example Usage
 

@@ -4,11 +4,21 @@ page_title: "meraki_organization_adaptive_policies Resource - terraform-provider
 subcategory: ""
 description: |-
   This resource can manage the Organization Adaptive Policy configuration.
+  This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+  destination_group_iddestination_group_namedestination_group_sgtsource_group_idsource_group_namesource_group_sgt
 ---
 
 # meraki_organization_adaptive_policies (Resource)
 
 This resource can manage the `Organization Adaptive Policy` configuration.
+
+This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+- `destination_group_id`
+- `destination_group_name`
+- `destination_group_sgt`
+- `source_group_id`
+- `source_group_name`
+- `source_group_sgt`
 
 ## Example Usage
 

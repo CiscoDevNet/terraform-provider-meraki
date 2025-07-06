@@ -64,7 +64,7 @@ func (r *ApplianceRFProfilesResource) Metadata(ctx context.Context, req resource
 func (r *ApplianceRFProfilesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance RF Profile` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance RF Profile` configuration.").AddBulkResourceIds("name").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

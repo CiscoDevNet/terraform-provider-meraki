@@ -59,7 +59,7 @@ func (r *SensorMQTTBrokersResource) Metadata(ctx context.Context, req resource.M
 func (r *SensorMQTTBrokersResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Sensor MQTT Broker` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Sensor MQTT Broker` configuration.").AddBulkResourceIds("mqtt_broker_id").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

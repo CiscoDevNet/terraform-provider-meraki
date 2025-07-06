@@ -62,7 +62,7 @@ func (r *ApplianceTrafficShapingCustomPerformanceClassesResource) Metadata(ctx c
 func (r *ApplianceTrafficShapingCustomPerformanceClassesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Traffic Shaping Custom Performance Class` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Traffic Shaping Custom Performance Class` configuration.").AddBulkResourceIds("name").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

@@ -4,11 +4,16 @@ page_title: "meraki_appliance_rf_profiles Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
   This resource can manage the Appliance RF Profile configuration.
+  This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+  name
 ---
 
 # meraki_appliance_rf_profiles (Resource)
 
 This resource can manage the `Appliance RF Profile` configuration.
+
+This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+- `name`
 
 ## Example Usage
 

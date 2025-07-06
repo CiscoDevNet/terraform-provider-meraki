@@ -4,11 +4,16 @@ page_title: "meraki_appliance_ssids Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
   This resource can manage the Appliance SSID configuration.
+  This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+  number
 ---
 
 # meraki_appliance_ssids (Resource)
 
 This resource can manage the `Appliance SSID` configuration.
+
+This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+- `number`
 
 ## Example Usage
 

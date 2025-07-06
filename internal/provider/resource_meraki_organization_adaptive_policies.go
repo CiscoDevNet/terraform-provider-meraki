@@ -64,7 +64,7 @@ func (r *OrganizationAdaptivePoliciesResource) Metadata(ctx context.Context, req
 func (r *OrganizationAdaptivePoliciesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Adaptive Policy` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Adaptive Policy` configuration.").AddBulkResourceIds("destination_group_id", "destination_group_name", "destination_group_sgt", "source_group_id", "source_group_name", "source_group_sgt").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

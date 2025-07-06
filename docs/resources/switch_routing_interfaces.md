@@ -4,11 +4,16 @@ page_title: "meraki_switch_routing_interfaces Resource - terraform-provider-mera
 subcategory: ""
 description: |-
   This resource can manage the Switch Routing Interface configuration.
+  This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+  name
 ---
 
 # meraki_switch_routing_interfaces (Resource)
 
 This resource can manage the `Switch Routing Interface` configuration.
+
+This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+- `name`
 
 ## Example Usage
 

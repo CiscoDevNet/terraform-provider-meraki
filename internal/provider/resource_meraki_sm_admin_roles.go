@@ -64,7 +64,7 @@ func (r *SMAdminRolesResource) Metadata(ctx context.Context, req resource.Metada
 func (r *SMAdminRolesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `SM Admin Role` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `SM Admin Role` configuration.").AddBulkResourceIds("name").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

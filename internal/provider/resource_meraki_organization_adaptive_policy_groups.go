@@ -62,7 +62,7 @@ func (r *OrganizationAdaptivePolicyGroupsResource) Metadata(ctx context.Context,
 func (r *OrganizationAdaptivePolicyGroupsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Adaptive Policy Group` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Adaptive Policy Group` configuration.").AddBulkResourceIds("name").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

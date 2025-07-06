@@ -4,11 +4,16 @@ page_title: "meraki_appliance_traffic_shaping_custom_performance_classes Resourc
 subcategory: ""
 description: |-
   This resource can manage the Appliance Traffic Shaping Custom Performance Class configuration.
+  This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+  name
 ---
 
 # meraki_appliance_traffic_shaping_custom_performance_classes (Resource)
 
 This resource can manage the `Appliance Traffic Shaping Custom Performance Class` configuration.
+
+This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+- `name`
 
 ## Example Usage
 

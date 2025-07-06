@@ -4,11 +4,16 @@ page_title: "meraki_network_webhook_payload_templates Resource - terraform-provi
 subcategory: ""
 description: |-
   This resource can manage the Network Webhook Payload Template configuration.
+  This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+  name
 ---
 
 # meraki_network_webhook_payload_templates (Resource)
 
 This resource can manage the `Network Webhook Payload Template` configuration.
+
+This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+- `name`
 
 ## Example Usage
 

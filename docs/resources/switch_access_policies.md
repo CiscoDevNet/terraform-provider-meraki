@@ -4,11 +4,16 @@ page_title: "meraki_switch_access_policies Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
   This resource can manage the Switch Access Policy configuration.
+  This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+  name
 ---
 
 # meraki_switch_access_policies (Resource)
 
 This resource can manage the `Switch Access Policy` configuration.
+
+This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
+- `name`
 
 ## Example Usage
 
