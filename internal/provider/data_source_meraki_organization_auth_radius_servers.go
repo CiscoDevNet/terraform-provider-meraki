@@ -54,7 +54,7 @@ func (d *OrganizationAuthRADIUSServersDataSource) Metadata(_ context.Context, re
 func (d *OrganizationAuthRADIUSServersDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Auth RADIUS Server` configuration.").AddEarlyAccessDescription().String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Auth RADIUS Server` configuration in bulk.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{

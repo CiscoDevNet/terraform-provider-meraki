@@ -3,12 +3,12 @@
 page_title: "meraki_network_webhook_http_servers Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network Webhook HTTP Server configuration.
+  This data source can read the Network Webhook HTTP Server configuration in bulk.
 ---
 
 # meraki_network_webhook_http_servers (Data Source)
 
-This data source can read the `Network Webhook HTTP Server` configuration.
+This data source can read the `Network Webhook HTTP Server` configuration in bulk.
 
 ## Example Usage
 

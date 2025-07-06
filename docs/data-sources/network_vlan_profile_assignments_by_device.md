@@ -3,12 +3,12 @@
 page_title: "meraki_network_vlan_profile_assignments_by_device Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network VLAN Profile Assignments By Device configuration.
+  This data source can read the Network VLAN Profile Assignments By Device configuration in bulk.
 ---
 
 # meraki_network_vlan_profile_assignments_by_device (Data Source)
 
-This data source can read the `Network VLAN Profile Assignments By Device` configuration.
+This data source can read the `Network VLAN Profile Assignments By Device` configuration in bulk.
 
 ## Example Usage
 

@@ -3,14 +3,14 @@
 page_title: "meraki_switch_routing_multicast_rendezvous_points Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Switch Routing Multicast Rendezvous Point configuration.
+  This resource can manage the Switch Routing Multicast Rendezvous Point configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   interface_ipmulticast_group
 ---
 
 # meraki_switch_routing_multicast_rendezvous_points (Resource)
 
-This resource can manage the `Switch Routing Multicast Rendezvous Point` configuration.
+This resource can manage the `Switch Routing Multicast Rendezvous Point` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `interface_ip`

@@ -35,6 +35,8 @@ type YamlConfig struct {
 	MinimumVersion      string                `yaml:"minimum_version,omitempty"`
 	DsDescription       string                `yaml:"ds_description,omitempty"`
 	ResDescription      string                `yaml:"res_description,omitempty"`
+	DsBulkDescription   string                `yaml:"ds_bulk_description,omitempty"`
+	ResBulkDescription  string                `yaml:"res_bulk_description,omitempty"`
 	DocCategory         string                `yaml:"doc_category,omitempty"`
 	ExcludeTest         bool                  `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest     bool                  `yaml:"skip_minimum_test,omitempty"`
@@ -68,6 +70,8 @@ type YamlConfigP struct {
 	MinimumVersion      *string                 `yaml:"minimum_version,omitempty"`
 	DsDescription       *string                 `yaml:"ds_description,omitempty"`
 	ResDescription      *string                 `yaml:"res_description,omitempty"`
+	DsBulkDescription   *string                 `yaml:"ds_bulk_description,omitempty"`
+	ResBulkDescription  *string                 `yaml:"res_bulk_description,omitempty"`
 	DocCategory         *string                 `yaml:"doc_category,omitempty"`
 	ExcludeTest         *bool                   `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest     *bool                   `yaml:"skip_minimum_test,omitempty"`
@@ -647,6 +651,12 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 	if config.ResDescription == "" {
 		config.ResDescription = fmt.Sprintf("This resource can manage the `%s` configuration.", config.Name)
 	}
+	if config.DsBulkDescription == "" {
+		config.DsBulkDescription = fmt.Sprintf("This data source can read the `%s` configuration in bulk.", config.Name)
+	}
+	if config.ResBulkDescription == "" {
+		config.ResBulkDescription = fmt.Sprintf("This resource can manage the `%s` configuration in bulk.", config.Name)
+	}
 	if config.TfName == "" {
 		config.TfName = strings.Replace(config.Name, " ", "_", -1)
 	}
@@ -718,6 +728,12 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.ResDescription != nil {
 		new.ResDescription = existing.ResDescription
+	}
+	if existing.DsBulkDescription != nil {
+		new.DsBulkDescription = existing.DsBulkDescription
+	}
+	if existing.ResBulkDescription != nil {
+		new.ResBulkDescription = existing.ResBulkDescription
 	}
 	if existing.DocCategory != nil {
 		new.DocCategory = existing.DocCategory

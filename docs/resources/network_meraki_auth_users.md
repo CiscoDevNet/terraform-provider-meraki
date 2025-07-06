@@ -3,14 +3,14 @@
 page_title: "meraki_network_meraki_auth_users Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Network Meraki Auth User configuration.
+  This resource can manage the Network Meraki Auth User configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   email
 ---
 
 # meraki_network_meraki_auth_users (Resource)
 
-This resource can manage the `Network Meraki Auth User` configuration.
+This resource can manage the `Network Meraki Auth User` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `email`

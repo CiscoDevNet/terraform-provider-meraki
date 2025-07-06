@@ -3,14 +3,14 @@
 page_title: "meraki_sensor_mqtt_brokers Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Sensor MQTT Broker configuration.
+  This resource can manage the Sensor MQTT Broker configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   mqtt_broker_id
 ---
 
 # meraki_sensor_mqtt_brokers (Resource)
 
-This resource can manage the `Sensor MQTT Broker` configuration.
+This resource can manage the `Sensor MQTT Broker` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `mqtt_broker_id`

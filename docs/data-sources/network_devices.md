@@ -3,12 +3,12 @@
 page_title: "meraki_network_devices Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network Devices configuration.
+  This data source can read the Network Devices configuration in bulk.
 ---
 
 # meraki_network_devices (Data Source)
 
-This data source can read the `Network Devices` configuration.
+This data source can read the `Network Devices` configuration in bulk.
 
 ## Example Usage
 

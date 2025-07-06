@@ -55,7 +55,7 @@ func (d *NetworksDataSource) Metadata(_ context.Context, req datasource.Metadata
 func (d *NetworksDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Network` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Network` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{

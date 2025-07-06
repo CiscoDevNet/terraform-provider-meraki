@@ -3,12 +3,12 @@
 page_title: "meraki_camera_quality_retention_profiles Data Source - terraform-provider-meraki"
 subcategory: "Cameras"
 description: |-
-  This data source can read the Camera Quality Retention Profile configuration.
+  This data source can read the Camera Quality Retention Profile configuration in bulk.
 ---
 
 # meraki_camera_quality_retention_profiles (Data Source)
 
-This data source can read the `Camera Quality Retention Profile` configuration.
+This data source can read the `Camera Quality Retention Profile` configuration in bulk.
 
 ## Example Usage
 

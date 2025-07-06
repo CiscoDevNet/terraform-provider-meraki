@@ -3,12 +3,12 @@
 page_title: "meraki_network_policies_by_client Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network Policies By Client configuration.
+  This data source can read the Network Policies By Client configuration in bulk.
 ---
 
 # meraki_network_policies_by_client (Data Source)
 
-This data source can read the `Network Policies By Client` configuration.
+This data source can read the `Network Policies By Client` configuration in bulk.
 
 ## Example Usage
 

@@ -3,14 +3,14 @@
 page_title: "meraki_wireless_rf_profiles Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Wireless RF Profile configuration.
+  This resource can manage the Wireless RF Profile configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   name
 ---
 
 # meraki_wireless_rf_profiles (Resource)
 
-This resource can manage the `Wireless RF Profile` configuration.
+This resource can manage the `Wireless RF Profile` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `name`

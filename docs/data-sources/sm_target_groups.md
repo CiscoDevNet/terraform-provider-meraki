@@ -3,12 +3,12 @@
 page_title: "meraki_sm_target_groups Data Source - terraform-provider-meraki"
 subcategory: "Systems Manager"
 description: |-
-  This data source can read the SM Target Group configuration.
+  This data source can read the SM Target Group configuration in bulk.
 ---
 
 # meraki_sm_target_groups (Data Source)
 
-This data source can read the `SM Target Group` configuration.
+This data source can read the `SM Target Group` configuration in bulk.
 
 ## Example Usage
 

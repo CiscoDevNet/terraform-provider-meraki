@@ -3,14 +3,14 @@
 page_title: "meraki_switch_ports Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Switch Port configuration.
+  This resource can manage the Switch Port configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   port_id
 ---
 
 # meraki_switch_ports (Resource)
 
-This resource can manage the `Switch Port` configuration.
+This resource can manage the `Switch Port` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `port_id`

@@ -3,12 +3,12 @@
 page_title: "meraki_network_mqtt_brokers Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network MQTT Broker configuration.
+  This data source can read the Network MQTT Broker configuration in bulk.
 ---
 
 # meraki_network_mqtt_brokers (Data Source)
 
-This data source can read the `Network MQTT Broker` configuration.
+This data source can read the `Network MQTT Broker` configuration in bulk.
 
 ## Example Usage
 

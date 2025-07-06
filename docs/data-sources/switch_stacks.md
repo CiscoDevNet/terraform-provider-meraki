@@ -3,12 +3,12 @@
 page_title: "meraki_switch_stacks Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch Stack configuration.
+  This data source can read the Switch Stack configuration in bulk.
 ---
 
 # meraki_switch_stacks (Data Source)
 
-This data source can read the `Switch Stack` configuration.
+This data source can read the `Switch Stack` configuration in bulk.
 
 ## Example Usage
 

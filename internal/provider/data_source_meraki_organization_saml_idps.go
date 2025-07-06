@@ -54,7 +54,7 @@ func (d *OrganizationSAMLIdPsDataSource) Metadata(_ context.Context, req datasou
 func (d *OrganizationSAMLIdPsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization SAML IdP` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization SAML IdP` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{

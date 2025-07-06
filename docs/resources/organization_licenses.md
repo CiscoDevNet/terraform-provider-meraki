@@ -3,14 +3,14 @@
 page_title: "meraki_organization_licenses Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Organization License configuration.
+  This resource can manage the Organization License configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   license_id
 ---
 
 # meraki_organization_licenses (Resource)
 
-This resource can manage the `Organization License` configuration.
+This resource can manage the `Organization License` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `license_id`

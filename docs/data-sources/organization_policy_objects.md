@@ -3,12 +3,12 @@
 page_title: "meraki_organization_policy_objects Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization Policy Object configuration.
+  This data source can read the Organization Policy Object configuration in bulk.
 ---
 
 # meraki_organization_policy_objects (Data Source)
 
-This data source can read the `Organization Policy Object` configuration.
+This data source can read the `Organization Policy Object` configuration in bulk.
 
 ## Example Usage
 

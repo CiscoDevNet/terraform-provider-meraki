@@ -3,12 +3,12 @@
 page_title: "meraki_appliance_vlans Data Source - terraform-provider-meraki"
 subcategory: "Appliances"
 description: |-
-  This data source can read the Appliance VLAN configuration.
+  This data source can read the Appliance VLAN configuration in bulk.
 ---
 
 # meraki_appliance_vlans (Data Source)
 
-This data source can read the `Appliance VLAN` configuration.
+This data source can read the `Appliance VLAN` configuration in bulk.
 
 ## Example Usage
 

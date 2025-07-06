@@ -3,12 +3,12 @@
 page_title: "meraki_network_floor_plans Data Source - terraform-provider-meraki"
 subcategory: "Networks"
 description: |-
-  This data source can read the Network Floor Plan configuration.
+  This data source can read the Network Floor Plan configuration in bulk.
 ---
 
 # meraki_network_floor_plans (Data Source)
 
-This data source can read the `Network Floor Plan` configuration.
+This data source can read the `Network Floor Plan` configuration in bulk.
 
 ## Example Usage
 

@@ -3,12 +3,12 @@
 page_title: "meraki_organization_saml_idps Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization SAML IdP configuration.
+  This data source can read the Organization SAML IdP configuration in bulk.
 ---
 
 # meraki_organization_saml_idps (Data Source)
 
-This data source can read the `Organization SAML IdP` configuration.
+This data source can read the `Organization SAML IdP` configuration in bulk.
 
 ## Example Usage
 

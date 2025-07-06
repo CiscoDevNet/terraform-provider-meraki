@@ -3,12 +3,12 @@
 page_title: "meraki_switch_qos_rules Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch QoS Rule configuration.
+  This data source can read the Switch QoS Rule configuration in bulk.
 ---
 
 # meraki_switch_qos_rules (Data Source)
 
-This data source can read the `Switch QoS Rule` configuration.
+This data source can read the `Switch QoS Rule` configuration in bulk.
 
 ## Example Usage
 

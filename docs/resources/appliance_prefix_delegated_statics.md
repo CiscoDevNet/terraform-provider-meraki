@@ -3,14 +3,14 @@
 page_title: "meraki_appliance_prefix_delegated_statics Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Appliance Prefix Delegated Static configuration.
+  This resource can manage the Appliance Prefix Delegated Static configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   prefix
 ---
 
 # meraki_appliance_prefix_delegated_statics (Resource)
 
-This resource can manage the `Appliance Prefix Delegated Static` configuration.
+This resource can manage the `Appliance Prefix Delegated Static` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `prefix`

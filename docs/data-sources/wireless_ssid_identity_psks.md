@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_ssid_identity_psks Data Source - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This data source can read the Wireless SSID Identity PSK configuration.
+  This data source can read the Wireless SSID Identity PSK configuration in bulk.
 ---
 
 # meraki_wireless_ssid_identity_psks (Data Source)
 
-This data source can read the `Wireless SSID Identity PSK` configuration.
+This data source can read the `Wireless SSID Identity PSK` configuration in bulk.
 
 ## Example Usage
 

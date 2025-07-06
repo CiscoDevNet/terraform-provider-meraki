@@ -3,14 +3,14 @@
 page_title: "meraki_organization_saml_idps Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Organization SAML IdP configuration.
+  This resource can manage the Organization SAML IdP configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   x509cert_sha1_fingerprint
 ---
 
 # meraki_organization_saml_idps (Resource)
 
-This resource can manage the `Organization SAML IdP` configuration.
+This resource can manage the `Organization SAML IdP` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `x509cert_sha1_fingerprint`

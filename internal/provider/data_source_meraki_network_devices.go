@@ -55,7 +55,7 @@ func (d *NetworkDevicesDataSource) Metadata(_ context.Context, req datasource.Me
 func (d *NetworkDevicesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Network Devices` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Network Devices` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"network_id": schema.StringAttribute{

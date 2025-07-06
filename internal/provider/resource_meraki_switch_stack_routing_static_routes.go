@@ -62,7 +62,7 @@ func (r *SwitchStackRoutingStaticRoutesResource) Metadata(ctx context.Context, r
 func (r *SwitchStackRoutingStaticRoutesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Stack Routing Static Route` configuration.").AddBulkResourceIds("next_hop_ip", "subnet").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Stack Routing Static Route` configuration in bulk.").AddBulkResourceIds("next_hop_ip", "subnet").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

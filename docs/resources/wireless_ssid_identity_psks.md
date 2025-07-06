@@ -3,14 +3,14 @@
 page_title: "meraki_wireless_ssid_identity_psks Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Wireless SSID Identity PSK configuration.
+  This resource can manage the Wireless SSID Identity PSK configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   name
 ---
 
 # meraki_wireless_ssid_identity_psks (Resource)
 
-This resource can manage the `Wireless SSID Identity PSK` configuration.
+This resource can manage the `Wireless SSID Identity PSK` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `name`

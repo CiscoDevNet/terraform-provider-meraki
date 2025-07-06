@@ -71,7 +71,7 @@ func (r *{{camelCase .BulkName}}Resource) Metadata(ctx context.Context, req reso
 func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("{{.ResDescription}}").AddBulkResourceIds({{range .Attributes}}{{if .BulkId}}"{{.TfName}}", {{end}}{{end}}){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
+		MarkdownDescription: helpers.NewAttributeDescription("{{.ResBulkDescription}}").AddBulkResourceIds({{range .Attributes}}{{if .BulkId}}"{{.TfName}}", {{end}}{{end}}){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

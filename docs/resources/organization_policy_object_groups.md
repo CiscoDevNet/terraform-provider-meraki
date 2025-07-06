@@ -3,14 +3,14 @@
 page_title: "meraki_organization_policy_object_groups Resource - terraform-provider-meraki"
 subcategory: ""
 description: |-
-  This resource can manage the Organization Policy Object Group configuration.
+  This resource can manage the Organization Policy Object Group configuration in bulk.
   This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
   name
 ---
 
 # meraki_organization_policy_object_groups (Resource)
 
-This resource can manage the `Organization Policy Object Group` configuration.
+This resource can manage the `Organization Policy Object Group` configuration in bulk.
 
 This bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.
 - `name`

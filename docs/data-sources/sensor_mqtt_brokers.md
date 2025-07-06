@@ -3,12 +3,12 @@
 page_title: "meraki_sensor_mqtt_brokers Data Source - terraform-provider-meraki"
 subcategory: "Sensors"
 description: |-
-  This data source can read the Sensor MQTT Brokers configuration.
+  This data source can read the Sensor MQTT Brokers configuration in bulk.
 ---
 
 # meraki_sensor_mqtt_brokers (Data Source)
 
-This data source can read the `Sensor MQTT Brokers` configuration.
+This data source can read the `Sensor MQTT Brokers` configuration in bulk.
 
 ## Example Usage
 

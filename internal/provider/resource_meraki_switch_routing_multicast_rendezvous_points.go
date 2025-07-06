@@ -62,7 +62,7 @@ func (r *SwitchRoutingMulticastRendezvousPointsResource) Metadata(ctx context.Co
 func (r *SwitchRoutingMulticastRendezvousPointsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Routing Multicast Rendezvous Point` configuration.").AddBulkResourceIds("interface_ip", "multicast_group").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Routing Multicast Rendezvous Point` configuration in bulk.").AddBulkResourceIds("interface_ip", "multicast_group").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

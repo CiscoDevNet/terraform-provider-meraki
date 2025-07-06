@@ -62,7 +62,7 @@ func (r *WirelessSSIDsResource) Metadata(ctx context.Context, req resource.Metad
 func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless SSID` configuration.").AddBulkResourceIds("number").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless SSID` configuration in bulk.").AddBulkResourceIds("number").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

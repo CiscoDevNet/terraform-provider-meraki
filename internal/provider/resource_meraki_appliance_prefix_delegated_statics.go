@@ -64,7 +64,7 @@ func (r *AppliancePrefixDelegatedStaticsResource) Metadata(ctx context.Context, 
 func (r *AppliancePrefixDelegatedStaticsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Prefix Delegated Static` configuration.").AddBulkResourceIds("prefix").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Prefix Delegated Static` configuration in bulk.").AddBulkResourceIds("prefix").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

@@ -55,7 +55,7 @@ func (d *SwitchOrganizationPortsProfilesDataSource) Metadata(_ context.Context, 
 func (d *SwitchOrganizationPortsProfilesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Organization Ports Profile` configuration.").AddEarlyAccessDescription().String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Switch Organization Ports Profile` configuration in bulk.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{

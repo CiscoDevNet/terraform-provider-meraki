@@ -54,7 +54,7 @@ func (d *ApplianceDNSLocalProfilesDataSource) Metadata(_ context.Context, req da
 func (d *ApplianceDNSLocalProfilesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Appliance DNS Local Profile` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Appliance DNS Local Profile` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{

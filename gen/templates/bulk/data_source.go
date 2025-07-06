@@ -59,7 +59,7 @@ func (d *{{camelCase .BulkName}}DataSource) Metadata(_ context.Context, req data
 func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("{{.DsDescription}}"){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
+		MarkdownDescription: helpers.NewAttributeDescription("{{.DsBulkDescription}}"){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
 
 		Attributes: map[string]schema.Attribute{
 			{{- range getBulkParentAttributes .}}

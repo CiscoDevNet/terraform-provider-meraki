@@ -3,12 +3,12 @@
 page_title: "meraki_switch_routing_interfaces Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch Routing Interface configuration.
+  This data source can read the Switch Routing Interface configuration in bulk.
 ---
 
 # meraki_switch_routing_interfaces (Data Source)
 
-This data source can read the `Switch Routing Interface` configuration.
+This data source can read the `Switch Routing Interface` configuration in bulk.
 
 ## Example Usage
 

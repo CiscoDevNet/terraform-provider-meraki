@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_location_scanning_receivers Data Source - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This data source can read the Wireless Location Scanning Receiver configuration.
+  This data source can read the Wireless Location Scanning Receiver configuration in bulk.
 ---
 
 # meraki_wireless_location_scanning_receivers (Data Source)
 
-This data source can read the `Wireless Location Scanning Receiver` configuration.
+This data source can read the `Wireless Location Scanning Receiver` configuration in bulk.
 
 ## Example Usage
 

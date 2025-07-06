@@ -3,12 +3,12 @@
 page_title: "meraki_switch_port_schedules Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch Port Schedule configuration.
+  This data source can read the Switch Port Schedule configuration in bulk.
 ---
 
 # meraki_switch_port_schedules (Data Source)
 
-This data source can read the `Switch Port Schedule` configuration.
+This data source can read the `Switch Port Schedule` configuration in bulk.
 
 ## Example Usage
 

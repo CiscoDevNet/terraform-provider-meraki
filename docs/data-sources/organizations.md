@@ -3,12 +3,12 @@
 page_title: "meraki_organizations Data Source - terraform-provider-meraki"
 subcategory: "Organizations"
 description: |-
-  This data source can read the Organization configuration.
+  This data source can read the Organization configuration in bulk.
 ---
 
 # meraki_organizations (Data Source)
 
-This data source can read the `Organization` configuration.
+This data source can read the `Organization` configuration in bulk.
 
 ## Example Usage
 
