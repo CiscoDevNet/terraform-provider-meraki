@@ -86,6 +86,7 @@ type ResourceNetworkGroupPoliciesItems struct {
 	SchedulingWednesdayTo                        types.String                                         `tfsdk:"scheduling_wednesday_to"`
 	VlanTaggingSettings                          types.String                                         `tfsdk:"vlan_tagging_settings"`
 	VlanTaggingVlanId                            types.String                                         `tfsdk:"vlan_tagging_vlan_id"`
+	ForceDelete                                  types.Bool                                           `tfsdk:"force_delete"`
 }
 
 type ResourceNetworkGroupPoliciesBonjourForwardingRules struct {

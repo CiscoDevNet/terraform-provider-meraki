@@ -60,14 +60,6 @@ func TestAccMeraki{{camelCase .BulkName}}(t *testing.T) {
 		ImportStateIdFunc: meraki{{camelCase .BulkName}}ImportStateIdFunc("meraki_{{snakeCase .BulkName}}.test"),
 	})
 	{{- end}}
-	{{- $TestPrerequisites := .TestPrerequisites}}
-	{{- $TestVariables := .TestVariables}}
-	{{- $Name := .BulkName}}
-	{{- range $i, $e := .AdditionalTests}}
-	steps = append(steps, resource.TestStep{
-		Config: {{if or $TestPrerequisites (len $TestVariables)}}testAccMeraki{{camelCase $Name}}PrerequisitesConfig+{{end}}testAcc{{camelCase $Name}}ConfigAdditional{{$i}},
-	})
-	{{- end}}
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -346,11 +338,5 @@ func testAccMeraki{{camelCase .BulkName}}Config_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
-
-{{range $i, $e := .AdditionalTests}}
-const testAcc{{camelCase $Name}}ConfigAdditional{{$i}} = `
-{{$e}}
-`
-{{end}}
 
 // End of section. //template:end testAccConfigAdditional

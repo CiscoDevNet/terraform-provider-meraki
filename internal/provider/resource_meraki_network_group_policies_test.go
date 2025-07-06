@@ -50,15 +50,6 @@ func TestAccMerakiNetworkGroupPolicies(t *testing.T) {
 		ImportState:       true,
 		ImportStateIdFunc: merakiNetworkGroupPoliciesImportStateIdFunc("meraki_network_group_policies.test"),
 	})
-	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkGroupPoliciesPrerequisitesConfig + testAccNetworkGroupPoliciesConfigAdditional0,
-	})
-	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkGroupPoliciesPrerequisitesConfig + testAccNetworkGroupPoliciesConfigAdditional1,
-	})
-	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkGroupPoliciesPrerequisitesConfig + testAccNetworkGroupPoliciesConfigAdditional2,
-	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -192,92 +183,5 @@ func testAccMerakiNetworkGroupPoliciesConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
-
-const testAccNetworkGroupPoliciesConfigAdditional0 = `
-resource "meraki_network_group_policy" "test" {
-  network_id   = meraki_network.test.id
-  name         = "No video streaming"
-  force_delete = true
-}
-`
-
-const testAccNetworkGroupPoliciesConfigAdditional1 = `
-resource "meraki_network_group_policy" "test" {
-  network_id = meraki_network.test.id
-  name       = "No video streaming"
-  l7_firewall_rules = [
-    {
-      policy = "deny"
-      type   = "host"
-      value  = "google.com"
-    },
-    {
-      policy = "deny"
-      type   = "port"
-      value  = "9091"
-    },
-    {
-      policy = "deny"
-      type   = "ipRange"
-      value  = "192.168.0.3/16:80"
-    },
-    {
-      policy = "deny"
-      type   = "application"
-      value  = "meraki:layer7/application/171"
-    },
-    {
-      policy = "deny"
-      type   = "applicationCategory"
-      value  = "meraki:layer7/category/17"
-    }
-  ]
-}
-`
-
-const testAccNetworkGroupPoliciesConfigAdditional2 = `
-resource "meraki_network_group_policy" "test" {
-  network_id = meraki_network.test.id
-  name       = "No video streaming"
-  traffic_shaping_rules = [
-    {
-      definitions = [
-        {
-          type  = "application"
-          value = "meraki:layer7/application/171"
-        },
-        {
-          type  = "host"
-          value = "google.com"
-        },
-        {
-          type  = "port"
-          value = "9091"
-        },
-        {
-          type  = "applicationCategory"
-          value = "meraki:layer7/category/27"
-        },
-        {
-          type  = "application"
-          value = "meraki:layer7/application/133"
-        },
-        {
-          type  = "ipRange"
-          value = "192.168.0.3/16:80"
-        },
-        {
-          type  = "localNet"
-          value = "192.168.2.4/16"
-        },
-        {
-          type  = "host"
-          value = "test.com"
-        }
-      ]
-    }
-  ]
-}
-`
 
 // End of section. //template:end testAccConfigAdditional

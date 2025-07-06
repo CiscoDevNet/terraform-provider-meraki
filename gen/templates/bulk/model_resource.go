@@ -54,7 +54,7 @@ type Resource{{camelCase .BulkName}}Items struct {
 	Id types.String `tfsdk:"id"`
 {{- end}}
 {{- range getBulkItemAttributes .}}
-{{- if and (not .Value) .ModelName}}
+{{- if not .Value}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []Resource{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}

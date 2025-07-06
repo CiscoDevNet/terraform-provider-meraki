@@ -395,6 +395,10 @@ func (r *NetworkGroupPoliciesResource) Schema(ctx context.Context, req resource.
 							MarkdownDescription: helpers.NewAttributeDescription("The ID of the vlan you want to tag. This only applies if `settings` is set to `custom`.").String,
 							Optional:            true,
 						},
+						"force_delete": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.").String,
+							Optional:            true,
+						},
 					},
 				},
 			},
@@ -498,8 +502,6 @@ func (r *NetworkGroupPoliciesResource) Read(ctx context.Context, req resource.Re
 
 // End of section. //template:end read
 
-// Section below is generated&owned by "gen/generator.go". //template:begin update
-
 func (r *NetworkGroupPoliciesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ResourceNetworkGroupPolicies
 
@@ -530,10 +532,14 @@ func (r *NetworkGroupPoliciesResource) Update(ctx context.Context, req resource.
 			break
 		}
 		if !found {
+			path := plan.getPath() + "/" + itemState.Id.ValueString()
+			if itemState.ForceDelete.ValueBool() {
+				path += "?force=true"
+			}
 			// If the item is present in state, but not in plan, we need to delete it
 			actions = append(actions, meraki.ActionModel{
 				Operation: "destroy",
-				Resource:  plan.getPath() + "/" + itemState.Id.ValueString(),
+				Resource:  path,
 				Body:      "{}",
 			})
 		}
@@ -589,10 +595,6 @@ func (r *NetworkGroupPoliciesResource) Update(ctx context.Context, req resource.
 	resp.Diagnostics.Append(diags...)
 }
 
-// End of section. //template:end update
-
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
-
 func (r *NetworkGroupPoliciesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state ResourceNetworkGroupPolicies
 
@@ -606,9 +608,13 @@ func (r *NetworkGroupPoliciesResource) Delete(ctx context.Context, req resource.
 	actions := make([]meraki.ActionModel, len(state.Items))
 
 	for i, item := range state.Items {
+		path := state.getPath() + "/" + item.Id.ValueString()
+		if item.ForceDelete.ValueBool() {
+			path += "?force=true"
+		}
 		actions[i] = meraki.ActionModel{
 			Operation: "destroy",
-			Resource:  state.getPath() + "/" + item.Id.ValueString(),
+			Resource:  path,
 			Body:      "{}",
 		}
 	}
@@ -622,8 +628,6 @@ func (r *NetworkGroupPoliciesResource) Delete(ctx context.Context, req resource.
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *NetworkGroupPoliciesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

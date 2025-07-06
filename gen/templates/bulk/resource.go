@@ -164,7 +164,7 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 						},
 						{{- end}}
 						{{- range getBulkItemAttributes .}}
-						{{- if and (not .Value) (.ModelName)}}
+						{{- if not .Value}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 								{{- if len .EnumValues -}}
