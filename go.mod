@@ -9,7 +9,7 @@ require (
 	github.com/hashicorp/terraform-plugin-go v0.28.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
 	github.com/hashicorp/terraform-plugin-testing v1.13.2
-	github.com/netascode/go-meraki v0.1.3-0.20250706185747-6355bb4ba156
+	github.com/netascode/go-meraki v0.2.0
 	github.com/tidwall/gjson v1.18.0
 	github.com/tidwall/sjson v1.2.5
 	golang.org/x/exp v0.0.0-20230809150735-7b3493d9a819
