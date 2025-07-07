@@ -1,4 +1,4 @@
-## 1.4.0 (unreleased)
+## 1.4.0
 
 - Add `meraki_switch_ports` resource
 - Add `meraki_appliance_ports` resource
