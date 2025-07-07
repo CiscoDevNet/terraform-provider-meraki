@@ -1,3 +1,7 @@
+## 1.4.1 (unreleased)
+
+- Fix documentation categories for bulk resources
+
 ## 1.4.0
 
 - Add `meraki_switch_ports` resource

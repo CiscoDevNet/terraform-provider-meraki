@@ -85,6 +85,20 @@ func main() {
 
 				os.WriteFile(filename, []byte(s), 0644)
 			}
+
+			if configs[i].BulkResource && path == "./docs/resources/" {
+				filename := path + yamlconfig.SnakeCase(configs[i].BulkName) + ".md"
+				content, err := os.ReadFile(filename)
+				if err != nil {
+					log.Fatalf("Error opening documentation: %v", err)
+				}
+
+				cat := configs[i].DocCategory
+				s := string(content)
+				s = strings.ReplaceAll(s, `subcategory: ""`, `subcategory: "`+cat+`"`)
+
+				os.WriteFile(filename, []byte(s), 0644)
+			}
 		}
 	}
 

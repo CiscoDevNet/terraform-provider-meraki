@@ -41,7 +41,7 @@ func (d *AttributeDescription) AddEarlyAccessDescription() *AttributeDescription
 }
 
 func (d *AttributeDescription) AddBulkResourceIds(attributes ...string) *AttributeDescription {
-	d.String = fmt.Sprintf("%s\n\nThis bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.", d.String)
+	d.String = fmt.Sprintf("%s\n\nThis bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.\n", d.String)
 	for _, attr := range attributes {
 		d.String = fmt.Sprintf("%s\n- `%s`", d.String, attr)
 	}
