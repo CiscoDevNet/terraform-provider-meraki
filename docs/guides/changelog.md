@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## 1.4.1 (unreleased)
+## 1.4.1
 
 - Fix documentation categories for bulk resources
 
