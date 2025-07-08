@@ -139,6 +139,7 @@ func (data *ResourceAppliancePorts) fromBody(ctx context.Context, res meraki.Res
 		(*parent).Items = append((*parent).Items, data)
 		return true
 	})
+	data.Id = data.OrganizationId
 }
 
 // End of section. //template:end fromBody

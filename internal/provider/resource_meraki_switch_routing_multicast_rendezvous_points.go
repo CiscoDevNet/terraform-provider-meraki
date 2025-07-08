@@ -187,7 +187,6 @@ func (r *SwitchRoutingMulticastRendezvousPointsResource) Read(ctx context.Contex
 
 	// After `terraform import` we switch to a full read.
 	if imp {
-		state.Id = state.OrganizationId
 		state.fromBody(ctx, res)
 	} else {
 		state.fromBodyPartial(ctx, res)

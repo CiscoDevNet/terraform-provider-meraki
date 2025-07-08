@@ -352,6 +352,15 @@ func (data *Resource{{camelCase .BulkName}}) fromBody(ctx context.Context, res m
 		(*parent).Items = append((*parent).Items, data)
 		return true
 	})
+	{{- if not .PutCreate}}
+	index := 0
+	res.ForEach(func(k, res gjson.Result) bool {
+		data.Items[index].Id = types.StringValue(res.Get("{{.IdName}}").String())
+		index++
+		return true
+	})
+	{{- end}}
+	data.Id = data.OrganizationId
 }
 
 // End of section. //template:end fromBody

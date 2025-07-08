@@ -443,6 +443,13 @@ func (data *ResourceApplianceVLANs) fromBody(ctx context.Context, res meraki.Res
 		(*parent).Items = append((*parent).Items, data)
 		return true
 	})
+	index := 0
+	res.ForEach(func(k, res gjson.Result) bool {
+		data.Items[index].Id = types.StringValue(res.Get("id").String())
+		index++
+		return true
+	})
+	data.Id = data.OrganizationId
 }
 
 // End of section. //template:end fromBody

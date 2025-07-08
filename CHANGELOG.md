@@ -1,3 +1,7 @@
+## 1.4.2 (unreleased)
+
+- Fix bulk resource import of item IDs
+
 ## 1.4.1
 
 - Fix documentation categories for bulk resources

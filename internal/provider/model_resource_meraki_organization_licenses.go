@@ -93,6 +93,7 @@ func (data *ResourceOrganizationLicenses) fromBody(ctx context.Context, res mera
 		(*parent).Items = append((*parent).Items, data)
 		return true
 	})
+	data.Id = data.OrganizationId
 }
 
 // End of section. //template:end fromBody

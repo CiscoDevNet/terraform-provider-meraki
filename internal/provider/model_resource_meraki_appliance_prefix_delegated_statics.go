@@ -115,6 +115,13 @@ func (data *ResourceAppliancePrefixDelegatedStatics) fromBody(ctx context.Contex
 		(*parent).Items = append((*parent).Items, data)
 		return true
 	})
+	index := 0
+	res.ForEach(func(k, res gjson.Result) bool {
+		data.Items[index].Id = types.StringValue(res.Get("staticDelegatedPrefixId").String())
+		index++
+		return true
+	})
+	data.Id = data.OrganizationId
 }
 
 // End of section. //template:end fromBody

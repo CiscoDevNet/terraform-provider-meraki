@@ -94,6 +94,7 @@ func (data *ResourceSensorMQTTBrokers) fromBody(ctx context.Context, res meraki.
 		(*parent).Items = append((*parent).Items, data)
 		return true
 	})
+	data.Id = data.OrganizationId
 }
 
 // End of section. //template:end fromBody

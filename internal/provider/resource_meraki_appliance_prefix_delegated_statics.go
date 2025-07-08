@@ -201,7 +201,6 @@ func (r *AppliancePrefixDelegatedStaticsResource) Read(ctx context.Context, req 
 
 	// After `terraform import` we switch to a full read.
 	if imp {
-		state.Id = state.OrganizationId
 		state.fromBody(ctx, res)
 	} else {
 		state.fromBodyPartial(ctx, res)

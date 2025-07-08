@@ -199,7 +199,6 @@ func (r *SwitchRoutingStaticRoutesResource) Read(ctx context.Context, req resour
 
 	// After `terraform import` we switch to a full read.
 	if imp {
-		state.Id = state.OrganizationId
 		state.fromBody(ctx, res)
 	} else {
 		state.fromBodyPartial(ctx, res)
