@@ -1,4 +1,4 @@
-## 1.4.2 (unreleased)
+## 1.4.2
 
 - Fix bulk resource import of item IDs
 
