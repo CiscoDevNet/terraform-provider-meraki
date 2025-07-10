@@ -35,7 +35,7 @@ func TestAccDataSourceMerakiNetworkWebhookPayloadTemplate(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_webhook_payload_template.test", "body", "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_webhook_payload_template.test", "name", "Custom Template"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_webhook_payload_template.test", "name", "Custom Template New"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_webhook_payload_template.test", "headers.0.name", "Authorization"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_webhook_payload_template.test", "headers.0.template", "Bearer {{sharedSecret}}"))
 	resource.Test(t, resource.TestCase{
@@ -76,7 +76,7 @@ func testAccDataSourceMerakiNetworkWebhookPayloadTemplateConfig() string {
 	config := `resource "meraki_network_webhook_payload_template" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
-	config += `  name = "Custom Template"` + "\n"
+	config += `  name = "Custom Template New"` + "\n"
 	config += `  headers = [{` + "\n"
 	config += `    name = "Authorization"` + "\n"
 	config += `    template = "Bearer {{sharedSecret}}"` + "\n"
@@ -97,7 +97,7 @@ func testAccNamedDataSourceMerakiNetworkWebhookPayloadTemplateConfig() string {
 	config := `resource "meraki_network_webhook_payload_template" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
-	config += `  name = "Custom Template"` + "\n"
+	config += `  name = "Custom Template New"` + "\n"
 	config += `  headers = [{` + "\n"
 	config += `    name = "Authorization"` + "\n"
 	config += `    template = "Bearer {{sharedSecret}}"` + "\n"

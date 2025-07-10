@@ -100,7 +100,7 @@ func testAccMerakiNetworkWebhookPayloadTemplatesConfig_minimum() string {
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
 	config += `  body = "{}"` + "\n"
-	config += `  name = "Custom Template"` + "\n"
+	config += `  name = "Custom Template New"` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config
@@ -116,7 +116,7 @@ func testAccMerakiNetworkWebhookPayloadTemplatesConfig_all() string {
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
 	config += `  body = "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}"` + "\n"
-	config += `  name = "Custom Template"` + "\n"
+	config += `  name = "Custom Template New"` + "\n"
 	config += `  headers = [{` + "\n"
 	config += `    name = "Authorization"` + "\n"
 	config += `    template = "Bearer {{sharedSecret}}"` + "\n"
