@@ -522,6 +522,18 @@ func GetBulkItemId(config YamlConfig) string {
 	return ToGoName("id")
 }
 
+// GetBulkItemIdTfName returns the Terraform attribute name of the bulk item id
+func GetBulkItemIdTfName(config YamlConfig) string {
+	// Get the id attribute from the bulk item attributes
+	for _, attr := range config.Attributes {
+		if attr.Id {
+			return attr.TfName
+		}
+	}
+	// If no id attribute is found return default "id"
+	return "id"
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":                ToGoName,
@@ -558,6 +570,7 @@ var Functions = template.FuncMap{
 	"getBulkImportAttributes": GetBulkImportAttributes,
 	"hasOrganizationId":       HasOrganizationId,
 	"getBulkItemId":           GetBulkItemId,
+	"getBulkItemIdTfName":     GetBulkItemIdTfName,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")

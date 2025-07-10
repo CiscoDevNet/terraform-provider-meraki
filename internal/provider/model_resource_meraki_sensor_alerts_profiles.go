@@ -686,6 +686,246 @@ func (data *ResourceSensorAlertsProfiles) fromBodyUnknowns(ctx context.Context, 
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceSensorAlertsProfiles) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("profileId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("includeSensorUrl"); value.Exists() {
+			data.IncludeSensorUrl = types.BoolValue(value.Bool())
+		} else {
+			data.IncludeSensorUrl = types.BoolNull()
+		}
+		if value := res.Get("message"); value.Exists() {
+			data.Message = types.StringValue(value.String())
+		} else {
+			data.Message = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("recipients.emails"); value.Exists() {
+			data.RecipientsEmails = helpers.GetStringList(value.Array())
+		} else {
+			data.RecipientsEmails = types.ListNull(types.StringType)
+		}
+		if value := res.Get("recipients.httpServerIds"); value.Exists() {
+			data.RecipientsHttpServerIds = helpers.GetStringList(value.Array())
+		} else {
+			data.RecipientsHttpServerIds = types.ListNull(types.StringType)
+		}
+		if value := res.Get("recipients.smsNumbers"); value.Exists() {
+			data.RecipientsSmsNumbers = helpers.GetStringList(value.Array())
+		} else {
+			data.RecipientsSmsNumbers = types.ListNull(types.StringType)
+		}
+		if value := res.Get("schedule.id"); value.Exists() {
+			data.ScheduleId = types.StringValue(value.String())
+		} else {
+			data.ScheduleId = types.StringNull()
+		}
+		for i := 0; i < len(data.Conditions); i++ {
+			keys := [...]string{"direction", "metric"}
+			keyValues := [...]string{data.Conditions[i].Direction.ValueString(), data.Conditions[i].Metric.ValueString()}
+
+			parent := &data
+			data := (*parent).Conditions[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("conditions").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing Conditions[%d] = %+v",
+					i,
+					(*parent).Conditions[i],
+				))
+				(*parent).Conditions = slices.Delete((*parent).Conditions, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("direction"); value.Exists() {
+				data.Direction = types.StringValue(value.String())
+			} else {
+				data.Direction = types.StringNull()
+			}
+			if value := res.Get("duration"); value.Exists() {
+				data.Duration = types.Int64Value(value.Int())
+			} else {
+				data.Duration = types.Int64Null()
+			}
+			if value := res.Get("metric"); value.Exists() {
+				data.Metric = types.StringValue(value.String())
+			} else {
+				data.Metric = types.StringNull()
+			}
+			if value := res.Get("threshold.apparentPower.draw"); value.Exists() {
+				data.ThresholdApparentPowerDraw = types.Float64Value(value.Float())
+			} else {
+				data.ThresholdApparentPowerDraw = types.Float64Null()
+			}
+			if value := res.Get("threshold.co2.concentration"); value.Exists() {
+				data.ThresholdCo2Concentration = types.Int64Value(value.Int())
+			} else {
+				data.ThresholdCo2Concentration = types.Int64Null()
+			}
+			if value := res.Get("threshold.co2.quality"); value.Exists() {
+				data.ThresholdCo2Quality = types.StringValue(value.String())
+			} else {
+				data.ThresholdCo2Quality = types.StringNull()
+			}
+			if value := res.Get("threshold.current.draw"); value.Exists() {
+				data.ThresholdCurrentDraw = types.Float64Value(value.Float())
+			} else {
+				data.ThresholdCurrentDraw = types.Float64Null()
+			}
+			if value := res.Get("threshold.door.open"); value.Exists() {
+				data.ThresholdDoorOpen = types.BoolValue(value.Bool())
+			} else {
+				data.ThresholdDoorOpen = types.BoolNull()
+			}
+			if value := res.Get("threshold.frequency.level"); value.Exists() {
+				data.ThresholdFrequencyLevel = types.Float64Value(value.Float())
+			} else {
+				data.ThresholdFrequencyLevel = types.Float64Null()
+			}
+			if value := res.Get("threshold.humidity.quality"); value.Exists() {
+				data.ThresholdHumidityQuality = types.StringValue(value.String())
+			} else {
+				data.ThresholdHumidityQuality = types.StringNull()
+			}
+			if value := res.Get("threshold.humidity.relativePercentage"); value.Exists() {
+				data.ThresholdHumidityRelativePercentage = types.Int64Value(value.Int())
+			} else {
+				data.ThresholdHumidityRelativePercentage = types.Int64Null()
+			}
+			if value := res.Get("threshold.indoorAirQuality.quality"); value.Exists() {
+				data.ThresholdIndoorAirQualityQuality = types.StringValue(value.String())
+			} else {
+				data.ThresholdIndoorAirQualityQuality = types.StringNull()
+			}
+			if value := res.Get("threshold.indoorAirQuality.score"); value.Exists() {
+				data.ThresholdIndoorAirQualityScore = types.Int64Value(value.Int())
+			} else {
+				data.ThresholdIndoorAirQualityScore = types.Int64Null()
+			}
+			if value := res.Get("threshold.noise.ambient.level"); value.Exists() {
+				data.ThresholdNoiseAmbientLevel = types.Int64Value(value.Int())
+			} else {
+				data.ThresholdNoiseAmbientLevel = types.Int64Null()
+			}
+			if value := res.Get("threshold.noise.ambient.quality"); value.Exists() {
+				data.ThresholdNoiseAmbientQuality = types.StringValue(value.String())
+			} else {
+				data.ThresholdNoiseAmbientQuality = types.StringNull()
+			}
+			if value := res.Get("threshold.pm25.concentration"); value.Exists() {
+				data.ThresholdPm25Concentration = types.Int64Value(value.Int())
+			} else {
+				data.ThresholdPm25Concentration = types.Int64Null()
+			}
+			if value := res.Get("threshold.pm25.quality"); value.Exists() {
+				data.ThresholdPm25Quality = types.StringValue(value.String())
+			} else {
+				data.ThresholdPm25Quality = types.StringNull()
+			}
+			if value := res.Get("threshold.powerFactor.percentage"); value.Exists() {
+				data.ThresholdPowerFactorPercentage = types.Int64Value(value.Int())
+			} else {
+				data.ThresholdPowerFactorPercentage = types.Int64Null()
+			}
+			if value := res.Get("threshold.realPower.draw"); value.Exists() {
+				data.ThresholdRealPowerDraw = types.Float64Value(value.Float())
+			} else {
+				data.ThresholdRealPowerDraw = types.Float64Null()
+			}
+			if value := res.Get("threshold.temperature.celsius"); value.Exists() {
+				data.ThresholdTemperatureCelsius = types.Float64Value(value.Float())
+			} else {
+				data.ThresholdTemperatureCelsius = types.Float64Null()
+			}
+			if value := res.Get("threshold.temperature.fahrenheit"); value.Exists() {
+				data.ThresholdTemperatureFahrenheit = types.Float64Value(value.Float())
+			} else {
+				data.ThresholdTemperatureFahrenheit = types.Float64Null()
+			}
+			if value := res.Get("threshold.temperature.quality"); value.Exists() {
+				data.ThresholdTemperatureQuality = types.StringValue(value.String())
+			} else {
+				data.ThresholdTemperatureQuality = types.StringNull()
+			}
+			if value := res.Get("threshold.tvoc.concentration"); value.Exists() {
+				data.ThresholdTvocConcentration = types.Int64Value(value.Int())
+			} else {
+				data.ThresholdTvocConcentration = types.Int64Null()
+			}
+			if value := res.Get("threshold.tvoc.quality"); value.Exists() {
+				data.ThresholdTvocQuality = types.StringValue(value.String())
+			} else {
+				data.ThresholdTvocQuality = types.StringNull()
+			}
+			if value := res.Get("threshold.upstreamPower.outageDetected"); value.Exists() {
+				data.ThresholdUpstreamPowerOutageDetected = types.BoolValue(value.Bool())
+			} else {
+				data.ThresholdUpstreamPowerOutageDetected = types.BoolNull()
+			}
+			if value := res.Get("threshold.voltage.level"); value.Exists() {
+				data.ThresholdVoltageLevel = types.Float64Value(value.Float())
+			} else {
+				data.ThresholdVoltageLevel = types.Float64Null()
+			}
+			if value := res.Get("threshold.water.present"); value.Exists() {
+				data.ThresholdWaterPresent = types.BoolValue(value.Bool())
+			} else {
+				data.ThresholdWaterPresent = types.BoolNull()
+			}
+			(*parent).Conditions[i] = data
+		}
+		if value := res.Get("serials"); value.Exists() {
+			data.Serials = helpers.GetStringList(value.Array())
+		} else {
+			data.Serials = types.ListNull(types.StringType)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceSensorAlertsProfiles) toDestroyBody(ctx context.Context) string {

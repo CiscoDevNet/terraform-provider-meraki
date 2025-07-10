@@ -280,6 +280,101 @@ func (data *ResourceNetworkMerakiAuthUsers) fromBodyUnknowns(ctx context.Context
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceNetworkMerakiAuthUsers) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("id").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("accountType"); value.Exists() {
+			data.AccountType = types.StringValue(value.String())
+		} else {
+			data.AccountType = types.StringNull()
+		}
+		if value := res.Get("email"); value.Exists() {
+			data.Email = types.StringValue(value.String())
+		} else {
+			data.Email = types.StringNull()
+		}
+		if value := res.Get("isAdmin"); value.Exists() {
+			data.IsAdmin = types.BoolValue(value.Bool())
+		} else {
+			data.IsAdmin = types.BoolNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		for i := 0; i < len(data.Authorizations); i++ {
+			keys := [...]string{"ssidNumber"}
+			keyValues := [...]string{strconv.FormatInt(data.Authorizations[i].SsidNumber.ValueInt64(), 10)}
+
+			parent := &data
+			data := (*parent).Authorizations[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("authorizations").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing Authorizations[%d] = %+v",
+					i,
+					(*parent).Authorizations[i],
+				))
+				(*parent).Authorizations = slices.Delete((*parent).Authorizations, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("expiresAt"); value.Exists() {
+				data.ExpiresAt = types.StringValue(value.String())
+			} else {
+				data.ExpiresAt = types.StringNull()
+			}
+			if value := res.Get("ssidNumber"); value.Exists() {
+				data.SsidNumber = types.Int64Value(value.Int())
+			} else {
+				data.SsidNumber = types.Int64Null()
+			}
+			(*parent).Authorizations[i] = data
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceNetworkMerakiAuthUsers) toDestroyBody(ctx context.Context) string {

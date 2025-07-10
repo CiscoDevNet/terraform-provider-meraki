@@ -351,6 +351,112 @@ func (data *ResourceApplianceSSIDs) fromBodyUnknowns(ctx context.Context, res me
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceApplianceSSIDs) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("number").String() == (*parent).Items[i].Number.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("authMode"); value.Exists() {
+			data.AuthMode = types.StringValue(value.String())
+		} else {
+			data.AuthMode = types.StringNull()
+		}
+		if value := res.Get("defaultVlanId"); value.Exists() {
+			data.DefaultVlanId = types.Int64Value(value.Int())
+		} else {
+			data.DefaultVlanId = types.Int64Null()
+		}
+		if value := res.Get("enabled"); value.Exists() {
+			data.Enabled = types.BoolValue(value.Bool())
+		} else {
+			data.Enabled = types.BoolNull()
+		}
+		if value := res.Get("encryptionMode"); value.Exists() {
+			data.EncryptionMode = types.StringValue(value.String())
+		} else {
+			data.EncryptionMode = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("psk"); value.Exists() {
+			data.Psk = types.StringValue(value.String())
+		} else {
+			data.Psk = types.StringNull()
+		}
+		if value := res.Get("visible"); value.Exists() {
+			data.Visible = types.BoolValue(value.Bool())
+		} else {
+			data.Visible = types.BoolNull()
+		}
+		if value := res.Get("wpaEncryptionMode"); value.Exists() {
+			data.WpaEncryptionMode = types.StringValue(value.String())
+		} else {
+			data.WpaEncryptionMode = types.StringNull()
+		}
+		if value := res.Get("dhcpEnforcedDeauthentication.enabled"); value.Exists() {
+			data.DhcpEnforcedDeauthenticationEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.DhcpEnforcedDeauthenticationEnabled = types.BoolNull()
+		}
+		if value := res.Get("dot11w.enabled"); value.Exists() {
+			data.Dot11wEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.Dot11wEnabled = types.BoolNull()
+		}
+		if value := res.Get("dot11w.required"); value.Exists() {
+			data.Dot11wRequired = types.BoolValue(value.Bool())
+		} else {
+			data.Dot11wRequired = types.BoolNull()
+		}
+		{
+			l := len(res.Get("radiusServers").Array())
+			tflog.Debug(ctx, fmt.Sprintf("radiusServers array resizing from %d to %d", len(data.RadiusServers), l))
+			if len(data.RadiusServers) > l {
+				data.RadiusServers = data.RadiusServers[:l]
+			}
+		}
+		for i := range data.RadiusServers {
+			parent := &data
+			data := (*parent).RadiusServers[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("radiusServers.%d", i))
+			if value := res.Get("host"); value.Exists() {
+				data.Host = types.StringValue(value.String())
+			} else {
+				data.Host = types.StringNull()
+			}
+			if value := res.Get("port"); value.Exists() {
+				data.Port = types.Int64Value(value.Int())
+			} else {
+				data.Port = types.Int64Null()
+			}
+			(*parent).RadiusServers[i] = data
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceApplianceSSIDs) toDestroyBody(ctx context.Context) string {

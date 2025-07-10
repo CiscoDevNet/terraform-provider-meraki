@@ -1740,6 +1740,654 @@ func (data *ResourceWirelessSSIDs) fromBodyUnknowns(ctx context.Context, res mer
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("number").String() == (*parent).Items[i].Number.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("adaptivePolicyGroupId"); value.Exists() {
+			data.AdaptivePolicyGroupId = types.StringValue(value.String())
+		} else {
+			data.AdaptivePolicyGroupId = types.StringNull()
+		}
+		if value := res.Get("adultContentFilteringEnabled"); value.Exists() {
+			data.AdultContentFilteringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.AdultContentFilteringEnabled = types.BoolNull()
+		}
+		if value := res.Get("authMode"); value.Exists() {
+			data.AuthMode = types.StringValue(value.String())
+		} else {
+			data.AuthMode = types.StringNull()
+		}
+		if value := res.Get("availableOnAllAps"); value.Exists() {
+			data.AvailableOnAllAps = types.BoolValue(value.Bool())
+		} else {
+			data.AvailableOnAllAps = types.BoolNull()
+		}
+		if value := res.Get("bandSelection"); value.Exists() {
+			data.BandSelection = types.StringValue(value.String())
+		} else {
+			data.BandSelection = types.StringNull()
+		}
+		if value := res.Get("concentratorNetworkId"); value.Exists() {
+			data.ConcentratorNetworkId = types.StringValue(value.String())
+		} else {
+			data.ConcentratorNetworkId = types.StringNull()
+		}
+		if value := res.Get("defaultVlanId"); value.Exists() {
+			data.DefaultVlanId = types.Int64Value(value.Int())
+		} else {
+			data.DefaultVlanId = types.Int64Null()
+		}
+		if value := res.Get("disassociateClientsOnVpnFailover"); value.Exists() {
+			data.DisassociateClientsOnVpnFailover = types.BoolValue(value.Bool())
+		} else {
+			data.DisassociateClientsOnVpnFailover = types.BoolNull()
+		}
+		if value := res.Get("enabled"); value.Exists() {
+			data.Enabled = types.BoolValue(value.Bool())
+		} else {
+			data.Enabled = types.BoolNull()
+		}
+		if value := res.Get("encryptionMode"); value.Exists() {
+			data.EncryptionMode = types.StringValue(value.String())
+		} else {
+			data.EncryptionMode = types.StringNull()
+		}
+		if value := res.Get("enterpriseAdminAccess"); value.Exists() {
+			data.EnterpriseAdminAccess = types.StringValue(value.String())
+		} else {
+			data.EnterpriseAdminAccess = types.StringNull()
+		}
+		if value := res.Get("ipAssignmentMode"); value.Exists() {
+			data.IpAssignmentMode = types.StringValue(value.String())
+		} else {
+			data.IpAssignmentMode = types.StringNull()
+		}
+		if value := res.Get("lanIsolationEnabled"); value.Exists() {
+			data.LanIsolationEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.LanIsolationEnabled = types.BoolNull()
+		}
+		if value := res.Get("mandatoryDhcpEnabled"); value.Exists() {
+			data.MandatoryDhcpEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.MandatoryDhcpEnabled = types.BoolNull()
+		}
+		if value := res.Get("minBitrate"); value.Exists() {
+			data.MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("perClientBandwidthLimitDown"); value.Exists() {
+			data.PerClientBandwidthLimitDown = types.Int64Value(value.Int())
+		} else {
+			data.PerClientBandwidthLimitDown = types.Int64Null()
+		}
+		if value := res.Get("perClientBandwidthLimitUp"); value.Exists() {
+			data.PerClientBandwidthLimitUp = types.Int64Value(value.Int())
+		} else {
+			data.PerClientBandwidthLimitUp = types.Int64Null()
+		}
+		if value := res.Get("perSsidBandwidthLimitDown"); value.Exists() {
+			data.PerSsidBandwidthLimitDown = types.Int64Value(value.Int())
+		} else {
+			data.PerSsidBandwidthLimitDown = types.Int64Null()
+		}
+		if value := res.Get("perSsidBandwidthLimitUp"); value.Exists() {
+			data.PerSsidBandwidthLimitUp = types.Int64Value(value.Int())
+		} else {
+			data.PerSsidBandwidthLimitUp = types.Int64Null()
+		}
+		if value := res.Get("psk"); value.Exists() {
+			data.Psk = types.StringValue(value.String())
+		} else {
+			data.Psk = types.StringNull()
+		}
+		if value := res.Get("radiusAccountingEnabled"); value.Exists() {
+			data.RadiusAccountingEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusAccountingEnabled = types.BoolNull()
+		}
+		if value := res.Get("radiusAccountingInterimInterval"); value.Exists() {
+			data.RadiusAccountingInterimInterval = types.Int64Value(value.Int())
+		} else {
+			data.RadiusAccountingInterimInterval = types.Int64Null()
+		}
+		if value := res.Get("radiusAttributeForGroupPolicies"); value.Exists() {
+			data.RadiusAttributeForGroupPolicies = types.StringValue(value.String())
+		} else {
+			data.RadiusAttributeForGroupPolicies = types.StringNull()
+		}
+		if value := res.Get("radiusAuthenticationNasId"); value.Exists() {
+			data.RadiusAuthenticationNasId = types.StringValue(value.String())
+		} else {
+			data.RadiusAuthenticationNasId = types.StringNull()
+		}
+		if value := res.Get("radiusCalledStationId"); value.Exists() {
+			data.RadiusCalledStationId = types.StringValue(value.String())
+		} else {
+			data.RadiusCalledStationId = types.StringNull()
+		}
+		if value := res.Get("radiusCoaEnabled"); value.Exists() {
+			data.RadiusCoaEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusCoaEnabled = types.BoolNull()
+		}
+		if value := res.Get("radiusFailoverPolicy"); value.Exists() {
+			data.RadiusFailoverPolicy = types.StringValue(value.String())
+		} else {
+			data.RadiusFailoverPolicy = types.StringNull()
+		}
+		if value := res.Get("radiusFallbackEnabled"); value.Exists() {
+			data.RadiusFallbackEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusFallbackEnabled = types.BoolNull()
+		}
+		if value := res.Get("radiusGuestVlanEnabled"); value.Exists() {
+			data.RadiusGuestVlanEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusGuestVlanEnabled = types.BoolNull()
+		}
+		if value := res.Get("radiusGuestVlanId"); value.Exists() {
+			data.RadiusGuestVlanId = types.Int64Value(value.Int())
+		} else {
+			data.RadiusGuestVlanId = types.Int64Null()
+		}
+		if value := res.Get("radiusLoadBalancingPolicy"); value.Exists() {
+			data.RadiusLoadBalancingPolicy = types.StringValue(value.String())
+		} else {
+			data.RadiusLoadBalancingPolicy = types.StringNull()
+		}
+		if value := res.Get("radiusOverride"); value.Exists() {
+			data.RadiusOverride = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusOverride = types.BoolNull()
+		}
+		if value := res.Get("radiusProxyEnabled"); value.Exists() {
+			data.RadiusProxyEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusProxyEnabled = types.BoolNull()
+		}
+		if value := res.Get("radiusServerAttemptsLimit"); value.Exists() {
+			data.RadiusServerAttemptsLimit = types.Int64Value(value.Int())
+		} else {
+			data.RadiusServerAttemptsLimit = types.Int64Null()
+		}
+		if value := res.Get("radiusServerTimeout"); value.Exists() {
+			data.RadiusServerTimeout = types.Int64Value(value.Int())
+		} else {
+			data.RadiusServerTimeout = types.Int64Null()
+		}
+		if value := res.Get("radiusTestingEnabled"); value.Exists() {
+			data.RadiusTestingEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusTestingEnabled = types.BoolNull()
+		}
+		if value := res.Get("secondaryConcentratorNetworkId"); value.Exists() {
+			data.SecondaryConcentratorNetworkId = types.StringValue(value.String())
+		} else {
+			data.SecondaryConcentratorNetworkId = types.StringNull()
+		}
+		if value := res.Get("splashPage"); value.Exists() {
+			data.SplashPage = types.StringValue(value.String())
+		} else {
+			data.SplashPage = types.StringNull()
+		}
+		if value := res.Get("useVlanTagging"); value.Exists() {
+			data.UseVlanTagging = types.BoolValue(value.Bool())
+		} else {
+			data.UseVlanTagging = types.BoolNull()
+		}
+		if value := res.Get("visible"); value.Exists() {
+			data.Visible = types.BoolValue(value.Bool())
+		} else {
+			data.Visible = types.BoolNull()
+		}
+		if value := res.Get("vlanId"); value.Exists() {
+			data.VlanId = types.Int64Value(value.Int())
+		} else {
+			data.VlanId = types.Int64Null()
+		}
+		if value := res.Get("walledGardenEnabled"); value.Exists() {
+			data.WalledGardenEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.WalledGardenEnabled = types.BoolNull()
+		}
+		if value := res.Get("wpaEncryptionMode"); value.Exists() {
+			data.WpaEncryptionMode = types.StringValue(value.String())
+		} else {
+			data.WpaEncryptionMode = types.StringNull()
+		}
+		if value := res.Get("activeDirectory.credentials.logonName"); value.Exists() {
+			data.ActiveDirectoryCredentialsLogonName = types.StringValue(value.String())
+		} else {
+			data.ActiveDirectoryCredentialsLogonName = types.StringNull()
+		}
+		if value := res.Get("activeDirectory.credentials.password"); value.Exists() {
+			data.ActiveDirectoryCredentialsPassword = types.StringValue(value.String())
+		} else {
+			data.ActiveDirectoryCredentialsPassword = types.StringNull()
+		}
+		for i := 0; i < len(data.ActiveDirectoryServers); i++ {
+			keys := [...]string{"host"}
+			keyValues := [...]string{data.ActiveDirectoryServers[i].Host.ValueString()}
+
+			parent := &data
+			data := (*parent).ActiveDirectoryServers[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("activeDirectory.servers").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing ActiveDirectoryServers[%d] = %+v",
+					i,
+					(*parent).ActiveDirectoryServers[i],
+				))
+				(*parent).ActiveDirectoryServers = slices.Delete((*parent).ActiveDirectoryServers, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("host"); value.Exists() {
+				data.Host = types.StringValue(value.String())
+			} else {
+				data.Host = types.StringNull()
+			}
+			if value := res.Get("port"); value.Exists() {
+				data.Port = types.Int64Value(value.Int())
+			} else {
+				data.Port = types.Int64Null()
+			}
+			(*parent).ActiveDirectoryServers[i] = data
+		}
+		if value := res.Get("dnsRewrite.enabled"); value.Exists() {
+			data.DnsRewriteEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.DnsRewriteEnabled = types.BoolNull()
+		}
+		if value := res.Get("dnsRewrite.dnsCustomNameservers"); value.Exists() {
+			data.DnsRewriteDnsCustomNameservers = helpers.GetStringList(value.Array())
+		} else {
+			data.DnsRewriteDnsCustomNameservers = types.ListNull(types.StringType)
+		}
+		if value := res.Get("dot11r.adaptive"); value.Exists() {
+			data.Dot11rAdaptive = types.BoolValue(value.Bool())
+		} else {
+			data.Dot11rAdaptive = types.BoolNull()
+		}
+		if value := res.Get("dot11r.enabled"); value.Exists() {
+			data.Dot11rEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.Dot11rEnabled = types.BoolNull()
+		}
+		if value := res.Get("dot11w.enabled"); value.Exists() {
+			data.Dot11wEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.Dot11wEnabled = types.BoolNull()
+		}
+		if value := res.Get("dot11w.required"); value.Exists() {
+			data.Dot11wRequired = types.BoolValue(value.Bool())
+		} else {
+			data.Dot11wRequired = types.BoolNull()
+		}
+		if value := res.Get("gre.key"); value.Exists() {
+			data.GreKey = types.Int64Value(value.Int())
+		} else {
+			data.GreKey = types.Int64Null()
+		}
+		if value := res.Get("gre.concentrator.host"); value.Exists() {
+			data.GreConcentratorHost = types.StringValue(value.String())
+		} else {
+			data.GreConcentratorHost = types.StringNull()
+		}
+		if value := res.Get("ldap.baseDistinguishedName"); value.Exists() {
+			data.LdapBaseDistinguishedName = types.StringValue(value.String())
+		} else {
+			data.LdapBaseDistinguishedName = types.StringNull()
+		}
+		if value := res.Get("ldap.credentials.distinguishedName"); value.Exists() {
+			data.LdapCredentialsDistinguishedName = types.StringValue(value.String())
+		} else {
+			data.LdapCredentialsDistinguishedName = types.StringNull()
+		}
+		if value := res.Get("ldap.credentials.password"); value.Exists() {
+			data.LdapCredentialsPassword = types.StringValue(value.String())
+		} else {
+			data.LdapCredentialsPassword = types.StringNull()
+		}
+		if value := res.Get("ldap.serverCaCertificate.contents"); value.Exists() {
+			data.LdapServerCaCertificateContents = types.StringValue(value.String())
+		} else {
+			data.LdapServerCaCertificateContents = types.StringNull()
+		}
+		{
+			l := len(res.Get("ldap.servers").Array())
+			tflog.Debug(ctx, fmt.Sprintf("ldap.servers array resizing from %d to %d", len(data.LdapServers), l))
+			if len(data.LdapServers) > l {
+				data.LdapServers = data.LdapServers[:l]
+			}
+		}
+		for i := range data.LdapServers {
+			parent := &data
+			data := (*parent).LdapServers[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("ldap.servers.%d", i))
+			if value := res.Get("host"); value.Exists() {
+				data.Host = types.StringValue(value.String())
+			} else {
+				data.Host = types.StringNull()
+			}
+			if value := res.Get("port"); value.Exists() {
+				data.Port = types.Int64Value(value.Int())
+			} else {
+				data.Port = types.Int64Null()
+			}
+			(*parent).LdapServers[i] = data
+		}
+		if value := res.Get("localRadius.cacheTimeout"); value.Exists() {
+			data.LocalRadiusCacheTimeout = types.Int64Value(value.Int())
+		} else {
+			data.LocalRadiusCacheTimeout = types.Int64Null()
+		}
+		if value := res.Get("localRadius.certificateAuthentication.enabled"); value.Exists() {
+			data.LocalRadiusCertificateAuthenticationEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.LocalRadiusCertificateAuthenticationEnabled = types.BoolNull()
+		}
+		if value := res.Get("localRadius.certificateAuthentication.ocspResponderUrl"); value.Exists() {
+			data.LocalRadiusCertificateAuthenticationOcspResponderUrl = types.StringValue(value.String())
+		} else {
+			data.LocalRadiusCertificateAuthenticationOcspResponderUrl = types.StringNull()
+		}
+		if value := res.Get("localRadius.certificateAuthentication.useLdap"); value.Exists() {
+			data.LocalRadiusCertificateAuthenticationUseLdap = types.BoolValue(value.Bool())
+		} else {
+			data.LocalRadiusCertificateAuthenticationUseLdap = types.BoolNull()
+		}
+		if value := res.Get("localRadius.certificateAuthentication.useOcsp"); value.Exists() {
+			data.LocalRadiusCertificateAuthenticationUseOcsp = types.BoolValue(value.Bool())
+		} else {
+			data.LocalRadiusCertificateAuthenticationUseOcsp = types.BoolNull()
+		}
+		if value := res.Get("localRadius.certificateAuthentication.clientRootCaCertificate.contents"); value.Exists() {
+			data.LocalRadiusCertificateAuthenticationClientRootCaCertificateContents = types.StringValue(value.String())
+		} else {
+			data.LocalRadiusCertificateAuthenticationClientRootCaCertificateContents = types.StringNull()
+		}
+		if value := res.Get("localRadius.passwordAuthentication.enabled"); value.Exists() {
+			data.LocalRadiusPasswordAuthenticationEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.LocalRadiusPasswordAuthenticationEnabled = types.BoolNull()
+		}
+		if value := res.Get("namedVlans.radius.guestVlan.enabled"); value.Exists() {
+			data.NamedVlansRadiusGuestVlanEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.NamedVlansRadiusGuestVlanEnabled = types.BoolNull()
+		}
+		if value := res.Get("namedVlans.radius.guestVlan.name"); value.Exists() {
+			data.NamedVlansRadiusGuestVlanName = types.StringValue(value.String())
+		} else {
+			data.NamedVlansRadiusGuestVlanName = types.StringNull()
+		}
+		if value := res.Get("namedVlans.tagging.defaultVlanName"); value.Exists() {
+			data.NamedVlansTaggingDefaultVlanName = types.StringValue(value.String())
+		} else {
+			data.NamedVlansTaggingDefaultVlanName = types.StringNull()
+		}
+		if value := res.Get("namedVlans.tagging.enabled"); value.Exists() {
+			data.NamedVlansTaggingEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.NamedVlansTaggingEnabled = types.BoolNull()
+		}
+		for i := 0; i < len(data.NamedVlansTaggingByApTags); i++ {
+			keys := [...]string{"vlanName"}
+			keyValues := [...]string{data.NamedVlansTaggingByApTags[i].VlanName.ValueString()}
+
+			parent := &data
+			data := (*parent).NamedVlansTaggingByApTags[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("namedVlans.tagging.byApTags").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing NamedVlansTaggingByApTags[%d] = %+v",
+					i,
+					(*parent).NamedVlansTaggingByApTags[i],
+				))
+				(*parent).NamedVlansTaggingByApTags = slices.Delete((*parent).NamedVlansTaggingByApTags, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("vlanName"); value.Exists() {
+				data.VlanName = types.StringValue(value.String())
+			} else {
+				data.VlanName = types.StringNull()
+			}
+			if value := res.Get("tags"); value.Exists() {
+				data.Tags = helpers.GetStringSet(value.Array())
+			} else {
+				data.Tags = types.SetNull(types.StringType)
+			}
+			(*parent).NamedVlansTaggingByApTags[i] = data
+		}
+		if value := res.Get("oauth.allowedDomains"); value.Exists() {
+			data.OauthAllowedDomains = helpers.GetStringSet(value.Array())
+		} else {
+			data.OauthAllowedDomains = types.SetNull(types.StringType)
+		}
+		if value := res.Get("radiusRadsec.tlsTunnel.timeout"); value.Exists() {
+			data.RadiusRadsecTlsTunnelTimeout = types.Int64Value(value.Int())
+		} else {
+			data.RadiusRadsecTlsTunnelTimeout = types.Int64Null()
+		}
+		if value := res.Get("speedBurst.enabled"); value.Exists() {
+			data.SpeedBurstEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.SpeedBurstEnabled = types.BoolNull()
+		}
+		for i := 0; i < len(data.ApTagsAndVlanIds); i++ {
+			keys := [...]string{"vlanId"}
+			keyValues := [...]string{strconv.FormatInt(data.ApTagsAndVlanIds[i].VlanId.ValueInt64(), 10)}
+
+			parent := &data
+			data := (*parent).ApTagsAndVlanIds[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("apTagsAndVlanIds").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing ApTagsAndVlanIds[%d] = %+v",
+					i,
+					(*parent).ApTagsAndVlanIds[i],
+				))
+				(*parent).ApTagsAndVlanIds = slices.Delete((*parent).ApTagsAndVlanIds, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("vlanId"); value.Exists() {
+				data.VlanId = types.Int64Value(value.Int())
+			} else {
+				data.VlanId = types.Int64Null()
+			}
+			if value := res.Get("tags"); value.Exists() {
+				data.Tags = helpers.GetStringSet(value.Array())
+			} else {
+				data.Tags = types.SetNull(types.StringType)
+			}
+			(*parent).ApTagsAndVlanIds[i] = data
+		}
+		if value := res.Get("availabilityTags"); value.Exists() {
+			data.AvailabilityTags = helpers.GetStringSet(value.Array())
+		} else {
+			data.AvailabilityTags = types.SetNull(types.StringType)
+		}
+		{
+			l := len(res.Get("radiusAccountingServers").Array())
+			tflog.Debug(ctx, fmt.Sprintf("radiusAccountingServers array resizing from %d to %d", len(data.RadiusAccountingServers), l))
+			if len(data.RadiusAccountingServers) > l {
+				data.RadiusAccountingServers = data.RadiusAccountingServers[:l]
+			}
+		}
+		for i := range data.RadiusAccountingServers {
+			parent := &data
+			data := (*parent).RadiusAccountingServers[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("radiusAccountingServers.%d", i))
+			if value := res.Get("caCertificate"); value.Exists() {
+				data.CaCertificate = types.StringValue(value.String())
+			} else {
+				data.CaCertificate = types.StringNull()
+			}
+			if value := res.Get("host"); value.Exists() {
+				data.Host = types.StringValue(value.String())
+			} else {
+				data.Host = types.StringNull()
+			}
+			if value := res.Get("port"); value.Exists() {
+				data.Port = types.Int64Value(value.Int())
+			} else {
+				data.Port = types.Int64Null()
+			}
+			if value := res.Get("radsecEnabled"); value.Exists() {
+				data.RadsecEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.RadsecEnabled = types.BoolNull()
+			}
+			(*parent).RadiusAccountingServers[i] = data
+		}
+		{
+			l := len(res.Get("radiusServers").Array())
+			tflog.Debug(ctx, fmt.Sprintf("radiusServers array resizing from %d to %d", len(data.RadiusServers), l))
+			if len(data.RadiusServers) > l {
+				data.RadiusServers = data.RadiusServers[:l]
+			}
+		}
+		for i := range data.RadiusServers {
+			parent := &data
+			data := (*parent).RadiusServers[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("radiusServers.%d", i))
+			if value := res.Get("caCertificate"); value.Exists() {
+				data.CaCertificate = types.StringValue(value.String())
+			} else {
+				data.CaCertificate = types.StringNull()
+			}
+			if value := res.Get("host"); value.Exists() {
+				data.Host = types.StringValue(value.String())
+			} else {
+				data.Host = types.StringNull()
+			}
+			if value := res.Get("openRoamingCertificateId"); value.Exists() {
+				data.OpenRoamingCertificateId = types.Int64Value(value.Int())
+			} else {
+				data.OpenRoamingCertificateId = types.Int64Null()
+			}
+			if value := res.Get("port"); value.Exists() {
+				data.Port = types.Int64Value(value.Int())
+			} else {
+				data.Port = types.Int64Null()
+			}
+			if value := res.Get("radsecEnabled"); value.Exists() {
+				data.RadsecEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.RadsecEnabled = types.BoolNull()
+			}
+			(*parent).RadiusServers[i] = data
+		}
+		if value := res.Get("splashGuestSponsorDomains"); value.Exists() {
+			data.SplashGuestSponsorDomains = helpers.GetStringSet(value.Array())
+		} else {
+			data.SplashGuestSponsorDomains = types.SetNull(types.StringType)
+		}
+		if value := res.Get("walledGardenRanges"); value.Exists() {
+			data.WalledGardenRanges = helpers.GetStringSet(value.Array())
+		} else {
+			data.WalledGardenRanges = types.SetNull(types.StringType)
+		}
+		if value := res.Get("radiusDasClients.clientsIps"); value.Exists() {
+			data.RadiusDasClientsIps = helpers.GetStringSet(value.Array())
+		} else {
+			data.RadiusDasClientsIps = types.SetNull(types.StringType)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceWirelessSSIDs) toDestroyBody(ctx context.Context) string {

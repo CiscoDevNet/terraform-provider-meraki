@@ -543,6 +543,178 @@ func (data *ResourceSwitchPorts) fromBodyUnknowns(ctx context.Context, res merak
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceSwitchPorts) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("portId").String() == (*parent).Items[i].PortId.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("accessPolicyNumber"); value.Exists() {
+			data.AccessPolicyNumber = types.Int64Value(value.Int())
+		} else {
+			data.AccessPolicyNumber = types.Int64Null()
+		}
+		if value := res.Get("accessPolicyType"); value.Exists() {
+			data.AccessPolicyType = types.StringValue(value.String())
+		} else {
+			data.AccessPolicyType = types.StringNull()
+		}
+		if value := res.Get("adaptivePolicyGroupId"); value.Exists() {
+			data.AdaptivePolicyGroupId = types.StringValue(value.String())
+		} else {
+			data.AdaptivePolicyGroupId = types.StringNull()
+		}
+		if value := res.Get("allowedVlans"); value.Exists() {
+			data.AllowedVlans = types.StringValue(value.String())
+		} else {
+			data.AllowedVlans = types.StringNull()
+		}
+		if value := res.Get("daiTrusted"); value.Exists() {
+			data.DaiTrusted = types.BoolValue(value.Bool())
+		} else {
+			data.DaiTrusted = types.BoolNull()
+		}
+		if value := res.Get("enabled"); value.Exists() {
+			data.Enabled = types.BoolValue(value.Bool())
+		} else {
+			data.Enabled = types.BoolNull()
+		}
+		if value := res.Get("flexibleStackingEnabled"); value.Exists() {
+			data.FlexibleStackingEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.FlexibleStackingEnabled = types.BoolNull()
+		}
+		if value := res.Get("isolationEnabled"); value.Exists() {
+			data.IsolationEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.IsolationEnabled = types.BoolNull()
+		}
+		if value := res.Get("linkNegotiation"); value.Exists() {
+			data.LinkNegotiation = types.StringValue(value.String())
+		} else {
+			data.LinkNegotiation = types.StringNull()
+		}
+		if value := res.Get("macWhitelistLimit"); value.Exists() {
+			data.MacWhitelistLimit = types.Int64Value(value.Int())
+		} else {
+			data.MacWhitelistLimit = types.Int64Null()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("peerSgtCapable"); value.Exists() {
+			data.PeerSgtCapable = types.BoolValue(value.Bool())
+		} else {
+			data.PeerSgtCapable = types.BoolNull()
+		}
+		if value := res.Get("poeEnabled"); value.Exists() {
+			data.PoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PoeEnabled = types.BoolNull()
+		}
+		if value := res.Get("portScheduleId"); value.Exists() {
+			data.PortScheduleId = types.StringValue(value.String())
+		} else {
+			data.PortScheduleId = types.StringNull()
+		}
+		if value := res.Get("rstpEnabled"); value.Exists() {
+			data.RstpEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RstpEnabled = types.BoolNull()
+		}
+		if value := res.Get("stickyMacAllowListLimit"); value.Exists() {
+			data.StickyMacAllowListLimit = types.Int64Value(value.Int())
+		} else {
+			data.StickyMacAllowListLimit = types.Int64Null()
+		}
+		if value := res.Get("stormControlEnabled"); value.Exists() {
+			data.StormControlEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.StormControlEnabled = types.BoolNull()
+		}
+		if value := res.Get("stpGuard"); value.Exists() {
+			data.StpGuard = types.StringValue(value.String())
+		} else {
+			data.StpGuard = types.StringNull()
+		}
+		if value := res.Get("type"); value.Exists() {
+			data.Type = types.StringValue(value.String())
+		} else {
+			data.Type = types.StringNull()
+		}
+		if value := res.Get("udld"); value.Exists() {
+			data.Udld = types.StringValue(value.String())
+		} else {
+			data.Udld = types.StringNull()
+		}
+		if value := res.Get("vlan"); value.Exists() {
+			data.Vlan = types.Int64Value(value.Int())
+		} else {
+			data.Vlan = types.Int64Null()
+		}
+		if value := res.Get("voiceVlan"); value.Exists() {
+			data.VoiceVlan = types.Int64Value(value.Int())
+		} else {
+			data.VoiceVlan = types.Int64Null()
+		}
+		if value := res.Get("dot3az.enabled"); value.Exists() {
+			data.Dot3azEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.Dot3azEnabled = types.BoolNull()
+		}
+		if value := res.Get("profile.enabled"); value.Exists() {
+			data.ProfileEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.ProfileEnabled = types.BoolNull()
+		}
+		if value := res.Get("profile.id"); value.Exists() {
+			data.ProfileId = types.StringValue(value.String())
+		} else {
+			data.ProfileId = types.StringNull()
+		}
+		if value := res.Get("profile.iname"); value.Exists() {
+			data.ProfileIname = types.StringValue(value.String())
+		} else {
+			data.ProfileIname = types.StringNull()
+		}
+		if value := res.Get("macAllowList"); value.Exists() {
+			data.MacAllowList = helpers.GetStringSet(value.Array())
+		} else {
+			data.MacAllowList = types.SetNull(types.StringType)
+		}
+		if value := res.Get("stickyMacAllowList"); value.Exists() {
+			data.StickyMacAllowList = helpers.GetStringSet(value.Array())
+		} else {
+			data.StickyMacAllowList = types.SetNull(types.StringType)
+		}
+		if value := res.Get("tags"); value.Exists() {
+			data.Tags = helpers.GetStringSet(value.Array())
+		} else {
+			data.Tags = types.SetNull(types.StringType)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceSwitchPorts) toDestroyBody(ctx context.Context) string {

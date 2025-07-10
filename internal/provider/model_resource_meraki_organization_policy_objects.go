@@ -241,6 +241,73 @@ func (data *ResourceOrganizationPolicyObjects) fromBodyUnknowns(ctx context.Cont
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceOrganizationPolicyObjects) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("id").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("category"); value.Exists() {
+			data.Category = types.StringValue(value.String())
+		} else {
+			data.Category = types.StringNull()
+		}
+		if value := res.Get("cidr"); value.Exists() {
+			data.Cidr = types.StringValue(value.String())
+		} else {
+			data.Cidr = types.StringNull()
+		}
+		if value := res.Get("fqdn"); value.Exists() {
+			data.Fqdn = types.StringValue(value.String())
+		} else {
+			data.Fqdn = types.StringNull()
+		}
+		if value := res.Get("ip"); value.Exists() {
+			data.Ip = types.StringValue(value.String())
+		} else {
+			data.Ip = types.StringNull()
+		}
+		if value := res.Get("mask"); value.Exists() {
+			data.Mask = types.StringValue(value.String())
+		} else {
+			data.Mask = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("type"); value.Exists() {
+			data.Type = types.StringValue(value.String())
+		} else {
+			data.Type = types.StringNull()
+		}
+		if value := res.Get("groupIds"); value.Exists() {
+			data.GroupIds = helpers.GetStringSet(value.Array())
+		} else {
+			data.GroupIds = types.SetNull(types.StringType)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceOrganizationPolicyObjects) toDestroyBody(ctx context.Context) string {

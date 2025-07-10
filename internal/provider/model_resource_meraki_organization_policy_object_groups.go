@@ -171,6 +171,48 @@ func (data *ResourceOrganizationPolicyObjectGroups) fromBodyUnknowns(ctx context
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceOrganizationPolicyObjectGroups) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("id").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("category"); value.Exists() {
+			data.Category = types.StringValue(value.String())
+		} else {
+			data.Category = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("objectIds"); value.Exists() {
+			data.ObjectIds = helpers.GetInt64Set(value.Array())
+		} else {
+			data.ObjectIds = types.SetNull(types.Int64Type)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceOrganizationPolicyObjectGroups) toDestroyBody(ctx context.Context) string {

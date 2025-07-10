@@ -1460,6 +1460,511 @@ func (data *ResourceWirelessRFProfiles) fromBodyUnknowns(ctx context.Context, re
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("id").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("bandSelectionType"); value.Exists() {
+			data.BandSelectionType = types.StringValue(value.String())
+		} else {
+			data.BandSelectionType = types.StringNull()
+		}
+		if value := res.Get("clientBalancingEnabled"); value.Exists() {
+			data.ClientBalancingEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.ClientBalancingEnabled = types.BoolNull()
+		}
+		if value := res.Get("minBitrateType"); value.Exists() {
+			data.MinBitrateType = types.StringValue(value.String())
+		} else {
+			data.MinBitrateType = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("apBandSettings.bandOperationMode"); value.Exists() {
+			data.ApBandSettingsBandOperationMode = types.StringValue(value.String())
+		} else {
+			data.ApBandSettingsBandOperationMode = types.StringNull()
+		}
+		if value := res.Get("apBandSettings.bandSteeringEnabled"); value.Exists() {
+			data.ApBandSettingsBandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.ApBandSettingsBandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("apBandSettings.bands.enabled"); value.Exists() {
+			data.ApBandSettingsBandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.ApBandSettingsBandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() {
+			data.FiveGhzSettingsChannelWidth = types.StringValue(value.String())
+		} else {
+			data.FiveGhzSettingsChannelWidth = types.StringNull()
+		}
+		if value := res.Get("fiveGhzSettings.maxPower"); value.Exists() {
+			data.FiveGhzSettingsMaxPower = types.Int64Value(value.Int())
+		} else {
+			data.FiveGhzSettingsMaxPower = types.Int64Null()
+		}
+		if value := res.Get("fiveGhzSettings.minBitrate"); value.Exists() {
+			data.FiveGhzSettingsMinBitrate = types.Int64Value(value.Int())
+		} else {
+			data.FiveGhzSettingsMinBitrate = types.Int64Null()
+		}
+		if value := res.Get("fiveGhzSettings.minPower"); value.Exists() {
+			data.FiveGhzSettingsMinPower = types.Int64Value(value.Int())
+		} else {
+			data.FiveGhzSettingsMinPower = types.Int64Null()
+		}
+		if value := res.Get("fiveGhzSettings.rxsop"); value.Exists() {
+			data.FiveGhzSettingsRxsop = types.Int64Value(value.Int())
+		} else {
+			data.FiveGhzSettingsRxsop = types.Int64Null()
+		}
+		if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() {
+			data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
+		} else {
+			data.FiveGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
+		}
+		for i := 0; i < len(data.FlexRadiosByModel); i++ {
+			keys := [...]string{"model"}
+			keyValues := [...]string{data.FlexRadiosByModel[i].Model.ValueString()}
+
+			parent := &data
+			data := (*parent).FlexRadiosByModel[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("flexRadios.byModel").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing FlexRadiosByModel[%d] = %+v",
+					i,
+					(*parent).FlexRadiosByModel[i],
+				))
+				(*parent).FlexRadiosByModel = slices.Delete((*parent).FlexRadiosByModel, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("model"); value.Exists() {
+				data.Model = types.StringValue(value.String())
+			} else {
+				data.Model = types.StringNull()
+			}
+			if value := res.Get("bands"); value.Exists() {
+				data.Bands = helpers.GetStringSet(value.Array())
+			} else {
+				data.Bands = types.SetNull(types.StringType)
+			}
+			(*parent).FlexRadiosByModel[i] = data
+		}
+		if value := res.Get("perSsidSettings.0.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings0BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings0BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.0.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings0BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings0BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.0.minBitrate"); value.Exists() {
+			data.PerSsidSettings0MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings0MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.0.bands.enabled"); value.Exists() {
+			data.PerSsidSettings0BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings0BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.1.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings1BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings1BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.1.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings1BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings1BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.1.minBitrate"); value.Exists() {
+			data.PerSsidSettings1MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings1MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.1.bands.enabled"); value.Exists() {
+			data.PerSsidSettings1BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings1BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.10.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings10BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings10BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.10.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings10BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings10BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.10.minBitrate"); value.Exists() {
+			data.PerSsidSettings10MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings10MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.10.bands.enabled"); value.Exists() {
+			data.PerSsidSettings10BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings10BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.11.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings11BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings11BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.11.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings11BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings11BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.11.minBitrate"); value.Exists() {
+			data.PerSsidSettings11MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings11MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.11.bands.enabled"); value.Exists() {
+			data.PerSsidSettings11BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings11BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.12.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings12BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings12BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.12.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings12BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings12BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.12.minBitrate"); value.Exists() {
+			data.PerSsidSettings12MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings12MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.12.bands.enabled"); value.Exists() {
+			data.PerSsidSettings12BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings12BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.13.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings13BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings13BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.13.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings13BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings13BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.13.minBitrate"); value.Exists() {
+			data.PerSsidSettings13MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings13MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.13.bands.enabled"); value.Exists() {
+			data.PerSsidSettings13BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings13BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.14.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings14BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings14BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.14.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings14BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings14BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.14.minBitrate"); value.Exists() {
+			data.PerSsidSettings14MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings14MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.14.bands.enabled"); value.Exists() {
+			data.PerSsidSettings14BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings14BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.2.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings2BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings2BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.2.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings2BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings2BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.2.minBitrate"); value.Exists() {
+			data.PerSsidSettings2MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings2MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.2.bands.enabled"); value.Exists() {
+			data.PerSsidSettings2BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings2BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.3.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings3BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings3BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.3.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings3BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings3BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.3.minBitrate"); value.Exists() {
+			data.PerSsidSettings3MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings3MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.3.bands.enabled"); value.Exists() {
+			data.PerSsidSettings3BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings3BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.4.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings4BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings4BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.4.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings4BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings4BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.4.minBitrate"); value.Exists() {
+			data.PerSsidSettings4MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings4MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.4.bands.enabled"); value.Exists() {
+			data.PerSsidSettings4BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings4BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.5.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings5BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings5BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.5.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings5BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings5BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.5.minBitrate"); value.Exists() {
+			data.PerSsidSettings5MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings5MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.5.bands.enabled"); value.Exists() {
+			data.PerSsidSettings5BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings5BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.6.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings6BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings6BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.6.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings6BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings6BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.6.minBitrate"); value.Exists() {
+			data.PerSsidSettings6MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings6MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.6.bands.enabled"); value.Exists() {
+			data.PerSsidSettings6BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings6BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.7.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings7BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings7BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.7.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings7BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings7BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.7.minBitrate"); value.Exists() {
+			data.PerSsidSettings7MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings7MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.7.bands.enabled"); value.Exists() {
+			data.PerSsidSettings7BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings7BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.8.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings8BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings8BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.8.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings8BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings8BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.8.minBitrate"); value.Exists() {
+			data.PerSsidSettings8MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings8MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.8.bands.enabled"); value.Exists() {
+			data.PerSsidSettings8BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings8BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("perSsidSettings.9.bandOperationMode"); value.Exists() {
+			data.PerSsidSettings9BandOperationMode = types.StringValue(value.String())
+		} else {
+			data.PerSsidSettings9BandOperationMode = types.StringNull()
+		}
+		if value := res.Get("perSsidSettings.9.bandSteeringEnabled"); value.Exists() {
+			data.PerSsidSettings9BandSteeringEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerSsidSettings9BandSteeringEnabled = types.BoolNull()
+		}
+		if value := res.Get("perSsidSettings.9.minBitrate"); value.Exists() {
+			data.PerSsidSettings9MinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.PerSsidSettings9MinBitrate = types.Float64Null()
+		}
+		if value := res.Get("perSsidSettings.9.bands.enabled"); value.Exists() {
+			data.PerSsidSettings9BandsEnabled = helpers.GetStringSet(value.Array())
+		} else {
+			data.PerSsidSettings9BandsEnabled = types.SetNull(types.StringType)
+		}
+		if value := res.Get("sixGhzSettings.channelWidth"); value.Exists() {
+			data.SixGhzSettingsChannelWidth = types.StringValue(value.String())
+		} else {
+			data.SixGhzSettingsChannelWidth = types.StringNull()
+		}
+		if value := res.Get("sixGhzSettings.maxPower"); value.Exists() {
+			data.SixGhzSettingsMaxPower = types.Int64Value(value.Int())
+		} else {
+			data.SixGhzSettingsMaxPower = types.Int64Null()
+		}
+		if value := res.Get("sixGhzSettings.minBitrate"); value.Exists() {
+			data.SixGhzSettingsMinBitrate = types.Int64Value(value.Int())
+		} else {
+			data.SixGhzSettingsMinBitrate = types.Int64Null()
+		}
+		if value := res.Get("sixGhzSettings.minPower"); value.Exists() {
+			data.SixGhzSettingsMinPower = types.Int64Value(value.Int())
+		} else {
+			data.SixGhzSettingsMinPower = types.Int64Null()
+		}
+		if value := res.Get("sixGhzSettings.rxsop"); value.Exists() {
+			data.SixGhzSettingsRxsop = types.Int64Value(value.Int())
+		} else {
+			data.SixGhzSettingsRxsop = types.Int64Null()
+		}
+		if value := res.Get("sixGhzSettings.validAutoChannels"); value.Exists() {
+			data.SixGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
+		} else {
+			data.SixGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
+		}
+		if value := res.Get("transmission.enabled"); value.Exists() {
+			data.TransmissionEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.TransmissionEnabled = types.BoolNull()
+		}
+		if value := res.Get("twoFourGhzSettings.axEnabled"); value.Exists() {
+			data.TwoFourGhzSettingsAxEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.TwoFourGhzSettingsAxEnabled = types.BoolNull()
+		}
+		if value := res.Get("twoFourGhzSettings.maxPower"); value.Exists() {
+			data.TwoFourGhzSettingsMaxPower = types.Int64Value(value.Int())
+		} else {
+			data.TwoFourGhzSettingsMaxPower = types.Int64Null()
+		}
+		if value := res.Get("twoFourGhzSettings.minBitrate"); value.Exists() {
+			data.TwoFourGhzSettingsMinBitrate = types.Float64Value(value.Float())
+		} else {
+			data.TwoFourGhzSettingsMinBitrate = types.Float64Null()
+		}
+		if value := res.Get("twoFourGhzSettings.minPower"); value.Exists() {
+			data.TwoFourGhzSettingsMinPower = types.Int64Value(value.Int())
+		} else {
+			data.TwoFourGhzSettingsMinPower = types.Int64Null()
+		}
+		if value := res.Get("twoFourGhzSettings.rxsop"); value.Exists() {
+			data.TwoFourGhzSettingsRxsop = types.Int64Value(value.Int())
+		} else {
+			data.TwoFourGhzSettingsRxsop = types.Int64Null()
+		}
+		if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() {
+			data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
+		} else {
+			data.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceWirelessRFProfiles) toDestroyBody(ctx context.Context) string {

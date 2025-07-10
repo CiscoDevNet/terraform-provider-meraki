@@ -90,3 +90,17 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 ->The Terraform plan output may look more dramatic than the actual changes performed by the provider. Even if the plan shows an element being "removed" and "added", the provider will only update the existing object in place via the Meraki API, whenever possible.
 
 To understand which elements have changed, been added or deleted, we need to uniquely identify each element in the collection. This is typically done using a combination of the element's attributes. In the above example (`meraki_switch_ports` resource) the `port_id` attribute is used to uniquely identify each port. Be aware, that whenever one of the attributes that contributes to the uniqueness of an element is changed, the provider will delete and recreate the element. The attributes that uniquely identify each element are listed in the documentation.
+
+## Importing items of bulk resources
+
+To import items of bulk resources, we can unconditionally import all items using the following syntax:
+
+```
+terraform import meraki_organization_policy_objects.example "<organization_id>"
+```
+
+Optionally, we can also add a list of item IDs to import specific items:
+
+```
+terraform import meraki_organization_policy_objects.example "<organization_id>,[<id_1>,<id_2>,...]"
+```

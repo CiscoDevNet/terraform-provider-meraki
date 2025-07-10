@@ -309,6 +309,98 @@ func (data *ResourceSwitchRoutingInterfaces) fromBodyUnknowns(ctx context.Contex
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceSwitchRoutingInterfaces) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("interfaceId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("defaultGateway"); value.Exists() {
+			data.DefaultGateway = types.StringValue(value.String())
+		} else {
+			data.DefaultGateway = types.StringNull()
+		}
+		if value := res.Get("interfaceIp"); value.Exists() {
+			data.InterfaceIp = types.StringValue(value.String())
+		} else {
+			data.InterfaceIp = types.StringNull()
+		}
+		if value := res.Get("multicastRouting"); value.Exists() {
+			data.MulticastRouting = types.StringValue(value.String())
+		} else {
+			data.MulticastRouting = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("subnet"); value.Exists() {
+			data.Subnet = types.StringValue(value.String())
+		} else {
+			data.Subnet = types.StringNull()
+		}
+		if value := res.Get("vlanId"); value.Exists() {
+			data.VlanId = types.Int64Value(value.Int())
+		} else {
+			data.VlanId = types.Int64Null()
+		}
+		if value := res.Get("ipv6.address"); value.Exists() {
+			data.Ipv6Address = types.StringValue(value.String())
+		} else {
+			data.Ipv6Address = types.StringNull()
+		}
+		if value := res.Get("ipv6.assignmentMode"); value.Exists() {
+			data.Ipv6AssignmentMode = types.StringValue(value.String())
+		} else {
+			data.Ipv6AssignmentMode = types.StringNull()
+		}
+		if value := res.Get("ipv6.gateway"); value.Exists() {
+			data.Ipv6Gateway = types.StringValue(value.String())
+		} else {
+			data.Ipv6Gateway = types.StringNull()
+		}
+		if value := res.Get("ipv6.prefix"); value.Exists() {
+			data.Ipv6Prefix = types.StringValue(value.String())
+		} else {
+			data.Ipv6Prefix = types.StringNull()
+		}
+		if value := res.Get("ospfSettings.area"); value.Exists() {
+			data.OspfSettingsArea = types.StringValue(value.String())
+		} else {
+			data.OspfSettingsArea = types.StringNull()
+		}
+		if value := res.Get("ospfSettings.cost"); value.Exists() {
+			data.OspfSettingsCost = types.Int64Value(value.Int())
+		} else {
+			data.OspfSettingsCost = types.Int64Null()
+		}
+		if value := res.Get("ospfSettings.isPassiveEnabled"); value.Exists() {
+			data.OspfSettingsIsPassiveEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.OspfSettingsIsPassiveEnabled = types.BoolNull()
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceSwitchRoutingInterfaces) toDestroyBody(ctx context.Context) string {

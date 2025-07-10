@@ -256,6 +256,96 @@ func (data *ResourceOrganizationAdaptivePolicyGroups) fromBodyUnknowns(ctx conte
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceOrganizationAdaptivePolicyGroups) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("groupId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("description"); value.Exists() {
+			data.Description = types.StringValue(value.String())
+		} else {
+			data.Description = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("sgt"); value.Exists() {
+			data.Sgt = types.Int64Value(value.Int())
+		} else {
+			data.Sgt = types.Int64Null()
+		}
+		for i := 0; i < len(data.PolicyObjects); i++ {
+			keys := [...]string{"id", "name"}
+			keyValues := [...]string{data.PolicyObjects[i].Id.ValueString(), data.PolicyObjects[i].Name.ValueString()}
+
+			parent := &data
+			data := (*parent).PolicyObjects[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("policyObjects").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing PolicyObjects[%d] = %+v",
+					i,
+					(*parent).PolicyObjects[i],
+				))
+				(*parent).PolicyObjects = slices.Delete((*parent).PolicyObjects, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("id"); value.Exists() {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
+			if value := res.Get("name"); value.Exists() {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			(*parent).PolicyObjects[i] = data
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceOrganizationAdaptivePolicyGroups) toDestroyBody(ctx context.Context) string {

@@ -186,6 +186,53 @@ func (data *ResourceAppliancePrefixDelegatedStatics) fromBodyUnknowns(ctx contex
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceAppliancePrefixDelegatedStatics) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("staticDelegatedPrefixId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("description"); value.Exists() {
+			data.Description = types.StringValue(value.String())
+		} else {
+			data.Description = types.StringNull()
+		}
+		if value := res.Get("prefix"); value.Exists() {
+			data.Prefix = types.StringValue(value.String())
+		} else {
+			data.Prefix = types.StringNull()
+		}
+		if value := res.Get("origin.type"); value.Exists() {
+			data.OriginType = types.StringValue(value.String())
+		} else {
+			data.OriginType = types.StringNull()
+		}
+		if value := res.Get("origin.interfaces"); value.Exists() {
+			data.OriginInterfaces = helpers.GetStringList(value.Array())
+		} else {
+			data.OriginInterfaces = types.ListNull(types.StringType)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceAppliancePrefixDelegatedStatics) toDestroyBody(ctx context.Context) string {

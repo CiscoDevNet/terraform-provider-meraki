@@ -746,6 +746,285 @@ func (data *ResourceApplianceVLANs) fromBodyUnknowns(ctx context.Context, res me
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("id").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("applianceIp"); value.Exists() {
+			data.ApplianceIp = types.StringValue(value.String())
+		} else {
+			data.ApplianceIp = types.StringNull()
+		}
+		if value := res.Get("cidr"); value.Exists() {
+			data.Cidr = types.StringValue(value.String())
+		} else {
+			data.Cidr = types.StringNull()
+		}
+		if value := res.Get("dhcpBootFilename"); value.Exists() {
+			data.DhcpBootFilename = types.StringValue(value.String())
+		} else {
+			data.DhcpBootFilename = types.StringNull()
+		}
+		if value := res.Get("dhcpBootNextServer"); value.Exists() {
+			data.DhcpBootNextServer = types.StringValue(value.String())
+		} else {
+			data.DhcpBootNextServer = types.StringNull()
+		}
+		if value := res.Get("dhcpBootOptionsEnabled"); value.Exists() {
+			data.DhcpBootOptionsEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.DhcpBootOptionsEnabled = types.BoolNull()
+		}
+		if value := res.Get("dhcpHandling"); value.Exists() {
+			data.DhcpHandling = types.StringValue(value.String())
+		} else {
+			data.DhcpHandling = types.StringNull()
+		}
+		if value := res.Get("dhcpLeaseTime"); value.Exists() {
+			data.DhcpLeaseTime = types.StringValue(value.String())
+		} else {
+			data.DhcpLeaseTime = types.StringNull()
+		}
+		if value := res.Get("dnsNameservers"); value.Exists() {
+			data.DnsNameservers = types.StringValue(value.String())
+		} else {
+			data.DnsNameservers = types.StringNull()
+		}
+		if value := res.Get("groupPolicyId"); value.Exists() {
+			data.GroupPolicyId = types.StringValue(value.String())
+		} else {
+			data.GroupPolicyId = types.StringNull()
+		}
+		if value := res.Get("id"); value.Exists() {
+			data.VlanId = types.StringValue(value.String())
+		} else {
+			data.VlanId = types.StringNull()
+		}
+		if value := res.Get("mask"); value.Exists() {
+			data.Mask = types.Int64Value(value.Int())
+		} else {
+			data.Mask = types.Int64Null()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("subnet"); value.Exists() {
+			data.Subnet = types.StringValue(value.String())
+		} else {
+			data.Subnet = types.StringNull()
+		}
+		if value := res.Get("templateVlanType"); value.Exists() {
+			data.TemplateVlanType = types.StringValue(value.String())
+		} else {
+			data.TemplateVlanType = types.StringNull()
+		}
+		if value := res.Get("vpnNatSubnet"); value.Exists() {
+			data.VpnNatSubnet = types.StringValue(value.String())
+		} else {
+			data.VpnNatSubnet = types.StringNull()
+		}
+		for i, item := range data.FixedIpAssignments {
+			parent := &data
+			data := item
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("fixedIpAssignments.%s", i))
+			if value := res.Get("ip"); value.Exists() {
+				data.Ip = types.StringValue(value.String())
+			} else {
+				data.Ip = types.StringNull()
+			}
+			if value := res.Get("name"); value.Exists() {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			(*parent).FixedIpAssignments[i] = data
+		}
+		if value := res.Get("ipv6.enabled"); value.Exists() {
+			data.Ipv6Enabled = types.BoolValue(value.Bool())
+		} else {
+			data.Ipv6Enabled = types.BoolNull()
+		}
+		{
+			l := len(res.Get("ipv6.prefixAssignments").Array())
+			tflog.Debug(ctx, fmt.Sprintf("ipv6.prefixAssignments array resizing from %d to %d", len(data.Ipv6PrefixAssignments), l))
+			if len(data.Ipv6PrefixAssignments) > l {
+				data.Ipv6PrefixAssignments = data.Ipv6PrefixAssignments[:l]
+			}
+		}
+		for i := range data.Ipv6PrefixAssignments {
+			parent := &data
+			data := (*parent).Ipv6PrefixAssignments[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("ipv6.prefixAssignments.%d", i))
+			if value := res.Get("autonomous"); value.Exists() {
+				data.Autonomous = types.BoolValue(value.Bool())
+			} else {
+				data.Autonomous = types.BoolNull()
+			}
+			if value := res.Get("staticApplianceIp6"); value.Exists() {
+				data.StaticApplianceIp6 = types.StringValue(value.String())
+			} else {
+				data.StaticApplianceIp6 = types.StringNull()
+			}
+			if value := res.Get("staticPrefix"); value.Exists() {
+				data.StaticPrefix = types.StringValue(value.String())
+			} else {
+				data.StaticPrefix = types.StringNull()
+			}
+			if value := res.Get("origin.type"); value.Exists() {
+				data.OriginType = types.StringValue(value.String())
+			} else {
+				data.OriginType = types.StringNull()
+			}
+			if value := res.Get("origin.interfaces"); value.Exists() {
+				data.OriginInterfaces = helpers.GetStringList(value.Array())
+			} else {
+				data.OriginInterfaces = types.ListNull(types.StringType)
+			}
+			(*parent).Ipv6PrefixAssignments[i] = data
+		}
+		if value := res.Get("mandatoryDhcp.enabled"); value.Exists() {
+			data.MandatoryDhcpEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.MandatoryDhcpEnabled = types.BoolNull()
+		}
+		for i := 0; i < len(data.DhcpOptions); i++ {
+			keys := [...]string{"code", "type", "value"}
+			keyValues := [...]string{data.DhcpOptions[i].Code.ValueString(), data.DhcpOptions[i].Type.ValueString(), data.DhcpOptions[i].Value.ValueString()}
+
+			parent := &data
+			data := (*parent).DhcpOptions[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("dhcpOptions").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing DhcpOptions[%d] = %+v",
+					i,
+					(*parent).DhcpOptions[i],
+				))
+				(*parent).DhcpOptions = slices.Delete((*parent).DhcpOptions, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("code"); value.Exists() {
+				data.Code = types.StringValue(value.String())
+			} else {
+				data.Code = types.StringNull()
+			}
+			if value := res.Get("type"); value.Exists() {
+				data.Type = types.StringValue(value.String())
+			} else {
+				data.Type = types.StringNull()
+			}
+			if value := res.Get("value"); value.Exists() {
+				data.Value = types.StringValue(value.String())
+			} else {
+				data.Value = types.StringNull()
+			}
+			(*parent).DhcpOptions[i] = data
+		}
+		if value := res.Get("dhcpRelayServerIps"); value.Exists() {
+			data.DhcpRelayServerIps = helpers.GetStringList(value.Array())
+		} else {
+			data.DhcpRelayServerIps = types.ListNull(types.StringType)
+		}
+		for i := 0; i < len(data.ReservedIpRanges); i++ {
+			keys := [...]string{"comment", "end", "start"}
+			keyValues := [...]string{data.ReservedIpRanges[i].Comment.ValueString(), data.ReservedIpRanges[i].End.ValueString(), data.ReservedIpRanges[i].Start.ValueString()}
+
+			parent := &data
+			data := (*parent).ReservedIpRanges[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("reservedIpRanges").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing ReservedIpRanges[%d] = %+v",
+					i,
+					(*parent).ReservedIpRanges[i],
+				))
+				(*parent).ReservedIpRanges = slices.Delete((*parent).ReservedIpRanges, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("comment"); value.Exists() {
+				data.Comment = types.StringValue(value.String())
+			} else {
+				data.Comment = types.StringNull()
+			}
+			if value := res.Get("end"); value.Exists() {
+				data.End = types.StringValue(value.String())
+			} else {
+				data.End = types.StringNull()
+			}
+			if value := res.Get("start"); value.Exists() {
+				data.Start = types.StringValue(value.String())
+			} else {
+				data.Start = types.StringNull()
+			}
+			(*parent).ReservedIpRanges[i] = data
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceApplianceVLANs) toDestroyBody(ctx context.Context) string {

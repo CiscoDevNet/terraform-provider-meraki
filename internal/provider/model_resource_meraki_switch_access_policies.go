@@ -705,6 +705,236 @@ func (data *ResourceSwitchAccessPolicies) fromBodyUnknowns(ctx context.Context, 
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("accessPolicyNumber").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("accessPolicyType"); value.Exists() {
+			data.AccessPolicyType = types.StringValue(value.String())
+		} else {
+			data.AccessPolicyType = types.StringNull()
+		}
+		if value := res.Get("guestGroupPolicyId"); value.Exists() {
+			data.GuestGroupPolicyId = types.StringValue(value.String())
+		} else {
+			data.GuestGroupPolicyId = types.StringNull()
+		}
+		if value := res.Get("guestPortBouncing"); value.Exists() {
+			data.GuestPortBouncing = types.BoolValue(value.Bool())
+		} else {
+			data.GuestPortBouncing = types.BoolNull()
+		}
+		if value := res.Get("guestSgtId"); value.Exists() {
+			data.GuestSgtId = types.Int64Value(value.Int())
+		} else {
+			data.GuestSgtId = types.Int64Null()
+		}
+		if value := res.Get("guestVlanId"); value.Exists() {
+			data.GuestVlanId = types.Int64Value(value.Int())
+		} else {
+			data.GuestVlanId = types.Int64Null()
+		}
+		if value := res.Get("hostMode"); value.Exists() {
+			data.HostMode = types.StringValue(value.String())
+		} else {
+			data.HostMode = types.StringNull()
+		}
+		if value := res.Get("increaseAccessSpeed"); value.Exists() {
+			data.IncreaseAccessSpeed = types.BoolValue(value.Bool())
+		} else {
+			data.IncreaseAccessSpeed = types.BoolNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("radiusAccountingEnabled"); value.Exists() {
+			data.RadiusAccountingEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusAccountingEnabled = types.BoolNull()
+		}
+		if value := res.Get("radiusCoaSupportEnabled"); value.Exists() {
+			data.RadiusCoaSupportEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusCoaSupportEnabled = types.BoolNull()
+		}
+		if value := res.Get("radiusGroupAttribute"); value.Exists() {
+			data.RadiusGroupAttribute = types.StringValue(value.String())
+		} else {
+			data.RadiusGroupAttribute = types.StringNull()
+		}
+		if value := res.Get("radiusTestingEnabled"); value.Exists() {
+			data.RadiusTestingEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusTestingEnabled = types.BoolNull()
+		}
+		if value := res.Get("urlRedirectWalledGardenEnabled"); value.Exists() {
+			data.UrlRedirectWalledGardenEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.UrlRedirectWalledGardenEnabled = types.BoolNull()
+		}
+		if value := res.Get("voiceVlanClients"); value.Exists() {
+			data.VoiceVlanClients = types.BoolValue(value.Bool())
+		} else {
+			data.VoiceVlanClients = types.BoolNull()
+		}
+		if value := res.Get("dot1x.controlDirection"); value.Exists() {
+			data.Dot1xControlDirection = types.StringValue(value.String())
+		} else {
+			data.Dot1xControlDirection = types.StringNull()
+		}
+		if value := res.Get("radius.failedAuthGroupPolicyId"); value.Exists() {
+			data.RadiusFailedAuthGroupPolicyId = types.StringValue(value.String())
+		} else {
+			data.RadiusFailedAuthGroupPolicyId = types.StringNull()
+		}
+		if value := res.Get("radius.failedAuthSgtId"); value.Exists() {
+			data.RadiusFailedAuthSgtId = types.Int64Value(value.Int())
+		} else {
+			data.RadiusFailedAuthSgtId = types.Int64Null()
+		}
+		if value := res.Get("radius.failedAuthVlanId"); value.Exists() {
+			data.RadiusFailedAuthVlanId = types.Int64Value(value.Int())
+		} else {
+			data.RadiusFailedAuthVlanId = types.Int64Null()
+		}
+		if value := res.Get("radius.preAuthenticationGroupPolicyId"); value.Exists() {
+			data.RadiusPreAuthenticationGroupPolicyId = types.StringValue(value.String())
+		} else {
+			data.RadiusPreAuthenticationGroupPolicyId = types.StringNull()
+		}
+		if value := res.Get("radius.reAuthenticationInterval"); value.Exists() {
+			data.RadiusReAuthenticationInterval = types.Int64Value(value.Int())
+		} else {
+			data.RadiusReAuthenticationInterval = types.Int64Null()
+		}
+		if value := res.Get("radius.authentication.mode"); value.Exists() {
+			data.RadiusAuthenticationMode = types.StringValue(value.String())
+		} else {
+			data.RadiusAuthenticationMode = types.StringNull()
+		}
+		if value := res.Get("radius.criticalAuth.dataGroupPolicyId"); value.Exists() {
+			data.RadiusCriticalAuthDataGroupPolicyId = types.StringValue(value.String())
+		} else {
+			data.RadiusCriticalAuthDataGroupPolicyId = types.StringNull()
+		}
+		if value := res.Get("radius.criticalAuth.dataSgtId"); value.Exists() {
+			data.RadiusCriticalAuthDataSgtId = types.Int64Value(value.Int())
+		} else {
+			data.RadiusCriticalAuthDataSgtId = types.Int64Null()
+		}
+		if value := res.Get("radius.criticalAuth.dataVlanId"); value.Exists() {
+			data.RadiusCriticalAuthDataVlanId = types.Int64Value(value.Int())
+		} else {
+			data.RadiusCriticalAuthDataVlanId = types.Int64Null()
+		}
+		if value := res.Get("radius.criticalAuth.suspendPortBounce"); value.Exists() {
+			data.RadiusCriticalAuthSuspendPortBounce = types.BoolValue(value.Bool())
+		} else {
+			data.RadiusCriticalAuthSuspendPortBounce = types.BoolNull()
+		}
+		if value := res.Get("radius.criticalAuth.voiceGroupPolicyId"); value.Exists() {
+			data.RadiusCriticalAuthVoiceGroupPolicyId = types.StringValue(value.String())
+		} else {
+			data.RadiusCriticalAuthVoiceGroupPolicyId = types.StringNull()
+		}
+		if value := res.Get("radius.criticalAuth.voiceSgtId"); value.Exists() {
+			data.RadiusCriticalAuthVoiceSgtId = types.Int64Value(value.Int())
+		} else {
+			data.RadiusCriticalAuthVoiceSgtId = types.Int64Null()
+		}
+		if value := res.Get("radius.criticalAuth.voiceVlanId"); value.Exists() {
+			data.RadiusCriticalAuthVoiceVlanId = types.Int64Value(value.Int())
+		} else {
+			data.RadiusCriticalAuthVoiceVlanId = types.Int64Null()
+		}
+		{
+			l := len(res.Get("radiusAccountingServers").Array())
+			tflog.Debug(ctx, fmt.Sprintf("radiusAccountingServers array resizing from %d to %d", len(data.RadiusAccountingServers), l))
+			if len(data.RadiusAccountingServers) > l {
+				data.RadiusAccountingServers = data.RadiusAccountingServers[:l]
+			}
+		}
+		for i := range data.RadiusAccountingServers {
+			parent := &data
+			data := (*parent).RadiusAccountingServers[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("radiusAccountingServers.%d", i))
+			if value := res.Get("host"); value.Exists() {
+				data.Host = types.StringValue(value.String())
+			} else {
+				data.Host = types.StringNull()
+			}
+			if value := res.Get("organizationRadiusServerId"); value.Exists() {
+				data.OrganizationRadiusServerId = types.StringValue(value.String())
+			} else {
+				data.OrganizationRadiusServerId = types.StringNull()
+			}
+			if value := res.Get("port"); value.Exists() {
+				data.Port = types.Int64Value(value.Int())
+			} else {
+				data.Port = types.Int64Null()
+			}
+			(*parent).RadiusAccountingServers[i] = data
+		}
+		{
+			l := len(res.Get("radiusServers").Array())
+			tflog.Debug(ctx, fmt.Sprintf("radiusServers array resizing from %d to %d", len(data.RadiusServers), l))
+			if len(data.RadiusServers) > l {
+				data.RadiusServers = data.RadiusServers[:l]
+			}
+		}
+		for i := range data.RadiusServers {
+			parent := &data
+			data := (*parent).RadiusServers[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("radiusServers.%d", i))
+			if value := res.Get("host"); value.Exists() {
+				data.Host = types.StringValue(value.String())
+			} else {
+				data.Host = types.StringNull()
+			}
+			if value := res.Get("organizationRadiusServerId"); value.Exists() {
+				data.OrganizationRadiusServerId = types.StringValue(value.String())
+			} else {
+				data.OrganizationRadiusServerId = types.StringNull()
+			}
+			if value := res.Get("port"); value.Exists() {
+				data.Port = types.Int64Value(value.Int())
+			} else {
+				data.Port = types.Int64Null()
+			}
+			(*parent).RadiusServers[i] = data
+		}
+		if value := res.Get("urlRedirectWalledGardenRanges"); value.Exists() {
+			data.UrlRedirectWalledGardenRanges = helpers.GetStringSet(value.Array())
+		} else {
+			data.UrlRedirectWalledGardenRanges = types.SetNull(types.StringType)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceSwitchAccessPolicies) toDestroyBody(ctx context.Context) string {

@@ -615,7 +615,11 @@ func (r *WirelessRFProfilesResource) Read(ctx context.Context, req resource.Read
 
 	// After `terraform import` we switch to a full read.
 	if imp {
-		state.fromBody(ctx, res)
+		if len(state.Items) > 0 {
+			state.fromBodyImport(ctx, res)
+		} else {
+			state.fromBody(ctx, res)
+		}
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
@@ -759,17 +763,52 @@ func (r *WirelessRFProfilesResource) Delete(ctx context.Context, req resource.De
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *WirelessRFProfilesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	itemIdParts := make([]string, 0)
+	if strings.Contains(req.ID, ",[") {
+		itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
+	}
+	idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
 
 	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
+		expectedIdentifier := "Expected import identifier with format: <organization_id>,<network_id>"
+		expectedIdentifier += " or <organization_id>,<network_id>,[<id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <organization_id>,<network_id>. Got: %q", req.ID),
+			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
 		)
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[1])...)
+
+	if len(itemIdParts) > 0 {
+		items := make([]ResourceWirelessRFProfilesItems, len(itemIdParts))
+		for i, itemId := range itemIdParts {
+			item := ResourceWirelessRFProfilesItems{}
+			item.Id = types.StringValue(itemId)
+			item.ApBandSettingsBandsEnabled = types.SetNull(types.StringType)
+			item.FiveGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
+			item.PerSsidSettings0BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings1BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings10BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings11BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings12BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings13BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings14BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings2BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings3BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings4BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings5BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings6BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings7BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings8BandsEnabled = types.SetNull(types.StringType)
+			item.PerSsidSettings9BandsEnabled = types.SetNull(types.StringType)
+			item.SixGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
+			item.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
+			items[i] = item
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+	}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

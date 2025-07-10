@@ -304,7 +304,11 @@ func (r *SwitchPortsResource) Read(ctx context.Context, req resource.ReadRequest
 
 	// After `terraform import` we switch to a full read.
 	if imp {
-		state.fromBody(ctx, res)
+		if len(state.Items) > 0 {
+			state.fromBodyImport(ctx, res)
+		} else {
+			state.fromBody(ctx, res)
+		}
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
@@ -439,17 +443,36 @@ func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteReq
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *SwitchPortsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	itemIdParts := make([]string, 0)
+	if strings.Contains(req.ID, ",[") {
+		itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
+	}
+	idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
 
 	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
+		expectedIdentifier := "Expected import identifier with format: <organization_id>,<serial>"
+		expectedIdentifier += " or <organization_id>,<serial>,[<port_id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <organization_id>,<serial>. Got: %q", req.ID),
+			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
 		)
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[1])...)
+
+	if len(itemIdParts) > 0 {
+		items := make([]ResourceSwitchPortsItems, len(itemIdParts))
+		for i, itemId := range itemIdParts {
+			item := ResourceSwitchPortsItems{}
+			item.PortId = types.StringValue(itemId)
+			item.MacAllowList = types.SetNull(types.StringType)
+			item.StickyMacAllowList = types.SetNull(types.StringType)
+			item.Tags = types.SetNull(types.StringType)
+			items[i] = item
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+	}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

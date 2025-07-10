@@ -198,6 +198,58 @@ func (data *ResourceSwitchStackRoutingStaticRoutes) fromBodyUnknowns(ctx context
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceSwitchStackRoutingStaticRoutes) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("staticRouteId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("advertiseViaOspfEnabled"); value.Exists() {
+			data.AdvertiseViaOspfEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.AdvertiseViaOspfEnabled = types.BoolNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("nextHopIp"); value.Exists() {
+			data.NextHopIp = types.StringValue(value.String())
+		} else {
+			data.NextHopIp = types.StringNull()
+		}
+		if value := res.Get("preferOverOspfRoutesEnabled"); value.Exists() {
+			data.PreferOverOspfRoutesEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PreferOverOspfRoutesEnabled = types.BoolNull()
+		}
+		if value := res.Get("subnet"); value.Exists() {
+			data.Subnet = types.StringValue(value.String())
+		} else {
+			data.Subnet = types.StringNull()
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceSwitchStackRoutingStaticRoutes) toDestroyBody(ctx context.Context) string {

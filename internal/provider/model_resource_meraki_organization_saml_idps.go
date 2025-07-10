@@ -154,6 +154,43 @@ func (data *ResourceOrganizationSAMLIdPs) fromBodyUnknowns(ctx context.Context, 
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceOrganizationSAMLIdPs) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("idpId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("sloLogoutUrl"); value.Exists() {
+			data.SloLogoutUrl = types.StringValue(value.String())
+		} else {
+			data.SloLogoutUrl = types.StringNull()
+		}
+		if value := res.Get("x509certSha1Fingerprint"); value.Exists() {
+			data.X509certSha1Fingerprint = types.StringValue(value.String())
+		} else {
+			data.X509certSha1Fingerprint = types.StringNull()
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceOrganizationSAMLIdPs) toDestroyBody(ctx context.Context) string {

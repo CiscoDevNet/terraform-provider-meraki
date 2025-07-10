@@ -183,6 +183,53 @@ func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) fromBodyUnk
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("customPerformanceClassId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("maxJitter"); value.Exists() {
+			data.MaxJitter = types.Int64Value(value.Int())
+		} else {
+			data.MaxJitter = types.Int64Null()
+		}
+		if value := res.Get("maxLatency"); value.Exists() {
+			data.MaxLatency = types.Int64Value(value.Int())
+		} else {
+			data.MaxLatency = types.Int64Null()
+		}
+		if value := res.Get("maxLossPercentage"); value.Exists() {
+			data.MaxLossPercentage = types.Int64Value(value.Int())
+		} else {
+			data.MaxLossPercentage = types.Int64Null()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceApplianceTrafficShapingCustomPerformanceClasses) toDestroyBody(ctx context.Context) string {

@@ -214,6 +214,63 @@ func (data *ResourceAppliancePorts) fromBodyUnknowns(ctx context.Context, res me
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceAppliancePorts) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("number").String() == (*parent).Items[i].PortId.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("accessPolicy"); value.Exists() {
+			data.AccessPolicy = types.StringValue(value.String())
+		} else {
+			data.AccessPolicy = types.StringNull()
+		}
+		if value := res.Get("allowedVlans"); value.Exists() {
+			data.AllowedVlans = types.StringValue(value.String())
+		} else {
+			data.AllowedVlans = types.StringNull()
+		}
+		if value := res.Get("dropUntaggedTraffic"); value.Exists() {
+			data.DropUntaggedTraffic = types.BoolValue(value.Bool())
+		} else {
+			data.DropUntaggedTraffic = types.BoolNull()
+		}
+		if value := res.Get("enabled"); value.Exists() {
+			data.Enabled = types.BoolValue(value.Bool())
+		} else {
+			data.Enabled = types.BoolNull()
+		}
+		if value := res.Get("type"); value.Exists() {
+			data.Type = types.StringValue(value.String())
+		} else {
+			data.Type = types.StringNull()
+		}
+		if value := res.Get("vlan"); value.Exists() {
+			data.Vlan = types.Int64Value(value.Int())
+		} else {
+			data.Vlan = types.Int64Null()
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceAppliancePorts) toDestroyBody(ctx context.Context) string {

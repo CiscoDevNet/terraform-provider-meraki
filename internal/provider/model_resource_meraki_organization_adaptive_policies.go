@@ -287,6 +287,92 @@ func (data *ResourceOrganizationAdaptivePolicies) fromBodyUnknowns(ctx context.C
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceOrganizationAdaptivePolicies) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("adaptivePolicyId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("lastEntryRule"); value.Exists() {
+			data.LastEntryRule = types.StringValue(value.String())
+		} else {
+			data.LastEntryRule = types.StringNull()
+		}
+		if value := res.Get("destinationGroup.id"); value.Exists() {
+			data.DestinationGroupId = types.StringValue(value.String())
+		} else {
+			data.DestinationGroupId = types.StringNull()
+		}
+		if value := res.Get("destinationGroup.name"); value.Exists() {
+			data.DestinationGroupName = types.StringValue(value.String())
+		} else {
+			data.DestinationGroupName = types.StringNull()
+		}
+		if value := res.Get("destinationGroup.sgt"); value.Exists() {
+			data.DestinationGroupSgt = types.Int64Value(value.Int())
+		} else {
+			data.DestinationGroupSgt = types.Int64Null()
+		}
+		if value := res.Get("sourceGroup.id"); value.Exists() {
+			data.SourceGroupId = types.StringValue(value.String())
+		} else {
+			data.SourceGroupId = types.StringNull()
+		}
+		if value := res.Get("sourceGroup.name"); value.Exists() {
+			data.SourceGroupName = types.StringValue(value.String())
+		} else {
+			data.SourceGroupName = types.StringNull()
+		}
+		if value := res.Get("sourceGroup.sgt"); value.Exists() {
+			data.SourceGroupSgt = types.Int64Value(value.Int())
+		} else {
+			data.SourceGroupSgt = types.Int64Null()
+		}
+		{
+			l := len(res.Get("acls").Array())
+			tflog.Debug(ctx, fmt.Sprintf("acls array resizing from %d to %d", len(data.Acls), l))
+			if len(data.Acls) > l {
+				data.Acls = data.Acls[:l]
+			}
+		}
+		for i := range data.Acls {
+			parent := &data
+			data := (*parent).Acls[i]
+			parentRes := &res
+			res := parentRes.Get(fmt.Sprintf("acls.%d", i))
+			if value := res.Get("id"); value.Exists() {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
+			if value := res.Get("name"); value.Exists() {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			(*parent).Acls[i] = data
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceOrganizationAdaptivePolicies) toDestroyBody(ctx context.Context) string {

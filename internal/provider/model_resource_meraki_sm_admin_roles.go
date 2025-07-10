@@ -171,6 +171,48 @@ func (data *ResourceSMAdminRoles) fromBodyUnknowns(ctx context.Context, res mera
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceSMAdminRoles) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("roleId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("scope"); value.Exists() {
+			data.Scope = types.StringValue(value.String())
+		} else {
+			data.Scope = types.StringNull()
+		}
+		if value := res.Get("tags"); value.Exists() {
+			data.Tags = helpers.GetStringList(value.Array())
+		} else {
+			data.Tags = types.ListNull(types.StringType)
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceSMAdminRoles) toDestroyBody(ctx context.Context) string {

@@ -155,6 +155,43 @@ func (data *ResourceSwitchRoutingMulticastRendezvousPoints) fromBodyUnknowns(ctx
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceSwitchRoutingMulticastRendezvousPoints) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("rendezvousPointId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("interfaceIp"); value.Exists() {
+			data.InterfaceIp = types.StringValue(value.String())
+		} else {
+			data.InterfaceIp = types.StringNull()
+		}
+		if value := res.Get("multicastGroup"); value.Exists() {
+			data.MulticastGroup = types.StringValue(value.String())
+		} else {
+			data.MulticastGroup = types.StringNull()
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceSwitchRoutingMulticastRendezvousPoints) toDestroyBody(ctx context.Context) string {

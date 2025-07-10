@@ -193,7 +193,11 @@ func (r *SMAdminRolesResource) Read(ctx context.Context, req resource.ReadReques
 
 	// After `terraform import` we switch to a full read.
 	if imp {
-		state.fromBody(ctx, res)
+		if len(state.Items) > 0 {
+			state.fromBodyImport(ctx, res)
+		} else {
+			state.fromBody(ctx, res)
+		}
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
@@ -337,16 +341,33 @@ func (r *SMAdminRolesResource) Delete(ctx context.Context, req resource.DeleteRe
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *SMAdminRolesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	itemIdParts := make([]string, 0)
+	if strings.Contains(req.ID, ",[") {
+		itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
+	}
+	idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
 
 	if len(idParts) != 1 || idParts[0] == "" {
+		expectedIdentifier := "Expected import identifier with format: <organization_id>"
+		expectedIdentifier += " or <organization_id>,[<id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <organization_id>. Got: %q", req.ID),
+			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
 		)
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+
+	if len(itemIdParts) > 0 {
+		items := make([]ResourceSMAdminRolesItems, len(itemIdParts))
+		for i, itemId := range itemIdParts {
+			item := ResourceSMAdminRolesItems{}
+			item.Id = types.StringValue(itemId)
+			item.Tags = types.ListNull(types.StringType)
+			items[i] = item
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+	}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

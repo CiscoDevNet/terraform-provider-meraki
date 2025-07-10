@@ -271,6 +271,101 @@ func (data *ResourceNetworkWebhookPayloadTemplates) fromBodyUnknowns(ctx context
 
 // End of section. //template:end fromBodyUnknowns
 
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
+
+func (data *ResourceNetworkWebhookPayloadTemplates) fromBodyImport(ctx context.Context, res meraki.Res) {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	for i := range data.Items {
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.ForEach(
+			func(_, v gjson.Result) bool {
+				if v.Get("payloadTemplateId").String() == (*parent).Items[i].Id.ValueString() {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if value := res.Get("body"); value.Exists() {
+			data.Body = types.StringValue(value.String())
+		} else {
+			data.Body = types.StringNull()
+		}
+		if value := res.Get("bodyFile"); value.Exists() {
+			data.BodyFile = types.StringValue(value.String())
+		} else {
+			data.BodyFile = types.StringNull()
+		}
+		if value := res.Get("headersFile"); value.Exists() {
+			data.HeadersFile = types.StringValue(value.String())
+		} else {
+			data.HeadersFile = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		for i := 0; i < len(data.Headers); i++ {
+			keys := [...]string{"name"}
+			keyValues := [...]string{data.Headers[i].Name.ValueString()}
+
+			parent := &data
+			data := (*parent).Headers[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("headers").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing Headers[%d] = %+v",
+					i,
+					(*parent).Headers[i],
+				))
+				(*parent).Headers = slices.Delete((*parent).Headers, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("name"); value.Exists() {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("template"); value.Exists() {
+				data.Template = types.StringValue(value.String())
+			} else {
+				data.Template = types.StringNull()
+			}
+			(*parent).Headers[i] = data
+		}
+		(*parent).Items[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyImport
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data ResourceNetworkWebhookPayloadTemplates) toDestroyBody(ctx context.Context) string {

@@ -575,7 +575,11 @@ func (r *{{camelCase .BulkName}}Resource) Read(ctx context.Context, req resource
 
 	// After `terraform import` we switch to a full read.
 	if imp {
-		state.fromBody(ctx, res)
+		if len(state.Items) > 0 {
+			state.fromBodyImport(ctx, res)
+		} else {
+			state.fromBody(ctx, res)
+		}
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
@@ -778,12 +782,18 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 {{- if not .NoImport}}
 func (r *{{camelCase .BulkName}}Resource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	itemIdParts := make([]string, 0)
+	if strings.Contains(req.ID, ",[") {
+		itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
+	}
+	idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
 
 	if len(idParts) != {{len (getBulkImportAttributes .)}}{{range $index, $attr := (getBulkImportAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
+		expectedIdentifier := "Expected import identifier with format: {{range $i, $e := (getBulkImportAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}"
+		expectedIdentifier += " or {{range $i, $e := (getBulkImportAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}},[<{{getBulkItemIdTfName .}}>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: {{range $i, $e := (getBulkImportAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}. Got: %q", req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -791,6 +801,21 @@ func (r *{{camelCase .BulkName}}Resource) ImportState(ctx context.Context, req r
 	{{- range $index, $attr := (getBulkImportAttributes .)}}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
 	{{- end}}
+
+	if len(itemIdParts) > 0 {
+		items := make([]Resource{{camelCase .BulkName}}Items, len(itemIdParts))
+		for i, itemId := range itemIdParts {
+			item := Resource{{camelCase .BulkName}}Items{}
+			item.{{getBulkItemId .}} = types.StringValue(itemId)
+			{{- range .Attributes}}
+			{{- if isListSet .}}
+			item.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
+			{{- end}}
+			{{- end}}
+			items[i] = item
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+	}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

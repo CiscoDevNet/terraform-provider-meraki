@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 1.5.0 (unreleased)
+
+- Add support for importing specific item IDs of bulk resources
+
 ## 1.4.2
 
 - Fix bulk resource import of item IDs
