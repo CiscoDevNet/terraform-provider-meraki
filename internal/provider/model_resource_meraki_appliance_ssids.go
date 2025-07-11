@@ -372,84 +372,84 @@ func (data *ResourceApplianceSSIDs) fromBodyImport(ctx context.Context, res mera
 				return true
 			},
 		)
-		if value := res.Get("authMode"); value.Exists() {
+		if value := res.Get("number"); value.Exists() && value.Value() != nil {
+			data.Number = types.StringValue(value.String())
+		} else {
+			data.Number = types.StringNull()
+		}
+		if value := res.Get("authMode"); value.Exists() && value.Value() != nil {
 			data.AuthMode = types.StringValue(value.String())
 		} else {
 			data.AuthMode = types.StringNull()
 		}
-		if value := res.Get("defaultVlanId"); value.Exists() {
+		if value := res.Get("defaultVlanId"); value.Exists() && value.Value() != nil {
 			data.DefaultVlanId = types.Int64Value(value.Int())
 		} else {
 			data.DefaultVlanId = types.Int64Null()
 		}
-		if value := res.Get("enabled"); value.Exists() {
+		if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 			data.Enabled = types.BoolValue(value.Bool())
 		} else {
 			data.Enabled = types.BoolNull()
 		}
-		if value := res.Get("encryptionMode"); value.Exists() {
+		if value := res.Get("encryptionMode"); value.Exists() && value.Value() != nil {
 			data.EncryptionMode = types.StringValue(value.String())
 		} else {
 			data.EncryptionMode = types.StringNull()
 		}
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("psk"); value.Exists() {
+		if value := res.Get("psk"); value.Exists() && value.Value() != nil {
 			data.Psk = types.StringValue(value.String())
 		} else {
 			data.Psk = types.StringNull()
 		}
-		if value := res.Get("visible"); value.Exists() {
+		if value := res.Get("visible"); value.Exists() && value.Value() != nil {
 			data.Visible = types.BoolValue(value.Bool())
 		} else {
 			data.Visible = types.BoolNull()
 		}
-		if value := res.Get("wpaEncryptionMode"); value.Exists() {
+		if value := res.Get("wpaEncryptionMode"); value.Exists() && value.Value() != nil {
 			data.WpaEncryptionMode = types.StringValue(value.String())
 		} else {
 			data.WpaEncryptionMode = types.StringNull()
 		}
-		if value := res.Get("dhcpEnforcedDeauthentication.enabled"); value.Exists() {
+		if value := res.Get("dhcpEnforcedDeauthentication.enabled"); value.Exists() && value.Value() != nil {
 			data.DhcpEnforcedDeauthenticationEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.DhcpEnforcedDeauthenticationEnabled = types.BoolNull()
 		}
-		if value := res.Get("dot11w.enabled"); value.Exists() {
+		if value := res.Get("dot11w.enabled"); value.Exists() && value.Value() != nil {
 			data.Dot11wEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.Dot11wEnabled = types.BoolNull()
 		}
-		if value := res.Get("dot11w.required"); value.Exists() {
+		if value := res.Get("dot11w.required"); value.Exists() && value.Value() != nil {
 			data.Dot11wRequired = types.BoolValue(value.Bool())
 		} else {
 			data.Dot11wRequired = types.BoolNull()
 		}
-		{
-			l := len(res.Get("radiusServers").Array())
-			tflog.Debug(ctx, fmt.Sprintf("radiusServers array resizing from %d to %d", len(data.RadiusServers), l))
-			if len(data.RadiusServers) > l {
-				data.RadiusServers = data.RadiusServers[:l]
-			}
-		}
-		for i := range data.RadiusServers {
-			parent := &data
-			data := (*parent).RadiusServers[i]
-			parentRes := &res
-			res := parentRes.Get(fmt.Sprintf("radiusServers.%d", i))
-			if value := res.Get("host"); value.Exists() {
-				data.Host = types.StringValue(value.String())
-			} else {
-				data.Host = types.StringNull()
-			}
-			if value := res.Get("port"); value.Exists() {
-				data.Port = types.Int64Value(value.Int())
-			} else {
-				data.Port = types.Int64Null()
-			}
-			(*parent).RadiusServers[i] = data
+		if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil {
+			data.RadiusServers = make([]ResourceApplianceSSIDsRadiusServers, 0)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := ResourceApplianceSSIDsRadiusServers{}
+				if value := res.Get("host"); value.Exists() && value.Value() != nil {
+					data.Host = types.StringValue(value.String())
+				} else {
+					data.Host = types.StringNull()
+				}
+				if value := res.Get("port"); value.Exists() && value.Value() != nil {
+					data.Port = types.Int64Value(value.Int())
+				} else {
+					data.Port = types.Int64Null()
+				}
+				(*parent).RadiusServers = append((*parent).RadiusServers, data)
+				return true
+			})
 		}
 		(*parent).Items[i] = data
 	}

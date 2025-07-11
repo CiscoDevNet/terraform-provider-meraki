@@ -10,6 +10,7 @@ description: |-
 ## 1.5.0 (unreleased)
 
 - Add support for importing specific item IDs of bulk resources
+- Make `force_delete` attribute of `meraki_network_group_policies` resource "importable"
 
 ## 1.4.2
 

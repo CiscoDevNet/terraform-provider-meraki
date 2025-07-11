@@ -277,68 +277,39 @@ func (data *ResourceOrganizationAdaptivePolicyGroups) fromBodyImport(ctx context
 				return true
 			},
 		)
-		if value := res.Get("description"); value.Exists() {
+		if value := res.Get("description"); value.Exists() && value.Value() != nil {
 			data.Description = types.StringValue(value.String())
 		} else {
 			data.Description = types.StringNull()
 		}
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("sgt"); value.Exists() {
+		if value := res.Get("sgt"); value.Exists() && value.Value() != nil {
 			data.Sgt = types.Int64Value(value.Int())
 		} else {
 			data.Sgt = types.Int64Null()
 		}
-		for i := 0; i < len(data.PolicyObjects); i++ {
-			keys := [...]string{"id", "name"}
-			keyValues := [...]string{data.PolicyObjects[i].Id.ValueString(), data.PolicyObjects[i].Name.ValueString()}
-
-			parent := &data
-			data := (*parent).PolicyObjects[i]
-			parentRes := &res
-			var res gjson.Result
-
-			parentRes.Get("policyObjects").ForEach(
-				func(_, v gjson.Result) bool {
-					found := false
-					for ik := range keys {
-						if v.Get(keys[ik]).String() != keyValues[ik] {
-							found = false
-							break
-						}
-						found = true
-					}
-					if found {
-						res = v
-						return false
-					}
-					return true
-				},
-			)
-			if !res.Exists() {
-				tflog.Debug(ctx, fmt.Sprintf("removing PolicyObjects[%d] = %+v",
-					i,
-					(*parent).PolicyObjects[i],
-				))
-				(*parent).PolicyObjects = slices.Delete((*parent).PolicyObjects, i, i+1)
-				i--
-
-				continue
-			}
-			if value := res.Get("id"); value.Exists() {
-				data.Id = types.StringValue(value.String())
-			} else {
-				data.Id = types.StringNull()
-			}
-			if value := res.Get("name"); value.Exists() {
-				data.Name = types.StringValue(value.String())
-			} else {
-				data.Name = types.StringNull()
-			}
-			(*parent).PolicyObjects[i] = data
+		if value := res.Get("policyObjects"); value.Exists() && value.Value() != nil {
+			data.PolicyObjects = make([]ResourceOrganizationAdaptivePolicyGroupsPolicyObjects, 0)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := ResourceOrganizationAdaptivePolicyGroupsPolicyObjects{}
+				if value := res.Get("id"); value.Exists() && value.Value() != nil {
+					data.Id = types.StringValue(value.String())
+				} else {
+					data.Id = types.StringNull()
+				}
+				if value := res.Get("name"); value.Exists() && value.Value() != nil {
+					data.Name = types.StringValue(value.String())
+				} else {
+					data.Name = types.StringNull()
+				}
+				(*parent).PolicyObjects = append((*parent).PolicyObjects, data)
+				return true
+			})
 		}
 		(*parent).Items[i] = data
 	}

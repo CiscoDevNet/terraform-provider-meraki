@@ -301,73 +301,44 @@ func (data *ResourceNetworkMerakiAuthUsers) fromBodyImport(ctx context.Context, 
 				return true
 			},
 		)
-		if value := res.Get("accountType"); value.Exists() {
+		if value := res.Get("accountType"); value.Exists() && value.Value() != nil {
 			data.AccountType = types.StringValue(value.String())
 		} else {
 			data.AccountType = types.StringNull()
 		}
-		if value := res.Get("email"); value.Exists() {
+		if value := res.Get("email"); value.Exists() && value.Value() != nil {
 			data.Email = types.StringValue(value.String())
 		} else {
 			data.Email = types.StringNull()
 		}
-		if value := res.Get("isAdmin"); value.Exists() {
+		if value := res.Get("isAdmin"); value.Exists() && value.Value() != nil {
 			data.IsAdmin = types.BoolValue(value.Bool())
 		} else {
 			data.IsAdmin = types.BoolNull()
 		}
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		for i := 0; i < len(data.Authorizations); i++ {
-			keys := [...]string{"ssidNumber"}
-			keyValues := [...]string{strconv.FormatInt(data.Authorizations[i].SsidNumber.ValueInt64(), 10)}
-
-			parent := &data
-			data := (*parent).Authorizations[i]
-			parentRes := &res
-			var res gjson.Result
-
-			parentRes.Get("authorizations").ForEach(
-				func(_, v gjson.Result) bool {
-					found := false
-					for ik := range keys {
-						if v.Get(keys[ik]).String() != keyValues[ik] {
-							found = false
-							break
-						}
-						found = true
-					}
-					if found {
-						res = v
-						return false
-					}
-					return true
-				},
-			)
-			if !res.Exists() {
-				tflog.Debug(ctx, fmt.Sprintf("removing Authorizations[%d] = %+v",
-					i,
-					(*parent).Authorizations[i],
-				))
-				(*parent).Authorizations = slices.Delete((*parent).Authorizations, i, i+1)
-				i--
-
-				continue
-			}
-			if value := res.Get("expiresAt"); value.Exists() {
-				data.ExpiresAt = types.StringValue(value.String())
-			} else {
-				data.ExpiresAt = types.StringNull()
-			}
-			if value := res.Get("ssidNumber"); value.Exists() {
-				data.SsidNumber = types.Int64Value(value.Int())
-			} else {
-				data.SsidNumber = types.Int64Null()
-			}
-			(*parent).Authorizations[i] = data
+		if value := res.Get("authorizations"); value.Exists() && value.Value() != nil {
+			data.Authorizations = make([]ResourceNetworkMerakiAuthUsersAuthorizations, 0)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := ResourceNetworkMerakiAuthUsersAuthorizations{}
+				if value := res.Get("expiresAt"); value.Exists() && value.Value() != nil {
+					data.ExpiresAt = types.StringValue(value.String())
+				} else {
+					data.ExpiresAt = types.StringNull()
+				}
+				if value := res.Get("ssidNumber"); value.Exists() && value.Value() != nil {
+					data.SsidNumber = types.Int64Value(value.Int())
+				} else {
+					data.SsidNumber = types.Int64Null()
+				}
+				(*parent).Authorizations = append((*parent).Authorizations, data)
+				return true
+			})
 		}
 		(*parent).Items[i] = data
 	}

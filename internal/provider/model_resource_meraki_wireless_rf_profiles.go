@@ -1481,480 +1481,451 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 				return true
 			},
 		)
-		if value := res.Get("bandSelectionType"); value.Exists() {
+		if value := res.Get("bandSelectionType"); value.Exists() && value.Value() != nil {
 			data.BandSelectionType = types.StringValue(value.String())
 		} else {
 			data.BandSelectionType = types.StringNull()
 		}
-		if value := res.Get("clientBalancingEnabled"); value.Exists() {
+		if value := res.Get("clientBalancingEnabled"); value.Exists() && value.Value() != nil {
 			data.ClientBalancingEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.ClientBalancingEnabled = types.BoolNull()
 		}
-		if value := res.Get("minBitrateType"); value.Exists() {
+		if value := res.Get("minBitrateType"); value.Exists() && value.Value() != nil {
 			data.MinBitrateType = types.StringValue(value.String())
 		} else {
 			data.MinBitrateType = types.StringNull()
 		}
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("apBandSettings.bandOperationMode"); value.Exists() {
+		if value := res.Get("apBandSettings.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.ApBandSettingsBandOperationMode = types.StringValue(value.String())
 		} else {
 			data.ApBandSettingsBandOperationMode = types.StringNull()
 		}
-		if value := res.Get("apBandSettings.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("apBandSettings.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.ApBandSettingsBandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.ApBandSettingsBandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("apBandSettings.bands.enabled"); value.Exists() {
+		if value := res.Get("apBandSettings.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.ApBandSettingsBandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.ApBandSettingsBandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() {
+		if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() && value.Value() != nil {
 			data.FiveGhzSettingsChannelWidth = types.StringValue(value.String())
 		} else {
 			data.FiveGhzSettingsChannelWidth = types.StringNull()
 		}
-		if value := res.Get("fiveGhzSettings.maxPower"); value.Exists() {
+		if value := res.Get("fiveGhzSettings.maxPower"); value.Exists() && value.Value() != nil {
 			data.FiveGhzSettingsMaxPower = types.Int64Value(value.Int())
 		} else {
 			data.FiveGhzSettingsMaxPower = types.Int64Null()
 		}
-		if value := res.Get("fiveGhzSettings.minBitrate"); value.Exists() {
+		if value := res.Get("fiveGhzSettings.minBitrate"); value.Exists() && value.Value() != nil {
 			data.FiveGhzSettingsMinBitrate = types.Int64Value(value.Int())
 		} else {
 			data.FiveGhzSettingsMinBitrate = types.Int64Null()
 		}
-		if value := res.Get("fiveGhzSettings.minPower"); value.Exists() {
+		if value := res.Get("fiveGhzSettings.minPower"); value.Exists() && value.Value() != nil {
 			data.FiveGhzSettingsMinPower = types.Int64Value(value.Int())
 		} else {
 			data.FiveGhzSettingsMinPower = types.Int64Null()
 		}
-		if value := res.Get("fiveGhzSettings.rxsop"); value.Exists() {
+		if value := res.Get("fiveGhzSettings.rxsop"); value.Exists() && value.Value() != nil {
 			data.FiveGhzSettingsRxsop = types.Int64Value(value.Int())
 		} else {
 			data.FiveGhzSettingsRxsop = types.Int64Null()
 		}
-		if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() {
+		if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil {
 			data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 		} else {
 			data.FiveGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 		}
-		for i := 0; i < len(data.FlexRadiosByModel); i++ {
-			keys := [...]string{"model"}
-			keyValues := [...]string{data.FlexRadiosByModel[i].Model.ValueString()}
-
-			parent := &data
-			data := (*parent).FlexRadiosByModel[i]
-			parentRes := &res
-			var res gjson.Result
-
-			parentRes.Get("flexRadios.byModel").ForEach(
-				func(_, v gjson.Result) bool {
-					found := false
-					for ik := range keys {
-						if v.Get(keys[ik]).String() != keyValues[ik] {
-							found = false
-							break
-						}
-						found = true
-					}
-					if found {
-						res = v
-						return false
-					}
-					return true
-				},
-			)
-			if !res.Exists() {
-				tflog.Debug(ctx, fmt.Sprintf("removing FlexRadiosByModel[%d] = %+v",
-					i,
-					(*parent).FlexRadiosByModel[i],
-				))
-				(*parent).FlexRadiosByModel = slices.Delete((*parent).FlexRadiosByModel, i, i+1)
-				i--
-
-				continue
-			}
-			if value := res.Get("model"); value.Exists() {
-				data.Model = types.StringValue(value.String())
-			} else {
-				data.Model = types.StringNull()
-			}
-			if value := res.Get("bands"); value.Exists() {
-				data.Bands = helpers.GetStringSet(value.Array())
-			} else {
-				data.Bands = types.SetNull(types.StringType)
-			}
-			(*parent).FlexRadiosByModel[i] = data
+		if value := res.Get("flexRadios.byModel"); value.Exists() && value.Value() != nil {
+			data.FlexRadiosByModel = make([]ResourceWirelessRFProfilesFlexRadiosByModel, 0)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := ResourceWirelessRFProfilesFlexRadiosByModel{}
+				if value := res.Get("model"); value.Exists() && value.Value() != nil {
+					data.Model = types.StringValue(value.String())
+				} else {
+					data.Model = types.StringNull()
+				}
+				if value := res.Get("bands"); value.Exists() && value.Value() != nil {
+					data.Bands = helpers.GetStringSet(value.Array())
+				} else {
+					data.Bands = types.SetNull(types.StringType)
+				}
+				(*parent).FlexRadiosByModel = append((*parent).FlexRadiosByModel, data)
+				return true
+			})
 		}
-		if value := res.Get("perSsidSettings.0.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.0.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings0BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings0BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.0.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.0.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings0BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings0BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.0.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.0.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings0MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings0MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.0.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.0.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings0BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings0BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.1.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.1.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings1BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings1BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.1.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.1.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings1BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings1BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.1.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.1.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings1MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings1MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.1.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.1.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings1BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings1BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.10.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.10.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings10BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings10BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.10.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.10.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings10BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings10BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.10.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.10.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings10MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings10MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.10.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.10.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings10BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings10BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.11.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.11.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings11BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings11BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.11.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.11.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings11BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings11BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.11.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.11.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings11MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings11MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.11.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.11.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings11BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings11BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.12.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.12.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings12BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings12BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.12.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.12.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings12BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings12BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.12.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.12.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings12MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings12MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.12.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.12.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings12BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings12BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.13.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.13.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings13BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings13BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.13.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.13.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings13BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings13BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.13.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.13.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings13MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings13MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.13.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.13.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings13BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings13BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.14.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.14.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings14BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings14BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.14.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.14.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings14BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings14BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.14.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.14.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings14MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings14MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.14.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.14.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings14BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings14BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.2.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.2.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings2BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings2BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.2.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.2.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings2BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings2BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.2.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.2.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings2MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings2MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.2.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.2.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings2BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings2BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.3.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.3.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings3BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings3BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.3.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.3.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings3BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings3BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.3.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.3.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings3MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings3MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.3.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.3.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings3BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings3BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.4.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.4.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings4BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings4BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.4.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.4.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings4BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings4BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.4.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.4.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings4MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings4MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.4.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.4.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings4BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings4BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.5.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.5.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings5BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings5BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.5.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.5.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings5BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings5BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.5.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.5.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings5MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings5MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.5.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.5.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings5BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings5BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.6.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.6.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings6BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings6BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.6.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.6.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings6BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings6BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.6.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.6.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings6MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings6MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.6.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.6.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings6BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings6BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.7.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.7.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings7BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings7BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.7.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.7.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings7BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings7BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.7.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.7.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings7MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings7MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.7.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.7.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings7BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings7BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.8.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.8.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings8BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings8BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.8.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.8.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings8BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings8BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.8.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.8.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings8MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings8MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.8.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.8.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings8BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings8BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("perSsidSettings.9.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.9.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings9BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings9BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.9.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.9.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings9BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings9BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.9.minBitrate"); value.Exists() {
+		if value := res.Get("perSsidSettings.9.minBitrate"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings9MinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.PerSsidSettings9MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.9.bands.enabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.9.bands.enabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings9BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings9BandsEnabled = types.SetNull(types.StringType)
 		}
-		if value := res.Get("sixGhzSettings.channelWidth"); value.Exists() {
+		if value := res.Get("sixGhzSettings.channelWidth"); value.Exists() && value.Value() != nil {
 			data.SixGhzSettingsChannelWidth = types.StringValue(value.String())
 		} else {
 			data.SixGhzSettingsChannelWidth = types.StringNull()
 		}
-		if value := res.Get("sixGhzSettings.maxPower"); value.Exists() {
+		if value := res.Get("sixGhzSettings.maxPower"); value.Exists() && value.Value() != nil {
 			data.SixGhzSettingsMaxPower = types.Int64Value(value.Int())
 		} else {
 			data.SixGhzSettingsMaxPower = types.Int64Null()
 		}
-		if value := res.Get("sixGhzSettings.minBitrate"); value.Exists() {
+		if value := res.Get("sixGhzSettings.minBitrate"); value.Exists() && value.Value() != nil {
 			data.SixGhzSettingsMinBitrate = types.Int64Value(value.Int())
 		} else {
 			data.SixGhzSettingsMinBitrate = types.Int64Null()
 		}
-		if value := res.Get("sixGhzSettings.minPower"); value.Exists() {
+		if value := res.Get("sixGhzSettings.minPower"); value.Exists() && value.Value() != nil {
 			data.SixGhzSettingsMinPower = types.Int64Value(value.Int())
 		} else {
 			data.SixGhzSettingsMinPower = types.Int64Null()
 		}
-		if value := res.Get("sixGhzSettings.rxsop"); value.Exists() {
+		if value := res.Get("sixGhzSettings.rxsop"); value.Exists() && value.Value() != nil {
 			data.SixGhzSettingsRxsop = types.Int64Value(value.Int())
 		} else {
 			data.SixGhzSettingsRxsop = types.Int64Null()
 		}
-		if value := res.Get("sixGhzSettings.validAutoChannels"); value.Exists() {
+		if value := res.Get("sixGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil {
 			data.SixGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 		} else {
 			data.SixGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 		}
-		if value := res.Get("transmission.enabled"); value.Exists() {
+		if value := res.Get("transmission.enabled"); value.Exists() && value.Value() != nil {
 			data.TransmissionEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.TransmissionEnabled = types.BoolNull()
 		}
-		if value := res.Get("twoFourGhzSettings.axEnabled"); value.Exists() {
+		if value := res.Get("twoFourGhzSettings.axEnabled"); value.Exists() && value.Value() != nil {
 			data.TwoFourGhzSettingsAxEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.TwoFourGhzSettingsAxEnabled = types.BoolNull()
 		}
-		if value := res.Get("twoFourGhzSettings.maxPower"); value.Exists() {
+		if value := res.Get("twoFourGhzSettings.maxPower"); value.Exists() && value.Value() != nil {
 			data.TwoFourGhzSettingsMaxPower = types.Int64Value(value.Int())
 		} else {
 			data.TwoFourGhzSettingsMaxPower = types.Int64Null()
 		}
-		if value := res.Get("twoFourGhzSettings.minBitrate"); value.Exists() {
+		if value := res.Get("twoFourGhzSettings.minBitrate"); value.Exists() && value.Value() != nil {
 			data.TwoFourGhzSettingsMinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.TwoFourGhzSettingsMinBitrate = types.Float64Null()
 		}
-		if value := res.Get("twoFourGhzSettings.minPower"); value.Exists() {
+		if value := res.Get("twoFourGhzSettings.minPower"); value.Exists() && value.Value() != nil {
 			data.TwoFourGhzSettingsMinPower = types.Int64Value(value.Int())
 		} else {
 			data.TwoFourGhzSettingsMinPower = types.Int64Null()
 		}
-		if value := res.Get("twoFourGhzSettings.rxsop"); value.Exists() {
+		if value := res.Get("twoFourGhzSettings.rxsop"); value.Exists() && value.Value() != nil {
 			data.TwoFourGhzSettingsRxsop = types.Int64Value(value.Int())
 		} else {
 			data.TwoFourGhzSettingsRxsop = types.Int64Null()
 		}
-		if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() {
+		if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil {
 			data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 		} else {
 			data.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)

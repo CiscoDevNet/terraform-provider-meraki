@@ -330,67 +330,67 @@ func (data *ResourceApplianceRFProfiles) fromBodyImport(ctx context.Context, res
 				return true
 			},
 		)
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("fiveGhzSettings.axEnabled"); value.Exists() {
+		if value := res.Get("fiveGhzSettings.axEnabled"); value.Exists() && value.Value() != nil {
 			data.FiveGhzSettingsAxEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.FiveGhzSettingsAxEnabled = types.BoolNull()
 		}
-		if value := res.Get("fiveGhzSettings.minBitrate"); value.Exists() {
+		if value := res.Get("fiveGhzSettings.minBitrate"); value.Exists() && value.Value() != nil {
 			data.FiveGhzSettingsMinBitrate = types.Int64Value(value.Int())
 		} else {
 			data.FiveGhzSettingsMinBitrate = types.Int64Null()
 		}
-		if value := res.Get("perSsidSettings.1.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.1.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings1BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings1BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.1.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.1.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings1BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings1BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.2.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.2.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings2BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings2BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.2.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.2.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings2BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings2BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.3.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.3.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings3BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings3BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.3.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.3.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings3BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings3BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("perSsidSettings.4.bandOperationMode"); value.Exists() {
+		if value := res.Get("perSsidSettings.4.bandOperationMode"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings4BandOperationMode = types.StringValue(value.String())
 		} else {
 			data.PerSsidSettings4BandOperationMode = types.StringNull()
 		}
-		if value := res.Get("perSsidSettings.4.bandSteeringEnabled"); value.Exists() {
+		if value := res.Get("perSsidSettings.4.bandSteeringEnabled"); value.Exists() && value.Value() != nil {
 			data.PerSsidSettings4BandSteeringEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.PerSsidSettings4BandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("twoFourGhzSettings.axEnabled"); value.Exists() {
+		if value := res.Get("twoFourGhzSettings.axEnabled"); value.Exists() && value.Value() != nil {
 			data.TwoFourGhzSettingsAxEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.TwoFourGhzSettingsAxEnabled = types.BoolNull()
 		}
-		if value := res.Get("twoFourGhzSettings.minBitrate"); value.Exists() {
+		if value := res.Get("twoFourGhzSettings.minBitrate"); value.Exists() && value.Value() != nil {
 			data.TwoFourGhzSettingsMinBitrate = types.Float64Value(value.Float())
 		} else {
 			data.TwoFourGhzSettingsMinBitrate = types.Float64Null()

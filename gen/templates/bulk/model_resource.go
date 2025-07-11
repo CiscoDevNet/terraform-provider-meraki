@@ -617,89 +617,49 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyImport(ctx context.Context,
 				return true
 			},
 		)
-	{{- define "fromBodyImportTemplate"}}
-		{{- range .Attributes}}
-		{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
-		{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
-		if value := res.Get("{{getFullModelName . false}}"); value.Exists() {
-			data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
-		} else {{if .DefaultValue}}if data.{{toGoName .TfName}}.Value{{.Type}}() != {{if eq .Type "String"}}"{{end}}{{.DefaultValue}}{{if eq .Type "String"}}"{{end}} {{end}}{
-			data.{{toGoName .TfName}} = types.{{.Type}}Null()
-		}
-		{{- else if isListSet .}}
-		if value := res.Get("{{getFullModelName . false}}"); value.Exists() {
-			data.{{toGoName .TfName}} = helpers.Get{{.ElementType}}{{.Type}}(value.Array())
-		} else {
-			data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
-		}
-		{{- else if isNestedListSetMap .}}
-		{{- $list := (toGoName .TfName)}}
-		{{- if .OrderedList }}
-		{
-			l := len(res.Get("{{getFullModelName . false}}").Array())
-			tflog.Debug(ctx, fmt.Sprintf("{{getFullModelName . false}} array resizing from %d to %d", len(data.{{toGoName .TfName}}), l))
-			if len(data.{{toGoName .TfName}}) > l {
-				data.{{toGoName .TfName}} = data.{{toGoName .TfName}}[:l]
+		{{- define "fromBodyImportTemplate"}}
+			{{- range .Attributes}}
+			{{- if and (not .Value) (not .WriteOnly) .ModelName}}
+			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+			if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && value.Value() != nil {
+				data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
+			} else {
+				{{- if .DefaultValue}}
+				data.{{toGoName .TfName}} = types.{{.Type}}Value({{if eq .Type "String"}}"{{end}}{{.DefaultValue}}{{if eq .Type "String"}}"{{end}})
+				{{- else}}
+				data.{{toGoName .TfName}} = types.{{.Type}}Null()
+				{{- end}}
 			}
-		}
-		for i := range data.{{toGoName .TfName}} {
-			parent := &data
-			data := (*parent).{{toGoName .TfName}}[i]
-			parentRes := &res
-			res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%d", i))
-		{{- else if isNestedMap .}}
-		for i, item := range data.{{toGoName .TfName}} {
-			parent := &data
-			data := item
-			parentRes := &res
-			res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%s", i))
-		{{- else }}
-		for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
-			keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
-			keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
-
-			parent := &data
-			data := (*parent).{{toGoName .TfName}}[i]
-			parentRes := &res
-			var res gjson.Result
-
-			parentRes.{{if .ModelName}}Get("{{getFullModelName . false}}").{{end}}ForEach(
-				func(_, v gjson.Result) bool {
-					found := false
-					for ik := range keys {
-						if v.Get(keys[ik]).String() != keyValues[ik] {
-							found = false
-							break
-						}
-						found = true
-					}
-					if found {
-						res = v
-						return false
-					}
+			{{- else if isListSet .}}
+			if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && value.Value() != nil {
+				data.{{toGoName .TfName}} = helpers.Get{{.ElementType}}{{.Type}}(value.Array())
+			} else {
+				data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
+			}
+			{{- else if isNestedListSetMap .}}
+			if value := res{{if .ModelName}}.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"){{end}}; value.Exists() && value.Value() != nil {
+				{{- if isNestedMap .}}
+				data.{{toGoName .TfName}} = make(map[string]Resource{{.GoTypeBulkName}})
+				{{- else}}
+				data.{{toGoName .TfName}} = make([]Resource{{.GoTypeBulkName}}, 0)
+				{{- end}}
+				value.ForEach(func(k, res gjson.Result) bool {
+					parent := &data
+					data := Resource{{.GoTypeBulkName}}{}
+					{{- template "fromBodyImportTemplate" .}}
+					{{- if isNestedMap .}}
+					(*parent).{{toGoName .TfName}}[k.String()] = data
+					{{- else}}
+					(*parent).{{toGoName .TfName}} = append((*parent).{{toGoName .TfName}}, data)
+					{{- end}}
 					return true
-				},
-			)
-			if !res.Exists() {
-				tflog.Debug(ctx, fmt.Sprintf("removing {{toGoName .TfName}}[%d] = %+v",
-					i,
-					(*parent).{{toGoName .TfName}}[i],
-				))
-				(*parent).{{toGoName .TfName}} = slices.Delete((*parent).{{toGoName .TfName}}, i, i+1)
-				i--
-
-				continue
+				})
 			}
+			{{- end}}
+			{{- end}}
+			{{- end}}
 		{{- end}}
-
-			{{- template "fromBodyImportTemplate" .}}
-			(*parent).{{toGoName .TfName}}[i] = data
-		}
-		{{- end}}
-		{{- end}}
-		{{- end}}
-	{{- end}}
-	{{- template "fromBodyImportTemplate" .}}
+		{{- template "fromBodyImportTemplate" .}}
 		(*parent).Items[i] = data
 	}
 }

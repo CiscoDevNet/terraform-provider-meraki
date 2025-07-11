@@ -330,67 +330,67 @@ func (data *ResourceSwitchRoutingInterfaces) fromBodyImport(ctx context.Context,
 				return true
 			},
 		)
-		if value := res.Get("defaultGateway"); value.Exists() {
+		if value := res.Get("defaultGateway"); value.Exists() && value.Value() != nil {
 			data.DefaultGateway = types.StringValue(value.String())
 		} else {
 			data.DefaultGateway = types.StringNull()
 		}
-		if value := res.Get("interfaceIp"); value.Exists() {
+		if value := res.Get("interfaceIp"); value.Exists() && value.Value() != nil {
 			data.InterfaceIp = types.StringValue(value.String())
 		} else {
 			data.InterfaceIp = types.StringNull()
 		}
-		if value := res.Get("multicastRouting"); value.Exists() {
+		if value := res.Get("multicastRouting"); value.Exists() && value.Value() != nil {
 			data.MulticastRouting = types.StringValue(value.String())
 		} else {
 			data.MulticastRouting = types.StringNull()
 		}
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("subnet"); value.Exists() {
+		if value := res.Get("subnet"); value.Exists() && value.Value() != nil {
 			data.Subnet = types.StringValue(value.String())
 		} else {
 			data.Subnet = types.StringNull()
 		}
-		if value := res.Get("vlanId"); value.Exists() {
+		if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 			data.VlanId = types.Int64Value(value.Int())
 		} else {
 			data.VlanId = types.Int64Null()
 		}
-		if value := res.Get("ipv6.address"); value.Exists() {
+		if value := res.Get("ipv6.address"); value.Exists() && value.Value() != nil {
 			data.Ipv6Address = types.StringValue(value.String())
 		} else {
 			data.Ipv6Address = types.StringNull()
 		}
-		if value := res.Get("ipv6.assignmentMode"); value.Exists() {
+		if value := res.Get("ipv6.assignmentMode"); value.Exists() && value.Value() != nil {
 			data.Ipv6AssignmentMode = types.StringValue(value.String())
 		} else {
 			data.Ipv6AssignmentMode = types.StringNull()
 		}
-		if value := res.Get("ipv6.gateway"); value.Exists() {
+		if value := res.Get("ipv6.gateway"); value.Exists() && value.Value() != nil {
 			data.Ipv6Gateway = types.StringValue(value.String())
 		} else {
 			data.Ipv6Gateway = types.StringNull()
 		}
-		if value := res.Get("ipv6.prefix"); value.Exists() {
+		if value := res.Get("ipv6.prefix"); value.Exists() && value.Value() != nil {
 			data.Ipv6Prefix = types.StringValue(value.String())
 		} else {
 			data.Ipv6Prefix = types.StringNull()
 		}
-		if value := res.Get("ospfSettings.area"); value.Exists() {
+		if value := res.Get("ospfSettings.area"); value.Exists() && value.Value() != nil {
 			data.OspfSettingsArea = types.StringValue(value.String())
 		} else {
 			data.OspfSettingsArea = types.StringNull()
 		}
-		if value := res.Get("ospfSettings.cost"); value.Exists() {
+		if value := res.Get("ospfSettings.cost"); value.Exists() && value.Value() != nil {
 			data.OspfSettingsCost = types.Int64Value(value.Int())
 		} else {
 			data.OspfSettingsCost = types.Int64Null()
 		}
-		if value := res.Get("ospfSettings.isPassiveEnabled"); value.Exists() {
+		if value := res.Get("ospfSettings.isPassiveEnabled"); value.Exists() && value.Value() != nil {
 			data.OspfSettingsIsPassiveEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.OspfSettingsIsPassiveEnabled = types.BoolNull()

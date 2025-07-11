@@ -165,7 +165,12 @@ func (data *ResourceSensorMQTTBrokers) fromBodyImport(ctx context.Context, res m
 				return true
 			},
 		)
-		if value := res.Get("enabled"); value.Exists() {
+		if value := res.Get("mqttBrokerId"); value.Exists() && value.Value() != nil {
+			data.MqttBrokerId = types.StringValue(value.String())
+		} else {
+			data.MqttBrokerId = types.StringNull()
+		}
+		if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 			data.Enabled = types.BoolValue(value.Bool())
 		} else {
 			data.Enabled = types.BoolNull()

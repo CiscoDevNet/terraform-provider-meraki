@@ -192,17 +192,17 @@ func (data *ResourceSMAdminRoles) fromBodyImport(ctx context.Context, res meraki
 				return true
 			},
 		)
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("scope"); value.Exists() {
+		if value := res.Get("scope"); value.Exists() && value.Value() != nil {
 			data.Scope = types.StringValue(value.String())
 		} else {
 			data.Scope = types.StringNull()
 		}
-		if value := res.Get("tags"); value.Exists() {
+		if value := res.Get("tags"); value.Exists() && value.Value() != nil {
 			data.Tags = helpers.GetStringList(value.Array())
 		} else {
 			data.Tags = types.ListNull(types.StringType)

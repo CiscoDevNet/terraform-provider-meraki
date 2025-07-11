@@ -164,7 +164,12 @@ func (data *ResourceOrganizationLicenses) fromBodyImport(ctx context.Context, re
 				return true
 			},
 		)
-		if value := res.Get("deviceSerial"); value.Exists() {
+		if value := res.Get("id"); value.Exists() && value.Value() != nil {
+			data.LicenseId = types.StringValue(value.String())
+		} else {
+			data.LicenseId = types.StringNull()
+		}
+		if value := res.Get("deviceSerial"); value.Exists() && value.Value() != nil {
 			data.DeviceSerial = types.StringValue(value.String())
 		} else {
 			data.DeviceSerial = types.StringNull()

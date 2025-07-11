@@ -175,12 +175,12 @@ func (data *ResourceOrganizationSAMLIdPs) fromBodyImport(ctx context.Context, re
 				return true
 			},
 		)
-		if value := res.Get("sloLogoutUrl"); value.Exists() {
+		if value := res.Get("sloLogoutUrl"); value.Exists() && value.Value() != nil {
 			data.SloLogoutUrl = types.StringValue(value.String())
 		} else {
 			data.SloLogoutUrl = types.StringNull()
 		}
-		if value := res.Get("x509certSha1Fingerprint"); value.Exists() {
+		if value := res.Get("x509certSha1Fingerprint"); value.Exists() && value.Value() != nil {
 			data.X509certSha1Fingerprint = types.StringValue(value.String())
 		} else {
 			data.X509certSha1Fingerprint = types.StringNull()

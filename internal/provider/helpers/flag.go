@@ -33,6 +33,26 @@ func SetFlagImporting(ctx context.Context, importing bool, sk SetKeyer, respDiag
 	respDiags.Append(diags...)
 }
 
+func IsFlag(ctx context.Context, req resource.ReadRequest, flagName string) (bool, diag.Diagnostics) {
+	v, diags := req.Private.GetKey(ctx, flagName)
+
+	return slices.Equal(v, []byte("1")), diags
+}
+
+func SetFlag(ctx context.Context, flagName string, value bool, sk SetKeyer, respDiags *diag.Diagnostics) {
+	if respDiags.HasError() {
+		return
+	}
+
+	b := []byte("0")
+	if value {
+		b = []byte("1")
+	}
+
+	diags := sk.SetKey(ctx, flagName, b)
+	respDiags.Append(diags...)
+}
+
 // SetKeyer is something like ReadResponse.Private or ImportStateResponse.Private.
 type SetKeyer interface {
 	SetKey(ctx context.Context, key string, value []byte) diag.Diagnostics

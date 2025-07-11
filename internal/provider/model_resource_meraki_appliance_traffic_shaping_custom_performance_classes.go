@@ -204,22 +204,22 @@ func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) fromBodyImp
 				return true
 			},
 		)
-		if value := res.Get("maxJitter"); value.Exists() {
+		if value := res.Get("maxJitter"); value.Exists() && value.Value() != nil {
 			data.MaxJitter = types.Int64Value(value.Int())
 		} else {
 			data.MaxJitter = types.Int64Null()
 		}
-		if value := res.Get("maxLatency"); value.Exists() {
+		if value := res.Get("maxLatency"); value.Exists() && value.Value() != nil {
 			data.MaxLatency = types.Int64Value(value.Int())
 		} else {
 			data.MaxLatency = types.Int64Null()
 		}
-		if value := res.Get("maxLossPercentage"); value.Exists() {
+		if value := res.Get("maxLossPercentage"); value.Exists() && value.Value() != nil {
 			data.MaxLossPercentage = types.Int64Value(value.Int())
 		} else {
 			data.MaxLossPercentage = types.Int64Null()
 		}
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()

@@ -192,17 +192,17 @@ func (data *ResourceOrganizationPolicyObjectGroups) fromBodyImport(ctx context.C
 				return true
 			},
 		)
-		if value := res.Get("category"); value.Exists() {
+		if value := res.Get("category"); value.Exists() && value.Value() != nil {
 			data.Category = types.StringValue(value.String())
 		} else {
 			data.Category = types.StringNull()
 		}
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("objectIds"); value.Exists() {
+		if value := res.Get("objectIds"); value.Exists() && value.Value() != nil {
 			data.ObjectIds = helpers.GetInt64Set(value.Array())
 		} else {
 			data.ObjectIds = types.SetNull(types.Int64Type)

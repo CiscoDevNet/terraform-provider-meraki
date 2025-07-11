@@ -176,12 +176,12 @@ func (data *ResourceSwitchRoutingMulticastRendezvousPoints) fromBodyImport(ctx c
 				return true
 			},
 		)
-		if value := res.Get("interfaceIp"); value.Exists() {
+		if value := res.Get("interfaceIp"); value.Exists() && value.Value() != nil {
 			data.InterfaceIp = types.StringValue(value.String())
 		} else {
 			data.InterfaceIp = types.StringNull()
 		}
-		if value := res.Get("multicastGroup"); value.Exists() {
+		if value := res.Get("multicastGroup"); value.Exists() && value.Value() != nil {
 			data.MulticastGroup = types.StringValue(value.String())
 		} else {
 			data.MulticastGroup = types.StringNull()

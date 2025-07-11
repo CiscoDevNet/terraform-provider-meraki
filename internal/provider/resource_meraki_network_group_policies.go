@@ -458,8 +458,6 @@ func (r *NetworkGroupPoliciesResource) Create(ctx context.Context, req resource.
 
 // End of section. //template:end create
 
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
 func (r *NetworkGroupPoliciesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ResourceNetworkGroupPolicies
 
@@ -483,6 +481,10 @@ func (r *NetworkGroupPoliciesResource) Read(ctx context.Context, req resource.Re
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+	forceDelete, diags := helpers.IsFlag(ctx, req, "force_delete")
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
 
 	// After `terraform import` we switch to a full read.
 	if imp {
@@ -490,6 +492,11 @@ func (r *NetworkGroupPoliciesResource) Read(ctx context.Context, req resource.Re
 			state.fromBodyImport(ctx, res)
 		} else {
 			state.fromBody(ctx, res)
+		}
+		if forceDelete {
+			for i := range state.Items {
+				state.Items[i].ForceDelete = types.BoolValue(true)
+			}
 		}
 	} else {
 		state.fromBodyPartial(ctx, res)
@@ -502,8 +509,6 @@ func (r *NetworkGroupPoliciesResource) Read(ctx context.Context, req resource.Re
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end read
 
 func (r *NetworkGroupPoliciesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ResourceNetworkGroupPolicies
@@ -632,7 +637,6 @@ func (r *NetworkGroupPoliciesResource) Delete(ctx context.Context, req resource.
 	resp.State.RemoveResource(ctx)
 }
 
-// Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *NetworkGroupPoliciesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	itemIdParts := make([]string, 0)
 	if strings.Contains(req.ID, ",[") {
@@ -640,9 +644,9 @@ func (r *NetworkGroupPoliciesResource) ImportState(ctx context.Context, req reso
 	}
 	idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
 
-	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
-		expectedIdentifier := "Expected import identifier with format: <organization_id>,<network_id>"
-		expectedIdentifier += " or <organization_id>,<network_id>,[<id>,...]"
+	if len(idParts) != 3 || idParts[0] == "" || idParts[1] == "" || idParts[2] == "" {
+		expectedIdentifier := "Expected import identifier with format: <organization_id>,<network_id>,<force_delete>"
+		expectedIdentifier += " or <organization_id>,<network_id>,<force_delete>,[<id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
 			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
@@ -651,6 +655,7 @@ func (r *NetworkGroupPoliciesResource) ImportState(ctx context.Context, req reso
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[1])...)
+	helpers.SetFlag(ctx, "force_delete", helpers.Must(strconv.ParseBool(idParts[2])), resp.Private, &resp.Diagnostics)
 
 	if len(itemIdParts) > 0 {
 		items := make([]ResourceNetworkGroupPoliciesItems, len(itemIdParts))
@@ -667,8 +672,6 @@ func (r *NetworkGroupPoliciesResource) ImportState(ctx context.Context, req reso
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
 func (r *NetworkGroupPoliciesResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {

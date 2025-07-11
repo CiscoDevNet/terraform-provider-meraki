@@ -1,4 +1,4 @@
-# Modify Delete() and Update() (for bulk) to support 'force' parameter
+# Modify Delete(), Update() (only bulk), Read() (only bulk) and Import() (only bulk) to support 'force_delete' parameter
 name: Network Group Policy
 spec_endpoint: /networks/{networkId}/groupPolicies/{groupPolicyId}
 rest_endpoint: /networks/%v/groupPolicies

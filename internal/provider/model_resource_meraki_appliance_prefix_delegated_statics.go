@@ -207,22 +207,22 @@ func (data *ResourceAppliancePrefixDelegatedStatics) fromBodyImport(ctx context.
 				return true
 			},
 		)
-		if value := res.Get("description"); value.Exists() {
+		if value := res.Get("description"); value.Exists() && value.Value() != nil {
 			data.Description = types.StringValue(value.String())
 		} else {
 			data.Description = types.StringNull()
 		}
-		if value := res.Get("prefix"); value.Exists() {
+		if value := res.Get("prefix"); value.Exists() && value.Value() != nil {
 			data.Prefix = types.StringValue(value.String())
 		} else {
 			data.Prefix = types.StringNull()
 		}
-		if value := res.Get("origin.type"); value.Exists() {
+		if value := res.Get("origin.type"); value.Exists() && value.Value() != nil {
 			data.OriginType = types.StringValue(value.String())
 		} else {
 			data.OriginType = types.StringNull()
 		}
-		if value := res.Get("origin.interfaces"); value.Exists() {
+		if value := res.Get("origin.interfaces"); value.Exists() && value.Value() != nil {
 			data.OriginInterfaces = helpers.GetStringList(value.Array())
 		} else {
 			data.OriginInterfaces = types.ListNull(types.StringType)

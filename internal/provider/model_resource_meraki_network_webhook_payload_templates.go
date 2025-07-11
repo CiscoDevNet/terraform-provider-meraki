@@ -292,73 +292,44 @@ func (data *ResourceNetworkWebhookPayloadTemplates) fromBodyImport(ctx context.C
 				return true
 			},
 		)
-		if value := res.Get("body"); value.Exists() {
+		if value := res.Get("body"); value.Exists() && value.Value() != nil {
 			data.Body = types.StringValue(value.String())
 		} else {
 			data.Body = types.StringNull()
 		}
-		if value := res.Get("bodyFile"); value.Exists() {
+		if value := res.Get("bodyFile"); value.Exists() && value.Value() != nil {
 			data.BodyFile = types.StringValue(value.String())
 		} else {
 			data.BodyFile = types.StringNull()
 		}
-		if value := res.Get("headersFile"); value.Exists() {
+		if value := res.Get("headersFile"); value.Exists() && value.Value() != nil {
 			data.HeadersFile = types.StringValue(value.String())
 		} else {
 			data.HeadersFile = types.StringNull()
 		}
-		if value := res.Get("name"); value.Exists() {
+		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
 		}
-		for i := 0; i < len(data.Headers); i++ {
-			keys := [...]string{"name"}
-			keyValues := [...]string{data.Headers[i].Name.ValueString()}
-
-			parent := &data
-			data := (*parent).Headers[i]
-			parentRes := &res
-			var res gjson.Result
-
-			parentRes.Get("headers").ForEach(
-				func(_, v gjson.Result) bool {
-					found := false
-					for ik := range keys {
-						if v.Get(keys[ik]).String() != keyValues[ik] {
-							found = false
-							break
-						}
-						found = true
-					}
-					if found {
-						res = v
-						return false
-					}
-					return true
-				},
-			)
-			if !res.Exists() {
-				tflog.Debug(ctx, fmt.Sprintf("removing Headers[%d] = %+v",
-					i,
-					(*parent).Headers[i],
-				))
-				(*parent).Headers = slices.Delete((*parent).Headers, i, i+1)
-				i--
-
-				continue
-			}
-			if value := res.Get("name"); value.Exists() {
-				data.Name = types.StringValue(value.String())
-			} else {
-				data.Name = types.StringNull()
-			}
-			if value := res.Get("template"); value.Exists() {
-				data.Template = types.StringValue(value.String())
-			} else {
-				data.Template = types.StringNull()
-			}
-			(*parent).Headers[i] = data
+		if value := res.Get("headers"); value.Exists() && value.Value() != nil {
+			data.Headers = make([]ResourceNetworkWebhookPayloadTemplatesHeaders, 0)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := ResourceNetworkWebhookPayloadTemplatesHeaders{}
+				if value := res.Get("name"); value.Exists() && value.Value() != nil {
+					data.Name = types.StringValue(value.String())
+				} else {
+					data.Name = types.StringNull()
+				}
+				if value := res.Get("template"); value.Exists() && value.Value() != nil {
+					data.Template = types.StringValue(value.String())
+				} else {
+					data.Template = types.StringNull()
+				}
+				(*parent).Headers = append((*parent).Headers, data)
+				return true
+			})
 		}
 		(*parent).Items[i] = data
 	}
