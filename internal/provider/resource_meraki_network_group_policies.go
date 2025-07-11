@@ -438,10 +438,14 @@ func (r *NetworkGroupPoliciesResource) Create(ctx context.Context, req resource.
 			Body:      item.toBody(ctx, ResourceNetworkGroupPoliciesItems{}),
 		}
 	}
-	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	var res meraki.Res
+	var err error
+	if len(actions) > 0 {
+		res, err = r.client.Batch(plan.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 	plan.Id = plan.OrganizationId
 	for i := range plan.Items {

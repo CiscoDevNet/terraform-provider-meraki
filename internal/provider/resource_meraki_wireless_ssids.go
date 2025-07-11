@@ -592,10 +592,14 @@ func (r *WirelessSSIDsResource) Create(ctx context.Context, req resource.CreateR
 			Body:      item.toBody(ctx, ResourceWirelessSSIDsItems{}),
 		}
 	}
-	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	var res meraki.Res
+	var err error
+	if len(actions) > 0 {
+		res, err = r.client.Batch(plan.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 	plan.Id = plan.OrganizationId
 
@@ -705,10 +709,14 @@ func (r *WirelessSSIDsResource) Update(ctx context.Context, req resource.UpdateR
 		}
 	}
 
-	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	var res meraki.Res
+	var err error
+	if len(actions) > 0 {
+		res, err = r.client.Batch(plan.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))

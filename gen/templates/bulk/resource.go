@@ -523,10 +523,14 @@ func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resour
 		}
 		{{- end}}
 	}
-	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	var res meraki.Res
+	var err error
+	if len(actions) > 0 {
+		res, err = r.client.Batch(plan.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 	plan.Id = plan.OrganizationId
 	{{- if not .PutCreate}}
@@ -703,10 +707,14 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 		}
 	}
 
-	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	var res meraki.Res
+	var err error
+	if len(actions) > 0 {
+		res, err = r.client.Batch(plan.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 	{{- end}}
 	{{- if not .PutCreate}}
@@ -750,10 +758,12 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 			Body:      state.toDestroyBody(ctx),
 		}
 	}
-	res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	if len(actions) > 0 {
+		res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 	{{- else if not .NoDelete}}
 	actions := make([]meraki.ActionModel, len(state.Items))
@@ -765,10 +775,12 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 			Body:      "{}",
 		}
 	}
-	res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	if len(actions) > 0 {
+		res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 	{{- end}}
 

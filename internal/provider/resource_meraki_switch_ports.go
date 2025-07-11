@@ -259,10 +259,14 @@ func (r *SwitchPortsResource) Create(ctx context.Context, req resource.CreateReq
 			Body:      item.toBody(ctx, ResourceSwitchPortsItems{}),
 		}
 	}
-	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	var res meraki.Res
+	var err error
+	if len(actions) > 0 {
+		res, err = r.client.Batch(plan.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 	plan.Id = plan.OrganizationId
 
@@ -393,10 +397,14 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 		}
 	}
 
-	res, err := r.client.Batch(plan.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	var res meraki.Res
+	var err error
+	if len(actions) > 0 {
+		res, err = r.client.Batch(plan.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
@@ -428,10 +436,12 @@ func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteReq
 			Body:      state.toDestroyBody(ctx),
 		}
 	}
-	res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-		return
+	if len(actions) > 0 {
+		res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
