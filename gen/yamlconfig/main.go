@@ -489,7 +489,7 @@ func GetBulkImportAttributes(config YamlConfig) []YamlConfigAttribute {
 		importAttributes = append(importAttributes, YamlConfigAttribute{ModelName: "organizationId", TfName: "organization_id"})
 	}
 	for _, attr := range config.Attributes {
-		if !attr.Reference {
+		if !attr.Reference && attr.ModelName != "" {
 			continue
 		}
 		if attr.Id && config.PutCreate {

@@ -67,8 +67,9 @@ func merakiNetworkGroupPoliciesImportStateIdFunc(resourceName string) resource.I
 		primary := s.RootModule().Resources[resourceName].Primary
 		OrganizationId := primary.Attributes["organization_id"]
 		NetworkId := primary.Attributes["network_id"]
+		ForceDelete := primary.Attributes["force_delete"]
 
-		return fmt.Sprintf("%s,%s", OrganizationId, NetworkId), nil
+		return fmt.Sprintf("%s,%s,%s", OrganizationId, NetworkId, ForceDelete), nil
 	}
 }
 
