@@ -105,6 +105,7 @@ Optional:
 - `gre_concentrator_host` (String) The EoGRE concentrator's IP or FQDN. This param is required when ipAssignmentMode is `Ethernet over GRE`.
 - `gre_key` (Number) Optional numerical identifier that will add the GRE key field to the GRE header. Used to identify an individual traffic flow within a tunnel.
 - `ip_assignment_mode` (String) The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)
+  - Choices: `Bridge mode`, `Ethernet over GRE`, `Layer 3 roaming`, `Layer 3 roaming with a concentrator`, `NAT mode`, `VPN`
 - `lan_isolation_enabled` (Boolean) Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
 - `ldap_base_distinguished_name` (String) The base distinguished name of users on the LDAP server.
 - `ldap_credentials_distinguished_name` (String) The distinguished name of the LDAP user account (example: cn=user,dc=meraki,dc=com).

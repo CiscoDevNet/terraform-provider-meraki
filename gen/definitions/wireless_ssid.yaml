@@ -1,4 +1,3 @@
-# Modify Delete() to customize delete behavior
 name: Wireless SSID
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}
 rest_endpoint: /networks/%v/wireless/ssids/%v
@@ -33,15 +32,18 @@ attributes:
     exclude_test: true
     description: Boolean indicating whether or not adult content will be blocked
     example: "false"
+    destroy_value: "false"
   - model_name: authMode
     type: String
     description: The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)
     example: psk
     enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, open, open-enhanced, open-with-nac, open-with-radius, psk]
+    destroy_value: '"open"'
   - model_name: availableOnAllAps
     type: Bool
     description: Boolean indicating whether all APs should broadcast the SSID or if it should be restricted to APs matching any availability tags. Can only be false if the SSID has availability tags.
     example: "false"
+    destroy_value: "true"
   - model_name: bandSelection
     type: String
     description: The client-serving radio frequencies of this SSID in the default indoor RF profile. (`Dual band operation`, `5 GHz band only` or `Dual band operation with Band Steering`)
@@ -65,6 +67,7 @@ attributes:
     type: Bool
     description: Whether or not the SSID is enabled
     example: "false"
+    destroy_value: "false"
   - model_name: encryptionMode
     type: String
     description: The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`
@@ -80,6 +83,8 @@ attributes:
     type: String
     description: The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)
     example: Bridge mode
+    destroy_value: '"NAT mode"'
+    enum_values: [Bridge mode, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, VPN]
   - model_name: lanIsolationEnabled
     type: Bool
     description: Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
@@ -88,6 +93,7 @@ attributes:
     type: Bool
     description: If true, Mandatory DHCP will enforce that clients connecting to this SSID must use the IP address assigned by the DHCP server. Clients who use a static IP address won`t be able to associate.
     example: "false"
+    destroy_value: "false"
   - model_name: minBitrate
     type: Float64
     description: The minimum bitrate in Mbps of this SSID in the default indoor RF profile. (`1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`)
@@ -97,22 +103,27 @@ attributes:
     mandatory: true
     description: The name of the SSID
     example: My SSID
+    destroy_value: '"Unconfigured SSID"'
   - model_name: perClientBandwidthLimitDown
     type: Int64
     description: The download bandwidth limit in Kbps. (0 represents no limit.)
     example: "0"
+    destroy_value: "0"
   - model_name: perClientBandwidthLimitUp
     type: Int64
     description: The upload bandwidth limit in Kbps. (0 represents no limit.)
     example: "0"
+    destroy_value: "0"
   - model_name: perSsidBandwidthLimitDown
     type: Int64
     description: The total download bandwidth limit in Kbps. (0 represents no limit.)
     example: "0"
+    destroy_value: "0"
   - model_name: perSsidBandwidthLimitUp
     type: Int64
     description: The total upload bandwidth limit in Kbps. (0 represents no limit.)
     example: "0"
+    destroy_value: "0"
   - model_name: psk
     type: String
     description: The passkey for the SSID. This param is only valid if the authMode is `psk`
@@ -210,6 +221,7 @@ attributes:
     description: The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.
     example: Click-through splash page
     enum_values: [Billing, Cisco ISE, Click-through splash page, Facebook Wi-Fi, Google Apps domain, Google OAuth, Microsoft Entra ID, None, Password-protected with Active Directory, Password-protected with LDAP, Password-protected with Meraki RADIUS, Password-protected with custom RADIUS, SMS authentication, Sponsored guest, Systems Manager Sentry]
+    destroy_value: '"None"'
   - model_name: useVlanTagging
     type: Bool
     description: Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
@@ -218,6 +230,7 @@ attributes:
     type: Bool
     description: Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true
     example: "false"
+    destroy_value: "true"
   - model_name: vlanId
     type: Int64
     exclude_test: true
@@ -266,6 +279,7 @@ attributes:
     exclude_test: true
     description: Boolean indicating whether or not DNS server rewrite is enabled. If disabled, upstream DNS will be used
     example: "false"
+    destroy_value: "false"
   - model_name: dnsCustomNameservers
     type: List
     element_type: String
@@ -273,6 +287,7 @@ attributes:
     exclude_test: true
     description: User specified DNS servers (up to two servers)
     example: 8.8.8.8
+    destroy_value: "[]interface{}{}"
   - model_name: adaptive
     type: Bool
     data_path: [dot11r]
@@ -446,6 +461,7 @@ attributes:
     data_path: [speedBurst]
     description: Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.
     example: "false"
+    destroy_value: "false"
   - model_name: apTagsAndVlanIds
     type: List
     exclude_test: true
@@ -465,6 +481,7 @@ attributes:
     element_type: String
     description: Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
     example: tag1
+    destroy_value: "[]interface{}{}"
   - model_name: radiusAccountingServers
     type: List
     exclude_test: true

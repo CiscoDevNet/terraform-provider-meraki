@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
@@ -140,8 +139,11 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				},
 			},
 			"ip_assignment_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)").AddStringEnumDescription("Bridge mode", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN").String,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Bridge mode", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN"),
+				},
 			},
 			"lan_isolation_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.").String,
@@ -674,6 +676,8 @@ func (r *WirelessSSIDResource) Update(ctx context.Context, req resource.UpdateRe
 
 // End of section. //template:end update
 
+// Section below is generated&owned by "gen/generator.go". //template:begin delete
+
 func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state WirelessSSID
 
@@ -684,37 +688,10 @@ func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRe
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-
-	number, err := strconv.Atoi(state.Number.ValueString())
+	body := state.toDestroyBody(ctx)
+	res, err := r.client.Put(state.getPath(), body)
 	if err != nil {
-		resp.Diagnostics.AddError("Data Error", fmt.Sprintf("Failed to convert SSID number to string, got error: %s", err.Error()))
-		return
-	}
-
-	body := meraki.Body{}.
-		Set("number", number).
-		Set("name", fmt.Sprintf("Unconfigured SSID %d", number+1)).
-		Set("enabled", false).
-		Set("splashPage", "None").
-		Set("ssidAdminAccessible", false).
-		Set("authMode", "open").
-		Set("ipAssignmentMode", "NAT mode").
-		Set("adultContentFilteringEnabled", false).
-		Set("dnsRewrite.enabled", false).
-		Set("dnsRewrite.dnsCustomNameservers", []string{}).
-		Set("perClientBandwidthLimitUp", 0).
-		Set("perClientBandwidthLimitDown", 0).
-		Set("perSsidBandwidthLimitUp", 0).
-		Set("perSsidBandwidthLimitDown", 0).
-		Set("mandatoryDhcpEnabled", false).
-		Set("visible", true).
-		Set("availableOnAllAps", true).
-		Set("availabilityTags", []string{}).
-		Set("speedBurst.enabled", false)
-
-	res, err := r.client.Put(state.getPath(), body.Str)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete SSID (PUT), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
 	}
 
@@ -722,6 +699,8 @@ func (r *WirelessSSIDResource) Delete(ctx context.Context, req resource.DeleteRe
 
 	resp.State.RemoveResource(ctx)
 }
+
+// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *WirelessSSIDResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
