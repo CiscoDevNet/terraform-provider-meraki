@@ -83,8 +83,8 @@ attributes:
     type: String
     description: The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)
     example: Bridge mode
-    destroy_value: '"NAT mode"'
     enum_values: [Bridge mode, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, VPN]
+    destroy_value: '"NAT mode"'
   - model_name: lanIsolationEnabled
     type: Bool
     description: Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
@@ -287,7 +287,7 @@ attributes:
     exclude_test: true
     description: User specified DNS servers (up to two servers)
     example: 8.8.8.8
-    destroy_value: "[]interface{}{}"
+    destroy_value: '[]interface{}{}'
   - model_name: adaptive
     type: Bool
     data_path: [dot11r]
@@ -481,7 +481,7 @@ attributes:
     element_type: String
     description: Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
     example: tag1
-    destroy_value: "[]interface{}{}"
+    destroy_value: '[]interface{}{}'
   - model_name: radiusAccountingServers
     type: List
     exclude_test: true
