@@ -1,3 +1,4 @@
+# Modify Delete() to customize delete behavior
 name: Wireless SSID
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}
 rest_endpoint: /networks/%v/wireless/ssids/%v

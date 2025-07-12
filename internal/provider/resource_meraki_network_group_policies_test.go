@@ -60,20 +60,16 @@ func TestAccMerakiNetworkGroupPolicies(t *testing.T) {
 
 // End of section. //template:end testAcc
 
-// Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
-
 func merakiNetworkGroupPoliciesImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		OrganizationId := primary.Attributes["organization_id"]
 		NetworkId := primary.Attributes["network_id"]
-		ForceDelete := primary.Attributes["force_delete"]
+		ForceDelete := "true"
 
 		return fmt.Sprintf("%s,%s,%s", OrganizationId, NetworkId, ForceDelete), nil
 	}
 }
-
-// End of section. //template:end importStateIdFunc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
