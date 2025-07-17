@@ -464,21 +464,28 @@ func (data *ResourceApplianceVLANs) fromBodyPartial(ctx context.Context, res mer
 	if res.Get("items").Exists() {
 		res = meraki.Res{Result: res.Get("items")}
 	}
+	toBeDeleted := make([]int, 0)
 	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
 		parentRes := &res
 		var res gjson.Result
+		found := false
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
 				if v.Get("id").String() == (*parent).Items[i].Id.ValueString() {
 					res = v
+					found = true
 					return false
 				}
 				return true
 			},
 		)
+		if !found {
+			toBeDeleted = append(toBeDeleted, i)
+			continue
+		}
 		if value := res.Get("applianceIp"); value.Exists() && !data.ApplianceIp.IsNull() {
 			data.ApplianceIp = types.StringValue(value.String())
 		} else {
@@ -733,6 +740,10 @@ func (data *ResourceApplianceVLANs) fromBodyPartial(ctx context.Context, res mer
 		}
 		(*parent).Items[i] = data
 	}
+	for i := len(toBeDeleted) - 1; i >= 0; i-- {
+		tflog.Debug(ctx, fmt.Sprintf("fromBodyPartial(), removing item with id: %s", data.Items[toBeDeleted[i]].Id.ValueString()))
+		data.Items = slices.Delete(data.Items, toBeDeleted[i], toBeDeleted[i]+1)
+	}
 }
 
 // End of section. //template:end fromBodyPartial
@@ -968,7 +979,7 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
-		tflog.Debug(ctx, fmt.Sprintf("Import, removing item with id: %s", data.Items[toBeDeleted[i]].Id.ValueString()))
+		tflog.Debug(ctx, fmt.Sprintf("fromBodyImport(), removing item with id: %s", data.Items[toBeDeleted[i]].Id.ValueString()))
 		data.Items = slices.Delete(data.Items, toBeDeleted[i], toBeDeleted[i]+1)
 	}
 }

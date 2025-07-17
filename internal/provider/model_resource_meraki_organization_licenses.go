@@ -110,27 +110,38 @@ func (data *ResourceOrganizationLicenses) fromBodyPartial(ctx context.Context, r
 	if res.Get("items").Exists() {
 		res = meraki.Res{Result: res.Get("items")}
 	}
+	toBeDeleted := make([]int, 0)
 	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
 		parentRes := &res
 		var res gjson.Result
+		found := false
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
 				if v.Get("id").String() == (*parent).Items[i].LicenseId.ValueString() {
 					res = v
+					found = true
 					return false
 				}
 				return true
 			},
 		)
+		if !found {
+			toBeDeleted = append(toBeDeleted, i)
+			continue
+		}
 		if value := res.Get("deviceSerial"); value.Exists() && !data.DeviceSerial.IsNull() {
 			data.DeviceSerial = types.StringValue(value.String())
 		} else {
 			data.DeviceSerial = types.StringNull()
 		}
 		(*parent).Items[i] = data
+	}
+	for i := len(toBeDeleted) - 1; i >= 0; i-- {
+		tflog.Debug(ctx, fmt.Sprintf("fromBodyPartial(), removing item with id: %s", data.Items[toBeDeleted[i]].LicenseId.ValueString()))
+		data.Items = slices.Delete(data.Items, toBeDeleted[i], toBeDeleted[i]+1)
 	}
 }
 
@@ -186,7 +197,7 @@ func (data *ResourceOrganizationLicenses) fromBodyImport(ctx context.Context, re
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
-		tflog.Debug(ctx, fmt.Sprintf("Import, removing item with id: %s", data.Items[toBeDeleted[i]].LicenseId.ValueString()))
+		tflog.Debug(ctx, fmt.Sprintf("fromBodyImport(), removing item with id: %s", data.Items[toBeDeleted[i]].LicenseId.ValueString()))
 		data.Items = slices.Delete(data.Items, toBeDeleted[i], toBeDeleted[i]+1)
 	}
 }

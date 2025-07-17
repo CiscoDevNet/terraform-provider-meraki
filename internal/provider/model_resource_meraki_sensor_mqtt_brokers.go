@@ -111,27 +111,38 @@ func (data *ResourceSensorMQTTBrokers) fromBodyPartial(ctx context.Context, res 
 	if res.Get("items").Exists() {
 		res = meraki.Res{Result: res.Get("items")}
 	}
+	toBeDeleted := make([]int, 0)
 	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
 		parentRes := &res
 		var res gjson.Result
+		found := false
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
 				if v.Get("mqttBrokerId").String() == (*parent).Items[i].MqttBrokerId.ValueString() {
 					res = v
+					found = true
 					return false
 				}
 				return true
 			},
 		)
+		if !found {
+			toBeDeleted = append(toBeDeleted, i)
+			continue
+		}
 		if value := res.Get("enabled"); value.Exists() && !data.Enabled.IsNull() {
 			data.Enabled = types.BoolValue(value.Bool())
 		} else {
 			data.Enabled = types.BoolNull()
 		}
 		(*parent).Items[i] = data
+	}
+	for i := len(toBeDeleted) - 1; i >= 0; i-- {
+		tflog.Debug(ctx, fmt.Sprintf("fromBodyPartial(), removing item with id: %s", data.Items[toBeDeleted[i]].MqttBrokerId.ValueString()))
+		data.Items = slices.Delete(data.Items, toBeDeleted[i], toBeDeleted[i]+1)
 	}
 }
 
@@ -187,7 +198,7 @@ func (data *ResourceSensorMQTTBrokers) fromBodyImport(ctx context.Context, res m
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
-		tflog.Debug(ctx, fmt.Sprintf("Import, removing item with id: %s", data.Items[toBeDeleted[i]].MqttBrokerId.ValueString()))
+		tflog.Debug(ctx, fmt.Sprintf("fromBodyImport(), removing item with id: %s", data.Items[toBeDeleted[i]].MqttBrokerId.ValueString()))
 		data.Items = slices.Delete(data.Items, toBeDeleted[i], toBeDeleted[i]+1)
 	}
 }

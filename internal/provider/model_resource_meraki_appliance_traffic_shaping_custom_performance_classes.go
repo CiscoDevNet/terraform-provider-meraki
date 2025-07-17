@@ -135,21 +135,28 @@ func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) fromBodyPar
 	if res.Get("items").Exists() {
 		res = meraki.Res{Result: res.Get("items")}
 	}
+	toBeDeleted := make([]int, 0)
 	for i := range data.Items {
 		parent := &data
 		data := (*parent).Items[i]
 		parentRes := &res
 		var res gjson.Result
+		found := false
 
 		parentRes.ForEach(
 			func(_, v gjson.Result) bool {
 				if v.Get("customPerformanceClassId").String() == (*parent).Items[i].Id.ValueString() {
 					res = v
+					found = true
 					return false
 				}
 				return true
 			},
 		)
+		if !found {
+			toBeDeleted = append(toBeDeleted, i)
+			continue
+		}
 		if value := res.Get("maxJitter"); value.Exists() && !data.MaxJitter.IsNull() {
 			data.MaxJitter = types.Int64Value(value.Int())
 		} else {
@@ -171,6 +178,10 @@ func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) fromBodyPar
 			data.Name = types.StringNull()
 		}
 		(*parent).Items[i] = data
+	}
+	for i := len(toBeDeleted) - 1; i >= 0; i-- {
+		tflog.Debug(ctx, fmt.Sprintf("fromBodyPartial(), removing item with id: %s", data.Items[toBeDeleted[i]].Id.ValueString()))
+		data.Items = slices.Delete(data.Items, toBeDeleted[i], toBeDeleted[i]+1)
 	}
 }
 
@@ -236,7 +247,7 @@ func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) fromBodyImp
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
-		tflog.Debug(ctx, fmt.Sprintf("Import, removing item with id: %s", data.Items[toBeDeleted[i]].Id.ValueString()))
+		tflog.Debug(ctx, fmt.Sprintf("fromBodyImport(), removing item with id: %s", data.Items[toBeDeleted[i]].Id.ValueString()))
 		data.Items = slices.Delete(data.Items, toBeDeleted[i], toBeDeleted[i]+1)
 	}
 }

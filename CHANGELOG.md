@@ -2,6 +2,7 @@
 
 - Add support for importing specific item IDs of bulk resources
 - Make `force_delete` attribute of `meraki_network_group_policies` resource "importable"
+- Fix issue with attempting to delete non-existent items from bulk resources
 
 ## 1.4.2
 
