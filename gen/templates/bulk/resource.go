@@ -811,6 +811,9 @@ func (r *{{camelCase .BulkName}}Resource) ImportState(ctx context.Context, req r
 	}
 
 	{{- range $index, $attr := (getBulkImportAttributes .)}}
+	{{- if eq .TfName "organization_id"}}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
+	{{- end}}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
 	{{- end}}
 

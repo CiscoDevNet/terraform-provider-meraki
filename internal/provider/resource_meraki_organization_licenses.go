@@ -298,6 +298,7 @@ func (r *OrganizationLicensesResource) ImportState(ctx context.Context, req reso
 		)
 		return
 	}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
 
 	if len(itemIdParts) > 0 {

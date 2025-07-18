@@ -378,6 +378,7 @@ func (r *SwitchRoutingStaticRoutesResource) ImportState(ctx context.Context, req
 		)
 		return
 	}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[1])...)
 
