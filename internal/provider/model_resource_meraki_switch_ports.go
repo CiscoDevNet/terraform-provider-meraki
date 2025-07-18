@@ -719,17 +719,17 @@ func (data *ResourceSwitchPorts) fromBodyImport(ctx context.Context, res meraki.
 		} else {
 			data.ProfileIname = types.StringNull()
 		}
-		if value := res.Get("macAllowList"); value.Exists() && value.Value() != nil {
+		if value := res.Get("macAllowList"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.MacAllowList = helpers.GetStringSet(value.Array())
 		} else {
 			data.MacAllowList = types.SetNull(types.StringType)
 		}
-		if value := res.Get("stickyMacAllowList"); value.Exists() && value.Value() != nil {
+		if value := res.Get("stickyMacAllowList"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.StickyMacAllowList = helpers.GetStringSet(value.Array())
 		} else {
 			data.StickyMacAllowList = types.SetNull(types.StringType)
 		}
-		if value := res.Get("tags"); value.Exists() && value.Value() != nil {
+		if value := res.Get("tags"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.Tags = helpers.GetStringSet(value.Array())
 		} else {
 			data.Tags = types.SetNull(types.StringType)

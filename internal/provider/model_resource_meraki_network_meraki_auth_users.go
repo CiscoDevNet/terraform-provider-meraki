@@ -339,7 +339,7 @@ func (data *ResourceNetworkMerakiAuthUsers) fromBodyImport(ctx context.Context, 
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("authorizations"); value.Exists() && value.Value() != nil {
+		if value := res.Get("authorizations"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.Authorizations = make([]ResourceNetworkMerakiAuthUsersAuthorizations, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data

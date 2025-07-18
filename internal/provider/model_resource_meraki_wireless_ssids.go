@@ -2014,7 +2014,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 		} else {
 			data.ActiveDirectoryCredentialsPassword = types.StringNull()
 		}
-		if value := res.Get("activeDirectory.servers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("activeDirectory.servers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.ActiveDirectoryServers = make([]ResourceWirelessSSIDsActiveDirectoryServers, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -2038,7 +2038,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 		} else {
 			data.DnsRewriteEnabled = types.BoolNull()
 		}
-		if value := res.Get("dnsRewrite.dnsCustomNameservers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("dnsRewrite.dnsCustomNameservers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.DnsRewriteDnsCustomNameservers = helpers.GetStringList(value.Array())
 		} else {
 			data.DnsRewriteDnsCustomNameservers = types.ListNull(types.StringType)
@@ -2093,7 +2093,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 		} else {
 			data.LdapServerCaCertificateContents = types.StringNull()
 		}
-		if value := res.Get("ldap.servers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("ldap.servers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.LdapServers = make([]ResourceWirelessSSIDsLdapServers, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -2167,7 +2167,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 		} else {
 			data.NamedVlansTaggingEnabled = types.BoolNull()
 		}
-		if value := res.Get("namedVlans.tagging.byApTags"); value.Exists() && value.Value() != nil {
+		if value := res.Get("namedVlans.tagging.byApTags"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.NamedVlansTaggingByApTags = make([]ResourceWirelessSSIDsNamedVlansTaggingByApTags, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -2177,7 +2177,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 				} else {
 					data.VlanName = types.StringNull()
 				}
-				if value := res.Get("tags"); value.Exists() && value.Value() != nil {
+				if value := res.Get("tags"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 					data.Tags = helpers.GetStringSet(value.Array())
 				} else {
 					data.Tags = types.SetNull(types.StringType)
@@ -2186,7 +2186,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 				return true
 			})
 		}
-		if value := res.Get("oauth.allowedDomains"); value.Exists() && value.Value() != nil {
+		if value := res.Get("oauth.allowedDomains"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.OauthAllowedDomains = helpers.GetStringSet(value.Array())
 		} else {
 			data.OauthAllowedDomains = types.SetNull(types.StringType)
@@ -2201,7 +2201,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 		} else {
 			data.SpeedBurstEnabled = types.BoolNull()
 		}
-		if value := res.Get("apTagsAndVlanIds"); value.Exists() && value.Value() != nil {
+		if value := res.Get("apTagsAndVlanIds"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.ApTagsAndVlanIds = make([]ResourceWirelessSSIDsApTagsAndVlanIds, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -2211,7 +2211,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 				} else {
 					data.VlanId = types.Int64Null()
 				}
-				if value := res.Get("tags"); value.Exists() && value.Value() != nil {
+				if value := res.Get("tags"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 					data.Tags = helpers.GetStringSet(value.Array())
 				} else {
 					data.Tags = types.SetNull(types.StringType)
@@ -2220,12 +2220,12 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 				return true
 			})
 		}
-		if value := res.Get("availabilityTags"); value.Exists() && value.Value() != nil {
+		if value := res.Get("availabilityTags"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.AvailabilityTags = helpers.GetStringSet(value.Array())
 		} else {
 			data.AvailabilityTags = types.SetNull(types.StringType)
 		}
-		if value := res.Get("radiusAccountingServers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("radiusAccountingServers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RadiusAccountingServers = make([]ResourceWirelessSSIDsRadiusAccountingServers, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -2254,7 +2254,7 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 				return true
 			})
 		}
-		if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RadiusServers = make([]ResourceWirelessSSIDsRadiusServers, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -2288,17 +2288,17 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 				return true
 			})
 		}
-		if value := res.Get("splashGuestSponsorDomains"); value.Exists() && value.Value() != nil {
+		if value := res.Get("splashGuestSponsorDomains"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.SplashGuestSponsorDomains = helpers.GetStringSet(value.Array())
 		} else {
 			data.SplashGuestSponsorDomains = types.SetNull(types.StringType)
 		}
-		if value := res.Get("walledGardenRanges"); value.Exists() && value.Value() != nil {
+		if value := res.Get("walledGardenRanges"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.WalledGardenRanges = helpers.GetStringSet(value.Array())
 		} else {
 			data.WalledGardenRanges = types.SetNull(types.StringType)
 		}
-		if value := res.Get("radiusDasClients.clientsIps"); value.Exists() && value.Value() != nil {
+		if value := res.Get("radiusDasClients.clientsIps"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RadiusDasClientsIps = helpers.GetStringSet(value.Array())
 		} else {
 			data.RadiusDasClientsIps = types.SetNull(types.StringType)

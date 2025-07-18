@@ -362,7 +362,7 @@ func (data *ResourceOrganizationAdaptivePolicies) fromBodyImport(ctx context.Con
 		} else {
 			data.SourceGroupSgt = types.Int64Null()
 		}
-		if value := res.Get("acls"); value.Exists() && value.Value() != nil {
+		if value := res.Get("acls"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.Acls = make([]ResourceOrganizationAdaptivePoliciesAcls, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data

@@ -242,7 +242,7 @@ func (data *ResourceAppliancePrefixDelegatedStatics) fromBodyImport(ctx context.
 		} else {
 			data.OriginType = types.StringNull()
 		}
-		if value := res.Get("origin.interfaces"); value.Exists() && value.Value() != nil {
+		if value := res.Get("origin.interfaces"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.OriginInterfaces = helpers.GetStringList(value.Array())
 		} else {
 			data.OriginInterfaces = types.ListNull(types.StringType)

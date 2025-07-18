@@ -330,7 +330,7 @@ func (data *ResourceNetworkWebhookPayloadTemplates) fromBodyImport(ctx context.C
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("headers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("headers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.Headers = make([]ResourceNetworkWebhookPayloadTemplatesHeaders, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data

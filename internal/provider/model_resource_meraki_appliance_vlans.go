@@ -860,7 +860,7 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 		} else {
 			data.VpnNatSubnet = types.StringNull()
 		}
-		if value := res.Get("fixedIpAssignments"); value.Exists() && value.Value() != nil {
+		if value := res.Get("fixedIpAssignments"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.FixedIpAssignments = make(map[string]ResourceApplianceVLANsFixedIpAssignments)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -884,7 +884,7 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 		} else {
 			data.Ipv6Enabled = types.BoolNull()
 		}
-		if value := res.Get("ipv6.prefixAssignments"); value.Exists() && value.Value() != nil {
+		if value := res.Get("ipv6.prefixAssignments"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.Ipv6PrefixAssignments = make([]ResourceApplianceVLANsIpv6PrefixAssignments, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -909,7 +909,7 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 				} else {
 					data.OriginType = types.StringNull()
 				}
-				if value := res.Get("origin.interfaces"); value.Exists() && value.Value() != nil {
+				if value := res.Get("origin.interfaces"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 					data.OriginInterfaces = helpers.GetStringList(value.Array())
 				} else {
 					data.OriginInterfaces = types.ListNull(types.StringType)
@@ -923,7 +923,7 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 		} else {
 			data.MandatoryDhcpEnabled = types.BoolNull()
 		}
-		if value := res.Get("dhcpOptions"); value.Exists() && value.Value() != nil {
+		if value := res.Get("dhcpOptions"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.DhcpOptions = make([]ResourceApplianceVLANsDhcpOptions, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -947,12 +947,12 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 				return true
 			})
 		}
-		if value := res.Get("dhcpRelayServerIps"); value.Exists() && value.Value() != nil {
+		if value := res.Get("dhcpRelayServerIps"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.DhcpRelayServerIps = helpers.GetStringList(value.Array())
 		} else {
 			data.DhcpRelayServerIps = types.ListNull(types.StringType)
 		}
-		if value := res.Get("reservedIpRanges"); value.Exists() && value.Value() != nil {
+		if value := res.Get("reservedIpRanges"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.ReservedIpRanges = make([]ResourceApplianceVLANsReservedIpRanges, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data

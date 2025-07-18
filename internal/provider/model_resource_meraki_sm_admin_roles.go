@@ -222,7 +222,7 @@ func (data *ResourceSMAdminRoles) fromBodyImport(ctx context.Context, res meraki
 		} else {
 			data.Scope = types.StringNull()
 		}
-		if value := res.Get("tags"); value.Exists() && value.Value() != nil {
+		if value := res.Get("tags"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.Tags = helpers.GetStringList(value.Array())
 		} else {
 			data.Tags = types.ListNull(types.StringType)

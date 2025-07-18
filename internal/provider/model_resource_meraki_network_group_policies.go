@@ -1200,7 +1200,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 		} else {
 			data.BonjourForwardingSettings = types.StringNull()
 		}
-		if value := res.Get("bonjourForwarding.rules"); value.Exists() && value.Value() != nil {
+		if value := res.Get("bonjourForwarding.rules"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.BonjourForwardingRules = make([]ResourceNetworkGroupPoliciesBonjourForwardingRules, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -1215,7 +1215,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 				} else {
 					data.VlanId = types.StringNull()
 				}
-				if value := res.Get("services"); value.Exists() && value.Value() != nil {
+				if value := res.Get("services"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 					data.Services = helpers.GetStringSet(value.Array())
 				} else {
 					data.Services = types.SetNull(types.StringType)
@@ -1229,7 +1229,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 		} else {
 			data.ContentFilteringAllowedUrlPatternsSettings = types.StringNull()
 		}
-		if value := res.Get("contentFiltering.allowedUrlPatterns.patterns"); value.Exists() && value.Value() != nil {
+		if value := res.Get("contentFiltering.allowedUrlPatterns.patterns"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.ContentFilteringAllowedUrlPatterns = helpers.GetStringSet(value.Array())
 		} else {
 			data.ContentFilteringAllowedUrlPatterns = types.SetNull(types.StringType)
@@ -1239,7 +1239,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 		} else {
 			data.ContentFilteringBlockedUrlCategoriesSettings = types.StringNull()
 		}
-		if value := res.Get("contentFiltering.blockedUrlCategories.categories"); value.Exists() && value.Value() != nil {
+		if value := res.Get("contentFiltering.blockedUrlCategories.categories"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.ContentFilteringBlockedUrlCategories = helpers.GetStringSet(value.Array())
 		} else {
 			data.ContentFilteringBlockedUrlCategories = types.SetNull(types.StringType)
@@ -1249,7 +1249,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 		} else {
 			data.ContentFilteringBlockedUrlPatternsSettings = types.StringNull()
 		}
-		if value := res.Get("contentFiltering.blockedUrlPatterns.patterns"); value.Exists() && value.Value() != nil {
+		if value := res.Get("contentFiltering.blockedUrlPatterns.patterns"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.ContentFilteringBlockedUrlPatterns = helpers.GetStringSet(value.Array())
 		} else {
 			data.ContentFilteringBlockedUrlPatterns = types.SetNull(types.StringType)
@@ -1259,7 +1259,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 		} else {
 			data.FirewallAndTrafficShapingSettings = types.StringNull()
 		}
-		if value := res.Get("firewallAndTrafficShaping.l3FirewallRules"); value.Exists() && value.Value() != nil {
+		if value := res.Get("firewallAndTrafficShaping.l3FirewallRules"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.L3FirewallRules = make([]ResourceNetworkGroupPoliciesL3FirewallRules, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -1293,7 +1293,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 				return true
 			})
 		}
-		if value := res.Get("firewallAndTrafficShaping.l7FirewallRules"); value.Exists() && value.Value() != nil {
+		if value := res.Get("firewallAndTrafficShaping.l7FirewallRules"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.L7FirewallRules = make([]ResourceNetworkGroupPoliciesL7FirewallRules, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -1317,7 +1317,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 				return true
 			})
 		}
-		if value := res.Get("firewallAndTrafficShaping.trafficShapingRules"); value.Exists() && value.Value() != nil {
+		if value := res.Get("firewallAndTrafficShaping.trafficShapingRules"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.TrafficShapingRules = make([]ResourceNetworkGroupPoliciesTrafficShapingRules, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -1347,7 +1347,7 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 				} else {
 					data.PerClientBandwidthLimitsBandwidthLimitsLimitUp = types.Int64Null()
 				}
-				if value := res.Get("definitions"); value.Exists() && value.Value() != nil {
+				if value := res.Get("definitions"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 					data.Definitions = make([]ResourceNetworkGroupPoliciesTrafficShapingRulesDefinitions, 0)
 					value.ForEach(func(k, res gjson.Result) bool {
 						parent := &data

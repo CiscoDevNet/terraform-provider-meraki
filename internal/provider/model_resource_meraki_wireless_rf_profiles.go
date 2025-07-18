@@ -1529,7 +1529,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.ApBandSettingsBandSteeringEnabled = types.BoolNull()
 		}
-		if value := res.Get("apBandSettings.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("apBandSettings.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.ApBandSettingsBandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.ApBandSettingsBandsEnabled = types.SetNull(types.StringType)
@@ -1559,12 +1559,12 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.FiveGhzSettingsRxsop = types.Int64Null()
 		}
-		if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil {
+		if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 		} else {
 			data.FiveGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 		}
-		if value := res.Get("flexRadios.byModel"); value.Exists() && value.Value() != nil {
+		if value := res.Get("flexRadios.byModel"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.FlexRadiosByModel = make([]ResourceWirelessRFProfilesFlexRadiosByModel, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -1574,7 +1574,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 				} else {
 					data.Model = types.StringNull()
 				}
-				if value := res.Get("bands"); value.Exists() && value.Value() != nil {
+				if value := res.Get("bands"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 					data.Bands = helpers.GetStringSet(value.Array())
 				} else {
 					data.Bands = types.SetNull(types.StringType)
@@ -1598,7 +1598,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings0MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.0.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.0.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings0BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings0BandsEnabled = types.SetNull(types.StringType)
@@ -1618,7 +1618,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings1MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.1.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.1.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings1BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings1BandsEnabled = types.SetNull(types.StringType)
@@ -1638,7 +1638,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings10MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.10.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.10.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings10BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings10BandsEnabled = types.SetNull(types.StringType)
@@ -1658,7 +1658,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings11MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.11.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.11.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings11BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings11BandsEnabled = types.SetNull(types.StringType)
@@ -1678,7 +1678,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings12MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.12.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.12.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings12BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings12BandsEnabled = types.SetNull(types.StringType)
@@ -1698,7 +1698,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings13MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.13.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.13.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings13BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings13BandsEnabled = types.SetNull(types.StringType)
@@ -1718,7 +1718,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings14MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.14.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.14.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings14BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings14BandsEnabled = types.SetNull(types.StringType)
@@ -1738,7 +1738,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings2MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.2.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.2.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings2BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings2BandsEnabled = types.SetNull(types.StringType)
@@ -1758,7 +1758,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings3MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.3.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.3.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings3BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings3BandsEnabled = types.SetNull(types.StringType)
@@ -1778,7 +1778,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings4MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.4.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.4.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings4BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings4BandsEnabled = types.SetNull(types.StringType)
@@ -1798,7 +1798,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings5MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.5.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.5.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings5BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings5BandsEnabled = types.SetNull(types.StringType)
@@ -1818,7 +1818,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings6MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.6.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.6.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings6BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings6BandsEnabled = types.SetNull(types.StringType)
@@ -1838,7 +1838,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings7MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.7.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.7.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings7BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings7BandsEnabled = types.SetNull(types.StringType)
@@ -1858,7 +1858,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings8MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.8.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.8.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings8BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings8BandsEnabled = types.SetNull(types.StringType)
@@ -1878,7 +1878,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.PerSsidSettings9MinBitrate = types.Float64Null()
 		}
-		if value := res.Get("perSsidSettings.9.bands.enabled"); value.Exists() && value.Value() != nil {
+		if value := res.Get("perSsidSettings.9.bands.enabled"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PerSsidSettings9BandsEnabled = helpers.GetStringSet(value.Array())
 		} else {
 			data.PerSsidSettings9BandsEnabled = types.SetNull(types.StringType)
@@ -1908,7 +1908,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.SixGhzSettingsRxsop = types.Int64Null()
 		}
-		if value := res.Get("sixGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil {
+		if value := res.Get("sixGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.SixGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 		} else {
 			data.SixGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
@@ -1943,7 +1943,7 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 		} else {
 			data.TwoFourGhzSettingsRxsop = types.Int64Null()
 		}
-		if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil {
+		if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 		} else {
 			data.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)

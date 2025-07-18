@@ -740,17 +740,17 @@ func (data *ResourceSensorAlertsProfiles) fromBodyImport(ctx context.Context, re
 		} else {
 			data.Name = types.StringNull()
 		}
-		if value := res.Get("recipients.emails"); value.Exists() && value.Value() != nil {
+		if value := res.Get("recipients.emails"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RecipientsEmails = helpers.GetStringList(value.Array())
 		} else {
 			data.RecipientsEmails = types.ListNull(types.StringType)
 		}
-		if value := res.Get("recipients.httpServerIds"); value.Exists() && value.Value() != nil {
+		if value := res.Get("recipients.httpServerIds"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RecipientsHttpServerIds = helpers.GetStringList(value.Array())
 		} else {
 			data.RecipientsHttpServerIds = types.ListNull(types.StringType)
 		}
-		if value := res.Get("recipients.smsNumbers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("recipients.smsNumbers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RecipientsSmsNumbers = helpers.GetStringList(value.Array())
 		} else {
 			data.RecipientsSmsNumbers = types.ListNull(types.StringType)
@@ -760,7 +760,7 @@ func (data *ResourceSensorAlertsProfiles) fromBodyImport(ctx context.Context, re
 		} else {
 			data.ScheduleId = types.StringNull()
 		}
-		if value := res.Get("conditions"); value.Exists() && value.Value() != nil {
+		if value := res.Get("conditions"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.Conditions = make([]ResourceSensorAlertsProfilesConditions, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -904,7 +904,7 @@ func (data *ResourceSensorAlertsProfiles) fromBodyImport(ctx context.Context, re
 				return true
 			})
 		}
-		if value := res.Get("serials"); value.Exists() && value.Value() != nil {
+		if value := res.Get("serials"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.Serials = helpers.GetStringList(value.Array())
 		} else {
 			data.Serials = types.ListNull(types.StringType)

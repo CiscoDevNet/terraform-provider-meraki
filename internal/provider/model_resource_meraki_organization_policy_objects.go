@@ -317,7 +317,7 @@ func (data *ResourceOrganizationPolicyObjects) fromBodyImport(ctx context.Contex
 		} else {
 			data.Type = types.StringNull()
 		}
-		if value := res.Get("groupIds"); value.Exists() && value.Value() != nil {
+		if value := res.Get("groupIds"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.GroupIds = helpers.GetStringSet(value.Array())
 		} else {
 			data.GroupIds = types.SetNull(types.StringType)

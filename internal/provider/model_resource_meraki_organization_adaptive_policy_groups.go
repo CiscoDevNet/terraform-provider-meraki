@@ -310,7 +310,7 @@ func (data *ResourceOrganizationAdaptivePolicyGroups) fromBodyImport(ctx context
 		} else {
 			data.Sgt = types.Int64Null()
 		}
-		if value := res.Get("policyObjects"); value.Exists() && value.Value() != nil {
+		if value := res.Get("policyObjects"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.PolicyObjects = make([]ResourceOrganizationAdaptivePolicyGroupsPolicyObjects, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data

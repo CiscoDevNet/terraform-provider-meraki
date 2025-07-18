@@ -885,7 +885,7 @@ func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, re
 		} else {
 			data.RadiusCriticalAuthVoiceVlanId = types.Int64Null()
 		}
-		if value := res.Get("radiusAccountingServers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("radiusAccountingServers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RadiusAccountingServers = make([]ResourceSwitchAccessPoliciesRadiusAccountingServers, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -909,7 +909,7 @@ func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, re
 				return true
 			})
 		}
-		if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RadiusServers = make([]ResourceSwitchAccessPoliciesRadiusServers, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
@@ -933,7 +933,7 @@ func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, re
 				return true
 			})
 		}
-		if value := res.Get("urlRedirectWalledGardenRanges"); value.Exists() && value.Value() != nil {
+		if value := res.Get("urlRedirectWalledGardenRanges"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.UrlRedirectWalledGardenRanges = helpers.GetStringSet(value.Array())
 		} else {
 			data.UrlRedirectWalledGardenRanges = types.SetNull(types.StringType)

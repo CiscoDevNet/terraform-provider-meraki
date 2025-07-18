@@ -451,7 +451,7 @@ func (data *ResourceApplianceSSIDs) fromBodyImport(ctx context.Context, res mera
 		} else {
 			data.Dot11wRequired = types.BoolNull()
 		}
-		if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil {
+		if value := res.Get("radiusServers"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 			data.RadiusServers = make([]ResourceApplianceSSIDsRadiusServers, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data

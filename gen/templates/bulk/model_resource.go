@@ -649,13 +649,13 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyImport(ctx context.Context,
 				{{- end}}
 			}
 			{{- else if isListSet .}}
-			if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && value.Value() != nil {
+			if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 				data.{{toGoName .TfName}} = helpers.Get{{.ElementType}}{{.Type}}(value.Array())
 			} else {
 				data.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
 			}
 			{{- else if isNestedListSetMap .}}
-			if value := res{{if .ModelName}}.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"){{end}}; value.Exists() && value.Value() != nil {
+			if value := res{{if .ModelName}}.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"){{end}}; value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
 				{{- if isNestedMap .}}
 				data.{{toGoName .TfName}} = make(map[string]Resource{{.GoTypeBulkName}})
 				{{- else}}
