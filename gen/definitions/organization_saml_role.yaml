@@ -14,9 +14,8 @@ attributes:
   - model_name: orgAccess
     type: String
     mandatory: true
-    description: The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise`
+    description: The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise` or a custom role in the format custom-role:ID:NAME.
     example: none
-    enum_values: [enterprise, full, none, read-only]
     minimum_test_value: '"read-only"'
   - model_name: role
     type: String
@@ -31,9 +30,9 @@ attributes:
         type: String
         id: true
         mandatory: true
-        description: The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only` or `ssid-admin`
+        description: The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'
         example: full
-        enum_values: [full, guest-ambassador, monitor-only, read-only, ssid-admin]
+        enum_values: [full, guest-ambassador, monitor-only, read-only, ssid-admin, port-tags, custom-role]
       - model_name: id
         type: String
         id: true
@@ -49,9 +48,9 @@ attributes:
         type: String
         id: true
         mandatory: true
-        description: The privilege of the SAML administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
+        description: The privilege of the SAML administrator on the tag. Can be one of 'full', 'read-only', 'guest-ambassador', 'monitor-only' or 'custom-role'
         example: read-only
-        enum_values: [full, guest-ambassador, monitor-only, read-only]
+        enum_values: [full, guest-ambassador, monitor-only, read-only, custom-role]
       - model_name: tag
         type: String
         id: true

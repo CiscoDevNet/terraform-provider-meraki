@@ -51,6 +51,10 @@ attributes:
         mandatory: true
         description: The IPv4 address of the neighbor
         example: 10.10.10.22
+      - model_name: multiExitDiscriminator
+        type: Int64
+        description: Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
+        example: "2"
       - model_name: nextHopIp
         type: String
         description: The IPv4 address of the remote BGP peer that will establish a TCP session with the local MX.
@@ -68,6 +72,10 @@ attributes:
         type: String
         description: 'The output interface for peering with the remote BGP peer. Valid values are: `wan1`, `wan2` or `vlan{VLAN ID}`(e.g. `vlan123`).'
         example: wan1
+      - model_name: weight
+        type: Int64
+        description: Sets the local weight for routes received from the remote peer. Routes from peers with higher weights will be preferred. Must be an integer between 0 and 49.
+        example: "10"
       - model_name: password
         type: String
         data_path: [authentication]
@@ -83,6 +91,11 @@ attributes:
         data_path: [ttlSecurity]
         description: Boolean value to enable or disable BGP TTL security.
         example: "false"
+      - model_name: pathPrepend
+        type: List
+        element_type: Int64
+        description: Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.
+        example: "1"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

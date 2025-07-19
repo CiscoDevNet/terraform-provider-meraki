@@ -28,7 +28,7 @@ data "meraki_appliance_traffic_shaping_uplink_selection" "example" {
 ### Read-Only
 
 - `active_active_auto_vpn_enabled` (Boolean) Toggle for enabling or disabling active-active AutoVPN
-- `default_uplink` (String) The default uplink. Must be one of: `wan1` or `wan2`
+- `default_uplink` (String) The default uplink. Must be a WAN interface `wanX`
 - `failover_and_failback_immediate_enabled` (Boolean) Toggle for enabling or disabling immediate WAN failover and failback
 - `id` (String) The id of the object
 - `load_balancing_enabled` (Boolean) Toggle for enabling or disabling load balancing
@@ -44,7 +44,7 @@ Read-Only:
 - `custom_performance_class_id` (String) ID of created custom performance class, must be present when performanceClass type is `custom`
 - `fail_over_criterion` (String) Fail over criterion for this uplink preference rule. Must be one of: `poorPerformance` or `uplinkDown`
 - `performance_class_type` (String) Type of this performance class. Must be one of: `builtin` or `custom`
-- `preferred_uplink` (String) Preferred uplink for this uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`
+- `preferred_uplink` (String) Preferred uplink for uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`, or any other valid uplink(`wanX`) if it applies to the network
 - `traffic_filters` (Attributes List) Array of traffic filters for this uplink preference rule (see [below for nested schema](#nestedatt--vpn_traffic_uplink_preferences--traffic_filters))
 
 <a id="nestedatt--vpn_traffic_uplink_preferences--traffic_filters"></a>
@@ -74,7 +74,7 @@ Read-Only:
 
 Read-Only:
 
-- `preferred_uplink` (String) Preferred uplink for this uplink preference rule. Must be one of: `wan1` or `wan2`
+- `preferred_uplink` (String) Preferred uplink for uplink preference rule. Must be one of: `wan1` or `wan2`, or any other valid uplink(`wanX`) if it applies to the network
 - `traffic_filters` (Attributes List) Array of traffic filters for this uplink preference rule (see [below for nested schema](#nestedatt--wan_traffic_uplink_preferences--traffic_filters))
 
 <a id="nestedatt--wan_traffic_uplink_preferences--traffic_filters"></a>

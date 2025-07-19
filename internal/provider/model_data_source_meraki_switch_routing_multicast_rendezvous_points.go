@@ -41,6 +41,7 @@ type DataSourceSwitchRoutingMulticastRendezvousPointsItems struct {
 	Id             types.String `tfsdk:"id"`
 	InterfaceIp    types.String `tfsdk:"interface_ip"`
 	MulticastGroup types.String `tfsdk:"multicast_group"`
+	VrfName        types.String `tfsdk:"vrf_name"`
 }
 
 // End of section. //template:end types
@@ -70,6 +71,11 @@ func (data *DataSourceSwitchRoutingMulticastRendezvousPoints) fromBody(ctx conte
 			data.MulticastGroup = types.StringValue(value.String())
 		} else {
 			data.MulticastGroup = types.StringNull()
+		}
+		if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+			data.VrfName = types.StringValue(value.String())
+		} else {
+			data.VrfName = types.StringNull()
 		}
 		(*parent).Items = append((*parent).Items, data)
 		return true

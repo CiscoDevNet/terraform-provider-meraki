@@ -36,7 +36,7 @@ Read-Only:
 
 - `id` (String) The id of the object
 - `networks` (Attributes List) The list of networks that the SAML administrator has privileges on (see [below for nested schema](#nestedatt--items--networks))
-- `org_access` (String) The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise`
+- `org_access` (String) The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise` or a custom role in the format custom-role:ID:NAME.
 - `role` (String) The role of the SAML administrator
 - `tags` (Attributes List) The list of tags that the SAML administrator has privileges on (see [below for nested schema](#nestedatt--items--tags))
 
@@ -45,7 +45,7 @@ Read-Only:
 
 Read-Only:
 
-- `access` (String) The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only` or `ssid-admin`
+- `access` (String) The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'
 - `id` (String) The network ID
 
 
@@ -54,5 +54,5 @@ Read-Only:
 
 Read-Only:
 
-- `access` (String) The privilege of the SAML administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
+- `access` (String) The privilege of the SAML administrator on the tag. Can be one of 'full', 'read-only', 'guest-ambassador', 'monitor-only' or 'custom-role'
 - `tag` (String) The name of the tag

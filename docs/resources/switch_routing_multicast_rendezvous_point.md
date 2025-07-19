@@ -29,6 +29,10 @@ resource "meraki_switch_routing_multicast_rendezvous_point" "example" {
 - `multicast_group` (String) `Any`, or the IP address of a multicast group
 - `network_id` (String) Network ID
 
+### Optional
+
+- `vrf_name` (String) The name of the VRF
+
 ### Read-Only
 
 - `id` (String) The id of the object

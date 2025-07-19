@@ -3,6 +3,10 @@
 - Add support for importing specific item IDs of bulk resources
 - Make `force_delete` attribute of `meraki_network_group_policies` resource "importable"
 - Fix issue with attempting to delete non-existent items from bulk resources
+- Add support for more than 2 WAN links to `meraki_appliance_traffic_shaping_uplink_selection` resource
+- Add `multi_exit_discriminator`, `weight` and `path_prepend` attributes to `meraki_appliance_vpn_bgp` resource
+- Add support for `custom-role` access privilege to `meraki_organization_saml_role` resource
+- Add `vrf_name` attribute to `meraki_switch_routing_multicast_rendezvous_point` resource
 
 ## 1.4.2
 

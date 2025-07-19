@@ -46,6 +46,7 @@ type ResourceSwitchRoutingMulticastRendezvousPointsItems struct {
 	Id             types.String `tfsdk:"id"`
 	InterfaceIp    types.String `tfsdk:"interface_ip"`
 	MulticastGroup types.String `tfsdk:"multicast_group"`
+	VrfName        types.String `tfsdk:"vrf_name"`
 }
 
 // End of section. //template:end types
@@ -67,6 +68,9 @@ func (data ResourceSwitchRoutingMulticastRendezvousPointsItems) toBody(ctx conte
 	}
 	if !data.MulticastGroup.IsNull() {
 		body, _ = sjson.Set(body, "multicastGroup", data.MulticastGroup.ValueString())
+	}
+	if !data.VrfName.IsNull() {
+		body, _ = sjson.Set(body, "vrf.name", data.VrfName.ValueString())
 	}
 	return body
 }
@@ -92,6 +96,11 @@ func (data *ResourceSwitchRoutingMulticastRendezvousPoints) fromBody(ctx context
 			data.MulticastGroup = types.StringValue(value.String())
 		} else {
 			data.MulticastGroup = types.StringNull()
+		}
+		if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+			data.VrfName = types.StringValue(value.String())
+		} else {
+			data.VrfName = types.StringNull()
 		}
 		(*parent).Items = append((*parent).Items, data)
 		return true
@@ -148,6 +157,11 @@ func (data *ResourceSwitchRoutingMulticastRendezvousPoints) fromBodyPartial(ctx 
 			data.MulticastGroup = types.StringValue(value.String())
 		} else {
 			data.MulticastGroup = types.StringNull()
+		}
+		if value := res.Get("vrf.name"); value.Exists() && !data.VrfName.IsNull() {
+			data.VrfName = types.StringValue(value.String())
+		} else {
+			data.VrfName = types.StringNull()
 		}
 		(*parent).Items[i] = data
 	}
@@ -206,6 +220,11 @@ func (data *ResourceSwitchRoutingMulticastRendezvousPoints) fromBodyImport(ctx c
 		} else {
 			data.MulticastGroup = types.StringNull()
 		}
+		if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+			data.VrfName = types.StringValue(value.String())
+		} else {
+			data.VrfName = types.StringNull()
+		}
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
@@ -248,6 +267,9 @@ func (data *ResourceSwitchRoutingMulticastRendezvousPoints) hasChanges(ctx conte
 		hasChanges = true
 	}
 	if !item.MulticastGroup.Equal(stateItem.MulticastGroup) {
+		hasChanges = true
+	}
+	if !item.VrfName.Equal(stateItem.VrfName) {
 		hasChanges = true
 	}
 	return hasChanges

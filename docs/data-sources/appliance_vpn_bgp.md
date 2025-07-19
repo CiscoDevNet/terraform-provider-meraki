@@ -44,8 +44,11 @@ Read-Only:
 - `ebgp_multihop` (Number) Configure this if the neighbor is not adjacent. The eBGP multi-hop must be an integer between 1 and 255.
 - `ip` (String) The IPv4 address of the neighbor
 - `ipv6_address` (String) The IPv6 address of the neighbor.
+- `multi_exit_discriminator` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
 - `next_hop_ip` (String) The IPv4 address of the remote BGP peer that will establish a TCP session with the local MX.
+- `path_prepend` (List of Number) Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.
 - `receive_limit` (Number) The receive limit is the maximum number of routes that can be received from any BGP peer. The receive limit must be an integer between 0 and 2147483647. When absent, it defaults to 0.
 - `remote_as_number` (Number) Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.
 - `source_interface` (String) The output interface for peering with the remote BGP peer. Valid values are: `wan1`, `wan2` or `vlan{VLAN ID}`(e.g. `vlan123`).
 - `ttl_security_enabled` (Boolean) Boolean value to enable or disable BGP TTL security.
+- `weight` (Number) Sets the local weight for routes received from the remote peer. Routes from peers with higher weights will be preferred. Must be an integer between 0 and 49.

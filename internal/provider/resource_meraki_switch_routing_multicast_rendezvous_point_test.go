@@ -53,7 +53,7 @@ func TestAccMerakiSwitchRoutingMulticastRendezvousPoint(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchRoutingMulticastRendezvousPointImportStateIdFunc("meraki_switch_routing_multicast_rendezvous_point.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"vrf_name"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

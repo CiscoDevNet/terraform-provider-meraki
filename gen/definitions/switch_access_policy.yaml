@@ -156,7 +156,7 @@ attributes:
   - model_name: suspendPortBounce
     type: Bool
     data_path: [radius, criticalAuth]
-    description: Enable to suspend port bounce when RADIUS servers are unreachable
+    description: Disable port bounce when RADIUS servers are unreachable
     example: "true"
   - model_name: voiceGroupPolicyId
     type: String

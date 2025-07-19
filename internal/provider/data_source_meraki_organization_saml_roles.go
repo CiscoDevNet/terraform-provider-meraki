@@ -71,7 +71,7 @@ func (d *OrganizationSAMLRolesDataSource) Schema(ctx context.Context, req dataso
 							Computed:            true,
 						},
 						"org_access": schema.StringAttribute{
-							MarkdownDescription: "The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise`",
+							MarkdownDescription: "The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise` or a custom role in the format custom-role:ID:NAME.",
 							Computed:            true,
 						},
 						"role": schema.StringAttribute{
@@ -84,7 +84,7 @@ func (d *OrganizationSAMLRolesDataSource) Schema(ctx context.Context, req dataso
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"access": schema.StringAttribute{
-										MarkdownDescription: "The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only` or `ssid-admin`",
+										MarkdownDescription: "The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'",
 										Computed:            true,
 									},
 									"id": schema.StringAttribute{
@@ -100,7 +100,7 @@ func (d *OrganizationSAMLRolesDataSource) Schema(ctx context.Context, req dataso
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"access": schema.StringAttribute{
-										MarkdownDescription: "The privilege of the SAML administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`",
+										MarkdownDescription: "The privilege of the SAML administrator on the tag. Can be one of 'full', 'read-only', 'guest-ambassador', 'monitor-only' or 'custom-role'",
 										Computed:            true,
 									},
 									"tag": schema.StringAttribute{

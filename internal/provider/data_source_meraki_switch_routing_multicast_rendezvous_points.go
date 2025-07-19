@@ -78,6 +78,10 @@ func (d *SwitchRoutingMulticastRendezvousPointsDataSource) Schema(ctx context.Co
 							MarkdownDescription: "`Any`, or the IP address of a multicast group",
 							Computed:            true,
 						},
+						"vrf_name": schema.StringAttribute{
+							MarkdownDescription: "The name of the VRF",
+							Computed:            true,
+						},
 					},
 				},
 			},

@@ -82,11 +82,8 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 				Optional:            true,
 			},
 			"default_uplink": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The default uplink. Must be one of: `wan1` or `wan2`").AddStringEnumDescription("wan1", "wan2").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The default uplink. Must be a WAN interface `wanX`").String,
 				Optional:            true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("wan1", "wan2"),
-				},
 			},
 			"load_balancing_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling load balancing").String,
@@ -109,11 +106,8 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 							},
 						},
 						"preferred_uplink": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Preferred uplink for this uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`").AddStringEnumDescription("bestForVoIP", "defaultUplink", "loadBalancing", "wan1", "wan2").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Preferred uplink for uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`, or any other valid uplink(`wanX`) if it applies to the network").String,
 							Required:            true,
-							Validators: []validator.String{
-								stringvalidator.OneOf("bestForVoIP", "defaultUplink", "loadBalancing", "wan1", "wan2"),
-							},
 						},
 						"builtin_performance_class_name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Name of builtin performance class, must be present when performanceClass type is `builtin`, and value must be one of: `VoIP`").AddStringEnumDescription("VoIP").String,
@@ -212,11 +206,8 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"preferred_uplink": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Preferred uplink for this uplink preference rule. Must be one of: `wan1` or `wan2`").AddStringEnumDescription("wan1", "wan2").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Preferred uplink for uplink preference rule. Must be one of: `wan1` or `wan2`, or any other valid uplink(`wanX`) if it applies to the network").String,
 							Required:            true,
-							Validators: []validator.String{
-								stringvalidator.OneOf("wan1", "wan2"),
-							},
 						},
 						"traffic_filters": schema.ListNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Array of traffic filters for this uplink preference rule").String,

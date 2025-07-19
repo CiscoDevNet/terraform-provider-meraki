@@ -20,17 +20,20 @@ resource "meraki_appliance_vpn_bgp" "example" {
   ibgp_hold_timer = 120
   neighbors = [
     {
-      allow_transit           = true
-      ebgp_hold_timer         = 180
-      ebgp_multihop           = 2
-      ip                      = "10.10.10.22"
-      next_hop_ip             = "1.2.3.4"
-      receive_limit           = 120
-      remote_as_number        = 64343
-      source_interface        = "wan1"
-      authentication_password = "abc123"
-      ipv6_address            = "2002::1234:abcd:ffff:c0a8:101"
-      ttl_security_enabled    = false
+      allow_transit            = true
+      ebgp_hold_timer          = 180
+      ebgp_multihop            = 2
+      ip                       = "10.10.10.22"
+      multi_exit_discriminator = 2
+      next_hop_ip              = "1.2.3.4"
+      receive_limit            = 120
+      remote_as_number         = 64343
+      source_interface         = "wan1"
+      weight                   = 10
+      authentication_password  = "abc123"
+      ipv6_address             = "2002::1234:abcd:ffff:c0a8:101"
+      ttl_security_enabled     = false
+      path_prepend             = [1]
     }
   ]
 }
@@ -69,10 +72,13 @@ Optional:
 - `allow_transit` (Boolean) When this feature is on, the Meraki device will advertise routes learned from other Autonomous Systems, thereby allowing traffic between Autonomous Systems to transit this AS. When absent, it defaults to false.
 - `authentication_password` (String) Password to configure MD5 authentication between BGP peers.
 - `ipv6_address` (String) The IPv6 address of the neighbor.
+- `multi_exit_discriminator` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
 - `next_hop_ip` (String) The IPv4 address of the remote BGP peer that will establish a TCP session with the local MX.
+- `path_prepend` (List of Number) Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.
 - `receive_limit` (Number) The receive limit is the maximum number of routes that can be received from any BGP peer. The receive limit must be an integer between 0 and 2147483647. When absent, it defaults to 0.
 - `source_interface` (String) The output interface for peering with the remote BGP peer. Valid values are: `wan1`, `wan2` or `vlan{VLAN ID}`(e.g. `vlan123`).
 - `ttl_security_enabled` (Boolean) Boolean value to enable or disable BGP TTL security.
+- `weight` (Number) Sets the local weight for routes received from the remote peer. Routes from peers with higher weights will be preferred. Must be an integer between 0 and 49.
 
 ## Import
 

@@ -20,9 +20,8 @@ attributes:
     example: "true"
   - model_name: defaultUplink
     type: String
-    description: 'The default uplink. Must be one of: `wan1` or `wan2`'
+    description: The default uplink. Must be a WAN interface `wanX`
     example: wan1
-    enum_values: [wan1, wan2]
     minimum_test_value: '"wan2"'
   - model_name: loadBalancingEnabled
     type: Bool
@@ -48,9 +47,8 @@ attributes:
       - model_name: preferredUplink
         type: String
         mandatory: true
-        description: 'Preferred uplink for this uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`'
+        description: 'Preferred uplink for uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`, or any other valid uplink(`wanX`) if it applies to the network'
         example: bestForVoIP
-        enum_values: [bestForVoIP, defaultUplink, loadBalancing, wan1, wan2]
       - model_name: builtinPerformanceClassName
         tf_name: builtin_performance_class_name
         type: String
@@ -176,9 +174,8 @@ attributes:
       - model_name: preferredUplink
         type: String
         mandatory: true
-        description: 'Preferred uplink for this uplink preference rule. Must be one of: `wan1` or `wan2`'
+        description: 'Preferred uplink for uplink preference rule. Must be one of: `wan1` or `wan2`, or any other valid uplink(`wanX`) if it applies to the network'
         example: wan1
-        enum_values: [wan1, wan2]
       - model_name: trafficFilters
         type: List
         mandatory: true

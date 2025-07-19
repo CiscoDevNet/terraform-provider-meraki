@@ -26,6 +26,13 @@ attributes:
     mandatory: true
     description: '`Any`, or the IP address of a multicast group'
     example: Any
+  - model_name: name
+    type: String
+    data_path: [vrf]
+    description: The name of the VRF
+    example: Blue
+    exclude_test: true
+    allow_import_changes: true
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

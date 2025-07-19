@@ -112,7 +112,7 @@ func (d *SensorAlertsProfilesDataSource) Schema(ctx context.Context, req datasou
 										Computed:            true,
 									},
 									"duration": schema.Int64Attribute{
-										MarkdownDescription: "Length of time in seconds that the triggering state must persist before an alert is sent. Available options are 0 seconds, 1 minute, 2 minutes, 3 minutes, 4 minutes, 5 minutes, 10 minutes, 15 minutes, 30 minutes, 1 hour, 2 hours, 4 hours, and 8 hours. Default is 0.",
+										MarkdownDescription: "Length of time in seconds that the triggering state must persist before an alert is sent. Available options are 0 seconds, 1 minute, 2 minutes, 3 minutes, 4 minutes, 5 minutes, 10 minutes, 15 minutes, 30 minutes, 1 hour, 1 hour and 30 minutes, 2 hours, 4 hours, and 8 hours. Default is 0.",
 										Computed:            true,
 									},
 									"metric": schema.StringAttribute{

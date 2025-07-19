@@ -37,8 +37,7 @@ resource "meraki_organization_saml_role" "example" {
 
 ### Required
 
-- `org_access` (String) The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise`
-  - Choices: `enterprise`, `full`, `none`, `read-only`
+- `org_access` (String) The privilege of the SAML administrator on the organization. Can be one of `none`, `read-only`, `full` or `enterprise` or a custom role in the format custom-role:ID:NAME.
 - `organization_id` (String) Organization ID
 - `role` (String) The role of the SAML administrator
 
@@ -56,8 +55,8 @@ resource "meraki_organization_saml_role" "example" {
 
 Required:
 
-- `access` (String) The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only` or `ssid-admin`
-  - Choices: `full`, `guest-ambassador`, `monitor-only`, `read-only`, `ssid-admin`
+- `access` (String) The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'
+  - Choices: `full`, `guest-ambassador`, `monitor-only`, `read-only`, `ssid-admin`, `port-tags`, `custom-role`
 - `id` (String) The network ID
 
 
@@ -66,8 +65,8 @@ Required:
 
 Required:
 
-- `access` (String) The privilege of the SAML administrator on the tag. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
-  - Choices: `full`, `guest-ambassador`, `monitor-only`, `read-only`
+- `access` (String) The privilege of the SAML administrator on the tag. Can be one of 'full', 'read-only', 'guest-ambassador', 'monitor-only' or 'custom-role'
+  - Choices: `full`, `guest-ambassador`, `monitor-only`, `read-only`, `custom-role`
 - `tag` (String) The name of the tag
 
 ## Import

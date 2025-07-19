@@ -37,6 +37,7 @@ type SwitchRoutingMulticastRendezvousPoint struct {
 	NetworkId      types.String `tfsdk:"network_id"`
 	InterfaceIp    types.String `tfsdk:"interface_ip"`
 	MulticastGroup types.String `tfsdk:"multicast_group"`
+	VrfName        types.String `tfsdk:"vrf_name"`
 }
 
 // End of section. //template:end types
@@ -59,6 +60,9 @@ func (data SwitchRoutingMulticastRendezvousPoint) toBody(ctx context.Context, st
 	if !data.MulticastGroup.IsNull() {
 		body, _ = sjson.Set(body, "multicastGroup", data.MulticastGroup.ValueString())
 	}
+	if !data.VrfName.IsNull() {
+		body, _ = sjson.Set(body, "vrf.name", data.VrfName.ValueString())
+	}
 	return body
 }
 
@@ -76,6 +80,11 @@ func (data *SwitchRoutingMulticastRendezvousPoint) fromBody(ctx context.Context,
 		data.MulticastGroup = types.StringValue(value.String())
 	} else {
 		data.MulticastGroup = types.StringNull()
+	}
+	if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+		data.VrfName = types.StringValue(value.String())
+	} else {
+		data.VrfName = types.StringNull()
 	}
 }
 
@@ -97,6 +106,11 @@ func (data *SwitchRoutingMulticastRendezvousPoint) fromBodyPartial(ctx context.C
 		data.MulticastGroup = types.StringValue(value.String())
 	} else {
 		data.MulticastGroup = types.StringNull()
+	}
+	if value := res.Get("vrf.name"); value.Exists() && !data.VrfName.IsNull() {
+		data.VrfName = types.StringValue(value.String())
+	} else {
+		data.VrfName = types.StringNull()
 	}
 }
 

@@ -44,13 +44,16 @@ func TestAccDataSourceMerakiApplianceVPNBGP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.ebgp_hold_timer", "180"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.ebgp_multihop", "2"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.ip", "10.10.10.22"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.multi_exit_discriminator", "2"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.next_hop_ip", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.receive_limit", "120"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.remote_as_number", "64343"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.source_interface", "wan1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.weight", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.authentication_password", "abc123"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.ipv6_address", "2002::1234:abcd:ffff:c0a8:101"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.ttl_security_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vpn_bgp.test", "neighbors.0.path_prepend.0", "1"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -100,13 +103,16 @@ func testAccDataSourceMerakiApplianceVPNBGPConfig() string {
 	config += `    ebgp_hold_timer = 180` + "\n"
 	config += `    ebgp_multihop = 2` + "\n"
 	config += `    ip = "10.10.10.22"` + "\n"
+	config += `    multi_exit_discriminator = 2` + "\n"
 	config += `    next_hop_ip = "1.2.3.4"` + "\n"
 	config += `    receive_limit = 120` + "\n"
 	config += `    remote_as_number = 64343` + "\n"
 	config += `    source_interface = "wan1"` + "\n"
+	config += `    weight = 10` + "\n"
 	config += `    authentication_password = "abc123"` + "\n"
 	config += `    ipv6_address = "2002::1234:abcd:ffff:c0a8:101"` + "\n"
 	config += `    ttl_security_enabled = false` + "\n"
+	config += `    path_prepend = [1]` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 

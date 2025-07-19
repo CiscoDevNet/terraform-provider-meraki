@@ -31,3 +31,4 @@ data "meraki_switch_routing_multicast_rendezvous_point" "example" {
 
 - `interface_ip` (String) The IP address of the interface where the RP needs to be created.
 - `multicast_group` (String) `Any`, or the IP address of a multicast group
+- `vrf_name` (String) The name of the VRF

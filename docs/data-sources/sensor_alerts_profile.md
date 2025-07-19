@@ -48,7 +48,7 @@ data "meraki_sensor_alerts_profile" "example" {
 Read-Only:
 
 - `direction` (String) If `above`, an alert will be sent when a sensor reads above the threshold. If `below`, an alert will be sent when a sensor reads below the threshold. Only applicable for temperature, humidity, realPower, apparentPower, powerFactor, voltage, current, and frequency thresholds.
-- `duration` (Number) Length of time in seconds that the triggering state must persist before an alert is sent. Available options are 0 seconds, 1 minute, 2 minutes, 3 minutes, 4 minutes, 5 minutes, 10 minutes, 15 minutes, 30 minutes, 1 hour, 2 hours, 4 hours, and 8 hours. Default is 0.
+- `duration` (Number) Length of time in seconds that the triggering state must persist before an alert is sent. Available options are 0 seconds, 1 minute, 2 minutes, 3 minutes, 4 minutes, 5 minutes, 10 minutes, 15 minutes, 30 minutes, 1 hour, 1 hour and 30 minutes, 2 hours, 4 hours, and 8 hours. Default is 0.
 - `metric` (String) The type of sensor metric that will be monitored for changes.
 - `threshold_apparent_power_draw` (Number) Alerting threshold in volt-amps. Must be between 0 and 3750.
 - `threshold_co2_concentration` (Number) Alerting threshold as CO2 parts per million.

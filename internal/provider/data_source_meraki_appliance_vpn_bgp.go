@@ -25,6 +25,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -98,6 +99,10 @@ func (d *ApplianceVPNBGPDataSource) Schema(ctx context.Context, req datasource.S
 							MarkdownDescription: "The IPv4 address of the neighbor",
 							Computed:            true,
 						},
+						"multi_exit_discriminator": schema.Int64Attribute{
+							MarkdownDescription: "Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.",
+							Computed:            true,
+						},
 						"next_hop_ip": schema.StringAttribute{
 							MarkdownDescription: "The IPv4 address of the remote BGP peer that will establish a TCP session with the local MX.",
 							Computed:            true,
@@ -114,6 +119,10 @@ func (d *ApplianceVPNBGPDataSource) Schema(ctx context.Context, req datasource.S
 							MarkdownDescription: "The output interface for peering with the remote BGP peer. Valid values are: `wan1`, `wan2` or `vlan{VLAN ID}`(e.g. `vlan123`).",
 							Computed:            true,
 						},
+						"weight": schema.Int64Attribute{
+							MarkdownDescription: "Sets the local weight for routes received from the remote peer. Routes from peers with higher weights will be preferred. Must be an integer between 0 and 49.",
+							Computed:            true,
+						},
 						"authentication_password": schema.StringAttribute{
 							MarkdownDescription: "Password to configure MD5 authentication between BGP peers.",
 							Computed:            true,
@@ -124,6 +133,11 @@ func (d *ApplianceVPNBGPDataSource) Schema(ctx context.Context, req datasource.S
 						},
 						"ttl_security_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Boolean value to enable or disable BGP TTL security.",
+							Computed:            true,
+						},
+						"path_prepend": schema.ListAttribute{
+							MarkdownDescription: "Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.",
+							ElementType:         types.Int64Type,
 							Computed:            true,
 						},
 					},

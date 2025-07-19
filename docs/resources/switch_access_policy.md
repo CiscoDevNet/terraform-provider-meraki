@@ -87,7 +87,7 @@ resource "meraki_switch_access_policy" "example" {
 - `radius_critical_auth_data_group_policy_id` (String) Group policy Number for data VLAN
 - `radius_critical_auth_data_sgt_id` (Number) Security Group Tag ID for data VLAN
 - `radius_critical_auth_data_vlan_id` (Number) VLAN that clients who use data will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth
-- `radius_critical_auth_suspend_port_bounce` (Boolean) Enable to suspend port bounce when RADIUS servers are unreachable
+- `radius_critical_auth_suspend_port_bounce` (Boolean) Disable port bounce when RADIUS servers are unreachable
 - `radius_critical_auth_voice_group_policy_id` (String) Group policy Number for voice VLAN
 - `radius_critical_auth_voice_sgt_id` (Number) Security Group Tag ID for voice VLAN
 - `radius_critical_auth_voice_vlan_id` (Number) VLAN that clients who use voice will be placed on when RADIUS authentication fails. Will be null if hostMode is Multi-Auth

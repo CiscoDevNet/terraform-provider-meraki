@@ -196,7 +196,7 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 				Optional:            true,
 			},
 			"radius_critical_auth_suspend_port_bounce": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Enable to suspend port bounce when RADIUS servers are unreachable").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Disable port bounce when RADIUS servers are unreachable").String,
 				Optional:            true,
 			},
 			"radius_critical_auth_voice_group_policy_id": schema.StringAttribute{

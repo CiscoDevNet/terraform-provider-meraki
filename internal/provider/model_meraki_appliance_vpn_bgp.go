@@ -24,6 +24,7 @@ import (
 	"net/url"
 	"slices"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -49,13 +50,16 @@ type ApplianceVPNBGPNeighbors struct {
 	EbgpHoldTimer          types.Int64  `tfsdk:"ebgp_hold_timer"`
 	EbgpMultihop           types.Int64  `tfsdk:"ebgp_multihop"`
 	Ip                     types.String `tfsdk:"ip"`
+	MultiExitDiscriminator types.Int64  `tfsdk:"multi_exit_discriminator"`
 	NextHopIp              types.String `tfsdk:"next_hop_ip"`
 	ReceiveLimit           types.Int64  `tfsdk:"receive_limit"`
 	RemoteAsNumber         types.Int64  `tfsdk:"remote_as_number"`
 	SourceInterface        types.String `tfsdk:"source_interface"`
+	Weight                 types.Int64  `tfsdk:"weight"`
 	AuthenticationPassword types.String `tfsdk:"authentication_password"`
 	Ipv6Address            types.String `tfsdk:"ipv6_address"`
 	TtlSecurityEnabled     types.Bool   `tfsdk:"ttl_security_enabled"`
+	PathPrepend            types.List   `tfsdk:"path_prepend"`
 }
 
 // End of section. //template:end types
@@ -97,6 +101,9 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 			if !item.Ip.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "ip", item.Ip.ValueString())
 			}
+			if !item.MultiExitDiscriminator.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "multiExitDiscriminator", item.MultiExitDiscriminator.ValueInt64())
+			}
 			if !item.NextHopIp.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "nextHopIp", item.NextHopIp.ValueString())
 			}
@@ -109,6 +116,9 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 			if !item.SourceInterface.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "sourceInterface", item.SourceInterface.ValueString())
 			}
+			if !item.Weight.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "weight", item.Weight.ValueInt64())
+			}
 			if !item.AuthenticationPassword.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "authentication.password", item.AuthenticationPassword.ValueString())
 			}
@@ -117,6 +127,11 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 			}
 			if !item.TtlSecurityEnabled.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "ttlSecurity.enabled", item.TtlSecurityEnabled.ValueBool())
+			}
+			if !item.PathPrepend.IsNull() {
+				var values []int64
+				item.PathPrepend.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "pathPrepend", values)
 			}
 			body, _ = sjson.SetRaw(body, "neighbors.-1", itemBody)
 		}
@@ -169,6 +184,11 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 			} else {
 				data.Ip = types.StringNull()
 			}
+			if value := res.Get("multiExitDiscriminator"); value.Exists() && value.Value() != nil {
+				data.MultiExitDiscriminator = types.Int64Value(value.Int())
+			} else {
+				data.MultiExitDiscriminator = types.Int64Null()
+			}
 			if value := res.Get("nextHopIp"); value.Exists() && value.Value() != nil {
 				data.NextHopIp = types.StringValue(value.String())
 			} else {
@@ -189,6 +209,11 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 			} else {
 				data.SourceInterface = types.StringNull()
 			}
+			if value := res.Get("weight"); value.Exists() && value.Value() != nil {
+				data.Weight = types.Int64Value(value.Int())
+			} else {
+				data.Weight = types.Int64Null()
+			}
 			if value := res.Get("authentication.password"); value.Exists() && value.Value() != nil {
 				data.AuthenticationPassword = types.StringValue(value.String())
 			} else {
@@ -203,6 +228,11 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 				data.TtlSecurityEnabled = types.BoolValue(value.Bool())
 			} else {
 				data.TtlSecurityEnabled = types.BoolNull()
+			}
+			if value := res.Get("pathPrepend"); value.Exists() && value.Value() != nil {
+				data.PathPrepend = helpers.GetInt64List(value.Array())
+			} else {
+				data.PathPrepend = types.ListNull(types.Int64Type)
 			}
 			(*parent).Neighbors = append((*parent).Neighbors, data)
 			return true
@@ -290,6 +320,11 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 		} else {
 			data.Ip = types.StringNull()
 		}
+		if value := res.Get("multiExitDiscriminator"); value.Exists() && !data.MultiExitDiscriminator.IsNull() {
+			data.MultiExitDiscriminator = types.Int64Value(value.Int())
+		} else {
+			data.MultiExitDiscriminator = types.Int64Null()
+		}
 		if value := res.Get("nextHopIp"); value.Exists() && !data.NextHopIp.IsNull() {
 			data.NextHopIp = types.StringValue(value.String())
 		} else {
@@ -310,6 +345,11 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 		} else {
 			data.SourceInterface = types.StringNull()
 		}
+		if value := res.Get("weight"); value.Exists() && !data.Weight.IsNull() {
+			data.Weight = types.Int64Value(value.Int())
+		} else {
+			data.Weight = types.Int64Null()
+		}
 		if value := res.Get("authentication.password"); value.Exists() && !data.AuthenticationPassword.IsNull() {
 			data.AuthenticationPassword = types.StringValue(value.String())
 		} else {
@@ -324,6 +364,11 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 			data.TtlSecurityEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.TtlSecurityEnabled = types.BoolNull()
+		}
+		if value := res.Get("pathPrepend"); value.Exists() && !data.PathPrepend.IsNull() {
+			data.PathPrepend = helpers.GetInt64List(value.Array())
+		} else {
+			data.PathPrepend = types.ListNull(types.Int64Type)
 		}
 		(*parent).Neighbors[i] = data
 	}

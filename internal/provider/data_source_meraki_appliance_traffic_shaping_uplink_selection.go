@@ -70,7 +70,7 @@ func (d *ApplianceTrafficShapingUplinkSelectionDataSource) Schema(ctx context.Co
 				Computed:            true,
 			},
 			"default_uplink": schema.StringAttribute{
-				MarkdownDescription: "The default uplink. Must be one of: `wan1` or `wan2`",
+				MarkdownDescription: "The default uplink. Must be a WAN interface `wanX`",
 				Computed:            true,
 			},
 			"load_balancing_enabled": schema.BoolAttribute{
@@ -91,7 +91,7 @@ func (d *ApplianceTrafficShapingUplinkSelectionDataSource) Schema(ctx context.Co
 							Computed:            true,
 						},
 						"preferred_uplink": schema.StringAttribute{
-							MarkdownDescription: "Preferred uplink for this uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`",
+							MarkdownDescription: "Preferred uplink for uplink preference rule. Must be one of: `wan1`, `wan2`, `bestForVoIP`, `loadBalancing` or `defaultUplink`, or any other valid uplink(`wanX`) if it applies to the network",
 							Computed:            true,
 						},
 						"builtin_performance_class_name": schema.StringAttribute{
@@ -179,7 +179,7 @@ func (d *ApplianceTrafficShapingUplinkSelectionDataSource) Schema(ctx context.Co
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"preferred_uplink": schema.StringAttribute{
-							MarkdownDescription: "Preferred uplink for this uplink preference rule. Must be one of: `wan1` or `wan2`",
+							MarkdownDescription: "Preferred uplink for uplink preference rule. Must be one of: `wan1` or `wan2`, or any other valid uplink(`wanX`) if it applies to the network",
 							Computed:            true,
 						},
 						"traffic_filters": schema.ListNestedAttribute{
