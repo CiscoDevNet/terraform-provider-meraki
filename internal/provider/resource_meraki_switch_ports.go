@@ -327,8 +327,6 @@ func (r *SwitchPortsResource) Read(ctx context.Context, req resource.ReadRequest
 
 // End of section. //template:end read
 
-// Section below is generated&owned by "gen/generator.go". //template:begin update
-
 func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ResourceSwitchPorts
 
@@ -363,7 +361,7 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(itemState.PortId.ValueString()),
-				Body:      plan.toDestroyBody(ctx),
+				Body:      itemState.toDestroyBody(ctx),
 			})
 		}
 	}
@@ -413,10 +411,6 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 	resp.Diagnostics.Append(diags...)
 }
 
-// End of section. //template:end update
-
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
-
 func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state ResourceSwitchPorts
 
@@ -433,7 +427,7 @@ func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteReq
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  state.getItemPath(item.PortId.ValueString()),
-			Body:      state.toDestroyBody(ctx),
+			Body:      item.toDestroyBody(ctx),
 		}
 	}
 	if len(actions) > 0 {
@@ -448,8 +442,6 @@ func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteReq
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *SwitchPortsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
