@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## 1.5.1 (unreleased)
+
+- Reset `adaptive_policy_group_id` attribute of `meraki_switch_ports` resource when destroying the resource
+
 ## 1.5.0
 
 - Add support for importing specific item IDs of bulk resources
