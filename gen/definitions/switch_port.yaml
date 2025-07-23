@@ -1,3 +1,4 @@
+# Customize toDestroyBody(), Update() and Delete() for bulk resource to conditionally remove adaptive policy (if present) during deleting
 name: Switch Port
 spec_endpoint: /devices/{serial}/switch/ports/{portId}
 rest_endpoint: /devices/%v/switch/ports/%v
