@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## 1.5.1 (unreleased)
+## 1.5.1
 
 - Reset `adaptive_policy_group_id` attribute of `meraki_switch_ports` resource when destroying the resource
 
