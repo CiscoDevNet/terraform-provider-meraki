@@ -11,6 +11,7 @@ description: |-
 
 - Add `meraki_devices` bulk resource
 - Add `meraki_switch_link_aggregations` bulk resource
+- Add `meraki_organization_extensions_thousand_eyes_network` resource and data sources
 
 ## 1.5.1
 

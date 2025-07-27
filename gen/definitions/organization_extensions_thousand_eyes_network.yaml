@@ -1,0 +1,54 @@
+# Customize toBody() to include tests only during creation
+name: Organization Extensions Thousand Eyes Network
+spec_endpoint: /organizations/{organizationId}/extensions/thousandEyes/networks/{networkId}
+rest_endpoint: /organizations/%v/extensions/thousandEyes/networks
+bulk_data_source: true
+id_name: networkId
+early_access: true
+doc_category: Organizations
+test_tags: [ORGANIZATION_EXTENSIONS_THOUSAND_EYES_NETWORK]
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: enabled
+    type: Bool
+    mandatory: true
+    description: Whether or not the ThousandEyes agent is enabled for the network.
+    example: "true"
+  - model_name: networkId
+    type: String
+    mandatory: true
+    description: Network that will have the ThousandEyes agent installed on.
+    example: N_123456
+  - model_name: tests
+    type: List
+    write_only: true
+    description: An array of tests to be created, this can only be configured during resource creation and cannot be changed afterwards.
+    attributes:
+      - model_name: id
+        type: String
+        data_path: [network]
+        write_only: true
+        description: Network Id e.g. N_12345
+        example: N_123456
+      - model_name: id
+        type: String
+        data_path: [template]
+        write_only: true
+        description: Template id
+        example: 123abc
+      - model_name: tenant
+        type: String
+        data_path: [template, userInputs]
+        write_only: true
+        description: Tenant value
+        example: cisco
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
