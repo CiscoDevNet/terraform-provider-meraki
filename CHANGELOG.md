@@ -1,3 +1,7 @@
+## 1.6.0
+
+- Add `meraki_devices` bulk resource
+
 ## 1.5.1
 
 - Reset `adaptive_policy_group_id` attribute of `meraki_switch_ports` resource when destroying the resource

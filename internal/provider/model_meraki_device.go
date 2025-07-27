@@ -103,11 +103,6 @@ func (data *Device) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.Address = types.StringNull()
 	}
-	if value := res.Get("floorPlanId"); value.Exists() && value.Value() != nil {
-		data.FloorPlanId = types.StringValue(value.String())
-	} else {
-		data.FloorPlanId = types.StringNull()
-	}
 	if value := res.Get("lat"); value.Exists() && value.Value() != nil {
 		data.Lat = types.Float64Value(value.Float())
 	} else {
@@ -127,11 +122,6 @@ func (data *Device) fromBody(ctx context.Context, res meraki.Res) {
 		data.Notes = types.StringValue(value.String())
 	} else {
 		data.Notes = types.StringNull()
-	}
-	if value := res.Get("switchProfileId"); value.Exists() && value.Value() != nil {
-		data.SwitchProfileId = types.StringValue(value.String())
-	} else {
-		data.SwitchProfileId = types.StringNull()
 	}
 	if value := res.Get("tags"); value.Exists() && value.Value() != nil {
 		data.Tags = helpers.GetStringSet(value.Array())
@@ -154,11 +144,6 @@ func (data *Device) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	} else {
 		data.Address = types.StringNull()
 	}
-	if value := res.Get("floorPlanId"); value.Exists() && !data.FloorPlanId.IsNull() {
-		data.FloorPlanId = types.StringValue(value.String())
-	} else {
-		data.FloorPlanId = types.StringNull()
-	}
 	if value := res.Get("lat"); value.Exists() && !data.Lat.IsNull() {
 		data.Lat = types.Float64Value(value.Float())
 	} else {
@@ -178,11 +163,6 @@ func (data *Device) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.Notes = types.StringValue(value.String())
 	} else {
 		data.Notes = types.StringNull()
-	}
-	if value := res.Get("switchProfileId"); value.Exists() && !data.SwitchProfileId.IsNull() {
-		data.SwitchProfileId = types.StringValue(value.String())
-	} else {
-		data.SwitchProfileId = types.StringNull()
 	}
 	if value := res.Get("tags"); value.Exists() && !data.Tags.IsNull() {
 		data.Tags = helpers.GetStringSet(value.Array())

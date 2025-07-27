@@ -1,8 +1,11 @@
+# Customize getPath() of bulk resource
 name: Device
 spec_endpoint: /devices/{serial}
 rest_endpoint: /devices/%v
 put_create: true
 no_delete: true
+id_name: serial
+bulk_resource: true
 doc_category: Devices
 test_variables: [test_org, test_network, test_switch_1_serial]
 attributes:
@@ -13,12 +16,14 @@ attributes:
     description: Switch serial
     example: 1234-ABCD-1234
     test_value: tolist(meraki_network_device_claim.test.serials)[0]
+    bulk_id: true
   - model_name: address
     type: String
     description: The address of a device
     example: 1600 Pennsylvania Ave
   - model_name: floorPlanId
     type: String
+    write_only: true
     exclude_test: true
     description: The floor plan to associate to this device. null disassociates the device from the floorplan.
     example: g_2176982374
@@ -48,6 +53,7 @@ attributes:
   - model_name: switchProfileId
     type: String
     exclude_test: true
+    write_only: true
     description: The ID of a switch template to bind to the device (for available switch templates, see the `Switch Templates` endpoint). Use null to unbind the switch device from the current profile. For a device to be bindable to a switch template, it must (1) be a switch, and (2) belong to a network that is bound to a configuration template.
     example: "1234"
   - model_name: tags

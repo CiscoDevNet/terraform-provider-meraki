@@ -31,34 +31,24 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiDevice(t *testing.T) {
+func TestAccMerakiDevices(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
 	}
-	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "address", "1600 Pennsylvania Ave"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "lat", "37.4180951010362"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "lng", "-122.098531723022"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "name", "My AP"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_device.test", "notes", "My AP's note"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiDevicePrerequisitesConfig + testAccMerakiDeviceConfig_minimum(),
+			Config: testAccMerakiDevicesPrerequisitesConfig + testAccMerakiDevicesConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiDevicePrerequisitesConfig + testAccMerakiDeviceConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiDevicesPrerequisitesConfig + testAccMerakiDevicesConfig_all(),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_device.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiDeviceImportStateIdFunc("meraki_device.test"),
-		ImportStateVerifyIgnore: []string{"floor_plan_id", "move_map_marker", "switch_profile_id"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName:      "meraki_devices.test",
+		ImportState:       true,
+		ImportStateIdFunc: merakiDevicesImportStateIdFunc("meraki_devices.test"),
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -72,12 +62,12 @@ func TestAccMerakiDevice(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
 
-func merakiDeviceImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+func merakiDevicesImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
-		Serial := primary.Attributes["serial"]
+		OrganizationId := primary.Attributes["organization_id"]
 
-		return fmt.Sprintf("%s", Serial), nil
+		return fmt.Sprintf("%s", OrganizationId), nil
 	}
 }
 
@@ -85,7 +75,7 @@ func merakiDeviceImportStateIdFunc(resourceName string) resource.ImportStateIdFu
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccMerakiDevicePrerequisitesConfig = `
+const testAccMerakiDevicesPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 variable "test_switch_1_serial" {}
@@ -108,10 +98,13 @@ resource "meraki_network_device_claim" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiDeviceConfig_minimum() string {
-	config := `resource "meraki_device" "test" {` + "\n"
+func testAccMerakiDevicesConfig_minimum() string {
+	config := `resource "meraki_devices" "test" {` + "\n"
+	config += ` organization_id = data.meraki_organization.test.id` + "\n"
+	config += ` items = [{` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `  name = "My AP1"` + "\n"
+	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -120,8 +113,10 @@ func testAccMerakiDeviceConfig_minimum() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-func testAccMerakiDeviceConfig_all() string {
-	config := `resource "meraki_device" "test" {` + "\n"
+func testAccMerakiDevicesConfig_all() string {
+	config := `resource "meraki_devices" "test" {` + "\n"
+	config += ` organization_id = data.meraki_organization.test.id` + "\n"
+	config += ` items = [{` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `  address = "1600 Pennsylvania Ave"` + "\n"
 	config += `  lat = 37.4180951010362` + "\n"
@@ -129,6 +124,7 @@ func testAccMerakiDeviceConfig_all() string {
 	config += `  name = "My AP"` + "\n"
 	config += `  notes = "My AP's note"` + "\n"
 	config += `  tags = ["recently-added"]` + "\n"
+	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

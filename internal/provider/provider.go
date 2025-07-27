@@ -355,6 +355,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewCellularGatewaySubnetPoolResource,
 		NewCellularGatewayUplinkResource,
 		NewDeviceResource,
+		NewDevicesResource,
 		NewDeviceCellularSIMsResource,
 		NewDeviceManagementInterfaceResource,
 		NewInsightMonitoredMediaServerResource,
