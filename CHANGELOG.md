@@ -1,4 +1,4 @@
-## 1.6.0
+## 1.6.0 (unreleased)
 
 - Add `meraki_devices` bulk resource
 - Add `meraki_switch_link_aggregations` bulk resource
