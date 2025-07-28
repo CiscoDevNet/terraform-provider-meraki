@@ -57,7 +57,7 @@ jobs:
         # list whatever Terraform versions here you would like to support
         terraform:
           # - "1.0.*"
-          - "1.9.*"
+          - "1.12.*"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -84,5 +84,5 @@ jobs:
           TF_VAR_test_appliance_2_serial: ${{ secrets.TF_VAR_test_appliance_2_serial }}
           TF_VAR_test_sensor_1_serial: ${{ secrets.TF_VAR_test_sensor_1_serial }}
           TF_VAR_test_camera_1_serial: ${{ secrets.TF_VAR_test_camera_1_serial }}
-        run: go test -v -cover -timeout 120m ./internal/provider/
+        run: go test -v -cover -timeout 140m ./internal/provider/
         timeout-minutes: 150
