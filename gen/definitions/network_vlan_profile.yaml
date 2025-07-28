@@ -51,6 +51,7 @@ attributes:
         mandatory: true
         description: Name of the VLAN, string length must be from 1 to 32 characters
         example: named-1
+        ignore_import_values: [default]
       - model_name: vlanId
         type: String
         mandatory: true

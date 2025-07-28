@@ -144,6 +144,9 @@ func (data *NetworkVLANProfile) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("vlanNames"); value.Exists() && value.Value() != nil {
 		data.VlanNames = make([]NetworkVLANProfileVlanNames, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
+			if value := res.Get("name"); value.String() == "default" {
+				return true
+			}
 			parent := &data
 			data := NetworkVLANProfileVlanNames{}
 			if value := res.Get("name"); value.Exists() && value.Value() != nil {
