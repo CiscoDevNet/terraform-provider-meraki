@@ -126,6 +126,8 @@ type WirelessRFProfile struct {
 	TwoFourGhzSettingsMinPower           types.Int64                          `tfsdk:"two_four_ghz_settings_min_power"`
 	TwoFourGhzSettingsRxsop              types.Int64                          `tfsdk:"two_four_ghz_settings_rxsop"`
 	TwoFourGhzSettingsValidAutoChannels  types.Set                            `tfsdk:"two_four_ghz_settings_valid_auto_channels"`
+	IsIndoorDefault                      types.Bool                           `tfsdk:"is_indoor_default"`
+	IsOutdoorDefault                     types.Bool                           `tfsdk:"is_outdoor_default"`
 }
 
 type WirelessRFProfileFlexRadiosByModel struct {
@@ -912,6 +914,16 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
 	}
+	if value := res.Get("isIndoorDefault"); value.Exists() && value.Value() != nil {
+		data.IsIndoorDefault = types.BoolValue(value.Bool())
+	} else {
+		data.IsIndoorDefault = types.BoolNull()
+	}
+	if value := res.Get("isOutdoorDefault"); value.Exists() && value.Value() != nil {
+		data.IsOutdoorDefault = types.BoolValue(value.Bool())
+	} else {
+		data.IsOutdoorDefault = types.BoolNull()
+	}
 }
 
 // End of section. //template:end fromBody
@@ -1400,6 +1412,16 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res meraki.R
 		data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 	} else {
 		data.TwoFourGhzSettingsValidAutoChannels = types.SetNull(types.Int64Type)
+	}
+	if value := res.Get("isIndoorDefault"); value.Exists() && !data.IsIndoorDefault.IsNull() {
+		data.IsIndoorDefault = types.BoolValue(value.Bool())
+	} else {
+		data.IsIndoorDefault = types.BoolNull()
+	}
+	if value := res.Get("isOutdoorDefault"); value.Exists() && !data.IsOutdoorDefault.IsNull() {
+		data.IsOutdoorDefault = types.BoolValue(value.Bool())
+	} else {
+		data.IsOutdoorDefault = types.BoolNull()
 	}
 }
 

@@ -528,6 +528,14 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							ElementType:         types.Int64Type,
 							Optional:            true,
 						},
+						"is_indoor_default": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Set this profile as the default indoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default").String,
+							Optional:            true,
+						},
+						"is_outdoor_default": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Set this profile as the default outdoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default").String,
+							Optional:            true,
+						},
 					},
 				},
 			},

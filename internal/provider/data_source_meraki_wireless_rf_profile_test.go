@@ -96,6 +96,8 @@ func TestAccDataSourceMerakiWirelessRFProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "two_four_ghz_settings_min_bitrate", "11"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "two_four_ghz_settings_min_power", "5"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "two_four_ghz_settings_rxsop", "-95"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "is_indoor_default", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_rf_profile.test", "is_outdoor_default", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -213,6 +215,8 @@ func testAccDataSourceMerakiWirelessRFProfileConfig() string {
 	config += `  two_four_ghz_settings_min_power = 5` + "\n"
 	config += `  two_four_ghz_settings_rxsop = -95` + "\n"
 	config += `  two_four_ghz_settings_valid_auto_channels = [1]` + "\n"
+	config += `  is_indoor_default = false` + "\n"
+	config += `  is_outdoor_default = false` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -308,6 +312,8 @@ func testAccNamedDataSourceMerakiWirelessRFProfileConfig() string {
 	config += `  two_four_ghz_settings_min_power = 5` + "\n"
 	config += `  two_four_ghz_settings_rxsop = -95` + "\n"
 	config += `  two_four_ghz_settings_valid_auto_channels = [1]` + "\n"
+	config += `  is_indoor_default = false` + "\n"
+	config += `  is_outdoor_default = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

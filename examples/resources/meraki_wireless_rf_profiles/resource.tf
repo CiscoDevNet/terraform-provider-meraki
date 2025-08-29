@@ -82,5 +82,7 @@ resource "meraki_wireless_rf_profiles" "example" {
     two_four_ghz_settings_min_power            = 5
     two_four_ghz_settings_rxsop                = -95
     two_four_ghz_settings_valid_auto_channels  = [1]
+    is_indoor_default                          = false
+    is_outdoor_default                         = false
   }]
 }

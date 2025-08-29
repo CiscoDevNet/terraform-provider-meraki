@@ -195,6 +195,8 @@ func testAccMerakiWirelessRFProfilesConfig_all() string {
 	config += `  two_four_ghz_settings_min_power = 5` + "\n"
 	config += `  two_four_ghz_settings_rxsop = -95` + "\n"
 	config += `  two_four_ghz_settings_valid_auto_channels = [1]` + "\n"
+	config += `  is_indoor_default = false` + "\n"
+	config += `  is_outdoor_default = false` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config

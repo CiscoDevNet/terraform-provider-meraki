@@ -98,6 +98,8 @@ func TestAccMerakiWirelessRFProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "two_four_ghz_settings_min_bitrate", "11"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "two_four_ghz_settings_min_power", "5"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "two_four_ghz_settings_rxsop", "-95"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "is_indoor_default", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "is_outdoor_default", "false"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -257,6 +259,8 @@ func testAccMerakiWirelessRFProfileConfig_all() string {
 	config += `  two_four_ghz_settings_min_power = 5` + "\n"
 	config += `  two_four_ghz_settings_rxsop = -95` + "\n"
 	config += `  two_four_ghz_settings_valid_auto_channels = [1]` + "\n"
+	config += `  is_indoor_default = false` + "\n"
+	config += `  is_outdoor_default = false` + "\n"
 	config += `}` + "\n"
 	return config
 }

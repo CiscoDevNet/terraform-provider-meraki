@@ -103,6 +103,8 @@ resource "meraki_wireless_rf_profiles" "example" {
     two_four_ghz_settings_min_power            = 5
     two_four_ghz_settings_rxsop                = -95
     two_four_ghz_settings_valid_auto_channels  = [1]
+    is_indoor_default                          = false
+    is_outdoor_default                         = false
   }]
 }
 ```
@@ -143,6 +145,8 @@ Optional:
 - `five_ghz_settings_rxsop` (Number) The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
 - `five_ghz_settings_valid_auto_channels` (Set of Number) Sets valid auto channels for 5Ghz band. Can be one of `36`, `40`, `44`, `48`, `52`, `56`, `60`, `64`, `100`, `104`, `108`, `112`, `116`, `120`, `124`, `128`, `132`, `136`, `140`, `144`, `149`, `153`, `157`, `161` or `165`.Defaults to [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165].
 - `flex_radios_by_model` (Attributes List) Flex radios by model. (see [below for nested schema](#nestedatt--items--flex_radios_by_model))
+- `is_indoor_default` (Boolean) Set this profile as the default indoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default
+- `is_outdoor_default` (Boolean) Set this profile as the default outdoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default
 - `min_bitrate_type` (String) Minimum bitrate can be set to either `band` or `ssid`. Defaults to band.
   - Choices: `band`, `ssid`
 - `per_ssid_settings_0_band_operation_mode` (String) Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.

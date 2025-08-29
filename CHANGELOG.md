@@ -1,3 +1,7 @@
+## 1.6.1 (unreleased)
+
+- Add `is_indoor_default` and `is_outdoor_default` attributes to `meraki_wireless_rf_profile` resource and data source
+
 ## 1.6.0
 
 - Add `meraki_devices` bulk resource

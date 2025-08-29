@@ -500,6 +500,14 @@ attributes:
     data_path: [twoFourGhzSettings]
     description: Sets valid auto channels for 2.4Ghz band. Can be one of `1`, `6` or `11`. Defaults to [1, 6, 11].
     example: "1"
+  - model_name: isIndoorDefault
+    type: Bool
+    description: Set this profile as the default indoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default
+    example: "false"
+  - model_name: isOutdoorDefault
+    type: Bool
+    description: Set this profile as the default outdoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default
+    example: "false"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

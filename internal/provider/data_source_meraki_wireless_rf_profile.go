@@ -452,6 +452,14 @@ func (d *WirelessRFProfileDataSource) Schema(ctx context.Context, req datasource
 				ElementType:         types.Int64Type,
 				Computed:            true,
 			},
+			"is_indoor_default": schema.BoolAttribute{
+				MarkdownDescription: "Set this profile as the default indoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default",
+				Computed:            true,
+			},
+			"is_outdoor_default": schema.BoolAttribute{
+				MarkdownDescription: "Set this profile as the default outdoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default",
+				Computed:            true,
+			},
 		},
 	}
 }

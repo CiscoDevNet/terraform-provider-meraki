@@ -47,6 +47,8 @@ Read-Only:
 - `five_ghz_settings_valid_auto_channels` (Set of Number) Sets valid auto channels for 5Ghz band. Can be one of `36`, `40`, `44`, `48`, `52`, `56`, `60`, `64`, `100`, `104`, `108`, `112`, `116`, `120`, `124`, `128`, `132`, `136`, `140`, `144`, `149`, `153`, `157`, `161` or `165`.Defaults to [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165].
 - `flex_radios_by_model` (Attributes List) Flex radios by model. (see [below for nested schema](#nestedatt--items--flex_radios_by_model))
 - `id` (String) The id of the object
+- `is_indoor_default` (Boolean) Set this profile as the default indoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default
+- `is_outdoor_default` (Boolean) Set this profile as the default outdoor rf profile. If the profile ID is one of `indoor` or `outdoor`, then a new profile will be created from the respective ID and set as the default
 - `min_bitrate_type` (String) Minimum bitrate can be set to either `band` or `ssid`. Defaults to band.
 - `name` (String) The name of the new profile. Must be unique. This param is required on creation.
 - `per_ssid_settings_0_band_operation_mode` (String) Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.
