@@ -41,9 +41,11 @@ type DataSourceSwitchRoutingInterfacesItems struct {
 	Id                           types.String `tfsdk:"id"`
 	DefaultGateway               types.String `tfsdk:"default_gateway"`
 	InterfaceIp                  types.String `tfsdk:"interface_ip"`
+	Mode                         types.String `tfsdk:"mode"`
 	MulticastRouting             types.String `tfsdk:"multicast_routing"`
 	Name                         types.String `tfsdk:"name"`
 	Subnet                       types.String `tfsdk:"subnet"`
+	SwitchPortId                 types.String `tfsdk:"switch_port_id"`
 	VlanId                       types.Int64  `tfsdk:"vlan_id"`
 	Ipv6Address                  types.String `tfsdk:"ipv6_address"`
 	Ipv6AssignmentMode           types.String `tfsdk:"ipv6_assignment_mode"`
@@ -52,6 +54,8 @@ type DataSourceSwitchRoutingInterfacesItems struct {
 	OspfSettingsArea             types.String `tfsdk:"ospf_settings_area"`
 	OspfSettingsCost             types.Int64  `tfsdk:"ospf_settings_cost"`
 	OspfSettingsIsPassiveEnabled types.Bool   `tfsdk:"ospf_settings_is_passive_enabled"`
+	OspfSettingsNetworkType      types.String `tfsdk:"ospf_settings_network_type"`
+	VrfName                      types.String `tfsdk:"vrf_name"`
 }
 
 // End of section. //template:end types
@@ -82,6 +86,11 @@ func (data *DataSourceSwitchRoutingInterfaces) fromBody(ctx context.Context, res
 		} else {
 			data.InterfaceIp = types.StringNull()
 		}
+		if value := res.Get("mode"); value.Exists() && value.Value() != nil {
+			data.Mode = types.StringValue(value.String())
+		} else {
+			data.Mode = types.StringNull()
+		}
 		if value := res.Get("multicastRouting"); value.Exists() && value.Value() != nil {
 			data.MulticastRouting = types.StringValue(value.String())
 		} else {
@@ -96,6 +105,11 @@ func (data *DataSourceSwitchRoutingInterfaces) fromBody(ctx context.Context, res
 			data.Subnet = types.StringValue(value.String())
 		} else {
 			data.Subnet = types.StringNull()
+		}
+		if value := res.Get("switchPortId"); value.Exists() && value.Value() != nil {
+			data.SwitchPortId = types.StringValue(value.String())
+		} else {
+			data.SwitchPortId = types.StringNull()
 		}
 		if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 			data.VlanId = types.Int64Value(value.Int())
@@ -136,6 +150,16 @@ func (data *DataSourceSwitchRoutingInterfaces) fromBody(ctx context.Context, res
 			data.OspfSettingsIsPassiveEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.OspfSettingsIsPassiveEnabled = types.BoolNull()
+		}
+		if value := res.Get("ospfSettings.networkType"); value.Exists() && value.Value() != nil {
+			data.OspfSettingsNetworkType = types.StringValue(value.String())
+		} else {
+			data.OspfSettingsNetworkType = types.StringNull()
+		}
+		if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+			data.VrfName = types.StringValue(value.String())
+		} else {
+			data.VrfName = types.StringNull()
 		}
 		(*parent).Items = append((*parent).Items, data)
 		return true

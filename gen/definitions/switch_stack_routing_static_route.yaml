@@ -48,6 +48,18 @@ attributes:
     mandatory: true
     description: The subnet which is routed via this static route and should be specified in CIDR notation (ex. 1.2.3.0/24)
     example: 192.168.2.0/24
+  - model_name: leakRouteToDefaultVrf
+    type: Bool
+    data_path: [vrf]
+    exclude_test: true
+    description: Whether or not next-hop IP is reachable via default VRF
+    example: "false"
+  - model_name: name
+    type: String
+    data_path: [vrf]
+    exclude_test: true
+    description: The name of the VRF this static route belongs to
+    example: Blue
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

@@ -42,6 +42,7 @@ type DataSourceOrganizationEarlyAccessFeaturesItems struct {
 	DocumentationLink types.String `tfsdk:"documentation_link"`
 	IsOrgScopedOnly   types.Bool   `tfsdk:"is_org_scoped_only"`
 	Name              types.String `tfsdk:"name"`
+	PrivacyLink       types.String `tfsdk:"privacy_link"`
 	ShortName         types.String `tfsdk:"short_name"`
 	SupportLink       types.String `tfsdk:"support_link"`
 	Topic             types.String `tfsdk:"topic"`
@@ -81,6 +82,11 @@ func (data *DataSourceOrganizationEarlyAccessFeatures) fromBody(ctx context.Cont
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
+		}
+		if value := res.Get("privacyLink"); value.Exists() && value.Value() != nil {
+			data.PrivacyLink = types.StringValue(value.String())
+		} else {
+			data.PrivacyLink = types.StringNull()
 		}
 		if value := res.Get("shortName"); value.Exists() && value.Value() != nil {
 			data.ShortName = types.StringValue(value.String())

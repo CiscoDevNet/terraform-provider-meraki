@@ -61,6 +61,9 @@ data "meraki_wireless_ssid" "example" {
 - `ldap_credentials_password` (String) The password of the LDAP user account.
 - `ldap_server_ca_certificate_contents` (String) The contents of the CA certificate. Must be in PEM or DER format.
 - `ldap_servers` (Attributes List) The LDAP servers to be used for authentication. (see [below for nested schema](#nestedatt--ldap_servers))
+- `local_auth_fallback_cache_timeout` (Number) The duration (in seconds) for which auths are cached. The timeout is measured from the user`s most recent non-cached authentication to the network. Between 3600 (1 hour) and 86400 (1 day)
+- `local_auth_fallback_enabled` (Boolean) If true, MR devices will cache authentication credentials for EAP-TLS or for MAC based authentication.
+- `local_auth_fallback_server_ca_certificate_contents` (String) The contents of the Server CA Certificate. Must be in PEM or DER format.
 - `local_radius_cache_timeout` (Number) The duration (in seconds) for which LDAP and OCSP lookups are cached.
 - `local_radius_certificate_authentication_client_root_ca_certificate_contents` (String) The contents of the Client CA Certificate. Must be in PEM or DER format.
 - `local_radius_certificate_authentication_enabled` (Boolean) Whether or not to use EAP-TLS certificate-based authentication to validate wireless clients.

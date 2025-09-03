@@ -30,6 +30,10 @@ attributes:
     type: String
     description: Name of the early access feature
     example: New Feature Beta
+  - model_name: privacyLink
+    type: String
+    description: Link to the privacy policy for this early access feature
+    example: https://meraki.com/privacy
   - model_name: shortName
     type: String
     description: Short name of the early access feature

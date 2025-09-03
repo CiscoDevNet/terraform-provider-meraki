@@ -94,6 +94,13 @@ func (r *SwitchStackRoutingInterfaceResource) Schema(ctx context.Context, req re
 				MarkdownDescription: helpers.NewAttributeDescription("The IP address this switch stack will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.").String,
 				Optional:            true,
 			},
+			"mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.").AddStringEnumDescription("loopback", "routed", "vlan").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("loopback", "routed", "vlan"),
+				},
+			},
 			"multicast_routing": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Enable multicast support if, multicast routing between VLANs is required. Options are, `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.").AddStringEnumDescription("IGMP snooping querier", "disabled", "enabled").String,
 				Optional:            true,
@@ -107,6 +114,10 @@ func (r *SwitchStackRoutingInterfaceResource) Schema(ctx context.Context, req re
 			},
 			"subnet": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).").String,
+				Optional:            true,
+			},
+			"switch_port_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Switch Port ID when in Routed mode (CS 17.18 or higher required)").String,
 				Optional:            true,
 			},
 			"vlan_id": schema.Int64Attribute{
@@ -139,6 +150,17 @@ func (r *SwitchStackRoutingInterfaceResource) Schema(ctx context.Context, req re
 			},
 			"ospf_settings_is_passive_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("When enabled, OSPF will not run on the interface, but the subnet will still be advertised.").String,
+				Optional:            true,
+			},
+			"ospf_settings_network_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("OSPF network type").AddStringEnumDescription("broadcast", "point-to-point").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("broadcast", "point-to-point"),
+				},
+			},
+			"vrf_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The name of the VRF this interface belongs to.").String,
 				Optional:            true,
 			},
 		},

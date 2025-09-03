@@ -50,6 +50,8 @@ type ResourceSwitchStackRoutingStaticRoutesItems struct {
 	NextHopIp                   types.String `tfsdk:"next_hop_ip"`
 	PreferOverOspfRoutesEnabled types.Bool   `tfsdk:"prefer_over_ospf_routes_enabled"`
 	Subnet                      types.String `tfsdk:"subnet"`
+	VrfLeakRouteToDefaultVrf    types.Bool   `tfsdk:"vrf_leak_route_to_default_vrf"`
+	VrfName                     types.String `tfsdk:"vrf_name"`
 }
 
 // End of section. //template:end types
@@ -80,6 +82,12 @@ func (data ResourceSwitchStackRoutingStaticRoutesItems) toBody(ctx context.Conte
 	}
 	if !data.Subnet.IsNull() {
 		body, _ = sjson.Set(body, "subnet", data.Subnet.ValueString())
+	}
+	if !data.VrfLeakRouteToDefaultVrf.IsNull() {
+		body, _ = sjson.Set(body, "vrf.leakRouteToDefaultVrf", data.VrfLeakRouteToDefaultVrf.ValueBool())
+	}
+	if !data.VrfName.IsNull() {
+		body, _ = sjson.Set(body, "vrf.name", data.VrfName.ValueString())
 	}
 	return body
 }
@@ -120,6 +128,16 @@ func (data *ResourceSwitchStackRoutingStaticRoutes) fromBody(ctx context.Context
 			data.Subnet = types.StringValue(value.String())
 		} else {
 			data.Subnet = types.StringNull()
+		}
+		if value := res.Get("vrf.leakRouteToDefaultVrf"); value.Exists() && value.Value() != nil {
+			data.VrfLeakRouteToDefaultVrf = types.BoolValue(value.Bool())
+		} else {
+			data.VrfLeakRouteToDefaultVrf = types.BoolNull()
+		}
+		if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+			data.VrfName = types.StringValue(value.String())
+		} else {
+			data.VrfName = types.StringNull()
 		}
 		(*parent).Items = append((*parent).Items, data)
 		return true
@@ -191,6 +209,16 @@ func (data *ResourceSwitchStackRoutingStaticRoutes) fromBodyPartial(ctx context.
 			data.Subnet = types.StringValue(value.String())
 		} else {
 			data.Subnet = types.StringNull()
+		}
+		if value := res.Get("vrf.leakRouteToDefaultVrf"); value.Exists() && !data.VrfLeakRouteToDefaultVrf.IsNull() {
+			data.VrfLeakRouteToDefaultVrf = types.BoolValue(value.Bool())
+		} else {
+			data.VrfLeakRouteToDefaultVrf = types.BoolNull()
+		}
+		if value := res.Get("vrf.name"); value.Exists() && !data.VrfName.IsNull() {
+			data.VrfName = types.StringValue(value.String())
+		} else {
+			data.VrfName = types.StringNull()
 		}
 		(*parent).Items[i] = data
 	}
@@ -264,6 +292,16 @@ func (data *ResourceSwitchStackRoutingStaticRoutes) fromBodyImport(ctx context.C
 		} else {
 			data.Subnet = types.StringNull()
 		}
+		if value := res.Get("vrf.leakRouteToDefaultVrf"); value.Exists() && value.Value() != nil {
+			data.VrfLeakRouteToDefaultVrf = types.BoolValue(value.Bool())
+		} else {
+			data.VrfLeakRouteToDefaultVrf = types.BoolNull()
+		}
+		if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+			data.VrfName = types.StringValue(value.String())
+		} else {
+			data.VrfName = types.StringNull()
+		}
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
@@ -315,6 +353,12 @@ func (data *ResourceSwitchStackRoutingStaticRoutes) hasChanges(ctx context.Conte
 		hasChanges = true
 	}
 	if !item.Subnet.Equal(stateItem.Subnet) {
+		hasChanges = true
+	}
+	if !item.VrfLeakRouteToDefaultVrf.Equal(stateItem.VrfLeakRouteToDefaultVrf) {
+		hasChanges = true
+	}
+	if !item.VrfName.Equal(stateItem.VrfName) {
 		hasChanges = true
 	}
 	return hasChanges

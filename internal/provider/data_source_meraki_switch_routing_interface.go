@@ -79,6 +79,10 @@ func (d *SwitchRoutingInterfaceDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "The IP address this switch will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.",
 				Computed:            true,
 			},
+			"mode": schema.StringAttribute{
+				MarkdownDescription: "L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.",
+				Computed:            true,
+			},
 			"multicast_routing": schema.StringAttribute{
 				MarkdownDescription: "Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.",
 				Computed:            true,
@@ -90,6 +94,10 @@ func (d *SwitchRoutingInterfaceDataSource) Schema(ctx context.Context, req datas
 			},
 			"subnet": schema.StringAttribute{
 				MarkdownDescription: "The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).",
+				Computed:            true,
+			},
+			"switch_port_id": schema.StringAttribute{
+				MarkdownDescription: "Switch Port ID when in Routed mode (CS 17.18 or higher required)",
 				Computed:            true,
 			},
 			"vlan_id": schema.Int64Attribute{
@@ -122,6 +130,15 @@ func (d *SwitchRoutingInterfaceDataSource) Schema(ctx context.Context, req datas
 			},
 			"ospf_settings_is_passive_enabled": schema.BoolAttribute{
 				MarkdownDescription: "When enabled, OSPF will not run on the interface, but the subnet will still be advertised.",
+				Computed:            true,
+			},
+			"ospf_settings_network_type": schema.StringAttribute{
+				MarkdownDescription: "OSPF network type",
+				Computed:            true,
+			},
+			"vrf_name": schema.StringAttribute{
+				MarkdownDescription: "The name of the VRF this interface belongs to.",
+				Optional:            true,
 				Computed:            true,
 			},
 		},

@@ -38,6 +38,7 @@ func TestAccMerakiSwitchStackRoutingInterface(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "default_gateway", "192.168.1.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "interface_ip", "192.168.1.2"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "mode", "vlan"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "multicast_routing", "disabled"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "name", "L3 interface"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "subnet", "192.168.1.0/24"))
@@ -145,6 +146,7 @@ func testAccMerakiSwitchStackRoutingInterfaceConfig_all() string {
 	config += `  switch_stack_id = meraki_switch_stack.test.id` + "\n"
 	config += `  default_gateway = "192.168.1.1"` + "\n"
 	config += `  interface_ip = "192.168.1.2"` + "\n"
+	config += `  mode = "vlan"` + "\n"
 	config += `  multicast_routing = "disabled"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"

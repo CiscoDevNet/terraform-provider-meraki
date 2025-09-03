@@ -40,3 +40,5 @@ Read-Only:
 - `next_hop_ip` (String) IP address of the next hop device to which the device sends its traffic for the subnet
 - `prefer_over_ospf_routes_enabled` (Boolean) Option to prefer static route over OSPF routes
 - `subnet` (String) The subnet which is routed via this static route and should be specified in CIDR notation (ex. 1.2.3.0/24)
+- `vrf_leak_route_to_default_vrf` (Boolean) Whether or not next-hop IP is reachable via default VRF
+- `vrf_name` (String) The name of the VRF this static route belongs to

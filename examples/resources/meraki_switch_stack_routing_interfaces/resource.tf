@@ -5,6 +5,7 @@ resource "meraki_switch_stack_routing_interfaces" "example" {
   items = [{
     default_gateway      = "192.168.1.1"
     interface_ip         = "192.168.1.2"
+    mode                 = "vlan"
     multicast_routing    = "disabled"
     name                 = "L3 interface"
     subnet               = "192.168.1.0/24"

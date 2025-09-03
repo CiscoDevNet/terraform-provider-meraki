@@ -30,6 +30,7 @@ data "meraki_switch_routing_static_route" "example" {
 
 - `id` (String) The id of the object
 - `name` (String) Name or description for layer 3 static route
+- `vrf_name` (String) The name of the VRF this static route belongs to
 
 ### Read-Only
 
@@ -37,3 +38,4 @@ data "meraki_switch_routing_static_route" "example" {
 - `next_hop_ip` (String) IP address of the next hop device to which the device sends its traffic for the subnet
 - `prefer_over_ospf_routes_enabled` (Boolean) Option to prefer static route over OSPF routes
 - `subnet` (String) The subnet which is routed via this static route and should be specified in CIDR notation (ex. 1.2.3.0/24)
+- `vrf_leak_route_to_default_vrf` (Boolean) Whether or not next-hop IP is reachable via default VRF

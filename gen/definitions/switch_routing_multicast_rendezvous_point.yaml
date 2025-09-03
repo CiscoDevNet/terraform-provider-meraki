@@ -29,10 +29,10 @@ attributes:
   - model_name: name
     type: String
     data_path: [vrf]
-    description: The name of the VRF
-    example: Blue
     exclude_test: true
     allow_import_changes: true
+    description: The name of the VRF
+    example: Blue
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

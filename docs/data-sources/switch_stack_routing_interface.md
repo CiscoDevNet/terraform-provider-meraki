@@ -32,6 +32,7 @@ data "meraki_switch_stack_routing_interface" "example" {
 
 - `id` (String) The id of the object
 - `name` (String) A friendly name or description for the interface or VLAN.
+- `vrf_name` (String) The name of the VRF this interface belongs to.
 
 ### Read-Only
 
@@ -41,9 +42,12 @@ data "meraki_switch_stack_routing_interface" "example" {
 - `ipv6_assignment_mode` (String) The IPv6 assignment mode for the interface. Can be either `eui-64` or `static`.
 - `ipv6_gateway` (String) The IPv6 default gateway of the interface. Required if prefix is defined and this is the first interface with IPv6 configured for the stack.
 - `ipv6_prefix` (String) The IPv6 prefix of the interface. Required if IPv6 object is included.
+- `mode` (String) L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.
 - `multicast_routing` (String) Enable multicast support if, multicast routing between VLANs is required. Options are, `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.
 - `ospf_settings_area` (String) The OSPF area to which this interface should belong. Can be either `ospfDisabled` or the identifier of an existing OSPF area. Defaults to `ospfDisabled`.
 - `ospf_settings_cost` (Number) The path cost for this interface. Defaults to 1, but can be increased up to 65535 to give lower priority.
 - `ospf_settings_is_passive_enabled` (Boolean) When enabled, OSPF will not run on the interface, but the subnet will still be advertised.
+- `ospf_settings_network_type` (String) OSPF network type
 - `subnet` (String) The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).
+- `switch_port_id` (String) Switch Port ID when in Routed mode (CS 17.18 or higher required)
 - `vlan_id` (Number) The VLAN this routed interface is on. VLAN must be between 1 and 4094.

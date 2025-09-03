@@ -7,6 +7,7 @@ id_name: interfaceId
 data_source_name_query: true
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial]
+ignore_attributes: [loopback]
 attributes:
   - tf_name: serial
     type: String
@@ -25,6 +26,11 @@ attributes:
     description: The IP address this switch will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.
     example: 192.168.1.2
     minimum_test_value: '"192.168.1.2"'
+  - model_name: mode
+    type: String
+    description: L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.
+    example: vlan
+    enum_values: [loopback, routed, vlan]
   - model_name: multicastRouting
     type: String
     description: 'Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.'
@@ -42,6 +48,11 @@ attributes:
     description: The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).
     example: 192.168.1.0/24
     minimum_test_value: '"192.168.1.0/24"'
+  - model_name: switchPortId
+    type: String
+    exclude_test: true
+    description: Switch Port ID when in Routed mode (CS 17.18 or higher required)
+    example: "1"
   - model_name: vlanId
     type: Int64
     description: The VLAN this routed interface is on. VLAN must be between 1 and 4094.
@@ -84,6 +95,19 @@ attributes:
     exclude_test: true
     description: When enabled, OSPF will not run on the interface, but the subnet will still be advertised.
     example: "true"
+  - model_name: networkType
+    type: String
+    data_path: [ospfSettings]
+    exclude_test: true
+    description: OSPF network type
+    example: broadcast
+    enum_values: [broadcast, point-to-point]
+  - model_name: name
+    type: String
+    data_path: [vrf]
+    exclude_test: true
+    description: The name of the VRF this interface belongs to.
+    example: Blue
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

@@ -57,6 +57,8 @@ Optional:
 - `advertise_via_ospf_enabled` (Boolean) Option to advertise static route via OSPF
 - `name` (String) Name or description for layer 3 static route
 - `prefer_over_ospf_routes_enabled` (Boolean) Option to prefer static route over OSPF routes
+- `vrf_leak_route_to_default_vrf` (Boolean) Whether or not next-hop IP is reachable via default VRF
+- `vrf_name` (String) The name of the VRF this static route belongs to
 
 Read-Only:
 

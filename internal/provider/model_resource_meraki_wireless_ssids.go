@@ -106,6 +106,9 @@ type ResourceWirelessSSIDsItems struct {
 	LdapCredentialsPassword                                             types.String                                     `tfsdk:"ldap_credentials_password"`
 	LdapServerCaCertificateContents                                     types.String                                     `tfsdk:"ldap_server_ca_certificate_contents"`
 	LdapServers                                                         []ResourceWirelessSSIDsLdapServers               `tfsdk:"ldap_servers"`
+	LocalAuthFallbackCacheTimeout                                       types.Int64                                      `tfsdk:"local_auth_fallback_cache_timeout"`
+	LocalAuthFallbackEnabled                                            types.Bool                                       `tfsdk:"local_auth_fallback_enabled"`
+	LocalAuthFallbackServerCaCertificateContents                        types.String                                     `tfsdk:"local_auth_fallback_server_ca_certificate_contents"`
 	LocalRadiusCacheTimeout                                             types.Int64                                      `tfsdk:"local_radius_cache_timeout"`
 	LocalRadiusCertificateAuthenticationEnabled                         types.Bool                                       `tfsdk:"local_radius_certificate_authentication_enabled"`
 	LocalRadiusCertificateAuthenticationOcspResponderUrl                types.String                                     `tfsdk:"local_radius_certificate_authentication_ocsp_responder_url"`
@@ -387,6 +390,15 @@ func (data ResourceWirelessSSIDsItems) toBody(ctx context.Context, state Resourc
 			}
 			body, _ = sjson.SetRaw(body, "ldap.servers.-1", itemBody)
 		}
+	}
+	if !data.LocalAuthFallbackCacheTimeout.IsNull() {
+		body, _ = sjson.Set(body, "localAuthFallback.cacheTimeout", data.LocalAuthFallbackCacheTimeout.ValueInt64())
+	}
+	if !data.LocalAuthFallbackEnabled.IsNull() {
+		body, _ = sjson.Set(body, "localAuthFallback.enabled", data.LocalAuthFallbackEnabled.ValueBool())
+	}
+	if !data.LocalAuthFallbackServerCaCertificateContents.IsNull() {
+		body, _ = sjson.Set(body, "localAuthFallback.serverCaCertificate.contents", data.LocalAuthFallbackServerCaCertificateContents.ValueString())
 	}
 	if !data.LocalRadiusCacheTimeout.IsNull() {
 		body, _ = sjson.Set(body, "localRadius.cacheTimeout", data.LocalRadiusCacheTimeout.ValueInt64())
@@ -879,6 +891,21 @@ func (data *ResourceWirelessSSIDs) fromBody(ctx context.Context, res meraki.Res)
 				(*parent).LdapServers = append((*parent).LdapServers, data)
 				return true
 			})
+		}
+		if value := res.Get("localAuthFallback.cacheTimeout"); value.Exists() && value.Value() != nil {
+			data.LocalAuthFallbackCacheTimeout = types.Int64Value(value.Int())
+		} else {
+			data.LocalAuthFallbackCacheTimeout = types.Int64Null()
+		}
+		if value := res.Get("localAuthFallback.enabled"); value.Exists() && value.Value() != nil {
+			data.LocalAuthFallbackEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.LocalAuthFallbackEnabled = types.BoolNull()
+		}
+		if value := res.Get("localAuthFallback.serverCaCertificate.contents"); value.Exists() && value.Value() != nil {
+			data.LocalAuthFallbackServerCaCertificateContents = types.StringValue(value.String())
+		} else {
+			data.LocalAuthFallbackServerCaCertificateContents = types.StringNull()
 		}
 		if value := res.Get("localRadius.cacheTimeout"); value.Exists() && value.Value() != nil {
 			data.LocalRadiusCacheTimeout = types.Int64Value(value.Int())
@@ -1472,6 +1499,21 @@ func (data *ResourceWirelessSSIDs) fromBodyPartial(ctx context.Context, res mera
 				data.Port = types.Int64Null()
 			}
 			(*parent).LdapServers[i] = data
+		}
+		if value := res.Get("localAuthFallback.cacheTimeout"); value.Exists() && !data.LocalAuthFallbackCacheTimeout.IsNull() {
+			data.LocalAuthFallbackCacheTimeout = types.Int64Value(value.Int())
+		} else {
+			data.LocalAuthFallbackCacheTimeout = types.Int64Null()
+		}
+		if value := res.Get("localAuthFallback.enabled"); value.Exists() && !data.LocalAuthFallbackEnabled.IsNull() {
+			data.LocalAuthFallbackEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.LocalAuthFallbackEnabled = types.BoolNull()
+		}
+		if value := res.Get("localAuthFallback.serverCaCertificate.contents"); value.Exists() && !data.LocalAuthFallbackServerCaCertificateContents.IsNull() {
+			data.LocalAuthFallbackServerCaCertificateContents = types.StringValue(value.String())
+		} else {
+			data.LocalAuthFallbackServerCaCertificateContents = types.StringNull()
 		}
 		if value := res.Get("localRadius.cacheTimeout"); value.Exists() && !data.LocalRadiusCacheTimeout.IsNull() {
 			data.LocalRadiusCacheTimeout = types.Int64Value(value.Int())
@@ -2112,6 +2154,21 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 				return true
 			})
 		}
+		if value := res.Get("localAuthFallback.cacheTimeout"); value.Exists() && value.Value() != nil {
+			data.LocalAuthFallbackCacheTimeout = types.Int64Value(value.Int())
+		} else {
+			data.LocalAuthFallbackCacheTimeout = types.Int64Null()
+		}
+		if value := res.Get("localAuthFallback.enabled"); value.Exists() && value.Value() != nil {
+			data.LocalAuthFallbackEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.LocalAuthFallbackEnabled = types.BoolNull()
+		}
+		if value := res.Get("localAuthFallback.serverCaCertificate.contents"); value.Exists() && value.Value() != nil {
+			data.LocalAuthFallbackServerCaCertificateContents = types.StringValue(value.String())
+		} else {
+			data.LocalAuthFallbackServerCaCertificateContents = types.StringNull()
+		}
 		if value := res.Get("localRadius.cacheTimeout"); value.Exists() && value.Value() != nil {
 			data.LocalRadiusCacheTimeout = types.Int64Value(value.Int())
 		} else {
@@ -2558,6 +2615,15 @@ func (data *ResourceWirelessSSIDs) hasChanges(ctx context.Context, state *Resour
 				hasChanges = true
 			}
 		}
+	}
+	if !item.LocalAuthFallbackCacheTimeout.Equal(stateItem.LocalAuthFallbackCacheTimeout) {
+		hasChanges = true
+	}
+	if !item.LocalAuthFallbackEnabled.Equal(stateItem.LocalAuthFallbackEnabled) {
+		hasChanges = true
+	}
+	if !item.LocalAuthFallbackServerCaCertificateContents.Equal(stateItem.LocalAuthFallbackServerCaCertificateContents) {
+		hasChanges = true
 	}
 	if !item.LocalRadiusCacheTimeout.Equal(stateItem.LocalRadiusCacheTimeout) {
 		hasChanges = true

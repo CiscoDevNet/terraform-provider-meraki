@@ -40,6 +40,8 @@ type SwitchRoutingStaticRoute struct {
 	NextHopIp                   types.String `tfsdk:"next_hop_ip"`
 	PreferOverOspfRoutesEnabled types.Bool   `tfsdk:"prefer_over_ospf_routes_enabled"`
 	Subnet                      types.String `tfsdk:"subnet"`
+	VrfLeakRouteToDefaultVrf    types.Bool   `tfsdk:"vrf_leak_route_to_default_vrf"`
+	VrfName                     types.String `tfsdk:"vrf_name"`
 }
 
 // End of section. //template:end types
@@ -70,6 +72,12 @@ func (data SwitchRoutingStaticRoute) toBody(ctx context.Context, state SwitchRou
 	}
 	if !data.Subnet.IsNull() {
 		body, _ = sjson.Set(body, "subnet", data.Subnet.ValueString())
+	}
+	if !data.VrfLeakRouteToDefaultVrf.IsNull() {
+		body, _ = sjson.Set(body, "vrf.leakRouteToDefaultVrf", data.VrfLeakRouteToDefaultVrf.ValueBool())
+	}
+	if !data.VrfName.IsNull() {
+		body, _ = sjson.Set(body, "vrf.name", data.VrfName.ValueString())
 	}
 	return body
 }
@@ -103,6 +111,16 @@ func (data *SwitchRoutingStaticRoute) fromBody(ctx context.Context, res meraki.R
 		data.Subnet = types.StringValue(value.String())
 	} else {
 		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("vrf.leakRouteToDefaultVrf"); value.Exists() && value.Value() != nil {
+		data.VrfLeakRouteToDefaultVrf = types.BoolValue(value.Bool())
+	} else {
+		data.VrfLeakRouteToDefaultVrf = types.BoolNull()
+	}
+	if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+		data.VrfName = types.StringValue(value.String())
+	} else {
+		data.VrfName = types.StringNull()
 	}
 }
 
@@ -139,6 +157,16 @@ func (data *SwitchRoutingStaticRoute) fromBodyPartial(ctx context.Context, res m
 		data.Subnet = types.StringValue(value.String())
 	} else {
 		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("vrf.leakRouteToDefaultVrf"); value.Exists() && !data.VrfLeakRouteToDefaultVrf.IsNull() {
+		data.VrfLeakRouteToDefaultVrf = types.BoolValue(value.Bool())
+	} else {
+		data.VrfLeakRouteToDefaultVrf = types.BoolNull()
+	}
+	if value := res.Get("vrf.name"); value.Exists() && !data.VrfName.IsNull() {
+		data.VrfName = types.StringValue(value.String())
+	} else {
+		data.VrfName = types.StringNull()
 	}
 }
 

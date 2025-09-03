@@ -96,6 +96,15 @@ func (d *SwitchStackRoutingStaticRouteDataSource) Schema(ctx context.Context, re
 				MarkdownDescription: "The subnet which is routed via this static route and should be specified in CIDR notation (ex. 1.2.3.0/24)",
 				Computed:            true,
 			},
+			"vrf_leak_route_to_default_vrf": schema.BoolAttribute{
+				MarkdownDescription: "Whether or not next-hop IP is reachable via default VRF",
+				Computed:            true,
+			},
+			"vrf_name": schema.StringAttribute{
+				MarkdownDescription: "The name of the VRF this static route belongs to",
+				Optional:            true,
+				Computed:            true,
+			},
 		},
 	}
 }

@@ -82,6 +82,10 @@ func (d *OrganizationEarlyAccessFeaturesDataSource) Schema(ctx context.Context, 
 							MarkdownDescription: "Name of the early access feature",
 							Computed:            true,
 						},
+						"privacy_link": schema.StringAttribute{
+							MarkdownDescription: "Link to the privacy policy for this early access feature",
+							Computed:            true,
+						},
 						"short_name": schema.StringAttribute{
 							MarkdownDescription: "Short name of the early access feature",
 							Computed:            true,

@@ -40,6 +40,7 @@ Read-Only:
 - `id` (String) The id of the object
 - `is_org_scoped_only` (Boolean) If this early access feature can only be opted in for the entire organization
 - `name` (String) Name of the early access feature
+- `privacy_link` (String) Link to the privacy policy for this early access feature
 - `short_name` (String) Short name of the early access feature
 - `support_link` (String) Link to get support for this early access feature
 - `topic` (String) Topic of the early access feature

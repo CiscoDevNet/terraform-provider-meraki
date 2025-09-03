@@ -134,6 +134,7 @@ func testAccMerakiSwitchStackRoutingInterfacesConfig_all() string {
 	config += ` items = [{` + "\n"
 	config += `  default_gateway = "192.168.1.1"` + "\n"
 	config += `  interface_ip = "192.168.1.2"` + "\n"
+	config += `  mode = "vlan"` + "\n"
 	config += `  multicast_routing = "disabled"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"

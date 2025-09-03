@@ -335,6 +335,18 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 					},
 				},
 			},
+			"local_auth_fallback_cache_timeout": schema.Int64Attribute{
+				MarkdownDescription: "The duration (in seconds) for which auths are cached. The timeout is measured from the user`s most recent non-cached authentication to the network. Between 3600 (1 hour) and 86400 (1 day)",
+				Computed:            true,
+			},
+			"local_auth_fallback_enabled": schema.BoolAttribute{
+				MarkdownDescription: "If true, MR devices will cache authentication credentials for EAP-TLS or for MAC based authentication.",
+				Computed:            true,
+			},
+			"local_auth_fallback_server_ca_certificate_contents": schema.StringAttribute{
+				MarkdownDescription: "The contents of the Server CA Certificate. Must be in PEM or DER format.",
+				Computed:            true,
+			},
 			"local_radius_cache_timeout": schema.Int64Attribute{
 				MarkdownDescription: "The duration (in seconds) for which LDAP and OCSP lookups are cached.",
 				Computed:            true,

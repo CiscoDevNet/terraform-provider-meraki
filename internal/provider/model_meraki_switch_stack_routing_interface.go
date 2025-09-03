@@ -38,9 +38,11 @@ type SwitchStackRoutingInterface struct {
 	SwitchStackId                types.String `tfsdk:"switch_stack_id"`
 	DefaultGateway               types.String `tfsdk:"default_gateway"`
 	InterfaceIp                  types.String `tfsdk:"interface_ip"`
+	Mode                         types.String `tfsdk:"mode"`
 	MulticastRouting             types.String `tfsdk:"multicast_routing"`
 	Name                         types.String `tfsdk:"name"`
 	Subnet                       types.String `tfsdk:"subnet"`
+	SwitchPortId                 types.String `tfsdk:"switch_port_id"`
 	VlanId                       types.Int64  `tfsdk:"vlan_id"`
 	Ipv6Address                  types.String `tfsdk:"ipv6_address"`
 	Ipv6AssignmentMode           types.String `tfsdk:"ipv6_assignment_mode"`
@@ -49,6 +51,8 @@ type SwitchStackRoutingInterface struct {
 	OspfSettingsArea             types.String `tfsdk:"ospf_settings_area"`
 	OspfSettingsCost             types.Int64  `tfsdk:"ospf_settings_cost"`
 	OspfSettingsIsPassiveEnabled types.Bool   `tfsdk:"ospf_settings_is_passive_enabled"`
+	OspfSettingsNetworkType      types.String `tfsdk:"ospf_settings_network_type"`
+	VrfName                      types.String `tfsdk:"vrf_name"`
 }
 
 // End of section. //template:end types
@@ -71,6 +75,9 @@ func (data SwitchStackRoutingInterface) toBody(ctx context.Context, state Switch
 	if !data.InterfaceIp.IsNull() {
 		body, _ = sjson.Set(body, "interfaceIp", data.InterfaceIp.ValueString())
 	}
+	if !data.Mode.IsNull() {
+		body, _ = sjson.Set(body, "mode", data.Mode.ValueString())
+	}
 	if !data.MulticastRouting.IsNull() {
 		body, _ = sjson.Set(body, "multicastRouting", data.MulticastRouting.ValueString())
 	}
@@ -79,6 +86,9 @@ func (data SwitchStackRoutingInterface) toBody(ctx context.Context, state Switch
 	}
 	if !data.Subnet.IsNull() {
 		body, _ = sjson.Set(body, "subnet", data.Subnet.ValueString())
+	}
+	if !data.SwitchPortId.IsNull() {
+		body, _ = sjson.Set(body, "switchPortId", data.SwitchPortId.ValueString())
 	}
 	if !data.VlanId.IsNull() {
 		body, _ = sjson.Set(body, "vlanId", data.VlanId.ValueInt64())
@@ -104,6 +114,12 @@ func (data SwitchStackRoutingInterface) toBody(ctx context.Context, state Switch
 	if !data.OspfSettingsIsPassiveEnabled.IsNull() {
 		body, _ = sjson.Set(body, "ospfSettings.isPassiveEnabled", data.OspfSettingsIsPassiveEnabled.ValueBool())
 	}
+	if !data.OspfSettingsNetworkType.IsNull() {
+		body, _ = sjson.Set(body, "ospfSettings.networkType", data.OspfSettingsNetworkType.ValueString())
+	}
+	if !data.VrfName.IsNull() {
+		body, _ = sjson.Set(body, "vrf.name", data.VrfName.ValueString())
+	}
 	return body
 }
 
@@ -122,6 +138,11 @@ func (data *SwitchStackRoutingInterface) fromBody(ctx context.Context, res merak
 	} else {
 		data.InterfaceIp = types.StringNull()
 	}
+	if value := res.Get("mode"); value.Exists() && value.Value() != nil {
+		data.Mode = types.StringValue(value.String())
+	} else {
+		data.Mode = types.StringNull()
+	}
 	if value := res.Get("multicastRouting"); value.Exists() && value.Value() != nil {
 		data.MulticastRouting = types.StringValue(value.String())
 	} else {
@@ -136,6 +157,11 @@ func (data *SwitchStackRoutingInterface) fromBody(ctx context.Context, res merak
 		data.Subnet = types.StringValue(value.String())
 	} else {
 		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("switchPortId"); value.Exists() && value.Value() != nil {
+		data.SwitchPortId = types.StringValue(value.String())
+	} else {
+		data.SwitchPortId = types.StringNull()
 	}
 	if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 		data.VlanId = types.Int64Value(value.Int())
@@ -177,6 +203,16 @@ func (data *SwitchStackRoutingInterface) fromBody(ctx context.Context, res merak
 	} else {
 		data.OspfSettingsIsPassiveEnabled = types.BoolNull()
 	}
+	if value := res.Get("ospfSettings.networkType"); value.Exists() && value.Value() != nil {
+		data.OspfSettingsNetworkType = types.StringValue(value.String())
+	} else {
+		data.OspfSettingsNetworkType = types.StringNull()
+	}
+	if value := res.Get("vrf.name"); value.Exists() && value.Value() != nil {
+		data.VrfName = types.StringValue(value.String())
+	} else {
+		data.VrfName = types.StringNull()
+	}
 }
 
 // End of section. //template:end fromBody
@@ -198,6 +234,11 @@ func (data *SwitchStackRoutingInterface) fromBodyPartial(ctx context.Context, re
 	} else {
 		data.InterfaceIp = types.StringNull()
 	}
+	if value := res.Get("mode"); value.Exists() && !data.Mode.IsNull() {
+		data.Mode = types.StringValue(value.String())
+	} else {
+		data.Mode = types.StringNull()
+	}
 	if value := res.Get("multicastRouting"); value.Exists() && !data.MulticastRouting.IsNull() {
 		data.MulticastRouting = types.StringValue(value.String())
 	} else {
@@ -212,6 +253,11 @@ func (data *SwitchStackRoutingInterface) fromBodyPartial(ctx context.Context, re
 		data.Subnet = types.StringValue(value.String())
 	} else {
 		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("switchPortId"); value.Exists() && !data.SwitchPortId.IsNull() {
+		data.SwitchPortId = types.StringValue(value.String())
+	} else {
+		data.SwitchPortId = types.StringNull()
 	}
 	if value := res.Get("vlanId"); value.Exists() && !data.VlanId.IsNull() {
 		data.VlanId = types.Int64Value(value.Int())
@@ -252,6 +298,16 @@ func (data *SwitchStackRoutingInterface) fromBodyPartial(ctx context.Context, re
 		data.OspfSettingsIsPassiveEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.OspfSettingsIsPassiveEnabled = types.BoolNull()
+	}
+	if value := res.Get("ospfSettings.networkType"); value.Exists() && !data.OspfSettingsNetworkType.IsNull() {
+		data.OspfSettingsNetworkType = types.StringValue(value.String())
+	} else {
+		data.OspfSettingsNetworkType = types.StringNull()
+	}
+	if value := res.Get("vrf.name"); value.Exists() && !data.VrfName.IsNull() {
+		data.VrfName = types.StringValue(value.String())
+	} else {
+		data.VrfName = types.StringNull()
 	}
 }
 

@@ -2,6 +2,7 @@ resource "meraki_switch_routing_interface" "example" {
   serial               = "1234-ABCD-1234"
   default_gateway      = "192.168.1.1"
   interface_ip         = "192.168.1.2"
+  mode                 = "vlan"
   multicast_routing    = "disabled"
   name                 = "L3 interface"
   subnet               = "192.168.1.0/24"
