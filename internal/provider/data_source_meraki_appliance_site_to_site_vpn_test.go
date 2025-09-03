@@ -35,6 +35,7 @@ func TestAccDataSourceMerakiApplianceSiteToSiteVPN(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "mode", "hub"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnet_nat_is_allowed", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.local_subnet", "192.168.128.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.use_vpn", "true"))
 	resource.Test(t, resource.TestCase{
@@ -75,6 +76,7 @@ func testAccDataSourceMerakiApplianceSiteToSiteVPNConfig() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  mode = "hub"` + "\n"
+	config += `  subnet_nat_is_allowed = false` + "\n"
 	config += `  subnets = [{` + "\n"
 	config += `    local_subnet = "192.168.128.0/24"` + "\n"
 	config += `    use_vpn = true` + "\n"

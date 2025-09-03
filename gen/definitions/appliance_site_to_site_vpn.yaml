@@ -23,9 +23,8 @@ attributes:
   - model_name: isAllowed
     type: Bool
     data_path: [subnet, nat]
-    exclude_test: true
     description: If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
-    example: "true"
+    example: "false"
   - model_name: hubs
     type: List
     exclude_test: true

@@ -130,9 +130,8 @@ attributes:
       - model_name: activeActiveTunnel
         type: Bool
         data_path: [group]
-        exclude_test: true
         description: '[optional] Both primary and backup tunnels are active.'
-        example: "true"
+        example: "false"
       - model_name: number
         type: Int64
         data_path: [group]

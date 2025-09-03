@@ -44,6 +44,7 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.public_ip", "123.123.123.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.remote_id", "miles@meraki.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.secret", "Sample Password"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_active_active_tunnel", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_number", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_failover_direct_to_internet", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_child_lifetime", "28800"))
@@ -142,6 +143,7 @@ func testAccMerakiApplianceThirdPartyVPNPeersConfig_all() string {
 	config += `    public_ip = "123.123.123.1"` + "\n"
 	config += `    remote_id = "miles@meraki.com"` + "\n"
 	config += `    secret = "Sample Password"` + "\n"
+	config += `    group_active_active_tunnel = false` + "\n"
 	config += `    group_number = 1` + "\n"
 	config += `    group_failover_direct_to_internet = false` + "\n"
 	config += `    ipsec_policies_child_lifetime = 28800` + "\n"
