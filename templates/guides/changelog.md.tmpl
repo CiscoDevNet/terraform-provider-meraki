@@ -16,6 +16,7 @@ description: |-
 - Add `local_auth_fallback_cache_timeout`, `local_auth_fallback_enabled` and `local_auth_fallback_server_ca_certificate_contents` attributes to `meraki_wireless_ssid` resources and data sources
 - Add `meraki_wireless_zigbee_device` resource and data sources
 - Add `meraki_wireless_zigbee_door_lock` resource and data sources
+- Add `meraki_wireless_zigbee` resource and data sources
 
 ## 1.6.0
 

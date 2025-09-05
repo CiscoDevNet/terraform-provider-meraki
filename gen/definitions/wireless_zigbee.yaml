@@ -1,0 +1,72 @@
+# Customize Read() to support org level endpoint
+# Test currently fails with "500 Internal Error", might require specific AP
+name: Wireless Zigbee
+spec_endpoint: /networks/{networkId}/wireless/zigbee
+rest_endpoint: /networks/%v/wireless/zigbee
+no_data_source: false
+put_create: true
+no_delete: true
+no_import: false
+no_read: false
+doc_category: Wireless
+test_tags: [WIRELESS_ZIGBEE]
+test_variables: [test_org, test_network, test_ap_1_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: enabled
+    type: Bool
+    description: To enable/disable Zigbee on the network
+    example: "false"
+    minimum_test_value: "true"
+  - model_name: channel
+    type: String
+    data_path: [defaults]
+    description: Channel
+    example: "25"
+  - model_name: transmitPowerLevel
+    type: Int64
+    data_path: [defaults]
+    description: Transmit Power Level
+    example: "10"
+    min_int: 10
+    max_int: 20
+  - model_name: serial
+    type: String
+    data_path: [iotController]
+    description: Device Serial number
+    example: Q234-ABCD-5678
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: address
+    type: String
+    data_path: [lockManagement]
+    description: Host Address
+    example: 10.100.100.200
+  - model_name: password
+    type: String
+    data_path: [lockManagement]
+    description: Password
+    example: password
+  - model_name: username
+    type: String
+    data_path: [lockManagement]
+    description: Username
+    example: user
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_ap_1_serial]
+  }
