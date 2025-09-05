@@ -1,4 +1,4 @@
-## 1.7.0 (unreleased)
+## 1.7.0
 
 - Add `is_indoor_default` and `is_outdoor_default` attributes to `meraki_wireless_rf_profile` resource and data source
 - Add `privacy_link` attribute to `meraki_organization_early_access_features` data source
