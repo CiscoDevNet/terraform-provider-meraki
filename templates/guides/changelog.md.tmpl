@@ -15,6 +15,7 @@ description: |-
 - Add `vrf_leak_route_to_default_vrf` and `vrf_name` attributes to `meraki_switch_routing_static_route` and `meraki_switch_stack_routing_static_route` resources and data sources
 - Add `local_auth_fallback_cache_timeout`, `local_auth_fallback_enabled` and `local_auth_fallback_server_ca_certificate_contents` attributes to `meraki_wireless_ssid` resources and data sources
 - Add `meraki_wireless_zigbee_device` resource and data sources
+- Add `meraki_wireless_zigbee_door_lock` resource and data sources
 
 ## 1.6.0
 
