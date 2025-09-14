@@ -33,6 +33,29 @@ func SetFlagImporting(ctx context.Context, importing bool, sk SetKeyer, respDiag
 	respDiags.Append(diags...)
 }
 
+func GetJsonInitialState(ctx context.Context, req resource.DeleteRequest) (string, diag.Diagnostics) {
+	v, diags := req.Private.GetKey(ctx, "initial_state")
+	if diags.HasError() {
+		return "", diags
+	}
+
+	return string(v), diags
+}
+
+// SetJsonInitialState checks the respDiags and if they are error-free it sets the `initial_state` as a private JSON value inside
+// SetKeyer. It appends its own results to respDiags.
+//
+// The caller must include in respDiags the result of state modification in the first place, to ensure consistency.
+// The SetKeyer is something like resp.Private.
+func SetJsonInitialState(ctx context.Context, jsonValue string, sk SetKeyer, respDiags *diag.Diagnostics) {
+	if respDiags.HasError() {
+		return
+	}
+
+	diags := sk.SetKey(ctx, "initial_state", []byte(jsonValue))
+	respDiags.Append(diags...)
+}
+
 func IsFlag(ctx context.Context, req resource.ReadRequest, flagName string) (bool, diag.Diagnostics) {
 	v, diags := req.Private.GetKey(ctx, flagName)
 
@@ -50,6 +73,24 @@ func SetFlag(ctx context.Context, flagName string, value bool, sk SetKeyer, resp
 	}
 
 	diags := sk.SetKey(ctx, flagName, b)
+	respDiags.Append(diags...)
+}
+
+func GetJson(ctx context.Context, req resource.DeleteRequest, keyName string) (string, diag.Diagnostics) {
+	v, diags := req.Private.GetKey(ctx, keyName)
+	if diags.HasError() {
+		return "", diags
+	}
+
+	return string(v), diags
+}
+
+func SetJson(ctx context.Context, keyName string, jsonValue string, sk SetKeyer, respDiags *diag.Diagnostics) {
+	if respDiags.HasError() {
+		return
+	}
+
+	diags := sk.SetKey(ctx, keyName, []byte(jsonValue))
 	respDiags.Append(diags...)
 }
 

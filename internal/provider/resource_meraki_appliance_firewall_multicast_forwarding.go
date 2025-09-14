@@ -32,7 +32,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -112,10 +111,8 @@ func (r *ApplianceFirewallMulticastForwardingResource) Configure(_ context.Conte
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *ApplianceFirewallMulticastForwardingResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan ApplianceFirewallMulticastForwarding
+	var plan, initialState ApplianceFirewallMulticastForwarding
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -124,6 +121,22 @@ func (r *ApplianceFirewallMulticastForwardingResource) Create(ctx context.Contex
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	// If the resource is a singleton, we need to read and save the initial state
+	networkPath := fmt.Sprintf("/networks/%v", plan.NetworkId.ValueString())
+	nres, err := r.client.Get(networkPath)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, nres.String()))
+		return
+	}
+	orgId := nres.Get("organizationId").String()
+	getPath := fmt.Sprintf("/organizations/%v/appliance/firewall/multicastForwarding/byNetwork?networkIds[]=%v", orgId, plan.NetworkId.ValueString())
+	gres, err := r.client.Get(getPath)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve multicast forwarding (GET), got error: %s, %s", err, gres.String()))
+		return
+	}
+	initialState.fromBody(ctx, meraki.Res{Result: gres.Get("items.0")})
+	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, ApplianceFirewallMulticastForwarding{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
 	body := plan.toBody(ctx, ApplianceFirewallMulticastForwarding{})
@@ -142,8 +155,6 @@ func (r *ApplianceFirewallMulticastForwardingResource) Create(ctx context.Contex
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end create
 
 func (r *ApplianceFirewallMulticastForwardingResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceFirewallMulticastForwarding
@@ -167,7 +178,7 @@ func (r *ApplianceFirewallMulticastForwardingResource) Read(ctx context.Context,
 	}
 	orgId := res.Get("organizationId").String()
 
-	getPath := fmt.Sprintf("/organizations/%v/appliance/firewall/multicastForwarding/byNetwork", orgId)
+	getPath := fmt.Sprintf("/organizations/%v/appliance/firewall/multicastForwarding/byNetwork?networkIds[]=%v", orgId, state.NetworkId.ValueString())
 	res, err = r.client.Get(getPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
@@ -177,15 +188,7 @@ func (r *ApplianceFirewallMulticastForwardingResource) Read(ctx context.Context,
 		return
 	}
 
-	if len(res.Get("items").Array()) > 0 {
-		res.Get("items").ForEach(func(k, v gjson.Result) bool {
-			if state.Id.ValueString() == v.Get("network.id").String() {
-				res = meraki.Res{Result: v}
-				return false
-			}
-			return true
-		})
-	}
+	res = meraki.Res{Result: res.Get("items.0")}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
@@ -253,8 +256,13 @@ func (r *ApplianceFirewallMulticastForwardingResource) Delete(ctx context.Contex
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	body := state.toDestroyBody(ctx)
-	res, err := r.client.Put(state.getPath(), body)
+	// If the resource is a singleton, we need to restore the initial state
+	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	res, err := r.client.Put(state.getPath(), jsonInitialState)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
