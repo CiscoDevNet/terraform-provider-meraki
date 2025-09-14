@@ -31,7 +31,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -98,10 +97,8 @@ func (r *WirelessLocationScanningResource) Configure(_ context.Context, req reso
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan WirelessLocationScanning
+	var plan, initialState WirelessLocationScanning
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -110,6 +107,22 @@ func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resou
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	// If the resource is a singleton, we need to read and save the initial state
+	networkPath := fmt.Sprintf("/networks/%v", plan.NetworkId.ValueString())
+	nres, err := r.client.Get(networkPath)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, nres.String()))
+		return
+	}
+	orgId := nres.Get("organizationId").String()
+	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork?networkIds[]=%v", orgId, plan.NetworkId.ValueString())
+	gres, err := r.client.Get(getPath)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve wireless location scanning (GET), got error: %s, %s", err, gres.String()))
+		return
+	}
+	initialState.fromBody(ctx, meraki.Res{Result: gres.Get("items.0")})
+	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessLocationScanning{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
 	body := plan.toBody(ctx, WirelessLocationScanning{})
@@ -128,8 +141,6 @@ func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resou
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end create
 
 func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state WirelessLocationScanning
@@ -153,7 +164,7 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 	}
 	orgId := res.Get("organizationId").String()
 
-	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
+	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork?networkIds[]=%v", orgId, state.NetworkId.ValueString())
 	res, err = r.client.Get(getPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
@@ -163,15 +174,7 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 		return
 	}
 
-	if len(res.Get("items").Array()) > 0 {
-		res.Get("items").ForEach(func(k, v gjson.Result) bool {
-			if state.Id.ValueString() == v.Get("networkId").String() {
-				res = meraki.Res{Result: v}
-				return false
-			}
-			return true
-		})
-	}
+	res = meraki.Res{Result: res.Get("items.0")}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
@@ -239,6 +242,17 @@ func (r *WirelessLocationScanningResource) Delete(ctx context.Context, req resou
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+	// If the resource is a singleton, we need to restore the initial state
+	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	res, err := r.client.Put(state.getPath(), jsonInitialState)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 

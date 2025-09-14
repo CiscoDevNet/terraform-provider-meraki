@@ -1,4 +1,4 @@
-# Customize Read() function to handle org level GET request
+# Customize Create(), Read() function to handle org level GET request
 name: Appliance Firewall Multicast Forwarding
 spec_endpoint: /networks/{networkId}/appliance/firewall/multicastForwarding
 rest_endpoint: /networks/%v/appliance/firewall/multicastForwarding

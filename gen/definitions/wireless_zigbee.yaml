@@ -1,4 +1,4 @@
-# Customize Read() to support org level endpoint
+# Customize Create(), Read() to support org level endpoint
 # Test currently fails with "500 Internal Error", might require specific AP
 name: Wireless Zigbee
 spec_endpoint: /networks/{networkId}/wireless/zigbee
