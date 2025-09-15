@@ -17,7 +17,6 @@ attributes:
     type: List
     mandatory: true
     description: An array of 1:Many nat rules
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: publicIp
         type: String

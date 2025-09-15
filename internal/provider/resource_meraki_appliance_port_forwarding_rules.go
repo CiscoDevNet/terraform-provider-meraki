@@ -267,6 +267,7 @@ func (r *AppliancePortForwardingRulesResource) Delete(ctx context.Context, req r
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 	// If the resource is a singleton, we need to restore the initial state
 	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}

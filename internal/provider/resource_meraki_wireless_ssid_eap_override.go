@@ -58,7 +58,7 @@ func (r *WirelessSSIDEAPOverrideResource) Metadata(ctx context.Context, req reso
 func (r *WirelessSSIDEAPOverrideResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless SSID EAP override` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless SSID EAP Override` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -252,6 +252,7 @@ func (r *WirelessSSIDEAPOverrideResource) Delete(ctx context.Context, req resour
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 	// If the resource is a singleton, we need to restore the initial state
 	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}

@@ -1737,28 +1737,10 @@ func (data *WirelessSSID) fromBodyUnknowns(ctx context.Context, res meraki.Res) 
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data WirelessSSID) toDestroyBody(ctx context.Context) string {
-	body := ""
-	body, _ = sjson.Set(body, "adultContentFilteringEnabled", false)
-	body, _ = sjson.Set(body, "authMode", "open")
-	body, _ = sjson.Set(body, "availableOnAllAps", true)
-	body, _ = sjson.Set(body, "enabled", false)
-	body, _ = sjson.Set(body, "ipAssignmentMode", "NAT mode")
-	body, _ = sjson.Set(body, "mandatoryDhcpEnabled", false)
-	body, _ = sjson.Set(body, "name", "Unconfigured SSID")
-	body, _ = sjson.Set(body, "perClientBandwidthLimitDown", 0)
-	body, _ = sjson.Set(body, "perClientBandwidthLimitUp", 0)
-	body, _ = sjson.Set(body, "perSsidBandwidthLimitDown", 0)
-	body, _ = sjson.Set(body, "perSsidBandwidthLimitUp", 0)
-	body, _ = sjson.Set(body, "splashPage", "None")
-	body, _ = sjson.Set(body, "visible", true)
-	body, _ = sjson.Set(body, "dnsRewrite.enabled", false)
-	body, _ = sjson.Set(body, "dnsRewrite.dnsCustomNameservers", []interface{}{})
-	body, _ = sjson.Set(body, "speedBurst.enabled", false)
-	body, _ = sjson.Set(body, "availabilityTags", []interface{}{})
+func (data WirelessSSID) addDeleteValues(ctx context.Context, body string) string {
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues

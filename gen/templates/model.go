@@ -515,10 +515,9 @@ func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res merak
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data {{camelCase .Name}}) toDestroyBody(ctx context.Context) string {
-	body := ""
+func (data {{camelCase .Name}}) addDeleteValues(ctx context.Context, body string) string {
 	{{- range .Attributes}}
 	{{- if .DestroyValue}}
 	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{.DestroyValue}})
@@ -527,7 +526,7 @@ func (data {{camelCase .Name}}) toDestroyBody(ctx context.Context) string {
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues
 
 {{- range .Attributes}}
 	{{- range .Attributes}}

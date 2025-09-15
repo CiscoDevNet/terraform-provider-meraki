@@ -582,6 +582,7 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 	{{- if isSingleton .}}
 	// If the resource is a singleton, we need to restore the initial state
 	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
@@ -592,7 +593,7 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 		return
 	}
 	{{- else if hasDestroyValues .Attributes}}
-	body := state.toDestroyBody(ctx)
+	body := state.addDeleteValues(ctx, "")
 	res, err := r.client.Put(state.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))

@@ -1996,14 +1996,14 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data ResourceWirelessRFProfiles) toDestroyBody(ctx context.Context) string {
+func (data ResourceWirelessRFProfiles) addDeleteValues(ctx context.Context) string {
 	body := ""
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues
 
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 

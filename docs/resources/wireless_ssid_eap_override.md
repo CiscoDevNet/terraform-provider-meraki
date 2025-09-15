@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_ssid_eap_override Resource - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This resource can manage the Wireless SSID EAP override configuration.
+  This resource can manage the Wireless SSID EAP Override configuration.
 ---
 
 # meraki_wireless_ssid_eap_override (Resource)
 
-This resource can manage the `Wireless SSID EAP override` configuration.
+This resource can manage the `Wireless SSID EAP Override` configuration.
 
 ## Example Usage
 

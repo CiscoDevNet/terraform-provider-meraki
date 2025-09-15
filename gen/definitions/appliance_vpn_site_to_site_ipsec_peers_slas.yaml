@@ -17,7 +17,6 @@ attributes:
     type: List
     mandatory: true
     description: List of IPsec SLA policies
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: name
         type: String

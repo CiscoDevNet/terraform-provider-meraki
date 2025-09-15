@@ -1,3 +1,4 @@
+# Test tag added as batch api is temporarily not working
 name: Organization Adaptive Policy
 spec_endpoint: /organizations/{organizationId}/adaptivePolicy/policies/{id}
 rest_endpoint: /organizations/%v/adaptivePolicy/policies
@@ -5,6 +6,7 @@ bulk_data_source: true
 bulk_resource: true
 id_name: adaptivePolicyId
 doc_category: Organizations
+test_tags: [ORGANIZATION_ADAPTIVE_POLICY]
 test_variables: [test_org]
 attributes:
   - tf_name: organization_id

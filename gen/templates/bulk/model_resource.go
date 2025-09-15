@@ -688,9 +688,9 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyImport(ctx context.Context,
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data Resource{{camelCase .BulkName}}) toDestroyBody(ctx context.Context) string {
+func (data Resource{{camelCase .BulkName}}) addDeleteValues(ctx context.Context) string {
 	body := ""
 	{{- range getBulkItemAttributes .}}
 	{{- if .DestroyValue}}
@@ -700,7 +700,7 @@ func (data Resource{{camelCase .BulkName}}) toDestroyBody(ctx context.Context) s
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues
 
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 

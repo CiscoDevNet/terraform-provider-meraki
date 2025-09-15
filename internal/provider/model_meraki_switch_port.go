@@ -497,8 +497,7 @@ func (data *SwitchPort) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 
 // End of section. //template:end fromBodyUnknowns
 
-func (data SwitchPort) toDestroyBody(ctx context.Context) string {
-	body := ""
+func (data SwitchPort) addDeleteValues(ctx context.Context, body string) string {
 	body, _ = sjson.Set(body, "accessPolicyType", "Open")
 	if !data.AdaptivePolicyGroupId.IsNull() {
 		// This can fail with "Adaptive Policy is not enabled in this network"

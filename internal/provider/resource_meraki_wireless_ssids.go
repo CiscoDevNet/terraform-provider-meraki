@@ -694,27 +694,6 @@ func (r *WirelessSSIDsResource) Update(ctx context.Context, req resource.UpdateR
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 	var actions []meraki.ActionModel
-	// If there are destroy values, we need to compare the plan and state to determine what to delete
-	for _, itemState := range state.Items {
-		found := false
-		for _, item := range plan.Items {
-			if item.Number.ValueString() != itemState.Number.ValueString() {
-				continue
-			}
-
-			// If the item is present in both plan and state, we can skip it
-			found = true
-			break
-		}
-		if !found {
-			// If the item is present in state, but not in plan, we need to delete it
-			actions = append(actions, meraki.ActionModel{
-				Operation: "update",
-				Resource:  plan.getItemPath(itemState.Number.ValueString()),
-				Body:      plan.toDestroyBody(ctx),
-			})
-		}
-	}
 	// Check for new and updated items
 	for i := range plan.Items {
 		found := false
@@ -775,22 +754,6 @@ func (r *WirelessSSIDsResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	actions := make([]meraki.ActionModel, len(state.Items))
-
-	for i, item := range state.Items {
-		actions[i] = meraki.ActionModel{
-			Operation: "update",
-			Resource:  state.getItemPath(item.Number.ValueString()),
-			Body:      state.toDestroyBody(ctx),
-		}
-	}
-	if len(actions) > 0 {
-		res, err := r.client.Batch(state.OrganizationId.ValueString(), actions)
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure objects (Action Batch), got error: %s, %s", err, res.String()))
-			return
-		}
-	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 

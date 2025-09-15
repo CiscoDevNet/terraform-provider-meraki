@@ -29,7 +29,6 @@ attributes:
     type: List
     description: An ordered array of the firewall rules for this SSID (not including the local LAN access rule or the default rule).
     ordered_list: true
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: comment
         type: String

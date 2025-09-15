@@ -31,6 +31,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -115,13 +116,22 @@ func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resou
 		return
 	}
 	orgId := nres.Get("organizationId").String()
-	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork?networkIds[]=%v", orgId, plan.NetworkId.ValueString())
+	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
 	gres, err := r.client.Get(getPath)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve wireless location scanning (GET), got error: %s, %s", err, gres.String()))
 		return
 	}
-	initialState.fromBody(ctx, meraki.Res{Result: gres.Get("items.0")})
+	if len(gres.Get("items").Array()) > 0 {
+		gres.Get("items").ForEach(func(k, v gjson.Result) bool {
+			if plan.NetworkId.ValueString() == v.Get("networkId").String() {
+				gres = meraki.Res{Result: v}
+				return false
+			}
+			return true
+		})
+	}
+	initialState.fromBody(ctx, gres)
 	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessLocationScanning{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
@@ -164,7 +174,7 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 	}
 	orgId := res.Get("organizationId").String()
 
-	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork?networkIds[]=%v", orgId, state.NetworkId.ValueString())
+	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
 	res, err = r.client.Get(getPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
@@ -174,7 +184,15 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 		return
 	}
 
-	res = meraki.Res{Result: res.Get("items.0")}
+	if len(res.Get("items").Array()) > 0 {
+		res.Get("items").ForEach(func(k, v gjson.Result) bool {
+			if state.NetworkId.ValueString() == v.Get("networkId").String() {
+				res = meraki.Res{Result: v}
+				return false
+			}
+			return true
+		})
+	}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
@@ -244,6 +262,7 @@ func (r *WirelessLocationScanningResource) Delete(ctx context.Context, req resou
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 	// If the resource is a singleton, we need to restore the initial state
 	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}

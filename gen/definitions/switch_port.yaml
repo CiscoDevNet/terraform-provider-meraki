@@ -1,4 +1,4 @@
-# Customize toDestroyBody(), Update() and Delete() for bulk resource to conditionally remove adaptive policy (if present) during deleting
+# Customize addDeleteValues(), Update() and Delete() for bulk resource to conditionally remove adaptive policy (if present) during deleting
 name: Switch Port
 spec_endpoint: /devices/{serial}/switch/ports/{portId}
 rest_endpoint: /devices/%v/switch/ports/%v
@@ -33,7 +33,6 @@ attributes:
     description: The type of the access policy of the switch port. Only applicable to access ports. Can be one of `Open`, `Custom access policy`, `MAC allow list` or `Sticky MAC allow list`.
     example: Sticky MAC allow list
     enum_values: [Custom access policy, MAC allow list, Open, Sticky MAC allow list]
-    destroy_value: '"Open"'
   - model_name: adaptivePolicyGroupId
     type: String
     exclude_test: true
@@ -135,7 +134,6 @@ attributes:
     data_path: [profile]
     description: When enabled, override this port`s configuration with a port profile.
     example: "false"
-    destroy_value: "false"
   - model_name: id
     type: String
     data_path: [profile]

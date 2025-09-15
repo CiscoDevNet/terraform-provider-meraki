@@ -1,4 +1,4 @@
-name: Wireless SSID EAP override
+name: Wireless SSID EAP Override
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/eapOverride
 rest_endpoint: /networks/%v/wireless/ssids/%v/eapOverride
 put_create: true
@@ -24,6 +24,7 @@ attributes:
     description: Maximum number of general EAP retries.
     example: "5"
     minimum_test_value: "5"
+    destroy_value: "5"
   - model_name: timeout
     type: Int64
     description: General EAP timeout in seconds.
@@ -62,4 +63,9 @@ test_prerequisites: |-
     name = "My SSID"
     network_id = meraki_network.test.id
     ip_assignment_mode = "Bridge mode"
+    auth_mode = "8021x-radius"
+    radius_servers = [{
+      host = "1.2.3.4"
+      secret = "secret123"
+    }]
   }
