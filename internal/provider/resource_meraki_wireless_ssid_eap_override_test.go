@@ -103,6 +103,11 @@ resource "meraki_wireless_ssid" "test" {
   name = "My SSID"
   network_id = meraki_network.test.id
   ip_assignment_mode = "Bridge mode"
+  auth_mode = "8021x-radius"
+  radius_servers = [{
+    host = "1.2.3.4"
+    secret = "secret123"
+  }]
 }
 `
 

@@ -19,11 +19,13 @@ attributes:
     description: The maximum download limit (integer, in Kbps). null indicates no limit
     example: "1000000"
     minimum_test_value: "10000"
+    destroy_value: nil
   - model_name: limitUp
     type: Int64
     data_path: [bandwidthLimits]
     description: The maximum upload limit (integer, in Kbps). null indicates no limit
     example: "1000000"
+    destroy_value: nil
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

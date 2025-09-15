@@ -368,14 +368,14 @@ func (data *ResourceNetworkMerakiAuthUsers) fromBodyImport(ctx context.Context, 
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data ResourceNetworkMerakiAuthUsers) toDestroyBody(ctx context.Context) string {
+func (data ResourceNetworkMerakiAuthUsers) addDeleteValues(ctx context.Context) string {
 	body := ""
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues
 
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 

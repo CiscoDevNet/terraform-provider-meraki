@@ -21,7 +21,6 @@ attributes:
     type: List
     mandatory: true
     description: Static multicast forwarding rules. Pass an empty array to clear all rules.
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: address
         type: String

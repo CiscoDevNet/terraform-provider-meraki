@@ -948,14 +948,14 @@ func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, re
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data ResourceSwitchAccessPolicies) toDestroyBody(ctx context.Context) string {
+func (data ResourceSwitchAccessPolicies) addDeleteValues(ctx context.Context) string {
 	body := ""
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues
 
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 

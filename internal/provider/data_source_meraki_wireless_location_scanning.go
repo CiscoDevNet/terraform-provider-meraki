@@ -27,6 +27,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -107,14 +108,22 @@ func (d *WirelessLocationScanningDataSource) Read(ctx context.Context, req datas
 	}
 	orgId := res.Get("organizationId").String()
 
-	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork?networkIds[]=%v", orgId, config.NetworkId.ValueString())
+	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
 	res, err = d.client.Get(getPath)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve wireless location scanning (GET), got error: %s, %s", err, res.String()))
 		return
 	}
 
-	res = meraki.Res{Result: res.Get("items.0")}
+	if len(res.Get("items").Array()) > 0 {
+		res.Get("items").ForEach(func(k, v gjson.Result) bool {
+			if config.NetworkId.ValueString() == v.Get("networkId").String() {
+				res = meraki.Res{Result: v}
+				return false
+			}
+			return true
+		})
+	}
 
 	config.fromBody(ctx, res)
 	config.Id = config.NetworkId

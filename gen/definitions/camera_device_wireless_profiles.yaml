@@ -1,3 +1,4 @@
+# Customize Delete() function as resetting profiles to empty string is not supported
 name: Camera Device Wireless Profiles
 spec_endpoint: /devices/{serial}/camera/wirelessProfiles
 rest_endpoint: /devices/%v/camera/wirelessProfiles

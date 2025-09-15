@@ -18,7 +18,6 @@ attributes:
     mandatory: true
     description: An ordered array of the MX L7 firewall rules
     ordered_list: true
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: policy
         type: String

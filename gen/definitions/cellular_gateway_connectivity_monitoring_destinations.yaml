@@ -17,14 +17,6 @@ attributes:
     type: List
     mandatory: true
     description: The list of connectivity monitoring destinations. Is set to Google DNS (8.8.8.8) when the resource is not created and gets reset to it on resource deletion
-    destroy_value: |-
-      []interface{}{
-        map[string]interface{}{
-          "ip": "8.8.8.8",
-          "default": true,
-          "description": "Google",
-        },
-      }
     attributes:
       - model_name: default
         type: Bool

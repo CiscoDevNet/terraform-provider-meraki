@@ -659,7 +659,7 @@ func (r *{{camelCase .BulkName}}Resource) Update(ctx context.Context, req resour
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(itemState.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
-				Body:      plan.toDestroyBody(ctx),
+				Body:      plan.addDeleteValues(ctx),
 			})
 			{{- else if not .NoDelete}}
 			actions = append(actions, meraki.ActionModel{
@@ -770,7 +770,7 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  state.getItemPath(item.{{toGoName ((getId .Attributes).TfName)}}.ValueString()),
-			Body:      state.toDestroyBody(ctx),
+			Body:      state.addDeleteValues(ctx),
 		}
 	}
 	if len(actions) > 0 {

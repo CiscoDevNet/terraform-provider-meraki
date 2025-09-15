@@ -18,7 +18,6 @@ attributes:
     type: List
     mandatory: true
     description: Sets a list of specific SNORT signatures to allow
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: message
         type: String
