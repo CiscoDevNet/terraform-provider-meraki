@@ -1,3 +1,4 @@
+# Customize Delete() to implement custom logic
 name: Appliance Traffic Shaping Uplink Selection
 spec_endpoint: /networks/{networkId}/appliance/trafficShaping/uplinkSelection
 rest_endpoint: /networks/%v/appliance/trafficShaping/uplinkSelection
