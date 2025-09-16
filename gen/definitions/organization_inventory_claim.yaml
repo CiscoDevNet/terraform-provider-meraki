@@ -1,3 +1,4 @@
+# Customize Read(), Update(), Delete() to support procedural endpoints
 name: Organization Inventory Claim
 spec_endpoint: /organizations/{organizationId}/inventory/claim
 rest_endpoint: /organizations/%v/inventory/claim

@@ -1,3 +1,4 @@
+# Customize Read(), Update(), Delete() to support procedural endpoints
 name: Network Device Claim
 spec_endpoint: /networks/{networkId}/devices/claim
 rest_endpoint: /networks/%v/devices/claim

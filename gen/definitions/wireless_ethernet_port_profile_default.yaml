@@ -1,3 +1,4 @@
+# Customize Read(), Update(), Delete() to support custom endpoints
 name: Wireless Ethernet Port Profile Default
 spec_endpoint: /networks/{networkId}/wireless/ethernet/ports/profiles/setDefault
 rest_endpoint: /networks/%v/wireless/ethernet/ports/profiles/setDefault

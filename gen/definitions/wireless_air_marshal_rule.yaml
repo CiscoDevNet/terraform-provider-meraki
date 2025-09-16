@@ -1,3 +1,4 @@
+# Customize Read() to support org level endpoint
 name: Wireless Air Marshal Rule
 spec_endpoint: /networks/{networkId}/wireless/airMarshal/rules/{ruleId}
 rest_endpoint: /networks/%v/wireless/airMarshal/rules

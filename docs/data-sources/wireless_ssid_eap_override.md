@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_ssid_eap_override Data Source - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This data source can read the Wireless SSID EAP override configuration.
+  This data source can read the Wireless SSID EAP Override configuration.
 ---
 
 # meraki_wireless_ssid_eap_override (Data Source)
 
-This data source can read the `Wireless SSID EAP override` configuration.
+This data source can read the `Wireless SSID EAP Override` configuration.
 
 ## Example Usage
 

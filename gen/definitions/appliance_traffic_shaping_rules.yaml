@@ -1,3 +1,4 @@
+# Customize toBody(), fromBody(), fromBodyPartial() to handle application and applicationCategory types
 name: Appliance Traffic Shaping Rules
 spec_endpoint: /networks/{networkId}/appliance/trafficShaping/rules
 rest_endpoint: /networks/%v/appliance/trafficShaping/rules

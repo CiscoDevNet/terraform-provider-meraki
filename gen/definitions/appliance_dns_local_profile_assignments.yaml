@@ -1,3 +1,4 @@
+# Customize Read(), Update(), Delete() to support custom endpoint paths
 name: Appliance DNS Local Profile Assignments
 spec_endpoint: /organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkCreate
 rest_endpoint: /organizations/%v/appliance/dns/local/profiles/assignments/bulkCreate

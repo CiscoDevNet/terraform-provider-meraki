@@ -1,3 +1,4 @@
+# Customize toBody(), fromBody(), fromBodyPartial() to handle application and applicationCategory types
 name: Wireless SSID L7 Firewall Rules
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/firewall/l7FirewallRules
 rest_endpoint: /networks/%v/wireless/ssids/%v/firewall/l7FirewallRules

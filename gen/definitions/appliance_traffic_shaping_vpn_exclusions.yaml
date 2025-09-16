@@ -1,3 +1,4 @@
+# Customize Create(), Read() to support org level endpoint
 name: Appliance Traffic Shaping VPN Exclusions
 spec_endpoint: /networks/{networkId}/appliance/trafficShaping/vpnExclusions
 rest_endpoint: /networks/%v/appliance/trafficShaping/vpnExclusions
