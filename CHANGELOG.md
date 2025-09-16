@@ -1,4 +1,4 @@
-## 1.7.1 (unreleased)
+## 1.7.1
 
 - Fix issue with `is_indoor_default` and `is_outdoor_default` attributes of `meraki_wireless_rf_profile` not being applied correctly
 
