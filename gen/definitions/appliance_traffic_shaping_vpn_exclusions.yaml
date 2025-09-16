@@ -21,9 +21,9 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: custom
     type: List
+    write_empty_list: true
     description: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
     ordered_list: true
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: destination
         type: String
@@ -41,8 +41,8 @@ attributes:
         enum_values: [any, dns, icmp, tcp, udp]
   - model_name: majorApplications
     type: List
+    write_empty_list: true
     description: Major Application based VPN exclusion rules. Pass an empty array to clear existing rules.
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: id
         type: String

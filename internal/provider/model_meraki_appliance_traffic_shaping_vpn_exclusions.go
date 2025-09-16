@@ -67,7 +67,7 @@ func (data ApplianceTrafficShapingVPNExclusions) getPath() string {
 
 func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, state ApplianceTrafficShapingVPNExclusions) string {
 	body := ""
-	if len(data.Custom) > 0 {
+	{
 		body, _ = sjson.Set(body, "custom", []interface{}{})
 		for _, item := range data.Custom {
 			itemBody := ""
@@ -83,7 +83,7 @@ func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, sta
 			body, _ = sjson.SetRaw(body, "custom.-1", itemBody)
 		}
 	}
-	if len(data.MajorApplications) > 0 {
+	{
 		body, _ = sjson.Set(body, "majorApplications", []interface{}{})
 		for _, item := range data.MajorApplications {
 			itemBody := ""
@@ -248,13 +248,10 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBodyUnknowns(ctx context.C
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data ApplianceTrafficShapingVPNExclusions) toDestroyBody(ctx context.Context) string {
-	body := ""
-	body, _ = sjson.Set(body, "custom", []interface{}{})
-	body, _ = sjson.Set(body, "majorApplications", []interface{}{})
+func (data ApplianceTrafficShapingVPNExclusions) addDeleteValues(ctx context.Context, body string) string {
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues

@@ -56,9 +56,10 @@ func (data WirelessSSIDL7FirewallRules) getPath() string {
 }
 
 // End of section. //template:end getPath
+
 func (data WirelessSSIDL7FirewallRules) toBody(ctx context.Context, state WirelessSSIDL7FirewallRules) string {
 	body := ""
-	if len(data.Rules) > 0 {
+	{
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""
@@ -167,12 +168,10 @@ func (data *WirelessSSIDL7FirewallRules) fromBodyUnknowns(ctx context.Context, r
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data WirelessSSIDL7FirewallRules) toDestroyBody(ctx context.Context) string {
-	body := ""
-	body, _ = sjson.Set(body, "rules", []interface{}{})
+func (data WirelessSSIDL7FirewallRules) addDeleteValues(ctx context.Context, body string) string {
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues

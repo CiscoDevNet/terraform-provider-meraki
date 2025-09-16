@@ -104,7 +104,7 @@ func (r *CameraDeviceWirelessProfilesResource) Configure(_ context.Context, req 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
 func (r *CameraDeviceWirelessProfilesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan CameraDeviceWirelessProfiles
+	var plan, initialState CameraDeviceWirelessProfiles
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -113,6 +113,14 @@ func (r *CameraDeviceWirelessProfilesResource) Create(ctx context.Context, req r
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	// If the resource is a singleton, we need to read and save the initial state
+	gres, err := r.client.Get(plan.getPath())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+		return
+	}
+	initialState.fromBody(ctx, gres)
+	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, CameraDeviceWirelessProfiles{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
 	body := plan.toBody(ctx, CameraDeviceWirelessProfiles{})
@@ -211,8 +219,6 @@ func (r *CameraDeviceWirelessProfilesResource) Update(ctx context.Context, req r
 
 // End of section. //template:end update
 
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
-
 func (r *CameraDeviceWirelessProfilesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state CameraDeviceWirelessProfiles
 
@@ -228,8 +234,6 @@ func (r *CameraDeviceWirelessProfilesResource) Delete(ctx context.Context, req r
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *CameraDeviceWirelessProfilesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

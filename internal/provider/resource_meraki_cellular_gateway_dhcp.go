@@ -106,7 +106,7 @@ func (r *CellularGatewayDHCPResource) Configure(_ context.Context, req resource.
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
 func (r *CellularGatewayDHCPResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan CellularGatewayDHCP
+	var plan, initialState CellularGatewayDHCP
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -115,6 +115,14 @@ func (r *CellularGatewayDHCPResource) Create(ctx context.Context, req resource.C
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	// If the resource is a singleton, we need to read and save the initial state
+	gres, err := r.client.Get(plan.getPath())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+		return
+	}
+	initialState.fromBody(ctx, gres)
+	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, CellularGatewayDHCP{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
 	body := plan.toBody(ctx, CellularGatewayDHCP{})
@@ -225,6 +233,18 @@ func (r *CellularGatewayDHCPResource) Delete(ctx context.Context, req resource.D
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+	// If the resource is a singleton, we need to restore the initial state
+	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	res, err := r.client.Put(state.getPath(), jsonInitialState)
+	if err != nil {
+		resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 

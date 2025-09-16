@@ -278,8 +278,6 @@ func (r *ApplianceVLANDHCPResource) Update(ctx context.Context, req resource.Upd
 	resp.Diagnostics.Append(diags...)
 }
 
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
-
 func (r *ApplianceVLANDHCPResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state ApplianceVLANDHCP
 
@@ -295,8 +293,6 @@ func (r *ApplianceVLANDHCPResource) Delete(ctx context.Context, req resource.Del
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 // End of section. //template:end import

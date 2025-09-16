@@ -114,7 +114,7 @@ func (data ApplianceTrafficShapingUplinkSelection) toBody(ctx context.Context, s
 	if !data.FailoverAndFailbackImmediateEnabled.IsNull() {
 		body, _ = sjson.Set(body, "failoverAndFailback.immediate.enabled", data.FailoverAndFailbackImmediateEnabled.ValueBool())
 	}
-	if len(data.VpnTrafficUplinkPreferences) > 0 {
+	{
 		body, _ = sjson.Set(body, "vpnTrafficUplinkPreferences", []interface{}{})
 		for _, item := range data.VpnTrafficUplinkPreferences {
 			itemBody := ""
@@ -718,12 +718,10 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyUnknowns(ctx context
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data ApplianceTrafficShapingUplinkSelection) toDestroyBody(ctx context.Context) string {
-	body := ""
-	body, _ = sjson.Set(body, "vpnTrafficUplinkPreferences", []interface{}{})
+func (data ApplianceTrafficShapingUplinkSelection) addDeleteValues(ctx context.Context, body string) string {
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues

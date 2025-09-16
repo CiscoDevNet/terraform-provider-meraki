@@ -365,7 +365,7 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(itemState.PortId.ValueString()),
-				Body:      itemState.toDestroyBody(ctx),
+				Body:      itemState.addDeleteValues(ctx),
 			})
 		}
 	}
@@ -431,7 +431,7 @@ func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteReq
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  state.getItemPath(item.PortId.ValueString()),
-			Body:      item.toDestroyBody(ctx),
+			Body:      item.addDeleteValues(ctx),
 		}
 	}
 	if len(actions) > 0 {

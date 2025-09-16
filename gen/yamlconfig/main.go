@@ -96,6 +96,7 @@ type YamlConfigAttribute struct {
 	Mandatory          bool                  `yaml:"mandatory,omitempty"`
 	WriteOnly          bool                  `yaml:"write_only,omitempty"`
 	WriteChangesOnly   bool                  `yaml:"write_changes_only,omitempty"`
+	WriteEmptyList     bool                  `yaml:"write_empty_list,omitempty"`
 	ExcludeTest        bool                  `yaml:"exclude_test,omitempty"`
 	ExcludeExample     bool                  `yaml:"exclude_example,omitempty"`
 	AllowImportChanges bool                  `yaml:"allow_import_changes,omitempty"`
@@ -139,6 +140,7 @@ type YamlConfigAttributeP struct {
 	Mandatory          *bool                   `yaml:"mandatory,omitempty"`
 	WriteOnly          *bool                   `yaml:"write_only,omitempty"`
 	WriteChangesOnly   *bool                   `yaml:"write_changes_only,omitempty"`
+	WriteEmptyList     *bool                   `yaml:"write_empty_list,omitempty"`
 	ExcludeTest        *bool                   `yaml:"exclude_test,omitempty"`
 	ExcludeExample     *bool                   `yaml:"exclude_example,omitempty"`
 	AllowImportChanges *bool                   `yaml:"allow_import_changes,omitempty"`
@@ -534,6 +536,11 @@ func GetBulkItemIdTfName(config YamlConfig) string {
 	return "id"
 }
 
+// IsSingleton returns true if the resource is a singleton
+func IsSingleton(config YamlConfig) bool {
+	return config.PutCreate && config.NoDelete && !config.NoRead
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":                ToGoName,
@@ -571,6 +578,7 @@ var Functions = template.FuncMap{
 	"hasOrganizationId":       HasOrganizationId,
 	"getBulkItemId":           GetBulkItemId,
 	"getBulkItemIdTfName":     GetBulkItemIdTfName,
+	"isSingleton":             IsSingleton,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
@@ -882,6 +890,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.WriteChangesOnly != nil {
 		new.WriteChangesOnly = existing.WriteChangesOnly
+	}
+	if existing.WriteEmptyList != nil {
+		new.WriteEmptyList = existing.WriteEmptyList
 	}
 	if existing.ExcludeTest != nil {
 		new.ExcludeTest = existing.ExcludeTest

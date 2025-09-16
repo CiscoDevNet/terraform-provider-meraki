@@ -411,11 +411,10 @@ func (data *ApplianceVLANDHCP) fromBodyUnknowns(ctx context.Context, res meraki.
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data ApplianceVLANDHCP) toDestroyBody(ctx context.Context) string {
-	body := ""
+func (data ApplianceVLANDHCP) addDeleteValues(ctx context.Context, body string) string {
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues

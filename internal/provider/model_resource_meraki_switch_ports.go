@@ -763,7 +763,7 @@ func (data *ResourceSwitchPorts) fromBodyImport(ctx context.Context, res meraki.
 
 // End of section. //template:end fromBodyImport
 
-func (data ResourceSwitchPortsItems) toDestroyBody(ctx context.Context) string {
+func (data ResourceSwitchPortsItems) addDeleteValues(ctx context.Context) string {
 	body := ""
 	body, _ = sjson.Set(body, "accessPolicyType", "Open")
 	if !data.AdaptivePolicyGroupId.IsNull() {

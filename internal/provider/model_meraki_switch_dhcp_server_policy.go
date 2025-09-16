@@ -158,11 +158,10 @@ func (data *SwitchDHCPServerPolicy) fromBodyUnknowns(ctx context.Context, res me
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
-func (data SwitchDHCPServerPolicy) toDestroyBody(ctx context.Context) string {
-	body := ""
+func (data SwitchDHCPServerPolicy) addDeleteValues(ctx context.Context, body string) string {
 	return body
 }
 
-// End of section. //template:end toDestroyBody
+// End of section. //template:end addDeleteValues

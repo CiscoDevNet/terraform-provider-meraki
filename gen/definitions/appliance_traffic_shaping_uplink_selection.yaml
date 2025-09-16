@@ -35,10 +35,10 @@ attributes:
     example: "true"
   - model_name: vpnTrafficUplinkPreferences
     type: List
+    write_empty_list: true
     exclude_test: true
     description: Array of uplink preference rules for VPN traffic
     ordered_list: true
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: failOverCriterion
         type: String

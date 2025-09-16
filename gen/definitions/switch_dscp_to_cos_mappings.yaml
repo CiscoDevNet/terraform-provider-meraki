@@ -17,7 +17,6 @@ attributes:
     type: List
     mandatory: true
     description: An array of DSCP to CoS mappings. An empty array will reset the mappings to default.
-    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: cos
         type: Int64
