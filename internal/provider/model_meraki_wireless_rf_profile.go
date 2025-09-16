@@ -459,6 +459,12 @@ func (data WirelessRFProfile) toBody(ctx context.Context, state WirelessRFProfil
 		data.TwoFourGhzSettingsValidAutoChannels.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "twoFourGhzSettings.validAutoChannels", values)
 	}
+	if !data.IsIndoorDefault.IsNull() {
+		body, _ = sjson.Set(body, "isIndoorDefault", data.IsIndoorDefault.ValueBool())
+	}
+	if !data.IsOutdoorDefault.IsNull() {
+		body, _ = sjson.Set(body, "isOutdoorDefault", data.IsOutdoorDefault.ValueBool())
+	}
 	return body
 }
 
