@@ -1,3 +1,4 @@
+# Customize toBody() to always include perSsidSettings in payload
 name: Wireless RF Profile
 spec_endpoint: /networks/{networkId}/wireless/rfProfiles/{rfProfileId}
 rest_endpoint: /networks/%v/wireless/rfProfiles
