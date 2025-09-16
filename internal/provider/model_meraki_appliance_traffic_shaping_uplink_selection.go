@@ -114,7 +114,7 @@ func (data ApplianceTrafficShapingUplinkSelection) toBody(ctx context.Context, s
 	if !data.FailoverAndFailbackImmediateEnabled.IsNull() {
 		body, _ = sjson.Set(body, "failoverAndFailback.immediate.enabled", data.FailoverAndFailbackImmediateEnabled.ValueBool())
 	}
-	if data.VpnTrafficUplinkPreferences != nil {
+	{
 		body, _ = sjson.Set(body, "vpnTrafficUplinkPreferences", []interface{}{})
 		for _, item := range data.VpnTrafficUplinkPreferences {
 			itemBody := ""
@@ -185,7 +185,7 @@ func (data ApplianceTrafficShapingUplinkSelection) toBody(ctx context.Context, s
 			body, _ = sjson.SetRaw(body, "vpnTrafficUplinkPreferences.-1", itemBody)
 		}
 	}
-	if data.WanTrafficUplinkPreferences != nil {
+	if len(data.WanTrafficUplinkPreferences) > 0 {
 		body, _ = sjson.Set(body, "wanTrafficUplinkPreferences", []interface{}{})
 		for _, item := range data.WanTrafficUplinkPreferences {
 			itemBody := ""
