@@ -538,7 +538,7 @@ func GetBulkItemIdTfName(config YamlConfig) string {
 
 // IsSingleton returns true if the resource is a singleton
 func IsSingleton(config YamlConfig) bool {
-	return config.PutCreate && config.NoDelete
+	return config.PutCreate && config.NoDelete && !config.NoRead
 }
 
 // Map of templating functions

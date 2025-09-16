@@ -278,8 +278,6 @@ func (r *ApplianceVLANDHCPResource) Update(ctx context.Context, req resource.Upd
 	resp.Diagnostics.Append(diags...)
 }
 
-// Section below is generated&owned by "gen/generator.go". //template:begin delete
-
 func (r *ApplianceVLANDHCPResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state ApplianceVLANDHCP
 
@@ -290,25 +288,11 @@ func (r *ApplianceVLANDHCPResource) Delete(ctx context.Context, req resource.Del
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	// If the resource is a singleton, we need to restore the initial state
-	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
-	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
-	}
-
-	res, err := r.client.Put(state.getPath(), jsonInitialState)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
-		return
-	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 
 	resp.State.RemoveResource(ctx)
 }
-
-// End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 // End of section. //template:end import

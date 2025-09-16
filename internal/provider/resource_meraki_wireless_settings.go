@@ -261,7 +261,7 @@ func (r *WirelessSettingsResource) Delete(ctx context.Context, req resource.Dele
 
 	res, err := r.client.Put(state.getPath(), jsonInitialState)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
 	}
 
