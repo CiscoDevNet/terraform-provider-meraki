@@ -1,3 +1,4 @@
+# Customize Update(), Delete()
 name: Switch Ports
 bulk_name: Switch Ports
 spec_endpoint: /devices/{serial}/switch/ports

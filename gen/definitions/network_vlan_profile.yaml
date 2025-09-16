@@ -1,3 +1,4 @@
+# Customize Create(), Delete() to support default VLAN profile
 name: Network VLAN Profile
 spec_endpoint: /networks/{networkId}/vlanProfiles/{iname}
 rest_endpoint: /networks/%v/vlanProfiles
