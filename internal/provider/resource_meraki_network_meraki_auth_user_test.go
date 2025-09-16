@@ -37,7 +37,7 @@ func TestAccMerakiNetworkMerakiAuthUser(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "account_type", "802.1X"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "email", "miles@meraki.com"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "email", "miles321@meraki.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "is_admin", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "name", "Miles Meraki"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "authorizations.0.expires_at", "2018-03-13T00:00:00.090210Z"))
@@ -114,7 +114,7 @@ resource "meraki_wireless_ssid" "test" {
 func testAccMerakiNetworkMerakiAuthUserConfig_minimum() string {
 	config := `resource "meraki_network_meraki_auth_user" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  email = "miles@meraki.com"` + "\n"
+	config += `  email = "miles321@meraki.com"` + "\n"
 	config += `  name = "Miles Meraki"` + "\n"
 	config += `  password = "Cisco123456&"` + "\n"
 	config += `  authorizations = [{` + "\n"
@@ -132,7 +132,7 @@ func testAccMerakiNetworkMerakiAuthUserConfig_all() string {
 	config := `resource "meraki_network_meraki_auth_user" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  account_type = "802.1X"` + "\n"
-	config += `  email = "miles@meraki.com"` + "\n"
+	config += `  email = "miles321@meraki.com"` + "\n"
 	config += `  email_password_to_user = false` + "\n"
 	config += `  is_admin = false` + "\n"
 	config += `  name = "Miles Meraki"` + "\n"
