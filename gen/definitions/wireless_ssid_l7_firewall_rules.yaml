@@ -1,3 +1,4 @@
+# Customize toBody(), fromBody(), fromBodyPartial() to handle application and applicationCategory types
 name: Wireless SSID L7 Firewall Rules
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/firewall/l7FirewallRules
 rest_endpoint: /networks/%v/wireless/ssids/%v/firewall/l7FirewallRules
@@ -22,6 +23,7 @@ attributes:
     test_value: meraki_wireless_ssid.test.id
   - model_name: rules
     type: List
+    write_empty_list: true
     description: An array of L7 firewall rules for this SSID. Rules will get applied in the same order user has specified in request. Empty array will clear the L7 firewall rule configuration.
     ordered_list: true
     attributes:

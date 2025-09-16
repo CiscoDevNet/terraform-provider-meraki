@@ -67,6 +67,7 @@ func (data WirelessSSIDTrafficShapingRules) getPath() string {
 }
 
 // End of section. //template:end getPath
+
 func (data WirelessSSIDTrafficShapingRules) toBody(ctx context.Context, state WirelessSSIDTrafficShapingRules) string {
 	body := ""
 	if !data.DefaultRulesEnabled.IsNull() {
@@ -75,7 +76,7 @@ func (data WirelessSSIDTrafficShapingRules) toBody(ctx context.Context, state Wi
 	if !data.TrafficShapingEnabled.IsNull() {
 		body, _ = sjson.Set(body, "trafficShapingEnabled", data.TrafficShapingEnabled.ValueBool())
 	}
-	if len(data.Rules) > 0 {
+	{
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""

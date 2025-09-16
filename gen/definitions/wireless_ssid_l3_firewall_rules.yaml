@@ -27,6 +27,7 @@ attributes:
     minimum_test_value: "false"
   - model_name: rules
     type: List
+    write_empty_list: true
     description: An ordered array of the firewall rules for this SSID (not including the local LAN access rule or the default rule).
     ordered_list: true
     attributes:
