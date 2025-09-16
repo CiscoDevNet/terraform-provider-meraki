@@ -463,6 +463,7 @@ func (data *ApplianceSDWANInternetPolicies) fromBodyUnknowns(ctx context.Context
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data ApplianceSDWANInternetPolicies) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "wanTrafficUplinkPreferences", []interface{}{})
 	return body
 }
 
