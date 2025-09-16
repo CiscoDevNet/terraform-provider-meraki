@@ -61,9 +61,9 @@ attributes:
         tf_name: ip_version
         type: String
         mandatory: true
-        description: The IP version (must be `ipv4` or `ipv6`)
+        description: IP version to which this rule applies (must be one of `both`, `ipv4` or `ipv6`). Defaults to `both` if not specified.
         example: ipv4
-        enum_values: [ipv4, ipv6]
+        enum_values: [both, ipv4, ipv6]
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

@@ -77,6 +77,7 @@ Optional:
 - `dot3az_enabled` (Boolean) The Energy Efficient Ethernet status of the switch port.
 - `enabled` (Boolean) The status of the switch port.
 - `flexible_stacking_enabled` (Boolean) For supported switches (e.g. MS420/MS425), whether or not the port has flexible stacking enabled.
+- `high_speed_enabled` (Boolean) For C9500-32QC, whether or not the port is enabled for high speed.
 - `isolation_enabled` (Boolean) The isolation status of the switch port.
 - `link_negotiation` (String) The link speed for the switch port.
 - `mac_allow_list` (Set of String) Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.

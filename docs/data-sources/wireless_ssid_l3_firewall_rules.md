@@ -41,6 +41,6 @@ Read-Only:
 - `comment` (String) Description of the rule (optional)
 - `dest_cidr` (String) Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `Any`
 - `dest_port` (String) Comma-separated list of destination port(s) (integer in the range 1-65535), or `any`
-- `ip_version` (String) The IP version (must be `ipv4` or `ipv6`)
+- `ip_version` (String) IP version to which this rule applies (must be one of `both`, `ipv4` or `ipv6`). Defaults to `both` if not specified.
 - `policy` (String) `allow` or `deny` traffic specified by this rule
 - `protocol` (String) The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)

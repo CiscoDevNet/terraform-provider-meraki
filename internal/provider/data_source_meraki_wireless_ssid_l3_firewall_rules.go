@@ -99,7 +99,7 @@ func (d *WirelessSSIDL3FirewallRulesDataSource) Schema(ctx context.Context, req 
 							Computed:            true,
 						},
 						"ip_version": schema.StringAttribute{
-							MarkdownDescription: "The IP version (must be `ipv4` or `ipv6`)",
+							MarkdownDescription: "IP version to which this rule applies (must be one of `both`, `ipv4` or `ipv6`). Defaults to `both` if not specified.",
 							Computed:            true,
 						},
 					},

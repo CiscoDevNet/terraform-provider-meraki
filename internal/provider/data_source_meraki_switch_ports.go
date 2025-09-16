@@ -171,6 +171,10 @@ func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.Schem
 							MarkdownDescription: "The Energy Efficient Ethernet status of the switch port.",
 							Computed:            true,
 						},
+						"high_speed_enabled": schema.BoolAttribute{
+							MarkdownDescription: "For C9500-32QC, whether or not the port is enabled for high speed.",
+							Computed:            true,
+						},
 						"mirror_mode": schema.StringAttribute{
 							MarkdownDescription: "The port mirror mode. Can be one of (`Destination port`, `Source port` or `Not mirroring traffic`).",
 							Computed:            true,

@@ -128,6 +128,11 @@ attributes:
     data_path: [dot3az]
     description: The Energy Efficient Ethernet status of the switch port.
     example: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [highSpeed]
+    description: For C9500-32QC, whether or not the port is enabled for high speed.
+    example: "false"
   - model_name: mode
     type: String
     data_path: [mirror]
