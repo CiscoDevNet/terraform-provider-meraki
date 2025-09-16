@@ -1,7 +1,7 @@
 resource "meraki_network_meraki_auth_user" "example" {
   network_id             = "L_123456"
   account_type           = "802.1X"
-  email                  = "miles@meraki.com"
+  email                  = "miles321@meraki.com"
   email_password_to_user = false
   is_admin               = false
   name                   = "Miles Meraki"
