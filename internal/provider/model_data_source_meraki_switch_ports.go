@@ -65,6 +65,7 @@ type DataSourceSwitchPortsItems struct {
 	AdaptivePolicyGroupId                  types.String `tfsdk:"adaptive_policy_group_id"`
 	AdaptivePolicyGroupName                types.String `tfsdk:"adaptive_policy_group_name"`
 	Dot3azEnabled                          types.Bool   `tfsdk:"dot3az_enabled"`
+	HighSpeedEnabled                       types.Bool   `tfsdk:"high_speed_enabled"`
 	MirrorMode                             types.String `tfsdk:"mirror_mode"`
 	ModuleModel                            types.String `tfsdk:"module_model"`
 	ProfileEnabled                         types.Bool   `tfsdk:"profile_enabled"`
@@ -222,6 +223,11 @@ func (data *DataSourceSwitchPorts) fromBody(ctx context.Context, res meraki.Res)
 			data.Dot3azEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.Dot3azEnabled = types.BoolNull()
+		}
+		if value := res.Get("highSpeed.enabled"); value.Exists() && value.Value() != nil {
+			data.HighSpeedEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.HighSpeedEnabled = types.BoolNull()
 		}
 		if value := res.Get("mirror.mode"); value.Exists() && value.Value() != nil {
 			data.MirrorMode = types.StringValue(value.String())

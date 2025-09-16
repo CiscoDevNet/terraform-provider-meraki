@@ -60,6 +60,7 @@ type SwitchPort struct {
 	Vlan                    types.Int64  `tfsdk:"vlan"`
 	VoiceVlan               types.Int64  `tfsdk:"voice_vlan"`
 	Dot3azEnabled           types.Bool   `tfsdk:"dot3az_enabled"`
+	HighSpeedEnabled        types.Bool   `tfsdk:"high_speed_enabled"`
 	ProfileEnabled          types.Bool   `tfsdk:"profile_enabled"`
 	ProfileId               types.String `tfsdk:"profile_id"`
 	ProfileIname            types.String `tfsdk:"profile_iname"`
@@ -150,6 +151,9 @@ func (data SwitchPort) toBody(ctx context.Context, state SwitchPort) string {
 	}
 	if !data.Dot3azEnabled.IsNull() {
 		body, _ = sjson.Set(body, "dot3az.enabled", data.Dot3azEnabled.ValueBool())
+	}
+	if !data.HighSpeedEnabled.IsNull() {
+		body, _ = sjson.Set(body, "highSpeed.enabled", data.HighSpeedEnabled.ValueBool())
 	}
 	if !data.ProfileEnabled.IsNull() {
 		body, _ = sjson.Set(body, "profile.enabled", data.ProfileEnabled.ValueBool())
@@ -297,6 +301,11 @@ func (data *SwitchPort) fromBody(ctx context.Context, res meraki.Res) {
 		data.Dot3azEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.Dot3azEnabled = types.BoolNull()
+	}
+	if value := res.Get("highSpeed.enabled"); value.Exists() && value.Value() != nil {
+		data.HighSpeedEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.HighSpeedEnabled = types.BoolNull()
 	}
 	if value := res.Get("profile.enabled"); value.Exists() && value.Value() != nil {
 		data.ProfileEnabled = types.BoolValue(value.Bool())
@@ -453,6 +462,11 @@ func (data *SwitchPort) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.Dot3azEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.Dot3azEnabled = types.BoolNull()
+	}
+	if value := res.Get("highSpeed.enabled"); value.Exists() && !data.HighSpeedEnabled.IsNull() {
+		data.HighSpeedEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.HighSpeedEnabled = types.BoolNull()
 	}
 	if value := res.Get("profile.enabled"); value.Exists() && !data.ProfileEnabled.IsNull() {
 		data.ProfileEnabled = types.BoolValue(value.Bool())

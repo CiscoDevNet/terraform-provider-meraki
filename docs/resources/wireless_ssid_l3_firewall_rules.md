@@ -53,8 +53,8 @@ resource "meraki_wireless_ssid_l3_firewall_rules" "example" {
 Required:
 
 - `dest_cidr` (String) Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `Any`
-- `ip_version` (String) The IP version (must be `ipv4` or `ipv6`)
-  - Choices: `ipv4`, `ipv6`
+- `ip_version` (String) IP version to which this rule applies (must be one of `both`, `ipv4` or `ipv6`). Defaults to `both` if not specified.
+  - Choices: `both`, `ipv4`, `ipv6`
 - `policy` (String) `allow` or `deny` traffic specified by this rule
   - Choices: `allow`, `deny`
 - `protocol` (String) The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)

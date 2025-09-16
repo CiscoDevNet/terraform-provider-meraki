@@ -162,6 +162,10 @@ func (d *SwitchPortDataSource) Schema(ctx context.Context, req datasource.Schema
 				MarkdownDescription: "The Energy Efficient Ethernet status of the switch port.",
 				Computed:            true,
 			},
+			"high_speed_enabled": schema.BoolAttribute{
+				MarkdownDescription: "For C9500-32QC, whether or not the port is enabled for high speed.",
+				Computed:            true,
+			},
 			"profile_enabled": schema.BoolAttribute{
 				MarkdownDescription: "When enabled, override this port`s configuration with a port profile.",
 				Computed:            true,

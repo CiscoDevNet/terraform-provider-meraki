@@ -120,10 +120,10 @@ func (r *WirelessSSIDL3FirewallRulesResource) Schema(ctx context.Context, req re
 							},
 						},
 						"ip_version": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The IP version (must be `ipv4` or `ipv6`)").AddStringEnumDescription("ipv4", "ipv6").String,
+							MarkdownDescription: helpers.NewAttributeDescription("IP version to which this rule applies (must be one of `both`, `ipv4` or `ipv6`). Defaults to `both` if not specified.").AddStringEnumDescription("both", "ipv4", "ipv6").String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("ipv4", "ipv6"),
+								stringvalidator.OneOf("both", "ipv4", "ipv6"),
 							},
 						},
 					},

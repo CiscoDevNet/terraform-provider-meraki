@@ -37,6 +37,7 @@ data "meraki_switch_port" "example" {
 - `dot3az_enabled` (Boolean) The Energy Efficient Ethernet status of the switch port.
 - `enabled` (Boolean) The status of the switch port.
 - `flexible_stacking_enabled` (Boolean) For supported switches (e.g. MS420/MS425), whether or not the port has flexible stacking enabled.
+- `high_speed_enabled` (Boolean) For C9500-32QC, whether or not the port is enabled for high speed.
 - `id` (String) The id of the object
 - `isolation_enabled` (Boolean) The isolation status of the switch port.
 - `link_negotiation` (String) The link speed for the switch port.
