@@ -38,9 +38,17 @@ def update_useragent(version):
         # Buscar y reemplazar la línea UserAgent
         updated = False
         for i, line in enumerate(lines):
-            if 'UserAgent' in line:
+            if 'UserAgent' in line and '=' in line:
+                # Reemplazar toda la línea con el nuevo UserAgent
                 lines[i] = f'\tc.UserAgent = "MerakiTerraform/{version} Cisco"\n'
                 updated = True
+                # Eliminar líneas adicionales que puedan contener restos del UserAgent anterior
+                j = i + 1
+                while j < len(lines) and ('Cisco' in lines[j] or lines[j].strip() == ''):
+                    if 'Cisco' in lines[j]:
+                        lines.pop(j)
+                    else:
+                        j += 1
                 break
         
         if not updated:
