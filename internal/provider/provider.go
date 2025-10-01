@@ -280,6 +280,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		return
 	}
 
+	c.UserAgent = "MerakiTerraform/1.8.0 Cisco"
 	data := MerakiProviderData{Client: &c}
 	resp.DataSourceData = &data
 	resp.ResourceData = &data
