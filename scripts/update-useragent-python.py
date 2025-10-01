@@ -27,48 +27,59 @@ def update_useragent(version):
     provider_file = 'internal/provider/provider.go'
     
     try:
-        # Leer el archivo
+        # Leer el archivo completo
         with open(provider_file, 'r') as f:
-            lines = f.readlines()
+            content = f.read()
         
         # Crear backup
         with open(provider_file + '.backup', 'w') as f:
-            f.writelines(lines)
+            f.write(content)
         
-        # Buscar y reemplazar la línea UserAgent
-        updated = False
-        for i, line in enumerate(lines):
-            if 'UserAgent' in line and '=' in line:
-                # Reemplazar toda la línea con el nuevo UserAgent
-                lines[i] = f'\tc.UserAgent = "MerakiTerraform/{version} Cisco"\n'
-                updated = True
-                # Eliminar líneas adicionales que puedan contener restos del UserAgent anterior
-                j = i + 1
-                while j < len(lines) and ('Cisco' in lines[j] or lines[j].strip() == ''):
-                    if 'Cisco' in lines[j]:
-                        lines.pop(j)
-                    else:
-                        j += 1
-                break
+        # Buscar y reemplazar cualquier línea que contenga UserAgent
+        import re
         
-        if not updated:
-            # Si no se encontró UserAgent, insertar antes de "data := MerakiProviderData"
-            for i, line in enumerate(lines):
-                if 'data := MerakiProviderData' in line:
-                    lines.insert(i, f'\tc.UserAgent = "MerakiTerraform/{version} Cisco"\n')
-                    updated = True
-                    break
+        # Patrón para encontrar líneas con UserAgent (puede estar dividido en múltiples líneas)
+        useragent_pattern = r'c\.UserAgent\s*=\s*"[^"]*"[^"]*"[^"]*"'
         
-        if updated:
-            # Escribir el archivo actualizado
-            with open(provider_file, 'w') as f:
-                f.writelines(lines)
+        # Buscar si ya existe UserAgent
+        if 'UserAgent' in content:
+            # Reemplazar cualquier línea que contenga UserAgent
+            lines = content.split('\n')
+            new_lines = []
+            skip_next = False
             
-            print(f"✅ UserAgent actualizado exitosamente a: MerakiTerraform/{version} Cisco")
-            return True
+            for i, line in enumerate(lines):
+                if skip_next:
+                    skip_next = False
+                    continue
+                    
+                if 'UserAgent' in line:
+                    # Reemplazar esta línea con el nuevo UserAgent
+                    new_lines.append(f'\tc.UserAgent = "MerakiTerraform/{version} Cisco"')
+                    # Si la siguiente línea contiene solo "Cisco" o similar, saltarla
+                    if i + 1 < len(lines) and ('Cisco' in lines[i + 1] or lines[i + 1].strip() == ''):
+                        skip_next = True
+                else:
+                    new_lines.append(line)
+            
+            content = '\n'.join(new_lines)
         else:
-            print("❌ Error: No se pudo encontrar dónde insertar UserAgent")
-            return False
+            # Si no existe UserAgent, insertarlo antes de "data := MerakiProviderData"
+            if 'data := MerakiProviderData' in content:
+                content = content.replace(
+                    'data := MerakiProviderData',
+                    f'\tc.UserAgent = "MerakiTerraform/{version} Cisco"\n\n\tdata := MerakiProviderData'
+                )
+            else:
+                print("❌ Error: No se pudo encontrar dónde insertar UserAgent")
+                return False
+        
+        # Escribir el archivo actualizado
+        with open(provider_file, 'w') as f:
+            f.write(content)
+        
+        print(f"✅ UserAgent actualizado exitosamente a: MerakiTerraform/{version} Cisco")
+        return True
             
     except Exception as e:
         print(f"❌ Error: {e}")
