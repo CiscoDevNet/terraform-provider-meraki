@@ -1,46 +1,56 @@
-# Workflow to automatically update UserAgent with latest version from changelog
-name: Update UserAgent
+name: Update UserAgent with Release Version
 
-# This workflow can be triggered manually or on schedule
 on:
-  workflow_dispatch:
-  schedule:
-    # Run daily at 9 AM UTC to check for new versions
-    - cron: '0 9 * * *'
   push:
-    paths:
-      - 'CHANGELOG.md'
-      - 'docs/guides/changelog.md'
+    branches: [ main, develop ]
+  workflow_dispatch:
 
-# Only needs read permissions for this workflow
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   update-useragent:
-    name: Update UserAgent
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout code
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Update UserAgent with latest version
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Extract version from CHANGELOG
+        id: extract-version
         run: |
-          echo "Updating UserAgent with latest version from changelog..."
-          python3 scripts/update-useragent-python.py
-          
-          # Check if there are changes
+          # Extract the latest version from CHANGELOG.md
+          VERSION=$(grep -E '^## [0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -1 | sed 's/^## //' | sed 's/ (unreleased)//')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Update UserAgent
+        run: |
+          python3 scripts/update-useragent-python.py ${{ steps.extract-version.outputs.version }}
+
+      - name: Check for changes
+        id: check-changes
+        run: |
           if git diff --quiet; then
-            echo "No changes needed - UserAgent is already up to date"
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
           else
-            echo "Changes detected:"
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected"
             git diff
-            
-            # Commit and push changes
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git add internal/provider/provider.go
-            git commit -m "chore: update UserAgent to latest version from changelog"
-            git push
           fi
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add internal/provider/provider.go
+          git commit -m "Update UserAgent to version ${{ steps.extract-version.outputs.version }}"
+          git push
