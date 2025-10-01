@@ -32,12 +32,12 @@ jobs:
 
       - name: Update UserAgent
         run: |
-          python3 scripts/update-useragent-python.py ${{ steps.extract-version.outputs.version }}
+          python3 scripts/update-useragent-python.py
           
       - name: Verify UserAgent format
         run: |
           echo "Verifying UserAgent format..."
-          if grep -q 'c\.UserAgent = "MerakiTerraform/.*Cisco"' internal/provider/provider.go; then
+          if grep -q 'c\.UserAgent = "MerakiTerraform/.* Cisco"' internal/provider/provider.go; then
             echo "✅ UserAgent format is correct"
           else
             echo "❌ UserAgent format is incorrect"
