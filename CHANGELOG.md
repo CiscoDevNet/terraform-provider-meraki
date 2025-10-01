@@ -1,3 +1,7 @@
+## 1.8.1
+
+- Testing
+
 ## 1.8.0 (unreleased)
 
 - Add `high_speed_enabled` attribute to `meraki_switch_port` resources and data sources
