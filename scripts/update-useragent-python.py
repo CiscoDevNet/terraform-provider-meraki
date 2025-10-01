@@ -23,7 +23,7 @@ def extract_version_from_changelog():
         return None
 
 def update_useragent(version):
-    """Actualiza el UserAgent en provider.go"""
+    """Actualiza el UserAgent en provider.go usando regex para evitar problemas de formato"""
     provider_file = 'internal/provider/provider.go'
     
     try:
@@ -35,38 +35,23 @@ def update_useragent(version):
         with open(provider_file + '.backup', 'w') as f:
             f.write(content)
         
-        # Buscar y reemplazar cualquier línea que contenga UserAgent
-        import re
-        
-        # Patrón para encontrar líneas con UserAgent (puede estar dividido en múltiples líneas)
-        useragent_pattern = r'c\.UserAgent\s*=\s*"[^"]*"[^"]*"[^"]*"'
+        # Patrón regex para encontrar cualquier línea que contenga UserAgent
+        # Esto maneja casos donde el string puede estar dividido en múltiples líneas
+        useragent_pattern = r'c\.UserAgent\s*=\s*"[^"]*"(?:\s*"[^"]*")*'
         
         # Buscar si ya existe UserAgent
-        if 'UserAgent' in content:
-            # Reemplazar cualquier línea que contenga UserAgent
-            lines = content.split('\n')
-            new_lines = []
-            skip_next = False
-            
-            for i, line in enumerate(lines):
-                if skip_next:
-                    skip_next = False
-                    continue
-                    
-                if 'UserAgent' in line:
-                    # Reemplazar esta línea con el nuevo UserAgent
-                    new_lines.append(f'\tc.UserAgent = "MerakiTerraform/{version} Cisco"')
-                    # Si la siguiente línea contiene solo "Cisco" o similar, saltarla
-                    if i + 1 < len(lines) and ('Cisco' in lines[i + 1] or lines[i + 1].strip() == ''):
-                        skip_next = True
-                else:
-                    new_lines.append(line)
-            
-            content = '\n'.join(new_lines)
+        if re.search(useragent_pattern, content, re.MULTILINE):
+            # Reemplazar cualquier línea que contenga UserAgent con el nuevo formato
+            new_content = re.sub(
+                useragent_pattern,
+                f'c.UserAgent = "MerakiTerraform/{version} Cisco"',
+                content,
+                flags=re.MULTILINE
+            )
         else:
             # Si no existe UserAgent, insertarlo antes de "data := MerakiProviderData"
             if 'data := MerakiProviderData' in content:
-                content = content.replace(
+                new_content = content.replace(
                     'data := MerakiProviderData',
                     f'\tc.UserAgent = "MerakiTerraform/{version} Cisco"\n\n\tdata := MerakiProviderData'
                 )
@@ -76,7 +61,7 @@ def update_useragent(version):
         
         # Escribir el archivo actualizado
         with open(provider_file, 'w') as f:
-            f.write(content)
+            f.write(new_content)
         
         print(f"✅ UserAgent actualizado exitosamente a: MerakiTerraform/{version} Cisco")
         return True
