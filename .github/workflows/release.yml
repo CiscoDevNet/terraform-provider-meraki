@@ -25,6 +25,18 @@ jobs:
         with:
           go-version-file: "go.mod"
           cache: true
+      - name: Update UserAgent with release version
+        run: |
+          # Extract version from tag (remove 'v' prefix)
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "Updating UserAgent to: MerakiTerraform/$VERSION Cisco"
+          
+          # Use Python script with the release version
+          python3 scripts/update-useragent-python.py $VERSION
+          
+          # Verify the update
+          echo "Updated UserAgent:"
+          grep "UserAgent" internal/provider/provider.go
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6.3.0
         id: import_gpg
