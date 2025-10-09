@@ -2,7 +2,7 @@ name: Update UserAgent with Release Version
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
 
 permissions:
   contents: write
