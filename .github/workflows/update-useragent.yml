@@ -1,0 +1,81 @@
+name: Update UserAgent with Release Version
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  update-useragent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Extract version from CHANGELOG
+        id: extract-version
+        run: |
+          # Extract the latest version from CHANGELOG.md
+          VERSION=$(grep -E '^## [0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -1 | sed 's/^## //' | sed 's/ (unreleased)//')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Update UserAgent
+        run: |
+          python3 scripts/update-useragent-python.py
+          
+      - name: Verify UserAgent format
+        run: |
+          echo "Verifying UserAgent format..."
+          if grep -q 'c\.UserAgent = "MerakiTerraform/.* Cisco"' internal/provider/provider.go; then
+            echo "✅ UserAgent format is correct"
+          else
+            echo "❌ UserAgent format is incorrect"
+            echo "Current UserAgent lines:"
+            grep -n "UserAgent" internal/provider/provider.go || echo "No UserAgent found"
+            exit 1
+          fi
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected"
+            echo "Files changed:"
+            git diff --name-only
+            echo "Diff content:"
+            git diff
+          fi
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Get the current branch name
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          if [ "$BRANCH_NAME" = "HEAD" ]; then
+            # We're in detached HEAD state, get the branch from the PR
+            BRANCH_NAME=$(echo $GITHUB_HEAD_REF || echo "main")
+          fi
+          
+          git add internal/provider/provider.go
+          git commit -m "Update UserAgent to version ${{ steps.extract-version.outputs.version }}"
+          
+          # Push to the current branch
+          git push origin HEAD:$BRANCH_NAME
