@@ -23,7 +23,7 @@ attributes:
     bulk_id: true
     mandatory: true
     description: Email address of the user
-    example: miles321@meraki.com
+    example: miles323@meraki.com
   - model_name: emailPasswordToUser
     type: Bool
     write_only: true

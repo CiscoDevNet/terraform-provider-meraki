@@ -41,6 +41,7 @@ attributes:
         description: 'Name of builtin performance class. Must be present when performanceClass type is `builtin` and value must be one of: `VoIP`'
         example: VoIP
         enum_values: [VoIP]
+        minimum_test_value: '"VoIP"'
       - model_name: customPerformanceClassId
         tf_name: custom_performance_class_id
         type: String
