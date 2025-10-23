@@ -74,8 +74,10 @@ func (data ApplianceVLANDHCP) getPath() string {
 
 // End of section. //template:end getPath
 
-func (data ApplianceVLANDHCP) toBody(ctx context.Context, existing ApplianceVLAN) string {
-	body := existing.toBody(ctx, existing)
+// Section below is generated&owned by "gen/generator.go". //template:begin toBody
+
+func (data ApplianceVLANDHCP) toBody(ctx context.Context, state ApplianceVLANDHCP) string {
+	body := ""
 	if !data.VlanId.IsNull() {
 		body, _ = sjson.Set(body, "id", data.VlanId.ValueString())
 	}
@@ -139,6 +141,8 @@ func (data ApplianceVLANDHCP) toBody(ctx context.Context, existing ApplianceVLAN
 	}
 	return body
 }
+
+// End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 

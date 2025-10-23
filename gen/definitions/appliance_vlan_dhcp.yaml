@@ -1,4 +1,3 @@
-# Customize Create(), Read(), Update(), Delete()
 name: Appliance VLAN DHCP
 rest_endpoint: /networks/%v/appliance/vlans
 put_create: true
