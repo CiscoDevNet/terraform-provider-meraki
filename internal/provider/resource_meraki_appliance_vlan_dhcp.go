@@ -79,6 +79,9 @@ func (r *ApplianceVLANDHCPResource) Schema(ctx context.Context, req resource.Sch
 			"vlan_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The VLAN ID of the new VLAN (must be between 1 and 4094)").String,
 				Required:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"dhcp_boot_filename": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("DHCP boot option for boot filename").String,
@@ -196,7 +199,7 @@ func (r *ApplianceVLANDHCPResource) Create(ctx context.Context, req resource.Cre
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
-	plan.Id = types.StringValue(res.Get("id").String())
+	plan.Id = plan.VlanId
 	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))

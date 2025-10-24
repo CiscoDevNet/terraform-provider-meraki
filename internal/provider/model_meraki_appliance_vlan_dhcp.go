@@ -69,7 +69,7 @@ type ApplianceVLANDHCPReservedIpRanges struct {
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
 func (data ApplianceVLANDHCP) getPath() string {
-	return fmt.Sprintf("/networks/%v/appliance/vlans", url.QueryEscape(data.NetworkId.ValueString()))
+	return fmt.Sprintf("/networks/%v/appliance/vlans/%v", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(data.VlanId.ValueString()))
 }
 
 // End of section. //template:end getPath
@@ -78,9 +78,6 @@ func (data ApplianceVLANDHCP) getPath() string {
 
 func (data ApplianceVLANDHCP) toBody(ctx context.Context, state ApplianceVLANDHCP) string {
 	body := ""
-	if !data.VlanId.IsNull() {
-		body, _ = sjson.Set(body, "id", data.VlanId.ValueString())
-	}
 	if !data.DhcpBootFilename.IsNull() {
 		body, _ = sjson.Set(body, "dhcpBootFilename", data.DhcpBootFilename.ValueString())
 	}
@@ -147,11 +144,6 @@ func (data ApplianceVLANDHCP) toBody(ctx context.Context, state ApplianceVLANDHC
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceVLANDHCP) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("id"); value.Exists() && value.Value() != nil {
-		data.VlanId = types.StringValue(value.String())
-	} else {
-		data.VlanId = types.StringNull()
-	}
 	if value := res.Get("dhcpBootFilename"); value.Exists() && value.Value() != nil {
 		data.DhcpBootFilename = types.StringValue(value.String())
 	} else {
@@ -251,11 +243,6 @@ func (data *ApplianceVLANDHCP) fromBody(ctx context.Context, res meraki.Res) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceVLANDHCP) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	if value := res.Get("id"); value.Exists() && !data.VlanId.IsNull() {
-		data.VlanId = types.StringValue(value.String())
-	} else {
-		data.VlanId = types.StringNull()
-	}
 	if value := res.Get("dhcpBootFilename"); value.Exists() && !data.DhcpBootFilename.IsNull() {
 		data.DhcpBootFilename = types.StringValue(value.String())
 	} else {

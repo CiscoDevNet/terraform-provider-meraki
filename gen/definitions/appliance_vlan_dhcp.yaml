@@ -1,5 +1,5 @@
 name: Appliance VLAN DHCP
-rest_endpoint: /networks/%v/appliance/vlans
+rest_endpoint: /networks/%v/appliance/vlans/%v
 put_create: true
 no_delete: true
 no_data_source: true
@@ -17,7 +17,8 @@ attributes:
   - model_name: id
     tf_name: vlan_id
     type: String
-    mandatory: true
+    id: true
+    reference: true
     description: The VLAN ID of the new VLAN (must be between 1 and 4094)
     example: "1234"
     test_value: meraki_appliance_vlan.test.vlan_id

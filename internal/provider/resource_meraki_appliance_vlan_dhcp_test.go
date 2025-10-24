@@ -68,9 +68,9 @@ func merakiApplianceVLANDHCPImportStateIdFunc(resourceName string) resource.Impo
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		NetworkId := primary.Attributes["network_id"]
-		Id := primary.Attributes["id"]
+		VlanId := primary.Attributes["vlan_id"]
 
-		return fmt.Sprintf("%s,%s", NetworkId, Id), nil
+		return fmt.Sprintf("%s,%s", NetworkId, VlanId), nil
 	}
 }
 
