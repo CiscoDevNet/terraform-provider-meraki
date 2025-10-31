@@ -40,7 +40,6 @@ func TestAccMerakiApplianceVLAN(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "dhcp_boot_options_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "dhcp_handling", "Run a DHCP server"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "dhcp_lease_time", "1 day"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "dns_nameservers", "upstream_dns"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "vlan_id", "1234"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "name", "My VLAN"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "subnet", "192.168.1.0/24"))
@@ -135,7 +134,6 @@ func testAccMerakiApplianceVLANConfig_all() string {
 	config += `  dhcp_boot_options_enabled = false` + "\n"
 	config += `  dhcp_handling = "Run a DHCP server"` + "\n"
 	config += `  dhcp_lease_time = "1 day"` + "\n"
-	config += `  dns_nameservers = "upstream_dns"` + "\n"
 	config += `  vlan_id = "1234"` + "\n"
 	config += `  name = "My VLAN"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"

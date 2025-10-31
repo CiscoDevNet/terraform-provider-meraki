@@ -41,8 +41,6 @@ const specPath = "./gen/models/spec3.json"
 const betaSpecPath = "./gen/models/beta_spec3.json"
 const definitionsPath = "./gen/definitions/"
 
-var usePutSchema = [...]string{"/networks/{networkId}/appliance/vlans/{vlanId}"}
-
 const usage = `
 Usage: go run gen/definition.go <endpoint> <resource_name>
 
@@ -432,9 +430,9 @@ func parseUrl(url string, spec interface{}, betaSpec interface{}) parseUrlResult
 		}
 	}
 
-	if hasShortPost && !slices.Contains(usePutSchema[:], url) {
+	if hasShortPost {
 		ret.schema = paths[shortUrl].(map[string]interface{})["post"].(map[string]interface{})["requestBody"].(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
-	} else if hasPost && !slices.Contains(usePutSchema[:], url) {
+	} else if hasPost {
 		if p, ok := paths[url].(map[string]interface{})["post"].(map[string]interface{})["requestBody"]; ok {
 			ret.schema = p.(map[string]interface{})["content"].(map[string]interface{})["application/json"].(map[string]interface{})
 		} else {

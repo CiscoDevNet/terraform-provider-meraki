@@ -102,14 +102,6 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 							MarkdownDescription: helpers.NewAttributeDescription("CIDR of the pool of subnets. Applicable only for template network. Each network bound to the template will automatically pick a subnet from this pool to build its own VLAN.").String,
 							Optional:            true,
 						},
-						"dhcp_boot_filename": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("DHCP boot option for boot filename").String,
-							Optional:            true,
-						},
-						"dhcp_boot_next_server": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("DHCP boot option to direct boot clients to the server to load the boot file from").String,
-							Optional:            true,
-						},
 						"dhcp_boot_options_enabled": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Use DHCP boot options specified in other properties").String,
 							Optional:            true,
@@ -127,10 +119,6 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 							Validators: []validator.String{
 								stringvalidator.OneOf("1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"),
 							},
-						},
-						"dns_nameservers": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names").String,
-							Optional:            true,
 						},
 						"group_policy_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The id of the desired group policy to apply to the VLAN").String,
@@ -157,26 +145,6 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 							Optional:            true,
 							Validators: []validator.String{
 								stringvalidator.OneOf("same", "unique"),
-							},
-						},
-						"vpn_nat_subnet": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN").String,
-							Optional:            true,
-						},
-						"fixed_ip_assignments": schema.MapNestedAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address.").String,
-							Optional:            true,
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: map[string]schema.Attribute{
-									"ip": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("The IP address to assign to the client").String,
-										Required:            true,
-									},
-									"name": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("The name of the client").String,
-										Required:            true,
-									},
-								},
 							},
 						},
 						"ipv6_enabled": schema.BoolAttribute{
@@ -237,31 +205,6 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 									},
 									"value": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("The value for the DHCP option").String,
-										Required:            true,
-									},
-								},
-							},
-						},
-						"dhcp_relay_server_ips": schema.ListAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The IPs of the DHCP servers that DHCP requests should be relayed to").String,
-							ElementType:         types.StringType,
-							Optional:            true,
-						},
-						"reserved_ip_ranges": schema.ListNestedAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The DHCP reserved IP ranges on the VLAN").String,
-							Optional:            true,
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: map[string]schema.Attribute{
-									"comment": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("A text comment for the reserved range").String,
-										Required:            true,
-									},
-									"end": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("The last IP in the reserved range").String,
-										Required:            true,
-									},
-									"start": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("The first IP in the reserved range").String,
 										Required:            true,
 									},
 								},
@@ -536,7 +479,6 @@ func (r *ApplianceVLANsResource) ImportState(ctx context.Context, req resource.I
 		for i, itemId := range itemIdParts {
 			item := ResourceApplianceVLANsItems{}
 			item.Id = types.StringValue(itemId)
-			item.DhcpRelayServerIps = types.ListNull(types.StringType)
 			items[i] = item
 		}
 		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)

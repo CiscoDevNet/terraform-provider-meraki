@@ -39,34 +39,22 @@ type DataSourceApplianceVLANs struct {
 }
 
 type DataSourceApplianceVLANsItems struct {
-	Id                     types.String                                          `tfsdk:"id"`
-	ApplianceIp            types.String                                          `tfsdk:"appliance_ip"`
-	Cidr                   types.String                                          `tfsdk:"cidr"`
-	DhcpBootFilename       types.String                                          `tfsdk:"dhcp_boot_filename"`
-	DhcpBootNextServer     types.String                                          `tfsdk:"dhcp_boot_next_server"`
-	DhcpBootOptionsEnabled types.Bool                                            `tfsdk:"dhcp_boot_options_enabled"`
-	DhcpHandling           types.String                                          `tfsdk:"dhcp_handling"`
-	DhcpLeaseTime          types.String                                          `tfsdk:"dhcp_lease_time"`
-	DnsNameservers         types.String                                          `tfsdk:"dns_nameservers"`
-	GroupPolicyId          types.String                                          `tfsdk:"group_policy_id"`
-	VlanId                 types.String                                          `tfsdk:"vlan_id"`
-	Mask                   types.Int64                                           `tfsdk:"mask"`
-	Name                   types.String                                          `tfsdk:"name"`
-	Subnet                 types.String                                          `tfsdk:"subnet"`
-	TemplateVlanType       types.String                                          `tfsdk:"template_vlan_type"`
-	VpnNatSubnet           types.String                                          `tfsdk:"vpn_nat_subnet"`
-	FixedIpAssignments     map[string]DataSourceApplianceVLANsFixedIpAssignments `tfsdk:"fixed_ip_assignments"`
-	Ipv6Enabled            types.Bool                                            `tfsdk:"ipv6_enabled"`
-	Ipv6PrefixAssignments  []DataSourceApplianceVLANsIpv6PrefixAssignments       `tfsdk:"ipv6_prefix_assignments"`
-	MandatoryDhcpEnabled   types.Bool                                            `tfsdk:"mandatory_dhcp_enabled"`
-	DhcpOptions            []DataSourceApplianceVLANsDhcpOptions                 `tfsdk:"dhcp_options"`
-	DhcpRelayServerIps     types.List                                            `tfsdk:"dhcp_relay_server_ips"`
-	ReservedIpRanges       []DataSourceApplianceVLANsReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
-}
-
-type DataSourceApplianceVLANsFixedIpAssignments struct {
-	Ip   types.String `tfsdk:"ip"`
-	Name types.String `tfsdk:"name"`
+	Id                     types.String                                    `tfsdk:"id"`
+	ApplianceIp            types.String                                    `tfsdk:"appliance_ip"`
+	Cidr                   types.String                                    `tfsdk:"cidr"`
+	DhcpBootOptionsEnabled types.Bool                                      `tfsdk:"dhcp_boot_options_enabled"`
+	DhcpHandling           types.String                                    `tfsdk:"dhcp_handling"`
+	DhcpLeaseTime          types.String                                    `tfsdk:"dhcp_lease_time"`
+	GroupPolicyId          types.String                                    `tfsdk:"group_policy_id"`
+	VlanId                 types.String                                    `tfsdk:"vlan_id"`
+	Mask                   types.Int64                                     `tfsdk:"mask"`
+	Name                   types.String                                    `tfsdk:"name"`
+	Subnet                 types.String                                    `tfsdk:"subnet"`
+	TemplateVlanType       types.String                                    `tfsdk:"template_vlan_type"`
+	Ipv6Enabled            types.Bool                                      `tfsdk:"ipv6_enabled"`
+	Ipv6PrefixAssignments  []DataSourceApplianceVLANsIpv6PrefixAssignments `tfsdk:"ipv6_prefix_assignments"`
+	MandatoryDhcpEnabled   types.Bool                                      `tfsdk:"mandatory_dhcp_enabled"`
+	DhcpOptions            []DataSourceApplianceVLANsDhcpOptions           `tfsdk:"dhcp_options"`
 }
 
 type DataSourceApplianceVLANsIpv6PrefixAssignments struct {
@@ -81,12 +69,6 @@ type DataSourceApplianceVLANsDhcpOptions struct {
 	Code  types.String `tfsdk:"code"`
 	Type  types.String `tfsdk:"type"`
 	Value types.String `tfsdk:"value"`
-}
-
-type DataSourceApplianceVLANsReservedIpRanges struct {
-	Comment types.String `tfsdk:"comment"`
-	End     types.String `tfsdk:"end"`
-	Start   types.String `tfsdk:"start"`
 }
 
 // End of section. //template:end types
@@ -117,16 +99,6 @@ func (data *DataSourceApplianceVLANs) fromBody(ctx context.Context, res meraki.R
 		} else {
 			data.Cidr = types.StringNull()
 		}
-		if value := res.Get("dhcpBootFilename"); value.Exists() && value.Value() != nil {
-			data.DhcpBootFilename = types.StringValue(value.String())
-		} else {
-			data.DhcpBootFilename = types.StringNull()
-		}
-		if value := res.Get("dhcpBootNextServer"); value.Exists() && value.Value() != nil {
-			data.DhcpBootNextServer = types.StringValue(value.String())
-		} else {
-			data.DhcpBootNextServer = types.StringNull()
-		}
 		if value := res.Get("dhcpBootOptionsEnabled"); value.Exists() && value.Value() != nil {
 			data.DhcpBootOptionsEnabled = types.BoolValue(value.Bool())
 		} else {
@@ -141,11 +113,6 @@ func (data *DataSourceApplianceVLANs) fromBody(ctx context.Context, res meraki.R
 			data.DhcpLeaseTime = types.StringValue(value.String())
 		} else {
 			data.DhcpLeaseTime = types.StringNull()
-		}
-		if value := res.Get("dnsNameservers"); value.Exists() && value.Value() != nil {
-			data.DnsNameservers = types.StringValue(value.String())
-		} else {
-			data.DnsNameservers = types.StringNull()
 		}
 		if value := res.Get("groupPolicyId"); value.Exists() && value.Value() != nil {
 			data.GroupPolicyId = types.StringValue(value.String())
@@ -176,30 +143,6 @@ func (data *DataSourceApplianceVLANs) fromBody(ctx context.Context, res meraki.R
 			data.TemplateVlanType = types.StringValue(value.String())
 		} else {
 			data.TemplateVlanType = types.StringNull()
-		}
-		if value := res.Get("vpnNatSubnet"); value.Exists() && value.Value() != nil {
-			data.VpnNatSubnet = types.StringValue(value.String())
-		} else {
-			data.VpnNatSubnet = types.StringNull()
-		}
-		if value := res.Get("fixedIpAssignments"); value.Exists() && value.Value() != nil {
-			data.FixedIpAssignments = make(map[string]DataSourceApplianceVLANsFixedIpAssignments)
-			value.ForEach(func(k, res gjson.Result) bool {
-				parent := &data
-				data := DataSourceApplianceVLANsFixedIpAssignments{}
-				if value := res.Get("ip"); value.Exists() && value.Value() != nil {
-					data.Ip = types.StringValue(value.String())
-				} else {
-					data.Ip = types.StringNull()
-				}
-				if value := res.Get("name"); value.Exists() && value.Value() != nil {
-					data.Name = types.StringValue(value.String())
-				} else {
-					data.Name = types.StringNull()
-				}
-				(*parent).FixedIpAssignments[k.String()] = data
-				return true
-			})
 		}
 		if value := res.Get("ipv6.enabled"); value.Exists() && value.Value() != nil {
 			data.Ipv6Enabled = types.BoolValue(value.Bool())
@@ -266,35 +209,6 @@ func (data *DataSourceApplianceVLANs) fromBody(ctx context.Context, res meraki.R
 					data.Value = types.StringNull()
 				}
 				(*parent).DhcpOptions = append((*parent).DhcpOptions, data)
-				return true
-			})
-		}
-		if value := res.Get("dhcpRelayServerIps"); value.Exists() && value.Value() != nil {
-			data.DhcpRelayServerIps = helpers.GetStringList(value.Array())
-		} else {
-			data.DhcpRelayServerIps = types.ListNull(types.StringType)
-		}
-		if value := res.Get("reservedIpRanges"); value.Exists() && value.Value() != nil {
-			data.ReservedIpRanges = make([]DataSourceApplianceVLANsReservedIpRanges, 0)
-			value.ForEach(func(k, res gjson.Result) bool {
-				parent := &data
-				data := DataSourceApplianceVLANsReservedIpRanges{}
-				if value := res.Get("comment"); value.Exists() && value.Value() != nil {
-					data.Comment = types.StringValue(value.String())
-				} else {
-					data.Comment = types.StringNull()
-				}
-				if value := res.Get("end"); value.Exists() && value.Value() != nil {
-					data.End = types.StringValue(value.String())
-				} else {
-					data.End = types.StringNull()
-				}
-				if value := res.Get("start"); value.Exists() && value.Value() != nil {
-					data.Start = types.StringValue(value.String())
-				} else {
-					data.Start = types.StringNull()
-				}
-				(*parent).ReservedIpRanges = append((*parent).ReservedIpRanges, data)
 				return true
 			})
 		}
