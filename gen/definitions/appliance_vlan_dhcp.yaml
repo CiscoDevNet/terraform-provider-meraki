@@ -40,6 +40,7 @@ attributes:
     type: String
     description: "The appliance`s handling of DHCP requests on this VLAN. One of: `Run a DHCP server`, `Relay DHCP to another server` or `Do not respond to DHCP requests`"
     example: Run a DHCP server
+    minimum_test_value: '"Do not respond to DHCP requests"'
     enum_values:
       [
         Do not respond to DHCP requests,

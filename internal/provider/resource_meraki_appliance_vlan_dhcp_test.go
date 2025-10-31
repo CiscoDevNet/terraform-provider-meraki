@@ -111,6 +111,7 @@ func testAccMerakiApplianceVLANDHCPConfig_minimum() string {
 	config := `resource "meraki_appliance_vlan_dhcp" "test" {` + "\n"
 	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
 	config += `  vlan_id = meraki_appliance_vlan.test.vlan_id` + "\n"
+	config += `  dhcp_handling = "Do not respond to DHCP requests"` + "\n"
 	config += `}` + "\n"
 	return config
 }
