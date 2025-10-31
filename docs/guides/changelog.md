@@ -13,6 +13,7 @@ description: |-
 - Add support for `both` value to `ip_version` attribute of `wireless_ssid_l3_firewall_rules` resource
 - Fix issue with configuring DHCP relay (`dhcp_handling`, `dhcp_relay_server_ips` atributes) in `meraki_appliance_vlan_dhcp` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/123)
 - Add `fixed_ip_assignments` and `vpn_nat_subnet` attributes to `meraki_appliance_vlan_dhcp` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/124)
+- Add mandatory undocumented `ipv6_prefix_assignments[].disabled` attribute to `meraki_appliance_vlan` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/125)
 
 ## 1.7.1
 
