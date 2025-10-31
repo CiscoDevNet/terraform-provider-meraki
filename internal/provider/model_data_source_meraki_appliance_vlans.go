@@ -71,6 +71,7 @@ type DataSourceApplianceVLANsFixedIpAssignments struct {
 
 type DataSourceApplianceVLANsIpv6PrefixAssignments struct {
 	Autonomous         types.Bool   `tfsdk:"autonomous"`
+	Disabled           types.Bool   `tfsdk:"disabled"`
 	StaticApplianceIp6 types.String `tfsdk:"static_appliance_ip6"`
 	StaticPrefix       types.String `tfsdk:"static_prefix"`
 	OriginType         types.String `tfsdk:"origin_type"`
@@ -215,6 +216,11 @@ func (data *DataSourceApplianceVLANs) fromBody(ctx context.Context, res meraki.R
 					data.Autonomous = types.BoolValue(value.Bool())
 				} else {
 					data.Autonomous = types.BoolNull()
+				}
+				if value := res.Get("disabled"); value.Exists() && value.Value() != nil {
+					data.Disabled = types.BoolValue(value.Bool())
+				} else {
+					data.Disabled = types.BoolNull()
 				}
 				if value := res.Get("staticApplianceIp6"); value.Exists() && value.Value() != nil {
 					data.StaticApplianceIp6 = types.StringValue(value.String())

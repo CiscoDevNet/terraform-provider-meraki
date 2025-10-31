@@ -122,6 +122,11 @@ attributes:
         type: Bool
         description: Auto assign a /64 prefix from the origin to the VLAN
         example: "false"
+      - model_name: disabled
+        type: Bool
+        mandatory: true
+        description: Disable this assignment
+        example: "false"
       - model_name: staticApplianceIp6
         type: String
         description: Manual configuration of the IPv6 Appliance IP
