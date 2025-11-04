@@ -113,6 +113,26 @@ func (r *ApplianceVLANDHCPResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: helpers.NewAttributeDescription("The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names").String,
 				Optional:            true,
 			},
+			"vpn_nat_subnet": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN").String,
+				Optional:            true,
+			},
+			"fixed_ip_assignments": schema.MapNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address.").String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"ip": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The IP address to assign to the client").String,
+							Required:            true,
+						},
+						"name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The name of the client").String,
+							Required:            true,
+						},
+					},
+				},
+			},
 			"mandatory_dhcp_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Enable Mandatory DHCP on VLAN.").String,
 				Optional:            true,

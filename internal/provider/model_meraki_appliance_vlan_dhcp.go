@@ -37,19 +37,26 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type ApplianceVLANDHCP struct {
-	Id                     types.String                        `tfsdk:"id"`
-	NetworkId              types.String                        `tfsdk:"network_id"`
-	VlanId                 types.String                        `tfsdk:"vlan_id"`
-	DhcpBootFilename       types.String                        `tfsdk:"dhcp_boot_filename"`
-	DhcpBootNextServer     types.String                        `tfsdk:"dhcp_boot_next_server"`
-	DhcpBootOptionsEnabled types.Bool                          `tfsdk:"dhcp_boot_options_enabled"`
-	DhcpHandling           types.String                        `tfsdk:"dhcp_handling"`
-	DhcpLeaseTime          types.String                        `tfsdk:"dhcp_lease_time"`
-	DnsNameservers         types.String                        `tfsdk:"dns_nameservers"`
-	MandatoryDhcpEnabled   types.Bool                          `tfsdk:"mandatory_dhcp_enabled"`
-	DhcpOptions            []ApplianceVLANDHCPDhcpOptions      `tfsdk:"dhcp_options"`
-	DhcpRelayServerIps     types.List                          `tfsdk:"dhcp_relay_server_ips"`
-	ReservedIpRanges       []ApplianceVLANDHCPReservedIpRanges `tfsdk:"reserved_ip_ranges"`
+	Id                     types.String                                   `tfsdk:"id"`
+	NetworkId              types.String                                   `tfsdk:"network_id"`
+	VlanId                 types.String                                   `tfsdk:"vlan_id"`
+	DhcpBootFilename       types.String                                   `tfsdk:"dhcp_boot_filename"`
+	DhcpBootNextServer     types.String                                   `tfsdk:"dhcp_boot_next_server"`
+	DhcpBootOptionsEnabled types.Bool                                     `tfsdk:"dhcp_boot_options_enabled"`
+	DhcpHandling           types.String                                   `tfsdk:"dhcp_handling"`
+	DhcpLeaseTime          types.String                                   `tfsdk:"dhcp_lease_time"`
+	DnsNameservers         types.String                                   `tfsdk:"dns_nameservers"`
+	VpnNatSubnet           types.String                                   `tfsdk:"vpn_nat_subnet"`
+	FixedIpAssignments     map[string]ApplianceVLANDHCPFixedIpAssignments `tfsdk:"fixed_ip_assignments"`
+	MandatoryDhcpEnabled   types.Bool                                     `tfsdk:"mandatory_dhcp_enabled"`
+	DhcpOptions            []ApplianceVLANDHCPDhcpOptions                 `tfsdk:"dhcp_options"`
+	DhcpRelayServerIps     types.List                                     `tfsdk:"dhcp_relay_server_ips"`
+	ReservedIpRanges       []ApplianceVLANDHCPReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
+}
+
+type ApplianceVLANDHCPFixedIpAssignments struct {
+	Ip   types.String `tfsdk:"ip"`
+	Name types.String `tfsdk:"name"`
 }
 
 type ApplianceVLANDHCPDhcpOptions struct {
@@ -95,6 +102,22 @@ func (data ApplianceVLANDHCP) toBody(ctx context.Context, state ApplianceVLANDHC
 	}
 	if !data.DnsNameservers.IsNull() {
 		body, _ = sjson.Set(body, "dnsNameservers", data.DnsNameservers.ValueString())
+	}
+	if !data.VpnNatSubnet.IsNull() {
+		body, _ = sjson.Set(body, "vpnNatSubnet", data.VpnNatSubnet.ValueString())
+	}
+	if len(data.FixedIpAssignments) > 0 {
+		body, _ = sjson.Set(body, "fixedIpAssignments", map[string]interface{}{})
+		for key, item := range data.FixedIpAssignments {
+			itemBody := ""
+			if !item.Ip.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "ip", item.Ip.ValueString())
+			}
+			if !item.Name.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "name", item.Name.ValueString())
+			}
+			body, _ = sjson.SetRaw(body, "fixedIpAssignments."+key, itemBody)
+		}
 	}
 	if !data.MandatoryDhcpEnabled.IsNull() {
 		body, _ = sjson.Set(body, "mandatoryDhcp.enabled", data.MandatoryDhcpEnabled.ValueBool())
@@ -173,6 +196,30 @@ func (data *ApplianceVLANDHCP) fromBody(ctx context.Context, res meraki.Res) {
 		data.DnsNameservers = types.StringValue(value.String())
 	} else {
 		data.DnsNameservers = types.StringNull()
+	}
+	if value := res.Get("vpnNatSubnet"); value.Exists() && value.Value() != nil {
+		data.VpnNatSubnet = types.StringValue(value.String())
+	} else {
+		data.VpnNatSubnet = types.StringNull()
+	}
+	if value := res.Get("fixedIpAssignments"); value.Exists() && value.Value() != nil {
+		data.FixedIpAssignments = make(map[string]ApplianceVLANDHCPFixedIpAssignments)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := ApplianceVLANDHCPFixedIpAssignments{}
+			if value := res.Get("ip"); value.Exists() && value.Value() != nil {
+				data.Ip = types.StringValue(value.String())
+			} else {
+				data.Ip = types.StringNull()
+			}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			(*parent).FixedIpAssignments[k.String()] = data
+			return true
+		})
 	}
 	if value := res.Get("mandatoryDhcp.enabled"); value.Exists() && value.Value() != nil {
 		data.MandatoryDhcpEnabled = types.BoolValue(value.Bool())
@@ -272,6 +319,28 @@ func (data *ApplianceVLANDHCP) fromBodyPartial(ctx context.Context, res meraki.R
 		data.DnsNameservers = types.StringValue(value.String())
 	} else {
 		data.DnsNameservers = types.StringNull()
+	}
+	if value := res.Get("vpnNatSubnet"); value.Exists() && !data.VpnNatSubnet.IsNull() {
+		data.VpnNatSubnet = types.StringValue(value.String())
+	} else {
+		data.VpnNatSubnet = types.StringNull()
+	}
+	for i, item := range data.FixedIpAssignments {
+		parent := &data
+		data := item
+		parentRes := &res
+		res := parentRes.Get(fmt.Sprintf("fixedIpAssignments.%s", i))
+		if value := res.Get("ip"); value.Exists() && !data.Ip.IsNull() {
+			data.Ip = types.StringValue(value.String())
+		} else {
+			data.Ip = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		(*parent).FixedIpAssignments[i] = data
 	}
 	if value := res.Get("mandatoryDhcp.enabled"); value.Exists() && !data.MandatoryDhcpEnabled.IsNull() {
 		data.MandatoryDhcpEnabled = types.BoolValue(value.Bool())
