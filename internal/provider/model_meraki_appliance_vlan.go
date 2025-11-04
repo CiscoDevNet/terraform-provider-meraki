@@ -70,6 +70,7 @@ type ApplianceVLANFixedIpAssignments struct {
 
 type ApplianceVLANIpv6PrefixAssignments struct {
 	Autonomous         types.Bool   `tfsdk:"autonomous"`
+	Disabled           types.Bool   `tfsdk:"disabled"`
 	StaticApplianceIp6 types.String `tfsdk:"static_appliance_ip6"`
 	StaticPrefix       types.String `tfsdk:"static_prefix"`
 	OriginType         types.String `tfsdk:"origin_type"`
@@ -169,6 +170,9 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 			itemBody := ""
 			if !item.Autonomous.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "autonomous", item.Autonomous.ValueBool())
+			}
+			if !item.Disabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "disabled", item.Disabled.ValueBool())
 			}
 			if !item.StaticApplianceIp6.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "staticApplianceIp6", item.StaticApplianceIp6.ValueString())
@@ -343,6 +347,11 @@ func (data *ApplianceVLAN) fromBody(ctx context.Context, res meraki.Res) {
 				data.Autonomous = types.BoolValue(value.Bool())
 			} else {
 				data.Autonomous = types.BoolNull()
+			}
+			if value := res.Get("disabled"); value.Exists() && value.Value() != nil {
+				data.Disabled = types.BoolValue(value.Bool())
+			} else {
+				data.Disabled = types.BoolNull()
 			}
 			if value := res.Get("staticApplianceIp6"); value.Exists() && value.Value() != nil {
 				data.StaticApplianceIp6 = types.StringValue(value.String())
@@ -550,6 +559,11 @@ func (data *ApplianceVLAN) fromBodyPartial(ctx context.Context, res meraki.Res) 
 			data.Autonomous = types.BoolValue(value.Bool())
 		} else {
 			data.Autonomous = types.BoolNull()
+		}
+		if value := res.Get("disabled"); value.Exists() && !data.Disabled.IsNull() {
+			data.Disabled = types.BoolValue(value.Bool())
+		} else {
+			data.Disabled = types.BoolNull()
 		}
 		if value := res.Get("staticApplianceIp6"); value.Exists() && !data.StaticApplianceIp6.IsNull() {
 			data.StaticApplianceIp6 = types.StringValue(value.String())

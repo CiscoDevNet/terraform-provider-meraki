@@ -90,6 +90,10 @@ Required:
 <a id="nestedatt--ipv6_prefix_assignments"></a>
 ### Nested Schema for `ipv6_prefix_assignments`
 
+Required:
+
+- `disabled` (Boolean) Disable this assignment
+
 Optional:
 
 - `autonomous` (Boolean) Auto assign a /64 prefix from the origin to the VLAN

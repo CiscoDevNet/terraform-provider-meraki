@@ -161,6 +161,10 @@ func (d *ApplianceVLANDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "Auto assign a /64 prefix from the origin to the VLAN",
 							Computed:            true,
 						},
+						"disabled": schema.BoolAttribute{
+							MarkdownDescription: "Disable this assignment",
+							Computed:            true,
+						},
 						"static_appliance_ip6": schema.StringAttribute{
 							MarkdownDescription: "Manual configuration of the IPv6 Appliance IP",
 							Computed:            true,
