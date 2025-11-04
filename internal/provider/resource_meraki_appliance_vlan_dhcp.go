@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
@@ -80,6 +79,9 @@ func (r *ApplianceVLANDHCPResource) Schema(ctx context.Context, req resource.Sch
 			"vlan_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The VLAN ID of the new VLAN (must be between 1 and 4094)").String,
 				Required:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"dhcp_boot_filename": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("DHCP boot option for boot filename").String,
@@ -177,9 +179,10 @@ func (r *ApplianceVLANDHCPResource) Configure(_ context.Context, req resource.Co
 
 // End of section. //template:end model
 
+// Section below is generated&owned by "gen/generator.go". //template:begin create
+
 func (r *ApplianceVLANDHCPResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceVLANDHCP
-	var existing ApplianceVLAN
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -189,28 +192,27 @@ func (r *ApplianceVLANDHCPResource) Create(ctx context.Context, req resource.Cre
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
-	// Read existing vlan
-	res, err := r.client.Get(plan.getPath() + "/" + url.QueryEscape(plan.VlanId.ValueString()))
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s", err))
-		return
-	}
-	existing.fromBody(ctx, res)
-
 	// Create object
-	body := plan.toBody(ctx, existing)
-	res, err = r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.VlanId.ValueString()), body)
+	body := plan.toBody(ctx, ApplianceVLANDHCP{})
+	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
-	plan.Id = types.StringValue(res.Get("id").String())
+	plan.Id = plan.VlanId
+	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+
+	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
+
+// End of section. //template:end create
+
+// Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (r *ApplianceVLANDHCPResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceVLANDHCP
@@ -222,7 +224,7 @@ func (r *ApplianceVLANDHCPResource) Read(ctx context.Context, req resource.ReadR
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
+	res, err := r.client.Get(state.getPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
 		return
@@ -231,17 +233,32 @@ func (r *ApplianceVLANDHCPResource) Read(ctx context.Context, req resource.ReadR
 		return
 	}
 
-	state.fromBodyPartial(ctx, res)
+	imp, diags := helpers.IsFlagImporting(ctx, req)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// After `terraform import` we switch to a full read.
+	if imp {
+		state.fromBody(ctx, res)
+	} else {
+		state.fromBodyPartial(ctx, res)
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
+
+	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
+
+// End of section. //template:end read
+
+// Section below is generated&owned by "gen/generator.go". //template:begin update
 
 func (r *ApplianceVLANDHCPResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceVLANDHCP
-	var existing ApplianceVLAN
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -257,16 +274,8 @@ func (r *ApplianceVLANDHCPResource) Update(ctx context.Context, req resource.Upd
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
-	// Read existing vlan
-	res, err := r.client.Get(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()))
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s", err))
-		return
-	}
-	existing.fromBody(ctx, res)
-
-	body := plan.toBody(ctx, existing)
-	res, err = r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	body := plan.toBody(ctx, state)
+	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -277,6 +286,8 @@ func (r *ApplianceVLANDHCPResource) Update(ctx context.Context, req resource.Upd
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
+
+// End of section. //template:end update
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 

@@ -1,6 +1,5 @@
-# Customize Create(), Read(), Update(), Delete()
 name: Appliance VLAN DHCP
-rest_endpoint: /networks/%v/appliance/vlans
+rest_endpoint: /networks/%v/appliance/vlans/%v
 put_create: true
 no_delete: true
 no_data_source: true
@@ -18,7 +17,8 @@ attributes:
   - model_name: id
     tf_name: vlan_id
     type: String
-    mandatory: true
+    id: true
+    reference: true
     description: The VLAN ID of the new VLAN (must be between 1 and 4094)
     example: "1234"
     test_value: meraki_appliance_vlan.test.vlan_id
@@ -40,6 +40,7 @@ attributes:
     type: String
     description: "The appliance`s handling of DHCP requests on this VLAN. One of: `Run a DHCP server`, `Relay DHCP to another server` or `Do not respond to DHCP requests`"
     example: Run a DHCP server
+    minimum_test_value: '"Do not respond to DHCP requests"'
     enum_values:
       [
         Do not respond to DHCP requests,
@@ -133,3 +134,11 @@ test_prerequisites: |
     name = "My VLAN"
     subnet = "192.168.1.0/24"
   }
+additional_tests:
+ - |-
+   resource "meraki_appliance_vlan_dhcp" "test" {
+     network_id = meraki_appliance_vlans_settings.test.network_id
+     vlan_id = meraki_appliance_vlan.test.vlan_id
+     dhcp_handling = "Relay DHCP to another server"
+     dhcp_relay_server_ips = ["192.168.20.2", "192.168.20.3"]
+   }

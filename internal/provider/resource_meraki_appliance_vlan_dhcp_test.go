@@ -52,6 +52,9 @@ func TestAccMerakiApplianceVLANDHCP(t *testing.T) {
 		Config: testAccMerakiApplianceVLANDHCPPrerequisitesConfig + testAccMerakiApplianceVLANDHCPConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceVLANDHCPPrerequisitesConfig + testAccApplianceVLANDHCPConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -68,9 +71,9 @@ func merakiApplianceVLANDHCPImportStateIdFunc(resourceName string) resource.Impo
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		NetworkId := primary.Attributes["network_id"]
-		Id := primary.Attributes["id"]
+		VlanId := primary.Attributes["vlan_id"]
 
-		return fmt.Sprintf("%s,%s", NetworkId, Id), nil
+		return fmt.Sprintf("%s,%s", NetworkId, VlanId), nil
 	}
 }
 
@@ -111,6 +114,7 @@ func testAccMerakiApplianceVLANDHCPConfig_minimum() string {
 	config := `resource "meraki_appliance_vlan_dhcp" "test" {` + "\n"
 	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
 	config += `  vlan_id = meraki_appliance_vlan.test.vlan_id` + "\n"
+	config += `  dhcp_handling = "Do not respond to DHCP requests"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -135,5 +139,14 @@ func testAccMerakiApplianceVLANDHCPConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccApplianceVLANDHCPConfigAdditional0 = `
+resource "meraki_appliance_vlan_dhcp" "test" {
+  network_id = meraki_appliance_vlans_settings.test.network_id
+  vlan_id = meraki_appliance_vlan.test.vlan_id
+  dhcp_handling = "Relay DHCP to another server"
+  dhcp_relay_server_ips = ["192.168.20.2", "192.168.20.3"]
+}
+`
 
 // End of section. //template:end testAccConfigAdditional
