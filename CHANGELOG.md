@@ -9,6 +9,7 @@
 - Add `module_serial` and `module_slot` attributes to `meraki_switch_ports` data source
 - Add `radius_accounting_start_delay` attribute to `meraki_wireless_ssid` resources and data source
 - Add `meraki_wireless_mqtt_settings` resource and data source
+- Apply changes to default RF profiles during creation, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/127)
 
 ## 1.7.1
 

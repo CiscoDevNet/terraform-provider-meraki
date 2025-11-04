@@ -4,6 +4,7 @@ spec_endpoint: /networks/{networkId}/wireless/rfProfiles/{rfProfileId}
 rest_endpoint: /networks/%v/wireless/rfProfiles
 bulk_data_source: true
 bulk_resource: true
+post_and_put: true
 data_source_name_query: true
 doc_category: Wireless
 test_variables: [test_org, test_network]

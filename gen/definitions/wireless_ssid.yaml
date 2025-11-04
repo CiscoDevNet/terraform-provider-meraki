@@ -140,9 +140,9 @@ attributes:
     example: "5"
   - model_name: radiusAccountingStartDelay
     type: Int64
+    exclude_test: true
     description: The delay (in seconds) before sending the first RADIUS accounting start message. Must be between 0 and 59 seconds.
     example: "0"
-    exclude_test: true
   - model_name: radiusAttributeForGroupPolicies
     type: String
     exclude_test: true

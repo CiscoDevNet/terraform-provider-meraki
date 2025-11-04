@@ -13,6 +13,7 @@ no_update: bool(required=False) # Set to true if the PUT request is not supporte
 no_delete: bool(required=False) # Set to true if the DELETE request is not supported
 no_import: bool(required=False) # Set to true if the resource does not support importing
 no_read: bool(required=False) # Set to true if the resource does not support reading (GET)
+post_and_put: bool(required=False) # Set to true if the resource should issue another PUT request after a POST request
 data_source_name_query: bool(required=False) # Set to true if the data source supports name queries
 minimum_version: str(required=False) # Define a minimum supported version
 ds_description: str(required=False) # Define a data source description

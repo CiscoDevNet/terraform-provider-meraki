@@ -30,16 +30,16 @@ attributes:
     type: List
     element_type: String
     data_path: [ble, allowLists]
-    description: Allowed MAC List
     exclude_test: true
     allow_import_changes: true
+    description: Allowed MAC List
   - model_name: uuids
     type: List
     element_type: String
     data_path: [ble, allowLists]
-    description: Allowed UUID List
     exclude_test: true
     allow_import_changes: true
+    description: Allowed UUID List
   - model_name: frequency
     type: Int64
     data_path: [ble, flush]
@@ -117,9 +117,9 @@ attributes:
     type: List
     element_type: String
     data_path: [wifi, allowLists]
-    description: Allowed MAC List
     exclude_test: true
     allow_import_changes: true
+    description: Allowed MAC List
   - model_name: frequency
     type: Int64
     data_path: [wifi, flush]
@@ -135,7 +135,7 @@ attributes:
     data_path: [wifi, hysteresis]
     description: Wi-Fi Threshold. Will be between 1 and 2147483647. Default is 1 second
     example: "1"
-test_prerequisites: |
+test_prerequisites: |-
   data "meraki_organization" "test" {
     name = var.test_org
   }

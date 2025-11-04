@@ -29,6 +29,7 @@ type YamlConfig struct {
 	NoDelete            bool                  `yaml:"no_delete,omitempty"`
 	NoImport            bool                  `yaml:"no_import,omitempty"`
 	NoRead              bool                  `yaml:"no_read,omitempty"`
+	PostAndPut          bool                  `yaml:"post_and_put,omitempty"`
 	IdName              string                `yaml:"id_name,omitempty"`
 	EarlyAccess         bool                  `yaml:"early_access,omitempty"`
 	DataSourceNameQuery bool                  `yaml:"data_source_name_query,omitempty"`
@@ -64,6 +65,7 @@ type YamlConfigP struct {
 	NoDelete            *bool                   `yaml:"no_delete,omitempty"`
 	NoImport            *bool                   `yaml:"no_import,omitempty"`
 	NoRead              *bool                   `yaml:"no_read,omitempty"`
+	PostAndPut          *bool                   `yaml:"post_and_put,omitempty"`
 	IdName              *string                 `yaml:"id_name,omitempty"`
 	EarlyAccess         *bool                   `yaml:"early_access,omitempty"`
 	DataSourceNameQuery *bool                   `yaml:"data_source_name_query,omitempty"`
@@ -726,6 +728,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.NoRead != nil {
 		new.NoRead = existing.NoRead
+	}
+	if existing.PostAndPut != nil {
+		new.PostAndPut = existing.PostAndPut
 	}
 	if existing.IdName != nil {
 		new.IdName = existing.IdName
