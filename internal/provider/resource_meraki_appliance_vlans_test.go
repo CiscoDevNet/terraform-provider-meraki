@@ -125,6 +125,7 @@ func testAccMerakiApplianceVLANsConfig_all() string {
 	config += `  dhcp_boot_options_enabled = false` + "\n"
 	config += `  dhcp_handling = "Run a DHCP server"` + "\n"
 	config += `  dhcp_lease_time = "1 day"` + "\n"
+	config += `  dns_nameservers = "upstream_dns"` + "\n"
 	config += `  vlan_id = "1234"` + "\n"
 	config += `  name = "My VLAN"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"

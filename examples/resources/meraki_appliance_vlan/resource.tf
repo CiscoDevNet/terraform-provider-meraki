@@ -4,6 +4,7 @@ resource "meraki_appliance_vlan" "example" {
   dhcp_boot_options_enabled = false
   dhcp_handling             = "Run a DHCP server"
   dhcp_lease_time           = "1 day"
+  dns_nameservers           = "upstream_dns"
   vlan_id                   = "1234"
   name                      = "My VLAN"
   subnet                    = "192.168.1.0/24"
