@@ -113,7 +113,6 @@ attributes:
   - model_name: prefixAssignments
     type: List
     data_path: [ipv6]
-    exclude_test: true
     allow_import_changes: true
     description: Prefix assignments on the VLAN
     ordered_list: true
@@ -130,11 +129,11 @@ attributes:
       - model_name: staticApplianceIp6
         type: String
         description: Manual configuration of the IPv6 Appliance IP
-        example: 2001:db8:3c4d:15::1
+        example: 2001:321:3c4d:15::1
       - model_name: staticPrefix
         type: String
         description: Manual configuration of a /64 prefix on the VLAN
-        example: 2001:db8:3c4d:15::/64
+        example: 2001:321:3c4d:15::/64
       - model_name: type
         type: String
         data_path: [origin]

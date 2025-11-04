@@ -43,6 +43,12 @@ func TestAccDataSourceMerakiApplianceVLAN(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "name", "My VLAN"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "subnet", "192.168.1.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.autonomous", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.disabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.static_appliance_ip6", "2001:321:3c4d:15::1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.static_prefix", "2001:321:3c4d:15::/64"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.origin_type", "internet"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.origin_interfaces.0", "wan1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "mandatory_dhcp_enabled", "true"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -94,6 +100,14 @@ func testAccDataSourceMerakiApplianceVLANConfig() string {
 	config += `  name = "My VLAN"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"
 	config += `  ipv6_enabled = true` + "\n"
+	config += `  ipv6_prefix_assignments = [{` + "\n"
+	config += `    autonomous = false` + "\n"
+	config += `    disabled = false` + "\n"
+	config += `    static_appliance_ip6 = "2001:321:3c4d:15::1"` + "\n"
+	config += `    static_prefix = "2001:321:3c4d:15::/64"` + "\n"
+	config += `    origin_type = "internet"` + "\n"
+	config += `    origin_interfaces = ["wan1"]` + "\n"
+	config += `  }]` + "\n"
 	config += `  mandatory_dhcp_enabled = true` + "\n"
 	config += `}` + "\n"
 
@@ -119,6 +133,14 @@ func testAccNamedDataSourceMerakiApplianceVLANConfig() string {
 	config += `  name = "My VLAN"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"
 	config += `  ipv6_enabled = true` + "\n"
+	config += `  ipv6_prefix_assignments = [{` + "\n"
+	config += `    autonomous = false` + "\n"
+	config += `    disabled = false` + "\n"
+	config += `    static_appliance_ip6 = "2001:321:3c4d:15::1"` + "\n"
+	config += `    static_prefix = "2001:321:3c4d:15::/64"` + "\n"
+	config += `    origin_type = "internet"` + "\n"
+	config += `    origin_interfaces = ["wan1"]` + "\n"
+	config += `  }]` + "\n"
 	config += `  mandatory_dhcp_enabled = true` + "\n"
 	config += `}` + "\n"
 

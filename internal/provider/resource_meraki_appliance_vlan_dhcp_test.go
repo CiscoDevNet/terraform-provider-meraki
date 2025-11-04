@@ -36,10 +36,14 @@ func TestAccMerakiApplianceVLANDHCP(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "dhcp_boot_options_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "dhcp_boot_filename", "sample.file"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "dhcp_boot_next_server", "1.2.3.4"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "dhcp_boot_options_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "dhcp_handling", "Run a DHCP server"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "dhcp_lease_time", "1 day"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "dns_nameservers", "upstream_dns"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "fixed_ip_assignments.22:33:44:55:66:77.ip", "192.168.1.100"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "fixed_ip_assignments.22:33:44:55:66:77.name", "Some client name"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan_dhcp.test", "mandatory_dhcp_enabled", "true"))
 
 	var steps []resource.TestStep
@@ -127,10 +131,16 @@ func testAccMerakiApplianceVLANDHCPConfig_all() string {
 	config := `resource "meraki_appliance_vlan_dhcp" "test" {` + "\n"
 	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"
 	config += `  vlan_id = meraki_appliance_vlan.test.vlan_id` + "\n"
-	config += `  dhcp_boot_options_enabled = false` + "\n"
+	config += `  dhcp_boot_filename = "sample.file"` + "\n"
+	config += `  dhcp_boot_next_server = "1.2.3.4"` + "\n"
+	config += `  dhcp_boot_options_enabled = true` + "\n"
 	config += `  dhcp_handling = "Run a DHCP server"` + "\n"
 	config += `  dhcp_lease_time = "1 day"` + "\n"
 	config += `  dns_nameservers = "upstream_dns"` + "\n"
+	config += `  fixed_ip_assignments = {"22:33:44:55:66:77" = {` + "\n"
+	config += `    ip = "192.168.1.100"` + "\n"
+	config += `    name = "Some client name"` + "\n"
+	config += `  }}` + "\n"
 	config += `  mandatory_dhcp_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config

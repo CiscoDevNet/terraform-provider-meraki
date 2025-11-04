@@ -24,7 +24,17 @@ resource "meraki_appliance_vlan" "example" {
   name                      = "My VLAN"
   subnet                    = "192.168.1.0/24"
   ipv6_enabled              = true
-  mandatory_dhcp_enabled    = true
+  ipv6_prefix_assignments = [
+    {
+      autonomous           = false
+      disabled             = false
+      static_appliance_ip6 = "2001:321:3c4d:15::1"
+      static_prefix        = "2001:321:3c4d:15::/64"
+      origin_type          = "internet"
+      origin_interfaces    = ["wan1"]
+    }
+  ]
+  mandatory_dhcp_enabled = true
 }
 ```
 
