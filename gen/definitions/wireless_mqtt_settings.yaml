@@ -19,7 +19,7 @@ attributes:
     data_path: [ble]
     description: BLE Enabled
     example: "false"
-    minimum_test_value: false
+    minimum_test_value: "false"
   - model_name: type
     type: String
     data_path: [ble]
@@ -60,7 +60,7 @@ attributes:
     data_path: [mqtt]
     description: MQTT Enabled
     example: "true"
-    minimum_test_value: true
+    minimum_test_value: "true"
   - model_name: topic
     type: String
     data_path: [mqtt]
@@ -79,13 +79,13 @@ attributes:
     data_path: [mqtt, publishing]
     description: MQTT Publishing Frequency in seconds. Will be between 1 and 2147483647. Default is 1 second
     example: "1"
-    minimum_test_value: 1
+    minimum_test_value: "1"
   - model_name: qos
     type: Int64
     data_path: [mqtt, publishing]
     description: 'MQTT Publishing QoS. Valid types are: 0, 1, 2'
     example: "1"
-    minimum_test_value: 1
+    minimum_test_value: "1"
   - model_name: messageFields
     type: List
     element_type: String
@@ -105,7 +105,7 @@ attributes:
     data_path: [wifi]
     description: Wi-Fi Enabled
     example: "false"
-    minimum_test_value: false
+    minimum_test_value: "false"
   - model_name: type
     type: String
     data_path: [wifi]
