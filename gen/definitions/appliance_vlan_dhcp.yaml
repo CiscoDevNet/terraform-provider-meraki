@@ -56,6 +56,27 @@ attributes:
     type: String
     description: The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names
     example: upstream_dns
+  - model_name: vpnNatSubnet
+    type: String
+    exclude_test: true
+    description: The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
+    example: 192.168.1.0/24
+  - model_name: fixedIpAssignments
+    type: Map
+    exclude_test: true
+    description: The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address.
+    map_key_example: 22:33:44:55:66:77
+    attributes:
+      - model_name: ip
+        type: String
+        mandatory: true
+        description: The IP address to assign to the client
+        example: 192.168.1.100
+      - model_name: name
+        type: String
+        mandatory: true
+        description: The name of the client
+        example: Some client name
   - model_name: enabled
     type: Bool
     data_path: [mandatoryDhcp]
