@@ -130,6 +130,10 @@ func (r *SwitchOrganizationPortsProfileResource) Schema(ctx context.Context, req
 				MarkdownDescription: helpers.NewAttributeDescription("The adaptive policy group ID that will be used to tag traffic through this port profile. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API.").String,
 				Optional:            true,
 			},
+			"port_adaptive_policy_voice_group_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The adaptive policy group ID that will be used to tag voice traffic through this port profile. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API.").String,
+				Optional:            true,
+			},
 			"port_allowed_vlans": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The VLANs allowed on the port profile. Only applicable to trunk ports.").String,
 				Optional:            true,

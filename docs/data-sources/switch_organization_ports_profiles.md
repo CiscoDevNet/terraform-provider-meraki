@@ -47,6 +47,7 @@ Read-Only:
 - `port_access_policy_number` (Number) The number of a custom access policy to configure on the port profile. Only applicable when `accessPolicyType` is `Custom access policy`.
 - `port_access_policy_type` (String) The type of the access policy of the port profile. Only applicable to access ports.
 - `port_adaptive_policy_group_id` (String) The adaptive policy group ID that will be used to tag traffic through this port profile. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API.
+- `port_adaptive_policy_voice_group_id` (String) The adaptive policy group ID that will be used to tag voice traffic through this port profile. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API.
 - `port_allowed_vlans` (String) The VLANs allowed on the port profile. Only applicable to trunk ports.
 - `port_dai_trusted` (Boolean) If true, ARP packets for this port will be considered trusted, and Dynamic ARP Inspection will allow the traffic.
 - `port_isolation_enabled` (Boolean) The isolation status of the port profile.

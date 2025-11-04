@@ -64,6 +64,7 @@ type WirelessSSID struct {
 	Psk                                                                 types.String                            `tfsdk:"psk"`
 	RadiusAccountingEnabled                                             types.Bool                              `tfsdk:"radius_accounting_enabled"`
 	RadiusAccountingInterimInterval                                     types.Int64                             `tfsdk:"radius_accounting_interim_interval"`
+	RadiusAccountingStartDelay                                          types.Int64                             `tfsdk:"radius_accounting_start_delay"`
 	RadiusAttributeForGroupPolicies                                     types.String                            `tfsdk:"radius_attribute_for_group_policies"`
 	RadiusAuthenticationNasId                                           types.String                            `tfsdk:"radius_authentication_nas_id"`
 	RadiusCalledStationId                                               types.String                            `tfsdk:"radius_called_station_id"`
@@ -248,6 +249,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	}
 	if !data.RadiusAccountingInterimInterval.IsNull() {
 		body, _ = sjson.Set(body, "radiusAccountingInterimInterval", data.RadiusAccountingInterimInterval.ValueInt64())
+	}
+	if !data.RadiusAccountingStartDelay.IsNull() {
+		body, _ = sjson.Set(body, "radiusAccountingStartDelay", data.RadiusAccountingStartDelay.ValueInt64())
 	}
 	if !data.RadiusAttributeForGroupPolicies.IsNull() {
 		body, _ = sjson.Set(body, "radiusAttributeForGroupPolicies", data.RadiusAttributeForGroupPolicies.ValueString())
@@ -657,6 +661,11 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 		data.RadiusAccountingInterimInterval = types.Int64Value(value.Int())
 	} else {
 		data.RadiusAccountingInterimInterval = types.Int64Null()
+	}
+	if value := res.Get("radiusAccountingStartDelay"); value.Exists() && value.Value() != nil {
+		data.RadiusAccountingStartDelay = types.Int64Value(value.Int())
+	} else {
+		data.RadiusAccountingStartDelay = types.Int64Null()
 	}
 	if value := res.Get("radiusAttributeForGroupPolicies"); value.Exists() && value.Value() != nil {
 		data.RadiusAttributeForGroupPolicies = types.StringValue(value.String())
@@ -1202,6 +1211,11 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.RadiusAccountingInterimInterval = types.Int64Value(value.Int())
 	} else {
 		data.RadiusAccountingInterimInterval = types.Int64Null()
+	}
+	if value := res.Get("radiusAccountingStartDelay"); value.Exists() && !data.RadiusAccountingStartDelay.IsNull() {
+		data.RadiusAccountingStartDelay = types.Int64Value(value.Int())
+	} else {
+		data.RadiusAccountingStartDelay = types.Int64Null()
 	}
 	if value := res.Get("radiusAttributeForGroupPolicies"); value.Exists() && !data.RadiusAttributeForGroupPolicies.IsNull() {
 		data.RadiusAttributeForGroupPolicies = types.StringValue(value.String())

@@ -39,32 +39,33 @@ type DataSourceSwitchOrganizationPortsProfiles struct {
 }
 
 type DataSourceSwitchOrganizationPortsProfilesItems struct {
-	Id                          types.String                                              `tfsdk:"id"`
-	Description                 types.String                                              `tfsdk:"description"`
-	IsOrganizationWide          types.Bool                                                `tfsdk:"is_organization_wide"`
-	Name                        types.String                                              `tfsdk:"name"`
-	NetworkId                   types.String                                              `tfsdk:"network_id"`
-	NetworksType                types.String                                              `tfsdk:"networks_type"`
-	NetworksValues              []DataSourceSwitchOrganizationPortsProfilesNetworksValues `tfsdk:"networks_values"`
-	PortAccessPolicyNumber      types.Int64                                               `tfsdk:"port_access_policy_number"`
-	PortAccessPolicyType        types.String                                              `tfsdk:"port_access_policy_type"`
-	PortAdaptivePolicyGroupId   types.String                                              `tfsdk:"port_adaptive_policy_group_id"`
-	PortAllowedVlans            types.String                                              `tfsdk:"port_allowed_vlans"`
-	PortDaiTrusted              types.Bool                                                `tfsdk:"port_dai_trusted"`
-	PortIsolationEnabled        types.Bool                                                `tfsdk:"port_isolation_enabled"`
-	PortPeerSgtCapable          types.Bool                                                `tfsdk:"port_peer_sgt_capable"`
-	PortPoeEnabled              types.Bool                                                `tfsdk:"port_poe_enabled"`
-	PortRstpEnabled             types.Bool                                                `tfsdk:"port_rstp_enabled"`
-	PortStickyMacAllowListLimit types.Int64                                               `tfsdk:"port_sticky_mac_allow_list_limit"`
-	PortStormControlEnabled     types.Bool                                                `tfsdk:"port_storm_control_enabled"`
-	PortStpGuard                types.String                                              `tfsdk:"port_stp_guard"`
-	PortType                    types.String                                              `tfsdk:"port_type"`
-	PortUdld                    types.String                                              `tfsdk:"port_udld"`
-	PortVlan                    types.Int64                                               `tfsdk:"port_vlan"`
-	PortVoiceVlan               types.Int64                                               `tfsdk:"port_voice_vlan"`
-	PortMacAllowList            types.List                                                `tfsdk:"port_mac_allow_list"`
-	PortStickyMacAllowList      types.List                                                `tfsdk:"port_sticky_mac_allow_list"`
-	Tags                        types.List                                                `tfsdk:"tags"`
+	Id                             types.String                                              `tfsdk:"id"`
+	Description                    types.String                                              `tfsdk:"description"`
+	IsOrganizationWide             types.Bool                                                `tfsdk:"is_organization_wide"`
+	Name                           types.String                                              `tfsdk:"name"`
+	NetworkId                      types.String                                              `tfsdk:"network_id"`
+	NetworksType                   types.String                                              `tfsdk:"networks_type"`
+	NetworksValues                 []DataSourceSwitchOrganizationPortsProfilesNetworksValues `tfsdk:"networks_values"`
+	PortAccessPolicyNumber         types.Int64                                               `tfsdk:"port_access_policy_number"`
+	PortAccessPolicyType           types.String                                              `tfsdk:"port_access_policy_type"`
+	PortAdaptivePolicyGroupId      types.String                                              `tfsdk:"port_adaptive_policy_group_id"`
+	PortAdaptivePolicyVoiceGroupId types.String                                              `tfsdk:"port_adaptive_policy_voice_group_id"`
+	PortAllowedVlans               types.String                                              `tfsdk:"port_allowed_vlans"`
+	PortDaiTrusted                 types.Bool                                                `tfsdk:"port_dai_trusted"`
+	PortIsolationEnabled           types.Bool                                                `tfsdk:"port_isolation_enabled"`
+	PortPeerSgtCapable             types.Bool                                                `tfsdk:"port_peer_sgt_capable"`
+	PortPoeEnabled                 types.Bool                                                `tfsdk:"port_poe_enabled"`
+	PortRstpEnabled                types.Bool                                                `tfsdk:"port_rstp_enabled"`
+	PortStickyMacAllowListLimit    types.Int64                                               `tfsdk:"port_sticky_mac_allow_list_limit"`
+	PortStormControlEnabled        types.Bool                                                `tfsdk:"port_storm_control_enabled"`
+	PortStpGuard                   types.String                                              `tfsdk:"port_stp_guard"`
+	PortType                       types.String                                              `tfsdk:"port_type"`
+	PortUdld                       types.String                                              `tfsdk:"port_udld"`
+	PortVlan                       types.Int64                                               `tfsdk:"port_vlan"`
+	PortVoiceVlan                  types.Int64                                               `tfsdk:"port_voice_vlan"`
+	PortMacAllowList               types.List                                                `tfsdk:"port_mac_allow_list"`
+	PortStickyMacAllowList         types.List                                                `tfsdk:"port_sticky_mac_allow_list"`
+	Tags                           types.List                                                `tfsdk:"tags"`
 }
 
 type DataSourceSwitchOrganizationPortsProfilesNetworksValues struct {
@@ -148,6 +149,11 @@ func (data *DataSourceSwitchOrganizationPortsProfiles) fromBody(ctx context.Cont
 			data.PortAdaptivePolicyGroupId = types.StringValue(value.String())
 		} else {
 			data.PortAdaptivePolicyGroupId = types.StringNull()
+		}
+		if value := res.Get("port.adaptivePolicyVoiceGroupId"); value.Exists() && value.Value() != nil {
+			data.PortAdaptivePolicyVoiceGroupId = types.StringValue(value.String())
+		} else {
+			data.PortAdaptivePolicyVoiceGroupId = types.StringNull()
 		}
 		if value := res.Get("port.allowedVlans"); value.Exists() && value.Value() != nil {
 			data.PortAllowedVlans = types.StringValue(value.String())

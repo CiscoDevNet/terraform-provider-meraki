@@ -14,6 +14,10 @@ description: |-
 - Fix issue with configuring DHCP relay (`dhcp_handling`, `dhcp_relay_server_ips` atributes) in `meraki_appliance_vlan_dhcp` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/123)
 - Add `fixed_ip_assignments` and `vpn_nat_subnet` attributes to `meraki_appliance_vlan_dhcp` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/124)
 - Add mandatory undocumented `ipv6_prefix_assignments[].disabled` attribute to `meraki_appliance_vlan` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/125)
+- Add `adaptive_policy_voice_group_id` attribute to `meraki_switch_organization_ports_profile` resource and data sources
+- Add `module_serial` and `module_slot` attributes to `meraki_switch_ports` data source
+- Add `radius_accounting_start_delay` attribute to `meraki_wireless_ssid` resources and data source
+- Add `meraki_wireless_mqtt_settings` resource and data source
 
 ## 1.7.1
 

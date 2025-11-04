@@ -1,0 +1,152 @@
+# Customize Read() to support "items" array in response
+name: Wireless MQTT Settings
+spec_endpoint: /organizations/{organizationId}/wireless/mqtt/settings
+rest_endpoint: /organizations/%v/wireless/mqtt/settings
+put_create: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: enabled
+    type: Bool
+    data_path: [ble]
+    description: BLE Enabled
+    example: "false"
+    minimum_test_value: false
+  - model_name: type
+    type: String
+    data_path: [ble]
+    description: 'BLE type of clients to publish telemetry. Valid types are: All, iBeacon, Eddystone, Unknown'
+    example: iBeacon
+    enum_values: [All, Eddystone, iBeacon, Unknown]
+  - model_name: macs
+    type: List
+    element_type: String
+    data_path: [ble, allowLists]
+    description: Allowed MAC List
+    exclude_test: true
+    allow_import_changes: true
+  - model_name: uuids
+    type: List
+    element_type: String
+    data_path: [ble, allowLists]
+    description: Allowed UUID List
+    exclude_test: true
+    allow_import_changes: true
+  - model_name: frequency
+    type: Int64
+    data_path: [ble, flush]
+    description: BLE Flush frequency in seconds. Will be between 1 and 2147483647. Default is 60 seconds
+    example: "60"
+  - model_name: enabled
+    type: Bool
+    data_path: [ble, hysteresis]
+    description: BLE Hysteresis Enabled
+    example: "true"
+  - model_name: threshold
+    type: Int64
+    data_path: [ble, hysteresis]
+    description: BLE Threshold. Will be between 1 and 2147483647. Default is 1 second
+    example: "1"
+  - model_name: enabled
+    type: Bool
+    data_path: [mqtt]
+    description: MQTT Enabled
+    example: "true"
+    minimum_test_value: true
+  - model_name: topic
+    type: String
+    data_path: [mqtt]
+    description: MQTT Topic
+    example: Test Topic
+    minimum_test_value: '"Test Topic"'
+  - model_name: name
+    type: String
+    data_path: [mqtt, broker]
+    description: Broker Config Name
+    example: My Broker
+    test_value: meraki_network_mqtt_broker.test.name
+    minimum_test_value: meraki_network_mqtt_broker.test.name
+  - model_name: frequency
+    type: Int64
+    data_path: [mqtt, publishing]
+    description: MQTT Publishing Frequency in seconds. Will be between 1 and 2147483647. Default is 1 second
+    example: "1"
+    minimum_test_value: 1
+  - model_name: qos
+    type: Int64
+    data_path: [mqtt, publishing]
+    description: 'MQTT Publishing QoS. Valid types are: 0, 1, 2'
+    example: "1"
+    minimum_test_value: 1
+  - model_name: messageFields
+    type: List
+    element_type: String
+    data_path: [mqtt]
+    description: 'Select fields to populate in MQTT messages. Valid types are: RSSI, AP MAC address, Client MAC address, Timestamp, Radio, Network ID, Beacon type, Raw payload, Client UUID, Client major value, Client minor value, Signal power, Band, Slot ID'
+    example: RSSI
+    minimum_test_value: '["RSSI"]'
+  - model_name: id
+    type: String
+    data_path: [network]
+    description: Network ID
+    example: L_1234
+    test_value: meraki_network.test.id
+    minimum_test_value: meraki_network.test.id
+  - model_name: enabled
+    type: Bool
+    data_path: [wifi]
+    description: Wi-Fi Enabled
+    example: "false"
+    minimum_test_value: false
+  - model_name: type
+    type: String
+    data_path: [wifi]
+    description: 'Wi-Fi client type. Valid types are: Visible, Associated'
+    example: Associated
+    enum_values: [Associated, Visible]
+    minimum_test_value: '"Visible"'
+  - model_name: macs
+    type: List
+    element_type: String
+    data_path: [wifi, allowLists]
+    description: Allowed MAC List
+    exclude_test: true
+    allow_import_changes: true
+  - model_name: frequency
+    type: Int64
+    data_path: [wifi, flush]
+    description: Wi-Fi Flush frequency in seconds. Will be between 1 and 2147483647. Default is 60 seconds
+    example: "60"
+  - model_name: enabled
+    type: Bool
+    data_path: [wifi, hysteresis]
+    description: Wi-Fi Hysteresis Enabled
+    example: "false"
+  - model_name: threshold
+    type: Int64
+    data_path: [wifi, hysteresis]
+    description: Wi-Fi Threshold. Will be between 1 and 2147483647. Default is 1 second
+    example: "1"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless"]
+  }
+  resource "meraki_network_mqtt_broker" "test" {
+    network_id = meraki_network.test.id
+    host       = "1.2.3.4"
+    name       = "My Broker"
+    port       = 443
+  }

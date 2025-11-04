@@ -72,6 +72,12 @@ attributes:
     exclude_test: true
     description: The adaptive policy group ID that will be used to tag traffic through this port profile. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API.
     example: "1284392014819"
+  - model_name: adaptivePolicyVoiceGroupId
+    type: String
+    data_path: [port]
+    description: The adaptive policy group ID that will be used to tag voice traffic through this port profile. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API.
+    example: "1284392014819"
+    exclude_test: true
   - model_name: allowedVlans
     type: String
     data_path: [port]

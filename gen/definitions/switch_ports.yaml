@@ -144,6 +144,16 @@ attributes:
     data_path: [module]
     description: The model of the expansion module.
     example: MA-MOD-4X10G
+  - model_name: serial
+    type: String
+    data_path: [module]
+    description: The serial of the module.
+    example: 3_MA-MOD-4X10G
+  - model_name: slot
+    type: Int64
+    data_path: [module]
+    description: The slot number of the module.
+    example: "1"
   - model_name: enabled
     type: Bool
     data_path: [profile]

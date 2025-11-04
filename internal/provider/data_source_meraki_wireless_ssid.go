@@ -162,6 +162,10 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				MarkdownDescription: "The interval (in seconds) in which accounting information is updated and sent to the RADIUS accounting server.",
 				Computed:            true,
 			},
+			"radius_accounting_start_delay": schema.Int64Attribute{
+				MarkdownDescription: "The delay (in seconds) before sending the first RADIUS accounting start message. Must be between 0 and 59 seconds.",
+				Computed:            true,
+			},
 			"radius_attribute_for_group_policies": schema.StringAttribute{
 				MarkdownDescription: "Specify the RADIUS attribute used to look up group policies (`Filter-Id`, `Reply-Message`, `Airespace-ACL-Name` or `Aruba-User-Role`). Access points must receive this attribute in the RADIUS Access-Accept message",
 				Computed:            true,

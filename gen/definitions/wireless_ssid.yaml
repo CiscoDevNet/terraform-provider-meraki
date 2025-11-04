@@ -138,6 +138,11 @@ attributes:
     exclude_test: true
     description: The interval (in seconds) in which accounting information is updated and sent to the RADIUS accounting server.
     example: "5"
+  - model_name: radiusAccountingStartDelay
+    type: Int64
+    description: The delay (in seconds) before sending the first RADIUS accounting start message. Must be between 0 and 59 seconds.
+    example: "0"
+    exclude_test: true
   - model_name: radiusAttributeForGroupPolicies
     type: String
     exclude_test: true

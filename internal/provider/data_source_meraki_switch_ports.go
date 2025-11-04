@@ -183,6 +183,14 @@ func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.Schem
 							MarkdownDescription: "The model of the expansion module.",
 							Computed:            true,
 						},
+						"module_serial": schema.StringAttribute{
+							MarkdownDescription: "The serial of the module.",
+							Computed:            true,
+						},
+						"module_slot": schema.Int64Attribute{
+							MarkdownDescription: "The slot number of the module.",
+							Computed:            true,
+						},
 						"profile_enabled": schema.BoolAttribute{
 							MarkdownDescription: "When enabled, override this port`s configuration with a port profile.",
 							Computed:            true,

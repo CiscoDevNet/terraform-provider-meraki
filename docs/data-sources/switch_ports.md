@@ -52,6 +52,8 @@ Read-Only:
 - `mac_whitelist_limit` (Number) The maximum number of MAC addresses for regular MAC allow list. Only applicable when `accessPolicyType` is `MAC allow list`. Note: Config only supported on verions greater than ms18 only for classic switches.
 - `mirror_mode` (String) The port mirror mode. Can be one of (`Destination port`, `Source port` or `Not mirroring traffic`).
 - `module_model` (String) The model of the expansion module.
+- `module_serial` (String) The serial of the module.
+- `module_slot` (Number) The slot number of the module.
 - `name` (String) The name of the switch port.
 - `peer_sgt_capable` (Boolean) If true, Peer SGT is enabled for traffic through this switch port. Applicable to trunk port only, not access port. Cannot be applied to a port on a switch bound to profile.
 - `poe_enabled` (Boolean) The PoE status of the switch port.

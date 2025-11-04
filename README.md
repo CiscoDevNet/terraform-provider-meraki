@@ -8,7 +8,7 @@ All resources and data sources have been tested with the following API releases.
 
 | API | Version |
 | ---------------- | ------- |
-| Meraki Dashboard | 1.62.0  |
+| Meraki Dashboard | 1.63.0  |
 
 Documentation: <https://registry.terraform.io/providers/CiscoDevNet/meraki/latest>
 

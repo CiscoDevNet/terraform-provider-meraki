@@ -117,6 +117,7 @@ resource "meraki_wireless_ssid" "example" {
 - `radius_accounting_enabled` (Boolean) Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`
 - `radius_accounting_interim_interval` (Number) The interval (in seconds) in which accounting information is updated and sent to the RADIUS accounting server.
 - `radius_accounting_servers` (Attributes List) The RADIUS accounting 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` and radiusAccountingEnabled is `true` (see [below for nested schema](#nestedatt--radius_accounting_servers))
+- `radius_accounting_start_delay` (Number) The delay (in seconds) before sending the first RADIUS accounting start message. Must be between 0 and 59 seconds.
 - `radius_attribute_for_group_policies` (String) Specify the RADIUS attribute used to look up group policies (`Filter-Id`, `Reply-Message`, `Airespace-ACL-Name` or `Aruba-User-Role`). Access points must receive this attribute in the RADIUS Access-Accept message
   - Choices: `Airespace-ACL-Name`, `Aruba-User-Role`, `Filter-Id`, `Reply-Message`
 - `radius_authentication_nas_id` (String) The template of the NAS identifier to be used for RADIUS authentication (ex. $NODE_MAC$:$VAP_NUM$).
