@@ -24,18 +24,16 @@ attributes:
     test_value: meraki_appliance_vlan.test.vlan_id
   - model_name: dhcpBootFilename
     type: String
-    exclude_test: true
     description: DHCP boot option for boot filename
     example: sample.file
   - model_name: dhcpBootNextServer
     type: String
-    exclude_test: true
     description: DHCP boot option to direct boot clients to the server to load the boot file from
     example: 1.2.3.4
   - model_name: dhcpBootOptionsEnabled
     type: Bool
     description: Use DHCP boot options specified in other properties
-    example: "false"
+    example: "true"
   - model_name: dhcpHandling
     type: String
     description: "The appliance`s handling of DHCP requests on this VLAN. One of: `Run a DHCP server`, `Relay DHCP to another server` or `Do not respond to DHCP requests`"
@@ -63,7 +61,6 @@ attributes:
     example: 192.168.1.0/24
   - model_name: fixedIpAssignments
     type: Map
-    exclude_test: true
     description: The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address.
     map_key_example: 22:33:44:55:66:77
     attributes:
