@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -123,7 +124,7 @@ func (d *WirelessMQTTSettingsDataSource) Schema(ctx context.Context, req datasou
 			},
 			"network_id": schema.StringAttribute{
 				MarkdownDescription: "Network ID",
-				Computed:            true,
+				Required:            true,
 			},
 			"wifi_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Wi-Fi Enabled",
@@ -180,7 +181,7 @@ func (d *WirelessMQTTSettingsDataSource) Read(ctx context.Context, req datasourc
 	var err error
 
 	if !res.Exists() {
-		res, err = d.client.Get(config.getPath())
+		res, err = d.client.Get(config.getPath() + "?networkIds[]=" + url.QueryEscape(config.NetworkId.ValueString()))
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
 			return

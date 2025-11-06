@@ -113,6 +113,7 @@ func testAccDataSourceMerakiWirelessMQTTSettingsConfig() string {
 	config += `
 		data "meraki_wireless_mqtt_settings" "test" {
 			organization_id = data.meraki_organization.test.id
+			network_id = meraki_network.test.id
 			depends_on = [meraki_wireless_mqtt_settings.test]
 		}
 	`

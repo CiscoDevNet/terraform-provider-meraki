@@ -86,8 +86,9 @@ func merakiWirelessMQTTSettingsImportStateIdFunc(resourceName string) resource.I
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		OrganizationId := primary.Attributes["organization_id"]
+		NetworkId := primary.Attributes["network_id"]
 
-		return fmt.Sprintf("%s", OrganizationId), nil
+		return fmt.Sprintf("%s,%s", OrganizationId, NetworkId), nil
 	}
 }
 

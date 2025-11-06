@@ -1,4 +1,4 @@
-# Customize Read() to support "items" array in response
+# Customize Read(), getPath() and toBody() to support org level endpoints
 name: Wireless MQTT Settings
 spec_endpoint: /organizations/{organizationId}/wireless/mqtt/settings
 rest_endpoint: /organizations/%v/wireless/mqtt/settings
@@ -96,6 +96,7 @@ attributes:
   - model_name: id
     type: String
     data_path: [network]
+    reference: true
     description: Network ID
     example: L_1234
     test_value: meraki_network.test.id

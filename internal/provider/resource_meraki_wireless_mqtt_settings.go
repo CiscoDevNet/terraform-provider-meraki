@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
@@ -138,7 +139,10 @@ func (r *WirelessMQTTSettingsResource) Schema(ctx context.Context, req resource.
 			},
 			"network_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
-				Optional:            true,
+				Required:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"wifi_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Wi-Fi Enabled").String,
@@ -225,7 +229,7 @@ func (r *WirelessMQTTSettingsResource) Read(ctx context.Context, req resource.Re
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath())
+	res, err := r.client.Get(state.getPath() + "?networkIds[]=" + url.QueryEscape(state.NetworkId.ValueString()))
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
 		return
@@ -313,15 +317,16 @@ func (r *WirelessMQTTSettingsResource) Delete(ctx context.Context, req resource.
 func (r *WirelessMQTTSettingsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 1 || idParts[0] == "" {
+	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <organization_id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: <organization_id>,<network_id>. Got: %q", req.ID),
 		)
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

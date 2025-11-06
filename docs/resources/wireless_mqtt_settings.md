@@ -40,6 +40,7 @@ resource "meraki_wireless_mqtt_settings" "example" {
 
 ### Required
 
+- `network_id` (String) Network ID
 - `organization_id` (String) Organization ID
 
 ### Optional
@@ -58,7 +59,6 @@ resource "meraki_wireless_mqtt_settings" "example" {
 - `mqtt_publishing_frequency` (Number) MQTT Publishing Frequency in seconds. Will be between 1 and 2147483647. Default is 1 second
 - `mqtt_publishing_qos` (Number) MQTT Publishing QoS. Valid types are: 0, 1, 2
 - `mqtt_topic` (String) MQTT Topic
-- `network_id` (String) Network ID
 - `wifi_allow_lists_macs` (List of String) Allowed MAC List
 - `wifi_enabled` (Boolean) Wi-Fi Enabled
 - `wifi_flush_frequency` (Number) Wi-Fi Flush frequency in seconds. Will be between 1 and 2147483647. Default is 60 seconds
@@ -78,5 +78,5 @@ Import is supported using the following syntax:
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
-terraform import meraki_wireless_mqtt_settings.example "<organization_id>"
+terraform import meraki_wireless_mqtt_settings.example "<organization_id>,<network_id>"
 ```

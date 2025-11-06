@@ -60,15 +60,9 @@ type WirelessMQTTSettings struct {
 
 // End of section. //template:end types
 
-// Section below is generated&owned by "gen/generator.go". //template:begin getPath
-
 func (data WirelessMQTTSettings) getPath() string {
 	return fmt.Sprintf("/organizations/%v/wireless/mqtt/settings", url.QueryEscape(data.OrganizationId.ValueString()))
 }
-
-// End of section. //template:end getPath
-
-// Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
 func (data WirelessMQTTSettings) toBody(ctx context.Context, state WirelessMQTTSettings) string {
 	body := ""
@@ -143,8 +137,6 @@ func (data WirelessMQTTSettings) toBody(ctx context.Context, state WirelessMQTTS
 	return body
 }
 
-// End of section. //template:end toBody
-
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessMQTTSettings) fromBody(ctx context.Context, res meraki.Res) {
@@ -212,11 +204,6 @@ func (data *WirelessMQTTSettings) fromBody(ctx context.Context, res meraki.Res) 
 		data.MqttMessageFields = helpers.GetStringList(value.Array())
 	} else {
 		data.MqttMessageFields = types.ListNull(types.StringType)
-	}
-	if value := res.Get("network.id"); value.Exists() && value.Value() != nil {
-		data.NetworkId = types.StringValue(value.String())
-	} else {
-		data.NetworkId = types.StringNull()
 	}
 	if value := res.Get("wifi.enabled"); value.Exists() && value.Value() != nil {
 		data.WifiEnabled = types.BoolValue(value.Bool())
@@ -323,11 +310,6 @@ func (data *WirelessMQTTSettings) fromBodyPartial(ctx context.Context, res merak
 		data.MqttMessageFields = helpers.GetStringList(value.Array())
 	} else {
 		data.MqttMessageFields = types.ListNull(types.StringType)
-	}
-	if value := res.Get("network.id"); value.Exists() && !data.NetworkId.IsNull() {
-		data.NetworkId = types.StringValue(value.String())
-	} else {
-		data.NetworkId = types.StringNull()
 	}
 	if value := res.Get("wifi.enabled"); value.Exists() && !data.WifiEnabled.IsNull() {
 		data.WifiEnabled = types.BoolValue(value.Bool())
