@@ -75,7 +75,7 @@ func (data WirelessSSIDTrafficShapingRules) toBody(ctx context.Context, state Wi
 	if !data.TrafficShapingEnabled.IsNull() {
 		body, _ = sjson.Set(body, "trafficShapingEnabled", data.TrafficShapingEnabled.ValueBool())
 	}
-	if len(data.Rules) > 0 {
+	if data.Rules != nil {
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""
