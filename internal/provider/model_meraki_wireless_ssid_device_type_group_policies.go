@@ -66,7 +66,7 @@ func (data WirelessSSIDDeviceTypeGroupPolicies) toBody(ctx context.Context, stat
 	if !data.Enabled.IsNull() {
 		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
-	if len(data.DeviceTypePolicies) > 0 {
+	if data.DeviceTypePolicies != nil {
 		body, _ = sjson.Set(body, "deviceTypePolicies", []interface{}{})
 		for _, item := range data.DeviceTypePolicies {
 			itemBody := ""

@@ -147,7 +147,7 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 	if !data.BonjourForwardingSettings.IsNull() {
 		body, _ = sjson.Set(body, "bonjourForwarding.settings", data.BonjourForwardingSettings.ValueString())
 	}
-	if len(data.BonjourForwardingRules) > 0 {
+	if data.BonjourForwardingRules != nil {
 		body, _ = sjson.Set(body, "bonjourForwarding.rules", []interface{}{})
 		for _, item := range data.BonjourForwardingRules {
 			itemBody := ""
@@ -192,7 +192,7 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 	if !data.FirewallAndTrafficShapingSettings.IsNull() {
 		body, _ = sjson.Set(body, "firewallAndTrafficShaping.settings", data.FirewallAndTrafficShapingSettings.ValueString())
 	}
-	if len(data.L3FirewallRules) > 0 {
+	if data.L3FirewallRules != nil {
 		body, _ = sjson.Set(body, "firewallAndTrafficShaping.l3FirewallRules", []interface{}{})
 		for _, item := range data.L3FirewallRules {
 			itemBody := ""
@@ -214,7 +214,7 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 			body, _ = sjson.SetRaw(body, "firewallAndTrafficShaping.l3FirewallRules.-1", itemBody)
 		}
 	}
-	if len(data.L7FirewallRules) > 0 {
+	if data.L7FirewallRules != nil {
 		body, _ = sjson.Set(body, "firewallAndTrafficShaping.l7FirewallRules", []interface{}{})
 		for _, item := range data.L7FirewallRules {
 			itemBody := ""
@@ -236,7 +236,7 @@ func (data NetworkGroupPolicy) toBody(ctx context.Context, state NetworkGroupPol
 			body, _ = sjson.SetRaw(body, "firewallAndTrafficShaping.l7FirewallRules.-1", itemBody)
 		}
 	}
-	if len(data.TrafficShapingRules) > 0 {
+	if data.TrafficShapingRules != nil {
 		body, _ = sjson.Set(body, "firewallAndTrafficShaping.trafficShapingRules", []interface{}{})
 		for _, item := range data.TrafficShapingRules {
 			itemBody := ""
