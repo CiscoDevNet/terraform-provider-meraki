@@ -104,7 +104,7 @@ func (data WirelessSSIDHotspot20) toBody(ctx context.Context, state WirelessSSID
 		data.Domains.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "domains", values)
 	}
-	if len(data.MccMncs) > 0 {
+	if data.MccMncs != nil {
 		body, _ = sjson.Set(body, "mccMncs", []interface{}{})
 		for _, item := range data.MccMncs {
 			itemBody := ""
@@ -117,7 +117,7 @@ func (data WirelessSSIDHotspot20) toBody(ctx context.Context, state WirelessSSID
 			body, _ = sjson.SetRaw(body, "mccMncs.-1", itemBody)
 		}
 	}
-	if len(data.NaiRealms) > 0 {
+	if data.NaiRealms != nil {
 		body, _ = sjson.Set(body, "naiRealms", []interface{}{})
 		for _, item := range data.NaiRealms {
 			itemBody := ""
@@ -127,7 +127,7 @@ func (data WirelessSSIDHotspot20) toBody(ctx context.Context, state WirelessSSID
 			if !item.Realm.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "realm", item.Realm.ValueString())
 			}
-			if len(item.Methods) > 0 {
+			if item.Methods != nil {
 				itemBody, _ = sjson.Set(itemBody, "methods", []interface{}{})
 				for _, childItem := range item.Methods {
 					itemChildBody := ""

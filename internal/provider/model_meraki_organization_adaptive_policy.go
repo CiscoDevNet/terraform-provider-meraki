@@ -87,7 +87,7 @@ func (data OrganizationAdaptivePolicy) toBody(ctx context.Context, state Organiz
 	if !data.SourceGroupSgt.IsNull() {
 		body, _ = sjson.Set(body, "sourceGroup.sgt", data.SourceGroupSgt.ValueInt64())
 	}
-	if len(data.Acls) > 0 {
+	if data.Acls != nil {
 		body, _ = sjson.Set(body, "acls", []interface{}{})
 		for _, item := range data.Acls {
 			itemBody := ""

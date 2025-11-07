@@ -322,7 +322,7 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	if !data.ActiveDirectoryCredentialsPassword.IsNull() {
 		body, _ = sjson.Set(body, "activeDirectory.credentials.password", data.ActiveDirectoryCredentialsPassword.ValueString())
 	}
-	if len(data.ActiveDirectoryServers) > 0 {
+	if data.ActiveDirectoryServers != nil {
 		body, _ = sjson.Set(body, "activeDirectory.servers", []interface{}{})
 		for _, item := range data.ActiveDirectoryServers {
 			itemBody := ""
@@ -373,7 +373,7 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	if !data.LdapServerCaCertificateContents.IsNull() {
 		body, _ = sjson.Set(body, "ldap.serverCaCertificate.contents", data.LdapServerCaCertificateContents.ValueString())
 	}
-	if len(data.LdapServers) > 0 {
+	if data.LdapServers != nil {
 		body, _ = sjson.Set(body, "ldap.servers", []interface{}{})
 		for _, item := range data.LdapServers {
 			itemBody := ""
@@ -428,7 +428,7 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	if !data.NamedVlansTaggingEnabled.IsNull() {
 		body, _ = sjson.Set(body, "namedVlans.tagging.enabled", data.NamedVlansTaggingEnabled.ValueBool())
 	}
-	if len(data.NamedVlansTaggingByApTags) > 0 {
+	if data.NamedVlansTaggingByApTags != nil {
 		body, _ = sjson.Set(body, "namedVlans.tagging.byApTags", []interface{}{})
 		for _, item := range data.NamedVlansTaggingByApTags {
 			itemBody := ""
@@ -454,7 +454,7 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	if !data.SpeedBurstEnabled.IsNull() {
 		body, _ = sjson.Set(body, "speedBurst.enabled", data.SpeedBurstEnabled.ValueBool())
 	}
-	if len(data.ApTagsAndVlanIds) > 0 {
+	if data.ApTagsAndVlanIds != nil {
 		body, _ = sjson.Set(body, "apTagsAndVlanIds", []interface{}{})
 		for _, item := range data.ApTagsAndVlanIds {
 			itemBody := ""
@@ -474,7 +474,7 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 		data.AvailabilityTags.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "availabilityTags", values)
 	}
-	if len(data.RadiusAccountingServers) > 0 {
+	if data.RadiusAccountingServers != nil {
 		body, _ = sjson.Set(body, "radiusAccountingServers", []interface{}{})
 		for _, item := range data.RadiusAccountingServers {
 			itemBody := ""
@@ -496,7 +496,7 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 			body, _ = sjson.SetRaw(body, "radiusAccountingServers.-1", itemBody)
 		}
 	}
-	if len(data.RadiusServers) > 0 {
+	if data.RadiusServers != nil {
 		body, _ = sjson.Set(body, "radiusServers", []interface{}{})
 		for _, item := range data.RadiusServers {
 			itemBody := ""
