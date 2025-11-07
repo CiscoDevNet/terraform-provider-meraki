@@ -71,7 +71,7 @@ func (data OrganizationInventoryClaim) getDevicesPath() string {
 
 func (data OrganizationInventoryClaim) toBody(ctx context.Context, state OrganizationInventoryClaim) string {
 	body := ""
-	if len(data.Licenses) > 0 {
+	if data.Licenses != nil {
 		body, _ = sjson.Set(body, "licenses", []interface{}{})
 		for _, item := range data.Licenses {
 			itemBody := ""

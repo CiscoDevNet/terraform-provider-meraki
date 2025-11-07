@@ -92,7 +92,7 @@ func (data WirelessEthernetPortProfile) toBody(ctx context.Context, state Wirele
 			body, _ = sjson.SetRaw(body, "ports.-1", itemBody)
 		}
 	}
-	if len(data.UsbPorts) > 0 {
+	if data.UsbPorts != nil {
 		body, _ = sjson.Set(body, "usbPorts", []interface{}{})
 		for _, item := range data.UsbPorts {
 			itemBody := ""

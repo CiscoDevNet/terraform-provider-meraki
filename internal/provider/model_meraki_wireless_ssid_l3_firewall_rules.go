@@ -68,7 +68,7 @@ func (data WirelessSSIDL3FirewallRules) toBody(ctx context.Context, state Wirele
 	if !data.AllowLanAccess.IsNull() {
 		body, _ = sjson.Set(body, "allowLanAccess", data.AllowLanAccess.ValueBool())
 	}
-	if len(data.Rules) > 0 {
+	if data.Rules != nil {
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""

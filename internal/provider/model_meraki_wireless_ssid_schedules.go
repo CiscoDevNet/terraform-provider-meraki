@@ -74,7 +74,7 @@ func (data WirelessSSIDSchedules) toBody(ctx context.Context, state WirelessSSID
 	if !data.Enabled.IsNull() {
 		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
-	if len(data.Ranges) > 0 {
+	if data.Ranges != nil {
 		body, _ = sjson.Set(body, "ranges", []interface{}{})
 		for _, item := range data.Ranges {
 			itemBody := ""
@@ -93,7 +93,7 @@ func (data WirelessSSIDSchedules) toBody(ctx context.Context, state WirelessSSID
 			body, _ = sjson.SetRaw(body, "ranges.-1", itemBody)
 		}
 	}
-	if len(data.RangesInSeconds) > 0 {
+	if data.RangesInSeconds != nil {
 		body, _ = sjson.Set(body, "rangesInSeconds", []interface{}{})
 		for _, item := range data.RangesInSeconds {
 			itemBody := ""

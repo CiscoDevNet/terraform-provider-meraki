@@ -105,7 +105,7 @@ func (data ApplianceSSID) toBody(ctx context.Context, state ApplianceSSID) strin
 	if !data.Dot11wRequired.IsNull() {
 		body, _ = sjson.Set(body, "dot11w.required", data.Dot11wRequired.ValueBool())
 	}
-	if len(data.RadiusServers) > 0 {
+	if data.RadiusServers != nil {
 		body, _ = sjson.Set(body, "radiusServers", []interface{}{})
 		for _, item := range data.RadiusServers {
 			itemBody := ""

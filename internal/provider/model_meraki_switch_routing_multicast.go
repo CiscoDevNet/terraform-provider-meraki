@@ -73,7 +73,7 @@ func (data SwitchRoutingMulticast) toBody(ctx context.Context, state SwitchRouti
 	if !data.DefaultSettingsIgmpSnoopingEnabled.IsNull() {
 		body, _ = sjson.Set(body, "defaultSettings.igmpSnoopingEnabled", data.DefaultSettingsIgmpSnoopingEnabled.ValueBool())
 	}
-	if len(data.Overrides) > 0 {
+	if data.Overrides != nil {
 		body, _ = sjson.Set(body, "overrides", []interface{}{})
 		for _, item := range data.Overrides {
 			itemBody := ""
