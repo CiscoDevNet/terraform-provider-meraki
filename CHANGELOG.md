@@ -1,4 +1,4 @@
-## 1.8.0 (unreleased)
+## 1.8.0
 
 - Add `high_speed_enabled` attribute to `meraki_switch_port` resources and data sources
 - Add support for `both` value to `ip_version` attribute of `wireless_ssid_l3_firewall_rules` resource
