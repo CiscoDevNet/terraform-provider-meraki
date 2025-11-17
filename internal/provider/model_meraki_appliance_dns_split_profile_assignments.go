@@ -140,9 +140,14 @@ func (data *ApplianceDNSSplitProfileAssignments) fromBody(ctx context.Context, r
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceDNSSplitProfileAssignments) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if len(res.Get("items").Array()) == 0 {
+		tflog.Debug(ctx, "no items found in response")
+		return
+	}
 	for i := 0; i < len(data.Items); i++ {
-		keys := [...]string{"assignmentId", "network.id", "profile.id"}
-		keyValues := [...]string{data.Items[i].AssignmentId.ValueString(), data.Items[i].NetworkId.ValueString(), data.Items[i].ProfileId.ValueString()}
+		// When assignmentId is empty/null (during read after create), match only by network.id and profile.id
+		// Otherwise, match by all three keys
+		useAssignmentId := !data.Items[i].AssignmentId.IsNull() && data.Items[i].AssignmentId.ValueString() != ""
 
 		parent := &data
 		data := (*parent).Items[i]
@@ -151,19 +156,22 @@ func (data *ApplianceDNSSplitProfileAssignments) fromBodyPartial(ctx context.Con
 
 		parentRes.Get("items").ForEach(
 			func(_, v gjson.Result) bool {
-				found := false
-				for ik := range keys {
-					if v.Get(keys[ik]).String() != keyValues[ik] {
-						found = false
-						break
+				// Match by network.id and profile.id (always required)
+				if v.Get("network.id").String() != data.NetworkId.ValueString() {
+					return true
+				}
+				if v.Get("profile.id").String() != data.ProfileId.ValueString() {
+					return true
+				}
+				// If assignmentId is known, also match by it
+				if useAssignmentId {
+					if v.Get("assignmentId").String() != data.AssignmentId.ValueString() {
+						return true
 					}
-					found = true
 				}
-				if found {
-					res = v
-					return false
-				}
-				return true
+				// Found a match
+				res = v
+				return false
 			},
 		)
 		if !res.Exists() {
@@ -176,7 +184,7 @@ func (data *ApplianceDNSSplitProfileAssignments) fromBodyPartial(ctx context.Con
 
 			continue
 		}
-		if value := res.Get("assignmentId"); value.Exists() && !data.AssignmentId.IsNull() {
+		if value := res.Get("assignmentId"); value.Exists() {
 			data.AssignmentId = types.StringValue(value.String())
 		} else {
 			data.AssignmentId = types.StringNull()
@@ -202,9 +210,14 @@ func (data *ApplianceDNSSplitProfileAssignments) fromBodyPartial(ctx context.Con
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
 func (data *ApplianceDNSSplitProfileAssignments) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+	if len(res.Get("items").Array()) == 0 {
+		tflog.Debug(ctx, "no items found in response")
+		return
+	}
 	for i := 0; i < len(data.Items); i++ {
-		keys := [...]string{"assignmentId", "network.id", "profile.id"}
-		keyValues := [...]string{data.Items[i].AssignmentId.ValueString(), data.Items[i].NetworkId.ValueString(), data.Items[i].ProfileId.ValueString()}
+		// When assignmentId is unknown/null (during create), match only by network.id and profile.id
+		// Otherwise, match by all three keys
+		useAssignmentId := !data.Items[i].AssignmentId.IsUnknown() && !data.Items[i].AssignmentId.IsNull() && data.Items[i].AssignmentId.ValueString() != ""
 
 		parent := &data
 		data := (*parent).Items[i]
@@ -213,19 +226,22 @@ func (data *ApplianceDNSSplitProfileAssignments) fromBodyUnknowns(ctx context.Co
 
 		parentRes.Get("items").ForEach(
 			func(_, v gjson.Result) bool {
-				found := false
-				for ik := range keys {
-					if v.Get(keys[ik]).String() != keyValues[ik] {
-						found = false
-						break
+				// Match by network.id and profile.id (always required)
+				if v.Get("network.id").String() != data.NetworkId.ValueString() {
+					return true
+				}
+				if v.Get("profile.id").String() != data.ProfileId.ValueString() {
+					return true
+				}
+				// If assignmentId is known, also match by it
+				if useAssignmentId {
+					if v.Get("assignmentId").String() != data.AssignmentId.ValueString() {
+						return true
 					}
-					found = true
 				}
-				if found {
-					res = v
-					return false
-				}
-				return true
+				// Found a match
+				res = v
+				return false
 			},
 		)
 		if !res.Exists() {
@@ -239,7 +255,7 @@ func (data *ApplianceDNSSplitProfileAssignments) fromBodyUnknowns(ctx context.Co
 			continue
 		}
 		if data.AssignmentId.IsUnknown() {
-			if value := res.Get("assignmentId"); value.Exists() && !data.AssignmentId.IsNull() {
+			if value := res.Get("assignmentId"); value.Exists() {
 				data.AssignmentId = types.StringValue(value.String())
 			} else {
 				data.AssignmentId = types.StringNull()
