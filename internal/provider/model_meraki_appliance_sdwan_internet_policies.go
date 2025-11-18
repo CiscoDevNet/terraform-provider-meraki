@@ -117,7 +117,7 @@ func (data ApplianceSDWANInternetPolicies) toBody(ctx context.Context, state App
 					if !childItem.DestinationPort.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "value.destination.port", childItem.DestinationPort.ValueString())
 					}
-					if len(childItem.DestinationApplications) > 0 {
+					if childItem.DestinationApplications != nil {
 						itemChildBody, _ = sjson.Set(itemChildBody, "value.destination.applications", []interface{}{})
 						for _, childChildItem := range childItem.DestinationApplications {
 							itemChildChildBody := ""
