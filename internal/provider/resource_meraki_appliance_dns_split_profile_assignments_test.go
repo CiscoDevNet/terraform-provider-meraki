@@ -103,6 +103,7 @@ func testAccMerakiApplianceDNSSplitProfileAssignmentsConfig_minimum() string {
 	config := `resource "meraki_appliance_dns_split_profile_assignments" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  items = [{` + "\n"
+	config += `    assignment_id = ""` + "\n"
 	config += `    network_id = meraki_network.test.id` + "\n"
 	config += `    profile_id = meraki_appliance_dns_split_profile.test.id` + "\n"
 	config += `  }]` + "\n"
