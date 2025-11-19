@@ -439,7 +439,11 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 	{{- end}}
 
 	{{- if .GetInCreateContext}}
+	{{- if .ReadPathMethod}}
 	resGet, errGet := r.client.Get(plan.{{.ReadPathMethod}}())
+	{{- else}}
+	resGet, errGet := r.client.Get(plan.getPath())
+	{{- end}}
 	if errGet != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", errGet, resGet.String()))
 		return
