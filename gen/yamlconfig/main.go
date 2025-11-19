@@ -27,9 +27,11 @@ type YamlConfig struct {
 	GetFromAll          bool                  `yaml:"get_from_all,omitempty"`
 	NoUpdate            bool                  `yaml:"no_update,omitempty"`
 	NoDelete            bool                  `yaml:"no_delete,omitempty"`
+	GetInCreateContext  bool                  `yaml:"get_in_create_context,omitempty"`
 	NoImport            bool                  `yaml:"no_import,omitempty"`
 	NoRead              bool                  `yaml:"no_read,omitempty"`
 	PostAndPut          bool                  `yaml:"post_and_put,omitempty"`
+	ReadPathMethod      string                `yaml:"read_path_method,omitempty"`
 	IdName              string                `yaml:"id_name,omitempty"`
 	EarlyAccess         bool                  `yaml:"early_access,omitempty"`
 	DataSourceNameQuery bool                  `yaml:"data_source_name_query,omitempty"`
@@ -66,6 +68,7 @@ type YamlConfigP struct {
 	NoImport            *bool                   `yaml:"no_import,omitempty"`
 	NoRead              *bool                   `yaml:"no_read,omitempty"`
 	PostAndPut          *bool                   `yaml:"post_and_put,omitempty"`
+	ReadPathMethod      *string                 `yaml:"read_path_method,omitempty"`
 	IdName              *string                 `yaml:"id_name,omitempty"`
 	EarlyAccess         *bool                   `yaml:"early_access,omitempty"`
 	DataSourceNameQuery *bool                   `yaml:"data_source_name_query,omitempty"`
@@ -731,6 +734,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.PostAndPut != nil {
 		new.PostAndPut = existing.PostAndPut
+	}
+	if existing.ReadPathMethod != nil {
+		new.ReadPathMethod = existing.ReadPathMethod
 	}
 	if existing.IdName != nil {
 		new.IdName = existing.IdName

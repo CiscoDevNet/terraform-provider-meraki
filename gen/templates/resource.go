@@ -437,7 +437,17 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 	{{- else}}
 	plan.Id = types.StringValue(res.Get("{{.IdName}}").String())
 	{{- end}}
+
+	{{- if .GetInCreateContext}}
+	resGet, errGet := r.client.Get(plan.{{.ReadPathMethod}}())
+	if errGet != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", errGet, resGet.String()))
+		return
+	}
+	plan.fromBodyUnknowns(ctx, resGet)
+	{{- else}}
 	plan.fromBodyUnknowns(ctx, res)
+	{{- end}}
 
 	{{- if .PostAndPut}}
 	res, err = r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)

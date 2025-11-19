@@ -131,14 +131,11 @@ func (r *ApplianceDNSSplitProfileAssignmentsResource) Create(ctx context.Context
 		return
 	}
 	plan.Id = plan.OrganizationId
-
-	// Read the assignments back to get the assignment IDs (bulkCreate doesn't return them)
 	resGet, errGet := r.client.Get(plan.getAssignmentsPath())
 	if errGet != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve assignments (GET), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", errGet, resGet.String()))
 		return
 	}
-	tflog.Debug(ctx, fmt.Sprintf("response from API: %s", resGet.String()))
 	plan.fromBodyUnknowns(ctx, resGet)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
