@@ -27,6 +27,7 @@ attributes:
         type: String
         description: Assignment ID
         computed: true
+        id: true
       - model_name: id
         type: String
         data_path: [network]
@@ -40,6 +41,7 @@ attributes:
         mandatory: true
         description: ID of the profile
         example: "1234"
+        id: true
         test_value: meraki_appliance_dns_split_profile.test.id
 test_prerequisites: |
   data "meraki_organization" "test" {
