@@ -141,8 +141,8 @@ func (data *ApplianceDNSSplitProfileAssignments) fromBody(ctx context.Context, r
 // "managed" elements, instead of all elements.
 func (data *ApplianceDNSSplitProfileAssignments) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	for i := 0; i < len(data.Items); i++ {
-		keys := [...]string{"assignmentId", "network.id", "profile.id"}
-		keyValues := [...]string{data.Items[i].AssignmentId.ValueString(), data.Items[i].NetworkId.ValueString(), data.Items[i].ProfileId.ValueString()}
+		keys := [...]string{"network.id", "profile.id"}
+		keyValues := [...]string{data.Items[i].NetworkId.ValueString(), data.Items[i].ProfileId.ValueString()}
 
 		parent := &data
 		data := (*parent).Items[i]
@@ -203,8 +203,8 @@ func (data *ApplianceDNSSplitProfileAssignments) fromBodyPartial(ctx context.Con
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
 func (data *ApplianceDNSSplitProfileAssignments) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 	for i := 0; i < len(data.Items); i++ {
-		keys := [...]string{"assignmentId", "network.id", "profile.id"}
-		keyValues := [...]string{data.Items[i].AssignmentId.ValueString(), data.Items[i].NetworkId.ValueString(), data.Items[i].ProfileId.ValueString()}
+		keys := [...]string{"network.id", "profile.id"}
+		keyValues := [...]string{data.Items[i].NetworkId.ValueString(), data.Items[i].ProfileId.ValueString()}
 
 		parent := &data
 		data := (*parent).Items[i]
