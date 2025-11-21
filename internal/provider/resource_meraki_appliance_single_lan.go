@@ -99,6 +99,10 @@ func (r *ApplianceSingleLANResource) Schema(ctx context.Context, req resource.Sc
 							MarkdownDescription: helpers.NewAttributeDescription("Auto assign a /64 prefix from the origin to the VLAN").String,
 							Optional:            true,
 						},
+						"disabled": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Disable this assignment").String,
+							Required:            true,
+						},
 						"static_appliance_ip6": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Manual configuration of the IPv6 Appliance IP").String,
 							Optional:            true,
