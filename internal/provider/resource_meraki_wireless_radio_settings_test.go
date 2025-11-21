@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiWirelessRadioSettings(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_ap_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_radio_settings.test", "five_ghz_settings_channel", "40"))
@@ -44,26 +42,26 @@ func TestAccMerakiWirelessRadioSettings(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiWirelessRadioSettingsPrerequisitesConfig + testAccMerakiWirelessRadioSettingsConfig_minimum(),
+			Config: testAccMerakiWirelessRadioSettingsPrerequisitesConfig+testAccMerakiWirelessRadioSettingsConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessRadioSettingsPrerequisitesConfig + testAccMerakiWirelessRadioSettingsConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiWirelessRadioSettingsPrerequisitesConfig+testAccMerakiWirelessRadioSettingsConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_wireless_radio_settings.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiWirelessRadioSettingsImportStateIdFunc("meraki_wireless_radio_settings.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_wireless_radio_settings.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiWirelessRadioSettingsImportStateIdFunc("meraki_wireless_radio_settings.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -102,7 +100,6 @@ resource "meraki_network_device_claim" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -133,5 +130,7 @@ func testAccMerakiWirelessRadioSettingsConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

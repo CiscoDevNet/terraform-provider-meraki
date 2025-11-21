@@ -21,11 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,7 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/sjson"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -78,6 +82,7 @@ func (r *OrganizationInventoryClaimResource) Schema(ctx context.Context, req res
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"licenses": schema.ListNestedAttribute{
@@ -90,10 +95,10 @@ func (r *OrganizationInventoryClaimResource) Schema(ctx context.Context, req res
 							Required:            true,
 						},
 						"mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Co-term licensing only: either `renew` or `addDevices`. `addDevices` will increase the license limit, while `renew` will extend the amount of time until expiration. Defaults to `addDevices`. All licenses must be claimed with the same mode, and at most one renewal can be claimed at a time. Does not apply to organizations using per-device licensing model.").AddStringEnumDescription("addDevices", "renew").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Co-term licensing only: either `renew` or `addDevices`. `addDevices` will increase the license limit, while `renew` will extend the amount of time until expiration. Defaults to `addDevices`. All licenses must be claimed with the same mode, and at most one renewal can be claimed at a time. Does not apply to organizations using per-device licensing model.").AddStringEnumDescription("addDevices", "renew", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("addDevices", "renew"),
+								stringvalidator.OneOf("addDevices", "renew", ),
 							},
 						},
 					},
@@ -324,5 +329,4 @@ func (r *OrganizationInventoryClaimResource) ImportState(ctx context.Context, re
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

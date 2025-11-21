@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *WirelessSSIDL3FirewallRulesResource) Schema(ctx context.Context, req re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"number": schema.StringAttribute{
@@ -82,6 +90,7 @@ func (r *WirelessSSIDL3FirewallRulesResource) Schema(ctx context.Context, req re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"allow_lan_access": schema.BoolAttribute{
@@ -106,24 +115,24 @@ func (r *WirelessSSIDL3FirewallRulesResource) Schema(ctx context.Context, req re
 							Optional:            true,
 						},
 						"policy": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("`allow` or `deny` traffic specified by this rule").AddStringEnumDescription("allow", "deny").String,
+							MarkdownDescription: helpers.NewAttributeDescription("`allow` or `deny` traffic specified by this rule").AddStringEnumDescription("allow", "deny", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("allow", "deny"),
+								stringvalidator.OneOf("allow", "deny", ),
 							},
 						},
 						"protocol": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)").AddStringEnumDescription("any", "icmp", "icmp6", "tcp", "udp").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)").AddStringEnumDescription("any", "icmp", "icmp6", "tcp", "udp", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("any", "icmp", "icmp6", "tcp", "udp"),
+								stringvalidator.OneOf("any", "icmp", "icmp6", "tcp", "udp", ),
 							},
 						},
 						"ip_version": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("IP version to which this rule applies (must be one of `both`, `ipv4` or `ipv6`). Defaults to `both` if not specified.").AddStringEnumDescription("both", "ipv4", "ipv6").String,
+							MarkdownDescription: helpers.NewAttributeDescription("IP version to which this rule applies (must be one of `both`, `ipv4` or `ipv6`). Defaults to `both` if not specified.").AddStringEnumDescription("both", "ipv4", "ipv6", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("both", "ipv4", "ipv6"),
+								stringvalidator.OneOf("both", "ipv4", "ipv6", ),
 							},
 						},
 					},
@@ -296,5 +305,4 @@ func (r *WirelessSSIDL3FirewallRulesResource) ImportState(ctx context.Context, r
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

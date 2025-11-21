@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,28 +31,28 @@ import (
 
 func TestAccMerakiWirelessEthernetPortProfileAssign(t *testing.T) {
 	if os.Getenv("WIRELESS_ETHERNET_PORT_PROFILE_ASSIGN") == "" {
-		t.Skip("skipping test, set environment variable WIRELESS_ETHERNET_PORT_PROFILE_ASSIGN")
+        t.Skip("skipping test, set environment variable WIRELESS_ETHERNET_PORT_PROFILE_ASSIGN")
 	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_ap_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiWirelessEthernetPortProfileAssignPrerequisitesConfig + testAccMerakiWirelessEthernetPortProfileAssignConfig_minimum(),
+			Config: testAccMerakiWirelessEthernetPortProfileAssignPrerequisitesConfig+testAccMerakiWirelessEthernetPortProfileAssignConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessEthernetPortProfileAssignPrerequisitesConfig + testAccMerakiWirelessEthernetPortProfileAssignConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiWirelessEthernetPortProfileAssignPrerequisitesConfig+testAccMerakiWirelessEthernetPortProfileAssignConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -103,7 +101,6 @@ resource "meraki_wireless_ethernet_port_profile" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -133,5 +130,7 @@ func testAccMerakiWirelessEthernetPortProfileAssignConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

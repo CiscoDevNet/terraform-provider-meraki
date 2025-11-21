@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiSwitchAlternateManagementInterface(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_alternate_management_interface.test", "enabled", "true"))
@@ -44,26 +42,26 @@ func TestAccMerakiSwitchAlternateManagementInterface(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSwitchAlternateManagementInterfacePrerequisitesConfig + testAccMerakiSwitchAlternateManagementInterfaceConfig_minimum(),
+			Config: testAccMerakiSwitchAlternateManagementInterfacePrerequisitesConfig+testAccMerakiSwitchAlternateManagementInterfaceConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchAlternateManagementInterfacePrerequisitesConfig + testAccMerakiSwitchAlternateManagementInterfaceConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiSwitchAlternateManagementInterfacePrerequisitesConfig+testAccMerakiSwitchAlternateManagementInterfaceConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_switch_alternate_management_interface.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiSwitchAlternateManagementInterfaceImportStateIdFunc("meraki_switch_alternate_management_interface.test"),
-		ImportStateVerifyIgnore: []string{"vlan_id", "protocols"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_switch_alternate_management_interface.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiSwitchAlternateManagementInterfaceImportStateIdFunc("meraki_switch_alternate_management_interface.test"),
+		ImportStateVerifyIgnore: []string{ "vlan_id","protocols", },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -102,7 +100,6 @@ resource "meraki_network_device_claim" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -140,5 +137,7 @@ func testAccMerakiSwitchAlternateManagementInterfaceConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

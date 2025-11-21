@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *WirelessSSIDTrafficShapingRulesResource) Schema(ctx context.Context, re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"number": schema.StringAttribute{
@@ -82,6 +90,7 @@ func (r *WirelessSSIDTrafficShapingRulesResource) Schema(ctx context.Context, re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"default_rules_enabled": schema.BoolAttribute{
@@ -123,10 +132,10 @@ func (r *WirelessSSIDTrafficShapingRulesResource) Schema(ctx context.Context, re
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"type": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("The type of definition. Can be one of `application`, `applicationCategory`, `host`, `port`, `ipRange` or `localNet`.").AddStringEnumDescription("application", "applicationCategory", "host", "ipRange", "localNet", "port").String,
+										MarkdownDescription: helpers.NewAttributeDescription("The type of definition. Can be one of `application`, `applicationCategory`, `host`, `port`, `ipRange` or `localNet`.").AddStringEnumDescription("application", "applicationCategory", "host", "ipRange", "localNet", "port", ).String,
 										Required:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "localNet", "port"),
+											stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "localNet", "port", ),
 										},
 									},
 									"value": schema.StringAttribute{
@@ -306,5 +315,4 @@ func (r *WirelessSSIDTrafficShapingRulesResource) ImportState(ctx context.Contex
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

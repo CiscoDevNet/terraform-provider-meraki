@@ -1,0 +1,202 @@
+Resource Name,Type,Notes
+meraki_appliance_cellular_firewall_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_connectivity_monitoring_destinations,Singleton,Resets to defaults via PUT
+meraki_appliance_content_filtering,Unknown,Needs manual review
+meraki_appliance_dns_local_profile_assignments,Unknown,Needs manual review
+meraki_appliance_dns_local_profile,CRUD,Uses DELETE API
+meraki_appliance_dns_local_record,CRUD,Uses DELETE API
+meraki_appliance_dns_split_profile_assignments,Unknown,Needs manual review
+meraki_appliance_dns_split_profile,CRUD,Uses DELETE API
+meraki_appliance_firewall_multicast_forwarding,Singleton,Resets to defaults via PUT
+meraki_appliance_firewall_settings,Unknown,Needs manual review
+meraki_appliance_firewalled_service,Unknown,Needs manual review
+meraki_appliance_inbound_cellular_firewall_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_inbound_firewall_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_l3_firewall_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_l7_firewall_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_network_security_intrusion,Unknown,Needs manual review
+meraki_appliance_one_to_many_nat_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_one_to_one_nat_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_organization_security_intrusion,Singleton,Resets to defaults via PUT
+meraki_appliance_port_forwarding_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_port,Unknown,Needs manual review
+meraki_appliance_ports,Unknown,Needs manual review
+meraki_appliance_prefix_delegated_static,CRUD,Uses DELETE API
+meraki_appliance_prefix_delegated_statics,Unknown,Needs manual review
+meraki_appliance_radio_settings,Unknown,Needs manual review
+meraki_appliance_rf_profile,CRUD,Uses DELETE API
+meraki_appliance_rf_profiles,Unknown,Needs manual review
+meraki_appliance_sdwan_internet_policies,Singleton,Resets to defaults via PUT
+meraki_appliance_security_malware,Unknown,Needs manual review
+meraki_appliance_settings,Unknown,Needs manual review
+meraki_appliance_single_lan,Unknown,Needs manual review
+meraki_appliance_site_to_site_vpn,Unknown,Needs manual review
+meraki_appliance_ssid,Unknown,Needs manual review
+meraki_appliance_ssids,Unknown,Needs manual review
+meraki_appliance_static_route,CRUD,Uses DELETE API
+meraki_appliance_third_party_vpn_peers,Singleton,Resets to defaults via PUT
+meraki_appliance_traffic_shaping_custom_performance_class,CRUD,Uses DELETE API
+meraki_appliance_traffic_shaping_custom_performance_classes,Unknown,Needs manual review
+meraki_appliance_traffic_shaping_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_traffic_shaping_uplink_bandwidth,Unknown,Needs manual review
+meraki_appliance_traffic_shaping_uplink_selection,Unknown,Needs manual review
+meraki_appliance_traffic_shaping_vpn_exclusions,Singleton,Resets to defaults via PUT
+meraki_appliance_traffic_shaping,Unknown,Needs manual review
+meraki_appliance_uplinks_settings,Unknown,Needs manual review
+meraki_appliance_vlan_dhcp,Unknown,Needs manual review
+meraki_appliance_vlan,CRUD,Uses DELETE API
+meraki_appliance_vlans_settings,Unknown,Needs manual review
+meraki_appliance_vlans,Unknown,Needs manual review
+meraki_appliance_vmx_authentication_token,Unknown,Needs manual review
+meraki_appliance_vpn_bgp,Unknown,Needs manual review
+meraki_appliance_vpn_firewall_rules,Singleton,Resets to defaults via PUT
+meraki_appliance_vpn_site_to_site_ipsec_peers_slas,Singleton,Resets to defaults via PUT
+meraki_appliance_warm_spare,Unknown,Needs manual review
+meraki_camera_custom_analytics,Unknown,Needs manual review
+meraki_camera_device_wireless_profiles,Unknown,Needs manual review
+meraki_camera_quality_retention_profile,CRUD,Uses DELETE API
+meraki_camera_quality_retention,Unknown,Needs manual review
+meraki_camera_role,CRUD,Uses DELETE API
+meraki_camera_sense,Unknown,Needs manual review
+meraki_camera_video_settings,Unknown,Needs manual review
+meraki_camera_wireless_profile,CRUD,Uses DELETE API
+meraki_cellular_gateway_connectivity_monitoring_destinations,Singleton,Resets to defaults via PUT
+meraki_cellular_gateway_dhcp,Unknown,Needs manual review
+meraki_cellular_gateway_lan,Singleton,Resets to defaults via PUT
+meraki_cellular_gateway_port_forwarding_rules,Singleton,Resets to defaults via PUT
+meraki_cellular_gateway_subnet_pool,Unknown,Needs manual review
+meraki_cellular_gateway_uplink,Unknown,Needs manual review
+meraki_device_cellular_sims,Unknown,Needs manual review
+meraki_device_management_interface,Unknown,Needs manual review
+meraki_device,Unknown,Needs manual review
+meraki_devices,Unknown,Needs manual review
+meraki_insight_monitored_media_server,Unknown,Needs manual review
+meraki_network_alerts_settings,Unknown,Needs manual review
+meraki_network_client_policy,Unknown,Needs manual review
+meraki_network_client_splash_authorization_status,Unknown,Needs manual review
+meraki_network_device_claim_vmx,Unknown,Needs manual review
+meraki_network_device_claim,Unknown,Needs manual review
+meraki_network_firmware_upgrades,Unknown,Needs manual review
+meraki_network_floor_plan,CRUD,Uses DELETE API
+meraki_network_group_policies,Unknown,Needs manual review
+meraki_network_group_policy,Unknown,Needs manual review
+meraki_network_meraki_auth_user,CRUD,Uses DELETE API
+meraki_network_meraki_auth_users,Unknown,Needs manual review
+meraki_network_mqtt_broker,CRUD,Uses DELETE API
+meraki_network_netflow,Unknown,Needs manual review
+meraki_network_settings,Unknown,Needs manual review
+meraki_network_snmp,Unknown,Needs manual review
+meraki_network_syslog_servers,Singleton,Resets to defaults via PUT
+meraki_network_traffic_analysis,Unknown,Needs manual review
+meraki_network_vlan_profile,Unknown,Needs manual review
+meraki_network_webhook_http_server,CRUD,Uses DELETE API
+meraki_network_webhook_payload_template,CRUD,Uses DELETE API
+meraki_network_webhook_payload_templates,Unknown,Needs manual review
+meraki_network,CRUD,Uses DELETE API
+meraki_organization_adaptive_policies,Unknown,Needs manual review
+meraki_organization_adaptive_policy_acl,CRUD,Uses DELETE API
+meraki_organization_adaptive_policy_group,CRUD,Uses DELETE API
+meraki_organization_adaptive_policy_groups,Unknown,Needs manual review
+meraki_organization_adaptive_policy_settings,Unknown,Needs manual review
+meraki_organization_adaptive_policy,CRUD,Uses DELETE API
+meraki_organization_admin,CRUD,Uses DELETE API
+meraki_organization_alerts_profile,CRUD,Uses DELETE API
+meraki_organization_auth_radius_server,CRUD,Uses DELETE API
+meraki_organization_branding_policies_priorities,Unknown,Needs manual review
+meraki_organization_branding_policy,CRUD,Uses DELETE API
+meraki_organization_config_template,CRUD,Uses DELETE API
+meraki_organization_early_access_features_opt_in,CRUD,Uses DELETE API
+meraki_organization_extensions_thousand_eyes_network,CRUD,Uses DELETE API
+meraki_organization_inventory_claim,Unknown,Needs manual review
+meraki_organization_license,Unknown,Needs manual review
+meraki_organization_licenses,Unknown,Needs manual review
+meraki_organization_login_security,Unknown,Needs manual review
+meraki_organization_policy_object_group,CRUD,Uses DELETE API
+meraki_organization_policy_object_groups,Unknown,Needs manual review
+meraki_organization_policy_object,CRUD,Uses DELETE API
+meraki_organization_policy_objects,Unknown,Needs manual review
+meraki_organization_saml_idp,CRUD,Uses DELETE API
+meraki_organization_saml_idps,Unknown,Needs manual review
+meraki_organization_saml_role,CRUD,Uses DELETE API
+meraki_organization_saml,Unknown,Needs manual review
+meraki_organization_snmp,Unknown,Needs manual review
+meraki_organization,CRUD,Uses DELETE API
+meraki_sensor_alerts_profile,CRUD,Uses DELETE API
+meraki_sensor_alerts_profiles,Unknown,Needs manual review
+meraki_sensor_mqtt_broker,Singleton,Resets to defaults via PUT
+meraki_sensor_mqtt_brokers,Unknown,Needs manual review
+meraki_sensor_relationships,Unknown,Needs manual review
+meraki_sm_admin_role,CRUD,Uses DELETE API
+meraki_sm_admin_roles,Unknown,Needs manual review
+meraki_sm_target_group,CRUD,Uses DELETE API
+meraki_switch_access_control_lists,Singleton,Resets to defaults via PUT
+meraki_switch_access_policies,Unknown,Needs manual review
+meraki_switch_access_policy,CRUD,Uses DELETE API
+meraki_switch_alternate_management_interface,Unknown,Needs manual review
+meraki_switch_dhcp_server_policy_arp_inspection_trusted_server,CRUD,Uses DELETE API
+meraki_switch_dhcp_server_policy,Unknown,Needs manual review
+meraki_switch_dscp_to_cos_mappings,Singleton,Resets to defaults via PUT
+meraki_switch_link_aggregation,CRUD,Uses DELETE API
+meraki_switch_link_aggregations,Unknown,Needs manual review
+meraki_switch_mtu,Unknown,Needs manual review
+meraki_switch_organization_ports_profile,CRUD,Uses DELETE API
+meraki_switch_organization_ports_profiles_automation,CRUD,Uses DELETE API
+meraki_switch_port_schedule,CRUD,Uses DELETE API
+meraki_switch_port,Singleton,Resets to defaults via PUT
+meraki_switch_ports,Unknown,Needs manual review
+meraki_switch_qos_rule_order,Unknown,Needs manual review
+meraki_switch_qos_rule,CRUD,Uses DELETE API
+meraki_switch_routing_interface_dhcp,Unknown,Needs manual review
+meraki_switch_routing_interface,CRUD,Uses DELETE API
+meraki_switch_routing_interfaces,Unknown,Needs manual review
+meraki_switch_routing_multicast_rendezvous_point,CRUD,Uses DELETE API
+meraki_switch_routing_multicast_rendezvous_points,Unknown,Needs manual review
+meraki_switch_routing_multicast,Unknown,Needs manual review
+meraki_switch_routing_ospf,Unknown,Needs manual review
+meraki_switch_routing_static_route,CRUD,Uses DELETE API
+meraki_switch_routing_static_routes,Unknown,Needs manual review
+meraki_switch_settings,Unknown,Needs manual review
+meraki_switch_stack_routing_interface_dhcp,Unknown,Needs manual review
+meraki_switch_stack_routing_interface,CRUD,Uses DELETE API
+meraki_switch_stack_routing_interfaces,Unknown,Needs manual review
+meraki_switch_stack_routing_static_route,CRUD,Uses DELETE API
+meraki_switch_stack_routing_static_routes,Unknown,Needs manual review
+meraki_switch_stack,CRUD,Uses DELETE API
+meraki_switch_storm_control,Unknown,Needs manual review
+meraki_switch_stp,Unknown,Needs manual review
+meraki_switch_warm_spare,Unknown,Needs manual review
+meraki_wireless_air_marshal_rule,CRUD,Uses DELETE API
+meraki_wireless_air_marshal_settings,Unknown,Needs manual review
+meraki_wireless_alternate_management_interface,Unknown,Needs manual review
+meraki_wireless_billing,Unknown,Needs manual review
+meraki_wireless_device_bluetooth_settings,Unknown,Needs manual review
+meraki_wireless_device_electronic_shelf_label,Unknown,Needs manual review
+meraki_wireless_ethernet_port_profile_assign,Unknown,Needs manual review
+meraki_wireless_ethernet_port_profile_default,Unknown,Needs manual review
+meraki_wireless_ethernet_port_profile,CRUD,Uses DELETE API
+meraki_wireless_location_scanning_receiver,CRUD,Uses DELETE API
+meraki_wireless_location_scanning,Unknown,Needs manual review
+meraki_wireless_network_bluetooth_settings,Unknown,Needs manual review
+meraki_wireless_network_electronic_shelf_label,Unknown,Needs manual review
+meraki_wireless_radio_settings,Unknown,Needs manual review
+meraki_wireless_rf_profile,CRUD,Uses DELETE API
+meraki_wireless_rf_profiles,Unknown,Needs manual review
+meraki_wireless_settings,Unknown,Needs manual review
+meraki_wireless_ssid_bonjour_forwarding,Unknown,Needs manual review
+meraki_wireless_ssid_device_type_group_policies,Unknown,Needs manual review
+meraki_wireless_ssid_eap_override,Unknown,Needs manual review
+meraki_wireless_ssid_firewall_isolation_allowlist_entry,CRUD,Uses DELETE API
+meraki_wireless_ssid_hotspot_20,Unknown,Needs manual review
+meraki_wireless_ssid_identity_psk,CRUD,Uses DELETE API
+meraki_wireless_ssid_identity_psks,Unknown,Needs manual review
+meraki_wireless_ssid_l3_firewall_rules,Singleton,Resets to defaults via PUT
+meraki_wireless_ssid_l7_firewall_rules,Singleton,Resets to defaults via PUT
+meraki_wireless_ssid_schedules,Unknown,Needs manual review
+meraki_wireless_ssid_splash_settings,Unknown,Needs manual review
+meraki_wireless_ssid_traffic_shaping_rules,Singleton,Resets to defaults via PUT
+meraki_wireless_ssid_vpn,Unknown,Needs manual review
+meraki_wireless_ssid,Singleton,Resets to defaults via PUT
+meraki_wireless_ssids,Unknown,Needs manual review
+meraki_wireless_zigbee_device,Unknown,Needs manual review
+meraki_wireless_zigbee_door_lock,Unknown,Needs manual review
+meraki_wireless_zigbee,Unknown,Needs manual review

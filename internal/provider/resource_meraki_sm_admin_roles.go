@@ -21,12 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
-	"slices"
-	"strconv"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -64,7 +68,7 @@ func (r *SMAdminRolesResource) Metadata(ctx context.Context, req resource.Metada
 func (r *SMAdminRolesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `SM Admin Role` configuration in bulk.").AddBulkResourceIds("name").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `SM Admin Role` configuration in bulk.").AddBulkResourceIds("name", ).String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -95,10 +99,10 @@ func (r *SMAdminRolesResource) Schema(ctx context.Context, req resource.SchemaRe
 							Required:            true,
 						},
 						"scope": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The scope of the Limited Access Role").AddStringEnumDescription("all_tags", "some", "without_all_tags", "without_some").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The scope of the Limited Access Role").AddStringEnumDescription("all_tags", "some", "without_all_tags", "without_some", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("all_tags", "some", "without_all_tags", "without_some"),
+								stringvalidator.OneOf("all_tags", "some", "without_all_tags", "without_some", ),
 							},
 						},
 						"tags": schema.ListAttribute{
@@ -273,7 +277,7 @@ func (r *SMAdminRolesResource) Update(ctx context.Context, req resource.UpdateRe
 					Operation: "update",
 					Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
 					Body:      plan.Items[i].toBody(ctx, itemState),
-				})
+				})					
 			}
 			break
 		}
@@ -362,7 +366,7 @@ func (r *SMAdminRolesResource) ImportState(ctx context.Context, req resource.Imp
 		expectedIdentifier += " or <organization_id>,[<id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -382,7 +386,6 @@ func (r *SMAdminRolesResource) ImportState(ctx context.Context, req resource.Imp
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
@@ -425,5 +428,4 @@ func (r *SMAdminRolesResource) ModifyPlan(ctx context.Context, req resource.Modi
 	diags = resp.Plan.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
-
 // End of section. //template:end modifyPlan

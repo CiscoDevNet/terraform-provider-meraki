@@ -21,10 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -76,6 +82,7 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"number": schema.StringAttribute{
@@ -83,6 +90,7 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"enabled": schema.BoolAttribute{
@@ -90,10 +98,10 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 				Optional:            true,
 			},
 			"network_access_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The network type of this SSID (`Private network`, `Private network with guest access`, `Chargeable public network`, `Free public network`, `Personal device network`, `Emergency services only network`, `Test or experimental`, `Wildcard`)").AddStringEnumDescription("Chargeable public network", "Emergency services only network", "Free public network", "Personal device network", "Private network", "Private network with guest access", "Test or experimental", "Wildcard").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The network type of this SSID (`Private network`, `Private network with guest access`, `Chargeable public network`, `Free public network`, `Personal device network`, `Emergency services only network`, `Test or experimental`, `Wildcard`)").AddStringEnumDescription("Chargeable public network", "Emergency services only network", "Free public network", "Personal device network", "Private network", "Private network with guest access", "Test or experimental", "Wildcard", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Chargeable public network", "Emergency services only network", "Free public network", "Personal device network", "Private network", "Private network with guest access", "Test or experimental", "Wildcard"),
+					stringvalidator.OneOf("Chargeable public network", "Emergency services only network", "Free public network", "Personal device network", "Private network", "Private network with guest access", "Test or experimental", "Wildcard", ),
 				},
 			},
 			"operator_name": schema.StringAttribute{
@@ -105,10 +113,10 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 				Optional:            true,
 			},
 			"venue_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Venue type (`Unspecified`, `Unspecified Assembly`, `Arena`, `Stadium`, `Passenger Terminal`, `Amphitheater`, `Amusement Park`, `Place of Worship`, `Convention Center`, `Library`, `Museum`, `Restaurant`, `Theater`, `Bar`, `Coffee Shop`, `Zoo or Aquarium`, `Emergency Coordination Center`, `Unspecified Business`, `Doctor or Dentist office`, `Bank`, `Fire Station`, `Police Station`, `Post Office`, `Professional Office`, `Research and Development Facility`, `Attorney Office`, `Unspecified Educational`, `School, Primary`, `School, Secondary`, `University or College`, `Unspecified Factory and Industrial`, `Factory`, `Unspecified Institutional`, `Hospital`, `Long-Term Care Facility`, `Alcohol and Drug Rehabilitation Center`, `Group Home`, `Prison or Jail`, `Unspecified Mercantile`, `Retail Store`, `Grocery Market`, `Automotive Service Station`, `Shopping Mall`, `Gas Station`, `Unspecified Residential`, `Private Residence`, `Hotel or Motel`, `Dormitory`, `Boarding House`, `Unspecified Storage`, `Unspecified Utility and Miscellaneous`, `Unspecified Vehicular`, `Automobile or Truck`, `Airplane`, `Bus`, `Ferry`, `Ship or Boat`, `Train`, `Motor Bike`, `Unspecified Outdoor`, `Muni-mesh Network`, `City Park`, `Rest Area`, `Traffic Control`, `Bus Stop`, `Kiosk`)").AddStringEnumDescription("Airplane", "Alcohol and Drug Rehabilitation Center", "Amphitheater", "Amusement Park", "Arena", "Attorney Office", "Automobile or Truck", "Automotive Service Station", "Bank", "Bar", "Boarding House", "Bus", "Bus Stop", "City Park", "Coffee Shop", "Convention Center", "Doctor or Dentist office", "Dormitory", "Emergency Coordination Center", "Factory", "Ferry", "Fire Station", "Gas Station", "Grocery Market", "Group Home", "Hospital", "Hotel or Motel", "Kiosk", "Library", "Long-Term Care Facility", "Motor Bike", "Muni-mesh Network", "Museum", "Passenger Terminal", "Place of Worship", "Police Station", "Post Office", "Prison or Jail", "Private Residence", "Professional Office", "Research and Development Facility", "Rest Area", "Restaurant", "Retail Store", "School, Primary", "School, Secondary", "Ship or Boat", "Shopping Mall", "Stadium", "Theater", "Traffic Control", "Train", "University or College", "Unspecified", "Unspecified Assembly", "Unspecified Business", "Unspecified Educational", "Unspecified Factory and Industrial", "Unspecified Institutional", "Unspecified Mercantile", "Unspecified Outdoor", "Unspecified Residential", "Unspecified Storage", "Unspecified Utility and Miscellaneous", "Unspecified Vehicular", "Zoo or Aquarium").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Venue type (`Unspecified`, `Unspecified Assembly`, `Arena`, `Stadium`, `Passenger Terminal`, `Amphitheater`, `Amusement Park`, `Place of Worship`, `Convention Center`, `Library`, `Museum`, `Restaurant`, `Theater`, `Bar`, `Coffee Shop`, `Zoo or Aquarium`, `Emergency Coordination Center`, `Unspecified Business`, `Doctor or Dentist office`, `Bank`, `Fire Station`, `Police Station`, `Post Office`, `Professional Office`, `Research and Development Facility`, `Attorney Office`, `Unspecified Educational`, `School, Primary`, `School, Secondary`, `University or College`, `Unspecified Factory and Industrial`, `Factory`, `Unspecified Institutional`, `Hospital`, `Long-Term Care Facility`, `Alcohol and Drug Rehabilitation Center`, `Group Home`, `Prison or Jail`, `Unspecified Mercantile`, `Retail Store`, `Grocery Market`, `Automotive Service Station`, `Shopping Mall`, `Gas Station`, `Unspecified Residential`, `Private Residence`, `Hotel or Motel`, `Dormitory`, `Boarding House`, `Unspecified Storage`, `Unspecified Utility and Miscellaneous`, `Unspecified Vehicular`, `Automobile or Truck`, `Airplane`, `Bus`, `Ferry`, `Ship or Boat`, `Train`, `Motor Bike`, `Unspecified Outdoor`, `Muni-mesh Network`, `City Park`, `Rest Area`, `Traffic Control`, `Bus Stop`, `Kiosk`)").AddStringEnumDescription("Airplane", "Alcohol and Drug Rehabilitation Center", "Amphitheater", "Amusement Park", "Arena", "Attorney Office", "Automobile or Truck", "Automotive Service Station", "Bank", "Bar", "Boarding House", "Bus", "Bus Stop", "City Park", "Coffee Shop", "Convention Center", "Doctor or Dentist office", "Dormitory", "Emergency Coordination Center", "Factory", "Ferry", "Fire Station", "Gas Station", "Grocery Market", "Group Home", "Hospital", "Hotel or Motel", "Kiosk", "Library", "Long-Term Care Facility", "Motor Bike", "Muni-mesh Network", "Museum", "Passenger Terminal", "Place of Worship", "Police Station", "Post Office", "Prison or Jail", "Private Residence", "Professional Office", "Research and Development Facility", "Rest Area", "Restaurant", "Retail Store", "School, Primary", "School, Secondary", "Ship or Boat", "Shopping Mall", "Stadium", "Theater", "Traffic Control", "Train", "University or College", "Unspecified", "Unspecified Assembly", "Unspecified Business", "Unspecified Educational", "Unspecified Factory and Industrial", "Unspecified Institutional", "Unspecified Mercantile", "Unspecified Outdoor", "Unspecified Residential", "Unspecified Storage", "Unspecified Utility and Miscellaneous", "Unspecified Vehicular", "Zoo or Aquarium", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Airplane", "Alcohol and Drug Rehabilitation Center", "Amphitheater", "Amusement Park", "Arena", "Attorney Office", "Automobile or Truck", "Automotive Service Station", "Bank", "Bar", "Boarding House", "Bus", "Bus Stop", "City Park", "Coffee Shop", "Convention Center", "Doctor or Dentist office", "Dormitory", "Emergency Coordination Center", "Factory", "Ferry", "Fire Station", "Gas Station", "Grocery Market", "Group Home", "Hospital", "Hotel or Motel", "Kiosk", "Library", "Long-Term Care Facility", "Motor Bike", "Muni-mesh Network", "Museum", "Passenger Terminal", "Place of Worship", "Police Station", "Post Office", "Prison or Jail", "Private Residence", "Professional Office", "Research and Development Facility", "Rest Area", "Restaurant", "Retail Store", "School, Primary", "School, Secondary", "Ship or Boat", "Shopping Mall", "Stadium", "Theater", "Traffic Control", "Train", "University or College", "Unspecified", "Unspecified Assembly", "Unspecified Business", "Unspecified Educational", "Unspecified Factory and Industrial", "Unspecified Institutional", "Unspecified Mercantile", "Unspecified Outdoor", "Unspecified Residential", "Unspecified Storage", "Unspecified Utility and Miscellaneous", "Unspecified Vehicular", "Zoo or Aquarium"),
+					stringvalidator.OneOf("Airplane", "Alcohol and Drug Rehabilitation Center", "Amphitheater", "Amusement Park", "Arena", "Attorney Office", "Automobile or Truck", "Automotive Service Station", "Bank", "Bar", "Boarding House", "Bus", "Bus Stop", "City Park", "Coffee Shop", "Convention Center", "Doctor or Dentist office", "Dormitory", "Emergency Coordination Center", "Factory", "Ferry", "Fire Station", "Gas Station", "Grocery Market", "Group Home", "Hospital", "Hotel or Motel", "Kiosk", "Library", "Long-Term Care Facility", "Motor Bike", "Muni-mesh Network", "Museum", "Passenger Terminal", "Place of Worship", "Police Station", "Post Office", "Prison or Jail", "Private Residence", "Professional Office", "Research and Development Facility", "Rest Area", "Restaurant", "Retail Store", "School, Primary", "School, Secondary", "Ship or Boat", "Shopping Mall", "Stadium", "Theater", "Traffic Control", "Train", "University or College", "Unspecified", "Unspecified Assembly", "Unspecified Business", "Unspecified Educational", "Unspecified Factory and Industrial", "Unspecified Institutional", "Unspecified Mercantile", "Unspecified Outdoor", "Unspecified Residential", "Unspecified Storage", "Unspecified Utility and Miscellaneous", "Unspecified Vehicular", "Zoo or Aquarium", ),
 				},
 			},
 			"domains": schema.SetAttribute{
@@ -138,10 +146,10 @@ func (r *WirelessSSIDHotspot20Resource) Schema(ctx context.Context, req resource
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"format": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The format for the realm (`1` or `0`)").AddStringEnumDescription("0", "1").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The format for the realm (`1` or `0`)").AddStringEnumDescription("0", "1", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("0", "1"),
+								stringvalidator.OneOf("0", "1", ),
 							},
 						},
 						"realm": schema.StringAttribute{
@@ -349,5 +357,4 @@ func (r *WirelessSSIDHotspot20Resource) ImportState(ctx context.Context, req res
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiWirelessSSID(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "number", "0"))
@@ -66,26 +64,26 @@ func TestAccMerakiWirelessSSID(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiWirelessSSIDPrerequisitesConfig + testAccMerakiWirelessSSIDConfig_minimum(),
+			Config: testAccMerakiWirelessSSIDPrerequisitesConfig+testAccMerakiWirelessSSIDConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessSSIDPrerequisitesConfig + testAccMerakiWirelessSSIDConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiWirelessSSIDPrerequisitesConfig+testAccMerakiWirelessSSIDConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_wireless_ssid.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiWirelessSSIDImportStateIdFunc("meraki_wireless_ssid.test"),
-		ImportStateVerifyIgnore: []string{"radius_accounting_servers.0.secret", "radius_servers.0.secret", "radius_das_clients_shared_secret"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_wireless_ssid.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiWirelessSSIDImportStateIdFunc("meraki_wireless_ssid.test"),
+		ImportStateVerifyIgnore: []string{ "radius_accounting_servers.0.secret","radius_servers.0.secret","radius_das_clients_shared_secret", },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -99,7 +97,7 @@ func merakiWirelessSSIDImportStateIdFunc(resourceName string) resource.ImportSta
 		NetworkId := primary.Attributes["network_id"]
 		Number := primary.Attributes["number"]
 
-		return fmt.Sprintf("%s,%s", NetworkId, Number), nil
+		return fmt.Sprintf("%s,%s", NetworkId,Number), nil
 	}
 }
 
@@ -120,7 +118,6 @@ resource "meraki_network" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -175,5 +172,7 @@ func testAccMerakiWirelessSSIDConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

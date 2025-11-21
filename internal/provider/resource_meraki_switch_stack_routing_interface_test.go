@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiSwitchStackRoutingInterface(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" || os.Getenv("TF_VAR_test_switch_2_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "default_gateway", "192.168.1.1"))
@@ -52,26 +50,26 @@ func TestAccMerakiSwitchStackRoutingInterface(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSwitchStackRoutingInterfacePrerequisitesConfig + testAccMerakiSwitchStackRoutingInterfaceConfig_minimum(),
+			Config: testAccMerakiSwitchStackRoutingInterfacePrerequisitesConfig+testAccMerakiSwitchStackRoutingInterfaceConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchStackRoutingInterfacePrerequisitesConfig + testAccMerakiSwitchStackRoutingInterfaceConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiSwitchStackRoutingInterfacePrerequisitesConfig+testAccMerakiSwitchStackRoutingInterfaceConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_switch_stack_routing_interface.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiSwitchStackRoutingInterfaceImportStateIdFunc("meraki_switch_stack_routing_interface.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_switch_stack_routing_interface.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiSwitchStackRoutingInterfaceImportStateIdFunc("meraki_switch_stack_routing_interface.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -86,7 +84,7 @@ func merakiSwitchStackRoutingInterfaceImportStateIdFunc(resourceName string) res
 		SwitchStackId := primary.Attributes["switch_stack_id"]
 		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s,%s", NetworkId, SwitchStackId, Id), nil
+		return fmt.Sprintf("%s,%s,%s", NetworkId,SwitchStackId,Id), nil
 	}
 }
 
@@ -118,7 +116,6 @@ resource "meraki_switch_stack" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -163,5 +160,7 @@ func testAccMerakiSwitchStackRoutingInterfaceConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

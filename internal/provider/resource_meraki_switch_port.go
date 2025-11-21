@@ -21,10 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -76,6 +82,7 @@ func (r *SwitchPortResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"port_id": schema.StringAttribute{
@@ -83,6 +90,7 @@ func (r *SwitchPortResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"access_policy_number": schema.Int64Attribute{
@@ -90,10 +98,10 @@ func (r *SwitchPortResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Optional:            true,
 			},
 			"access_policy_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The type of the access policy of the switch port. Only applicable to access ports. Can be one of `Open`, `Custom access policy`, `MAC allow list` or `Sticky MAC allow list`.").AddStringEnumDescription("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The type of the access policy of the switch port. Only applicable to access ports. Can be one of `Open`, `Custom access policy`, `MAC allow list` or `Sticky MAC allow list`.").AddStringEnumDescription("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list"),
+					stringvalidator.OneOf("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list", ),
 				},
 			},
 			"adaptive_policy_group_id": schema.StringAttribute{
@@ -157,24 +165,24 @@ func (r *SwitchPortResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Optional:            true,
 			},
 			"stp_guard": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).").AddStringEnumDescription("bpdu guard", "disabled", "loop guard", "root guard").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).").AddStringEnumDescription("bpdu guard", "disabled", "loop guard", "root guard", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("bpdu guard", "disabled", "loop guard", "root guard"),
+					stringvalidator.OneOf("bpdu guard", "disabled", "loop guard", "root guard", ),
 				},
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The type of the switch port (`trunk`, `access` or `stack`).").AddStringEnumDescription("access", "stack", "trunk").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The type of the switch port (`trunk`, `access` or `stack`).").AddStringEnumDescription("access", "stack", "trunk", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("access", "stack", "trunk"),
+					stringvalidator.OneOf("access", "stack", "trunk", ),
 				},
 			},
 			"udld": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The action to take when Unidirectional Link is detected (Alert only, Enforce). Default configuration is Alert only.").AddStringEnumDescription("Alert only", "Enforce").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The action to take when Unidirectional Link is detected (Alert only, Enforce). Default configuration is Alert only.").AddStringEnumDescription("Alert only", "Enforce", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Alert only", "Enforce"),
+					stringvalidator.OneOf("Alert only", "Enforce", ),
 				},
 			},
 			"vlan": schema.Int64Attribute{
@@ -387,5 +395,4 @@ func (r *SwitchPortResource) ImportState(ctx context.Context, req resource.Impor
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

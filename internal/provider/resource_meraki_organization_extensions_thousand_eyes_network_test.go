@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,10 +31,10 @@ import (
 
 func TestAccMerakiOrganizationExtensionsThousandEyesNetwork(t *testing.T) {
 	if os.Getenv("ORGANIZATION_EXTENSIONS_THOUSAND_EYES_NETWORK") == "" {
-		t.Skip("skipping test, set environment variable ORGANIZATION_EXTENSIONS_THOUSAND_EYES_NETWORK")
+        t.Skip("skipping test, set environment variable ORGANIZATION_EXTENSIONS_THOUSAND_EYES_NETWORK")
 	}
 	if os.Getenv("TF_VAR_test_org") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_extensions_thousand_eyes_network.test", "enabled", "true"))
@@ -45,26 +43,26 @@ func TestAccMerakiOrganizationExtensionsThousandEyesNetwork(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiOrganizationExtensionsThousandEyesNetworkPrerequisitesConfig + testAccMerakiOrganizationExtensionsThousandEyesNetworkConfig_minimum(),
+			Config: testAccMerakiOrganizationExtensionsThousandEyesNetworkPrerequisitesConfig+testAccMerakiOrganizationExtensionsThousandEyesNetworkConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationExtensionsThousandEyesNetworkPrerequisitesConfig + testAccMerakiOrganizationExtensionsThousandEyesNetworkConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiOrganizationExtensionsThousandEyesNetworkPrerequisitesConfig+testAccMerakiOrganizationExtensionsThousandEyesNetworkConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization_extensions_thousand_eyes_network.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationExtensionsThousandEyesNetworkImportStateIdFunc("meraki_organization_extensions_thousand_eyes_network.test"),
-		ImportStateVerifyIgnore: []string{"tests", "tests.0.network_id", "tests.0.template_id", "tests.0.template_user_inputs_tenant"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_organization_extensions_thousand_eyes_network.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiOrganizationExtensionsThousandEyesNetworkImportStateIdFunc("meraki_organization_extensions_thousand_eyes_network.test"),
+		ImportStateVerifyIgnore: []string{ "tests","tests.0.network_id","tests.0.template_id","tests.0.template_user_inputs_tenant", },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -78,7 +76,7 @@ func merakiOrganizationExtensionsThousandEyesNetworkImportStateIdFunc(resourceNa
 		OrganizationId := primary.Attributes["organization_id"]
 		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", OrganizationId, Id), nil
+		return fmt.Sprintf("%s,%s", OrganizationId,Id), nil
 	}
 }
 
@@ -93,7 +91,6 @@ data "meraki_organization" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -128,5 +125,7 @@ func testAccMerakiOrganizationExtensionsThousandEyesNetworkConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

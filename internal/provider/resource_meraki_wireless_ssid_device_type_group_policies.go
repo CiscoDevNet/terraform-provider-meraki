@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Schema(ctx context.Context
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"number": schema.StringAttribute{
@@ -82,6 +90,7 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Schema(ctx context.Context
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"enabled": schema.BoolAttribute{
@@ -94,17 +103,17 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Schema(ctx context.Context
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"device_policy": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The device policy. Can be one of `Allowed`, `Blocked` or `Group policy`").AddStringEnumDescription("Allowed", "Blocked", "Group policy").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The device policy. Can be one of `Allowed`, `Blocked` or `Group policy`").AddStringEnumDescription("Allowed", "Blocked", "Group policy", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Allowed", "Blocked", "Group policy"),
+								stringvalidator.OneOf("Allowed", "Blocked", "Group policy", ),
 							},
 						},
 						"device_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The device type. Can be one of `Android`, `BlackBerry`, `Chrome OS`, `iPad`, `iPhone`, `iPod`, `Mac OS X`, `Windows`, `Windows Phone`, `B&N Nook` or `Other OS`").AddStringEnumDescription("Android", "B&N Nook", "BlackBerry", "Chrome OS", "Mac OS X", "Other OS", "Windows", "Windows Phone", "iPad", "iPhone", "iPod").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The device type. Can be one of `Android`, `BlackBerry`, `Chrome OS`, `iPad`, `iPhone`, `iPod`, `Mac OS X`, `Windows`, `Windows Phone`, `B&N Nook` or `Other OS`").AddStringEnumDescription("Android", "B&N Nook", "BlackBerry", "Chrome OS", "Mac OS X", "Other OS", "Windows", "Windows Phone", "iPad", "iPhone", "iPod", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Android", "B&N Nook", "BlackBerry", "Chrome OS", "Mac OS X", "Other OS", "Windows", "Windows Phone", "iPad", "iPhone", "iPod"),
+								stringvalidator.OneOf("Android", "B&N Nook", "BlackBerry", "Chrome OS", "Mac OS X", "Other OS", "Windows", "Windows Phone", "iPad", "iPhone", "iPod", ),
 							},
 						},
 						"group_policy_id": schema.Int64Attribute{
@@ -275,5 +284,4 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) ImportState(ctx context.Co
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

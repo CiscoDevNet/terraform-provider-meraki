@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiWirelessNetworkElectronicShelfLabel(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_network_electronic_shelf_label.test", "enabled", "true"))
@@ -43,26 +41,26 @@ func TestAccMerakiWirelessNetworkElectronicShelfLabel(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiWirelessNetworkElectronicShelfLabelPrerequisitesConfig + testAccMerakiWirelessNetworkElectronicShelfLabelConfig_minimum(),
+			Config: testAccMerakiWirelessNetworkElectronicShelfLabelPrerequisitesConfig+testAccMerakiWirelessNetworkElectronicShelfLabelConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessNetworkElectronicShelfLabelPrerequisitesConfig + testAccMerakiWirelessNetworkElectronicShelfLabelConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiWirelessNetworkElectronicShelfLabelPrerequisitesConfig+testAccMerakiWirelessNetworkElectronicShelfLabelConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_wireless_network_electronic_shelf_label.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiWirelessNetworkElectronicShelfLabelImportStateIdFunc("meraki_wireless_network_electronic_shelf_label.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_wireless_network_electronic_shelf_label.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiWirelessNetworkElectronicShelfLabelImportStateIdFunc("meraki_wireless_network_electronic_shelf_label.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -96,7 +94,6 @@ resource "meraki_network" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -126,5 +123,7 @@ func testAccMerakiWirelessNetworkElectronicShelfLabelConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

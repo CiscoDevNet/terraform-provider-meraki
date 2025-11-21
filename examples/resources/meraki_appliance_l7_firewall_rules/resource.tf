@@ -3,8 +3,8 @@ resource "meraki_appliance_l7_firewall_rules" "example" {
   rules = [
     {
       policy = "deny"
-      type   = "host"
-      value  = "google.com"
+      type = "host"
+      value = "google.com"
     }
   ]
 }

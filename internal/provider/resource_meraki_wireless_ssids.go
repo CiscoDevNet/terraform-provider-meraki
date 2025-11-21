@@ -21,10 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -62,7 +68,7 @@ func (r *WirelessSSIDsResource) Metadata(ctx context.Context, req resource.Metad
 func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless SSID` configuration in bulk.").AddBulkResourceIds("number").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless SSID` configuration in bulk.").AddBulkResourceIds("number", ).String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -98,10 +104,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							Optional:            true,
 						},
 						"auth_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)").AddStringEnumDescription("8021x-entra", "8021x-google", "8021x-localradius", "8021x-meraki", "8021x-nac", "8021x-radius", "ipsk-with-nac", "ipsk-with-radius", "ipsk-without-radius", "open", "open-enhanced", "open-with-nac", "open-with-radius", "psk").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)").AddStringEnumDescription("8021x-entra", "8021x-google", "8021x-localradius", "8021x-meraki", "8021x-nac", "8021x-radius", "ipsk-with-nac", "ipsk-with-radius", "ipsk-without-radius", "open", "open-enhanced", "open-with-nac", "open-with-radius", "psk", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("8021x-entra", "8021x-google", "8021x-localradius", "8021x-meraki", "8021x-nac", "8021x-radius", "ipsk-with-nac", "ipsk-with-radius", "ipsk-without-radius", "open", "open-enhanced", "open-with-nac", "open-with-radius", "psk"),
+								stringvalidator.OneOf("8021x-entra", "8021x-google", "8021x-localradius", "8021x-meraki", "8021x-nac", "8021x-radius", "ipsk-with-nac", "ipsk-with-radius", "ipsk-without-radius", "open", "open-enhanced", "open-with-nac", "open-with-radius", "psk", ),
 							},
 						},
 						"available_on_all_aps": schema.BoolAttribute{
@@ -129,24 +135,24 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							Optional:            true,
 						},
 						"encryption_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`").AddStringEnumDescription("open", "wep", "wpa", "wpa-eap").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`").AddStringEnumDescription("open", "wep", "wpa", "wpa-eap", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("open", "wep", "wpa", "wpa-eap"),
+								stringvalidator.OneOf("open", "wep", "wpa", "wpa-eap", ),
 							},
 						},
 						"enterprise_admin_access": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Whether or not an SSID is accessible by `enterprise` administrators (`access disabled` or `access enabled`)").AddStringEnumDescription("access disabled", "access enabled").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Whether or not an SSID is accessible by `enterprise` administrators (`access disabled` or `access enabled`)").AddStringEnumDescription("access disabled", "access enabled", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("access disabled", "access enabled"),
+								stringvalidator.OneOf("access disabled", "access enabled", ),
 							},
 						},
 						"ip_assignment_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)").AddStringEnumDescription("Bridge mode", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)").AddStringEnumDescription("Bridge mode", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Bridge mode", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN"),
+								stringvalidator.OneOf("Bridge mode", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN", ),
 							},
 						},
 						"lan_isolation_enabled": schema.BoolAttribute{
@@ -194,10 +200,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							Optional:            true,
 						},
 						"radius_attribute_for_group_policies": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Specify the RADIUS attribute used to look up group policies (`Filter-Id`, `Reply-Message`, `Airespace-ACL-Name` or `Aruba-User-Role`). Access points must receive this attribute in the RADIUS Access-Accept message").AddStringEnumDescription("Airespace-ACL-Name", "Aruba-User-Role", "Filter-Id", "Reply-Message").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Specify the RADIUS attribute used to look up group policies (`Filter-Id`, `Reply-Message`, `Airespace-ACL-Name` or `Aruba-User-Role`). Access points must receive this attribute in the RADIUS Access-Accept message").AddStringEnumDescription("Airespace-ACL-Name", "Aruba-User-Role", "Filter-Id", "Reply-Message", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Airespace-ACL-Name", "Aruba-User-Role", "Filter-Id", "Reply-Message"),
+								stringvalidator.OneOf("Airespace-ACL-Name", "Aruba-User-Role", "Filter-Id", "Reply-Message", ),
 							},
 						},
 						"radius_authentication_nas_id": schema.StringAttribute{
@@ -213,10 +219,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							Optional:            true,
 						},
 						"radius_failover_policy": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("This policy determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable (`Deny access` or `Allow access`)").AddStringEnumDescription("Allow access", "Deny access").String,
+							MarkdownDescription: helpers.NewAttributeDescription("This policy determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable (`Deny access` or `Allow access`)").AddStringEnumDescription("Allow access", "Deny access", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Allow access", "Deny access"),
+								stringvalidator.OneOf("Allow access", "Deny access", ),
 							},
 						},
 						"radius_fallback_enabled": schema.BoolAttribute{
@@ -232,10 +238,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							Optional:            true,
 						},
 						"radius_load_balancing_policy": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("This policy determines which RADIUS server will be contacted first in an authentication attempt and the ordering of any necessary retry attempts (`Strict priority order` or `Round robin`)").AddStringEnumDescription("Round robin", "Strict priority order").String,
+							MarkdownDescription: helpers.NewAttributeDescription("This policy determines which RADIUS server will be contacted first in an authentication attempt and the ordering of any necessary retry attempts (`Strict priority order` or `Round robin`)").AddStringEnumDescription("Round robin", "Strict priority order", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Round robin", "Strict priority order"),
+								stringvalidator.OneOf("Round robin", "Strict priority order", ),
 							},
 						},
 						"radius_override": schema.BoolAttribute{
@@ -263,10 +269,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							Optional:            true,
 						},
 						"splash_page": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.").AddStringEnumDescription("Billing", "Cisco ISE", "Click-through splash page", "Facebook Wi-Fi", "Google Apps domain", "Google OAuth", "Microsoft Entra ID", "None", "Password-protected with Active Directory", "Password-protected with LDAP", "Password-protected with Meraki RADIUS", "Password-protected with custom RADIUS", "SMS authentication", "Sponsored guest", "Systems Manager Sentry").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.").AddStringEnumDescription("Billing", "Cisco ISE", "Click-through splash page", "Facebook Wi-Fi", "Google Apps domain", "Google OAuth", "Microsoft Entra ID", "None", "Password-protected with Active Directory", "Password-protected with LDAP", "Password-protected with Meraki RADIUS", "Password-protected with custom RADIUS", "SMS authentication", "Sponsored guest", "Systems Manager Sentry", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Billing", "Cisco ISE", "Click-through splash page", "Facebook Wi-Fi", "Google Apps domain", "Google OAuth", "Microsoft Entra ID", "None", "Password-protected with Active Directory", "Password-protected with LDAP", "Password-protected with Meraki RADIUS", "Password-protected with custom RADIUS", "SMS authentication", "Sponsored guest", "Systems Manager Sentry"),
+								stringvalidator.OneOf("Billing", "Cisco ISE", "Click-through splash page", "Facebook Wi-Fi", "Google Apps domain", "Google OAuth", "Microsoft Entra ID", "None", "Password-protected with Active Directory", "Password-protected with LDAP", "Password-protected with Meraki RADIUS", "Password-protected with custom RADIUS", "SMS authentication", "Sponsored guest", "Systems Manager Sentry", ),
 							},
 						},
 						"use_vlan_tagging": schema.BoolAttribute{
@@ -286,10 +292,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							Optional:            true,
 						},
 						"wpa_encryption_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)").AddStringEnumDescription("WPA1 and WPA2", "WPA1 only", "WPA2 only", "WPA3 192-bit Security", "WPA3 Transition Mode", "WPA3 only").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The types of WPA encryption. (`WPA1 only`, `WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode`, `WPA3 only` or `WPA3 192-bit Security`)").AddStringEnumDescription("WPA1 and WPA2", "WPA1 only", "WPA2 only", "WPA3 192-bit Security", "WPA3 Transition Mode", "WPA3 only", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("WPA1 and WPA2", "WPA1 only", "WPA2 only", "WPA3 192-bit Security", "WPA3 Transition Mode", "WPA3 only"),
+								stringvalidator.OneOf("WPA1 and WPA2", "WPA1 only", "WPA2 only", "WPA3 192-bit Security", "WPA3 Transition Mode", "WPA3 only", ),
 							},
 						},
 						"active_directory_credentials_logon_name": schema.StringAttribute{
@@ -731,7 +737,7 @@ func (r *WirelessSSIDsResource) Update(ctx context.Context, req resource.UpdateR
 					Operation: "update",
 					Resource:  plan.getItemPath(plan.Items[i].Number.ValueString()),
 					Body:      plan.Items[i].toBody(ctx, itemState),
-				})
+				})					
 			}
 			break
 		}
@@ -812,7 +818,7 @@ func (r *WirelessSSIDsResource) ImportState(ctx context.Context, req resource.Im
 		expectedIdentifier += " or <organization_id>,<network_id>,[<number>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -838,7 +844,6 @@ func (r *WirelessSSIDsResource) ImportState(ctx context.Context, req resource.Im
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
@@ -868,5 +873,4 @@ func (r *WirelessSSIDsResource) ModifyPlan(ctx context.Context, req resource.Mod
 	diags = resp.Plan.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
-
 // End of section. //template:end modifyPlan

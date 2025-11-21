@@ -23,9 +23,10 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -77,6 +82,7 @@ func (r *OrganizationSAMLRoleResource) Schema(ctx context.Context, req resource.
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"org_access": schema.StringAttribute{
@@ -93,10 +99,10 @@ func (r *OrganizationSAMLRoleResource) Schema(ctx context.Context, req resource.
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"access": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'").AddStringEnumDescription("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin", "port-tags", "custom-role").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'").AddStringEnumDescription("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin", "port-tags", "custom-role", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin", "port-tags", "custom-role"),
+								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin", "port-tags", "custom-role", ),
 							},
 						},
 						"id": schema.StringAttribute{
@@ -112,10 +118,10 @@ func (r *OrganizationSAMLRoleResource) Schema(ctx context.Context, req resource.
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"access": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the SAML administrator on the tag. Can be one of 'full', 'read-only', 'guest-ambassador', 'monitor-only' or 'custom-role'").AddStringEnumDescription("full", "guest-ambassador", "monitor-only", "read-only", "custom-role").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the SAML administrator on the tag. Can be one of 'full', 'read-only', 'guest-ambassador', 'monitor-only' or 'custom-role'").AddStringEnumDescription("full", "guest-ambassador", "monitor-only", "read-only", "custom-role", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only", "custom-role"),
+								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only", "custom-role", ),
 							},
 						},
 						"tag": schema.StringAttribute{
@@ -235,7 +241,7 @@ func (r *OrganizationSAMLRoleResource) Update(ctx context.Context, req resource.
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -290,5 +296,4 @@ func (r *OrganizationSAMLRoleResource) ImportState(ctx context.Context, req reso
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

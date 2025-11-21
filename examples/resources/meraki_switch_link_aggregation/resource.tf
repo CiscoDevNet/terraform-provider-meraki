@@ -3,7 +3,7 @@ resource "meraki_switch_link_aggregation" "example" {
   switch_ports = [
     {
       port_id = "1"
-      serial  = "Q234-ABCD-0001"
+      serial = "Q234-ABCD-0001"
     }
   ]
 }

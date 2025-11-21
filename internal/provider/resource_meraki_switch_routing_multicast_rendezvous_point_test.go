@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiSwitchRoutingMulticastRendezvousPoint(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_multicast_rendezvous_point.test", "multicast_group", "Any"))
@@ -41,26 +39,26 @@ func TestAccMerakiSwitchRoutingMulticastRendezvousPoint(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSwitchRoutingMulticastRendezvousPointPrerequisitesConfig + testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_minimum(),
+			Config: testAccMerakiSwitchRoutingMulticastRendezvousPointPrerequisitesConfig+testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchRoutingMulticastRendezvousPointPrerequisitesConfig + testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiSwitchRoutingMulticastRendezvousPointPrerequisitesConfig+testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_switch_routing_multicast_rendezvous_point.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiSwitchRoutingMulticastRendezvousPointImportStateIdFunc("meraki_switch_routing_multicast_rendezvous_point.test"),
-		ImportStateVerifyIgnore: []string{"vrf_name"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_switch_routing_multicast_rendezvous_point.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiSwitchRoutingMulticastRendezvousPointImportStateIdFunc("meraki_switch_routing_multicast_rendezvous_point.test"),
+		ImportStateVerifyIgnore: []string{ "vrf_name", },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -74,7 +72,7 @@ func merakiSwitchRoutingMulticastRendezvousPointImportStateIdFunc(resourceName s
 		NetworkId := primary.Attributes["network_id"]
 		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", NetworkId, Id), nil
+		return fmt.Sprintf("%s,%s", NetworkId,Id), nil
 	}
 }
 
@@ -109,7 +107,6 @@ resource "meraki_switch_routing_interface" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -139,5 +136,7 @@ func testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

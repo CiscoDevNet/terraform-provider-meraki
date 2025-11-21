@@ -1,0 +1,202 @@
+Resource Name,Type,Delete Behavior
+meraki_appliance_cellular_firewall_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_connectivity_monitoring_destinations,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_content_filtering,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_dns_local_profile_assignments,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_dns_local_profile,CRUD,Uses DELETE API endpoint
+meraki_appliance_dns_local_record,CRUD,Uses DELETE API endpoint
+meraki_appliance_dns_split_profile_assignments,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_dns_split_profile,CRUD,Uses DELETE API endpoint
+meraki_appliance_firewall_multicast_forwarding,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_firewall_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_firewalled_service,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_inbound_cellular_firewall_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_inbound_firewall_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_l3_firewall_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_l7_firewall_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_network_security_intrusion,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_one_to_many_nat_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_one_to_one_nat_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_organization_security_intrusion,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_port_forwarding_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_port,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_ports,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_prefix_delegated_static,CRUD,Uses DELETE API endpoint
+meraki_appliance_prefix_delegated_statics,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_radio_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_rf_profile,CRUD,Uses DELETE API endpoint
+meraki_appliance_rf_profiles,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_sdwan_internet_policies,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_security_malware,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_single_lan,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_site_to_site_vpn,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_ssid,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_ssids,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_static_route,CRUD,Uses DELETE API endpoint
+meraki_appliance_third_party_vpn_peers,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_traffic_shaping_custom_performance_class,CRUD,Uses DELETE API endpoint
+meraki_appliance_traffic_shaping_custom_performance_classes,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_traffic_shaping_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_traffic_shaping_uplink_bandwidth,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_traffic_shaping_uplink_selection,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_traffic_shaping_vpn_exclusions,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_traffic_shaping,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_uplinks_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_vlan_dhcp,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_vlan,CRUD,Uses DELETE API endpoint
+meraki_appliance_vlans_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_vlans,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_vmx_authentication_token,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_vpn_bgp,Singleton,Only removes from Terraform state (no API call)
+meraki_appliance_vpn_firewall_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_vpn_site_to_site_ipsec_peers_slas,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_appliance_warm_spare,Singleton,Only removes from Terraform state (no API call)
+meraki_camera_custom_analytics,Singleton,Only removes from Terraform state (no API call)
+meraki_camera_device_wireless_profiles,Singleton,Only removes from Terraform state (no API call)
+meraki_camera_quality_retention_profile,CRUD,Uses DELETE API endpoint
+meraki_camera_quality_retention,Singleton,Only removes from Terraform state (no API call)
+meraki_camera_role,CRUD,Uses DELETE API endpoint
+meraki_camera_sense,Singleton,Only removes from Terraform state (no API call)
+meraki_camera_video_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_camera_wireless_profile,CRUD,Uses DELETE API endpoint
+meraki_cellular_gateway_connectivity_monitoring_destinations,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_cellular_gateway_dhcp,Singleton,Only removes from Terraform state (no API call)
+meraki_cellular_gateway_lan,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_cellular_gateway_port_forwarding_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_cellular_gateway_subnet_pool,Singleton,Only removes from Terraform state (no API call)
+meraki_cellular_gateway_uplink,Singleton,Only removes from Terraform state (no API call)
+meraki_device_cellular_sims,Singleton,Only removes from Terraform state (no API call)
+meraki_device_management_interface,Singleton,Only removes from Terraform state (no API call)
+meraki_device,Singleton,Only removes from Terraform state (no API call)
+meraki_devices,Singleton,Only removes from Terraform state (no API call)
+meraki_insight_monitored_media_server,Singleton,Only removes from Terraform state (no API call)
+meraki_network_alerts_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_network_client_policy,Singleton,Only removes from Terraform state (no API call)
+meraki_network_client_splash_authorization_status,Singleton,Only removes from Terraform state (no API call)
+meraki_network_device_claim_vmx,Singleton,Only removes from Terraform state (no API call)
+meraki_network_device_claim,Singleton,Only removes from Terraform state (no API call)
+meraki_network_firmware_upgrades,Singleton,Only removes from Terraform state (no API call)
+meraki_network_floor_plan,CRUD,Uses DELETE API endpoint
+meraki_network_group_policies,Singleton,Only removes from Terraform state (no API call)
+meraki_network_group_policy,CRUD,Uses DELETE API endpoint
+meraki_network_meraki_auth_user,CRUD,Uses DELETE API endpoint
+meraki_network_meraki_auth_users,Singleton,Only removes from Terraform state (no API call)
+meraki_network_mqtt_broker,CRUD,Uses DELETE API endpoint
+meraki_network_netflow,Singleton,Only removes from Terraform state (no API call)
+meraki_network_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_network_snmp,Singleton,Only removes from Terraform state (no API call)
+meraki_network_syslog_servers,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_network_traffic_analysis,Singleton,Only removes from Terraform state (no API call)
+meraki_network_vlan_profile,CRUD,Uses DELETE API endpoint
+meraki_network_webhook_http_server,CRUD,Uses DELETE API endpoint
+meraki_network_webhook_payload_template,CRUD,Uses DELETE API endpoint
+meraki_network_webhook_payload_templates,Singleton,Only removes from Terraform state (no API call)
+meraki_network,CRUD,Uses DELETE API endpoint
+meraki_organization_adaptive_policies,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_adaptive_policy_acl,CRUD,Uses DELETE API endpoint
+meraki_organization_adaptive_policy_group,CRUD,Uses DELETE API endpoint
+meraki_organization_adaptive_policy_groups,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_adaptive_policy_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_adaptive_policy,CRUD,Uses DELETE API endpoint
+meraki_organization_admin,CRUD,Uses DELETE API endpoint
+meraki_organization_alerts_profile,CRUD,Uses DELETE API endpoint
+meraki_organization_auth_radius_server,CRUD,Uses DELETE API endpoint
+meraki_organization_branding_policies_priorities,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_branding_policy,CRUD,Uses DELETE API endpoint
+meraki_organization_config_template,CRUD,Uses DELETE API endpoint
+meraki_organization_early_access_features_opt_in,CRUD,Uses DELETE API endpoint
+meraki_organization_extensions_thousand_eyes_network,CRUD,Uses DELETE API endpoint
+meraki_organization_inventory_claim,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_license,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_licenses,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_login_security,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_policy_object_group,CRUD,Uses DELETE API endpoint
+meraki_organization_policy_object_groups,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_policy_object,CRUD,Uses DELETE API endpoint
+meraki_organization_policy_objects,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_saml_idp,CRUD,Uses DELETE API endpoint
+meraki_organization_saml_idps,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_saml_role,CRUD,Uses DELETE API endpoint
+meraki_organization_saml,Singleton,Only removes from Terraform state (no API call)
+meraki_organization_snmp,Singleton,Only removes from Terraform state (no API call)
+meraki_organization,CRUD,Uses DELETE API endpoint
+meraki_sensor_alerts_profile,CRUD,Uses DELETE API endpoint
+meraki_sensor_alerts_profiles,Singleton,Only removes from Terraform state (no API call)
+meraki_sensor_mqtt_broker,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_sensor_mqtt_brokers,Singleton,Only removes from Terraform state (no API call)
+meraki_sensor_relationships,Singleton,Only removes from Terraform state (no API call)
+meraki_sm_admin_role,CRUD,Uses DELETE API endpoint
+meraki_sm_admin_roles,Singleton,Only removes from Terraform state (no API call)
+meraki_sm_target_group,CRUD,Uses DELETE API endpoint
+meraki_switch_access_control_lists,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_switch_access_policies,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_access_policy,CRUD,Uses DELETE API endpoint
+meraki_switch_alternate_management_interface,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_dhcp_server_policy_arp_inspection_trusted_server,CRUD,Uses DELETE API endpoint
+meraki_switch_dhcp_server_policy,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_dscp_to_cos_mappings,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_switch_link_aggregation,CRUD,Uses DELETE API endpoint
+meraki_switch_link_aggregations,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_mtu,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_organization_ports_profile,CRUD,Uses DELETE API endpoint
+meraki_switch_organization_ports_profiles_automation,CRUD,Uses DELETE API endpoint
+meraki_switch_port_schedule,CRUD,Uses DELETE API endpoint
+meraki_switch_port,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_switch_ports,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_qos_rule_order,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_qos_rule,CRUD,Uses DELETE API endpoint
+meraki_switch_routing_interface_dhcp,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_routing_interface,CRUD,Uses DELETE API endpoint
+meraki_switch_routing_interfaces,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_routing_multicast_rendezvous_point,CRUD,Uses DELETE API endpoint
+meraki_switch_routing_multicast_rendezvous_points,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_routing_multicast,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_routing_ospf,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_routing_static_route,CRUD,Uses DELETE API endpoint
+meraki_switch_routing_static_routes,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_stack_routing_interface_dhcp,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_stack_routing_interface,CRUD,Uses DELETE API endpoint
+meraki_switch_stack_routing_interfaces,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_stack_routing_static_route,CRUD,Uses DELETE API endpoint
+meraki_switch_stack_routing_static_routes,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_stack,CRUD,Uses DELETE API endpoint
+meraki_switch_storm_control,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_stp,Singleton,Only removes from Terraform state (no API call)
+meraki_switch_warm_spare,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_air_marshal_rule,CRUD,Uses DELETE API endpoint
+meraki_wireless_air_marshal_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_alternate_management_interface,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_billing,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_device_bluetooth_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_device_electronic_shelf_label,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ethernet_port_profile_assign,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ethernet_port_profile_default,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ethernet_port_profile,CRUD,Uses DELETE API endpoint
+meraki_wireless_location_scanning_receiver,CRUD,Uses DELETE API endpoint
+meraki_wireless_location_scanning,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_network_bluetooth_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_network_electronic_shelf_label,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_radio_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_rf_profile,CRUD,Uses DELETE API endpoint
+meraki_wireless_rf_profiles,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid_bonjour_forwarding,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid_device_type_group_policies,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid_eap_override,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid_firewall_isolation_allowlist_entry,CRUD,Uses DELETE API endpoint
+meraki_wireless_ssid_hotspot_20,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid_identity_psk,CRUD,Uses DELETE API endpoint
+meraki_wireless_ssid_identity_psks,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid_l3_firewall_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_wireless_ssid_l7_firewall_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_wireless_ssid_schedules,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid_splash_settings,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid_traffic_shaping_rules,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_wireless_ssid_vpn,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_ssid,Singleton,Resets to defaults via PUT with toDestroyBody
+meraki_wireless_ssids,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_zigbee_device,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_zigbee_door_lock,Singleton,Only removes from Terraform state (no API call)
+meraki_wireless_zigbee,Singleton,Only removes from Terraform state (no API call)

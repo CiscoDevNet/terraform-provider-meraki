@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,29 +31,29 @@ import (
 
 func TestAccMerakiOrganizationSAML(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_saml.test", "enabled", "true"))
 
 	var steps []resource.TestStep
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationSAMLPrerequisitesConfig + testAccMerakiOrganizationSAMLConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiOrganizationSAMLPrerequisitesConfig+testAccMerakiOrganizationSAMLConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization_saml.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationSAMLImportStateIdFunc("meraki_organization_saml.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_organization_saml.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiOrganizationSAMLImportStateIdFunc("meraki_organization_saml.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -83,7 +81,6 @@ data "meraki_organization" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -110,5 +107,7 @@ func testAccMerakiOrganizationSAMLConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

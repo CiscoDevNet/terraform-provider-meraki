@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *SwitchAccessControlListsResource) Schema(ctx context.Context, req resou
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"rules": schema.ListNestedAttribute{
@@ -95,24 +103,24 @@ func (r *SwitchAccessControlListsResource) Schema(ctx context.Context, req resou
 							Optional:            true,
 						},
 						"ip_version": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("IP address version (must be `any`, `ipv4` or `ipv6`). Applicable only if network supports IPv6. Default value is `ipv4`.").AddStringEnumDescription("any", "ipv4", "ipv6").String,
+							MarkdownDescription: helpers.NewAttributeDescription("IP address version (must be `any`, `ipv4` or `ipv6`). Applicable only if network supports IPv6. Default value is `ipv4`.").AddStringEnumDescription("any", "ipv4", "ipv6", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("any", "ipv4", "ipv6"),
+								stringvalidator.OneOf("any", "ipv4", "ipv6", ),
 							},
 						},
 						"policy": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("`allow` or `deny` traffic specified by this rule.").AddStringEnumDescription("allow", "deny").String,
+							MarkdownDescription: helpers.NewAttributeDescription("`allow` or `deny` traffic specified by this rule.").AddStringEnumDescription("allow", "deny", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("allow", "deny"),
+								stringvalidator.OneOf("allow", "deny", ),
 							},
 						},
 						"protocol": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The type of protocol (must be `tcp`, `udp`, or `any`).").AddStringEnumDescription("any", "tcp", "udp").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The type of protocol (must be `tcp`, `udp`, or `any`).").AddStringEnumDescription("any", "tcp", "udp", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("any", "tcp", "udp"),
+								stringvalidator.OneOf("any", "tcp", "udp", ),
 							},
 						},
 						"src_cidr": schema.StringAttribute{
@@ -296,5 +304,4 @@ func (r *SwitchAccessControlListsResource) ImportState(ctx context.Context, req 
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

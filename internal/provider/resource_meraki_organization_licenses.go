@@ -21,17 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -60,7 +68,7 @@ func (r *OrganizationLicensesResource) Metadata(ctx context.Context, req resourc
 func (r *OrganizationLicensesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization License` configuration in bulk.").AddBulkResourceIds("license_id").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization License` configuration in bulk.").AddBulkResourceIds("license_id", ).String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -229,7 +237,7 @@ func (r *OrganizationLicensesResource) Update(ctx context.Context, req resource.
 					Operation: "update",
 					Resource:  plan.getItemPath(plan.Items[i].LicenseId.ValueString()),
 					Body:      plan.Items[i].toBody(ctx, itemState),
-				})
+				})					
 			}
 			break
 		}
@@ -294,7 +302,7 @@ func (r *OrganizationLicensesResource) ImportState(ctx context.Context, req reso
 		expectedIdentifier += " or <organization_id>,[<license_id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -313,7 +321,6 @@ func (r *OrganizationLicensesResource) ImportState(ctx context.Context, req reso
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
@@ -343,5 +350,4 @@ func (r *OrganizationLicensesResource) ModifyPlan(ctx context.Context, req resou
 	diags = resp.Plan.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
-
 // End of section. //template:end modifyPlan

@@ -19,6 +19,15 @@ resource "meraki_appliance_single_lan" "example" {
   subnet                 = "192.168.128.0/24"
   ipv6_enabled           = true
   mandatory_dhcp_enabled = false
+  
+  ipv6_prefix_assignments = [
+    {
+      disabled              = false
+      autonomous            = true
+      origin_type           = "internet"
+      origin_interfaces     = ["wan1"]
+    }
+  ]
 }
 ```
 
@@ -43,6 +52,10 @@ resource "meraki_appliance_single_lan" "example" {
 
 <a id="nestedatt--ipv6_prefix_assignments"></a>
 ### Nested Schema for `ipv6_prefix_assignments`
+
+Required:
+
+- `disabled` (Boolean) Disable this assignment
 
 Optional:
 

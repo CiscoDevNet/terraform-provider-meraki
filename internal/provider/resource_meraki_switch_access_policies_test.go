@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,28 +31,28 @@ import (
 
 func TestAccMerakiSwitchAccessPolicies(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSwitchAccessPoliciesPrerequisitesConfig + testAccMerakiSwitchAccessPoliciesConfig_minimum(),
+			Config: testAccMerakiSwitchAccessPoliciesPrerequisitesConfig+testAccMerakiSwitchAccessPoliciesConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchAccessPoliciesPrerequisitesConfig + testAccMerakiSwitchAccessPoliciesConfig_all(),
+		Config: testAccMerakiSwitchAccessPoliciesPrerequisitesConfig+testAccMerakiSwitchAccessPoliciesConfig_all(),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:      "meraki_switch_access_policies.test",
-		ImportState:       true,
+		ResourceName: "meraki_switch_access_policies.test",
+		ImportState: true,
 		ImportStateIdFunc: merakiSwitchAccessPoliciesImportStateIdFunc("meraki_switch_access_policies.test"),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -68,7 +66,7 @@ func merakiSwitchAccessPoliciesImportStateIdFunc(resourceName string) resource.I
 		OrganizationId := primary.Attributes["organization_id"]
 		NetworkId := primary.Attributes["network_id"]
 
-		return fmt.Sprintf("%s,%s", OrganizationId, NetworkId), nil
+		return fmt.Sprintf("%s,%s", OrganizationId,NetworkId), nil
 	}
 }
 
@@ -89,7 +87,6 @@ resource "meraki_network" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

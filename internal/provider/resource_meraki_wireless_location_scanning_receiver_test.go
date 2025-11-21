@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiWirelessLocationScanningReceiver(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_location_scanning_receiver.test", "url", "https://www.myreceiver.com"))
@@ -43,26 +41,26 @@ func TestAccMerakiWirelessLocationScanningReceiver(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig + testAccMerakiWirelessLocationScanningReceiverConfig_minimum(),
+			Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig+testAccMerakiWirelessLocationScanningReceiverConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig + testAccMerakiWirelessLocationScanningReceiverConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig+testAccMerakiWirelessLocationScanningReceiverConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_wireless_location_scanning_receiver.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiWirelessLocationScanningReceiverImportStateIdFunc("meraki_wireless_location_scanning_receiver.test"),
-		ImportStateVerifyIgnore: []string{"shared_secret"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_wireless_location_scanning_receiver.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiWirelessLocationScanningReceiverImportStateIdFunc("meraki_wireless_location_scanning_receiver.test"),
+		ImportStateVerifyIgnore: []string{ "shared_secret", },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -76,7 +74,7 @@ func merakiWirelessLocationScanningReceiverImportStateIdFunc(resourceName string
 		OrganizationId := primary.Attributes["organization_id"]
 		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", OrganizationId, Id), nil
+		return fmt.Sprintf("%s,%s", OrganizationId,Id), nil
 	}
 }
 
@@ -97,7 +95,6 @@ resource "meraki_network" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -133,5 +130,7 @@ func testAccMerakiWirelessLocationScanningReceiverConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

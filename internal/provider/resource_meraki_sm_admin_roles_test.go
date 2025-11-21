@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,28 +31,28 @@ import (
 
 func TestAccMerakiSMAdminRoles(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSMAdminRolesPrerequisitesConfig + testAccMerakiSMAdminRolesConfig_minimum(),
+			Config: testAccMerakiSMAdminRolesPrerequisitesConfig+testAccMerakiSMAdminRolesConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSMAdminRolesPrerequisitesConfig + testAccMerakiSMAdminRolesConfig_all(),
+		Config: testAccMerakiSMAdminRolesPrerequisitesConfig+testAccMerakiSMAdminRolesConfig_all(),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:      "meraki_sm_admin_roles.test",
-		ImportState:       true,
+		ResourceName: "meraki_sm_admin_roles.test",
+		ImportState: true,
 		ImportStateIdFunc: merakiSMAdminRolesImportStateIdFunc("meraki_sm_admin_roles.test"),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -82,7 +80,6 @@ data "meraki_organization" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

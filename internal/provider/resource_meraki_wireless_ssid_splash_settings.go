@@ -21,10 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -76,6 +82,7 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"number": schema.StringAttribute{
@@ -83,6 +90,7 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"allow_simultaneous_logins": schema.BoolAttribute{
@@ -94,10 +102,10 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				Optional:            true,
 			},
 			"controller_disconnection_behavior": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How login attempts should be handled when the controller is unreachable. Can be either `open`, `restricted`, or `default`.").AddStringEnumDescription("default", "open", "restricted").String,
+				MarkdownDescription: helpers.NewAttributeDescription("How login attempts should be handled when the controller is unreachable. Can be either `open`, `restricted`, or `default`.").AddStringEnumDescription("default", "open", "restricted", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("default", "open", "restricted"),
+					stringvalidator.OneOf("default", "open", "restricted", ),
 				},
 			},
 			"redirect_url": schema.StringAttribute{
@@ -153,10 +161,10 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				Optional:            true,
 			},
 			"self_registration_authorization_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("How created user accounts should be authorized. Must be included in: [admin, auto, self_email]").AddStringEnumDescription("admin", "auto", "self_email").String,
+				MarkdownDescription: helpers.NewAttributeDescription("How created user accounts should be authorized. Must be included in: [admin, auto, self_email]").AddStringEnumDescription("admin", "auto", "self_email", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("admin", "auto", "self_email"),
+					stringvalidator.OneOf("admin", "auto", "self_email", ),
 				},
 			},
 			"self_registration_enabled": schema.BoolAttribute{
@@ -164,10 +172,10 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				Optional:            true,
 			},
 			"sentry_enrollment_strength": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The strength of the enforcement of selected system types. Must be one of: `focused`, `click-through`, and `strict`.").AddStringEnumDescription("click-through", "focused", "strict").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The strength of the enforcement of selected system types. Must be one of: `focused`, `click-through`, and `strict`.").AddStringEnumDescription("click-through", "focused", "strict", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("click-through", "focused", "strict"),
+					stringvalidator.OneOf("click-through", "focused", "strict", ),
 				},
 			},
 			"sentry_enrollment_systems_manager_network_id": schema.StringAttribute{
@@ -192,10 +200,10 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				Optional:            true,
 			},
 			"splash_image_image_format": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.").AddStringEnumDescription("gif", "jpg", "png").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.").AddStringEnumDescription("gif", "jpg", "png", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("gif", "jpg", "png"),
+					stringvalidator.OneOf("gif", "jpg", "png", ),
 				},
 			},
 			"splash_logo_extension": schema.StringAttribute{
@@ -211,10 +219,10 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				Optional:            true,
 			},
 			"splash_logo_image_format": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.").AddStringEnumDescription("gif", "jpg", "png").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.").AddStringEnumDescription("gif", "jpg", "png", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("gif", "jpg", "png"),
+					stringvalidator.OneOf("gif", "jpg", "png", ),
 				},
 			},
 			"splash_prepaid_front_extension": schema.StringAttribute{
@@ -230,10 +238,10 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 				Optional:            true,
 			},
 			"splash_prepaid_front_image_format": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.").AddStringEnumDescription("gif", "jpg", "png").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.").AddStringEnumDescription("gif", "jpg", "png", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("gif", "jpg", "png"),
+					stringvalidator.OneOf("gif", "jpg", "png", ),
 				},
 			},
 		},
@@ -397,5 +405,4 @@ func (r *WirelessSSIDSplashSettingsResource) ImportState(ctx context.Context, re
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiSwitchStackRoutingStaticRoute(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" || os.Getenv("TF_VAR_test_switch_2_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_static_route.test", "name", "My route"))
@@ -43,26 +41,26 @@ func TestAccMerakiSwitchStackRoutingStaticRoute(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSwitchStackRoutingStaticRoutePrerequisitesConfig + testAccMerakiSwitchStackRoutingStaticRouteConfig_minimum(),
+			Config: testAccMerakiSwitchStackRoutingStaticRoutePrerequisitesConfig+testAccMerakiSwitchStackRoutingStaticRouteConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchStackRoutingStaticRoutePrerequisitesConfig + testAccMerakiSwitchStackRoutingStaticRouteConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiSwitchStackRoutingStaticRoutePrerequisitesConfig+testAccMerakiSwitchStackRoutingStaticRouteConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_switch_stack_routing_static_route.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiSwitchStackRoutingStaticRouteImportStateIdFunc("meraki_switch_stack_routing_static_route.test"),
-		ImportStateVerifyIgnore: []string{"advertise_via_ospf_enabled", "prefer_over_ospf_routes_enabled"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_switch_stack_routing_static_route.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiSwitchStackRoutingStaticRouteImportStateIdFunc("meraki_switch_stack_routing_static_route.test"),
+		ImportStateVerifyIgnore: []string{ "advertise_via_ospf_enabled","prefer_over_ospf_routes_enabled", },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -77,7 +75,7 @@ func merakiSwitchStackRoutingStaticRouteImportStateIdFunc(resourceName string) r
 		SwitchStackId := primary.Attributes["switch_stack_id"]
 		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s,%s", NetworkId, SwitchStackId, Id), nil
+		return fmt.Sprintf("%s,%s,%s", NetworkId,SwitchStackId,Id), nil
 	}
 }
 
@@ -118,7 +116,6 @@ resource "meraki_switch_stack_routing_interface" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -151,5 +148,7 @@ func testAccMerakiSwitchStackRoutingStaticRouteConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

@@ -1,5 +1,5 @@
 resource "meraki_switch_mtu" "example" {
-  network_id       = "L_123456"
+  network_id = "L_123456"
   default_mtu_size = 9198
   overrides = [
     {

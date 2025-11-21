@@ -21,12 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
-	"slices"
-	"strconv"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -64,7 +68,7 @@ func (r *SwitchStackRoutingInterfacesResource) Metadata(ctx context.Context, req
 func (r *SwitchStackRoutingInterfacesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Stack Routing Interface` configuration in bulk.").AddBulkResourceIds("name").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Stack Routing Interface` configuration in bulk.").AddBulkResourceIds("name", ).String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -107,17 +111,17 @@ func (r *SwitchStackRoutingInterfacesResource) Schema(ctx context.Context, req r
 							Optional:            true,
 						},
 						"mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.").AddStringEnumDescription("loopback", "routed", "vlan").String,
+							MarkdownDescription: helpers.NewAttributeDescription("L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.").AddStringEnumDescription("loopback", "routed", "vlan", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("loopback", "routed", "vlan"),
+								stringvalidator.OneOf("loopback", "routed", "vlan", ),
 							},
 						},
 						"multicast_routing": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Enable multicast support if, multicast routing between VLANs is required. Options are, `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.").AddStringEnumDescription("IGMP snooping querier", "disabled", "enabled").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Enable multicast support if, multicast routing between VLANs is required. Options are, `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.").AddStringEnumDescription("IGMP snooping querier", "disabled", "enabled", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("IGMP snooping querier", "disabled", "enabled"),
+								stringvalidator.OneOf("IGMP snooping querier", "disabled", "enabled", ),
 							},
 						},
 						"name": schema.StringAttribute{
@@ -165,10 +169,10 @@ func (r *SwitchStackRoutingInterfacesResource) Schema(ctx context.Context, req r
 							Optional:            true,
 						},
 						"ospf_settings_network_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("OSPF network type").AddStringEnumDescription("broadcast", "point-to-point").String,
+							MarkdownDescription: helpers.NewAttributeDescription("OSPF network type").AddStringEnumDescription("broadcast", "point-to-point", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("broadcast", "point-to-point"),
+								stringvalidator.OneOf("broadcast", "point-to-point", ),
 							},
 						},
 						"vrf_name": schema.StringAttribute{
@@ -342,7 +346,7 @@ func (r *SwitchStackRoutingInterfacesResource) Update(ctx context.Context, req r
 					Operation: "update",
 					Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
 					Body:      plan.Items[i].toBody(ctx, itemState),
-				})
+				})					
 			}
 			break
 		}
@@ -431,7 +435,7 @@ func (r *SwitchStackRoutingInterfacesResource) ImportState(ctx context.Context, 
 		expectedIdentifier += " or <organization_id>,<network_id>,<switch_stack_id>,[<id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -452,7 +456,6 @@ func (r *SwitchStackRoutingInterfacesResource) ImportState(ctx context.Context, 
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
@@ -495,5 +498,4 @@ func (r *SwitchStackRoutingInterfacesResource) ModifyPlan(ctx context.Context, r
 	diags = resp.Plan.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
-
 // End of section. //template:end modifyPlan

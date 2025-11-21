@@ -23,9 +23,10 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,7 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -78,13 +82,14 @@ func (r *WirelessAirMarshalRuleResource) Schema(ctx context.Context, req resourc
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Indicates if this rule will allow, block, or alert.").AddStringEnumDescription("alert", "allow", "block").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Indicates if this rule will allow, block, or alert.").AddStringEnumDescription("alert", "allow", "block", ).String,
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("alert", "allow", "block"),
+					stringvalidator.OneOf("alert", "allow", "block", ),
 				},
 			},
 			"match_string": schema.StringAttribute{
@@ -92,10 +97,10 @@ func (r *WirelessAirMarshalRuleResource) Schema(ctx context.Context, req resourc
 				Optional:            true,
 			},
 			"match_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The type of match.").AddStringEnumDescription("bssid", "contains", "exact", "wildcard").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The type of match.").AddStringEnumDescription("bssid", "contains", "exact", "wildcard", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("bssid", "contains", "exact", "wildcard"),
+					stringvalidator.OneOf("bssid", "contains", "exact", "wildcard", ),
 				},
 			},
 		},
@@ -227,7 +232,7 @@ func (r *WirelessAirMarshalRuleResource) Update(ctx context.Context, req resourc
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -282,5 +287,4 @@ func (r *WirelessAirMarshalRuleResource) ImportState(ctx context.Context, req re
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

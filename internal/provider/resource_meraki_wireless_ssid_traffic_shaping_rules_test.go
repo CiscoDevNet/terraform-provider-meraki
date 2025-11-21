@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiWirelessSSIDTrafficShapingRules(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_traffic_shaping_rules.test", "default_rules_enabled", "true"))
@@ -49,29 +47,29 @@ func TestAccMerakiWirelessSSIDTrafficShapingRules(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig + testAccMerakiWirelessSSIDTrafficShapingRulesConfig_minimum(),
+			Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig+testAccMerakiWirelessSSIDTrafficShapingRulesConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig + testAccMerakiWirelessSSIDTrafficShapingRulesConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig+testAccMerakiWirelessSSIDTrafficShapingRulesConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_wireless_ssid_traffic_shaping_rules.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiWirelessSSIDTrafficShapingRulesImportStateIdFunc("meraki_wireless_ssid_traffic_shaping_rules.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_wireless_ssid_traffic_shaping_rules.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiWirelessSSIDTrafficShapingRulesImportStateIdFunc("meraki_wireless_ssid_traffic_shaping_rules.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig + testAccWirelessSSIDTrafficShapingRulesConfigAdditional0,
+		Config: testAccMerakiWirelessSSIDTrafficShapingRulesPrerequisitesConfig+testAccWirelessSSIDTrafficShapingRulesConfigAdditional0,
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -85,7 +83,7 @@ func merakiWirelessSSIDTrafficShapingRulesImportStateIdFunc(resourceName string)
 		NetworkId := primary.Attributes["network_id"]
 		Number := primary.Attributes["number"]
 
-		return fmt.Sprintf("%s,%s", NetworkId, Number), nil
+		return fmt.Sprintf("%s,%s", NetworkId,Number), nil
 	}
 }
 
@@ -111,7 +109,6 @@ resource "meraki_wireless_ssid" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -153,6 +150,7 @@ func testAccMerakiWirelessSSIDTrafficShapingRulesConfig_all() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
 
+
 const testAccWirelessSSIDTrafficShapingRulesConfigAdditional0 = `
 resource "meraki_wireless_ssid_traffic_shaping_rules" "test" {
   network_id = meraki_network.test.id
@@ -185,5 +183,6 @@ resource "meraki_wireless_ssid_traffic_shaping_rules" "test" {
   ]
 }
 `
+
 
 // End of section. //template:end testAccConfigAdditional

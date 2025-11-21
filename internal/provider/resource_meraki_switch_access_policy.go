@@ -23,9 +23,10 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -77,13 +82,14 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"access_policy_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Access Type of the policy. Automatically `Hybrid authentication` when hostMode is `Multi-Domain`.").AddStringEnumDescription("802.1x", "Hybrid authentication", "MAC authentication bypass").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Access Type of the policy. Automatically `Hybrid authentication` when hostMode is `Multi-Domain`.").AddStringEnumDescription("802.1x", "Hybrid authentication", "MAC authentication bypass", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("802.1x", "Hybrid authentication", "MAC authentication bypass"),
+					stringvalidator.OneOf("802.1x", "Hybrid authentication", "MAC authentication bypass", ),
 				},
 			},
 			"guest_group_policy_id": schema.StringAttribute{
@@ -103,10 +109,10 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 				Optional:            true,
 			},
 			"host_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Choose the Host Mode for the access policy.").AddStringEnumDescription("Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Choose the Host Mode for the access policy.").AddStringEnumDescription("Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host", ).String,
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host"),
+					stringvalidator.OneOf("Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host", ),
 				},
 			},
 			"increase_access_speed": schema.BoolAttribute{
@@ -142,10 +148,10 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 				Optional:            true,
 			},
 			"dot1x_control_direction": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Supports either `both` or `inbound`. Set to `inbound` to allow unauthorized egress on the switchport. Set to `both` to control both traffic directions with authorization. Defaults to `both`").AddStringEnumDescription("both", "inbound").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Supports either `both` or `inbound`. Set to `inbound` to allow unauthorized egress on the switchport. Set to `both` to control both traffic directions with authorization. Defaults to `both`").AddStringEnumDescription("both", "inbound", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("both", "inbound"),
+					stringvalidator.OneOf("both", "inbound", ),
 				},
 			},
 			"radius_failed_auth_group_policy_id": schema.StringAttribute{
@@ -169,10 +175,10 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 				Optional:            true,
 			},
 			"radius_authentication_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Authentication mode of the policy ( Open | Closed )").AddStringEnumDescription("Closed", "Open").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Authentication mode of the policy ( Open | Closed )").AddStringEnumDescription("Closed", "Open", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Closed", "Open"),
+					stringvalidator.OneOf("Closed", "Open", ),
 				},
 			},
 			"radius_cache_enabled": schema.BoolAttribute{
@@ -374,7 +380,7 @@ func (r *SwitchAccessPolicyResource) Update(ctx context.Context, req resource.Up
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -429,5 +435,4 @@ func (r *SwitchAccessPolicyResource) ImportState(ctx context.Context, req resour
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

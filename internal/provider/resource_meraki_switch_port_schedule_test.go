@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiSwitchPortSchedule(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_port_schedule.test", "name", "Weekdays schedule"))
@@ -62,26 +60,26 @@ func TestAccMerakiSwitchPortSchedule(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSwitchPortSchedulePrerequisitesConfig + testAccMerakiSwitchPortScheduleConfig_minimum(),
+			Config: testAccMerakiSwitchPortSchedulePrerequisitesConfig+testAccMerakiSwitchPortScheduleConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchPortSchedulePrerequisitesConfig + testAccMerakiSwitchPortScheduleConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiSwitchPortSchedulePrerequisitesConfig+testAccMerakiSwitchPortScheduleConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_switch_port_schedule.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiSwitchPortScheduleImportStateIdFunc("meraki_switch_port_schedule.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_switch_port_schedule.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiSwitchPortScheduleImportStateIdFunc("meraki_switch_port_schedule.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -95,7 +93,7 @@ func merakiSwitchPortScheduleImportStateIdFunc(resourceName string) resource.Imp
 		NetworkId := primary.Attributes["network_id"]
 		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", NetworkId, Id), nil
+		return fmt.Sprintf("%s,%s", NetworkId,Id), nil
 	}
 }
 
@@ -116,7 +114,6 @@ resource "meraki_network" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -165,5 +162,7 @@ func testAccMerakiSwitchPortScheduleConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

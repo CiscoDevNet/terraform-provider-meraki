@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *WirelessSSIDL7FirewallRulesResource) Schema(ctx context.Context, req re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"number": schema.StringAttribute{
@@ -82,6 +90,7 @@ func (r *WirelessSSIDL7FirewallRulesResource) Schema(ctx context.Context, req re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"rules": schema.ListNestedAttribute{
@@ -90,17 +99,17 @@ func (r *WirelessSSIDL7FirewallRulesResource) Schema(ctx context.Context, req re
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"policy": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("`Deny` traffic specified by this rule").AddStringEnumDescription("deny").String,
+							MarkdownDescription: helpers.NewAttributeDescription("`Deny` traffic specified by this rule").AddStringEnumDescription("deny", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("deny"),
+								stringvalidator.OneOf("deny", ),
 							},
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Type of the L7 firewall rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`").AddStringEnumDescription("application", "applicationCategory", "host", "ipRange", "port").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Type of the L7 firewall rule. One of: `application`, `applicationCategory`, `host`, `port`, `ipRange`").AddStringEnumDescription("application", "applicationCategory", "host", "ipRange", "port", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "port"),
+								stringvalidator.OneOf("application", "applicationCategory", "host", "ipRange", "port", ),
 							},
 						},
 						"value": schema.StringAttribute{
@@ -277,5 +286,4 @@ func (r *WirelessSSIDL7FirewallRulesResource) ImportState(ctx context.Context, r
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

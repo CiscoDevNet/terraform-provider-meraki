@@ -1,0 +1,734 @@
+[
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Explore gen folder structure to understand provider organization",
+          "status": "pending",
+          "activeForm": "Exploring gen folder structure"
+        },
+        {
+          "content": "Find appliance VLAN DHCP resource/data source definitions",
+          "status": "pending",
+          "activeForm": "Finding appliance VLAN DHCP definitions"
+        },
+        {
+          "content": "Examine DHCP server configuration logic",
+          "status": "pending",
+          "activeForm": "Examining DHCP server configuration logic"
+        },
+        {
+          "content": "Identify issue with lease options being sent for relay servers",
+          "status": "pending",
+          "activeForm": "Identifying lease options issue"
+        },
+        {
+          "content": "Propose fix for the DHCP relay server issue",
+          "status": "pending",
+          "activeForm": "Proposing fix for DHCP relay issue"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Explore gen folder structure to understand provider organization",
+          "status": "in_progress",
+          "activeForm": "Exploring gen folder structure"
+        },
+        {
+          "content": "Find appliance VLAN DHCP resource/data source definitions",
+          "status": "pending",
+          "activeForm": "Finding appliance VLAN DHCP definitions"
+        },
+        {
+          "content": "Examine DHCP server configuration logic",
+          "status": "pending",
+          "activeForm": "Examining DHCP server configuration logic"
+        },
+        {
+          "content": "Identify issue with lease options being sent for relay servers",
+          "status": "pending",
+          "activeForm": "Identifying lease options issue"
+        },
+        {
+          "content": "Propose fix for the DHCP relay server issue",
+          "status": "pending",
+          "activeForm": "Proposing fix for DHCP relay issue"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "ls -la gen/ | head -20",
+      "description": "List contents of gen folder"
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "appliance.*vlan.*dhcp|vlan.*dhcp",
+      "path": "gen/definitions",
+      "output_mode": "files_with_matches",
+      "-i": true
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Explore gen folder structure to understand provider organization",
+          "status": "completed",
+          "activeForm": "Exploring gen folder structure"
+        },
+        {
+          "content": "Find appliance VLAN DHCP resource/data source definitions",
+          "status": "in_progress",
+          "activeForm": "Finding appliance VLAN DHCP definitions"
+        },
+        {
+          "content": "Examine DHCP server configuration logic",
+          "status": "pending",
+          "activeForm": "Examining DHCP server configuration logic"
+        },
+        {
+          "content": "Identify issue with lease options being sent for relay servers",
+          "status": "pending",
+          "activeForm": "Identifying lease options issue"
+        },
+        {
+          "content": "Propose fix for the DHCP relay server issue",
+          "status": "pending",
+          "activeForm": "Proposing fix for DHCP relay issue"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/gen/definitions/appliance_vlan_dhcp.yaml"
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Explore gen folder structure to understand provider organization",
+          "status": "completed",
+          "activeForm": "Exploring gen folder structure"
+        },
+        {
+          "content": "Find appliance VLAN DHCP resource/data source definitions",
+          "status": "completed",
+          "activeForm": "Finding appliance VLAN DHCP definitions"
+        },
+        {
+          "content": "Examine DHCP server configuration logic",
+          "status": "in_progress",
+          "activeForm": "Examining DHCP server configuration logic"
+        },
+        {
+          "content": "Identify issue with lease options being sent for relay servers",
+          "status": "pending",
+          "activeForm": "Identifying lease options issue"
+        },
+        {
+          "content": "Propose fix for the DHCP relay server issue",
+          "status": "pending",
+          "activeForm": "Proposing fix for DHCP relay issue"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "appliance_vlan_dhcp",
+      "path": "internal/provider",
+      "output_mode": "files_with_matches"
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/resource_meraki_appliance_vlan_dhcp.go",
+      "limit": 150
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "func.*Update|toBody|getPath",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/resource_meraki_appliance_vlan_dhcp.go",
+      "output_mode": "content",
+      "-n": true
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/resource_meraki_appliance_vlan_dhcp.go",
+      "offset": 300,
+      "limit": 150
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "func.*toBody",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/resource_meraki_appliance_vlan_dhcp.go",
+      "output_mode": "content",
+      "-A": 80,
+      "-n": true
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "toBody",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/resource_meraki_appliance_vlan_dhcp.go",
+      "output_mode": "content",
+      "-B": 2,
+      "-A": 100,
+      "-n": true
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "func \\(.*ApplianceVLANDHCP\\) toBody",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider",
+      "output_mode": "files_with_matches"
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "func \\(data ApplianceVLANDHCP\\) toBody",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan_dhcp.go",
+      "output_mode": "content",
+      "-A": 100,
+      "-n": true
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Explore gen folder structure to understand provider organization",
+          "status": "completed",
+          "activeForm": "Exploring gen folder structure"
+        },
+        {
+          "content": "Find appliance VLAN DHCP resource/data source definitions",
+          "status": "completed",
+          "activeForm": "Finding appliance VLAN DHCP definitions"
+        },
+        {
+          "content": "Examine DHCP server configuration logic",
+          "status": "completed",
+          "activeForm": "Examining DHCP server configuration logic"
+        },
+        {
+          "content": "Identify issue with lease options being sent for relay servers",
+          "status": "in_progress",
+          "activeForm": "Identifying lease options issue"
+        },
+        {
+          "content": "Propose fix for the DHCP relay server issue",
+          "status": "pending",
+          "activeForm": "Proposing fix for DHCP relay issue"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "template:begin toBody|template:end toBody",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan_dhcp.go",
+      "output_mode": "content",
+      "-B": 2,
+      "-A": 2,
+      "-n": true
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan_dhcp.go",
+      "limit": 80
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Explore gen folder structure to understand provider organization",
+          "status": "completed",
+          "activeForm": "Exploring gen folder structure"
+        },
+        {
+          "content": "Find appliance VLAN DHCP resource/data source definitions",
+          "status": "completed",
+          "activeForm": "Finding appliance VLAN DHCP definitions"
+        },
+        {
+          "content": "Examine DHCP server configuration logic",
+          "status": "completed",
+          "activeForm": "Examining DHCP server configuration logic"
+        },
+        {
+          "content": "Identify issue with lease options being sent for relay servers",
+          "status": "completed",
+          "activeForm": "Identifying lease options issue"
+        },
+        {
+          "content": "Propose fix for the DHCP relay server issue",
+          "status": "in_progress",
+          "activeForm": "Proposing fix for DHCP relay issue"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "custom_create|customize",
+      "path": "gen/definitions/appliance_vlan_dhcp.yaml",
+      "output_mode": "content",
+      "-n": true,
+      "-i": true
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "ls -la internal/provider/*appliance_vlan_dhcp*.go",
+      "description": "List appliance VLAN DHCP related files"
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan_dhcp.go",
+      "offset": 76,
+      "limit": 66
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Explore gen folder structure to understand provider organization",
+          "status": "completed",
+          "activeForm": "Exploring gen folder structure"
+        },
+        {
+          "content": "Find appliance VLAN DHCP resource/data source definitions",
+          "status": "completed",
+          "activeForm": "Finding appliance VLAN DHCP definitions"
+        },
+        {
+          "content": "Examine DHCP server configuration logic",
+          "status": "completed",
+          "activeForm": "Examining DHCP server configuration logic"
+        },
+        {
+          "content": "Identify issue with lease options being sent for relay servers",
+          "status": "completed",
+          "activeForm": "Identifying lease options issue"
+        },
+        {
+          "content": "Propose fix for the DHCP relay server issue",
+          "status": "completed",
+          "activeForm": "Proposing fix for DHCP relay issue"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "c0329279-8834-4553-8e2e-6f413d62d3be",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/c0329279-8834-4553-8e2e-6f413d62d3be.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan_dhcp.go",
+      "old_string": "func (data ApplianceVLANDHCP) toBody(ctx context.Context, existing ApplianceVLAN) string {\n\tbody := existing.toBody(ctx, existing)\n\tif !data.VlanId.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"id\", data.VlanId.ValueString())\n\t}\n\tif !data.DhcpBootFilename.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootFilename\", data.DhcpBootFilename.ValueString())\n\t}\n\tif !data.DhcpBootNextServer.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootNextServer\", data.DhcpBootNextServer.ValueString())\n\t}\n\tif !data.DhcpBootOptionsEnabled.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootOptionsEnabled\", data.DhcpBootOptionsEnabled.ValueBool())\n\t}\n\tif !data.DhcpHandling.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpHandling\", data.DhcpHandling.ValueString())\n\t}\n\tif !data.DhcpLeaseTime.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpLeaseTime\", data.DhcpLeaseTime.ValueString())\n\t}\n\tif !data.DnsNameservers.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dnsNameservers\", data.DnsNameservers.ValueString())\n\t}\n\tif !data.MandatoryDhcpEnabled.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"mandatoryDhcp.enabled\", data.MandatoryDhcpEnabled.ValueBool())\n\t}\n\tif len(data.DhcpOptions) > 0 {\n\t\tbody, _ = sjson.Set(body, \"dhcpOptions\", []interface{}{})\n\t\tfor _, item := range data.DhcpOptions {\n\t\t\titemBody := \"\"\n\t\t\tif !item.Code.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"code\", item.Code.ValueString())\n\t\t\t}\n\t\t\tif !item.Type.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"type\", item.Type.ValueString())\n\t\t\t}\n\t\t\tif !item.Value.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"value\", item.Value.ValueString())\n\t\t\t}\n\t\t\tbody, _ = sjson.SetRaw(body, \"dhcpOptions.-1\", itemBody)\n\t\t}\n\t}\n\tif !data.DhcpRelayServerIps.IsNull() {\n\t\tvar values []string\n\t\tdata.DhcpRelayServerIps.ElementsAs(ctx, &values, false)\n\t\tbody, _ = sjson.Set(body, \"dhcpRelayServerIps\", values)\n\t}\n\tif len(data.ReservedIpRanges) > 0 {\n\t\tbody, _ = sjson.Set(body, \"reservedIpRanges\", []interface{}{})\n\t\tfor _, item := range data.ReservedIpRanges {\n\t\t\titemBody := \"\"\n\t\t\tif !item.Comment.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"comment\", item.Comment.ValueString())\n\t\t\t}\n\t\t\tif !item.End.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"end\", item.End.ValueString())\n\t\t\t}\n\t\t\tif !item.Start.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"start\", item.Start.ValueString())\n\t\t\t}\n\t\t\tbody, _ = sjson.SetRaw(body, \"reservedIpRanges.-1\", itemBody)\n\t\t}\n\t}\n\treturn body\n}",
+      "new_string": "func (data ApplianceVLANDHCP) toBody(ctx context.Context, existing ApplianceVLAN) string {\n\tbody := existing.toBody(ctx, existing)\n\tif !data.VlanId.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"id\", data.VlanId.ValueString())\n\t}\n\t\n\t// Always set dhcpHandling if provided\n\tif !data.DhcpHandling.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpHandling\", data.DhcpHandling.ValueString())\n\t}\n\t\n\t// Determine DHCP handling mode\n\tdhcpHandlingValue := \"\"\n\tif !data.DhcpHandling.IsNull() {\n\t\tdhcpHandlingValue = data.DhcpHandling.ValueString()\n\t}\n\t\n\t// Fields that are only relevant when running a DHCP server\n\tif dhcpHandlingValue == \"Run a DHCP server\" {\n\t\tif !data.DhcpBootFilename.IsNull() {\n\t\t\tbody, _ = sjson.Set(body, \"dhcpBootFilename\", data.DhcpBootFilename.ValueString())\n\t\t}\n\t\tif !data.DhcpBootNextServer.IsNull() {\n\t\t\tbody, _ = sjson.Set(body, \"dhcpBootNextServer\", data.DhcpBootNextServer.ValueString())\n\t\t}\n\t\tif !data.DhcpBootOptionsEnabled.IsNull() {\n\t\t\tbody, _ = sjson.Set(body, \"dhcpBootOptionsEnabled\", data.DhcpBootOptionsEnabled.ValueBool())\n\t\t}\n\t\tif !data.DhcpLeaseTime.IsNull() {\n\t\t\tbody, _ = sjson.Set(body, \"dhcpLeaseTime\", data.DhcpLeaseTime.ValueString())\n\t\t}\n\t\tif !data.DnsNameservers.IsNull() {\n\t\t\tbody, _ = sjson.Set(body, \"dnsNameservers\", data.DnsNameservers.ValueString())\n\t\t}\n\t\tif !data.MandatoryDhcpEnabled.IsNull() {\n\t\t\tbody, _ = sjson.Set(body, \"mandatoryDhcp.enabled\", data.MandatoryDhcpEnabled.ValueBool())\n\t\t}\n\t\tif len(data.DhcpOptions) > 0 {\n\t\t\tbody, _ = sjson.Set(body, \"dhcpOptions\", []interface{}{})\n\t\t\tfor _, item := range data.DhcpOptions {\n\t\t\t\titemBody := \"\"\n\t\t\t\tif !item.Code.IsNull() {\n\t\t\t\t\titemBody, _ = sjson.Set(itemBody, \"code\", item.Code.ValueString())\n\t\t\t\t}\n\t\t\t\tif !item.Type.IsNull() {\n\t\t\t\t\titemBody, _ = sjson.Set(itemBody, \"type\", item.Type.ValueString())\n\t\t\t\t}\n\t\t\t\tif !item.Value.IsNull() {\n\t\t\t\t\titemBody, _ = sjson.Set(itemBody, \"value\", item.Value.ValueString())\n\t\t\t\t}\n\t\t\t\tbody, _ = sjson.SetRaw(body, \"dhcpOptions.-1\", itemBody)\n\t\t\t}\n\t\t}\n\t\tif len(data.ReservedIpRanges) > 0 {\n\t\t\tbody, _ = sjson.Set(body, \"reservedIpRanges\", []interface{}{})\n\t\t\tfor _, item := range data.ReservedIpRanges {\n\t\t\t\titemBody := \"\"\n\t\t\t\tif !item.Comment.IsNull() {\n\t\t\t\t\titemBody, _ = sjson.Set(itemBody, \"comment\", item.Comment.ValueString())\n\t\t\t\t}\n\t\t\t\tif !item.End.IsNull() {\n\t\t\t\t\titemBody, _ = sjson.Set(itemBody, \"end\", item.End.ValueString())\n\t\t\t\t}\n\t\t\t\tif !item.Start.IsNull() {\n\t\t\t\t\titemBody, _ = sjson.Set(itemBody, \"start\", item.Start.ValueString())\n\t\t\t\t}\n\t\t\t\tbody, _ = sjson.SetRaw(body, \"reservedIpRanges.-1\", itemBody)\n\t\t\t}\n\t\t}\n\t} else if dhcpHandlingValue == \"Relay DHCP to another server\" {\n\t\t// Fields that are only relevant when relaying DHCP\n\t\tif !data.DhcpRelayServerIps.IsNull() {\n\t\t\tvar values []string\n\t\t\tdata.DhcpRelayServerIps.ElementsAs(ctx, &values, false)\n\t\t\tbody, _ = sjson.Set(body, \"dhcpRelayServerIps\", values)\n\t\t}\n\t}\n\t// When dhcpHandling is \"Do not respond to DHCP requests\", no DHCP fields should be sent\n\t\n\treturn body\n}"
+    }
+  },
+  {
+    "session_id": "97ca1ebf-d840-40d8-a52c-8a280d08dbee",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/97ca1ebf-d840-40d8-a52c-8a280d08dbee.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Trace the Create function execution flow",
+          "status": "in_progress",
+          "activeForm": "Tracing Create function execution"
+        },
+        {
+          "content": "Identify where ghost DHCP data is being injected",
+          "status": "pending",
+          "activeForm": "Identifying ghost data source"
+        },
+        {
+          "content": "Propose solution to prevent ghost data",
+          "status": "pending",
+          "activeForm": "Proposing solution"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "97ca1ebf-d840-40d8-a52c-8a280d08dbee",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/97ca1ebf-d840-40d8-a52c-8a280d08dbee.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/resource_meraki_appliance_vlan_dhcp.go",
+      "offset": 190,
+      "limit": 15
+    }
+  },
+  {
+    "session_id": "97ca1ebf-d840-40d8-a52c-8a280d08dbee",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/97ca1ebf-d840-40d8-a52c-8a280d08dbee.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Trace the Create function execution flow",
+          "status": "completed",
+          "activeForm": "Tracing Create function execution"
+        },
+        {
+          "content": "Identify where ghost DHCP data is being injected",
+          "status": "completed",
+          "activeForm": "Identifying ghost data source"
+        },
+        {
+          "content": "Propose solution to prevent ghost data",
+          "status": "in_progress",
+          "activeForm": "Proposing solution"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "97ca1ebf-d840-40d8-a52c-8a280d08dbee",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/97ca1ebf-d840-40d8-a52c-8a280d08dbee.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "func \\(data ApplianceVLAN\\) toBody",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider",
+      "output_mode": "files_with_matches"
+    }
+  },
+  {
+    "session_id": "97ca1ebf-d840-40d8-a52c-8a280d08dbee",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/97ca1ebf-d840-40d8-a52c-8a280d08dbee.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "func \\(data ApplianceVLAN\\) toBody",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan.go",
+      "output_mode": "content",
+      "-A": 50,
+      "-n": true
+    }
+  },
+  {
+    "session_id": "97ca1ebf-d840-40d8-a52c-8a280d08dbee",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/97ca1ebf-d840-40d8-a52c-8a280d08dbee.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan_dhcp.go"
+    }
+  },
+  {
+    "session_id": "97ca1ebf-d840-40d8-a52c-8a280d08dbee",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/97ca1ebf-d840-40d8-a52c-8a280d08dbee.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "type ApplianceVLAN struct",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan.go",
+      "output_mode": "content",
+      "-A": 30,
+      "-n": true
+    }
+  },
+  {
+    "session_id": "97ca1ebf-d840-40d8-a52c-8a280d08dbee",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/97ca1ebf-d840-40d8-a52c-8a280d08dbee.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/internal/provider/model_meraki_appliance_vlan_dhcp.go",
+      "old_string": "func (data ApplianceVLANDHCP) toBody(ctx context.Context, existing ApplianceVLAN) string {\n\tbody := existing.toBody(ctx, existing)\n\tif !data.VlanId.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"id\", data.VlanId.ValueString())\n\t}\n\tif !data.DhcpBootFilename.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootFilename\", data.DhcpBootFilename.ValueString())\n\t}\n\tif !data.DhcpBootNextServer.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootNextServer\", data.DhcpBootNextServer.ValueString())\n\t}\n\tif !data.DhcpBootOptionsEnabled.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootOptionsEnabled\", data.DhcpBootOptionsEnabled.ValueBool())\n\t}\n\tif !data.DhcpHandling.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpHandling\", data.DhcpHandling.ValueString())\n\t}\n\tif !data.DhcpLeaseTime.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpLeaseTime\", data.DhcpLeaseTime.ValueString())\n\t}\n\tif !data.DnsNameservers.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dnsNameservers\", data.DnsNameservers.ValueString())\n\t}\n\tif !data.MandatoryDhcpEnabled.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"mandatoryDhcp.enabled\", data.MandatoryDhcpEnabled.ValueBool())\n\t}\n\tif len(data.DhcpOptions) > 0 {\n\t\tbody, _ = sjson.Set(body, \"dhcpOptions\", []interface{}{})\n\t\tfor _, item := range data.DhcpOptions {\n\t\t\titemBody := \"\"\n\t\t\tif !item.Code.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"code\", item.Code.ValueString())\n\t\t\t}\n\t\t\tif !item.Type.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"type\", item.Type.ValueString())\n\t\t\t}\n\t\t\tif !item.Value.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"value\", item.Value.ValueString())\n\t\t\t}\n\t\t\tbody, _ = sjson.SetRaw(body, \"dhcpOptions.-1\", itemBody)\n\t\t}\n\t}\n\tif !data.DhcpRelayServerIps.IsNull() {\n\t\tvar values []string\n\t\tdata.DhcpRelayServerIps.ElementsAs(ctx, &values, false)\n\t\tbody, _ = sjson.Set(body, \"dhcpRelayServerIps\", values)\n\t}\n\tif len(data.ReservedIpRanges) > 0 {\n\t\tbody, _ = sjson.Set(body, \"reservedIpRanges\", []interface{}{})\n\t\tfor _, item := range data.ReservedIpRanges {\n\t\t\titemBody := \"\"\n\t\t\tif !item.Comment.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"comment\", item.Comment.ValueString())\n\t\t\t}\n\t\t\tif !item.End.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"end\", item.End.ValueString())\n\t\t\t}\n\t\t\tif !item.Start.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"start\", item.Start.ValueString())\n\t\t\t}\n\t\t\tbody, _ = sjson.SetRaw(body, \"reservedIpRanges.-1\", itemBody)\n\t\t}\n\t}\n\treturn body\n}",
+      "new_string": "func (data ApplianceVLANDHCP) toBody(ctx context.Context, existing ApplianceVLAN) string {\n\t// Build body with only non-DHCP fields from existing VLAN to avoid ghost DHCP data\n\tbody := \"\"\n\t\n\t// Include non-DHCP fields from existing VLAN\n\tif !existing.ApplianceIp.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"applianceIp\", existing.ApplianceIp.ValueString())\n\t}\n\tif !existing.Cidr.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"cidr\", existing.Cidr.ValueString())\n\t}\n\tif !existing.GroupPolicyId.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"groupPolicyId\", existing.GroupPolicyId.ValueString())\n\t}\n\tif !existing.Mask.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"mask\", existing.Mask.ValueInt64())\n\t}\n\tif !existing.Name.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"name\", existing.Name.ValueString())\n\t}\n\tif !existing.Subnet.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"subnet\", existing.Subnet.ValueString())\n\t}\n\tif !existing.TemplateVlanType.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"templateVlanType\", existing.TemplateVlanType.ValueString())\n\t}\n\tif !existing.VpnNatSubnet.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"vpnNatSubnet\", existing.VpnNatSubnet.ValueString())\n\t}\n\t// Include fixed IP assignments from existing VLAN\n\tif len(existing.FixedIpAssignments) > 0 {\n\t\tbody, _ = sjson.Set(body, \"fixedIpAssignments\", map[string]interface{}{})\n\t\tfor key, item := range existing.FixedIpAssignments {\n\t\t\titemBody := \"\"\n\t\t\tif !item.Ip.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"ip\", item.Ip.ValueString())\n\t\t\t}\n\t\t\tif !item.Name.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"name\", item.Name.ValueString())\n\t\t\t}\n\t\t\tbody, _ = sjson.SetRaw(body, \"fixedIpAssignments.\"+key, itemBody)\n\t\t}\n\t}\n\t// Include IPv6 settings from existing VLAN\n\tif !existing.Ipv6Enabled.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"ipv6.enabled\", existing.Ipv6Enabled.ValueBool())\n\t}\n\tif len(existing.Ipv6PrefixAssignments) > 0 {\n\t\tbody, _ = sjson.Set(body, \"ipv6.prefixAssignments\", []interface{}{})\n\t\tfor _, item := range existing.Ipv6PrefixAssignments {\n\t\t\titemBody := \"\"\n\t\t\tif !item.Autonomous.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"autonomous\", item.Autonomous.ValueBool())\n\t\t\t}\n\t\t\tif !item.StaticPrefix.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"staticPrefix\", item.StaticPrefix.ValueString())\n\t\t\t}\n\t\t\tif !item.StaticApplianceIp6.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"staticApplianceIp6\", item.StaticApplianceIp6.ValueString())\n\t\t\t}\n\t\t\tif !item.OriginType.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"origin.type\", item.OriginType.ValueString())\n\t\t\t}\n\t\t\tif !item.OriginInterfaces.IsNull() {\n\t\t\t\tvar values []string\n\t\t\t\titem.OriginInterfaces.ElementsAs(ctx, &values, false)\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"origin.interfaces\", values)\n\t\t\t}\n\t\t\tbody, _ = sjson.SetRaw(body, \"ipv6.prefixAssignments.-1\", itemBody)\n\t\t}\n\t}\n\t\n\t// Now add VLAN ID\n\tif !data.VlanId.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"id\", data.VlanId.ValueString())\n\t}\n\t\n\t// Now add DHCP fields from the plan (not from existing)\n\t// This ensures we only send DHCP fields that are explicitly configured\n\tif !data.DhcpBootFilename.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootFilename\", data.DhcpBootFilename.ValueString())\n\t}\n\tif !data.DhcpBootNextServer.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootNextServer\", data.DhcpBootNextServer.ValueString())\n\t}\n\tif !data.DhcpBootOptionsEnabled.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpBootOptionsEnabled\", data.DhcpBootOptionsEnabled.ValueBool())\n\t}\n\tif !data.DhcpHandling.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpHandling\", data.DhcpHandling.ValueString())\n\t}\n\tif !data.DhcpLeaseTime.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dhcpLeaseTime\", data.DhcpLeaseTime.ValueString())\n\t}\n\tif !data.DnsNameservers.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"dnsNameservers\", data.DnsNameservers.ValueString())\n\t}\n\tif !data.MandatoryDhcpEnabled.IsNull() {\n\t\tbody, _ = sjson.Set(body, \"mandatoryDhcp.enabled\", data.MandatoryDhcpEnabled.ValueBool())\n\t}\n\tif len(data.DhcpOptions) > 0 {\n\t\tbody, _ = sjson.Set(body, \"dhcpOptions\", []interface{}{})\n\t\tfor _, item := range data.DhcpOptions {\n\t\t\titemBody := \"\"\n\t\t\tif !item.Code.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"code\", item.Code.ValueString())\n\t\t\t}\n\t\t\tif !item.Type.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"type\", item.Type.ValueString())\n\t\t\t}\n\t\t\tif !item.Value.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"value\", item.Value.ValueString())\n\t\t\t}\n\t\t\tbody, _ = sjson.SetRaw(body, \"dhcpOptions.-1\", itemBody)\n\t\t}\n\t}\n\tif !data.DhcpRelayServerIps.IsNull() {\n\t\tvar values []string\n\t\tdata.DhcpRelayServerIps.ElementsAs(ctx, &values, false)\n\t\tbody, _ = sjson.Set(body, \"dhcpRelayServerIps\", values)\n\t}\n\tif len(data.ReservedIpRanges) > 0 {\n\t\tbody, _ = sjson.Set(body, \"reservedIpRanges\", []interface{}{})\n\t\tfor _, item := range data.ReservedIpRanges {\n\t\t\titemBody := \"\"\n\t\t\tif !item.Comment.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"comment\", item.Comment.ValueString())\n\t\t\t}\n\t\t\tif !item.End.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"end\", item.End.ValueString())\n\t\t\t}\n\t\t\tif !item.Start.IsNull() {\n\t\t\t\titemBody, _ = sjson.Set(itemBody, \"start\", item.Start.ValueString())\n\t\t\t}\n\t\t\tbody, _ = sjson.SetRaw(body, \"reservedIpRanges.-1\", itemBody)\n\t\t}\n\t}\n\treturn body\n}"
+    }
+  },
+  {
+    "session_id": "9fb8eb35-d350-48e1-a0b2-dd233e1f6f50",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-nac-meraki-tests-integration-fixtures-meraki/9fb8eb35-d350-48e1-a0b2-dd233e1f6f50.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "disabled",
+      "path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/docs/resources/appliance_single_lan.md",
+      "output_mode": "content"
+    }
+  },
+  {
+    "session_id": "9fb8eb35-d350-48e1-a0b2-dd233e1f6f50",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-nac-meraki-tests-integration-fixtures-meraki/9fb8eb35-d350-48e1-a0b2-dd233e1f6f50.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/examples/resources/meraki_appliance_single_lan/resource.tf"
+    }
+  },
+  {
+    "session_id": "9fb8eb35-d350-48e1-a0b2-dd233e1f6f50",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-nac-meraki-tests-integration-fixtures-meraki/9fb8eb35-d350-48e1-a0b2-dd233e1f6f50.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/docs/resources/appliance_single_lan.md",
+      "old_string": "<a id=\"nestedatt--ipv6_prefix_assignments\"></a>\n### Nested Schema for `ipv6_prefix_assignments`\n\nOptional:\n\n- `autonomous` (Boolean) Auto assign a /64 prefix from the origin to the VLAN\n- `origin_interfaces` (List of String) Interfaces associated with the prefix\n- `origin_type` (String) Type of the origin\n  - Choices: `independent`, `internet`\n- `static_appliance_ip6` (String) Manual configuration of the IPv6 Appliance IP\n- `static_prefix` (String) Manual configuration of a /64 prefix on the VLAN",
+      "new_string": "<a id=\"nestedatt--ipv6_prefix_assignments\"></a>\n### Nested Schema for `ipv6_prefix_assignments`\n\nRequired:\n\n- `disabled` (Boolean) Disable this assignment\n\nOptional:\n\n- `autonomous` (Boolean) Auto assign a /64 prefix from the origin to the VLAN\n- `origin_interfaces` (List of String) Interfaces associated with the prefix\n- `origin_type` (String) Type of the origin\n  - Choices: `independent`, `internet`\n- `static_appliance_ip6` (String) Manual configuration of the IPv6 Appliance IP\n- `static_prefix` (String) Manual configuration of a /64 prefix on the VLAN"
+    }
+  },
+  {
+    "session_id": "9fb8eb35-d350-48e1-a0b2-dd233e1f6f50",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-nac-meraki-tests-integration-fixtures-meraki/9fb8eb35-d350-48e1-a0b2-dd233e1f6f50.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/docs/data-sources/appliance_single_lan.md"
+    }
+  },
+  {
+    "session_id": "9fb8eb35-d350-48e1-a0b2-dd233e1f6f50",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-nac-meraki-tests-integration-fixtures-meraki/9fb8eb35-d350-48e1-a0b2-dd233e1f6f50.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/docs/data-sources/appliance_single_lan.md",
+      "old_string": "<a id=\"nestedatt--ipv6_prefix_assignments\"></a>\n### Nested Schema for `ipv6_prefix_assignments`\n\nRead-Only:\n\n- `autonomous` (Boolean) Auto assign a /64 prefix from the origin to the VLAN\n- `origin_interfaces` (List of String) Interfaces associated with the prefix\n- `origin_type` (String) Type of the origin\n- `static_appliance_ip6` (String) Manual configuration of the IPv6 Appliance IP\n- `static_prefix` (String) Manual configuration of a /64 prefix on the VLAN",
+      "new_string": "<a id=\"nestedatt--ipv6_prefix_assignments\"></a>\n### Nested Schema for `ipv6_prefix_assignments`\n\nRead-Only:\n\n- `autonomous` (Boolean) Auto assign a /64 prefix from the origin to the VLAN\n- `disabled` (Boolean) Disable this assignment\n- `origin_interfaces` (List of String) Interfaces associated with the prefix\n- `origin_type` (String) Type of the origin\n- `static_appliance_ip6` (String) Manual configuration of the IPv6 Appliance IP\n- `static_prefix` (String) Manual configuration of a /64 prefix on the VLAN"
+    }
+  },
+  {
+    "session_id": "9fb8eb35-d350-48e1-a0b2-dd233e1f6f50",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-nac-meraki-tests-integration-fixtures-meraki/9fb8eb35-d350-48e1-a0b2-dd233e1f6f50.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/docs/resources/appliance_single_lan.md",
+      "old_string": "## Example Usage\n\n```terraform\nresource \"meraki_appliance_single_lan\" \"example\" {\n  network_id             = \"L_123456\"\n  appliance_ip           = \"192.168.128.1\"\n  subnet                 = \"192.168.128.0/24\"\n  ipv6_enabled           = true\n  mandatory_dhcp_enabled = false\n}\n```",
+      "new_string": "## Example Usage\n\n```terraform\nresource \"meraki_appliance_single_lan\" \"example\" {\n  network_id             = \"L_123456\"\n  appliance_ip           = \"192.168.128.1\"\n  subnet                 = \"192.168.128.0/24\"\n  ipv6_enabled           = true\n  mandatory_dhcp_enabled = false\n  \n  ipv6_prefix_assignments = [\n    {\n      disabled              = false\n      autonomous            = true\n      origin_type           = \"internet\"\n      origin_interfaces     = [\"wan1\"]\n    }\n  ]\n}\n```"
+    }
+  },
+  {
+    "session_id": "0c4d7eeb-bd58-43fc-90ac-72d674472005",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/0c4d7eeb-bd58-43fc-90ac-72d674472005.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Task",
+    "tool_input": {
+      "description": "Process memory logs",
+      "prompt": "Process and archive all log entries from /Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/.claude/memory_logs/current.json. Apply the four-tier memory system to route insights to appropriate memory tiers (global, user-agent, project, project-agent). Archive processed logs after successful memory updates.",
+      "subagent_type": "au-update"
+    }
+  },
+  {
+    "session_id": "0c4d7eeb-bd58-43fc-90ac-72d674472005",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-terraform-provider-meraki/0c4d7eeb-bd58-43fc-90ac-72d674472005.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki/.claude/memory_logs/current.json"
+    }
+  },
+  {
+    "session_id": "9fb8eb35-d350-48e1-a0b2-dd233e1f6f50",
+    "transcript_path": "/Users/jonhumph/.claude/projects/-Users-jonhumph-CXUKISECAUTO-Current-Dev-netascode-meraki-nac-meraki-tests-integration-fixtures-meraki/9fb8eb35-d350-48e1-a0b2-dd233e1f6f50.jsonl",
+    "cwd": "/Users/jonhumph/CXUKISECAUTO/Current_Dev/netascode/meraki/terraform-provider-meraki",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git add -A && git commit -m \"docs: Update appliance_single_lan documentation for IPv6 disabled field\n\n- Add disabled field to resource schema documentation\n- Add disabled field to data source schema documentation  \n- Update example to show ipv6_prefix_assignments usage with disabled field\n- Update CHANGELOG.md for v1.8.1 with IPv6 disabled field addition\"",
+      "description": "Commit documentation updates"
+    }
+  }
+]

@@ -21,10 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -62,7 +68,7 @@ func (r *SwitchPortsResource) Metadata(ctx context.Context, req resource.Metadat
 func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Port` configuration in bulk.").AddBulkResourceIds("port_id").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Port` configuration in bulk.").AddBulkResourceIds("port_id", ).String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -94,10 +100,10 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 							Optional:            true,
 						},
 						"access_policy_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The type of the access policy of the switch port. Only applicable to access ports. Can be one of `Open`, `Custom access policy`, `MAC allow list` or `Sticky MAC allow list`.").AddStringEnumDescription("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The type of the access policy of the switch port. Only applicable to access ports. Can be one of `Open`, `Custom access policy`, `MAC allow list` or `Sticky MAC allow list`.").AddStringEnumDescription("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list"),
+								stringvalidator.OneOf("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list", ),
 							},
 						},
 						"adaptive_policy_group_id": schema.StringAttribute{
@@ -161,24 +167,24 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 							Optional:            true,
 						},
 						"stp_guard": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).").AddStringEnumDescription("bpdu guard", "disabled", "loop guard", "root guard").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).").AddStringEnumDescription("bpdu guard", "disabled", "loop guard", "root guard", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("bpdu guard", "disabled", "loop guard", "root guard"),
+								stringvalidator.OneOf("bpdu guard", "disabled", "loop guard", "root guard", ),
 							},
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The type of the switch port (`trunk`, `access` or `stack`).").AddStringEnumDescription("access", "stack", "trunk").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The type of the switch port (`trunk`, `access` or `stack`).").AddStringEnumDescription("access", "stack", "trunk", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("access", "stack", "trunk"),
+								stringvalidator.OneOf("access", "stack", "trunk", ),
 							},
 						},
 						"udld": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The action to take when Unidirectional Link is detected (Alert only, Enforce). Default configuration is Alert only.").AddStringEnumDescription("Alert only", "Enforce").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The action to take when Unidirectional Link is detected (Alert only, Enforce). Default configuration is Alert only.").AddStringEnumDescription("Alert only", "Enforce", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Alert only", "Enforce"),
+								stringvalidator.OneOf("Alert only", "Enforce", ),
 							},
 						},
 						"vlan": schema.Int64Attribute{
@@ -460,7 +466,7 @@ func (r *SwitchPortsResource) ImportState(ctx context.Context, req resource.Impo
 		expectedIdentifier += " or <organization_id>,<serial>,[<port_id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -483,7 +489,6 @@ func (r *SwitchPortsResource) ImportState(ctx context.Context, req resource.Impo
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
@@ -513,5 +518,4 @@ func (r *SwitchPortsResource) ModifyPlan(ctx context.Context, req resource.Modif
 	diags = resp.Plan.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
-
 // End of section. //template:end modifyPlan

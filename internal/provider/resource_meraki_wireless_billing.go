@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *WirelessBillingResource) Schema(ctx context.Context, req resource.Schem
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"currency": schema.StringAttribute{
@@ -91,10 +99,10 @@ func (r *WirelessBillingResource) Schema(ctx context.Context, req resource.Schem
 							Required:            true,
 						},
 						"time_limit": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The time limit of the pricing plan in minutes. Can be `1 hour`, `1 day`, `1 week`, or `30 days`.").AddStringEnumDescription("1 day", "1 hour", "1 week", "30 days").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The time limit of the pricing plan in minutes. Can be `1 hour`, `1 day`, `1 week`, or `30 days`.").AddStringEnumDescription("1 day", "1 hour", "1 week", "30 days", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("1 day", "1 hour", "1 week", "30 days"),
+								stringvalidator.OneOf("1 day", "1 hour", "1 week", "30 days", ),
 							},
 						},
 						"bandwidth_limits_limit_down": schema.Int64Attribute{
@@ -268,5 +276,4 @@ func (r *WirelessBillingResource) ImportState(ctx context.Context, req resource.
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

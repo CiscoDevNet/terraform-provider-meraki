@@ -21,12 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
-	"slices"
-	"strconv"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -64,7 +68,7 @@ func (r *SensorAlertsProfilesResource) Metadata(ctx context.Context, req resourc
 func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Sensor Alerts Profile` configuration in bulk.").AddBulkResourceIds("name").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Sensor Alerts Profile` configuration in bulk.").AddBulkResourceIds("name", ).String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -131,10 +135,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"direction": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("If `above`, an alert will be sent when a sensor reads above the threshold. If `below`, an alert will be sent when a sensor reads below the threshold. Only applicable for temperature, humidity, realPower, apparentPower, powerFactor, voltage, current, and frequency thresholds.").AddStringEnumDescription("above", "below").String,
+										MarkdownDescription: helpers.NewAttributeDescription("If `above`, an alert will be sent when a sensor reads above the threshold. If `below`, an alert will be sent when a sensor reads below the threshold. Only applicable for temperature, humidity, realPower, apparentPower, powerFactor, voltage, current, and frequency thresholds.").AddStringEnumDescription("above", "below", ).String,
 										Required:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("above", "below"),
+											stringvalidator.OneOf("above", "below", ),
 										},
 									},
 									"duration": schema.Int64Attribute{
@@ -142,10 +146,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 										Optional:            true,
 									},
 									"metric": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("The type of sensor metric that will be monitored for changes.").AddStringEnumDescription("apparentPower", "co2", "current", "door", "frequency", "humidity", "indoorAirQuality", "noise", "pm25", "powerFactor", "realPower", "temperature", "tvoc", "upstreamPower", "voltage", "water").String,
+										MarkdownDescription: helpers.NewAttributeDescription("The type of sensor metric that will be monitored for changes.").AddStringEnumDescription("apparentPower", "co2", "current", "door", "frequency", "humidity", "indoorAirQuality", "noise", "pm25", "powerFactor", "realPower", "temperature", "tvoc", "upstreamPower", "voltage", "water", ).String,
 										Required:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("apparentPower", "co2", "current", "door", "frequency", "humidity", "indoorAirQuality", "noise", "pm25", "powerFactor", "realPower", "temperature", "tvoc", "upstreamPower", "voltage", "water"),
+											stringvalidator.OneOf("apparentPower", "co2", "current", "door", "frequency", "humidity", "indoorAirQuality", "noise", "pm25", "powerFactor", "realPower", "temperature", "tvoc", "upstreamPower", "voltage", "water", ),
 										},
 									},
 									"threshold_apparent_power_draw": schema.Float64Attribute{
@@ -157,10 +161,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 										Optional:            true,
 									},
 									"threshold_co2_quality": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative CO2 level.").AddStringEnumDescription("fair", "good", "inadequate", "poor").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative CO2 level.").AddStringEnumDescription("fair", "good", "inadequate", "poor", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("fair", "good", "inadequate", "poor"),
+											stringvalidator.OneOf("fair", "good", "inadequate", "poor", ),
 										},
 									},
 									"threshold_current_draw": schema.Float64Attribute{
@@ -176,10 +180,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 										Optional:            true,
 									},
 									"threshold_humidity_quality": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative humidity level.").AddStringEnumDescription("fair", "good", "inadequate", "poor").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative humidity level.").AddStringEnumDescription("fair", "good", "inadequate", "poor", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("fair", "good", "inadequate", "poor"),
+											stringvalidator.OneOf("fair", "good", "inadequate", "poor", ),
 										},
 									},
 									"threshold_humidity_relative_percentage": schema.Int64Attribute{
@@ -187,10 +191,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 										Optional:            true,
 									},
 									"threshold_indoor_air_quality_quality": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative indoor air quality level.").AddStringEnumDescription("fair", "good", "inadequate", "poor").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative indoor air quality level.").AddStringEnumDescription("fair", "good", "inadequate", "poor", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("fair", "good", "inadequate", "poor"),
+											stringvalidator.OneOf("fair", "good", "inadequate", "poor", ),
 										},
 									},
 									"threshold_indoor_air_quality_score": schema.Int64Attribute{
@@ -202,10 +206,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 										Optional:            true,
 									},
 									"threshold_noise_ambient_quality": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative ambient noise level.").AddStringEnumDescription("fair", "good", "inadequate", "poor").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative ambient noise level.").AddStringEnumDescription("fair", "good", "inadequate", "poor", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("fair", "good", "inadequate", "poor"),
+											stringvalidator.OneOf("fair", "good", "inadequate", "poor", ),
 										},
 									},
 									"threshold_pm25_concentration": schema.Int64Attribute{
@@ -213,10 +217,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 										Optional:            true,
 									},
 									"threshold_pm25_quality": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative PM2.5 level.").AddStringEnumDescription("fair", "good", "inadequate", "poor").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative PM2.5 level.").AddStringEnumDescription("fair", "good", "inadequate", "poor", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("fair", "good", "inadequate", "poor"),
+											stringvalidator.OneOf("fair", "good", "inadequate", "poor", ),
 										},
 									},
 									"threshold_power_factor_percentage": schema.Int64Attribute{
@@ -236,10 +240,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 										Optional:            true,
 									},
 									"threshold_temperature_quality": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative temperature level.").AddStringEnumDescription("fair", "good", "inadequate", "poor").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative temperature level.").AddStringEnumDescription("fair", "good", "inadequate", "poor", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("fair", "good", "inadequate", "poor"),
+											stringvalidator.OneOf("fair", "good", "inadequate", "poor", ),
 										},
 									},
 									"threshold_tvoc_concentration": schema.Int64Attribute{
@@ -247,10 +251,10 @@ func (r *SensorAlertsProfilesResource) Schema(ctx context.Context, req resource.
 										Optional:            true,
 									},
 									"threshold_tvoc_quality": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative TVOC level.").AddStringEnumDescription("fair", "good", "inadequate", "poor").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Alerting threshold as a qualitative TVOC level.").AddStringEnumDescription("fair", "good", "inadequate", "poor", ).String,
 										Optional:            true,
 										Validators: []validator.String{
-											stringvalidator.OneOf("fair", "good", "inadequate", "poor"),
+											stringvalidator.OneOf("fair", "good", "inadequate", "poor", ),
 										},
 									},
 									"threshold_upstream_power_outage_detected": schema.BoolAttribute{
@@ -440,7 +444,7 @@ func (r *SensorAlertsProfilesResource) Update(ctx context.Context, req resource.
 					Operation: "update",
 					Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
 					Body:      plan.Items[i].toBody(ctx, itemState),
-				})
+				})					
 			}
 			break
 		}
@@ -529,7 +533,7 @@ func (r *SensorAlertsProfilesResource) ImportState(ctx context.Context, req reso
 		expectedIdentifier += " or <organization_id>,<network_id>,[<id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -553,7 +557,6 @@ func (r *SensorAlertsProfilesResource) ImportState(ctx context.Context, req reso
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
@@ -596,5 +599,4 @@ func (r *SensorAlertsProfilesResource) ModifyPlan(ctx context.Context, req resou
 	diags = resp.Plan.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
-
 // End of section. //template:end modifyPlan

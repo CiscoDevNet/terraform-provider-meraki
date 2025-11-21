@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
 	if os.Getenv("ORGANIZATION") == "" {
-		t.Skip("skipping test, set environment variable ORGANIZATION")
+        t.Skip("skipping test, set environment variable ORGANIZATION")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "account_lockout_attempts", "3"))
@@ -51,26 +49,26 @@ func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiOrganizationLoginSecurityPrerequisitesConfig + testAccMerakiOrganizationLoginSecurityConfig_minimum(),
+			Config: testAccMerakiOrganizationLoginSecurityPrerequisitesConfig+testAccMerakiOrganizationLoginSecurityConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationLoginSecurityPrerequisitesConfig + testAccMerakiOrganizationLoginSecurityConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiOrganizationLoginSecurityPrerequisitesConfig+testAccMerakiOrganizationLoginSecurityConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization_login_security.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationLoginSecurityImportStateIdFunc("meraki_organization_login_security.test"),
-		ImportStateVerifyIgnore: []string{"enforce_login_ip_ranges", "api_authentication_ip_restrictions_for_keys_enabled"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_organization_login_security.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiOrganizationLoginSecurityImportStateIdFunc("meraki_organization_login_security.test"),
+		ImportStateVerifyIgnore: []string{ "enforce_login_ip_ranges","api_authentication_ip_restrictions_for_keys_enabled", },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -97,7 +95,6 @@ resource "meraki_organization" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -135,5 +132,7 @@ func testAccMerakiOrganizationLoginSecurityConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

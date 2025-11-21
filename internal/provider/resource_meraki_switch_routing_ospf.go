@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *SwitchRoutingOSPFResource) Schema(ctx context.Context, req resource.Sch
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"dead_timer_in_seconds": schema.Int64Attribute{
@@ -127,10 +135,10 @@ func (r *SwitchRoutingOSPFResource) Schema(ctx context.Context, req resource.Sch
 							Required:            true,
 						},
 						"area_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Area types in OSPF. Must be one of: ['normal', 'stub', 'nssa']").AddStringEnumDescription("normal", "nssa", "stub").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Area types in OSPF. Must be one of: ['normal', 'stub', 'nssa']").AddStringEnumDescription("normal", "nssa", "stub", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("normal", "nssa", "stub"),
+								stringvalidator.OneOf("normal", "nssa", "stub", ),
 							},
 						},
 					},
@@ -150,10 +158,10 @@ func (r *SwitchRoutingOSPFResource) Schema(ctx context.Context, req resource.Sch
 							Required:            true,
 						},
 						"area_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Area types in OSPF. Must be one of: ['normal', 'stub', 'nssa']").AddStringEnumDescription("normal", "nssa", "stub").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Area types in OSPF. Must be one of: ['normal', 'stub', 'nssa']").AddStringEnumDescription("normal", "nssa", "stub", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("normal", "nssa", "stub"),
+								stringvalidator.OneOf("normal", "nssa", "stub", ),
 							},
 						},
 					},
@@ -319,5 +327,4 @@ func (r *SwitchRoutingOSPFResource) ImportState(ctx context.Context, req resourc
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

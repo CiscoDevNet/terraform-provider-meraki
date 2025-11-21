@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiOrganizationInventoryClaim(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_claim_serial_1") == "" || os.Getenv("TF_VAR_test_claim_serial_2") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_claim_serial_1 and TF_VAR_test_claim_serial_2")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_claim_serial_1 and TF_VAR_test_claim_serial_2")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_inventory_claim.test", "licenses.0.key", "Z2XXXXXXXXXX"))
@@ -42,26 +40,26 @@ func TestAccMerakiOrganizationInventoryClaim(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiOrganizationInventoryClaimPrerequisitesConfig + testAccMerakiOrganizationInventoryClaimConfig_minimum(),
+			Config: testAccMerakiOrganizationInventoryClaimPrerequisitesConfig+testAccMerakiOrganizationInventoryClaimConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationInventoryClaimPrerequisitesConfig + testAccMerakiOrganizationInventoryClaimConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiOrganizationInventoryClaimPrerequisitesConfig+testAccMerakiOrganizationInventoryClaimConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization_inventory_claim.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationInventoryClaimImportStateIdFunc("meraki_organization_inventory_claim.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_organization_inventory_claim.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiOrganizationInventoryClaimImportStateIdFunc("meraki_organization_inventory_claim.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -91,7 +89,6 @@ data "meraki_organization" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

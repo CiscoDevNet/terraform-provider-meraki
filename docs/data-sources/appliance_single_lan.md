@@ -40,6 +40,7 @@ data "meraki_appliance_single_lan" "example" {
 Read-Only:
 
 - `autonomous` (Boolean) Auto assign a /64 prefix from the origin to the VLAN
+- `disabled` (Boolean) Disable this assignment
 - `origin_interfaces` (List of String) Interfaces associated with the prefix
 - `origin_type` (String) Type of the origin
 - `static_appliance_ip6` (String) Manual configuration of the IPv6 Appliance IP

@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,28 +31,28 @@ import (
 
 func TestAccMerakiOrganizationPolicyObjectGroups(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiOrganizationPolicyObjectGroupsPrerequisitesConfig + testAccMerakiOrganizationPolicyObjectGroupsConfig_minimum(),
+			Config: testAccMerakiOrganizationPolicyObjectGroupsPrerequisitesConfig+testAccMerakiOrganizationPolicyObjectGroupsConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationPolicyObjectGroupsPrerequisitesConfig + testAccMerakiOrganizationPolicyObjectGroupsConfig_all(),
+		Config: testAccMerakiOrganizationPolicyObjectGroupsPrerequisitesConfig+testAccMerakiOrganizationPolicyObjectGroupsConfig_all(),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:      "meraki_organization_policy_object_groups.test",
-		ImportState:       true,
+		ResourceName: "meraki_organization_policy_object_groups.test",
+		ImportState: true,
 		ImportStateIdFunc: merakiOrganizationPolicyObjectGroupsImportStateIdFunc("meraki_organization_policy_object_groups.test"),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -89,7 +87,6 @@ resource "meraki_organization_policy_object" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

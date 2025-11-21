@@ -23,9 +23,10 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -77,6 +82,7 @@ func (r *SwitchOrganizationPortsProfileResource) Schema(ctx context.Context, req
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"description": schema.StringAttribute{
@@ -120,10 +126,10 @@ func (r *SwitchOrganizationPortsProfileResource) Schema(ctx context.Context, req
 				Optional:            true,
 			},
 			"port_access_policy_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The type of the access policy of the port profile. Only applicable to access ports.").AddStringEnumDescription("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The type of the access policy of the port profile. Only applicable to access ports.").AddStringEnumDescription("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list"),
+					stringvalidator.OneOf("Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list", ),
 				},
 			},
 			"port_adaptive_policy_group_id": schema.StringAttribute{
@@ -163,24 +169,24 @@ func (r *SwitchOrganizationPortsProfileResource) Schema(ctx context.Context, req
 				Optional:            true,
 			},
 			"port_stp_guard": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The state of the STP guard.").AddStringEnumDescription("bpdu guard", "disabled", "loop guard", "root guard").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The state of the STP guard.").AddStringEnumDescription("bpdu guard", "disabled", "loop guard", "root guard", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("bpdu guard", "disabled", "loop guard", "root guard"),
+					stringvalidator.OneOf("bpdu guard", "disabled", "loop guard", "root guard", ),
 				},
 			},
 			"port_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The type of the port profile.").AddStringEnumDescription("access", "stack", "trunk").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The type of the port profile.").AddStringEnumDescription("access", "stack", "trunk", ).String,
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("access", "stack", "trunk"),
+					stringvalidator.OneOf("access", "stack", "trunk", ),
 				},
 			},
 			"port_udld": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The action to take when Unidirectional Link is detected. LinkDefault configuration is Alert only.").AddStringEnumDescription("Alert only", "Enforce").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The action to take when Unidirectional Link is detected. LinkDefault configuration is Alert only.").AddStringEnumDescription("Alert only", "Enforce", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Alert only", "Enforce"),
+					stringvalidator.OneOf("Alert only", "Enforce", ),
 				},
 			},
 			"port_vlan": schema.Int64Attribute{
@@ -316,7 +322,7 @@ func (r *SwitchOrganizationPortsProfileResource) Update(ctx context.Context, req
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -371,5 +377,4 @@ func (r *SwitchOrganizationPortsProfileResource) ImportState(ctx context.Context
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

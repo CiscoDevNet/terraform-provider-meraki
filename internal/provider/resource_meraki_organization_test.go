@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiOrganization(t *testing.T) {
 	if os.Getenv("ORGANIZATION") == "" {
-		t.Skip("skipping test, set environment variable ORGANIZATION")
+        t.Skip("skipping test, set environment variable ORGANIZATION")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization.test", "name", "My organization"))
@@ -48,21 +46,21 @@ func TestAccMerakiOrganization(t *testing.T) {
 	}
 	steps = append(steps, resource.TestStep{
 		Config: testAccMerakiOrganizationConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationImportStateIdFunc("meraki_organization.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_organization.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiOrganizationImportStateIdFunc("meraki_organization.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -111,5 +109,7 @@ func testAccMerakiOrganizationConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

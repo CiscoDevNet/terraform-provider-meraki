@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,31 +31,31 @@ import (
 
 func TestAccMerakiOrganizationLicenses(t *testing.T) {
 	if os.Getenv("ORGANIZATION_LICENSE") == "" {
-		t.Skip("skipping test, set environment variable ORGANIZATION_LICENSE")
+        t.Skip("skipping test, set environment variable ORGANIZATION_LICENSE")
 	}
 	if os.Getenv("TF_VAR_test_org") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiOrganizationLicensesPrerequisitesConfig + testAccMerakiOrganizationLicensesConfig_minimum(),
+			Config: testAccMerakiOrganizationLicensesPrerequisitesConfig+testAccMerakiOrganizationLicensesConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationLicensesPrerequisitesConfig + testAccMerakiOrganizationLicensesConfig_all(),
+		Config: testAccMerakiOrganizationLicensesPrerequisitesConfig+testAccMerakiOrganizationLicensesConfig_all(),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:      "meraki_organization_licenses.test",
-		ImportState:       true,
+		ResourceName: "meraki_organization_licenses.test",
+		ImportState: true,
 		ImportStateIdFunc: merakiOrganizationLicensesImportStateIdFunc("meraki_organization_licenses.test"),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -85,7 +83,6 @@ data "meraki_organization" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

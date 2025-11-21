@@ -21,10 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -76,6 +82,7 @@ func (r *SwitchStackRoutingInterfaceDHCPResource) Schema(ctx context.Context, re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"switch_stack_id": schema.StringAttribute{
@@ -83,6 +90,7 @@ func (r *SwitchStackRoutingInterfaceDHCPResource) Schema(ctx context.Context, re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"interface_id": schema.StringAttribute{
@@ -90,6 +98,7 @@ func (r *SwitchStackRoutingInterfaceDHCPResource) Schema(ctx context.Context, re
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"boot_file_name": schema.StringAttribute{
@@ -105,24 +114,24 @@ func (r *SwitchStackRoutingInterfaceDHCPResource) Schema(ctx context.Context, re
 				Optional:            true,
 			},
 			"dhcp_lease_time": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The DHCP lease time config for the dhcp server running on switch stack interface (`30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`)").AddStringEnumDescription("1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The DHCP lease time config for the dhcp server running on switch stack interface (`30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`)").AddStringEnumDescription("1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"),
+					stringvalidator.OneOf("1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours", ),
 				},
 			},
 			"dhcp_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The DHCP mode options for the switch stack interface (`dhcpDisabled`, `dhcpRelay` or `dhcpServer`)").AddStringEnumDescription("dhcpDisabled", "dhcpRelay", "dhcpServer").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The DHCP mode options for the switch stack interface (`dhcpDisabled`, `dhcpRelay` or `dhcpServer`)").AddStringEnumDescription("dhcpDisabled", "dhcpRelay", "dhcpServer", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("dhcpDisabled", "dhcpRelay", "dhcpServer"),
+					stringvalidator.OneOf("dhcpDisabled", "dhcpRelay", "dhcpServer", ),
 				},
 			},
 			"dns_nameservers_option": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The DHCP name server option for the dhcp server running on the switch stack interface (`googlePublicDns`, `openDns` or `custom`)").AddStringEnumDescription("custom", "googlePublicDns", "openDns").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The DHCP name server option for the dhcp server running on the switch stack interface (`googlePublicDns`, `openDns` or `custom`)").AddStringEnumDescription("custom", "googlePublicDns", "openDns", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("custom", "googlePublicDns", "openDns"),
+					stringvalidator.OneOf("custom", "googlePublicDns", "openDns", ),
 				},
 			},
 			"dhcp_options": schema.ListNestedAttribute{
@@ -135,10 +144,10 @@ func (r *SwitchStackRoutingInterfaceDHCPResource) Schema(ctx context.Context, re
 							Required:            true,
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The type of the DHCP option which should be one of (`text`, `ip`, `integer` or `hex`)").AddStringEnumDescription("hex", "integer", "ip", "text").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The type of the DHCP option which should be one of (`text`, `ip`, `integer` or `hex`)").AddStringEnumDescription("hex", "integer", "ip", "text", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("hex", "integer", "ip", "text"),
+								stringvalidator.OneOf("hex", "integer", "ip", "text", ),
 							},
 						},
 						"value": schema.StringAttribute{
@@ -360,5 +369,4 @@ func (r *SwitchStackRoutingInterfaceDHCPResource) ImportState(ctx context.Contex
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

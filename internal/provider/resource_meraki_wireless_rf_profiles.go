@@ -21,12 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
-	"slices"
-	"strconv"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -64,7 +68,7 @@ func (r *WirelessRFProfilesResource) Metadata(ctx context.Context, req resource.
 func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless RF Profile` configuration in bulk.").AddBulkResourceIds("name").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless RF Profile` configuration in bulk.").AddBulkResourceIds("name", ).String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -95,10 +99,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							},
 						},
 						"band_selection_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Band selection can be set to either `ssid` or `ap`. This param is required on creation.").AddStringEnumDescription("ap", "ssid").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Band selection can be set to either `ssid` or `ap`. This param is required on creation.").AddStringEnumDescription("ap", "ssid", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("ap", "ssid"),
+								stringvalidator.OneOf("ap", "ssid", ),
 							},
 						},
 						"client_balancing_enabled": schema.BoolAttribute{
@@ -106,10 +110,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"min_bitrate_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Minimum bitrate can be set to either `band` or `ssid`. Defaults to band.").AddStringEnumDescription("band", "ssid").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Minimum bitrate can be set to either `band` or `ssid`. Defaults to band.").AddStringEnumDescription("band", "ssid", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("band", "ssid"),
+								stringvalidator.OneOf("band", "ssid", ),
 							},
 						},
 						"name": schema.StringAttribute{
@@ -117,10 +121,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Required:            true,
 						},
 						"ap_band_settings_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`. Defaults to dual.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`. Defaults to dual.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"ap_band_settings_band_steering_enabled": schema.BoolAttribute{
@@ -175,10 +179,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							},
 						},
 						"per_ssid_settings_0_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_0_band_steering_enabled": schema.BoolAttribute{
@@ -195,10 +199,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_1_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_1_band_steering_enabled": schema.BoolAttribute{
@@ -215,10 +219,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_10_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_10_band_steering_enabled": schema.BoolAttribute{
@@ -235,10 +239,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_11_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_11_band_steering_enabled": schema.BoolAttribute{
@@ -255,10 +259,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_12_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_12_band_steering_enabled": schema.BoolAttribute{
@@ -275,10 +279,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_13_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_13_band_steering_enabled": schema.BoolAttribute{
@@ -295,10 +299,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_14_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_14_band_steering_enabled": schema.BoolAttribute{
@@ -315,10 +319,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_2_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_2_band_steering_enabled": schema.BoolAttribute{
@@ -335,10 +339,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_3_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_3_band_steering_enabled": schema.BoolAttribute{
@@ -355,10 +359,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_4_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_4_band_steering_enabled": schema.BoolAttribute{
@@ -375,10 +379,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_5_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_5_band_steering_enabled": schema.BoolAttribute{
@@ -395,10 +399,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_6_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_6_band_steering_enabled": schema.BoolAttribute{
@@ -415,10 +419,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_7_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_7_band_steering_enabled": schema.BoolAttribute{
@@ -435,10 +439,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_8_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_8_band_steering_enabled": schema.BoolAttribute{
@@ -455,10 +459,10 @@ func (r *WirelessRFProfilesResource) Schema(ctx context.Context, req resource.Sc
 							Optional:            true,
 						},
 						"per_ssid_settings_9_band_operation_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choice between `dual`, `2.4ghz`, `5ghz`, `6ghz` or `multi`.").AddStringEnumDescription("2.4ghz", "5ghz", "6ghz", "dual", "multi", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi"),
+								stringvalidator.OneOf("2.4ghz", "5ghz", "6ghz", "dual", "multi", ),
 							},
 						},
 						"per_ssid_settings_9_band_steering_enabled": schema.BoolAttribute{
@@ -703,7 +707,7 @@ func (r *WirelessRFProfilesResource) Update(ctx context.Context, req resource.Up
 					Operation: "update",
 					Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
 					Body:      plan.Items[i].toBody(ctx, itemState),
-				})
+				})					
 			}
 			break
 		}
@@ -792,7 +796,7 @@ func (r *WirelessRFProfilesResource) ImportState(ctx context.Context, req resour
 		expectedIdentifier += " or <organization_id>,<network_id>,[<id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -831,7 +835,6 @@ func (r *WirelessRFProfilesResource) ImportState(ctx context.Context, req resour
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
@@ -874,5 +877,4 @@ func (r *WirelessRFProfilesResource) ModifyPlan(ctx context.Context, req resourc
 	diags = resp.Plan.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
-
 // End of section. //template:end modifyPlan

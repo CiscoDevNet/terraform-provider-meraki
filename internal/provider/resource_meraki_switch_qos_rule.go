@@ -23,9 +23,10 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -77,6 +82,7 @@ func (r *SwitchQoSRuleResource) Schema(ctx context.Context, req resource.SchemaR
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"dscp": schema.Int64Attribute{
@@ -92,10 +98,10 @@ func (r *SwitchQoSRuleResource) Schema(ctx context.Context, req resource.SchemaR
 				Optional:            true,
 			},
 			"protocol": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The protocol of the incoming packet. Default value is 'ANY'").AddStringEnumDescription("ANY", "TCP", "UDP").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The protocol of the incoming packet. Default value is 'ANY'").AddStringEnumDescription("ANY", "TCP", "UDP", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("ANY", "TCP", "UDP"),
+					stringvalidator.OneOf("ANY", "TCP", "UDP", ),
 				},
 			},
 			"src_port": schema.Int64Attribute{
@@ -220,7 +226,7 @@ func (r *SwitchQoSRuleResource) Update(ctx context.Context, req resource.UpdateR
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -275,5 +281,4 @@ func (r *SwitchQoSRuleResource) ImportState(ctx context.Context, req resource.Im
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

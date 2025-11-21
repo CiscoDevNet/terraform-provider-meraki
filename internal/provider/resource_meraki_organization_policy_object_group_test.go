@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,7 +31,7 @@ import (
 
 func TestAccMerakiOrganizationPolicyObjectGroup(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object_group.test", "category", "NetworkObjectGroup"))
@@ -42,26 +40,26 @@ func TestAccMerakiOrganizationPolicyObjectGroup(t *testing.T) {
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiOrganizationPolicyObjectGroupPrerequisitesConfig + testAccMerakiOrganizationPolicyObjectGroupConfig_minimum(),
+			Config: testAccMerakiOrganizationPolicyObjectGroupPrerequisitesConfig+testAccMerakiOrganizationPolicyObjectGroupConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationPolicyObjectGroupPrerequisitesConfig + testAccMerakiOrganizationPolicyObjectGroupConfig_all(),
-		Check:  resource.ComposeTestCheckFunc(checks...),
+		Config: testAccMerakiOrganizationPolicyObjectGroupPrerequisitesConfig+testAccMerakiOrganizationPolicyObjectGroupConfig_all(),
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization_policy_object_group.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationPolicyObjectGroupImportStateIdFunc("meraki_organization_policy_object_group.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
+		ResourceName: "meraki_organization_policy_object_group.test",
+		ImportState: true,
+		ImportStateVerify: true,
+		ImportStateIdFunc: merakiOrganizationPolicyObjectGroupImportStateIdFunc("meraki_organization_policy_object_group.test"),
+		ImportStateVerifyIgnore: []string{  },
+		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -75,7 +73,7 @@ func merakiOrganizationPolicyObjectGroupImportStateIdFunc(resourceName string) r
 		OrganizationId := primary.Attributes["organization_id"]
 		Id := primary.Attributes["id"]
 
-		return fmt.Sprintf("%s,%s", OrganizationId, Id), nil
+		return fmt.Sprintf("%s,%s", OrganizationId,Id), nil
 	}
 }
 
@@ -97,7 +95,6 @@ resource "meraki_organization_policy_object" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
@@ -127,5 +124,7 @@ func testAccMerakiOrganizationPolicyObjectGroupConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+
 
 // End of section. //template:end testAccConfigAdditional

@@ -23,9 +23,10 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -77,6 +82,7 @@ func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resourc
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"default_gateway": schema.StringAttribute{
@@ -88,17 +94,17 @@ func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resourc
 				Optional:            true,
 			},
 			"mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.").AddStringEnumDescription("loopback", "routed", "vlan").String,
+				MarkdownDescription: helpers.NewAttributeDescription("L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.").AddStringEnumDescription("loopback", "routed", "vlan", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("loopback", "routed", "vlan"),
+					stringvalidator.OneOf("loopback", "routed", "vlan", ),
 				},
 			},
 			"multicast_routing": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.").AddStringEnumDescription("IGMP snooping querier", "disabled", "enabled").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.").AddStringEnumDescription("IGMP snooping querier", "disabled", "enabled", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("IGMP snooping querier", "disabled", "enabled"),
+					stringvalidator.OneOf("IGMP snooping querier", "disabled", "enabled", ),
 				},
 			},
 			"name": schema.StringAttribute{
@@ -146,10 +152,10 @@ func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resourc
 				Optional:            true,
 			},
 			"ospf_settings_network_type": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("OSPF network type").AddStringEnumDescription("broadcast", "point-to-point").String,
+				MarkdownDescription: helpers.NewAttributeDescription("OSPF network type").AddStringEnumDescription("broadcast", "point-to-point", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("broadcast", "point-to-point"),
+					stringvalidator.OneOf("broadcast", "point-to-point", ),
 				},
 			},
 			"vrf_name": schema.StringAttribute{
@@ -266,7 +272,7 @@ func (r *SwitchRoutingInterfaceResource) Update(ctx context.Context, req resourc
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -321,5 +327,4 @@ func (r *SwitchRoutingInterfaceResource) ImportState(ctx context.Context, req re
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

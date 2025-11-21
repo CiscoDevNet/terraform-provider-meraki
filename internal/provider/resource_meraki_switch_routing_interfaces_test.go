@@ -19,8 +19,6 @@ package provider
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
-	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -33,28 +31,28 @@ import (
 
 func TestAccMerakiSwitchRoutingInterfaces(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
+        t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
 	}
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSwitchRoutingInterfacesPrerequisitesConfig + testAccMerakiSwitchRoutingInterfacesConfig_minimum(),
+			Config: testAccMerakiSwitchRoutingInterfacesPrerequisitesConfig+testAccMerakiSwitchRoutingInterfacesConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchRoutingInterfacesPrerequisitesConfig + testAccMerakiSwitchRoutingInterfacesConfig_all(),
+		Config: testAccMerakiSwitchRoutingInterfacesPrerequisitesConfig+testAccMerakiSwitchRoutingInterfacesConfig_all(),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:      "meraki_switch_routing_interfaces.test",
-		ImportState:       true,
+		ResourceName: "meraki_switch_routing_interfaces.test",
+		ImportState: true,
 		ImportStateIdFunc: merakiSwitchRoutingInterfacesImportStateIdFunc("meraki_switch_routing_interfaces.test"),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		Steps: steps,
 	})
 }
 
@@ -68,7 +66,7 @@ func merakiSwitchRoutingInterfacesImportStateIdFunc(resourceName string) resourc
 		OrganizationId := primary.Attributes["organization_id"]
 		Serial := primary.Attributes["serial"]
 
-		return fmt.Sprintf("%s,%s", OrganizationId, Serial), nil
+		return fmt.Sprintf("%s,%s", OrganizationId,Serial), nil
 	}
 }
 
@@ -94,7 +92,6 @@ resource "meraki_network_device_claim" "test" {
 }
 
 `
-
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal

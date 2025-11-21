@@ -21,10 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -76,6 +82,7 @@ func (r *OrganizationSNMPResource) Schema(ctx context.Context, req resource.Sche
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"v2c_enabled": schema.BoolAttribute{
@@ -83,10 +90,10 @@ func (r *OrganizationSNMPResource) Schema(ctx context.Context, req resource.Sche
 				Optional:            true,
 			},
 			"v3_auth_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The SNMP version 3 authentication mode. Can be either `MD5` or `SHA`.").AddStringEnumDescription("MD5", "SHA").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The SNMP version 3 authentication mode. Can be either `MD5` or `SHA`.").AddStringEnumDescription("MD5", "SHA", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("MD5", "SHA"),
+					stringvalidator.OneOf("MD5", "SHA", ),
 				},
 			},
 			"v3_auth_pass": schema.StringAttribute{
@@ -98,10 +105,10 @@ func (r *OrganizationSNMPResource) Schema(ctx context.Context, req resource.Sche
 				Optional:            true,
 			},
 			"v3_priv_mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The SNMP version 3 privacy mode. Can be either `DES` or `AES128`.").AddStringEnumDescription("AES128", "DES").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The SNMP version 3 privacy mode. Can be either `DES` or `AES128`.").AddStringEnumDescription("AES128", "DES", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("AES128", "DES"),
+					stringvalidator.OneOf("AES128", "DES", ),
 				},
 			},
 			"v3_priv_pass": schema.StringAttribute{
@@ -273,5 +280,4 @@ func (r *OrganizationSNMPResource) ImportState(ctx context.Context, req resource
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

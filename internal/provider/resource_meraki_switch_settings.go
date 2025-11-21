@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *SwitchSettingsResource) Schema(ctx context.Context, req resource.Schema
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"use_combined_power": schema.BoolAttribute{
@@ -99,10 +107,10 @@ func (r *SwitchSettingsResource) Schema(ctx context.Context, req resource.Schema
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"power_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Per switch exception (combined, redundant, useNetworkSetting)").AddStringEnumDescription("combined", "redundant", "useNetworkSetting").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Per switch exception (combined, redundant, useNetworkSetting)").AddStringEnumDescription("combined", "redundant", "useNetworkSetting", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("combined", "redundant", "useNetworkSetting"),
+								stringvalidator.OneOf("combined", "redundant", "useNetworkSetting", ),
 							},
 						},
 						"serial": schema.StringAttribute{
@@ -272,5 +280,4 @@ func (r *SwitchSettingsResource) ImportState(ctx context.Context, req resource.I
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import

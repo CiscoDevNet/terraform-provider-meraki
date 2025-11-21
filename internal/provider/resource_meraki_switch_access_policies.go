@@ -21,12 +21,12 @@ package provider
 import (
 	"context"
 	"fmt"
-	"slices"
-	"strconv"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,6 +36,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -64,7 +68,7 @@ func (r *SwitchAccessPoliciesResource) Metadata(ctx context.Context, req resourc
 func (r *SwitchAccessPoliciesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Access Policy` configuration in bulk.").AddBulkResourceIds("name").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Access Policy` configuration in bulk.").AddBulkResourceIds("name", ).String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -95,10 +99,10 @@ func (r *SwitchAccessPoliciesResource) Schema(ctx context.Context, req resource.
 							},
 						},
 						"access_policy_type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Access Type of the policy. Automatically `Hybrid authentication` when hostMode is `Multi-Domain`.").AddStringEnumDescription("802.1x", "Hybrid authentication", "MAC authentication bypass").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Access Type of the policy. Automatically `Hybrid authentication` when hostMode is `Multi-Domain`.").AddStringEnumDescription("802.1x", "Hybrid authentication", "MAC authentication bypass", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("802.1x", "Hybrid authentication", "MAC authentication bypass"),
+								stringvalidator.OneOf("802.1x", "Hybrid authentication", "MAC authentication bypass", ),
 							},
 						},
 						"guest_group_policy_id": schema.StringAttribute{
@@ -118,10 +122,10 @@ func (r *SwitchAccessPoliciesResource) Schema(ctx context.Context, req resource.
 							Optional:            true,
 						},
 						"host_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Choose the Host Mode for the access policy.").AddStringEnumDescription("Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Choose the Host Mode for the access policy.").AddStringEnumDescription("Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host", ).String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host"),
+								stringvalidator.OneOf("Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host", ),
 							},
 						},
 						"increase_access_speed": schema.BoolAttribute{
@@ -157,10 +161,10 @@ func (r *SwitchAccessPoliciesResource) Schema(ctx context.Context, req resource.
 							Optional:            true,
 						},
 						"dot1x_control_direction": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Supports either `both` or `inbound`. Set to `inbound` to allow unauthorized egress on the switchport. Set to `both` to control both traffic directions with authorization. Defaults to `both`").AddStringEnumDescription("both", "inbound").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Supports either `both` or `inbound`. Set to `inbound` to allow unauthorized egress on the switchport. Set to `both` to control both traffic directions with authorization. Defaults to `both`").AddStringEnumDescription("both", "inbound", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("both", "inbound"),
+								stringvalidator.OneOf("both", "inbound", ),
 							},
 						},
 						"radius_failed_auth_group_policy_id": schema.StringAttribute{
@@ -184,10 +188,10 @@ func (r *SwitchAccessPoliciesResource) Schema(ctx context.Context, req resource.
 							Optional:            true,
 						},
 						"radius_authentication_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Authentication mode of the policy ( Open | Closed )").AddStringEnumDescription("Closed", "Open").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Authentication mode of the policy ( Open | Closed )").AddStringEnumDescription("Closed", "Open", ).String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Closed", "Open"),
+								stringvalidator.OneOf("Closed", "Open", ),
 							},
 						},
 						"radius_cache_enabled": schema.BoolAttribute{
@@ -446,7 +450,7 @@ func (r *SwitchAccessPoliciesResource) Update(ctx context.Context, req resource.
 					Operation: "update",
 					Resource:  plan.getPath() + "/" + plan.Items[i].Id.ValueString(),
 					Body:      plan.Items[i].toBody(ctx, itemState),
-				})
+				})					
 			}
 			break
 		}
@@ -535,7 +539,7 @@ func (r *SwitchAccessPoliciesResource) ImportState(ctx context.Context, req reso
 		expectedIdentifier += " or <organization_id>,<network_id>,[<id>,...]"
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
 		)
 		return
 	}
@@ -556,7 +560,6 @@ func (r *SwitchAccessPoliciesResource) ImportState(ctx context.Context, req reso
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
@@ -599,5 +602,4 @@ func (r *SwitchAccessPoliciesResource) ModifyPlan(ctx context.Context, req resou
 	diags = resp.Plan.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 }
-
 // End of section. //template:end modifyPlan

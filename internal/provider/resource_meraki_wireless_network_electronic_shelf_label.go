@@ -21,18 +21,25 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"sync"
 
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 )
 
 // End of section. //template:end imports
@@ -75,6 +82,7 @@ func (r *WirelessNetworkElectronicShelfLabelResource) Schema(ctx context.Context
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					
 				},
 			},
 			"enabled": schema.BoolAttribute{
@@ -86,10 +94,10 @@ func (r *WirelessNetworkElectronicShelfLabelResource) Schema(ctx context.Context
 				Optional:            true,
 			},
 			"mode": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`").AddStringEnumDescription("Bluetooth", "high frequency").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`").AddStringEnumDescription("Bluetooth", "high frequency", ).String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Bluetooth", "high frequency"),
+					stringvalidator.OneOf("Bluetooth", "high frequency", ),
 				},
 			},
 		},
@@ -252,5 +260,4 @@ func (r *WirelessNetworkElectronicShelfLabelResource) ImportState(ctx context.Co
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }
-
 // End of section. //template:end import
