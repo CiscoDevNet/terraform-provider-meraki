@@ -7,8 +7,6 @@ no_update: false
 no_delete: false
 no_import: true
 no_read: false
-get_in_create_context: true
-read_path_method: getAssignmentsPath
 doc_category: Appliances
 test_tags: [APPLIANCE_DNS_SPLIT_PROFILE_ASSIGNMENTS]
 test_variables: [test_org, test_network]
@@ -32,18 +30,18 @@ attributes:
       - model_name: id
         type: String
         data_path: [network]
+        id: true
         mandatory: true
         description: ID of the network
         example: N_123456
         test_value: meraki_network.test.id
-        id: true
       - model_name: id
         type: String
         data_path: [profile]
+        id: true
         mandatory: true
         description: ID of the profile
         example: "1234"
-        id: true
         test_value: meraki_appliance_dns_split_profile.test.id
 test_prerequisites: |
   data "meraki_organization" "test" {
