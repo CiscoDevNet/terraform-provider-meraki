@@ -110,8 +110,6 @@ func (r *ApplianceDNSSplitProfileAssignmentsResource) Configure(_ context.Contex
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *ApplianceDNSSplitProfileAssignmentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceDNSSplitProfileAssignments
 
@@ -145,8 +143,6 @@ func (r *ApplianceDNSSplitProfileAssignmentsResource) Create(ctx context.Context
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end create
 
 func (r *ApplianceDNSSplitProfileAssignmentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceDNSSplitProfileAssignments
