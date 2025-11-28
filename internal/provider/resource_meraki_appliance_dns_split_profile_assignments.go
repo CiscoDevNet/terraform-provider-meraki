@@ -110,8 +110,6 @@ func (r *ApplianceDNSSplitProfileAssignmentsResource) Configure(_ context.Contex
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *ApplianceDNSSplitProfileAssignmentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceDNSSplitProfileAssignments
 
@@ -131,7 +129,12 @@ func (r *ApplianceDNSSplitProfileAssignmentsResource) Create(ctx context.Context
 		return
 	}
 	plan.Id = plan.OrganizationId
-	plan.fromBodyUnknowns(ctx, res)
+	resGet, errGet := r.client.Get(plan.getAssignmentsPath())
+	if errGet != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", errGet, resGet.String()))
+		return
+	}
+	plan.fromBodyUnknowns(ctx, resGet)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
@@ -140,8 +143,6 @@ func (r *ApplianceDNSSplitProfileAssignmentsResource) Create(ctx context.Context
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end create
 
 func (r *ApplianceDNSSplitProfileAssignmentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceDNSSplitProfileAssignments

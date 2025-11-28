@@ -1,4 +1,4 @@
-# Customize Read(), Update(), Delete() to support custom endpoint paths
+# Customize Create(), Read(), Update(), Delete() to support custom endpoint paths
 name: Appliance DNS Split Profile Assignments
 spec_endpoint: /organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkCreate
 rest_endpoint: /organizations/%v/appliance/dns/split/profiles/assignments/bulkCreate
@@ -30,6 +30,7 @@ attributes:
       - model_name: id
         type: String
         data_path: [network]
+        id: true
         mandatory: true
         description: ID of the network
         example: N_123456
@@ -37,6 +38,7 @@ attributes:
       - model_name: id
         type: String
         data_path: [profile]
+        id: true
         mandatory: true
         description: ID of the profile
         example: "1234"
