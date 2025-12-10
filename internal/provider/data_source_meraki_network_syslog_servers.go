@@ -80,7 +80,7 @@ func (d *NetworkSyslogServersDataSource) Schema(ctx context.Context, req datasou
 							Computed:            true,
 						},
 						"roles": schema.SetAttribute{
-							MarkdownDescription: "A list of roles for the syslog server. Options (case-insensitive): `Wireless event log`, `Appliance event log`, `Switch event log`, `Air Marshal events`, `Flows`, `URLs`, `IDS alerts`, `Security events`",
+							MarkdownDescription: "A list of roles for the syslog server. Options (case-insensitive): `Wireless Event log`, `Appliance event log`, `Switch event log`, `Air Marshal events`, `Flows`, `URLs`, `IDS alerts`, `Security events`",
 							ElementType:         types.StringType,
 							Computed:            true,
 						},

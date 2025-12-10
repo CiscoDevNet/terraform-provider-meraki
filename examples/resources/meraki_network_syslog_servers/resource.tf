@@ -4,7 +4,7 @@ resource "meraki_network_syslog_servers" "example" {
     {
       host  = "1.2.3.4"
       port  = 443
-      roles = ["Wireless event log"]
+      roles = ["Wireless Event log"]
     }
   ]
 }

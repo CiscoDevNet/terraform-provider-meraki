@@ -19,7 +19,7 @@ resource "meraki_network_syslog_servers" "example" {
     {
       host  = "1.2.3.4"
       port  = 443
-      roles = ["Wireless event log"]
+      roles = ["Wireless Event log"]
     }
   ]
 }
@@ -44,7 +44,7 @@ Required:
 
 - `host` (String) The IP address of the syslog server
 - `port` (Number) The port of the syslog server
-- `roles` (Set of String) A list of roles for the syslog server. Options (case-insensitive): `Wireless event log`, `Appliance event log`, `Switch event log`, `Air Marshal events`, `Flows`, `URLs`, `IDS alerts`, `Security events`
+- `roles` (Set of String) A list of roles for the syslog server. Options (case-insensitive): `Wireless Event log`, `Appliance event log`, `Switch event log`, `Air Marshal events`, `Flows`, `URLs`, `IDS alerts`, `Security events`
 
 ## Import
 

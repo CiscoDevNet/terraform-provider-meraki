@@ -76,7 +76,7 @@ func testAccDataSourceMerakiNetworkSyslogServersConfig() string {
 	config += `  servers = [{` + "\n"
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 443` + "\n"
-	config += `    roles = ["Wireless event log"]` + "\n"
+	config += `    roles = ["Wireless Event log"]` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 
