@@ -39,7 +39,7 @@ data "meraki_organization_saml_role" "example" {
 
 Read-Only:
 
-- `access` (String) The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'
+- `access` (String) The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only`, `ssid-admin`, `port-tags`, `switchport` or `custom-role`
 - `id` (String) The network ID
 
 

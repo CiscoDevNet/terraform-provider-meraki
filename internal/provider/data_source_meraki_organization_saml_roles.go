@@ -84,7 +84,7 @@ func (d *OrganizationSAMLRolesDataSource) Schema(ctx context.Context, req dataso
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"access": schema.StringAttribute{
-										MarkdownDescription: "The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'",
+										MarkdownDescription: "The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only`, `ssid-admin`, `port-tags`, `switchport` or `custom-role`",
 										Computed:            true,
 									},
 									"id": schema.StringAttribute{
