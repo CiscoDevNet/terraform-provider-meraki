@@ -70,7 +70,7 @@ func (data ApplianceTrafficShapingRules) toBody(ctx context.Context, state Appli
 	if !data.DefaultRulesEnabled.IsNull() {
 		body, _ = sjson.Set(body, "defaultRulesEnabled", data.DefaultRulesEnabled.ValueBool())
 	}
-	if len(data.Rules) > 0 {
+	if data.Rules != nil {
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""

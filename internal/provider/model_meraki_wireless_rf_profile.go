@@ -190,7 +190,7 @@ func (data WirelessRFProfile) toBody(ctx context.Context, state WirelessRFProfil
 		data.FiveGhzSettingsValidAutoChannels.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "fiveGhzSettings.validAutoChannels", values)
 	}
-	if len(data.FlexRadiosByModel) > 0 {
+	if data.FlexRadiosByModel != nil {
 		body, _ = sjson.Set(body, "flexRadios.byModel", []interface{}{})
 		for _, item := range data.FlexRadiosByModel {
 			itemBody := ""

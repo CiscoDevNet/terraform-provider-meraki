@@ -86,7 +86,7 @@ func (data ApplianceOneToOneNATRules) toBody(ctx context.Context, state Applianc
 			if !item.Uplink.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "uplink", item.Uplink.ValueString())
 			}
-			if len(item.AllowedInbound) > 0 {
+			if item.AllowedInbound != nil {
 				itemBody, _ = sjson.Set(itemBody, "allowedInbound", []interface{}{})
 				for _, childItem := range item.AllowedInbound {
 					itemChildBody := ""

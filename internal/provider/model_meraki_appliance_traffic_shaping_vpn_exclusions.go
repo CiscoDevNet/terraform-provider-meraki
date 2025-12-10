@@ -67,7 +67,7 @@ func (data ApplianceTrafficShapingVPNExclusions) getPath() string {
 
 func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, state ApplianceTrafficShapingVPNExclusions) string {
 	body := ""
-	if len(data.Custom) > 0 {
+	if data.Custom != nil {
 		body, _ = sjson.Set(body, "custom", []interface{}{})
 		for _, item := range data.Custom {
 			itemBody := ""
@@ -83,7 +83,7 @@ func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, sta
 			body, _ = sjson.SetRaw(body, "custom.-1", itemBody)
 		}
 	}
-	if len(data.MajorApplications) > 0 {
+	if data.MajorApplications != nil {
 		body, _ = sjson.Set(body, "majorApplications", []interface{}{})
 		for _, item := range data.MajorApplications {
 			itemBody := ""

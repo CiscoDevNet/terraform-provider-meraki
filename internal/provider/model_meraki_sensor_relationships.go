@@ -59,7 +59,7 @@ func (data SensorRelationships) getPath() string {
 
 func (data SensorRelationships) toBody(ctx context.Context, state SensorRelationships) string {
 	body := ""
-	if len(data.LivestreamRelatedDevices) > 0 {
+	if data.LivestreamRelatedDevices != nil {
 		body, _ = sjson.Set(body, "livestream.relatedDevices", []interface{}{})
 		for _, item := range data.LivestreamRelatedDevices {
 			itemBody := ""

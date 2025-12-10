@@ -77,7 +77,7 @@ func (data ApplianceSingleLAN) toBody(ctx context.Context, state ApplianceSingle
 	if !data.Ipv6Enabled.IsNull() {
 		body, _ = sjson.Set(body, "ipv6.enabled", data.Ipv6Enabled.ValueBool())
 	}
-	if len(data.Ipv6PrefixAssignments) > 0 {
+	if data.Ipv6PrefixAssignments != nil {
 		body, _ = sjson.Set(body, "ipv6.prefixAssignments", []interface{}{})
 		for _, item := range data.Ipv6PrefixAssignments {
 			itemBody := ""

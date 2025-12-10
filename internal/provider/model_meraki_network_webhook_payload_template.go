@@ -76,7 +76,7 @@ func (data NetworkWebhookPayloadTemplate) toBody(ctx context.Context, state Netw
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if len(data.Headers) > 0 {
+	if data.Headers != nil {
 		body, _ = sjson.Set(body, "headers", []interface{}{})
 		for _, item := range data.Headers {
 			itemBody := ""

@@ -82,7 +82,7 @@ func (data OrganizationAdmin) toBody(ctx context.Context, state OrganizationAdmi
 	if !data.OrgAccess.IsNull() {
 		body, _ = sjson.Set(body, "orgAccess", data.OrgAccess.ValueString())
 	}
-	if len(data.Networks) > 0 {
+	if data.Networks != nil {
 		body, _ = sjson.Set(body, "networks", []interface{}{})
 		for _, item := range data.Networks {
 			itemBody := ""
@@ -95,7 +95,7 @@ func (data OrganizationAdmin) toBody(ctx context.Context, state OrganizationAdmi
 			body, _ = sjson.SetRaw(body, "networks.-1", itemBody)
 		}
 	}
-	if len(data.Tags) > 0 {
+	if data.Tags != nil {
 		body, _ = sjson.Set(body, "tags", []interface{}{})
 		for _, item := range data.Tags {
 			itemBody := ""

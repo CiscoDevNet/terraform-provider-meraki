@@ -58,7 +58,7 @@ func (data WirelessSSIDL7FirewallRules) getPath() string {
 // End of section. //template:end getPath
 func (data WirelessSSIDL7FirewallRules) toBody(ctx context.Context, state WirelessSSIDL7FirewallRules) string {
 	body := ""
-	if len(data.Rules) > 0 {
+	if data.Rules != nil {
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""

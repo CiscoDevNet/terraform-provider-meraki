@@ -76,7 +76,7 @@ func (data SwitchSettings) toBody(ctx context.Context, state SwitchSettings) str
 	if !data.UplinkClientSamplingEnabled.IsNull() {
 		body, _ = sjson.Set(body, "uplinkClientSampling.enabled", data.UplinkClientSamplingEnabled.ValueBool())
 	}
-	if len(data.PowerExceptions) > 0 {
+	if data.PowerExceptions != nil {
 		body, _ = sjson.Set(body, "powerExceptions", []interface{}{})
 		for _, item := range data.PowerExceptions {
 			itemBody := ""

@@ -112,7 +112,7 @@ func (data NetworkAlertsSettings) toBody(ctx context.Context, state NetworkAlert
 	if !data.MutingByPortSchedulesEnabled.IsNull() {
 		body, _ = sjson.Set(body, "muting.byPortSchedules.enabled", data.MutingByPortSchedulesEnabled.ValueBool())
 	}
-	if len(data.Alerts) > 0 {
+	if data.Alerts != nil {
 		body, _ = sjson.Set(body, "alerts", []interface{}{})
 		for _, item := range data.Alerts {
 			itemBody := ""
@@ -179,7 +179,7 @@ func (data NetworkAlertsSettings) toBody(ctx context.Context, state NetworkAlert
 			if !item.FiltersTimeout.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "filters.timeout", item.FiltersTimeout.ValueInt64())
 			}
-			if len(item.FiltersConditions) > 0 {
+			if item.FiltersConditions != nil {
 				itemBody, _ = sjson.Set(itemBody, "filters.conditions", []interface{}{})
 				for _, childItem := range item.FiltersConditions {
 					itemChildBody := ""

@@ -66,7 +66,7 @@ func (data SwitchLinkAggregation) getPath() string {
 
 func (data SwitchLinkAggregation) toBody(ctx context.Context, state SwitchLinkAggregation) string {
 	body := ""
-	if len(data.SwitchPorts) > 0 {
+	if data.SwitchPorts != nil {
 		body, _ = sjson.Set(body, "switchPorts", []interface{}{})
 		for _, item := range data.SwitchPorts {
 			itemBody := ""
@@ -79,7 +79,7 @@ func (data SwitchLinkAggregation) toBody(ctx context.Context, state SwitchLinkAg
 			body, _ = sjson.SetRaw(body, "switchPorts.-1", itemBody)
 		}
 	}
-	if len(data.SwitchProfilePorts) > 0 {
+	if data.SwitchProfilePorts != nil {
 		body, _ = sjson.Set(body, "switchProfilePorts", []interface{}{})
 		for _, item := range data.SwitchProfilePorts {
 			itemBody := ""

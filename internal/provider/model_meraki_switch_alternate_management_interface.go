@@ -76,7 +76,7 @@ func (data SwitchAlternateManagementInterface) toBody(ctx context.Context, state
 		data.Protocols.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "protocols", values)
 	}
-	if len(data.Switches) > 0 {
+	if data.Switches != nil {
 		body, _ = sjson.Set(body, "switches", []interface{}{})
 		for _, item := range data.Switches {
 			itemBody := ""

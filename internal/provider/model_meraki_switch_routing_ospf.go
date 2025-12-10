@@ -104,7 +104,7 @@ func (data SwitchRoutingOSPF) toBody(ctx context.Context, state SwitchRoutingOSP
 	if !data.V3HelloTimerInSeconds.IsNull() {
 		body, _ = sjson.Set(body, "v3.helloTimerInSeconds", data.V3HelloTimerInSeconds.ValueInt64())
 	}
-	if len(data.V3Areas) > 0 {
+	if data.V3Areas != nil {
 		body, _ = sjson.Set(body, "v3.areas", []interface{}{})
 		for _, item := range data.V3Areas {
 			itemBody := ""
@@ -120,7 +120,7 @@ func (data SwitchRoutingOSPF) toBody(ctx context.Context, state SwitchRoutingOSP
 			body, _ = sjson.SetRaw(body, "v3.areas.-1", itemBody)
 		}
 	}
-	if len(data.Areas) > 0 {
+	if data.Areas != nil {
 		body, _ = sjson.Set(body, "areas", []interface{}{})
 		for _, item := range data.Areas {
 			itemBody := ""

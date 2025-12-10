@@ -75,7 +75,7 @@ func (data NetworkDeviceClaim) getDevicesPath() string {
 
 func (data NetworkDeviceClaim) toBody(ctx context.Context, state NetworkDeviceClaim) string {
 	body := ""
-	if len(data.DetailsByDevice) > 0 {
+	if data.DetailsByDevice != nil {
 		body, _ = sjson.Set(body, "detailsByDevice", []interface{}{})
 		for _, item := range data.DetailsByDevice {
 			itemBody := ""

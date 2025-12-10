@@ -68,7 +68,7 @@ func (data CameraCustomAnalytics) toBody(ctx context.Context, state CameraCustom
 	if !data.Enabled.IsNull() {
 		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
-	if len(data.Parameters) > 0 {
+	if data.Parameters != nil {
 		body, _ = sjson.Set(body, "parameters", []interface{}{})
 		for _, item := range data.Parameters {
 			itemBody := ""

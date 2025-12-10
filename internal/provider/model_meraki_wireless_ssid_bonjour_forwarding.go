@@ -71,7 +71,7 @@ func (data WirelessSSIDBonjourForwarding) toBody(ctx context.Context, state Wire
 	if !data.ExceptionEnabled.IsNull() {
 		body, _ = sjson.Set(body, "exception.enabled", data.ExceptionEnabled.ValueBool())
 	}
-	if len(data.Rules) > 0 {
+	if data.Rules != nil {
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""
