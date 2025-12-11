@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## 1.8.1 (unreleased)
+## 1.9.0
 
 - Enhance handling of DNS split profile assignments by adding checks for empty responses and refining matching logic for assignment IDs during updates - Issue #131, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/143)
 - Add undocumented `ipv6_prefix_assignments[].disabled` attribute to `meraki_appliance_single_vlan` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/143)
