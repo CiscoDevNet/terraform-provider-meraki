@@ -41,6 +41,7 @@ attributes:
         example: "false"
       - model_name: disabled
         type: Bool
+        mandatory: true
         description: Disable IPv6 on VLAN.
         example: "false"
       - model_name: staticApplianceIp6

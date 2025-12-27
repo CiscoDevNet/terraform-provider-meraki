@@ -33,9 +33,11 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type OrganizationSAML struct {
-	Id             types.String `tfsdk:"id"`
-	OrganizationId types.String `tfsdk:"organization_id"`
-	Enabled        types.Bool   `tfsdk:"enabled"`
+	Id                   types.String `tfsdk:"id"`
+	OrganizationId       types.String `tfsdk:"organization_id"`
+	Enabled              types.Bool   `tfsdk:"enabled"`
+	SpInitiatedIdpId     types.String `tfsdk:"sp_initiated_idp_id"`
+	SpInitiatedSubdomain types.String `tfsdk:"sp_initiated_subdomain"`
 }
 
 // End of section. //template:end types
@@ -55,6 +57,12 @@ func (data OrganizationSAML) toBody(ctx context.Context, state OrganizationSAML)
 	if !data.Enabled.IsNull() {
 		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
+	if !data.SpInitiatedIdpId.IsNull() {
+		body, _ = sjson.Set(body, "spInitiated.idpId", data.SpInitiatedIdpId.ValueString())
+	}
+	if !data.SpInitiatedSubdomain.IsNull() {
+		body, _ = sjson.Set(body, "spInitiated.subdomain", data.SpInitiatedSubdomain.ValueString())
+	}
 	return body
 }
 
@@ -67,6 +75,16 @@ func (data *OrganizationSAML) fromBody(ctx context.Context, res meraki.Res) {
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
+	}
+	if value := res.Get("spInitiated.idpId"); value.Exists() && value.Value() != nil {
+		data.SpInitiatedIdpId = types.StringValue(value.String())
+	} else {
+		data.SpInitiatedIdpId = types.StringNull()
+	}
+	if value := res.Get("spInitiated.subdomain"); value.Exists() && value.Value() != nil {
+		data.SpInitiatedSubdomain = types.StringValue(value.String())
+	} else {
+		data.SpInitiatedSubdomain = types.StringNull()
 	}
 }
 
@@ -83,6 +101,16 @@ func (data *OrganizationSAML) fromBodyPartial(ctx context.Context, res meraki.Re
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
+	}
+	if value := res.Get("spInitiated.idpId"); value.Exists() && !data.SpInitiatedIdpId.IsNull() {
+		data.SpInitiatedIdpId = types.StringValue(value.String())
+	} else {
+		data.SpInitiatedIdpId = types.StringNull()
+	}
+	if value := res.Get("spInitiated.subdomain"); value.Exists() && !data.SpInitiatedSubdomain.IsNull() {
+		data.SpInitiatedSubdomain = types.StringValue(value.String())
+	} else {
+		data.SpInitiatedSubdomain = types.StringNull()
 	}
 }
 

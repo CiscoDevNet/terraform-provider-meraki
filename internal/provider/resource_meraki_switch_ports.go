@@ -167,6 +167,10 @@ func (r *SwitchPortsResource) Schema(ctx context.Context, req resource.SchemaReq
 								stringvalidator.OneOf("bpdu guard", "disabled", "loop guard", "root guard"),
 							},
 						},
+						"stp_port_fast_trunk": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The state of STP PortFast Trunk on the switch port.").String,
+							Optional:            true,
+						},
 						"type": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The type of the switch port (`trunk`, `access` or `stack`).").AddStringEnumDescription("access", "stack", "trunk").String,
 							Optional:            true,

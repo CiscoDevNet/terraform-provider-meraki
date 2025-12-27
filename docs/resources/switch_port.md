@@ -74,6 +74,7 @@ resource "meraki_switch_port" "example" {
 - `storm_control_enabled` (Boolean) The storm control status of the switch port.
 - `stp_guard` (String) The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).
   - Choices: `bpdu guard`, `disabled`, `loop guard`, `root guard`
+- `stp_port_fast_trunk` (Boolean) The state of STP PortFast Trunk on the switch port.
 - `tags` (Set of String) The list of tags of the switch port.
 - `type` (String) The type of the switch port (`trunk`, `access` or `stack`).
   - Choices: `access`, `stack`, `trunk`

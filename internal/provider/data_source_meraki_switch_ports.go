@@ -143,6 +143,10 @@ func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.Schem
 							MarkdownDescription: "The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).",
 							Computed:            true,
 						},
+						"stp_port_fast_trunk": schema.BoolAttribute{
+							MarkdownDescription: "The state of STP PortFast Trunk on the switch port.",
+							Computed:            true,
+						},
 						"type": schema.StringAttribute{
 							MarkdownDescription: "The type of the switch port (`trunk`, `access` or `stack`).",
 							Computed:            true,

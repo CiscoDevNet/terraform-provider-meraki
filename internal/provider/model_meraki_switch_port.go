@@ -55,6 +55,7 @@ type SwitchPort struct {
 	StickyMacAllowListLimit types.Int64  `tfsdk:"sticky_mac_allow_list_limit"`
 	StormControlEnabled     types.Bool   `tfsdk:"storm_control_enabled"`
 	StpGuard                types.String `tfsdk:"stp_guard"`
+	StpPortFastTrunk        types.Bool   `tfsdk:"stp_port_fast_trunk"`
 	Type                    types.String `tfsdk:"type"`
 	Udld                    types.String `tfsdk:"udld"`
 	Vlan                    types.Int64  `tfsdk:"vlan"`
@@ -136,6 +137,9 @@ func (data SwitchPort) toBody(ctx context.Context, state SwitchPort) string {
 	}
 	if !data.StpGuard.IsNull() {
 		body, _ = sjson.Set(body, "stpGuard", data.StpGuard.ValueString())
+	}
+	if !data.StpPortFastTrunk.IsNull() {
+		body, _ = sjson.Set(body, "stpPortFastTrunk", data.StpPortFastTrunk.ValueBool())
 	}
 	if !data.Type.IsNull() {
 		body, _ = sjson.Set(body, "type", data.Type.ValueString())
@@ -276,6 +280,11 @@ func (data *SwitchPort) fromBody(ctx context.Context, res meraki.Res) {
 		data.StpGuard = types.StringValue(value.String())
 	} else {
 		data.StpGuard = types.StringNull()
+	}
+	if value := res.Get("stpPortFastTrunk"); value.Exists() && value.Value() != nil {
+		data.StpPortFastTrunk = types.BoolValue(value.Bool())
+	} else {
+		data.StpPortFastTrunk = types.BoolNull()
 	}
 	if value := res.Get("type"); value.Exists() && value.Value() != nil {
 		data.Type = types.StringValue(value.String())
@@ -437,6 +446,11 @@ func (data *SwitchPort) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.StpGuard = types.StringValue(value.String())
 	} else {
 		data.StpGuard = types.StringNull()
+	}
+	if value := res.Get("stpPortFastTrunk"); value.Exists() && !data.StpPortFastTrunk.IsNull() {
+		data.StpPortFastTrunk = types.BoolValue(value.Bool())
+	} else {
+		data.StpPortFastTrunk = types.BoolNull()
 	}
 	if value := res.Get("type"); value.Exists() && !data.Type.IsNull() {
 		data.Type = types.StringValue(value.String())

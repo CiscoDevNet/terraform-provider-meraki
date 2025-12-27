@@ -101,7 +101,7 @@ func (r *ApplianceSingleLANResource) Schema(ctx context.Context, req resource.Sc
 						},
 						"disabled": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Disable IPv6 on VLAN.").String,
-							Optional:            true,
+							Required:            true,
 						},
 						"static_appliance_ip6": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Manual configuration of the IPv6 Appliance IP").String,

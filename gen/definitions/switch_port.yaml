@@ -106,6 +106,11 @@ attributes:
     description: The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).
     example: disabled
     enum_values: [bpdu guard, disabled, loop guard, root guard]
+  - model_name: stpPortFastTrunk
+    type: Bool
+    exclude_test: true
+    description: The state of STP PortFast Trunk on the switch port.
+    example: "false"
   - model_name: type
     type: String
     description: The type of the switch port (`trunk`, `access` or `stack`).

@@ -103,6 +103,8 @@ func testAccMerakiOrganizationSAMLConfig_all() string {
 	config := `resource "meraki_organization_saml" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  enabled = true` + "\n"
+	config += `  sp_initiated_idp_id = ""` + "\n"
+	config += `  sp_initiated_subdomain = ""` + "\n"
 	config += `}` + "\n"
 	return config
 }

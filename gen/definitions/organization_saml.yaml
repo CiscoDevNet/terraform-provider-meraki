@@ -18,6 +18,18 @@ attributes:
     type: Bool
     description: Boolean for updating SAML SSO enabled settings.
     example: "true"
+  - model_name: idpId
+    type: String
+    data_path: [spInitiated]
+    description: SAML IdP ID for SP-Initiated SSO Authentication
+    example: uu3H_bx28Nnd
+    test_value: '""'
+  - model_name: subdomain
+    type: String
+    data_path: [spInitiated]
+    description: Organization`s unique SSO identifier
+    example: example_subdomain
+    test_value: '""'
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
