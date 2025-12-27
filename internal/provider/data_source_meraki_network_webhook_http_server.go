@@ -79,6 +79,7 @@ func (d *NetworkWebhookHTTPServerDataSource) Schema(ctx context.Context, req dat
 			"shared_secret": schema.StringAttribute{
 				MarkdownDescription: "A shared secret that will be included in POSTs sent to the HTTP server. This secret can be used to verify that the request was sent by Meraki.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"url": schema.StringAttribute{
 				MarkdownDescription: "The URL of the HTTP server. Once set, cannot be updated.",

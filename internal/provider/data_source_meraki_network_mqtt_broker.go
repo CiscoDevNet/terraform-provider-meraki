@@ -87,6 +87,7 @@ func (d *NetworkMQTTBrokerDataSource) Schema(ctx context.Context, req datasource
 			"authentication_password": schema.StringAttribute{
 				MarkdownDescription: "Password for the MQTT broker.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"authentication_username": schema.StringAttribute{
 				MarkdownDescription: "Username for the MQTT broker.",

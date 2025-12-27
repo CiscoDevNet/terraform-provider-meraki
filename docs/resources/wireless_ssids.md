@@ -78,7 +78,7 @@ Required:
 Optional:
 
 - `active_directory_credentials_logon_name` (String) The logon name of the Active Directory account.
-- `active_directory_credentials_password` (String) The password to the Active Directory user account.
+- `active_directory_credentials_password` (String, Sensitive) The password to the Active Directory user account.
 - `active_directory_servers` (Attributes List) The Active Directory servers to be used for authentication. (see [below for nested schema](#nestedatt--items--active_directory_servers))
 - `adaptive_policy_group_id` (String) Adaptive policy group ID this SSID is assigned to.
 - `adult_content_filtering_enabled` (Boolean) Boolean indicating whether or not adult content will be blocked
@@ -109,7 +109,7 @@ Optional:
 - `lan_isolation_enabled` (Boolean) Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
 - `ldap_base_distinguished_name` (String) The base distinguished name of users on the LDAP server.
 - `ldap_credentials_distinguished_name` (String) The distinguished name of the LDAP user account (example: cn=user,dc=meraki,dc=com).
-- `ldap_credentials_password` (String) The password of the LDAP user account.
+- `ldap_credentials_password` (String, Sensitive) The password of the LDAP user account.
 - `ldap_server_ca_certificate_contents` (String) The contents of the CA certificate. Must be in PEM or DER format.
 - `ldap_servers` (Attributes List) The LDAP servers to be used for authentication. (see [below for nested schema](#nestedatt--items--ldap_servers))
 - `local_auth_fallback_cache_timeout` (Number) The duration (in seconds) for which auths are cached. The timeout is measured from the user`s most recent non-cached authentication to the network. Between 3600 (1 hour) and 86400 (1 day)
@@ -134,7 +134,7 @@ Optional:
 - `per_client_bandwidth_limit_up` (Number) The upload bandwidth limit in Kbps. (0 represents no limit.)
 - `per_ssid_bandwidth_limit_down` (Number) The total download bandwidth limit in Kbps. (0 represents no limit.)
 - `per_ssid_bandwidth_limit_up` (Number) The total upload bandwidth limit in Kbps. (0 represents no limit.)
-- `psk` (String) The passkey for the SSID. This param is only valid if the authMode is `psk`
+- `psk` (String, Sensitive) The passkey for the SSID. This param is only valid if the authMode is `psk`
 - `radius_accounting_enabled` (Boolean) Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`
 - `radius_accounting_interim_interval` (Number) The interval (in seconds) in which accounting information is updated and sent to the RADIUS accounting server.
 - `radius_accounting_servers` (Attributes List) The RADIUS accounting 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` and radiusAccountingEnabled is `true` (see [below for nested schema](#nestedatt--items--radius_accounting_servers))
@@ -145,7 +145,7 @@ Optional:
 - `radius_called_station_id` (String) The template of the called station identifier to be used for RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
 - `radius_coa_enabled` (Boolean) If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server.
 - `radius_das_clients_ips` (Set of String) List of DAS (Dynamic Authorization Server) IPs. This is an unsupported attribute and is subject to breaking changes without prior notice.
-- `radius_das_clients_shared_secret` (String) Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.
+- `radius_das_clients_shared_secret` (String, Sensitive) Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.
 - `radius_failover_policy` (String) This policy determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable (`Deny access` or `Allow access`)
   - Choices: `Allow access`, `Deny access`
 - `radius_fallback_enabled` (Boolean) Whether or not higher priority RADIUS servers should be retried after 60 seconds.
@@ -224,7 +224,7 @@ Optional:
 - `ca_certificate` (String) Certificate used for authorization for the RADSEC Server
 - `port` (Number) Port on the RADIUS server that is listening for accounting messages
 - `radsec_enabled` (Boolean) Use RADSEC (TLS over TCP) to connect to this RADIUS accounting server. Requires radiusProxyEnabled.
-- `secret` (String) Shared key used to authenticate messages between the APs and RADIUS server
+- `secret` (String, Sensitive) Shared key used to authenticate messages between the APs and RADIUS server
 
 
 <a id="nestedatt--items--radius_servers"></a>
@@ -240,7 +240,7 @@ Optional:
 - `open_roaming_certificate_id` (Number) The ID of the Openroaming Certificate attached to radius server.
 - `port` (Number) UDP port the RADIUS server listens on for Access-requests
 - `radsec_enabled` (Boolean) Use RADSEC (TLS over TCP) to connect to this RADIUS server. Requires radiusProxyEnabled.
-- `secret` (String) RADIUS client shared secret
+- `secret` (String, Sensitive) RADIUS client shared secret
 
 ## Import
 

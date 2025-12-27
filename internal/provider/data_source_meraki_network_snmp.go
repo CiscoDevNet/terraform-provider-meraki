@@ -72,6 +72,7 @@ func (d *NetworkSNMPDataSource) Schema(ctx context.Context, req datasource.Schem
 			"community_string": schema.StringAttribute{
 				MarkdownDescription: "The SNMP community string. Only relevant if `access` is set to `community`.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"users": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of SNMP users. Only relevant if `access` is set to `users`.",
@@ -81,6 +82,7 @@ func (d *NetworkSNMPDataSource) Schema(ctx context.Context, req datasource.Schem
 						"passphrase": schema.StringAttribute{
 							MarkdownDescription: "The passphrase for the SNMP user. Required.",
 							Computed:            true,
+							Sensitive:           true,
 						},
 						"username": schema.StringAttribute{
 							MarkdownDescription: "The username for the SNMP user. Required.",

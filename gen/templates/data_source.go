@@ -90,6 +90,9 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 				{{- end}}
 				Computed:            true,
 				{{- end}}
+				{{- if .Sensitive}}
+				Sensitive:           true,
+				{{- end}}
 				{{- if isNestedListSetMap .}}
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -101,6 +104,9 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 							ElementType:         types.{{.ElementType}}Type,
 							{{- end}}
 							Computed:            true,
+							{{- if .Sensitive}}
+							Sensitive:           true,
+							{{- end}}
 							{{- if isNestedListSetMap .}}
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
@@ -112,6 +118,9 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 										ElementType:         types.{{.ElementType}}Type,
 										{{- end}}
 										Computed:            true,
+										{{- if .Sensitive}}
+										Sensitive:           true,
+										{{- end}}
 										{{- if isNestedListSetMap .}}
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
@@ -123,6 +132,9 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 													ElementType:         types.{{.ElementType}}Type,
 													{{- end}}
 													Computed:            true,
+													{{- if .Sensitive}}
+													Sensitive:           true,
+													{{- end}}
 												},
 												{{- end}}
 												{{- end}}

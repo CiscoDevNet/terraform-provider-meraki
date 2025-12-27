@@ -21,6 +21,7 @@ attributes:
     minimum_test_value: '"community"'
   - model_name: communityString
     type: String
+    sensitive: true
     exclude_test: true
     description: The SNMP community string. Only relevant if `access` is set to `community`.
     example: sample
@@ -32,6 +33,7 @@ attributes:
       - model_name: passphrase
         type: String
         mandatory: true
+        sensitive: true
         description: The passphrase for the SNMP user. Required.
         example: hunter2
       - model_name: username

@@ -41,6 +41,7 @@ attributes:
             example: username
           - model_name: value
             type: String
+            sensitive: true
             description: Value of device detail
             example: milesmeraki
   - model_name: serials

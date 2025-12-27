@@ -33,7 +33,7 @@ data "meraki_network_mqtt_broker" "example" {
 
 ### Read-Only
 
-- `authentication_password` (String) Password for the MQTT broker.
+- `authentication_password` (String, Sensitive) Password for the MQTT broker.
 - `authentication_username` (String) Username for the MQTT broker.
 - `host` (String) Host name/IP address where the MQTT broker runs.
 - `port` (Number) Host port though which the MQTT broker can be reached.

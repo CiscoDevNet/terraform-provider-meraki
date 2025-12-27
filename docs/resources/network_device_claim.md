@@ -63,7 +63,7 @@ Required:
 
 Optional:
 
-- `value` (String) Value of device detail
+- `value` (String, Sensitive) Value of device detail
 
 ## Import
 

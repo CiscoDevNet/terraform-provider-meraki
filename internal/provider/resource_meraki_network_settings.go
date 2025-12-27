@@ -90,6 +90,7 @@ func (r *NetworkSettingsResource) Schema(ctx context.Context, req resource.Schem
 			"local_status_page_authentication_password": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The password used for Local Status Page(s). Set this to null to clear the password.").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 			"local_status_page_authentication_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The username used for Local Status Page(s).").String,

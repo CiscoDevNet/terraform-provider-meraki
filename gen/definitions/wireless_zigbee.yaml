@@ -50,6 +50,7 @@ attributes:
   - model_name: password
     type: String
     data_path: [lockManagement]
+    sensitive: true
     description: Password
     example: password
   - model_name: username

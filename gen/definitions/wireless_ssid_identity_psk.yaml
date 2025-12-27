@@ -37,6 +37,7 @@ attributes:
     example: Sample Identity PSK
   - model_name: passphrase
     type: String
+    sensitive: true
     description: The passphrase for client authentication. If left blank, one will be auto-generated.
     example: Cisco123
 test_prerequisites: |

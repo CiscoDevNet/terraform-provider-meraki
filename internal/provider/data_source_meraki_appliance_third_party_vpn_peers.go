@@ -114,6 +114,7 @@ func (d *ApplianceThirdPartyVPNPeersDataSource) Schema(ctx context.Context, req 
 						"secret": schema.StringAttribute{
 							MarkdownDescription: "The shared secret with the VPN peer",
 							Computed:            true,
+							Sensitive:           true,
 						},
 						"ebgp_neighbor_ebgp_hold_timer": schema.Int64Attribute{
 							MarkdownDescription: "The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.",

@@ -31,6 +31,7 @@ attributes:
     type: String
     data_path: [localStatusPage, authentication]
     write_only: true
+    sensitive: true
     description: The password used for Local Status Page(s). Set this to null to clear the password.
     example: MilesMiles123!
   - model_name: username

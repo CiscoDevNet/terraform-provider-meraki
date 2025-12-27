@@ -38,6 +38,7 @@ attributes:
   - model_name: passphrase
     type: String
     data_path: [md5AuthenticationKey]
+    sensitive: true
     description: MD5 authentication passphrase
     example: abc1234
   - model_name: deadTimerInSeconds

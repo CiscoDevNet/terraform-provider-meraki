@@ -153,6 +153,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			"psk": schema.StringAttribute{
 				MarkdownDescription: "The passkey for the SSID. This param is only valid if the authMode is `psk`",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"radius_accounting_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`",
@@ -257,6 +258,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			"active_directory_credentials_password": schema.StringAttribute{
 				MarkdownDescription: "The password to the Active Directory user account.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"active_directory_servers": schema.ListNestedAttribute{
 				MarkdownDescription: "The Active Directory servers to be used for authentication.",
@@ -318,6 +320,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			"ldap_credentials_password": schema.StringAttribute{
 				MarkdownDescription: "The password of the LDAP user account.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"ldap_server_ca_certificate_contents": schema.StringAttribute{
 				MarkdownDescription: "The contents of the CA certificate. Must be in PEM or DER format.",
@@ -471,6 +474,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 						"secret": schema.StringAttribute{
 							MarkdownDescription: "Shared key used to authenticate messages between the APs and RADIUS server",
 							Computed:            true,
+							Sensitive:           true,
 						},
 					},
 				},
@@ -503,6 +507,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 						"secret": schema.StringAttribute{
 							MarkdownDescription: "RADIUS client shared secret",
 							Computed:            true,
+							Sensitive:           true,
 						},
 					},
 				},
@@ -525,6 +530,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			"radius_das_clients_shared_secret": schema.StringAttribute{
 				MarkdownDescription: "Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 		},
 	}

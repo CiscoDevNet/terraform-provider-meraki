@@ -89,6 +89,7 @@ func (d *WirelessSSIDIdentityPSKsDataSource) Schema(ctx context.Context, req dat
 						"passphrase": schema.StringAttribute{
 							MarkdownDescription: "The passphrase for client authentication. If left blank, one will be auto-generated.",
 							Computed:            true,
+							Sensitive:           true,
 						},
 					},
 				},

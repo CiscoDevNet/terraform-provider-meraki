@@ -72,7 +72,7 @@ Optional:
 - `encryption_mode` (String) The psk encryption mode for the SSID (`wep` or `wpa`). This param is only valid if the authMode is `psk`.
   - Choices: `wep`, `wpa`
 - `name` (String) The name of the SSID.
-- `psk` (String) The passkey for the SSID. This param is only valid if the authMode is `psk`.
+- `psk` (String, Sensitive) The passkey for the SSID. This param is only valid if the authMode is `psk`.
 - `radius_servers` (Attributes List) The RADIUS 802.1x servers to be used for authentication. This param is only valid if the authMode is `8021x-radius`. (see [below for nested schema](#nestedatt--items--radius_servers))
 - `visible` (Boolean) Boolean indicating whether the MX should advertise or hide this SSID.
 - `wpa_encryption_mode` (String) The types of WPA encryption. (`WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode` or `WPA3 only`). This param is only valid if (1) the authMode is `psk` & the encryptionMode is `wpa` OR (2) the authMode is `8021x-meraki` OR (3) the authMode is `8021x-radius`
@@ -85,7 +85,7 @@ Optional:
 
 - `host` (String) The IP address of your RADIUS server.
 - `port` (Number) The UDP port your RADIUS servers listens on for Access-requests.
-- `secret` (String) The RADIUS client shared secret.
+- `secret` (String, Sensitive) The RADIUS client shared secret.
 
 ## Import
 

@@ -75,6 +75,7 @@ func (r *ApplianceVMXAuthenticationTokenResource) Schema(ctx context.Context, re
 			"token": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The newly generated authentication token for the vMX instance").String,
 				Computed:            true,
+				Sensitive:           true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},

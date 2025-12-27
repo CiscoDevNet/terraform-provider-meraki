@@ -41,7 +41,7 @@ Read-Only:
 - `id` (String) The id of the object
 - `modes` (Attributes List) Available server modes (see [below for nested schema](#nestedatt--items--modes))
 - `name` (String) The name of the RADIUS server
-- `secret` (String) Shared secret of the RADIUS server
+- `secret` (String, Sensitive) Shared secret of the RADIUS server
 
 <a id="nestedatt--items--modes"></a>
 ### Nested Schema for `items.modes`

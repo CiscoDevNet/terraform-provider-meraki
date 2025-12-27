@@ -42,6 +42,7 @@ attributes:
     type: String
     mandatory: true
     write_only: true
+    sensitive: true
     description: The password for this user account. Only required If the user is not a Dashboard administrator.
     example: Cisco123456&
   - model_name: authorizations

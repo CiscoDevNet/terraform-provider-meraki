@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## Unreleased
+
+- Mark sensitive attributes (passwords, secrets, PSKs, passphrases, tokens, SNMP community strings) to prevent exposure in plan output and logs
+
 ## 1.9.0
 
 - Enhance handling of DNS split profile assignments by adding checks for empty responses and refining matching logic for assignment IDs during updates - Issue #131, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/143)

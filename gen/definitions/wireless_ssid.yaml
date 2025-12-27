@@ -126,6 +126,7 @@ attributes:
     destroy_value: "0"
   - model_name: psk
     type: String
+    sensitive: true
     description: The passkey for the SSID. This param is only valid if the authMode is `psk`
     example: deadbeef
   - model_name: radiusAccountingEnabled
@@ -259,6 +260,7 @@ attributes:
   - model_name: password
     type: String
     data_path: [activeDirectory, credentials]
+    sensitive: true
     exclude_test: true
     description: The password to the Active Directory user account.
     example: password
@@ -340,6 +342,7 @@ attributes:
   - model_name: password
     type: String
     data_path: [ldap, credentials]
+    sensitive: true
     exclude_test: true
     description: The password of the LDAP user account.
     example: password
@@ -556,6 +559,7 @@ attributes:
       - model_name: secret
         type: String
         write_only: true
+        sensitive: true
         description: Shared key used to authenticate messages between the APs and RADIUS server
         example: secret-string
   - model_name: radiusServers
@@ -589,6 +593,7 @@ attributes:
       - model_name: secret
         type: String
         write_only: true
+        sensitive: true
         description: RADIUS client shared secret
         example: secret-string
   - model_name: splashGuestSponsorDomains
@@ -616,6 +621,7 @@ attributes:
     type: String
     data_path: [radiusDasClients]
     write_only: true
+    sensitive: true
     exclude_test: true
     description: Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.
     example: secret-string

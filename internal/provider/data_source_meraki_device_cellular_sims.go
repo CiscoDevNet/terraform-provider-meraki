@@ -108,6 +108,7 @@ func (d *DeviceCellularSIMsDataSource) Schema(ctx context.Context, req datasourc
 									"authentication_password": schema.StringAttribute{
 										MarkdownDescription: "APN password, if type is set (if APN password is not supplied, the password is left unchanged).",
 										Computed:            true,
+										Sensitive:           true,
 									},
 									"authentication_type": schema.StringAttribute{
 										MarkdownDescription: "APN auth type.",

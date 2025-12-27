@@ -19,6 +19,7 @@ attributes:
     test_value: tolist(meraki_network_device_claim.test.serials)[0]
   - model_name: token
     type: String
+    sensitive: true
     description: The newly generated authentication token for the vMX instance
     computed: true
   - model_name: expiresAt

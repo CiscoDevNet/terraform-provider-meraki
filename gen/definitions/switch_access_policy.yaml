@@ -196,6 +196,7 @@ attributes:
       - model_name: secret
         type: String
         write_only: true
+        sensitive: true
         description: RADIUS client shared secret
         example: secret
   - model_name: radiusServers
@@ -222,6 +223,7 @@ attributes:
       - model_name: secret
         type: String
         write_only: true
+        sensitive: true
         description: RADIUS client shared secret
         example: secret
         minimum_test_value: '"secret"'

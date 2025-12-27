@@ -63,7 +63,7 @@ Required:
 
 - `name` (String) The name of the VPN peer
 - `private_subnets` (List of String) The list of the private subnets of the VPN peer
-- `secret` (String) The shared secret with the VPN peer
+- `secret` (String, Sensitive) The shared secret with the VPN peer
 
 Optional:
 

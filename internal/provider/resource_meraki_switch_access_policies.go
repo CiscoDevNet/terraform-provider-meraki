@@ -246,6 +246,7 @@ func (r *SwitchAccessPoliciesResource) Schema(ctx context.Context, req resource.
 									"secret": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("RADIUS client shared secret").String,
 										Optional:            true,
+										Sensitive:           true,
 									},
 								},
 							},
@@ -270,6 +271,7 @@ func (r *SwitchAccessPoliciesResource) Schema(ctx context.Context, req resource.
 									"secret": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("RADIUS client shared secret").String,
 										Optional:            true,
+										Sensitive:           true,
 									},
 								},
 							},

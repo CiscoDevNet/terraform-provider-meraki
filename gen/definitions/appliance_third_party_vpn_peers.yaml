@@ -70,6 +70,7 @@ attributes:
       - model_name: secret
         type: String
         mandatory: true
+        sensitive: true
         description: The shared secret with the VPN peer
         example: Sample Password
       - model_name: ebgpHoldTimer

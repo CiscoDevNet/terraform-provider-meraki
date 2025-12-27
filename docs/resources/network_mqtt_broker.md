@@ -38,7 +38,7 @@ resource "meraki_network_mqtt_broker" "example" {
 
 ### Optional
 
-- `authentication_password` (String) Password for the MQTT broker.
+- `authentication_password` (String, Sensitive) Password for the MQTT broker.
 - `authentication_username` (String) Username for the MQTT broker.
 - `security_mode` (String) Security protocol of the MQTT broker.
 - `security_tls_ca_certificate` (String) CA Certificate of the MQTT broker.

@@ -29,4 +29,4 @@ resource "meraki_appliance_vmx_authentication_token" "example" {
 
 - `expires_at` (String) The expiration time for the token, in ISO 8601 format
 - `id` (String) The id of the object
-- `token` (String) The newly generated authentication token for the vMX instance
+- `token` (String, Sensitive) The newly generated authentication token for the vMX instance

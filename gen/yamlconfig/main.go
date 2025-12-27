@@ -98,6 +98,7 @@ type YamlConfigAttribute struct {
 	Mandatory          bool                  `yaml:"mandatory,omitempty"`
 	WriteOnly          bool                  `yaml:"write_only,omitempty"`
 	WriteChangesOnly   bool                  `yaml:"write_changes_only,omitempty"`
+	Sensitive          bool                  `yaml:"sensitive,omitempty"`
 	ExcludeTest        bool                  `yaml:"exclude_test,omitempty"`
 	ExcludeExample     bool                  `yaml:"exclude_example,omitempty"`
 	AllowImportChanges bool                  `yaml:"allow_import_changes,omitempty"`
@@ -141,6 +142,7 @@ type YamlConfigAttributeP struct {
 	Mandatory          *bool                   `yaml:"mandatory,omitempty"`
 	WriteOnly          *bool                   `yaml:"write_only,omitempty"`
 	WriteChangesOnly   *bool                   `yaml:"write_changes_only,omitempty"`
+	Sensitive          *bool                   `yaml:"sensitive,omitempty"`
 	ExcludeTest        *bool                   `yaml:"exclude_test,omitempty"`
 	ExcludeExample     *bool                   `yaml:"exclude_example,omitempty"`
 	AllowImportChanges *bool                   `yaml:"allow_import_changes,omitempty"`
@@ -887,6 +889,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.WriteChangesOnly != nil {
 		new.WriteChangesOnly = existing.WriteChangesOnly
+	}
+	if existing.Sensitive != nil {
+		new.Sensitive = existing.Sensitive
 	}
 	if existing.ExcludeTest != nil {
 		new.ExcludeTest = existing.ExcludeTest

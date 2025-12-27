@@ -73,6 +73,7 @@ func (d *WirelessLocationScanningReceiversDataSource) Schema(ctx context.Context
 						"shared_secret": schema.StringAttribute{
 							MarkdownDescription: "Secret Value for Receiver",
 							Computed:            true,
+							Sensitive:           true,
 						},
 						"url": schema.StringAttribute{
 							MarkdownDescription: "Receiver Url",

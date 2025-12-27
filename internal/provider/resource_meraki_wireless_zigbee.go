@@ -103,6 +103,7 @@ func (r *WirelessZigbeeResource) Schema(ctx context.Context, req resource.Schema
 			"lock_management_password": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Password").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 			"lock_management_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username").String,

@@ -77,6 +77,7 @@ func (d *CameraWirelessProfilesDataSource) Schema(ctx context.Context, req datas
 						"identity_password": schema.StringAttribute{
 							MarkdownDescription: "The password of the identity.",
 							Computed:            true,
+							Sensitive:           true,
 						},
 						"identity_username": schema.StringAttribute{
 							MarkdownDescription: "The username of the identity.",
@@ -97,6 +98,7 @@ func (d *CameraWirelessProfilesDataSource) Schema(ctx context.Context, req datas
 						"ssid_psk": schema.StringAttribute{
 							MarkdownDescription: "The pre-shared key of the SSID.",
 							Computed:            true,
+							Sensitive:           true,
 						},
 					},
 				},

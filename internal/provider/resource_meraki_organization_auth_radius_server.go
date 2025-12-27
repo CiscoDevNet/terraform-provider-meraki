@@ -90,6 +90,7 @@ func (r *OrganizationAuthRADIUSServerResource) Schema(ctx context.Context, req r
 			"secret": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Shared secret of the RADIUS server").String,
 				Required:            true,
+				Sensitive:           true,
 			},
 			"modes": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Available server modes").String,

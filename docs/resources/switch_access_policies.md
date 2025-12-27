@@ -133,7 +133,7 @@ Optional:
 - `host` (String) Public IP address of the RADIUS server
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS server listens on for access requests
-- `secret` (String) RADIUS client shared secret
+- `secret` (String, Sensitive) RADIUS client shared secret
 
 
 <a id="nestedatt--items--radius_accounting_servers"></a>
@@ -144,7 +144,7 @@ Optional:
 - `host` (String) Public IP address of the RADIUS accounting server
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS Accounting server listens on for access requests
-- `secret` (String) RADIUS client shared secret
+- `secret` (String, Sensitive) RADIUS client shared secret
 
 ## Import
 

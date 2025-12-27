@@ -69,5 +69,5 @@ Read-Only:
 - `public_hostname` (String) [optional] The public hostname of the VPN peer
 - `public_ip` (String) [optional] The public IP of the VPN peer
 - `remote_id` (String) [optional] The remote ID is used to identify the connecting VPN peer. This can either be a valid IPv4 Address, FQDN or User FQDN.
-- `secret` (String) The shared secret with the VPN peer
+- `secret` (String, Sensitive) The shared secret with the VPN peer
 - `sla_policy_id` (String) The ID of the SLA policy

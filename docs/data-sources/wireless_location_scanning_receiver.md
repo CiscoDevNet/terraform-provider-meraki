@@ -31,6 +31,6 @@ data "meraki_wireless_location_scanning_receiver" "example" {
 
 - `network_id` (String) Network ID
 - `radio_type` (String) Radio Type whether WiFi or Bluetooth
-- `shared_secret` (String) Secret Value for Receiver
+- `shared_secret` (String, Sensitive) Secret Value for Receiver
 - `url` (String) Receiver Url
 - `version` (String) Scanning API Version

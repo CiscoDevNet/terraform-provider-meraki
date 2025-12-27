@@ -35,10 +35,10 @@ data "meraki_camera_wireless_profiles" "example" {
 Read-Only:
 
 - `id` (String) The id of the object
-- `identity_password` (String) The password of the identity.
+- `identity_password` (String, Sensitive) The password of the identity.
 - `identity_username` (String) The username of the identity.
 - `name` (String) The name of the camera wireless profile. This parameter is required.
 - `ssid_auth_mode` (String) The auth mode of the SSID. It can be set to (`psk`, `8021x-radius`).
 - `ssid_encryption_mode` (String) The encryption mode of the SSID. It can be set to (`wpa`, `wpa-eap`). With `wpa` mode, the authMode should be `psk` and with `wpa-eap` the authMode should be `8021x-radius`
 - `ssid_name` (String) The name of the SSID.
-- `ssid_psk` (String) The pre-shared key of the SSID.
+- `ssid_psk` (String, Sensitive) The pre-shared key of the SSID.

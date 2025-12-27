@@ -33,5 +33,5 @@ data "meraki_wireless_zigbee" "example" {
 - `id` (String) The id of the object
 - `iot_controller_serial` (String) Device Serial number
 - `lock_management_address` (String) Host Address
-- `lock_management_password` (String) Password
+- `lock_management_password` (String, Sensitive) Password
 - `lock_management_username` (String) Username

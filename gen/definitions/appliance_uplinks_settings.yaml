@@ -32,6 +32,7 @@ attributes:
     type: String
     data_path: [interfaces, wan1, pppoe, authentication]
     write_only: true
+    sensitive: true
     description: Password for PPPoE authentication. This parameter is not returned.
     example: password
   - model_name: username
@@ -117,6 +118,7 @@ attributes:
     type: String
     data_path: [interfaces, wan2, pppoe, authentication]
     write_only: true
+    sensitive: true
     description: Password for PPPoE authentication. This parameter is not returned.
     example: password
   - model_name: username

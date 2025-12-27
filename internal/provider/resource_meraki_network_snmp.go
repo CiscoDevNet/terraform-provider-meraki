@@ -87,6 +87,7 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 			"community_string": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The SNMP community string. Only relevant if `access` is set to `community`.").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 			"users": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of SNMP users. Only relevant if `access` is set to `users`.").String,
@@ -96,6 +97,7 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 						"passphrase": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The passphrase for the SNMP user. Required.").String,
 							Required:            true,
+							Sensitive:           true,
 						},
 						"username": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The username for the SNMP user. Required.").String,

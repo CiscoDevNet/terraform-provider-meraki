@@ -36,7 +36,7 @@ resource "meraki_wireless_ssid_identity_psk" "example" {
 ### Optional
 
 - `expires_at` (String) Timestamp for when the Identity PSK expires. Will not expire if left blank.
-- `passphrase` (String) The passphrase for client authentication. If left blank, one will be auto-generated.
+- `passphrase` (String, Sensitive) The passphrase for client authentication. If left blank, one will be auto-generated.
 
 ### Read-Only
 
