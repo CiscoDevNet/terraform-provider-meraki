@@ -3,13 +3,13 @@ default: testall
 # Run all acceptance tests
 .PHONY: testall
 testall:
-	TF_ACC=1 go test -v $(TESTARGS) -timeout 120m ./internal/provider
+	TF_ACC=1 go test -v $(TESTARGS) -timeout 120m -count 1 ./internal/provider
 
 # Run a subset of tests by specifying a regex (NAME).
 # Usage: make test NAME=OrganizationAdmin
 .PHONY: test
 test:
-	TF_ACC=1 go test ./... -v -run $(NAME) -timeout 120m
+	TF_ACC=1 go test ./... -v -run $(NAME) -timeout 120m -count 1
 
 # Create new definition and build the code
 # Usage: make gen SPEC_PATH="/organizations/{organizationId}/admins/{adminId}" NAME="Organization Admin"
