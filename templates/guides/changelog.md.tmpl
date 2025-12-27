@@ -10,6 +10,7 @@ description: |-
 ## Unreleased
 
 - Mark sensitive attributes (passwords, secrets, PSKs, passphrases, tokens, SNMP community strings) to prevent exposure in plan output and logs
+- Add Software Bill of Materials (SBOM) generation in SPDX and CycloneDX formats during releases
 
 ## 1.9.0
 
