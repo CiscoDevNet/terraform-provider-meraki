@@ -32,36 +32,33 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type OrganizationSAMLIdP struct {
-	Id                      types.String `tfsdk:"id"`
-	OrganizationId          types.String `tfsdk:"organization_id"`
-	SloLogoutUrl            types.String `tfsdk:"slo_logout_url"`
-	SsoLoginUrl             types.String `tfsdk:"sso_login_url"`
-	X509certSha1Fingerprint types.String `tfsdk:"x509cert_sha1_fingerprint"`
+type WirelessSSIDOpenRoaming struct {
+	Id        types.String `tfsdk:"id"`
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+	Enabled   types.Bool   `tfsdk:"enabled"`
+	TenantId  types.String `tfsdk:"tenant_id"`
 }
 
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data OrganizationSAMLIdP) getPath() string {
-	return fmt.Sprintf("/organizations/%v/saml/idps", url.QueryEscape(data.OrganizationId.ValueString()))
+func (data WirelessSSIDOpenRoaming) getPath() string {
+	return fmt.Sprintf("/networks/%v/wireless/ssids/%v/openRoaming", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(data.Number.ValueString()))
 }
 
 // End of section. //template:end getPath
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data OrganizationSAMLIdP) toBody(ctx context.Context, state OrganizationSAMLIdP) string {
+func (data WirelessSSIDOpenRoaming) toBody(ctx context.Context, state WirelessSSIDOpenRoaming) string {
 	body := ""
-	if !data.SloLogoutUrl.IsNull() {
-		body, _ = sjson.Set(body, "sloLogoutUrl", data.SloLogoutUrl.ValueString())
+	if !data.Enabled.IsNull() {
+		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
 	}
-	if !data.SsoLoginUrl.IsNull() {
-		body, _ = sjson.Set(body, "ssoLoginUrl", data.SsoLoginUrl.ValueString())
-	}
-	if !data.X509certSha1Fingerprint.IsNull() {
-		body, _ = sjson.Set(body, "x509certSha1Fingerprint", data.X509certSha1Fingerprint.ValueString())
+	if !data.TenantId.IsNull() {
+		body, _ = sjson.Set(body, "tenantId", data.TenantId.ValueString())
 	}
 	return body
 }
@@ -70,21 +67,16 @@ func (data OrganizationSAMLIdP) toBody(ctx context.Context, state OrganizationSA
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *OrganizationSAMLIdP) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("sloLogoutUrl"); value.Exists() && value.Value() != nil {
-		data.SloLogoutUrl = types.StringValue(value.String())
+func (data *WirelessSSIDOpenRoaming) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
+		data.Enabled = types.BoolValue(value.Bool())
 	} else {
-		data.SloLogoutUrl = types.StringNull()
+		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("ssoLoginUrl"); value.Exists() && value.Value() != nil {
-		data.SsoLoginUrl = types.StringValue(value.String())
+	if value := res.Get("tenantId"); value.Exists() && value.Value() != nil {
+		data.TenantId = types.StringValue(value.String())
 	} else {
-		data.SsoLoginUrl = types.StringNull()
-	}
-	if value := res.Get("x509certSha1Fingerprint"); value.Exists() && value.Value() != nil {
-		data.X509certSha1Fingerprint = types.StringValue(value.String())
-	} else {
-		data.X509certSha1Fingerprint = types.StringNull()
+		data.TenantId = types.StringNull()
 	}
 }
 
@@ -96,21 +88,16 @@ func (data *OrganizationSAMLIdP) fromBody(ctx context.Context, res meraki.Res) {
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *OrganizationSAMLIdP) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	if value := res.Get("sloLogoutUrl"); value.Exists() && !data.SloLogoutUrl.IsNull() {
-		data.SloLogoutUrl = types.StringValue(value.String())
+func (data *WirelessSSIDOpenRoaming) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("enabled"); value.Exists() && !data.Enabled.IsNull() {
+		data.Enabled = types.BoolValue(value.Bool())
 	} else {
-		data.SloLogoutUrl = types.StringNull()
+		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("ssoLoginUrl"); value.Exists() && !data.SsoLoginUrl.IsNull() {
-		data.SsoLoginUrl = types.StringValue(value.String())
+	if value := res.Get("tenantId"); value.Exists() && !data.TenantId.IsNull() {
+		data.TenantId = types.StringValue(value.String())
 	} else {
-		data.SsoLoginUrl = types.StringNull()
-	}
-	if value := res.Get("x509certSha1Fingerprint"); value.Exists() && !data.X509certSha1Fingerprint.IsNull() {
-		data.X509certSha1Fingerprint = types.StringValue(value.String())
-	} else {
-		data.X509certSha1Fingerprint = types.StringNull()
+		data.TenantId = types.StringNull()
 	}
 }
 
@@ -120,14 +107,14 @@ func (data *OrganizationSAMLIdP) fromBodyPartial(ctx context.Context, res meraki
 
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
-func (data *OrganizationSAMLIdP) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+func (data *WirelessSSIDOpenRoaming) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data OrganizationSAMLIdP) toDestroyBody(ctx context.Context) string {
+func (data WirelessSSIDOpenRoaming) toDestroyBody(ctx context.Context) string {
 	body := ""
 	return body
 }

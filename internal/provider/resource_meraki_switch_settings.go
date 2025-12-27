@@ -93,6 +93,17 @@ func (r *SwitchSettingsResource) Schema(ctx context.Context, req resource.Schema
 				MarkdownDescription: helpers.NewAttributeDescription("Enable uplink client sampling").String,
 				Optional:            true,
 			},
+			"uplink_selection_candidates": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("`all` lets devices try any potential interface. `designated` restricts to specified candidates (configured via the Routing & DHCP page).").AddStringEnumDescription("all", "designated").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("all", "designated"),
+				},
+			},
+			"uplink_selection_failback_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Enable preferred uplink failback.").String,
+				Optional:            true,
+			},
 			"power_exceptions": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Exceptions on a per switch basis to 'useCombinedPower'").String,
 				Optional:            true,

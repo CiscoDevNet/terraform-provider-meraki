@@ -31,33 +31,29 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiSwitchSettings(t *testing.T) {
+func TestAccMerakiWirelessSSIDOpenRoaming(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "use_combined_power", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "vlan", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "mac_blocklist_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "uplink_client_sampling_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "uplink_selection_candidates", "all"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "uplink_selection_failback_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_open_roaming.test", "enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_open_roaming.test", "tenant_id", "12345"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiSwitchSettingsPrerequisitesConfig + testAccMerakiSwitchSettingsConfig_minimum(),
+			Config: testAccMerakiWirelessSSIDOpenRoamingPrerequisitesConfig + testAccMerakiWirelessSSIDOpenRoamingConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchSettingsPrerequisitesConfig + testAccMerakiSwitchSettingsConfig_all(),
+		Config: testAccMerakiWirelessSSIDOpenRoamingPrerequisitesConfig + testAccMerakiWirelessSSIDOpenRoamingConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_switch_settings.test",
+		ResourceName:            "meraki_wireless_ssid_open_roaming.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiSwitchSettingsImportStateIdFunc("meraki_switch_settings.test"),
+		ImportStateIdFunc:       merakiWirelessSSIDOpenRoamingImportStateIdFunc("meraki_wireless_ssid_open_roaming.test"),
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
@@ -73,12 +69,13 @@ func TestAccMerakiSwitchSettings(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
 
-func merakiSwitchSettingsImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+func merakiWirelessSSIDOpenRoamingImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		NetworkId := primary.Attributes["network_id"]
+		Number := primary.Attributes["number"]
 
-		return fmt.Sprintf("%s", NetworkId), nil
+		return fmt.Sprintf("%s,%s", NetworkId, Number), nil
 	}
 }
 
@@ -86,7 +83,7 @@ func merakiSwitchSettingsImportStateIdFunc(resourceName string) resource.ImportS
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccMerakiSwitchSettingsPrerequisitesConfig = `
+const testAccMerakiWirelessSSIDOpenRoamingPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 data "meraki_organization" "test" {
@@ -95,7 +92,17 @@ data "meraki_organization" "test" {
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = var.test_network
-  product_types   = ["switch", "wireless"]
+  product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+}
+resource "meraki_wireless_ssid" "test" {
+  network_id = meraki_network.test.id
+  number     = "0"
+  name       = "My SSID"
+}
+resource "meraki_wireless_ssid_hotspot_20" "test" {
+  network_id = meraki_network.test.id
+  number     = meraki_wireless_ssid.test.id
+  enabled    = true
 }
 
 `
@@ -104,10 +111,11 @@ resource "meraki_network" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiSwitchSettingsConfig_minimum() string {
-	config := `resource "meraki_switch_settings" "test" {` + "\n"
+func testAccMerakiWirelessSSIDOpenRoamingConfig_minimum() string {
+	config := `resource "meraki_wireless_ssid_open_roaming" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  vlan = 1` + "\n"
+	config += `  number = meraki_wireless_ssid_hotspot_20.test.number` + "\n"
+	config += `  enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -116,15 +124,12 @@ func testAccMerakiSwitchSettingsConfig_minimum() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-func testAccMerakiSwitchSettingsConfig_all() string {
-	config := `resource "meraki_switch_settings" "test" {` + "\n"
+func testAccMerakiWirelessSSIDOpenRoamingConfig_all() string {
+	config := `resource "meraki_wireless_ssid_open_roaming" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  use_combined_power = false` + "\n"
-	config += `  vlan = 1` + "\n"
-	config += `  mac_blocklist_enabled = true` + "\n"
-	config += `  uplink_client_sampling_enabled = false` + "\n"
-	config += `  uplink_selection_candidates = "all"` + "\n"
-	config += `  uplink_selection_failback_enabled = false` + "\n"
+	config += `  number = meraki_wireless_ssid_hotspot_20.test.number` + "\n"
+	config += `  enabled = false` + "\n"
+	config += `  tenant_id = "12345"` + "\n"
 	config += `}` + "\n"
 	return config
 }

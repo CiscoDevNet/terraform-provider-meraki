@@ -29,23 +29,19 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiSwitchSettings(t *testing.T) {
+func TestAccDataSourceMerakiWirelessSSIDOpenRoaming(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "use_combined_power", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "vlan", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "mac_blocklist_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "uplink_client_sampling_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "uplink_selection_candidates", "all"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "uplink_selection_failback_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_open_roaming.test", "enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_open_roaming.test", "tenant_id", "12345"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiSwitchSettingsPrerequisitesConfig + testAccDataSourceMerakiSwitchSettingsConfig(),
+				Config: testAccDataSourceMerakiWirelessSSIDOpenRoamingPrerequisitesConfig + testAccDataSourceMerakiWirelessSSIDOpenRoamingConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
@@ -56,7 +52,7 @@ func TestAccDataSourceMerakiSwitchSettings(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiSwitchSettingsPrerequisitesConfig = `
+const testAccDataSourceMerakiWirelessSSIDOpenRoamingPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 data "meraki_organization" "test" {
@@ -65,7 +61,17 @@ data "meraki_organization" "test" {
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = var.test_network
-  product_types   = ["switch", "wireless"]
+  product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+}
+resource "meraki_wireless_ssid" "test" {
+  network_id = meraki_network.test.id
+  number     = "0"
+  name       = "My SSID"
+}
+resource "meraki_wireless_ssid_hotspot_20" "test" {
+  network_id = meraki_network.test.id
+  number     = meraki_wireless_ssid.test.id
+  enabled    = true
 }
 
 `
@@ -74,21 +80,19 @@ resource "meraki_network" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiSwitchSettingsConfig() string {
-	config := `resource "meraki_switch_settings" "test" {` + "\n"
+func testAccDataSourceMerakiWirelessSSIDOpenRoamingConfig() string {
+	config := `resource "meraki_wireless_ssid_open_roaming" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  use_combined_power = false` + "\n"
-	config += `  vlan = 1` + "\n"
-	config += `  mac_blocklist_enabled = true` + "\n"
-	config += `  uplink_client_sampling_enabled = false` + "\n"
-	config += `  uplink_selection_candidates = "all"` + "\n"
-	config += `  uplink_selection_failback_enabled = false` + "\n"
+	config += `  number = meraki_wireless_ssid_hotspot_20.test.number` + "\n"
+	config += `  enabled = false` + "\n"
+	config += `  tenant_id = "12345"` + "\n"
 	config += `}` + "\n"
 
 	config += `
-		data "meraki_switch_settings" "test" {
+		data "meraki_wireless_ssid_open_roaming" "test" {
 			network_id = meraki_network.test.id
-			depends_on = [meraki_switch_settings.test]
+			number = meraki_wireless_ssid_hotspot_20.test.number
+			depends_on = [meraki_wireless_ssid_open_roaming.test]
 		}
 	`
 	return config

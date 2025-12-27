@@ -91,7 +91,7 @@ func testAccMerakiOrganizationSAMLIdPsConfig_minimum() string {
 	config := `resource "meraki_organization_saml_idps" "test" {` + "\n"
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
-	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA"` + "\n"
+	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:CA"` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config
@@ -106,7 +106,8 @@ func testAccMerakiOrganizationSAMLIdPsConfig_all() string {
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
 	config += `  slo_logout_url = "https://somewhere.com"` + "\n"
-	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA"` + "\n"
+	config += `  sso_login_url = "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b"` + "\n"
+	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:CA"` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config

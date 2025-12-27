@@ -92,6 +92,10 @@ func (r *OrganizationSAMLIdPsResource) Schema(ctx context.Context, req resource.
 							MarkdownDescription: helpers.NewAttributeDescription("Dashboard will redirect users to this URL when they sign out.").String,
 							Optional:            true,
 						},
+						"sso_login_url": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Dashboard will redirect users to this URL to log in again when their sessions expire.").String,
+							Optional:            true,
+						},
 						"x509cert_sha1_fingerprint": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.").String,
 							Required:            true,

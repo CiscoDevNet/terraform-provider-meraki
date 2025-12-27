@@ -36,13 +36,15 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type SwitchSettings struct {
-	Id                          types.String                    `tfsdk:"id"`
-	NetworkId                   types.String                    `tfsdk:"network_id"`
-	UseCombinedPower            types.Bool                      `tfsdk:"use_combined_power"`
-	Vlan                        types.Int64                     `tfsdk:"vlan"`
-	MacBlocklistEnabled         types.Bool                      `tfsdk:"mac_blocklist_enabled"`
-	UplinkClientSamplingEnabled types.Bool                      `tfsdk:"uplink_client_sampling_enabled"`
-	PowerExceptions             []SwitchSettingsPowerExceptions `tfsdk:"power_exceptions"`
+	Id                             types.String                    `tfsdk:"id"`
+	NetworkId                      types.String                    `tfsdk:"network_id"`
+	UseCombinedPower               types.Bool                      `tfsdk:"use_combined_power"`
+	Vlan                           types.Int64                     `tfsdk:"vlan"`
+	MacBlocklistEnabled            types.Bool                      `tfsdk:"mac_blocklist_enabled"`
+	UplinkClientSamplingEnabled    types.Bool                      `tfsdk:"uplink_client_sampling_enabled"`
+	UplinkSelectionCandidates      types.String                    `tfsdk:"uplink_selection_candidates"`
+	UplinkSelectionFailbackEnabled types.Bool                      `tfsdk:"uplink_selection_failback_enabled"`
+	PowerExceptions                []SwitchSettingsPowerExceptions `tfsdk:"power_exceptions"`
 }
 
 type SwitchSettingsPowerExceptions struct {
@@ -75,6 +77,12 @@ func (data SwitchSettings) toBody(ctx context.Context, state SwitchSettings) str
 	}
 	if !data.UplinkClientSamplingEnabled.IsNull() {
 		body, _ = sjson.Set(body, "uplinkClientSampling.enabled", data.UplinkClientSamplingEnabled.ValueBool())
+	}
+	if !data.UplinkSelectionCandidates.IsNull() {
+		body, _ = sjson.Set(body, "uplinkSelection.candidates", data.UplinkSelectionCandidates.ValueString())
+	}
+	if !data.UplinkSelectionFailbackEnabled.IsNull() {
+		body, _ = sjson.Set(body, "uplinkSelection.failback.enabled", data.UplinkSelectionFailbackEnabled.ValueBool())
 	}
 	if data.PowerExceptions != nil {
 		body, _ = sjson.Set(body, "powerExceptions", []interface{}{})
@@ -116,6 +124,16 @@ func (data *SwitchSettings) fromBody(ctx context.Context, res meraki.Res) {
 		data.UplinkClientSamplingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.UplinkClientSamplingEnabled = types.BoolNull()
+	}
+	if value := res.Get("uplinkSelection.candidates"); value.Exists() && value.Value() != nil {
+		data.UplinkSelectionCandidates = types.StringValue(value.String())
+	} else {
+		data.UplinkSelectionCandidates = types.StringNull()
+	}
+	if value := res.Get("uplinkSelection.failback.enabled"); value.Exists() && value.Value() != nil {
+		data.UplinkSelectionFailbackEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.UplinkSelectionFailbackEnabled = types.BoolNull()
 	}
 	if value := res.Get("powerExceptions"); value.Exists() && value.Value() != nil {
 		data.PowerExceptions = make([]SwitchSettingsPowerExceptions, 0)
@@ -166,6 +184,16 @@ func (data *SwitchSettings) fromBodyPartial(ctx context.Context, res meraki.Res)
 		data.UplinkClientSamplingEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.UplinkClientSamplingEnabled = types.BoolNull()
+	}
+	if value := res.Get("uplinkSelection.candidates"); value.Exists() && !data.UplinkSelectionCandidates.IsNull() {
+		data.UplinkSelectionCandidates = types.StringValue(value.String())
+	} else {
+		data.UplinkSelectionCandidates = types.StringNull()
+	}
+	if value := res.Get("uplinkSelection.failback.enabled"); value.Exists() && !data.UplinkSelectionFailbackEnabled.IsNull() {
+		data.UplinkSelectionFailbackEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.UplinkSelectionFailbackEnabled = types.BoolNull()
 	}
 	for i := 0; i < len(data.PowerExceptions); i++ {
 		keys := [...]string{"serial"}

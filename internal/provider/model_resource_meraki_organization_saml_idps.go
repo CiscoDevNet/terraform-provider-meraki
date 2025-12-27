@@ -44,6 +44,7 @@ type ResourceOrganizationSAMLIdPs struct {
 type ResourceOrganizationSAMLIdPsItems struct {
 	Id                      types.String `tfsdk:"id"`
 	SloLogoutUrl            types.String `tfsdk:"slo_logout_url"`
+	SsoLoginUrl             types.String `tfsdk:"sso_login_url"`
 	X509certSha1Fingerprint types.String `tfsdk:"x509cert_sha1_fingerprint"`
 }
 
@@ -63,6 +64,9 @@ func (data ResourceOrganizationSAMLIdPsItems) toBody(ctx context.Context, state 
 	body := ""
 	if !data.SloLogoutUrl.IsNull() {
 		body, _ = sjson.Set(body, "sloLogoutUrl", data.SloLogoutUrl.ValueString())
+	}
+	if !data.SsoLoginUrl.IsNull() {
+		body, _ = sjson.Set(body, "ssoLoginUrl", data.SsoLoginUrl.ValueString())
 	}
 	if !data.X509certSha1Fingerprint.IsNull() {
 		body, _ = sjson.Set(body, "x509certSha1Fingerprint", data.X509certSha1Fingerprint.ValueString())
@@ -86,6 +90,11 @@ func (data *ResourceOrganizationSAMLIdPs) fromBody(ctx context.Context, res mera
 			data.SloLogoutUrl = types.StringValue(value.String())
 		} else {
 			data.SloLogoutUrl = types.StringNull()
+		}
+		if value := res.Get("ssoLoginUrl"); value.Exists() && value.Value() != nil {
+			data.SsoLoginUrl = types.StringValue(value.String())
+		} else {
+			data.SsoLoginUrl = types.StringNull()
 		}
 		if value := res.Get("x509certSha1Fingerprint"); value.Exists() && value.Value() != nil {
 			data.X509certSha1Fingerprint = types.StringValue(value.String())
@@ -142,6 +151,11 @@ func (data *ResourceOrganizationSAMLIdPs) fromBodyPartial(ctx context.Context, r
 			data.SloLogoutUrl = types.StringValue(value.String())
 		} else {
 			data.SloLogoutUrl = types.StringNull()
+		}
+		if value := res.Get("ssoLoginUrl"); value.Exists() && !data.SsoLoginUrl.IsNull() {
+			data.SsoLoginUrl = types.StringValue(value.String())
+		} else {
+			data.SsoLoginUrl = types.StringNull()
 		}
 		if value := res.Get("x509certSha1Fingerprint"); value.Exists() && !data.X509certSha1Fingerprint.IsNull() {
 			data.X509certSha1Fingerprint = types.StringValue(value.String())
@@ -200,6 +214,11 @@ func (data *ResourceOrganizationSAMLIdPs) fromBodyImport(ctx context.Context, re
 		} else {
 			data.SloLogoutUrl = types.StringNull()
 		}
+		if value := res.Get("ssoLoginUrl"); value.Exists() && value.Value() != nil {
+			data.SsoLoginUrl = types.StringValue(value.String())
+		} else {
+			data.SsoLoginUrl = types.StringNull()
+		}
 		if value := res.Get("x509certSha1Fingerprint"); value.Exists() && value.Value() != nil {
 			data.X509certSha1Fingerprint = types.StringValue(value.String())
 		} else {
@@ -244,6 +263,9 @@ func (data *ResourceOrganizationSAMLIdPs) hasChanges(ctx context.Context, state 
 		}
 	}
 	if !item.SloLogoutUrl.Equal(stateItem.SloLogoutUrl) {
+		hasChanges = true
+	}
+	if !item.SsoLoginUrl.Equal(stateItem.SsoLoginUrl) {
 		hasChanges = true
 	}
 	if !item.X509certSha1Fingerprint.Equal(stateItem.X509certSha1Fingerprint) {

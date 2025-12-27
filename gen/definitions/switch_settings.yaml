@@ -32,6 +32,17 @@ attributes:
     data_path: [uplinkClientSampling]
     description: Enable uplink client sampling
     example: "false"
+  - model_name: candidates
+    type: String
+    data_path: [uplinkSelection]
+    description: '`all` lets devices try any potential interface. `designated` restricts to specified candidates (configured via the Routing & DHCP page).'
+    enum_values: [all, designated]
+    example: "all"
+  - model_name: enabled
+    type: Bool
+    data_path: [uplinkSelection, failback]
+    description: Enable preferred uplink failback.
+    example: "false"
   - model_name: powerExceptions
     type: List
     exclude_test: true

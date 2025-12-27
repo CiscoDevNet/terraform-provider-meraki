@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
@@ -30,9 +29,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -41,26 +40,26 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &OrganizationSAMLIdPResource{}
-	_ resource.ResourceWithImportState = &OrganizationSAMLIdPResource{}
+	_ resource.Resource                = &WirelessSSIDOpenRoamingResource{}
+	_ resource.ResourceWithImportState = &WirelessSSIDOpenRoamingResource{}
 )
 
-func NewOrganizationSAMLIdPResource() resource.Resource {
-	return &OrganizationSAMLIdPResource{}
+func NewWirelessSSIDOpenRoamingResource() resource.Resource {
+	return &WirelessSSIDOpenRoamingResource{}
 }
 
-type OrganizationSAMLIdPResource struct {
+type WirelessSSIDOpenRoamingResource struct {
 	client *meraki.Client
 }
 
-func (r *OrganizationSAMLIdPResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_organization_saml_idp"
+func (r *WirelessSSIDOpenRoamingResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_wireless_ssid_open_roaming"
 }
 
-func (r *OrganizationSAMLIdPResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *WirelessSSIDOpenRoamingResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization SAML IdP` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless SSID Open Roaming` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -70,30 +69,33 @@ func (r *OrganizationSAMLIdPResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"organization_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Organization ID").String,
+			"network_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"slo_logout_url": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Dashboard will redirect users to this URL when they sign out.").String,
-				Optional:            true,
-			},
-			"sso_login_url": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Dashboard will redirect users to this URL to log in again when their sessions expire.").String,
-				Optional:            true,
-			},
-			"x509cert_sha1_fingerprint": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.").String,
+			"number": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Wireless SSID number").String,
 				Required:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("If true, OpenRoaming is enabled on this SSID.").String,
+				Optional:            true,
+			},
+			"tenant_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The OpenRoaming DNA Spaces tenant ID.").String,
+				Optional:            true,
 			},
 		},
 	}
 }
 
-func (r *OrganizationSAMLIdPResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *WirelessSSIDOpenRoamingResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -105,8 +107,8 @@ func (r *OrganizationSAMLIdPResource) Configure(_ context.Context, req resource.
 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
-func (r *OrganizationSAMLIdPResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan OrganizationSAMLIdP
+func (r *WirelessSSIDOpenRoamingResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan WirelessSSIDOpenRoaming
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -117,13 +119,13 @@ func (r *OrganizationSAMLIdPResource) Create(ctx context.Context, req resource.C
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
 	// Create object
-	body := plan.toBody(ctx, OrganizationSAMLIdP{})
-	res, err := r.client.Post(plan.getPath(), body)
+	body := plan.toBody(ctx, WirelessSSIDOpenRoaming{})
+	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
-	plan.Id = types.StringValue(res.Get("idpId").String())
+	plan.Id = plan.Number
 	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
@@ -136,10 +138,8 @@ func (r *OrganizationSAMLIdPResource) Create(ctx context.Context, req resource.C
 
 // End of section. //template:end create
 
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
-func (r *OrganizationSAMLIdPResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state OrganizationSAMLIdP
+func (r *WirelessSSIDOpenRoamingResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state WirelessSSIDOpenRoaming
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -148,13 +148,36 @@ func (r *OrganizationSAMLIdPResource) Read(ctx context.Context, req resource.Rea
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
+
+	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
+	res, err := r.client.Get(networkPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, res.String()))
 		return
+	}
+	orgId := res.Get("organizationId").String()
+
+	getPath := fmt.Sprintf("/organizations/%v/wireless/ssids/openRoaming/byNetwork?includeDisabledSsidsboolean=true&networkIds[]=%v", orgId, state.NetworkId.ValueString())
+	res, err = r.client.Get(getPath)
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		resp.State.RemoveResource(ctx)
+		return
+	} else if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve wireless ssid open roaming (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	if len(res.Get("items.0.ssids").Array()) > 0 {
+		res.Get("items.0.ssids").ForEach(func(k, v gjson.Result) bool {
+			if state.Number.ValueString() == v.Get("number").String() {
+				res = meraki.Res{Result: v.Get("openRoaming")}
+				return false
+			}
+			return true
+		})
 	}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
@@ -177,12 +200,10 @@ func (r *OrganizationSAMLIdPResource) Read(ctx context.Context, req resource.Rea
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// End of section. //template:end read
-
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
-func (r *OrganizationSAMLIdPResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state OrganizationSAMLIdP
+func (r *WirelessSSIDOpenRoamingResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state WirelessSSIDOpenRoaming
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -199,7 +220,7 @@ func (r *OrganizationSAMLIdPResource) Update(ctx context.Context, req resource.U
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
 	body := plan.toBody(ctx, state)
-	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
@@ -215,8 +236,8 @@ func (r *OrganizationSAMLIdPResource) Update(ctx context.Context, req resource.U
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *OrganizationSAMLIdPResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state OrganizationSAMLIdP
+func (r *WirelessSSIDOpenRoamingResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state WirelessSSIDOpenRoaming
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -225,11 +246,6 @@ func (r *OrganizationSAMLIdPResource) Delete(ctx context.Context, req resource.D
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	res, err := r.client.Delete(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
-	if err != nil && !strings.Contains(err.Error(), "StatusCode 404") {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to delete object (DELETE), got error: %s, %s", err, res.String()))
-		return
-	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 
@@ -239,17 +255,18 @@ func (r *OrganizationSAMLIdPResource) Delete(ctx context.Context, req resource.D
 // End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
-func (r *OrganizationSAMLIdPResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *WirelessSSIDOpenRoamingResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	idParts := strings.Split(req.ID, ",")
 
 	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <organization_id>,<id>. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: <network_id>,<number>. Got: %q", req.ID),
 		)
 		return
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("number"), idParts[1])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

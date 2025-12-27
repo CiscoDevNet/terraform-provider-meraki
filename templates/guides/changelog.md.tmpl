@@ -11,6 +11,9 @@ description: |-
 
 - Mark sensitive attributes (passwords, secrets, PSKs, passphrases, tokens, SNMP community strings) to prevent exposure in plan output and logs
 - Add Software Bill of Materials (SBOM) generation in SPDX and CycloneDX formats during releases
+- Add `sso_login_url` attribute to `meraki_organization_saml_idp` resources and data sources
+- Add `uplink_selection_candidates` and `uplink_selection_failback_enabled` attributes to `meraki_switch_settings` resource and data source
+- Add `meraki_wireless_ssid_open_roaming` resource and data source
 
 ## 1.9.0
 
