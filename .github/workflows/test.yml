@@ -57,7 +57,7 @@ jobs:
         # list whatever Terraform versions here you would like to support
         terraform:
           # - "1.0.*"
-          - "1.12.*"
+          - "1.14.*"
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-go@v6
