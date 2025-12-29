@@ -23,11 +23,13 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"slices"
 	"strconv"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -137,6 +139,13 @@ type Resource{{.GoTypeBulkName}} struct {
 {{- end}}
 {{- end}}
 {{end}}
+
+type Resource{{camelCase .BulkName}}Identity struct {
+{{- range (getBulkImportAttributes .)}}
+	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
+{{- end}}
+    ItemIds types.List `tfsdk:"item_ids"`
+}
 
 // End of section. //template:end types
 
@@ -687,6 +696,26 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyImport(ctx context.Context,
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *Resource{{camelCase .BulkName}}Identity) toIdentity(ctx context.Context, plan *Resource{{camelCase .BulkName}}) {
+	{{- range (getBulkImportAttributes .)}}
+	data.{{toGoName .TfName}} = plan.{{toGoName .TfName}}
+	{{- end}}
+}
+	
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *Resource{{camelCase .BulkName}}) fromIdentity(ctx context.Context, identity *Resource{{camelCase .BulkName}}Identity) {
+	{{- range (getBulkImportAttributes .)}}
+	data.{{toGoName .TfName}} = identity.{{toGoName .TfName}}
+	{{- end}}
+}
+	
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

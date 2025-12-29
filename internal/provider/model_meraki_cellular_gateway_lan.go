@@ -54,6 +54,10 @@ type CellularGatewayLANReservedIpRanges struct {
 	Start   types.String `tfsdk:"start"`
 }
 
+type CellularGatewayLANIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -285,6 +289,22 @@ func (data *CellularGatewayLAN) fromBodyUnknowns(ctx context.Context, res meraki
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *CellularGatewayLANIdentity) toIdentity(ctx context.Context, plan *CellularGatewayLAN) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *CellularGatewayLAN) fromIdentity(ctx context.Context, identity *CellularGatewayLANIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

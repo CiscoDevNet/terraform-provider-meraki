@@ -39,6 +39,10 @@ type OrganizationBrandingPoliciesPriorities struct {
 	BrandingPolicyIds types.List   `tfsdk:"branding_policy_ids"`
 }
 
+type OrganizationBrandingPoliciesPrioritiesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -99,6 +103,22 @@ func (data *OrganizationBrandingPoliciesPriorities) fromBodyUnknowns(ctx context
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationBrandingPoliciesPrioritiesIdentity) toIdentity(ctx context.Context, plan *OrganizationBrandingPoliciesPriorities) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationBrandingPoliciesPriorities) fromIdentity(ctx context.Context, identity *OrganizationBrandingPoliciesPrioritiesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

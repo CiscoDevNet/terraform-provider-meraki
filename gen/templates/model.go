@@ -23,11 +23,13 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"slices"
 	"strconv"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -122,6 +124,12 @@ type {{.GoTypeName}} struct {
 {{- end}}
 {{- end}}
 {{end}}
+
+type {{camelCase .Name}}Identity struct {
+{{- range (importAttributes .)}}
+	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
+{{- end}}
+}
 
 // End of section. //template:end types
 
@@ -514,6 +522,26 @@ func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res merak
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *{{camelCase .Name}}Identity) toIdentity(ctx context.Context, plan *{{camelCase .Name}}) {
+	{{- range (importAttributes .)}}
+	data.{{toGoName .TfName}} = plan.{{toGoName .TfName}}
+	{{- end}}
+}
+	
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *{{camelCase .Name}}) fromIdentity(ctx context.Context, identity *{{camelCase .Name}}Identity) {
+	{{- range (importAttributes .)}}
+	data.{{toGoName .TfName}} = identity.{{toGoName .TfName}}
+	{{- end}}
+}
+	
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

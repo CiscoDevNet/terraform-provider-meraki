@@ -70,6 +70,11 @@ type SwitchPort struct {
 	Tags                    types.Set    `tfsdk:"tags"`
 }
 
+type SwitchPortIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+	PortId types.String `tfsdk:"port_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -524,6 +529,24 @@ func (data *SwitchPort) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchPortIdentity) toIdentity(ctx context.Context, plan *SwitchPort) {
+	data.Serial = plan.Serial
+	data.PortId = plan.PortId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchPort) fromIdentity(ctx context.Context, identity *SwitchPortIdentity) {
+	data.Serial = identity.Serial
+	data.PortId = identity.PortId
+}
+
+// End of section. //template:end fromIdentity
 
 func (data SwitchPort) toDestroyBody(ctx context.Context) string {
 	body := ""

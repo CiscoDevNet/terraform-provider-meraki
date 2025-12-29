@@ -354,7 +354,7 @@ func ImportAttributes(config YamlConfig) []YamlConfigAttribute {
 		}
 	}
 	if !HasId(config.Attributes) {
-		attributes = append(attributes, YamlConfigAttribute{TfName: "id"})
+		attributes = append(attributes, YamlConfigAttribute{TfName: "id", Type: "String"})
 	}
 
 	return attributes
@@ -490,7 +490,7 @@ func GetBulkItemAttributes(config YamlConfig) []YamlConfigAttribute {
 func GetBulkImportAttributes(config YamlConfig) []YamlConfigAttribute {
 	var importAttributes []YamlConfigAttribute
 	if !HasOrganizationId(config) {
-		importAttributes = append(importAttributes, YamlConfigAttribute{ModelName: "organizationId", TfName: "organization_id"})
+		importAttributes = append(importAttributes, YamlConfigAttribute{ModelName: "organizationId", TfName: "organization_id", Type: "String"})
 	}
 	for _, attr := range config.Attributes {
 		if !attr.Reference && attr.ModelName != "" {

@@ -51,6 +51,11 @@ type WirelessSSIDL3FirewallRulesRules struct {
 	IpVersion types.String `tfsdk:"ip_version"`
 }
 
+type WirelessSSIDL3FirewallRulesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -213,6 +218,24 @@ func (data *WirelessSSIDL3FirewallRules) fromBodyUnknowns(ctx context.Context, r
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDL3FirewallRulesIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDL3FirewallRules) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDL3FirewallRules) fromIdentity(ctx context.Context, identity *WirelessSSIDL3FirewallRulesIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

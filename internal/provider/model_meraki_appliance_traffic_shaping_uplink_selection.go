@@ -88,6 +88,10 @@ type ApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesTrafficFil
 	SourceVlan      types.Int64  `tfsdk:"source_vlan"`
 }
 
+type ApplianceTrafficShapingUplinkSelectionIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -717,6 +721,22 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyUnknowns(ctx context
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceTrafficShapingUplinkSelectionIdentity) toIdentity(ctx context.Context, plan *ApplianceTrafficShapingUplinkSelection) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceTrafficShapingUplinkSelection) fromIdentity(ctx context.Context, identity *ApplianceTrafficShapingUplinkSelectionIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

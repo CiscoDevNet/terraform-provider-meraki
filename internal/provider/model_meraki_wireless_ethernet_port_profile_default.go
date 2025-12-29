@@ -38,6 +38,10 @@ type WirelessEthernetPortProfileDefault struct {
 	ProfileId types.String `tfsdk:"profile_id"`
 }
 
+type WirelessEthernetPortProfileDefaultIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -100,6 +104,22 @@ func (data *WirelessEthernetPortProfileDefault) fromBodyUnknowns(ctx context.Con
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessEthernetPortProfileDefaultIdentity) toIdentity(ctx context.Context, plan *WirelessEthernetPortProfileDefault) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessEthernetPortProfileDefault) fromIdentity(ctx context.Context, identity *WirelessEthernetPortProfileDefaultIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

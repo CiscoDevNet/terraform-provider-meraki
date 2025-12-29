@@ -38,6 +38,10 @@ type ApplianceVMXAuthenticationToken struct {
 	ExpiresAt types.String `tfsdk:"expires_at"`
 }
 
+type ApplianceVMXAuthenticationTokenIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -117,6 +121,22 @@ func (data *ApplianceVMXAuthenticationToken) fromBodyUnknowns(ctx context.Contex
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceVMXAuthenticationTokenIdentity) toIdentity(ctx context.Context, plan *ApplianceVMXAuthenticationToken) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceVMXAuthenticationToken) fromIdentity(ctx context.Context, identity *ApplianceVMXAuthenticationTokenIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

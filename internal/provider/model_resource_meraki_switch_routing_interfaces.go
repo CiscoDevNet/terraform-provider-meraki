@@ -63,6 +63,12 @@ type ResourceSwitchRoutingInterfacesItems struct {
 	VrfName                      types.String `tfsdk:"vrf_name"`
 }
 
+type ResourceSwitchRoutingInterfacesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	Serial         types.String `tfsdk:"serial"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -500,6 +506,24 @@ func (data *ResourceSwitchRoutingInterfaces) fromBodyImport(ctx context.Context,
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceSwitchRoutingInterfacesIdentity) toIdentity(ctx context.Context, plan *ResourceSwitchRoutingInterfaces) {
+	data.OrganizationId = plan.OrganizationId
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceSwitchRoutingInterfaces) fromIdentity(ctx context.Context, identity *ResourceSwitchRoutingInterfacesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

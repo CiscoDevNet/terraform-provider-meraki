@@ -48,6 +48,10 @@ type ApplianceL7FirewallRulesRules struct {
 	ValueCountries types.List   `tfsdk:"value_countries"`
 }
 
+type ApplianceL7FirewallRulesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -197,6 +201,22 @@ func (data *ApplianceL7FirewallRules) fromBodyUnknowns(ctx context.Context, res 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceL7FirewallRulesIdentity) toIdentity(ctx context.Context, plan *ApplianceL7FirewallRules) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceL7FirewallRules) fromIdentity(ctx context.Context, identity *ApplianceL7FirewallRulesIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

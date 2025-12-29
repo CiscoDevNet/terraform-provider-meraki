@@ -46,6 +46,10 @@ type ApplianceVPNSiteToSiteIPsecPeersSLAsItems struct {
 	Uri  types.String `tfsdk:"uri"`
 }
 
+type ApplianceVPNSiteToSiteIPsecPeersSLAsIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -171,6 +175,22 @@ func (data *ApplianceVPNSiteToSiteIPsecPeersSLAs) fromBodyUnknowns(ctx context.C
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceVPNSiteToSiteIPsecPeersSLAsIdentity) toIdentity(ctx context.Context, plan *ApplianceVPNSiteToSiteIPsecPeersSLAs) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceVPNSiteToSiteIPsecPeersSLAs) fromIdentity(ctx context.Context, identity *ApplianceVPNSiteToSiteIPsecPeersSLAsIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

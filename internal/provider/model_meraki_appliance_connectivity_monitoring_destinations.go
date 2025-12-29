@@ -47,6 +47,10 @@ type ApplianceConnectivityMonitoringDestinationsDestinations struct {
 	Ip          types.String `tfsdk:"ip"`
 }
 
+type ApplianceConnectivityMonitoringDestinationsIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -185,6 +189,22 @@ func (data *ApplianceConnectivityMonitoringDestinations) fromBodyUnknowns(ctx co
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceConnectivityMonitoringDestinationsIdentity) toIdentity(ctx context.Context, plan *ApplianceConnectivityMonitoringDestinations) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceConnectivityMonitoringDestinations) fromIdentity(ctx context.Context, identity *ApplianceConnectivityMonitoringDestinationsIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

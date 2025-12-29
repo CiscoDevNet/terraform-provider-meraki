@@ -40,6 +40,10 @@ type CameraDeviceWirelessProfiles struct {
 	IdsSecondary types.String `tfsdk:"ids_secondary"`
 }
 
+type CameraDeviceWirelessProfilesIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -124,6 +128,22 @@ func (data *CameraDeviceWirelessProfiles) fromBodyUnknowns(ctx context.Context, 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *CameraDeviceWirelessProfilesIdentity) toIdentity(ctx context.Context, plan *CameraDeviceWirelessProfiles) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *CameraDeviceWirelessProfiles) fromIdentity(ctx context.Context, identity *CameraDeviceWirelessProfilesIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

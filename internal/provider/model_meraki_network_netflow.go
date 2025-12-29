@@ -42,6 +42,10 @@ type NetworkNetflow struct {
 	ReportingEnabled types.Bool   `tfsdk:"reporting_enabled"`
 }
 
+type NetworkNetflowIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -152,6 +156,22 @@ func (data *NetworkNetflow) fromBodyUnknowns(ctx context.Context, res meraki.Res
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkNetflowIdentity) toIdentity(ctx context.Context, plan *NetworkNetflow) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkNetflow) fromIdentity(ctx context.Context, identity *NetworkNetflowIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

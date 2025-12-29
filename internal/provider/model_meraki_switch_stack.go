@@ -40,6 +40,11 @@ type SwitchStack struct {
 	Serials   types.Set    `tfsdk:"serials"`
 }
 
+type SwitchStackIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -121,6 +126,24 @@ func (data *SwitchStack) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchStackIdentity) toIdentity(ctx context.Context, plan *SwitchStack) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchStack) fromIdentity(ctx context.Context, identity *SwitchStackIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

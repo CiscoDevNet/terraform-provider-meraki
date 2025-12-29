@@ -94,6 +94,12 @@ type ResourceSwitchAccessPoliciesRadiusServers struct {
 	Secret                     types.String `tfsdk:"secret"`
 }
 
+type ResourceSwitchAccessPoliciesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -947,6 +953,24 @@ func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceSwitchAccessPoliciesIdentity) toIdentity(ctx context.Context, plan *ResourceSwitchAccessPolicies) {
+	data.OrganizationId = plan.OrganizationId
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceSwitchAccessPolicies) fromIdentity(ctx context.Context, identity *ResourceSwitchAccessPoliciesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

@@ -55,6 +55,11 @@ type WirelessSSIDVPNSplitTunnelRules struct {
 	Protocol types.String `tfsdk:"protocol"`
 }
 
+type WirelessSSIDVPNIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -273,6 +278,24 @@ func (data *WirelessSSIDVPN) fromBodyUnknowns(ctx context.Context, res meraki.Re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDVPNIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDVPN) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDVPN) fromIdentity(ctx context.Context, identity *WirelessSSIDVPNIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

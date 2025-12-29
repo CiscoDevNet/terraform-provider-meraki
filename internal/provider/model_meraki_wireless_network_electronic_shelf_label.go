@@ -40,6 +40,10 @@ type WirelessNetworkElectronicShelfLabel struct {
 	Mode      types.String `tfsdk:"mode"`
 }
 
+type WirelessNetworkElectronicShelfLabelIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -124,6 +128,22 @@ func (data *WirelessNetworkElectronicShelfLabel) fromBodyUnknowns(ctx context.Co
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessNetworkElectronicShelfLabelIdentity) toIdentity(ctx context.Context, plan *WirelessNetworkElectronicShelfLabel) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessNetworkElectronicShelfLabel) fromIdentity(ctx context.Context, identity *WirelessNetworkElectronicShelfLabelIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

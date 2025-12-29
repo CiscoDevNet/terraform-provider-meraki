@@ -24,6 +24,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -37,7 +38,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &ApplianceVMXAuthenticationTokenResource{}
+	_ resource.ResourceWithIdentity = &ApplianceVMXAuthenticationTokenResource{}
 )
 
 func NewApplianceVMXAuthenticationTokenResource() resource.Resource {
@@ -91,6 +92,17 @@ func (r *ApplianceVMXAuthenticationTokenResource) Schema(ctx context.Context, re
 	}
 }
 
+func (r *ApplianceVMXAuthenticationTokenResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"serial": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Device serial").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *ApplianceVMXAuthenticationTokenResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -105,6 +117,7 @@ func (r *ApplianceVMXAuthenticationTokenResource) Configure(_ context.Context, r
 
 func (r *ApplianceVMXAuthenticationTokenResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceVMXAuthenticationToken
+	var identity ApplianceVMXAuthenticationTokenIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -123,10 +136,13 @@ func (r *ApplianceVMXAuthenticationTokenResource) Create(ctx context.Context, re
 	}
 	plan.Id = plan.Serial
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -138,6 +154,7 @@ func (r *ApplianceVMXAuthenticationTokenResource) Create(ctx context.Context, re
 
 func (r *ApplianceVMXAuthenticationTokenResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceVMXAuthenticationToken
+	var identity ApplianceVMXAuthenticationTokenIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -145,11 +162,21 @@ func (r *ApplianceVMXAuthenticationTokenResource) Read(ctx context.Context, req 
 		return
 	}
 
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)

@@ -24,6 +24,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -38,7 +39,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &ApplianceDNSSplitProfileAssignmentsResource{}
+	_ resource.ResourceWithIdentity = &ApplianceDNSSplitProfileAssignmentsResource{}
 )
 
 func NewApplianceDNSSplitProfileAssignmentsResource() resource.Resource {
@@ -95,6 +96,17 @@ func (r *ApplianceDNSSplitProfileAssignmentsResource) Schema(ctx context.Context
 						},
 					},
 				},
+			},
+		},
+	}
+}
+
+func (r *ApplianceDNSSplitProfileAssignmentsResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"organization_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Organization ID").String,
+				RequiredForImport: true,
 			},
 		},
 	}

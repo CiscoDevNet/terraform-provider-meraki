@@ -48,6 +48,10 @@ type NetworkTrafficAnalysisCustomPieChartItems struct {
 	Value types.String `tfsdk:"value"`
 }
 
+type NetworkTrafficAnalysisIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -199,6 +203,22 @@ func (data *NetworkTrafficAnalysis) fromBodyUnknowns(ctx context.Context, res me
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkTrafficAnalysisIdentity) toIdentity(ctx context.Context, plan *NetworkTrafficAnalysis) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkTrafficAnalysis) fromIdentity(ctx context.Context, identity *NetworkTrafficAnalysisIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

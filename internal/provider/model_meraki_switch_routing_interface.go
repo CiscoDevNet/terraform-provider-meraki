@@ -54,6 +54,11 @@ type SwitchRoutingInterface struct {
 	VrfName                      types.String `tfsdk:"vrf_name"`
 }
 
+type SwitchRoutingInterfaceIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+	Id     types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -320,6 +325,24 @@ func (data *SwitchRoutingInterface) fromBodyUnknowns(ctx context.Context, res me
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchRoutingInterfaceIdentity) toIdentity(ctx context.Context, plan *SwitchRoutingInterface) {
+	data.Serial = plan.Serial
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchRoutingInterface) fromIdentity(ctx context.Context, identity *SwitchRoutingInterfaceIdentity) {
+	data.Serial = identity.Serial
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

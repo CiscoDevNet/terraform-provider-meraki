@@ -43,6 +43,10 @@ type ApplianceTrafficShapingUplinkBandwidth struct {
 	Wan2LimitUp       types.Int64  `tfsdk:"wan2_limit_up"`
 }
 
+type ApplianceTrafficShapingUplinkBandwidthIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -166,6 +170,22 @@ func (data *ApplianceTrafficShapingUplinkBandwidth) fromBodyUnknowns(ctx context
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceTrafficShapingUplinkBandwidthIdentity) toIdentity(ctx context.Context, plan *ApplianceTrafficShapingUplinkBandwidth) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceTrafficShapingUplinkBandwidth) fromIdentity(ctx context.Context, identity *ApplianceTrafficShapingUplinkBandwidthIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

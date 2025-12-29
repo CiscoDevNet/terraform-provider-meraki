@@ -60,6 +60,11 @@ type OrganizationBrandingPolicy struct {
 	HelpSettingsUniversalSearchKnowledgeBaseSearch types.String `tfsdk:"help_settings_universal_search_knowledge_base_search"`
 }
 
+type OrganizationBrandingPolicyIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	Id             types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -393,6 +398,24 @@ func (data *OrganizationBrandingPolicy) fromBodyUnknowns(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationBrandingPolicyIdentity) toIdentity(ctx context.Context, plan *OrganizationBrandingPolicy) {
+	data.OrganizationId = plan.OrganizationId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationBrandingPolicy) fromIdentity(ctx context.Context, identity *OrganizationBrandingPolicyIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

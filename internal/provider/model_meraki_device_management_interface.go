@@ -52,6 +52,10 @@ type DeviceManagementInterface struct {
 	Wan2StaticDns        types.List   `tfsdk:"wan2_static_dns"`
 }
 
+type DeviceManagementInterfaceIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -283,6 +287,22 @@ func (data *DeviceManagementInterface) fromBodyUnknowns(ctx context.Context, res
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *DeviceManagementInterfaceIdentity) toIdentity(ctx context.Context, plan *DeviceManagementInterface) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *DeviceManagementInterface) fromIdentity(ctx context.Context, identity *DeviceManagementInterfaceIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

@@ -50,6 +50,11 @@ type ApplianceRFProfile struct {
 	TwoFourGhzSettingsMinBitrate        types.Float64 `tfsdk:"two_four_ghz_settings_min_bitrate"`
 }
 
+type ApplianceRFProfileIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -264,6 +269,24 @@ func (data *ApplianceRFProfile) fromBodyUnknowns(ctx context.Context, res meraki
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceRFProfileIdentity) toIdentity(ctx context.Context, plan *ApplianceRFProfile) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceRFProfile) fromIdentity(ctx context.Context, identity *ApplianceRFProfileIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

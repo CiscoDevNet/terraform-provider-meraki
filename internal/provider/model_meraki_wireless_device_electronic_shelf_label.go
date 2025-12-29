@@ -39,6 +39,10 @@ type WirelessDeviceElectronicShelfLabel struct {
 	Enabled types.Bool   `tfsdk:"enabled"`
 }
 
+type WirelessDeviceElectronicShelfLabelIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -110,6 +114,22 @@ func (data *WirelessDeviceElectronicShelfLabel) fromBodyUnknowns(ctx context.Con
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessDeviceElectronicShelfLabelIdentity) toIdentity(ctx context.Context, plan *WirelessDeviceElectronicShelfLabel) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessDeviceElectronicShelfLabel) fromIdentity(ctx context.Context, identity *WirelessDeviceElectronicShelfLabelIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

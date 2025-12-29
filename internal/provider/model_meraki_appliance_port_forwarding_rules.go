@@ -52,6 +52,10 @@ type AppliancePortForwardingRulesRules struct {
 	AllowedIps types.List   `tfsdk:"allowed_ips"`
 }
 
+type AppliancePortForwardingRulesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -244,6 +248,22 @@ func (data *AppliancePortForwardingRules) fromBodyUnknowns(ctx context.Context, 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *AppliancePortForwardingRulesIdentity) toIdentity(ctx context.Context, plan *AppliancePortForwardingRules) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *AppliancePortForwardingRules) fromIdentity(ctx context.Context, identity *AppliancePortForwardingRulesIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

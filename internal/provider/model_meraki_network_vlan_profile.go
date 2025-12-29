@@ -55,6 +55,11 @@ type NetworkVLANProfileVlanNames struct {
 	AdaptivePolicyGroupId types.String `tfsdk:"adaptive_policy_group_id"`
 }
 
+type NetworkVLANProfileIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Iname     types.String `tfsdk:"iname"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -302,6 +307,24 @@ func (data *NetworkVLANProfile) fromBodyUnknowns(ctx context.Context, res meraki
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkVLANProfileIdentity) toIdentity(ctx context.Context, plan *NetworkVLANProfile) {
+	data.NetworkId = plan.NetworkId
+	data.Iname = plan.Iname
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkVLANProfile) fromIdentity(ctx context.Context, identity *NetworkVLANProfileIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Iname = identity.Iname
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

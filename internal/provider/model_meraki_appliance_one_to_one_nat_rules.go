@@ -56,6 +56,10 @@ type ApplianceOneToOneNATRulesRulesAllowedInbound struct {
 	DestinationPorts types.List   `tfsdk:"destination_ports"`
 }
 
+type ApplianceOneToOneNATRulesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -304,6 +308,22 @@ func (data *ApplianceOneToOneNATRules) fromBodyUnknowns(ctx context.Context, res
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceOneToOneNATRulesIdentity) toIdentity(ctx context.Context, plan *ApplianceOneToOneNATRules) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceOneToOneNATRules) fromIdentity(ctx context.Context, identity *ApplianceOneToOneNATRulesIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

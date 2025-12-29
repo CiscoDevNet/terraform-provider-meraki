@@ -45,6 +45,10 @@ type OrganizationManagementDetails struct {
 	Value types.String `tfsdk:"value"`
 }
 
+type OrganizationIdentity struct {
+	Id types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -183,6 +187,22 @@ func (data *Organization) fromBodyUnknowns(ctx context.Context, res meraki.Res) 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationIdentity) toIdentity(ctx context.Context, plan *Organization) {
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *Organization) fromIdentity(ctx context.Context, identity *OrganizationIdentity) {
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

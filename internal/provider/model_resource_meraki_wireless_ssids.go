@@ -172,6 +172,12 @@ type ResourceWirelessSSIDsRadiusServers struct {
 	Secret                   types.String `tfsdk:"secret"`
 }
 
+type ResourceWirelessSSIDsIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -2388,6 +2394,24 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceWirelessSSIDsIdentity) toIdentity(ctx context.Context, plan *ResourceWirelessSSIDs) {
+	data.OrganizationId = plan.OrganizationId
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceWirelessSSIDs) fromIdentity(ctx context.Context, identity *ResourceWirelessSSIDsIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

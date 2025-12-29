@@ -39,6 +39,10 @@ type OrganizationAdaptivePolicySettings struct {
 	EnabledNetworks types.Set    `tfsdk:"enabled_networks"`
 }
 
+type OrganizationAdaptivePolicySettingsIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -99,6 +103,22 @@ func (data *OrganizationAdaptivePolicySettings) fromBodyUnknowns(ctx context.Con
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationAdaptivePolicySettingsIdentity) toIdentity(ctx context.Context, plan *OrganizationAdaptivePolicySettings) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationAdaptivePolicySettings) fromIdentity(ctx context.Context, identity *OrganizationAdaptivePolicySettingsIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

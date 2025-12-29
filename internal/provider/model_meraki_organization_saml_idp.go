@@ -40,6 +40,11 @@ type OrganizationSAMLIdP struct {
 	X509certSha1Fingerprint types.String `tfsdk:"x509cert_sha1_fingerprint"`
 }
 
+type OrganizationSAMLIdPIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	Id             types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -124,6 +129,24 @@ func (data *OrganizationSAMLIdP) fromBodyUnknowns(ctx context.Context, res merak
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationSAMLIdPIdentity) toIdentity(ctx context.Context, plan *OrganizationSAMLIdP) {
+	data.OrganizationId = plan.OrganizationId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationSAMLIdP) fromIdentity(ctx context.Context, identity *OrganizationSAMLIdPIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

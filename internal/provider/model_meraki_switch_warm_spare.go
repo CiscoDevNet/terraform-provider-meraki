@@ -39,6 +39,10 @@ type SwitchWarmSpare struct {
 	SpareSerial types.String `tfsdk:"spare_serial"`
 }
 
+type SwitchWarmSpareIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -110,6 +114,22 @@ func (data *SwitchWarmSpare) fromBodyUnknowns(ctx context.Context, res meraki.Re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchWarmSpareIdentity) toIdentity(ctx context.Context, plan *SwitchWarmSpare) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchWarmSpare) fromIdentity(ctx context.Context, identity *SwitchWarmSpareIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

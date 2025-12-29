@@ -38,6 +38,10 @@ type WirelessAirMarshalSettings struct {
 	DefaultPolicy types.String `tfsdk:"default_policy"`
 }
 
+type WirelessAirMarshalSettingsIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -96,6 +100,22 @@ func (data *WirelessAirMarshalSettings) fromBodyUnknowns(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessAirMarshalSettingsIdentity) toIdentity(ctx context.Context, plan *WirelessAirMarshalSettings) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessAirMarshalSettings) fromIdentity(ctx context.Context, identity *WirelessAirMarshalSettingsIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
