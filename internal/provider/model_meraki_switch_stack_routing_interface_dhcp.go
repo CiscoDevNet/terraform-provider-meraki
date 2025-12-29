@@ -72,6 +72,12 @@ type SwitchStackRoutingInterfaceDHCPReservedIpRanges struct {
 	Start   types.String `tfsdk:"start"`
 }
 
+type SwitchStackRoutingInterfaceDHCPIdentity struct {
+	NetworkId     types.String `tfsdk:"network_id"`
+	SwitchStackId types.String `tfsdk:"switch_stack_id"`
+	InterfaceId   types.String `tfsdk:"interface_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -504,6 +510,26 @@ func (data *SwitchStackRoutingInterfaceDHCP) fromBodyUnknowns(ctx context.Contex
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchStackRoutingInterfaceDHCPIdentity) toIdentity(ctx context.Context, plan *SwitchStackRoutingInterfaceDHCP) {
+	data.NetworkId = plan.NetworkId
+	data.SwitchStackId = plan.SwitchStackId
+	data.InterfaceId = plan.InterfaceId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchStackRoutingInterfaceDHCP) fromIdentity(ctx context.Context, identity *SwitchStackRoutingInterfaceDHCPIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.SwitchStackId = identity.SwitchStackId
+	data.InterfaceId = identity.InterfaceId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

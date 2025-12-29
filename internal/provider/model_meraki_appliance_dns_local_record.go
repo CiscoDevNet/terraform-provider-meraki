@@ -40,6 +40,11 @@ type ApplianceDNSLocalRecord struct {
 	ProfileId      types.String `tfsdk:"profile_id"`
 }
 
+type ApplianceDNSLocalRecordIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	Id             types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -124,6 +129,24 @@ func (data *ApplianceDNSLocalRecord) fromBodyUnknowns(ctx context.Context, res m
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceDNSLocalRecordIdentity) toIdentity(ctx context.Context, plan *ApplianceDNSLocalRecord) {
+	data.OrganizationId = plan.OrganizationId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceDNSLocalRecord) fromIdentity(ctx context.Context, identity *ApplianceDNSLocalRecordIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

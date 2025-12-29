@@ -29,6 +29,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -44,7 +45,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &NetworkGroupPoliciesResource{}
+	_ resource.ResourceWithIdentity    = &NetworkGroupPoliciesResource{}
 	_ resource.ResourceWithImportState = &NetworkGroupPoliciesResource{}
 	_ resource.ResourceWithModifyPlan  = &NetworkGroupPoliciesResource{}
 )
@@ -406,6 +407,30 @@ func (r *NetworkGroupPoliciesResource) Schema(ctx context.Context, req resource.
 	}
 }
 
+func (r *NetworkGroupPoliciesResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"organization_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("").String,
+				RequiredForImport: true,
+			},
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+			"force_delete": identityschema.BoolAttribute{
+				Description:       helpers.NewAttributeDescription("If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.").String,
+				RequiredForImport: true,
+			},
+			"item_ids": identityschema.ListAttribute{
+				Description:       "List of item IDs",
+				ElementType:       types.StringType,
+				OptionalForImport: true,
+			},
+		},
+	}
+}
+
 func (r *NetworkGroupPoliciesResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -420,6 +445,7 @@ func (r *NetworkGroupPoliciesResource) Configure(_ context.Context, req resource
 
 func (r *NetworkGroupPoliciesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ResourceNetworkGroupPolicies
+	var identity ResourceNetworkGroupPoliciesIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -451,10 +477,13 @@ func (r *NetworkGroupPoliciesResource) Create(ctx context.Context, req resource.
 	for i := range plan.Items {
 		plan.Items[i].Id = types.StringValue(res.Get("status.createdResources." + strconv.Itoa(i) + ".id").String())
 	}
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)

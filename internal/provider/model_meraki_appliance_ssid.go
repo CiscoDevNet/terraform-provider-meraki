@@ -58,6 +58,11 @@ type ApplianceSSIDRadiusServers struct {
 	Secret types.String `tfsdk:"secret"`
 }
 
+type ApplianceSSIDIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -305,6 +310,24 @@ func (data *ApplianceSSID) fromBodyUnknowns(ctx context.Context, res meraki.Res)
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceSSIDIdentity) toIdentity(ctx context.Context, plan *ApplianceSSID) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceSSID) fromIdentity(ctx context.Context, identity *ApplianceSSIDIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

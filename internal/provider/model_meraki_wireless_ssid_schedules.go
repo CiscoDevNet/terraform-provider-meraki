@@ -57,6 +57,11 @@ type WirelessSSIDSchedulesRangesInSeconds struct {
 	Start types.Int64 `tfsdk:"start"`
 }
 
+type WirelessSSIDSchedulesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -301,6 +306,24 @@ func (data *WirelessSSIDSchedules) fromBodyUnknowns(ctx context.Context, res mer
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDSchedulesIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDSchedules) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDSchedules) fromIdentity(ctx context.Context, identity *WirelessSSIDSchedulesIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

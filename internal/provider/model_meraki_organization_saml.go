@@ -40,6 +40,10 @@ type OrganizationSAML struct {
 	SpInitiatedSubdomain types.String `tfsdk:"sp_initiated_subdomain"`
 }
 
+type OrganizationSAMLIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -124,6 +128,22 @@ func (data *OrganizationSAML) fromBodyUnknowns(ctx context.Context, res meraki.R
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationSAMLIdentity) toIdentity(ctx context.Context, plan *OrganizationSAML) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationSAML) fromIdentity(ctx context.Context, identity *OrganizationSAMLIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

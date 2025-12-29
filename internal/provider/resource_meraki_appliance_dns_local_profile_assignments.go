@@ -24,6 +24,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -38,7 +39,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &ApplianceDNSLocalProfileAssignmentsResource{}
+	_ resource.ResourceWithIdentity = &ApplianceDNSLocalProfileAssignmentsResource{}
 )
 
 func NewApplianceDNSLocalProfileAssignmentsResource() resource.Resource {
@@ -100,6 +101,17 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Schema(ctx context.Context
 	}
 }
 
+func (r *ApplianceDNSLocalProfileAssignmentsResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"organization_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Organization ID").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *ApplianceDNSLocalProfileAssignmentsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -114,6 +126,7 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Configure(_ context.Contex
 
 func (r *ApplianceDNSLocalProfileAssignmentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceDNSLocalProfileAssignments
+	var identity ApplianceDNSLocalProfileAssignmentsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -132,10 +145,13 @@ func (r *ApplianceDNSLocalProfileAssignmentsResource) Create(ctx context.Context
 	}
 	plan.Id = plan.OrganizationId
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)

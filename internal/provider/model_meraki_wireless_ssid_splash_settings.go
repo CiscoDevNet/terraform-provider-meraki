@@ -72,6 +72,11 @@ type WirelessSSIDSplashSettings struct {
 	SplashPrepaidFrontImageFormat            types.String `tfsdk:"splash_prepaid_front_image_format"`
 }
 
+type WirelessSSIDSplashSettingsIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -548,6 +553,24 @@ func (data *WirelessSSIDSplashSettings) fromBodyUnknowns(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDSplashSettingsIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDSplashSettings) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDSplashSettings) fromIdentity(ctx context.Context, identity *WirelessSSIDSplashSettingsIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

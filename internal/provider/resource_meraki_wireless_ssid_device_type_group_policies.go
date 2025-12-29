@@ -27,6 +27,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -41,7 +42,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &WirelessSSIDDeviceTypeGroupPoliciesResource{}
+	_ resource.ResourceWithIdentity    = &WirelessSSIDDeviceTypeGroupPoliciesResource{}
 	_ resource.ResourceWithImportState = &WirelessSSIDDeviceTypeGroupPoliciesResource{}
 )
 
@@ -119,6 +120,21 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Schema(ctx context.Context
 	}
 }
 
+func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+			"number": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Wireless SSID number").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -134,6 +150,7 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Configure(_ context.Contex
 
 func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan WirelessSSIDDeviceTypeGroupPolicies
+	var identity WirelessSSIDDeviceTypeGroupPoliciesIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -163,10 +180,13 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Create(ctx context.Context
 	}
 	plan.Id = plan.Number
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -178,12 +198,21 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Create(ctx context.Context
 
 func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state WirelessSSIDDeviceTypeGroupPolicies
+	var identity WirelessSSIDDeviceTypeGroupPoliciesIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
@@ -206,10 +235,13 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Read(ctx context.Context, 
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -286,18 +318,31 @@ func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) Delete(ctx context.Context
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *WirelessSSIDDeviceTypeGroupPoliciesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <network_id>,<number>. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: <network_id>,<number>. Got: %q", req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("number"), idParts[1])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("number"), idParts[1])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
+	} else {
+		var identity WirelessSSIDDeviceTypeGroupPoliciesIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), identity.NetworkId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("number"), identity.Number.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.Number.ValueString())...)
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("number"), idParts[1])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

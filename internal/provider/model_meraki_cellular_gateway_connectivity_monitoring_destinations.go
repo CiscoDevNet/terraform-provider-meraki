@@ -48,6 +48,10 @@ type CellularGatewayConnectivityMonitoringDestinationsDestinations struct {
 	Ip          types.String `tfsdk:"ip"`
 }
 
+type CellularGatewayConnectivityMonitoringDestinationsIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -186,6 +190,22 @@ func (data *CellularGatewayConnectivityMonitoringDestinations) fromBodyUnknowns(
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *CellularGatewayConnectivityMonitoringDestinationsIdentity) toIdentity(ctx context.Context, plan *CellularGatewayConnectivityMonitoringDestinations) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *CellularGatewayConnectivityMonitoringDestinations) fromIdentity(ctx context.Context, identity *CellularGatewayConnectivityMonitoringDestinationsIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

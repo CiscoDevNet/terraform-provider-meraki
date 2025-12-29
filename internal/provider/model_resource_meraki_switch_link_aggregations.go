@@ -58,6 +58,12 @@ type ResourceSwitchLinkAggregationsSwitchProfilePorts struct {
 	Profile types.String `tfsdk:"profile"`
 }
 
+type ResourceSwitchLinkAggregationsIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -387,6 +393,24 @@ func (data *ResourceSwitchLinkAggregations) fromBodyImport(ctx context.Context, 
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceSwitchLinkAggregationsIdentity) toIdentity(ctx context.Context, plan *ResourceSwitchLinkAggregations) {
+	data.OrganizationId = plan.OrganizationId
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceSwitchLinkAggregations) fromIdentity(ctx context.Context, identity *ResourceSwitchLinkAggregationsIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

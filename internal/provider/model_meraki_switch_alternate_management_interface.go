@@ -51,6 +51,10 @@ type SwitchAlternateManagementInterfaceSwitches struct {
 	SubnetMask            types.String `tfsdk:"subnet_mask"`
 }
 
+type SwitchAlternateManagementInterfaceIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -223,6 +227,22 @@ func (data *SwitchAlternateManagementInterface) fromBodyUnknowns(ctx context.Con
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchAlternateManagementInterfaceIdentity) toIdentity(ctx context.Context, plan *SwitchAlternateManagementInterface) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchAlternateManagementInterface) fromIdentity(ctx context.Context, identity *SwitchAlternateManagementInterfaceIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

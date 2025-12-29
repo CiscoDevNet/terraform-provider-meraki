@@ -53,6 +53,10 @@ type NetworkDeviceClaimDetailsByDeviceDetails struct {
 	Value types.String `tfsdk:"value"`
 }
 
+type NetworkDeviceClaimIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -268,6 +272,22 @@ func (data *NetworkDeviceClaim) fromBodyUnknowns(ctx context.Context, res meraki
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkDeviceClaimIdentity) toIdentity(ctx context.Context, plan *NetworkDeviceClaim) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkDeviceClaim) fromIdentity(ctx context.Context, identity *NetworkDeviceClaimIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

@@ -53,6 +53,10 @@ type OrganizationLoginSecurity struct {
 	LoginIpRanges                                 types.Set    `tfsdk:"login_ip_ranges"`
 }
 
+type OrganizationLoginSecurityIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -297,6 +301,22 @@ func (data *OrganizationLoginSecurity) fromBodyUnknowns(ctx context.Context, res
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationLoginSecurityIdentity) toIdentity(ctx context.Context, plan *OrganizationLoginSecurity) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationLoginSecurity) fromIdentity(ctx context.Context, identity *OrganizationLoginSecurityIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

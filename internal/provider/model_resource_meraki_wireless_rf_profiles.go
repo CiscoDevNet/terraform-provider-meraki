@@ -141,6 +141,12 @@ type ResourceWirelessRFProfilesFlexRadiosByModel struct {
 	Bands types.Set    `tfsdk:"bands"`
 }
 
+type ResourceWirelessRFProfilesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -1995,6 +2001,24 @@ func (data *ResourceWirelessRFProfiles) fromBodyImport(ctx context.Context, res 
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceWirelessRFProfilesIdentity) toIdentity(ctx context.Context, plan *ResourceWirelessRFProfiles) {
+	data.OrganizationId = plan.OrganizationId
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceWirelessRFProfiles) fromIdentity(ctx context.Context, identity *ResourceWirelessRFProfilesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

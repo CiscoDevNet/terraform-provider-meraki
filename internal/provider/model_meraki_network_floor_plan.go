@@ -50,6 +50,11 @@ type NetworkFloorPlan struct {
 	TopRightCornerLng    types.Float64 `tfsdk:"top_right_corner_lng"`
 }
 
+type NetworkFloorPlanIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -154,6 +159,24 @@ func (data *NetworkFloorPlan) fromBodyUnknowns(ctx context.Context, res meraki.R
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkFloorPlanIdentity) toIdentity(ctx context.Context, plan *NetworkFloorPlan) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkFloorPlan) fromIdentity(ctx context.Context, identity *NetworkFloorPlanIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
