@@ -322,6 +322,9 @@ func (data *ResourceSwitchRoutingStaticRoutes) fromBodyImport(ctx context.Contex
 func (data *ResourceSwitchRoutingStaticRoutesIdentity) toIdentity(ctx context.Context, plan *ResourceSwitchRoutingStaticRoutes) {
 	data.OrganizationId = plan.OrganizationId
 	data.Serial = plan.Serial
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

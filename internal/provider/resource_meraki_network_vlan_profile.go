@@ -155,6 +155,7 @@ func (r *NetworkVLANProfileResource) Configure(_ context.Context, req resource.C
 
 func (r *NetworkVLANProfileResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan NetworkVLANProfile
+	var identity NetworkVLANProfileIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -178,10 +179,14 @@ func (r *NetworkVLANProfileResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 	plan.Id = plan.Iname
+	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)

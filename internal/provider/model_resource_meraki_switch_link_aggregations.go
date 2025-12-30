@@ -399,6 +399,9 @@ func (data *ResourceSwitchLinkAggregations) fromBodyImport(ctx context.Context, 
 func (data *ResourceSwitchLinkAggregationsIdentity) toIdentity(ctx context.Context, plan *ResourceSwitchLinkAggregations) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

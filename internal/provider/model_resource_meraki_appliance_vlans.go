@@ -1016,6 +1016,9 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 func (data *ResourceApplianceVLANsIdentity) toIdentity(ctx context.Context, plan *ResourceApplianceVLANs) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

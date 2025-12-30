@@ -348,6 +348,9 @@ func (data *ResourceOrganizationAdaptivePolicyGroups) fromBodyImport(ctx context
 
 func (data *ResourceOrganizationAdaptivePolicyGroupsIdentity) toIdentity(ctx context.Context, plan *ResourceOrganizationAdaptivePolicyGroups) {
 	data.OrganizationId = plan.OrganizationId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

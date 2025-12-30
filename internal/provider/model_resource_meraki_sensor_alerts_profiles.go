@@ -930,6 +930,9 @@ func (data *ResourceSensorAlertsProfiles) fromBodyImport(ctx context.Context, re
 func (data *ResourceSensorAlertsProfilesIdentity) toIdentity(ctx context.Context, plan *ResourceSensorAlertsProfiles) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

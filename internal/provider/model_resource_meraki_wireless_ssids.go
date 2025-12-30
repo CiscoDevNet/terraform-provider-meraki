@@ -2400,6 +2400,9 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 func (data *ResourceWirelessSSIDsIdentity) toIdentity(ctx context.Context, plan *ResourceWirelessSSIDs) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity
