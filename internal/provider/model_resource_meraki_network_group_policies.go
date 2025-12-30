@@ -1510,6 +1510,9 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 func (data *ResourceNetworkGroupPoliciesIdentity) toIdentity(ctx context.Context, plan *ResourceNetworkGroupPolicies) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 func (data *ResourceNetworkGroupPolicies) fromIdentity(ctx context.Context, identity *ResourceNetworkGroupPoliciesIdentity) {

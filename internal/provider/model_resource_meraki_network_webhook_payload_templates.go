@@ -370,6 +370,9 @@ func (data *ResourceNetworkWebhookPayloadTemplates) fromBodyImport(ctx context.C
 func (data *ResourceNetworkWebhookPayloadTemplatesIdentity) toIdentity(ctx context.Context, plan *ResourceNetworkWebhookPayloadTemplates) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

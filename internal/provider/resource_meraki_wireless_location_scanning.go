@@ -149,12 +149,21 @@ func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resou
 
 func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state WirelessLocationScanning
+	var identity WirelessLocationScanningIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 
@@ -200,10 +209,13 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)

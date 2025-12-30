@@ -325,6 +325,9 @@ func (data *ResourceSwitchStackRoutingStaticRoutesIdentity) toIdentity(ctx conte
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
 	data.SwitchStackId = plan.SwitchStackId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

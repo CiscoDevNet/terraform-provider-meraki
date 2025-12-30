@@ -174,12 +174,21 @@ func (r *OrganizationInventoryClaimResource) Create(ctx context.Context, req res
 
 func (r *OrganizationInventoryClaimResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state OrganizationInventoryClaim
+	var identity OrganizationInventoryClaimIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 
@@ -221,10 +230,13 @@ func (r *OrganizationInventoryClaimResource) Read(ctx context.Context, req resou
 		v[r] = types.StringValue(resultSerials[r])
 	}
 	state.Serials = types.SetValueMust(types.StringType, v)
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)

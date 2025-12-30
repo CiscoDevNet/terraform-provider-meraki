@@ -703,6 +703,9 @@ func (data *Resource{{camelCase .BulkName}}Identity) toIdentity(ctx context.Cont
 	{{- range (getBulkImportAttributes .)}}
 	data.{{toGoName .TfName}} = plan.{{toGoName .TfName}}
 	{{- end}}
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 	
 // End of section. //template:end toIdentity

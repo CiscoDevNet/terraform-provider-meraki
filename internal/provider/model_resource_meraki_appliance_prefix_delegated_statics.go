@@ -268,6 +268,9 @@ func (data *ResourceAppliancePrefixDelegatedStatics) fromBodyImport(ctx context.
 func (data *ResourceAppliancePrefixDelegatedStaticsIdentity) toIdentity(ctx context.Context, plan *ResourceAppliancePrefixDelegatedStatics) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

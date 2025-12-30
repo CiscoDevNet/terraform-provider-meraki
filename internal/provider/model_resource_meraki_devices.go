@@ -308,6 +308,9 @@ func (data *ResourceDevices) fromBodyImport(ctx context.Context, res meraki.Res)
 
 func (data *ResourceDevicesIdentity) toIdentity(ctx context.Context, plan *ResourceDevices) {
 	data.OrganizationId = plan.OrganizationId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

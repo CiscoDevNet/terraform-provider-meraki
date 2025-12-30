@@ -959,6 +959,9 @@ func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, re
 func (data *ResourceSwitchAccessPoliciesIdentity) toIdentity(ctx context.Context, plan *ResourceSwitchAccessPolicies) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

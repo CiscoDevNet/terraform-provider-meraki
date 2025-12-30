@@ -379,6 +379,9 @@ func (data *ResourceNetworkMerakiAuthUsers) fromBodyImport(ctx context.Context, 
 func (data *ResourceNetworkMerakiAuthUsersIdentity) toIdentity(ctx context.Context, plan *ResourceNetworkMerakiAuthUsers) {
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity

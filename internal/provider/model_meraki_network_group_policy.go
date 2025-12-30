@@ -1122,25 +1122,18 @@ func (data *NetworkGroupPolicy) fromBodyUnknowns(ctx context.Context, res meraki
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
-
 func (data *NetworkGroupPolicyIdentity) toIdentity(ctx context.Context, plan *NetworkGroupPolicy) {
 	data.NetworkId = plan.NetworkId
-	data.ForceDelete = plan.ForceDelete
 	data.Id = plan.Id
 }
 
-// End of section. //template:end toIdentity
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
-
 func (data *NetworkGroupPolicy) fromIdentity(ctx context.Context, identity *NetworkGroupPolicyIdentity) {
 	data.NetworkId = identity.NetworkId
-	data.ForceDelete = identity.ForceDelete
+	if !identity.ForceDelete.IsNull() && !identity.ForceDelete.IsUnknown() {
+		data.ForceDelete = identity.ForceDelete
+	}
 	data.Id = identity.Id
 }
-
-// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

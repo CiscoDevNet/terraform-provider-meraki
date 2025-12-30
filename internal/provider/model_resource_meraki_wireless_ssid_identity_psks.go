@@ -268,6 +268,9 @@ func (data *ResourceWirelessSSIDIdentityPSKsIdentity) toIdentity(ctx context.Con
 	data.OrganizationId = plan.OrganizationId
 	data.NetworkId = plan.NetworkId
 	data.Number = plan.Number
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
 }
 
 // End of section. //template:end toIdentity
