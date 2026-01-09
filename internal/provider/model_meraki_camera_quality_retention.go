@@ -44,6 +44,10 @@ type CameraQualityRetention struct {
 	RestrictedBandwidthModeEnabled types.Bool   `tfsdk:"restricted_bandwidth_mode_enabled"`
 }
 
+type CameraQualityRetentionIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -180,6 +184,22 @@ func (data *CameraQualityRetention) fromBodyUnknowns(ctx context.Context, res me
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *CameraQualityRetentionIdentity) toIdentity(ctx context.Context, plan *CameraQualityRetention) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *CameraQualityRetention) fromIdentity(ctx context.Context, identity *CameraQualityRetentionIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

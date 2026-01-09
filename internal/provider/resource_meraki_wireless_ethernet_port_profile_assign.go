@@ -24,6 +24,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -38,7 +39,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &WirelessEthernetPortProfileAssignResource{}
+	_ resource.ResourceWithIdentity = &WirelessEthernetPortProfileAssignResource{}
 )
 
 func NewWirelessEthernetPortProfileAssignResource() resource.Resource {
@@ -86,6 +87,17 @@ func (r *WirelessEthernetPortProfileAssignResource) Schema(ctx context.Context, 
 	}
 }
 
+func (r *WirelessEthernetPortProfileAssignResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *WirelessEthernetPortProfileAssignResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -100,6 +112,7 @@ func (r *WirelessEthernetPortProfileAssignResource) Configure(_ context.Context,
 
 func (r *WirelessEthernetPortProfileAssignResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan WirelessEthernetPortProfileAssign
+	var identity WirelessEthernetPortProfileAssignIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -118,10 +131,13 @@ func (r *WirelessEthernetPortProfileAssignResource) Create(ctx context.Context, 
 	}
 	plan.Id = plan.NetworkId
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -131,6 +147,7 @@ func (r *WirelessEthernetPortProfileAssignResource) Create(ctx context.Context, 
 
 func (r *WirelessEthernetPortProfileAssignResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state WirelessEthernetPortProfileAssign
+	var identity WirelessEthernetPortProfileAssignIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -138,11 +155,23 @@ func (r *WirelessEthernetPortProfileAssignResource) Read(ctx context.Context, re
 		return
 	}
 
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
+
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)

@@ -35,8 +35,6 @@ jobs:
           go-version-file: "go.mod"
           cache: true
       - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.10.4
       - run: pip install yamale
       - run: yamale -s gen/schema/schema.yaml gen/definitions/
       - run: go mod download
@@ -57,7 +55,7 @@ jobs:
         # list whatever Terraform versions here you would like to support
         terraform:
           # - "1.0.*"
-          - "1.12.*"
+          - "1.14.*"
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-go@v6

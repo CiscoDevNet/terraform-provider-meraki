@@ -52,6 +52,10 @@ type ApplianceL3FirewallRulesRules struct {
 	SyslogEnabled types.Bool   `tfsdk:"syslog_enabled"`
 }
 
+type ApplianceL3FirewallRulesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -237,6 +241,22 @@ func (data *ApplianceL3FirewallRules) fromBodyUnknowns(ctx context.Context, res 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceL3FirewallRulesIdentity) toIdentity(ctx context.Context, plan *ApplianceL3FirewallRules) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceL3FirewallRules) fromIdentity(ctx context.Context, identity *ApplianceL3FirewallRulesIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

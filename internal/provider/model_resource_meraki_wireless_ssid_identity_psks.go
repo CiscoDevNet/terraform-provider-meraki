@@ -51,6 +51,13 @@ type ResourceWirelessSSIDIdentityPSKsItems struct {
 	Passphrase    types.String `tfsdk:"passphrase"`
 }
 
+type ResourceWirelessSSIDIdentityPSKsIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	Number         types.String `tfsdk:"number"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -254,6 +261,29 @@ func (data *ResourceWirelessSSIDIdentityPSKs) fromBodyImport(ctx context.Context
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceWirelessSSIDIdentityPSKsIdentity) toIdentity(ctx context.Context, plan *ResourceWirelessSSIDIdentityPSKs) {
+	data.OrganizationId = plan.OrganizationId
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceWirelessSSIDIdentityPSKs) fromIdentity(ctx context.Context, identity *ResourceWirelessSSIDIdentityPSKsIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

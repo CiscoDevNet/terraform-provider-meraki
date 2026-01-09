@@ -81,6 +81,10 @@ type ApplianceThirdPartyVPNPeersPeers struct {
 	PrivateSubnets                     types.List   `tfsdk:"private_subnets"`
 }
 
+type ApplianceThirdPartyVPNPeersIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -670,6 +674,22 @@ func (data *ApplianceThirdPartyVPNPeers) fromBodyUnknowns(ctx context.Context, r
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceThirdPartyVPNPeersIdentity) toIdentity(ctx context.Context, plan *ApplianceThirdPartyVPNPeers) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceThirdPartyVPNPeers) fromIdentity(ctx context.Context, identity *ApplianceThirdPartyVPNPeersIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
