@@ -90,6 +90,7 @@ attributes:
     type: Bool
     description: The storm control status of the switch port.
     example: "true"
+    skip_null_state_check: true
   - model_name: stpGuard
     type: String
     description: The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).
