@@ -82,7 +82,7 @@ attributes:
   - model_name: poeEnabled
     type: Bool
     description: The PoE status of the switch port.
-    example: "true"
+    example: "false"
   - model_name: portScheduleId
     type: String
     exclude_test: true

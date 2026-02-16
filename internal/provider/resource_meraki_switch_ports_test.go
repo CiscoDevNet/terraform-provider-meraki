@@ -128,7 +128,7 @@ func testAccMerakiSwitchPortsConfig_all() string {
 	config += `  isolation_enabled = false` + "\n"
 	config += `  link_negotiation = "Auto negotiate"` + "\n"
 	config += `  name = "My switch port"` + "\n"
-	config += `  poe_enabled = true` + "\n"
+	config += `  poe_enabled = false` + "\n"
 	config += `  rstp_enabled = true` + "\n"
 	config += `  sticky_mac_allow_list_limit = 5` + "\n"
 	config += `  stp_guard = "disabled"` + "\n"

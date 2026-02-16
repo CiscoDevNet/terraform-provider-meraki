@@ -42,7 +42,7 @@ func TestAccDataSourceMerakiSwitchPort(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "isolation_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "link_negotiation", "Auto negotiate"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "name", "My switch port"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "poe_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "poe_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "rstp_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "sticky_mac_allow_list_limit", "5"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_port.test", "stp_guard", "disabled"))
@@ -101,7 +101,7 @@ func testAccDataSourceMerakiSwitchPortConfig() string {
 	config += `  isolation_enabled = false` + "\n"
 	config += `  link_negotiation = "Auto negotiate"` + "\n"
 	config += `  name = "My switch port"` + "\n"
-	config += `  poe_enabled = true` + "\n"
+	config += `  poe_enabled = false` + "\n"
 	config += `  rstp_enabled = true` + "\n"
 	config += `  sticky_mac_allow_list_limit = 5` + "\n"
 	config += `  stp_guard = "disabled"` + "\n"
