@@ -31,7 +31,7 @@ resource "meraki_switch_ports" "example" {
     isolation_enabled           = false
     link_negotiation            = "Auto negotiate"
     name                        = "My switch port"
-    poe_enabled                 = true
+    poe_enabled                 = false
     rstp_enabled                = true
     sticky_mac_allow_list_limit = 5
     stp_guard                   = "disabled"
