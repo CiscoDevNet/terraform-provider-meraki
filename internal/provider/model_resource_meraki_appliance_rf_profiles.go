@@ -59,6 +59,12 @@ type ResourceApplianceRFProfilesItems struct {
 	TwoFourGhzSettingsMinBitrate        types.Float64 `tfsdk:"two_four_ghz_settings_min_bitrate"`
 }
 
+type ResourceApplianceRFProfilesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -424,6 +430,27 @@ func (data *ResourceApplianceRFProfiles) fromBodyImport(ctx context.Context, res
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceApplianceRFProfilesIdentity) toIdentity(ctx context.Context, plan *ResourceApplianceRFProfiles) {
+	data.OrganizationId = plan.OrganizationId
+	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceApplianceRFProfiles) fromIdentity(ctx context.Context, identity *ResourceApplianceRFProfilesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

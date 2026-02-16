@@ -45,6 +45,12 @@ type SwitchStackRoutingStaticRoute struct {
 	VrfName                     types.String `tfsdk:"vrf_name"`
 }
 
+type SwitchStackRoutingStaticRouteIdentity struct {
+	NetworkId     types.String `tfsdk:"network_id"`
+	SwitchStackId types.String `tfsdk:"switch_stack_id"`
+	Id            types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -181,6 +187,26 @@ func (data *SwitchStackRoutingStaticRoute) fromBodyUnknowns(ctx context.Context,
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchStackRoutingStaticRouteIdentity) toIdentity(ctx context.Context, plan *SwitchStackRoutingStaticRoute) {
+	data.NetworkId = plan.NetworkId
+	data.SwitchStackId = plan.SwitchStackId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchStackRoutingStaticRoute) fromIdentity(ctx context.Context, identity *SwitchStackRoutingStaticRouteIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.SwitchStackId = identity.SwitchStackId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

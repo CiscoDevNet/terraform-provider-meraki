@@ -68,6 +68,10 @@ type ApplianceUplinksSettings struct {
 	InterfacesWan2VlanTaggingVlanId            types.Int64  `tfsdk:"interfaces_wan2_vlan_tagging_vlan_id"`
 }
 
+type ApplianceUplinksSettingsIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -491,6 +495,22 @@ func (data *ApplianceUplinksSettings) fromBodyUnknowns(ctx context.Context, res 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceUplinksSettingsIdentity) toIdentity(ctx context.Context, plan *ApplianceUplinksSettings) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceUplinksSettings) fromIdentity(ctx context.Context, identity *ApplianceUplinksSettingsIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

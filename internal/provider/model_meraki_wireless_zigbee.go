@@ -44,6 +44,10 @@ type WirelessZigbee struct {
 	LockManagementUsername     types.String `tfsdk:"lock_management_username"`
 }
 
+type WirelessZigbeeIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -180,6 +184,22 @@ func (data *WirelessZigbee) fromBodyUnknowns(ctx context.Context, res meraki.Res
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessZigbeeIdentity) toIdentity(ctx context.Context, plan *WirelessZigbee) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessZigbee) fromIdentity(ctx context.Context, identity *WirelessZigbeeIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

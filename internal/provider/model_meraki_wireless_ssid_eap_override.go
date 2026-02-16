@@ -44,6 +44,11 @@ type WirelessSSIDEAPOverride struct {
 	IdentityTimeout     types.Int64  `tfsdk:"identity_timeout"`
 }
 
+type WirelessSSIDEAPOverrideIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -167,6 +172,24 @@ func (data *WirelessSSIDEAPOverride) fromBodyUnknowns(ctx context.Context, res m
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDEAPOverrideIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDEAPOverride) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDEAPOverride) fromIdentity(ctx context.Context, identity *WirelessSSIDEAPOverrideIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

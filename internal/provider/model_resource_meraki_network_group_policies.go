@@ -124,6 +124,13 @@ type ResourceNetworkGroupPoliciesTrafficShapingRulesDefinitions struct {
 	Value types.String `tfsdk:"value"`
 }
 
+type ResourceNetworkGroupPoliciesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	ForceDelete    types.Bool   `tfsdk:"force_delete"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -1499,6 +1506,19 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyImport
+
+func (data *ResourceNetworkGroupPoliciesIdentity) toIdentity(ctx context.Context, plan *ResourceNetworkGroupPolicies) {
+	data.OrganizationId = plan.OrganizationId
+	data.NetworkId = plan.NetworkId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+
+func (data *ResourceNetworkGroupPolicies) fromIdentity(ctx context.Context, identity *ResourceNetworkGroupPoliciesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.NetworkId = identity.NetworkId
+}
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

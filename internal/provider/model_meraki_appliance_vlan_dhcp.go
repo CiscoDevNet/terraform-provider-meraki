@@ -71,6 +71,11 @@ type ApplianceVLANDHCPReservedIpRanges struct {
 	Start   types.String `tfsdk:"start"`
 }
 
+type ApplianceVLANDHCPIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	VlanId    types.String `tfsdk:"vlan_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -470,6 +475,24 @@ func (data *ApplianceVLANDHCP) fromBodyUnknowns(ctx context.Context, res meraki.
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceVLANDHCPIdentity) toIdentity(ctx context.Context, plan *ApplianceVLANDHCP) {
+	data.NetworkId = plan.NetworkId
+	data.VlanId = plan.VlanId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceVLANDHCP) fromIdentity(ctx context.Context, identity *ApplianceVLANDHCPIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.VlanId = identity.VlanId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

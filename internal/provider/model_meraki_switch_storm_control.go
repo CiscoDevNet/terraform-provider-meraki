@@ -42,6 +42,10 @@ type SwitchStormControl struct {
 	TreatTheseTrafficTypesAsOneThreshold types.List   `tfsdk:"treat_these_traffic_types_as_one_threshold"`
 }
 
+type SwitchStormControlIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -141,6 +145,22 @@ func (data *SwitchStormControl) fromBodyUnknowns(ctx context.Context, res meraki
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchStormControlIdentity) toIdentity(ctx context.Context, plan *SwitchStormControl) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchStormControl) fromIdentity(ctx context.Context, identity *SwitchStormControlIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

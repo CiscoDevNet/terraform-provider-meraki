@@ -53,6 +53,11 @@ type NetworkMerakiAuthUserAuthorizations struct {
 	SsidNumber types.Int64  `tfsdk:"ssid_number"`
 }
 
+type NetworkMerakiAuthUserIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -236,6 +241,24 @@ func (data *NetworkMerakiAuthUser) fromBodyUnknowns(ctx context.Context, res mer
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkMerakiAuthUserIdentity) toIdentity(ctx context.Context, plan *NetworkMerakiAuthUser) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkMerakiAuthUser) fromIdentity(ctx context.Context, identity *NetworkMerakiAuthUserIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

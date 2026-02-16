@@ -31,6 +31,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -49,7 +50,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &{{camelCase .Name}}Resource{}
+	_ resource.ResourceWithIdentity    = &{{camelCase .Name}}Resource{}
 	{{- if not .NoImport}}
 	_ resource.ResourceWithImportState = &{{camelCase .Name}}Resource{}
 	{{- end}}
@@ -409,6 +410,19 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 	}
 }
 
+func (r *{{camelCase .Name}}Resource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			{{- range (importAttributes .)}}
+			"{{.TfName}}": identityschema.{{.Type}}Attribute{
+				Description: helpers.NewAttributeDescription("{{.Description}}").String,
+				RequiredForImport: true,
+			},
+			{{- end}}
+		},
+	}
+}
+
 func (r *{{camelCase .Name}}Resource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -423,6 +437,7 @@ func (r *{{camelCase .Name}}Resource) Configure(_ context.Context, req resource.
 
 func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan {{camelCase .Name}}
+	var identity {{camelCase .Name}}Identity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -450,6 +465,7 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 	plan.Id = types.StringValue(res.Get("{{.IdName}}").String())
 	{{- end}}
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	{{- if .PostAndPut}}
 	res, err = r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
@@ -463,6 +479,8 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
@@ -473,12 +491,21 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 
 func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state {{camelCase .Name}}
+	var identity {{camelCase .Name}}Identity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	{{- if not .NoRead}}
@@ -521,12 +548,15 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -613,22 +643,38 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 {{- if not .NoImport}}
 func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != {{len (importAttributes .)}}{{range $index, $attr := (importAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: {{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != {{len (importAttributes .)}}{{range $index, $attr := (importAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: {{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}. Got: %q", req.ID),
+			)
+			return
+		}
+
+		{{- range $index, $attr := (importAttributes .)}}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
+		{{- if $attr.Id}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
+		{{- end}}
+		{{- end}}
+	} else {
+		var identity {{camelCase .Name}}Identity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		{{- range (importAttributes .)}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), identity.{{toGoName .TfName}}.Value{{.Type}}())...)
+		{{- if .Id}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.{{toGoName .TfName}}.Value{{.Type}}())...)
+		{{- end}}
+		{{- end}}
 	}
-
-	{{- range $index, $attr := (importAttributes .)}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
-	{{- if $attr.Id}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
-	{{- end}}
-	{{- end}}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

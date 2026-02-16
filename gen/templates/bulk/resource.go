@@ -31,6 +31,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -49,7 +50,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &{{camelCase .BulkName}}Resource{}
+	_ resource.ResourceWithIdentity    = &{{camelCase .BulkName}}Resource{}
 	{{- if not .NoImport}}
 	_ resource.ResourceWithImportState = &{{camelCase .BulkName}}Resource{}
 	{{- end}}
@@ -498,6 +499,24 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 	}
 }
 
+func (r *{{camelCase .BulkName}}Resource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			{{- range (getBulkImportAttributes .)}}
+			"{{.TfName}}": identityschema.{{.Type}}Attribute{
+				Description: helpers.NewAttributeDescription("{{.Description}}").String,
+				RequiredForImport: true,
+			},
+			{{- end}}
+			"item_ids": identityschema.ListAttribute{
+				Description: "List of item IDs",
+				ElementType: types.StringType,
+				OptionalForImport: true,
+			},
+		},
+	}
+}
+
 func (r *{{camelCase .BulkName}}Resource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -512,6 +531,7 @@ func (r *{{camelCase .BulkName}}Resource) Configure(_ context.Context, req resou
 
 func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan Resource{{camelCase .BulkName}}
+	var identity Resource{{camelCase .BulkName}}Identity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -553,10 +573,13 @@ func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resour
 		plan.Items[i].Id = types.StringValue(res.Get("status.createdResources." + strconv.Itoa(i) + ".id").String())
 	}
 	{{- end}}
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -568,12 +591,21 @@ func (r *{{camelCase .BulkName}}Resource) Create(ctx context.Context, req resour
 
 func (r *{{camelCase .BulkName}}Resource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state Resource{{camelCase .BulkName}}
+	var identity Resource{{camelCase .BulkName}}Identity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 
@@ -602,11 +634,14 @@ func (r *{{camelCase .BulkName}}Resource) Read(ctx context.Context, req resource
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -809,42 +844,75 @@ func (r *{{camelCase .BulkName}}Resource) Delete(ctx context.Context, req resour
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 {{- if not .NoImport}}
 func (r *{{camelCase .BulkName}}Resource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	itemIdParts := make([]string, 0)
-	if strings.Contains(req.ID, ",[") {
-		itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
-	}
-	idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
-
-	if len(idParts) != {{len (getBulkImportAttributes .)}}{{range $index, $attr := (getBulkImportAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
-		expectedIdentifier := "Expected import identifier with format: {{range $i, $e := (getBulkImportAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}"
-		expectedIdentifier += " or {{range $i, $e := (getBulkImportAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}},[<{{getBulkItemIdTfName .}}>,...]"
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
-		)
-		return
-	}
-
-	{{- range $index, $attr := (getBulkImportAttributes .)}}
-	{{- if eq .TfName "organization_id"}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
-	{{- end}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
-	{{- end}}
-
-	if len(itemIdParts) > 0 {
-		items := make([]Resource{{camelCase .BulkName}}Items, len(itemIdParts))
-		for i, itemId := range itemIdParts {
-			item := Resource{{camelCase .BulkName}}Items{}
-			item.{{getBulkItemId .}} = types.StringValue(itemId)
-			{{- range .Attributes}}
-			{{- if isListSet .}}
-			item.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
-			{{- end}}
-			{{- end}}
-			items[i] = item
+	if req.ID != "" {
+		itemIdParts := make([]string, 0)
+		if strings.Contains(req.ID, ",[") {
+			itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
 		}
-		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
+
+		if len(idParts) != {{len (getBulkImportAttributes .)}}{{range $index, $attr := (getBulkImportAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
+			expectedIdentifier := "Expected import identifier with format: {{range $i, $e := (getBulkImportAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}"
+			expectedIdentifier += " or {{range $i, $e := (getBulkImportAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}},[<{{getBulkItemIdTfName .}}>,...]"
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("%s. Got: %q",expectedIdentifier, req.ID),
+			)
+			return
+		}
+
+		{{- range $index, $attr := (getBulkImportAttributes .)}}
+		{{- if eq .TfName "organization_id"}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
+		{{- end}}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
+		{{- end}}
+
+		if len(itemIdParts) > 0 {
+			items := make([]Resource{{camelCase .BulkName}}Items, len(itemIdParts))
+			for i, itemId := range itemIdParts {
+				item := Resource{{camelCase .BulkName}}Items{}
+				item.{{getBulkItemId .}} = types.StringValue(itemId)
+				{{- range .Attributes}}
+				{{- if isListSet .}}
+				item.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
+				{{- end}}
+				{{- end}}
+				items[i] = item
+			}
+			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		}
+	} else {
+		var identity Resource{{camelCase .BulkName}}Identity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		{{- range $index, $attr := (getBulkImportAttributes .)}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), identity.{{toGoName .TfName}}.Value{{.Type}}())...)
+		{{- if eq .TfName "organization_id"}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.{{toGoName .TfName}}.Value{{.Type}}())...)
+		{{- end}}
+		{{- end}}
+
+		if len(identity.ItemIds.Elements()) > 0 {
+			items := make([]Resource{{camelCase .BulkName}}Items, len(identity.ItemIds.Elements()))
+			var values []string
+			identity.ItemIds.ElementsAs(ctx, &values, false)
+			for i, itemId := range values {
+				item := Resource{{camelCase .BulkName}}Items{}
+				item.{{getBulkItemId .}} = types.StringValue(itemId)
+				{{- range .Attributes}}
+				{{- if isListSet .}}
+				item.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
+				{{- end}}
+				{{- end}}
+				items[i] = item
+			}
+			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		}
 	}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

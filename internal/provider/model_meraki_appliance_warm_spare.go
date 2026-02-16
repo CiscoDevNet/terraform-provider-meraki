@@ -42,6 +42,10 @@ type ApplianceWarmSpare struct {
 	VirtualIp2  types.String `tfsdk:"virtual_ip2"`
 }
 
+type ApplianceWarmSpareIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -144,6 +148,22 @@ func (data *ApplianceWarmSpare) fromBodyUnknowns(ctx context.Context, res meraki
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceWarmSpareIdentity) toIdentity(ctx context.Context, plan *ApplianceWarmSpare) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceWarmSpare) fromIdentity(ctx context.Context, identity *ApplianceWarmSpareIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

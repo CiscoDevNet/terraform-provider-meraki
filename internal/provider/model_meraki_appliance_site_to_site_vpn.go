@@ -56,6 +56,10 @@ type ApplianceSiteToSiteVPNSubnets struct {
 	NatRemoteSubnet types.String `tfsdk:"nat_remote_subnet"`
 }
 
+type ApplianceSiteToSiteVPNIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -313,6 +317,22 @@ func (data *ApplianceSiteToSiteVPN) fromBodyUnknowns(ctx context.Context, res me
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceSiteToSiteVPNIdentity) toIdentity(ctx context.Context, plan *ApplianceSiteToSiteVPN) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceSiteToSiteVPN) fromIdentity(ctx context.Context, identity *ApplianceSiteToSiteVPNIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

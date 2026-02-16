@@ -42,6 +42,12 @@ type WirelessSSIDIdentityPSK struct {
 	Passphrase    types.String `tfsdk:"passphrase"`
 }
 
+type WirelessSSIDIdentityPSKIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -139,6 +145,26 @@ func (data *WirelessSSIDIdentityPSK) fromBodyUnknowns(ctx context.Context, res m
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDIdentityPSKIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDIdentityPSK) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDIdentityPSK) fromIdentity(ctx context.Context, identity *WirelessSSIDIdentityPSKIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

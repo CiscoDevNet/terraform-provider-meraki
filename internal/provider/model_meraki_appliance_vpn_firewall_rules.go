@@ -52,6 +52,10 @@ type ApplianceVPNFirewallRulesRules struct {
 	SyslogEnabled types.Bool   `tfsdk:"syslog_enabled"`
 }
 
+type ApplianceVPNFirewallRulesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -237,6 +241,22 @@ func (data *ApplianceVPNFirewallRules) fromBodyUnknowns(ctx context.Context, res
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceVPNFirewallRulesIdentity) toIdentity(ctx context.Context, plan *ApplianceVPNFirewallRules) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceVPNFirewallRules) fromIdentity(ctx context.Context, identity *ApplianceVPNFirewallRulesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

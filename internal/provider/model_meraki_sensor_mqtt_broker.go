@@ -39,6 +39,11 @@ type SensorMQTTBroker struct {
 	Enabled      types.Bool   `tfsdk:"enabled"`
 }
 
+type SensorMQTTBrokerIdentity struct {
+	NetworkId    types.String `tfsdk:"network_id"`
+	MqttBrokerId types.String `tfsdk:"mqtt_broker_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -97,6 +102,24 @@ func (data *SensorMQTTBroker) fromBodyUnknowns(ctx context.Context, res meraki.R
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SensorMQTTBrokerIdentity) toIdentity(ctx context.Context, plan *SensorMQTTBroker) {
+	data.NetworkId = plan.NetworkId
+	data.MqttBrokerId = plan.MqttBrokerId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SensorMQTTBroker) fromIdentity(ctx context.Context, identity *SensorMQTTBrokerIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.MqttBrokerId = identity.MqttBrokerId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

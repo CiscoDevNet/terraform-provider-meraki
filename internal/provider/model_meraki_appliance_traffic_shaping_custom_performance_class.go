@@ -41,6 +41,11 @@ type ApplianceTrafficShapingCustomPerformanceClass struct {
 	Name              types.String `tfsdk:"name"`
 }
 
+type ApplianceTrafficShapingCustomPerformanceClassIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -138,6 +143,24 @@ func (data *ApplianceTrafficShapingCustomPerformanceClass) fromBodyUnknowns(ctx 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceTrafficShapingCustomPerformanceClassIdentity) toIdentity(ctx context.Context, plan *ApplianceTrafficShapingCustomPerformanceClass) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceTrafficShapingCustomPerformanceClass) fromIdentity(ctx context.Context, identity *ApplianceTrafficShapingCustomPerformanceClassIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

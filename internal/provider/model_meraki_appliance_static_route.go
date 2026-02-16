@@ -41,6 +41,11 @@ type ApplianceStaticRoute struct {
 	Subnet        types.String `tfsdk:"subnet"`
 }
 
+type ApplianceStaticRouteIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -138,6 +143,24 @@ func (data *ApplianceStaticRoute) fromBodyUnknowns(ctx context.Context, res mera
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceStaticRouteIdentity) toIdentity(ctx context.Context, plan *ApplianceStaticRoute) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceStaticRoute) fromIdentity(ctx context.Context, identity *ApplianceStaticRouteIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

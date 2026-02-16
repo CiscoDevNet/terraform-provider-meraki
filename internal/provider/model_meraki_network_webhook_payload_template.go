@@ -50,6 +50,11 @@ type NetworkWebhookPayloadTemplateHeaders struct {
 	Template types.String `tfsdk:"template"`
 }
 
+type NetworkWebhookPayloadTemplateIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -227,6 +232,24 @@ func (data *NetworkWebhookPayloadTemplate) fromBodyUnknowns(ctx context.Context,
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkWebhookPayloadTemplateIdentity) toIdentity(ctx context.Context, plan *NetworkWebhookPayloadTemplate) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkWebhookPayloadTemplate) fromIdentity(ctx context.Context, identity *NetworkWebhookPayloadTemplateIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

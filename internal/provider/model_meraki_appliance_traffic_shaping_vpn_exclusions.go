@@ -53,6 +53,10 @@ type ApplianceTrafficShapingVPNExclusionsMajorApplications struct {
 	Name types.String `tfsdk:"name"`
 }
 
+type ApplianceTrafficShapingVPNExclusionsIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -247,6 +251,22 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBodyUnknowns(ctx context.C
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceTrafficShapingVPNExclusionsIdentity) toIdentity(ctx context.Context, plan *ApplianceTrafficShapingVPNExclusions) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceTrafficShapingVPNExclusions) fromIdentity(ctx context.Context, identity *ApplianceTrafficShapingVPNExclusionsIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

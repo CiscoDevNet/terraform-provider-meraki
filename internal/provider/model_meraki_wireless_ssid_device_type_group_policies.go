@@ -49,6 +49,11 @@ type WirelessSSIDDeviceTypeGroupPoliciesDeviceTypePolicies struct {
 	GroupPolicyId types.Int64  `tfsdk:"group_policy_id"`
 }
 
+type WirelessSSIDDeviceTypeGroupPoliciesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -200,6 +205,24 @@ func (data *WirelessSSIDDeviceTypeGroupPolicies) fromBodyUnknowns(ctx context.Co
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDDeviceTypeGroupPoliciesIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDDeviceTypeGroupPolicies) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDDeviceTypeGroupPolicies) fromIdentity(ctx context.Context, identity *WirelessSSIDDeviceTypeGroupPoliciesIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

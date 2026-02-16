@@ -41,6 +41,10 @@ type ApplianceSettings struct {
 	DynamicDnsPrefix     types.String `tfsdk:"dynamic_dns_prefix"`
 }
 
+type ApplianceSettingsIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -138,6 +142,22 @@ func (data *ApplianceSettings) fromBodyUnknowns(ctx context.Context, res meraki.
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceSettingsIdentity) toIdentity(ctx context.Context, plan *ApplianceSettings) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceSettings) fromIdentity(ctx context.Context, identity *ApplianceSettingsIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
