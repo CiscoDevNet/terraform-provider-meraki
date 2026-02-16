@@ -867,7 +867,7 @@ func (data *ResourceSwitchPorts) hasChanges(ctx context.Context, state *Resource
 	if !item.StickyMacAllowListLimit.Equal(stateItem.StickyMacAllowListLimit) {
 		hasChanges = true
 	}
-	// Skip storm_control_enabled check if state value is null (API may not return it)
+	// Skip change check if state value is null (API may not return it)
 	// This prevents false positive change detection when the API doesn't support this field
 	if !stateItem.StormControlEnabled.IsNull() && !item.StormControlEnabled.Equal(stateItem.StormControlEnabled) {
 		hasChanges = true

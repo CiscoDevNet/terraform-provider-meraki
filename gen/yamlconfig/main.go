@@ -102,6 +102,7 @@ type YamlConfigAttribute struct {
 	ExcludeTest        bool                  `yaml:"exclude_test,omitempty"`
 	ExcludeExample     bool                  `yaml:"exclude_example,omitempty"`
 	AllowImportChanges bool                  `yaml:"allow_import_changes,omitempty"`
+	SkipNullStateCheck bool                  `yaml:"skip_null_state_check,omitempty"`
 	Description        string                `yaml:"description,omitempty"`
 	Example            string                `yaml:"example,omitempty"`
 	MapKeyExample      string                `yaml:"map_key_example,omitempty"`
@@ -146,6 +147,7 @@ type YamlConfigAttributeP struct {
 	ExcludeTest        *bool                   `yaml:"exclude_test,omitempty"`
 	ExcludeExample     *bool                   `yaml:"exclude_example,omitempty"`
 	AllowImportChanges *bool                   `yaml:"allow_import_changes,omitempty"`
+	SkipNullStateCheck *bool                   `yaml:"skip_null_state_check,omitempty"`
 	Description        *string                 `yaml:"description,omitempty"`
 	Example            *string                 `yaml:"example,omitempty"`
 	MapKeyExample      *string                 `yaml:"map_key_example,omitempty"`
@@ -901,6 +903,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.AllowImportChanges != nil {
 		new.AllowImportChanges = existing.AllowImportChanges
+	}
+	if existing.SkipNullStateCheck != nil {
+		new.SkipNullStateCheck = existing.SkipNullStateCheck
 	}
 	if existing.Description != nil {
 		new.Description = existing.Description
