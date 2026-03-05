@@ -8,6 +8,7 @@
 - Add `sp_initiated_idp_id` and `sp_initiated_subdomain` attributes to `meraki_organization_saml` resource and data source
 - Add `stp_port_fast_trunk` attribute to `meraki_switch_port` resources and data sources
 - Add `access_control_*` attributes to `meraki_wireless_ssids` data source
+- Fix issue with `meraki_switch_ports` always showing changes when `storm_control_enabled` is set but not returned by the API - Issue #167, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/167)
 
 ## 1.9.0
 

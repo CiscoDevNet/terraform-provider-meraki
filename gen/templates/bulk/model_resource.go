@@ -729,9 +729,17 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 		hasChanges = true
 	}
 	{{- else if not (isNestedListSet .)}}
+	{{- if .SkipNullStateCheck}}
+	// Skip change check if state value is null (API may not return it)
+	// This prevents false positive change detection when the API doesn't support this field
+	if !stateItem.{{toGoName .TfName}}.IsNull() && !item.{{toGoName .TfName}}.Equal(stateItem.{{toGoName .TfName}}) {
+		hasChanges = true
+	}
+	{{- else}}
 	if !item.{{toGoName .TfName}}.Equal(stateItem.{{toGoName .TfName}}) {
 		hasChanges = true
 	}
+	{{- end}}
 	{{- else}}
 	if len(item.{{toGoName .TfName}}) != len(stateItem.{{toGoName .TfName}}) {
 		hasChanges = true
