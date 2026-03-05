@@ -51,6 +51,11 @@ type OrganizationAlertsProfile struct {
 	NetworkTags              types.Set     `tfsdk:"network_tags"`
 }
 
+type OrganizationAlertsProfileIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	Id             types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -271,6 +276,24 @@ func (data *OrganizationAlertsProfile) fromBodyUnknowns(ctx context.Context, res
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationAlertsProfileIdentity) toIdentity(ctx context.Context, plan *OrganizationAlertsProfile) {
+	data.OrganizationId = plan.OrganizationId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationAlertsProfile) fromIdentity(ctx context.Context, identity *OrganizationAlertsProfileIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

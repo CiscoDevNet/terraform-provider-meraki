@@ -46,6 +46,10 @@ type ApplianceOrganizationSecurityIntrusionAllowedRules struct {
 	RuleId  types.String `tfsdk:"rule_id"`
 }
 
+type ApplianceOrganizationSecurityIntrusionIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -171,6 +175,22 @@ func (data *ApplianceOrganizationSecurityIntrusion) fromBodyUnknowns(ctx context
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceOrganizationSecurityIntrusionIdentity) toIdentity(ctx context.Context, plan *ApplianceOrganizationSecurityIntrusion) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceOrganizationSecurityIntrusion) fromIdentity(ctx context.Context, identity *ApplianceOrganizationSecurityIntrusionIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

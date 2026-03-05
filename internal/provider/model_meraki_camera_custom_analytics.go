@@ -48,6 +48,10 @@ type CameraCustomAnalyticsParameters struct {
 	Value types.String `tfsdk:"value"`
 }
 
+type CameraCustomAnalyticsIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -199,6 +203,22 @@ func (data *CameraCustomAnalytics) fromBodyUnknowns(ctx context.Context, res mer
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *CameraCustomAnalyticsIdentity) toIdentity(ctx context.Context, plan *CameraCustomAnalytics) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *CameraCustomAnalytics) fromIdentity(ctx context.Context, identity *CameraCustomAnalyticsIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
