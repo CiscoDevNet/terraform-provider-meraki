@@ -52,14 +52,6 @@ func TestAccMerakiOrganizationExtensionsThousandEyesNetwork(t *testing.T) {
 		Config: testAccMerakiOrganizationExtensionsThousandEyesNetworkPrerequisitesConfig + testAccMerakiOrganizationExtensionsThousandEyesNetworkConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
-	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization_extensions_thousand_eyes_network.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationExtensionsThousandEyesNetworkImportStateIdFunc("meraki_organization_extensions_thousand_eyes_network.test"),
-		ImportStateVerifyIgnore: []string{"tests", "tests.0.network_id", "tests.0.template_id", "tests.0.template_user_inputs_tenant"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
-	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },

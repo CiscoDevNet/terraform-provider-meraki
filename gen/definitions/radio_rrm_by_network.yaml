@@ -1,0 +1,97 @@
+name: Radio RRM By Network
+spec_endpoint: /organizations/{organizationId}/wireless/radio/rrm/byNetwork
+rest_endpoint: /organizations/%v/wireless/radio/rrm/byNetwork
+no_resource: true
+no_update: true
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: remaining
+    type: Int64
+    data_path: [meta, counts, items]
+    description: Number of items remaining after this page
+    example: "5"
+  - model_name: total
+    type: Int64
+    data_path: [meta, counts, items]
+    description: Total number of items available
+    example: "42"
+  - model_name: items
+    type: List
+    description: List of RRM settings
+    attributes:
+      - model_name: name
+        type: String
+        description: Name of the network
+        example: My Network
+      - model_name: networkId
+        type: String
+        description: Id of the network
+        example: L_12345
+      - model_name: timeZone
+        type: String
+        description: Time zone of the network
+        example: America/Los_Angeles
+      - model_name: enabled
+        type: Bool
+        data_path: [ai]
+        description: Toggle for enabling or disabling AI in a network
+        example: "true"
+      - model_name: lastEnabledAt
+        type: String
+        data_path: [ai]
+        description: Time at which AI was last enabled in the network
+        example: "2026-02-05T14:49:07Z"
+      - model_name: enabled
+        type: Bool
+        data_path: [busyHour, minimizeChanges]
+        description: Toggle for enabling or disabling Busy Hour in a network
+        example: "true"
+      - model_name: mode
+        type: String
+        data_path: [busyHour, schedule]
+        description: The Busy Hour mode applied to the network when minimizeChanges is enabled. Must be one of `automatic` or `manual`. Automatic busy hour is only available on firmware versions >= MR 27.0
+        example: automatic
+        enum_values: [automatic, manual]
+      - model_name: end
+        type: String
+        data_path: [busyHour, schedule, automatic]
+        description: The hour that Automatic Busy Hour ends each day, in the network time zone
+        example: "17:00"
+      - model_name: start
+        type: String
+        data_path: [busyHour, schedule, automatic]
+        description: The hour that Automatic Busy Hour starts each day, in the network time zone
+        example: "08:00"
+      - model_name: end
+        type: String
+        data_path: [busyHour, schedule, manual]
+        description: The hour that Manual Busy Hour ends each day, in the network time zone
+        example: "15:00"
+      - model_name: start
+        type: String
+        data_path: [busyHour, schedule, manual]
+        description: The hour that Manual Busy Hour starts each day, in the network time zone
+        example: "10:00"
+      - model_name: enabled
+        type: Bool
+        data_path: [channel, avoidance]
+        description: Toggle for enabling or disabling channel avoidance in a network
+        example: "true"
+      - model_name: enabled
+        type: Bool
+        data_path: [fra]
+        description: Toggle to activate or deactivate FRA in a network, contingent on AI-RRM being enabled.
+        example: "false"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

@@ -56,6 +56,11 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_ike_cipher_algo.0", "tripledes"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_ike_diffie_hellman_group.0", "group2"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_ike_prf_algo.0", "prfsha1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.id", "7890"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.wan", "WAN 1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.ebgp_neighbor_neighbor_ip", "169.254.10.2"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.ebgp_neighbor_source_ip", "169.254.10.1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.private_subnets.0", "169.254.10.0/30"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.network_tags.0", "none"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.private_subnets.0", "192.168.1.0/24"))
 
@@ -155,6 +160,13 @@ func testAccMerakiApplianceThirdPartyVPNPeersConfig_all() string {
 	config += `    ipsec_policies_ike_cipher_algo = ["tripledes"]` + "\n"
 	config += `    ipsec_policies_ike_diffie_hellman_group = ["group2"]` + "\n"
 	config += `    ipsec_policies_ike_prf_algo = ["prfsha1"]` + "\n"
+	config += `    ecmp_uplink_configs = [{` + "\n"
+	config += `      id = "7890"` + "\n"
+	config += `      wan = "WAN 1"` + "\n"
+	config += `      ebgp_neighbor_neighbor_ip = "169.254.10.2"` + "\n"
+	config += `      ebgp_neighbor_source_ip = "169.254.10.1"` + "\n"
+	config += `      private_subnets = ["169.254.10.0/30"]` + "\n"
+	config += `    }]` + "\n"
 	config += `    network_tags = ["none"]` + "\n"
 	config += `    private_subnets = ["192.168.1.0/24"]` + "\n"
 	config += `  }]` + "\n"

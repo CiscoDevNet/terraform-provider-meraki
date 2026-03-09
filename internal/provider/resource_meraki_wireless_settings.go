@@ -100,12 +100,20 @@ func (r *WirelessSettingsResource) Schema(ctx context.Context, req resource.Sche
 					stringvalidator.OneOf("minimizeClientDowntime", "minimizeUpgradeTime"),
 				},
 			},
+			"multicast_to_unicast_conversion_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling multicast-to-unicast conversion across the network").String,
+				Optional:            true,
+			},
 			"named_vlans_pool_dhcp_monitoring_duration": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The duration in minutes that devices will refrain from using dirty VLANs before adding them back to the pool.").String,
 				Optional:            true,
 			},
 			"named_vlans_pool_dhcp_monitoring_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not devices using named VLAN pools should remove dirty VLANs from the pool, thereby preventing clients from being assigned to VLANs where they would be unable to obtain an IP address via DHCP.").String,
+				Optional:            true,
+			},
+			"upgrade_predownload_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The default setting for upgrade firmware predownload. Only applies to devices running MR 32 or higher.").String,
 				Optional:            true,
 			},
 		},

@@ -217,6 +217,35 @@ func (d *ApplianceThirdPartyVPNPeersDataSource) Schema(ctx context.Context, req 
 							MarkdownDescription: "The ID of the SLA policy",
 							Computed:            true,
 						},
+						"ecmp_uplink_configs": schema.ListNestedAttribute{
+							MarkdownDescription: "[optional] The ECMP per-uplink BGP-over-IPsec configuration for the VPN peer.",
+							Computed:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"id": schema.StringAttribute{
+										MarkdownDescription: "ID of the ECMP uplink configuration",
+										Computed:            true,
+									},
+									"wan": schema.StringAttribute{
+										MarkdownDescription: "The WAN uplink associated with this ECMP configuration.",
+										Computed:            true,
+									},
+									"ebgp_neighbor_neighbor_ip": schema.StringAttribute{
+										MarkdownDescription: "IPv4/IPv6 address of the neighbor",
+										Computed:            true,
+									},
+									"ebgp_neighbor_source_ip": schema.StringAttribute{
+										MarkdownDescription: "Source IP of eBGP neighbor",
+										Computed:            true,
+									},
+									"private_subnets": schema.ListAttribute{
+										MarkdownDescription: "The list of the private subnets of the VPN peer",
+										ElementType:         types.StringType,
+										Computed:            true,
+									},
+								},
+							},
+						},
 						"network_tags": schema.ListAttribute{
 							MarkdownDescription: "A list of network tags that will connect with this peer. Use [`all`] for all networks. Use [`none`] for no networks. If not included, the default is [`all`].",
 							ElementType:         types.StringType,

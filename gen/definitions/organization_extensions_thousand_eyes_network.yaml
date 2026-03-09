@@ -2,7 +2,12 @@
 name: Organization Extensions Thousand Eyes Network
 spec_endpoint: /organizations/{organizationId}/extensions/thousandEyes/networks/{networkId}
 rest_endpoint: /organizations/%v/extensions/thousandEyes/networks
+no_data_source: true
 bulk_data_source: true
+no_update: true
+no_delete: true
+no_import: true
+no_read: true
 id_name: networkId
 early_access: true
 doc_category: Organizations

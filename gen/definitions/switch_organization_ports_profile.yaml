@@ -1,7 +1,12 @@
 name: Switch Organization Ports Profile
 spec_endpoint: /organizations/{organizationId}/switch/ports/profiles/{id}
 rest_endpoint: /organizations/%v/switch/ports/profiles
+no_data_source: true
 bulk_data_source: true
+no_update: true
+no_delete: true
+no_import: true
+no_read: true
 id_name: profileId
 early_access: true
 data_source_name_query: true

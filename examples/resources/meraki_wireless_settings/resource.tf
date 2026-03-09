@@ -5,6 +5,8 @@ resource "meraki_wireless_settings" "example" {
   location_analytics_enabled                = false
   meshing_enabled                           = true
   upgrade_strategy                          = "minimizeUpgradeTime"
+  multicast_to_unicast_conversion_enabled   = true
   named_vlans_pool_dhcp_monitoring_duration = 5
   named_vlans_pool_dhcp_monitoring_enabled  = false
+  upgrade_predownload_enabled               = false
 }

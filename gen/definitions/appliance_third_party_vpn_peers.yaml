@@ -208,6 +208,34 @@ attributes:
         exclude_test: true
         description: The ID of the SLA policy
         example: "1234"
+      - model_name: ecmpUplinkConfigs
+        type: List
+        description: '[optional] The ECMP per-uplink BGP-over-IPsec configuration for the VPN peer.'
+        attributes:
+          - model_name: id
+            type: String
+            description: ID of the ECMP uplink configuration
+            example: "7890"
+          - model_name: wan
+            type: String
+            description: The WAN uplink associated with this ECMP configuration.
+            example: WAN 1
+            enum_values: [WAN 1, WAN 2, WAN 3, WAN 4]
+          - model_name: neighborIp
+            type: String
+            data_path: [ebgpNeighbor]
+            description: IPv4/IPv6 address of the neighbor
+            example: 169.254.10.2
+          - model_name: sourceIp
+            type: String
+            data_path: [ebgpNeighbor]
+            description: Source IP of eBGP neighbor
+            example: 169.254.10.1
+          - model_name: privateSubnets
+            type: List
+            element_type: String
+            description: The list of the private subnets of the VPN peer
+            example: 169.254.10.0/30
       - model_name: networkTags
         type: List
         element_type: String
