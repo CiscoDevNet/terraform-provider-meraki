@@ -88,7 +88,6 @@ attributes:
     example: "5"
   - model_name: stormControlEnabled
     type: Bool
-    skip_null_state_check: true
     description: The storm control status of the switch port.
     example: "true"
   - model_name: stpGuard
