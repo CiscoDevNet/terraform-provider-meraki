@@ -73,30 +73,11 @@ data "meraki_organization" "test" {
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
 func testAccDataSourceMerakiSaseNetworksEligibleConfig() string {
-	config := `resource "meraki_sase_networks_eligible" "test" {` + "\n"
-	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  meta_counts_items_remaining = 0` + "\n"
-	config += `  meta_counts_items_total = 1` + "\n"
-	config += `  items = [{` + "\n"
-	config += `    name = "London Office"` + "\n"
-	config += `    network_id = "N_123"` + "\n"
-	config += `    type = "Meraki spoke"` + "\n"
-	config += `    address_street = "123 Main St"` + "\n"
-	config += `    device_primary_model = "MX95"` + "\n"
-	config += `    region_name = "US East"` + "\n"
-	config += `    routing_default_route_enabled = true` + "\n"
-	config += `    vpn_type = "hub"` + "\n"
-	config += `  }]` + "\n"
-	config += `}` + "\n"
-
-	config += `
+	return `
 		data "meraki_sase_networks_eligible" "test" {
-			id = meraki_sase_networks_eligible.test.id
 			organization_id = data.meraki_organization.test.id
-			depends_on = [meraki_sase_networks_eligible.test]
 		}
 	`
-	return config
 }
 
 // End of section. //template:end testAccDataSourceConfig

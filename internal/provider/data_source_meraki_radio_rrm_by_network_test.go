@@ -78,35 +78,11 @@ data "meraki_organization" "test" {
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
 func testAccDataSourceMerakiRadioRRMByNetworkConfig() string {
-	config := `resource "meraki_radio_rrm_by_network" "test" {` + "\n"
-	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  meta_counts_items_remaining = 5` + "\n"
-	config += `  meta_counts_items_total = 42` + "\n"
-	config += `  items = [{` + "\n"
-	config += `    name = "My Network"` + "\n"
-	config += `    network_id = "L_12345"` + "\n"
-	config += `    time_zone = "America/Los_Angeles"` + "\n"
-	config += `    ai_enabled = true` + "\n"
-	config += `    ai_last_enabled_at = "2026-02-05T14:49:07Z"` + "\n"
-	config += `    busy_hour_minimize_changes_enabled = true` + "\n"
-	config += `    busy_hour_schedule_mode = "automatic"` + "\n"
-	config += `    busy_hour_schedule_automatic_end = "17:00"` + "\n"
-	config += `    busy_hour_schedule_automatic_start = "08:00"` + "\n"
-	config += `    busy_hour_schedule_manual_end = "15:00"` + "\n"
-	config += `    busy_hour_schedule_manual_start = "10:00"` + "\n"
-	config += `    channel_avoidance_enabled = true` + "\n"
-	config += `    fra_enabled = false` + "\n"
-	config += `  }]` + "\n"
-	config += `}` + "\n"
-
-	config += `
+	return `
 		data "meraki_radio_rrm_by_network" "test" {
-			id = meraki_radio_rrm_by_network.test.id
 			organization_id = data.meraki_organization.test.id
-			depends_on = [meraki_radio_rrm_by_network.test]
 		}
 	`
-	return config
 }
 
 // End of section. //template:end testAccDataSourceConfig

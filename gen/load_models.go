@@ -30,6 +30,8 @@ import (
 
 var models = []string{
 	"https://api.meraki.com/api/v1/openapiSpec?version=3",
+	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.65.0/openapi/spec3.json",
+	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.65.0-beta.3/openapi/spec3.json",
 }
 
 const (

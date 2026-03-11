@@ -75,32 +75,11 @@ data "meraki_organization" "test" {
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
 func testAccDataSourceMerakiOrganizationsIntegrationsDeployableConfig() string {
-	config := `resource "meraki_organizations_integrations_deployable" "test" {` + "\n"
-	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  meta_counts_items_remaining = 10` + "\n"
-	config += `  meta_counts_items_total = 100` + "\n"
-	config += `  items = [{` + "\n"
-	config += `    is_cisco_product = true` + "\n"
-	config += `    is_deployable = true` + "\n"
-	config += `    logo_url = "https://example.com"` + "\n"
-	config += `    name = "Catalyst SD-WAN"` + "\n"
-	config += `    provider = "Cisco"` + "\n"
-	config += `    redirect_url = "https://example.com"` + "\n"
-	config += `    release_type = "Beta"` + "\n"
-	config += `    short_description = "Connect to a Catalyst SD-WAN overlay to enable simple SD-WAN interconnects."` + "\n"
-	config += `    type = "Catalyst SD-WAN"` + "\n"
-	config += `    tags = ["SD-WAN"]` + "\n"
-	config += `  }]` + "\n"
-	config += `}` + "\n"
-
-	config += `
+	return `
 		data "meraki_organizations_integrations_deployable" "test" {
-			id = meraki_organizations_integrations_deployable.test.id
 			organization_id = data.meraki_organization.test.id
-			depends_on = [meraki_organizations_integrations_deployable.test]
 		}
 	`
-	return config
 }
 
 // End of section. //template:end testAccDataSourceConfig

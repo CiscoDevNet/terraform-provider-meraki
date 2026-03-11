@@ -210,6 +210,7 @@ attributes:
         example: "1234"
       - model_name: ecmpUplinkConfigs
         type: List
+        exclude_test: true
         description: '[optional] The ECMP per-uplink BGP-over-IPsec configuration for the VPN peer.'
         attributes:
           - model_name: id
