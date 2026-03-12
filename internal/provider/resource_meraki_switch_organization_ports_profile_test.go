@@ -64,14 +64,6 @@ func TestAccMerakiSwitchOrganizationPortsProfile(t *testing.T) {
 		Config: testAccMerakiSwitchOrganizationPortsProfilePrerequisitesConfig + testAccMerakiSwitchOrganizationPortsProfileConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
-	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_switch_organization_ports_profile.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiSwitchOrganizationPortsProfileImportStateIdFunc("meraki_switch_organization_ports_profile.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
-	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },

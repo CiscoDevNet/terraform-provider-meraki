@@ -232,6 +232,38 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 							MarkdownDescription: helpers.NewAttributeDescription("The ID of the SLA policy").String,
 							Optional:            true,
 						},
+						"ecmp_uplink_configs": schema.ListNestedAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] The ECMP per-uplink BGP-over-IPsec configuration for the VPN peer.").String,
+							Optional:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"id": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("ID of the ECMP uplink configuration").String,
+										Optional:            true,
+									},
+									"wan": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("The WAN uplink associated with this ECMP configuration.").AddStringEnumDescription("WAN 1", "WAN 2", "WAN 3", "WAN 4").String,
+										Optional:            true,
+										Validators: []validator.String{
+											stringvalidator.OneOf("WAN 1", "WAN 2", "WAN 3", "WAN 4"),
+										},
+									},
+									"ebgp_neighbor_neighbor_ip": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("IPv4/IPv6 address of the neighbor").String,
+										Optional:            true,
+									},
+									"ebgp_neighbor_source_ip": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Source IP of eBGP neighbor").String,
+										Optional:            true,
+									},
+									"private_subnets": schema.ListAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("The list of the private subnets of the VPN peer").String,
+										ElementType:         types.StringType,
+										Optional:            true,
+									},
+								},
+							},
+						},
 						"network_tags": schema.ListAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("A list of network tags that will connect with this peer. Use [`all`] for all networks. Use [`none`] for no networks. If not included, the default is [`all`].").String,
 							ElementType:         types.StringType,

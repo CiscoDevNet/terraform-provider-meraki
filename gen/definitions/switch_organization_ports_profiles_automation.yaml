@@ -2,8 +2,13 @@
 name: Switch Organization Ports Profiles Automation
 spec_endpoint: /organizations/{organizationId}/switch/ports/profiles/automations/{id}
 rest_endpoint: /organizations/%v/switch/ports/profiles/automations
+no_data_source: true
 bulk_data_source: true
 get_from_all: true
+no_update: true
+no_delete: true
+no_import: true
+no_read: true
 early_access: true
 data_source_name_query: true
 doc_category: Switches

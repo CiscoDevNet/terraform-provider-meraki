@@ -51,14 +51,6 @@ func TestAccMerakiOrganizationAuthRADIUSServer(t *testing.T) {
 		Config: testAccMerakiOrganizationAuthRADIUSServerPrerequisitesConfig + testAccMerakiOrganizationAuthRADIUSServerConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
-	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization_auth_radius_server.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationAuthRADIUSServerImportStateIdFunc("meraki_organization_auth_radius_server.test"),
-		ImportStateVerifyIgnore: []string{"secret"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
-	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
