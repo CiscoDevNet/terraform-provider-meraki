@@ -23,11 +23,11 @@ data "meraki_sase_networks_eligible" "example" {
 
 ### Required
 
-- `id` (String) The id of the object
 - `organization_id` (String) Organization ID
 
 ### Read-Only
 
+- `id` (String) The id of the object
 - `items` (Attributes List) List of enrollable networks (see [below for nested schema](#nestedatt--items))
 - `meta_counts_items_remaining` (Number) The number of items in the dataset that are available on subsequent pages
 - `meta_counts_items_total` (Number) The total number of items in the dataset

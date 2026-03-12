@@ -23,11 +23,11 @@ data "meraki_organizations_integrations_deployable" "example" {
 
 ### Required
 
-- `id` (String) The id of the object
 - `organization_id` (String) Organization ID
 
 ### Read-Only
 
+- `id` (String) The id of the object
 - `items` (Attributes List) An integration that you can add to your organization. (see [below for nested schema](#nestedatt--items))
 - `meta_counts_items_remaining` (Number) The number of objects that are available on subsequent pages
 - `meta_counts_items_total` (Number) The total number of available objects

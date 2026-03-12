@@ -23,11 +23,11 @@ data "meraki_radio_rrm_by_network" "example" {
 
 ### Required
 
-- `id` (String) The id of the object
 - `organization_id` (String) Organization ID
 
 ### Read-Only
 
+- `id` (String) The id of the object
 - `items` (Attributes List) List of RRM settings (see [below for nested schema](#nestedatt--items))
 - `meta_counts_items_remaining` (Number) Number of items remaining after this page
 - `meta_counts_items_total` (Number) Total number of items available

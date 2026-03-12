@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -61,7 +60,7 @@ func (d *OrganizationsIntegrationsDeployableDataSource) Schema(ctx context.Conte
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
-				Required:            true,
+				Computed:            true,
 			},
 			"organization_id": schema.StringAttribute{
 				MarkdownDescription: "Organization ID",
@@ -156,7 +155,7 @@ func (d *OrganizationsIntegrationsDeployableDataSource) Read(ctx context.Context
 	var err error
 
 	if !res.Exists() {
-		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))
+		res, err = d.client.Get(config.getPath())
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
 			return

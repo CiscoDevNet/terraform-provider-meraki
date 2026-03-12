@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -60,7 +59,7 @@ func (d *SaseNetworksEligibleDataSource) Schema(ctx context.Context, req datasou
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
-				Required:            true,
+				Computed:            true,
 			},
 			"organization_id": schema.StringAttribute{
 				MarkdownDescription: "Organization ID",
@@ -146,7 +145,7 @@ func (d *SaseNetworksEligibleDataSource) Read(ctx context.Context, req datasourc
 	var err error
 
 	if !res.Exists() {
-		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))
+		res, err = d.client.Get(config.getPath())
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
 			return
