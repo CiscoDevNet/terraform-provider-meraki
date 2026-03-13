@@ -64,6 +64,13 @@ type ResourceSwitchStackRoutingInterfacesItems struct {
 	VrfName                      types.String `tfsdk:"vrf_name"`
 }
 
+type ResourceSwitchStackRoutingInterfacesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	SwitchStackId  types.String `tfsdk:"switch_stack_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -501,6 +508,29 @@ func (data *ResourceSwitchStackRoutingInterfaces) fromBodyImport(ctx context.Con
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceSwitchStackRoutingInterfacesIdentity) toIdentity(ctx context.Context, plan *ResourceSwitchStackRoutingInterfaces) {
+	data.OrganizationId = plan.OrganizationId
+	data.NetworkId = plan.NetworkId
+	data.SwitchStackId = plan.SwitchStackId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceSwitchStackRoutingInterfaces) fromIdentity(ctx context.Context, identity *ResourceSwitchStackRoutingInterfacesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.NetworkId = identity.NetworkId
+	data.SwitchStackId = identity.SwitchStackId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

@@ -48,6 +48,10 @@ type WirelessBillingPlans struct {
 	BandwidthLimitsLimitUp   types.Int64   `tfsdk:"bandwidth_limits_limit_up"`
 }
 
+type WirelessBillingIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -188,6 +192,22 @@ func (data *WirelessBilling) fromBodyUnknowns(ctx context.Context, res meraki.Re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessBillingIdentity) toIdentity(ctx context.Context, plan *WirelessBilling) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessBilling) fromIdentity(ctx context.Context, identity *WirelessBillingIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

@@ -46,6 +46,11 @@ type OrganizationExtensionsThousandEyesNetworkTests struct {
 	TemplateUserInputsTenant types.String `tfsdk:"template_user_inputs_tenant"`
 }
 
+type OrganizationExtensionsThousandEyesNetworkIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	Id             types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -129,6 +134,24 @@ func (data *OrganizationExtensionsThousandEyesNetwork) fromBodyUnknowns(ctx cont
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationExtensionsThousandEyesNetworkIdentity) toIdentity(ctx context.Context, plan *OrganizationExtensionsThousandEyesNetwork) {
+	data.OrganizationId = plan.OrganizationId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationExtensionsThousandEyesNetwork) fromIdentity(ctx context.Context, identity *OrganizationExtensionsThousandEyesNetworkIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

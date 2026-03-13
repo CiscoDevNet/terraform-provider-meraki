@@ -26,6 +26,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -39,7 +40,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &SensorRelationshipsResource{}
+	_ resource.ResourceWithIdentity    = &SensorRelationshipsResource{}
 	_ resource.ResourceWithImportState = &SensorRelationshipsResource{}
 )
 
@@ -91,6 +92,17 @@ func (r *SensorRelationshipsResource) Schema(ctx context.Context, req resource.S
 	}
 }
 
+func (r *SensorRelationshipsResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"serial": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Device serial").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *SensorRelationshipsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -105,6 +117,7 @@ func (r *SensorRelationshipsResource) Configure(_ context.Context, req resource.
 
 func (r *SensorRelationshipsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan SensorRelationships
+	var identity SensorRelationshipsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -123,10 +136,13 @@ func (r *SensorRelationshipsResource) Create(ctx context.Context, req resource.C
 	}
 	plan.Id = plan.Serial
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -138,12 +154,21 @@ func (r *SensorRelationshipsResource) Create(ctx context.Context, req resource.C
 
 func (r *SensorRelationshipsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state SensorRelationships
+	var identity SensorRelationshipsIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
@@ -166,10 +191,13 @@ func (r *SensorRelationshipsResource) Read(ctx context.Context, req resource.Rea
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -233,17 +261,28 @@ func (r *SensorRelationshipsResource) Delete(ctx context.Context, req resource.D
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *SensorRelationshipsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 1 || idParts[0] == "" {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <serial>. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != 1 || idParts[0] == "" {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: <serial>. Got: %q", req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("serial"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
+	} else {
+		var identity SensorRelationshipsIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), identity.Serial.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.Serial.ValueString())...)
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

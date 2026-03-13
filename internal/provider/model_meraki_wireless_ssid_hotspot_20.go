@@ -70,6 +70,11 @@ type WirelessSSIDHotspot20NaiRealmsMethods struct {
 	AuthenticationTypesTunneledEapMethodCredentials types.Set    `tfsdk:"authentication_types_tunneled_eap_method_credentials"`
 }
 
+type WirelessSSIDHotspot20Identity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -497,6 +502,24 @@ func (data *WirelessSSIDHotspot20) fromBodyUnknowns(ctx context.Context, res mer
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDHotspot20Identity) toIdentity(ctx context.Context, plan *WirelessSSIDHotspot20) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDHotspot20) fromIdentity(ctx context.Context, identity *WirelessSSIDHotspot20Identity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

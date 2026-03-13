@@ -118,6 +118,12 @@ type NetworkGroupPolicyTrafficShapingRulesDefinitions struct {
 	Value types.String `tfsdk:"value"`
 }
 
+type NetworkGroupPolicyIdentity struct {
+	NetworkId   types.String `tfsdk:"network_id"`
+	ForceDelete types.Bool   `tfsdk:"force_delete"`
+	Id          types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -1115,6 +1121,19 @@ func (data *NetworkGroupPolicy) fromBodyUnknowns(ctx context.Context, res meraki
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+func (data *NetworkGroupPolicyIdentity) toIdentity(ctx context.Context, plan *NetworkGroupPolicy) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+func (data *NetworkGroupPolicy) fromIdentity(ctx context.Context, identity *NetworkGroupPolicyIdentity) {
+	data.NetworkId = identity.NetworkId
+	if !identity.ForceDelete.IsNull() && !identity.ForceDelete.IsUnknown() {
+		data.ForceDelete = identity.ForceDelete
+	}
+	data.Id = identity.Id
+}
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

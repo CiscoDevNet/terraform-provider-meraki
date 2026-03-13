@@ -56,6 +56,11 @@ type WirelessEthernetPortProfileUsbPorts struct {
 	Ssid    types.Int64  `tfsdk:"ssid"`
 }
 
+type WirelessEthernetPortProfileIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -313,6 +318,24 @@ func (data *WirelessEthernetPortProfile) fromBodyUnknowns(ctx context.Context, r
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessEthernetPortProfileIdentity) toIdentity(ctx context.Context, plan *WirelessEthernetPortProfile) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessEthernetPortProfile) fromIdentity(ctx context.Context, identity *WirelessEthernetPortProfileIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

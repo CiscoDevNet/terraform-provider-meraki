@@ -49,6 +49,11 @@ type ResourceOrganizationPolicyObjectGroupsItems struct {
 	ObjectIds types.Set    `tfsdk:"object_ids"`
 }
 
+type ResourceOrganizationPolicyObjectGroupsIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -236,6 +241,25 @@ func (data *ResourceOrganizationPolicyObjectGroups) fromBodyImport(ctx context.C
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceOrganizationPolicyObjectGroupsIdentity) toIdentity(ctx context.Context, plan *ResourceOrganizationPolicyObjectGroups) {
+	data.OrganizationId = plan.OrganizationId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceOrganizationPolicyObjectGroups) fromIdentity(ctx context.Context, identity *ResourceOrganizationPolicyObjectGroupsIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
