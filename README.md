@@ -70,12 +70,12 @@ More information about how the code generation works can be found in the [contri
 
 ## Acceptance tests
 
-In order to run the full suite of acceptance tests, run `make testall`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
+In order to run the full suite of acceptance tests, run `make test`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
 
 Note: Acceptance tests create real resources.
 
 ```shell
-make testall
+make test
 ```
 
 More information about how the acceptance tests work can be found in the [contribution guide](https://github.com/CiscoDevNet/terraform-provider-meraki/blob/main/CONTRIBUTING.md).
