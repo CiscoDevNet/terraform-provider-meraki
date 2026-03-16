@@ -38,6 +38,10 @@ type CameraVideoSettings struct {
 	ExternalRtspEnabled types.Bool   `tfsdk:"external_rtsp_enabled"`
 }
 
+type CameraVideoSettingsIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -96,6 +100,22 @@ func (data *CameraVideoSettings) fromBodyUnknowns(ctx context.Context, res merak
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *CameraVideoSettingsIdentity) toIdentity(ctx context.Context, plan *CameraVideoSettings) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *CameraVideoSettings) fromIdentity(ctx context.Context, identity *CameraVideoSettingsIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

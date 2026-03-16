@@ -43,6 +43,10 @@ type WirelessNetworkBluetoothSettings struct {
 	Uuid                     types.String `tfsdk:"uuid"`
 }
 
+type WirelessNetworkBluetoothSettingsIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -166,6 +170,22 @@ func (data *WirelessNetworkBluetoothSettings) fromBodyUnknowns(ctx context.Conte
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessNetworkBluetoothSettingsIdentity) toIdentity(ctx context.Context, plan *WirelessNetworkBluetoothSettings) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessNetworkBluetoothSettings) fromIdentity(ctx context.Context, identity *WirelessNetworkBluetoothSettingsIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

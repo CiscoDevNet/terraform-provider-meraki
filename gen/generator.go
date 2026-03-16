@@ -93,6 +93,16 @@ var templates = []t{
 		suffix: "/import.sh",
 	},
 	{
+		path:   "./gen/templates/import-by-string-id.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/import-by-string-id.tf",
+	},
+	{
+		path:   "./gen/templates/import-by-identity.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/import-by-identity.tf",
+	},
+	{
 		path:   "./gen/templates/bulk/model_data_source.go",
 		prefix: "./internal/provider/model_data_source_meraki_",
 		suffix: ".go",
@@ -136,6 +146,16 @@ var templates = []t{
 		path:   "./gen/templates/bulk/import.sh",
 		prefix: "./examples/resources/meraki_",
 		suffix: "/import.sh",
+	},
+	{
+		path:   "./gen/templates/bulk/import-by-string-id.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/import-by-string-id.tf",
+	},
+	{
+		path:   "./gen/templates/bulk/import-by-identity.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/import-by-identity.tf",
 	},
 }
 
@@ -297,6 +317,10 @@ func main() {
 		// Iterate over templates and render files
 		for _, t := range templates {
 			if (configs[i].NoImport && t.path == "./gen/templates/import.sh") ||
+				(configs[i].NoImport && t.path == "./gen/templates/import-by-string-id.tf") ||
+				(configs[i].NoImport && t.path == "./gen/templates/import-by-identity.tf") ||
+				(configs[i].NoImport && t.path == "./gen/templates/bulk/import-by-string-id.tf") ||
+				(configs[i].NoImport && t.path == "./gen/templates/bulk/import-by-identity.tf") ||
 				(configs[i].NoDataSource && t.path == "./gen/templates/data_source.go") ||
 				(configs[i].NoDataSource && t.path == "./gen/templates/data_source_test.go") ||
 				(configs[i].NoDataSource && t.path == "./gen/templates/data-source.tf") ||
@@ -304,6 +328,8 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/resource_test.go") ||
 				(configs[i].NoResource && t.path == "./gen/templates/resource.tf") ||
 				(configs[i].NoResource && t.path == "./gen/templates/import.sh") ||
+				(configs[i].NoResource && t.path == "./gen/templates/import-by-string-id.tf") ||
+				(configs[i].NoResource && t.path == "./gen/templates/import-by-identity.tf") ||
 				(configs[i].NoResource && configs[i].NoDataSource && t.path == "./gen/templates/model.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model_data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
@@ -313,7 +339,9 @@ func main() {
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource_test.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.tf") ||
-				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import.sh") {
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import.sh") ||
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import-by-string-id.tf") ||
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import-by-identity.tf") {
 				continue
 			}
 			if strings.Contains(t.path, "/bulk/") {

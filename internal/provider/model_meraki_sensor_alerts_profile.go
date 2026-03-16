@@ -80,6 +80,11 @@ type SensorAlertsProfileConditions struct {
 	ThresholdWaterPresent                types.Bool    `tfsdk:"threshold_water_present"`
 }
 
+type SensorAlertsProfileIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -642,6 +647,24 @@ func (data *SensorAlertsProfile) fromBodyUnknowns(ctx context.Context, res merak
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SensorAlertsProfileIdentity) toIdentity(ctx context.Context, plan *SensorAlertsProfile) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SensorAlertsProfile) fromIdentity(ctx context.Context, identity *SensorAlertsProfileIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

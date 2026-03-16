@@ -46,6 +46,11 @@ type ResourceOrganizationLicensesItems struct {
 	DeviceSerial types.String `tfsdk:"device_serial"`
 }
 
+type ResourceOrganizationLicensesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -203,6 +208,25 @@ func (data *ResourceOrganizationLicenses) fromBodyImport(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceOrganizationLicensesIdentity) toIdentity(ctx context.Context, plan *ResourceOrganizationLicenses) {
+	data.OrganizationId = plan.OrganizationId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceOrganizationLicenses) fromIdentity(ctx context.Context, identity *ResourceOrganizationLicensesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

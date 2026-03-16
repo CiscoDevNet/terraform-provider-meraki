@@ -25,6 +25,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -39,7 +40,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &NetworkDeviceClaimVMXResource{}
+	_ resource.ResourceWithIdentity = &NetworkDeviceClaimVMXResource{}
 )
 
 func NewNetworkDeviceClaimVMXResource() resource.Resource {
@@ -92,6 +93,17 @@ func (r *NetworkDeviceClaimVMXResource) Schema(ctx context.Context, req resource
 	}
 }
 
+func (r *NetworkDeviceClaimVMXResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *NetworkDeviceClaimVMXResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -106,6 +118,7 @@ func (r *NetworkDeviceClaimVMXResource) Configure(_ context.Context, req resourc
 
 func (r *NetworkDeviceClaimVMXResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan NetworkDeviceClaimVMX
+	var identity NetworkDeviceClaimVMXIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -124,10 +137,13 @@ func (r *NetworkDeviceClaimVMXResource) Create(ctx context.Context, req resource
 	}
 	plan.Id = plan.NetworkId
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -139,6 +155,7 @@ func (r *NetworkDeviceClaimVMXResource) Create(ctx context.Context, req resource
 
 func (r *NetworkDeviceClaimVMXResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state NetworkDeviceClaimVMX
+	var identity NetworkDeviceClaimVMXIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -146,11 +163,21 @@ func (r *NetworkDeviceClaimVMXResource) Read(ctx context.Context, req resource.R
 		return
 	}
 
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)

@@ -26,6 +26,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -41,7 +42,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &ApplianceVLANDHCPResource{}
+	_ resource.ResourceWithIdentity = &ApplianceVLANDHCPResource{}
 )
 
 func NewApplianceVLANDHCPResource() resource.Resource {
@@ -189,6 +190,21 @@ func (r *ApplianceVLANDHCPResource) Schema(ctx context.Context, req resource.Sch
 	}
 }
 
+func (r *ApplianceVLANDHCPResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+			"vlan_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("The VLAN ID of the new VLAN (must be between 1 and 4094)").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *ApplianceVLANDHCPResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -203,6 +219,7 @@ func (r *ApplianceVLANDHCPResource) Configure(_ context.Context, req resource.Co
 
 func (r *ApplianceVLANDHCPResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceVLANDHCP
+	var identity ApplianceVLANDHCPIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -221,10 +238,13 @@ func (r *ApplianceVLANDHCPResource) Create(ctx context.Context, req resource.Cre
 	}
 	plan.Id = plan.VlanId
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -236,12 +256,21 @@ func (r *ApplianceVLANDHCPResource) Create(ctx context.Context, req resource.Cre
 
 func (r *ApplianceVLANDHCPResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceVLANDHCP
+	var identity ApplianceVLANDHCPIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
@@ -264,10 +293,13 @@ func (r *ApplianceVLANDHCPResource) Read(ctx context.Context, req resource.ReadR
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
