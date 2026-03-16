@@ -48,6 +48,7 @@ attribute:
   exclude_test: bool(required=False) # Exclude attribute from example (documentation) and acceptance test
   exclude_example: bool(required=False) # Exclude attribute from acceptance test only (example/documentation is still generated)
   allow_import_changes: bool(required=False) # Allow changes to the attribute during import
+  skip_null_state_check: bool(required=False) # Skip change detection if state value is null (prevents false positives when API doesn't return the field)
   description: str(required=False) # Attribute description
   example: any(str(), int(), bool(), required=False) # Example value for documentation, also used for acceptance test
   map_key_example: str(required=False) # Example value of the map key, only relevant if type is "Map"
