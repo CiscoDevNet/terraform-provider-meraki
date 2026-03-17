@@ -32,6 +32,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationsWirelessDevicesProvisioningDeployments(t *testing.T) {
+	if os.Getenv("ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}

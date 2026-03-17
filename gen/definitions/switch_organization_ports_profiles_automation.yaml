@@ -29,7 +29,7 @@ attributes:
     type: String
     mandatory: true
     description: Name of the port profile automation.
-    example: Automation 1
+    example: Automation 12
   - model_name: id
     type: String
     data_path: [fallbackProfile]

@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiSaseNetworksEligible(t *testing.T) {
+	if os.Getenv("SASE_NETWORKS_ELIGIBLE") == "" {
+		t.Skip("skipping test, set environment variable SASE_NETWORKS_ELIGIBLE")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}

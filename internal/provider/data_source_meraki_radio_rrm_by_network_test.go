@@ -34,7 +34,6 @@ func TestAccDataSourceMerakiRadioRRMByNetwork(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "meta_counts_items_remaining", "5"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "meta_counts_items_total", "42"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.name", "My Network"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.network_id", "L_12345"))

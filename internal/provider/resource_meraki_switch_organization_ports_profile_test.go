@@ -38,7 +38,7 @@ func TestAccMerakiSwitchOrganizationPortsProfile(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "description", "IP Phones for all office workers"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "is_organization_wide", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "name", "Phone"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "name", "Phone 2"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "port_access_policy_type", "Open"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "port_allowed_vlans", "1-100"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "port_dai_trusted", "false"))
@@ -105,7 +105,7 @@ data "meraki_organization" "test" {
 func testAccMerakiSwitchOrganizationPortsProfileConfig_minimum() string {
 	config := `resource "meraki_switch_organization_ports_profile" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  name = "Phone"` + "\n"
+	config += `  name = "Phone 2"` + "\n"
 	config += `  port_type = "access"` + "\n"
 	config += `}` + "\n"
 	return config
@@ -120,7 +120,7 @@ func testAccMerakiSwitchOrganizationPortsProfileConfig_all() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  description = "IP Phones for all office workers"` + "\n"
 	config += `  is_organization_wide = true` + "\n"
-	config += `  name = "Phone"` + "\n"
+	config += `  name = "Phone 2"` + "\n"
 	config += `  port_access_policy_type = "Open"` + "\n"
 	config += `  port_allowed_vlans = "1-100"` + "\n"
 	config += `  port_dai_trusted = false` + "\n"

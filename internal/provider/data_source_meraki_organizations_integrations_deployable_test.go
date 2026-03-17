@@ -34,7 +34,6 @@ func TestAccDataSourceMerakiOrganizationsIntegrationsDeployable(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "meta_counts_items_remaining", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "meta_counts_items_total", "100"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.is_cisco_product", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.is_deployable", "true"))

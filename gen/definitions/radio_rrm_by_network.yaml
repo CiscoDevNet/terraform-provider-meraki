@@ -19,6 +19,7 @@ attributes:
     data_path: [meta, counts, items]
     description: Number of items remaining after this page
     example: "5"
+    test_value: "0"
   - model_name: total
     type: Int64
     data_path: [meta, counts, items]

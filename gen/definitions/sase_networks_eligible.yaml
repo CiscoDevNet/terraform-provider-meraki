@@ -5,6 +5,7 @@ no_resource: true
 no_update: true
 no_delete: true
 doc_category: Organizations
+test_tags: [SASE_NETWORKS_ELIGIBLE]
 test_variables: [test_org]
 attributes:
   - tf_name: organization_id

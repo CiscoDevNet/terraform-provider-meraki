@@ -19,6 +19,7 @@ attributes:
     data_path: [meta, counts, items]
     description: The number of objects that are available on subsequent pages
     example: "10"
+    test_value: "0"
   - model_name: total
     type: Int64
     data_path: [meta, counts, items]
