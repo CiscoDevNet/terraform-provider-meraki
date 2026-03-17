@@ -15,7 +15,7 @@ attributes:
     type: String
     mandatory: true
     description: Short name of the early access feature
-    example: has_mx_no_nat_early_access
+    example: has_vlan_db
   - model_name: limitScopeToNetworks
     type: List
     element_type: String
