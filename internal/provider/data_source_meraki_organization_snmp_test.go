@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationSNMP(t *testing.T) {
+	if os.Getenv("ORGANIZATION_SNMP") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION_SNMP")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}

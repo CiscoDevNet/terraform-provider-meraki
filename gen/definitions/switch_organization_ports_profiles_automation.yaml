@@ -12,6 +12,7 @@ no_read: true
 early_access: true
 data_source_name_query: true
 doc_category: Switches
+test_tags: [SWITCH_ORGANIZATION_PORTS_PROFILES_AUTOMATION]
 test_variables: [test_org, test_network, test_switch_3_serial]
 ignore_attributes: [switch.portIds]
 attributes:

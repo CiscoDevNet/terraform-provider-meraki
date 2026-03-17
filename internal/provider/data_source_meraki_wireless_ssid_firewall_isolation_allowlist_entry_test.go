@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiWirelessSSIDFirewallIsolationAllowlistEntry(t *testing.T) {
+	if os.Getenv("WIRELESS_SSID_FIREWALL_ISOLATION_ALLOWLIST_ENTRY") == "" {
+		t.Skip("skipping test, set environment variable WIRELESS_SSID_FIREWALL_ISOLATION_ALLOWLIST_ENTRY")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}

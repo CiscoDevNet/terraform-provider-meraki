@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiSensorAlertsProfiles(t *testing.T) {
+	if os.Getenv("SENSOR_ALERTS_PROFILE") == "" {
+		t.Skip("skipping test, set environment variable SENSOR_ALERTS_PROFILE")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_sensor_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_sensor_1_serial")
 	}
