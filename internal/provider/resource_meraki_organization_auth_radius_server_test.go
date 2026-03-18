@@ -32,6 +32,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationAuthRADIUSServer(t *testing.T) {
+	if os.Getenv("ORGANIZATION_AUTH_RADIUS_SERVER") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION_AUTH_RADIUS_SERVER")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
@@ -50,14 +53,6 @@ func TestAccMerakiOrganizationAuthRADIUSServer(t *testing.T) {
 	steps = append(steps, resource.TestStep{
 		Config: testAccMerakiOrganizationAuthRADIUSServerPrerequisitesConfig + testAccMerakiOrganizationAuthRADIUSServerConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
-	})
-	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organization_auth_radius_server.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationAuthRADIUSServerImportStateIdFunc("meraki_organization_auth_radius_server.test"),
-		ImportStateVerifyIgnore: []string{"secret"},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{

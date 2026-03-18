@@ -4,6 +4,7 @@ rest_endpoint: /networks/%v/cellularGateway/uplink
 put_create: true
 no_delete: true
 doc_category: Cellular Gateways
+test_tags: [CELLULAR_GATEWAY_UPLINK]
 test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id

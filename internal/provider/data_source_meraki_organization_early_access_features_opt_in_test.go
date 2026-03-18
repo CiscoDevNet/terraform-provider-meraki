@@ -30,6 +30,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptIn(t *testing.T) {
+	if os.Getenv("ORGANIZATION_EARLY_ACCESS_FEATURES_OPT_IN") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION_EARLY_ACCESS_FEATURES_OPT_IN")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}

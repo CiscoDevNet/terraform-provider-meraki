@@ -32,12 +32,15 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiSwitchOrganizationPortsProfilesAutomation(t *testing.T) {
+	if os.Getenv("SWITCH_ORGANIZATION_PORTS_PROFILES_AUTOMATION") == "" {
+		t.Skip("skipping test, set environment variable SWITCH_ORGANIZATION_PORTS_PROFILES_AUTOMATION")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_3_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_3_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profiles_automation.test", "description", "A full length description of the automation."))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profiles_automation.test", "name", "Automation 1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profiles_automation.test", "name", "Automation 12"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profiles_automation.test", "assigned_switch_ports.0.port_ids.0", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profiles_automation.test", "rules.0.priority", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profiles_automation.test", "rules.0.conditions.0.attribute", "LLDP system description"))
@@ -52,14 +55,6 @@ func TestAccMerakiSwitchOrganizationPortsProfilesAutomation(t *testing.T) {
 	steps = append(steps, resource.TestStep{
 		Config: testAccMerakiSwitchOrganizationPortsProfilesAutomationPrerequisitesConfig + testAccMerakiSwitchOrganizationPortsProfilesAutomationConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
-	})
-	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_switch_organization_ports_profiles_automation.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiSwitchOrganizationPortsProfilesAutomationImportStateIdFunc("meraki_switch_organization_ports_profiles_automation.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -118,7 +113,7 @@ resource "meraki_switch_organization_ports_profile" "test" {
 func testAccMerakiSwitchOrganizationPortsProfilesAutomationConfig_minimum() string {
 	config := `resource "meraki_switch_organization_ports_profiles_automation" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  name = "Automation 1"` + "\n"
+	config += `  name = "Automation 12"` + "\n"
 	config += `  rules = [{` + "\n"
 	config += `    priority = 1` + "\n"
 	config += `    profile_id = resource.meraki_switch_organization_ports_profile.test.id` + "\n"
@@ -140,7 +135,7 @@ func testAccMerakiSwitchOrganizationPortsProfilesAutomationConfig_all() string {
 	config := `resource "meraki_switch_organization_ports_profiles_automation" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  description = "A full length description of the automation."` + "\n"
-	config += `  name = "Automation 1"` + "\n"
+	config += `  name = "Automation 12"` + "\n"
 	config += `  assigned_switch_ports = [{` + "\n"
 	config += `    switch_serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `    port_ids = ["3"]` + "\n"

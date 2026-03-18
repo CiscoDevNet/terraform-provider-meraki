@@ -1,0 +1,79 @@
+name: Organizations Integrations Deployable
+spec_endpoint: /organizations/{organizationId}/integrations/deployable
+rest_endpoint: /organizations/%v/integrations/deployable
+no_resource: true
+no_update: true
+no_delete: true
+doc_category: Organizations
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: remaining
+    type: Int64
+    data_path: [meta, counts, items]
+    description: The number of objects that are available on subsequent pages
+    example: "10"
+    test_value: "0"
+  - model_name: total
+    type: Int64
+    data_path: [meta, counts, items]
+    description: The total number of available objects
+    example: "100"
+  - model_name: items
+    type: List
+    description: An integration that you can add to your organization.
+    attributes:
+      - model_name: isCiscoProduct
+        type: Bool
+        description: Whether the integration is a Cisco product
+        example: "true"
+      - model_name: isDeployable
+        type: Bool
+        description: Whether the integration is deployable for this organization
+        example: "true"
+      - model_name: logoUrl
+        type: String
+        description: Url for integration logo
+        example: https://example.com
+      - model_name: name
+        type: String
+        description: Integration name
+        example: Catalyst SD-WAN
+      - model_name: provider
+        type: String
+        description: Integration provider. One of Cisco, Genea, partner
+        example: Cisco
+        enum_values: [Cisco, Genea, partner]
+      - model_name: redirectUrl
+        type: String
+        description: Integration`s redirect url
+        example: https://example.com
+      - model_name: releaseType
+        type: String
+        description: Release type of the integration. One of Alpha, Beta, or GA
+        example: Beta
+        enum_values: [Alpha, Beta, GA]
+      - model_name: shortDescription
+        type: String
+        description: Short description for integration
+        example: Connect to a Catalyst SD-WAN overlay to enable simple SD-WAN interconnects.
+      - model_name: type
+        type: String
+        description: Identifier for integration type. One of Axis, Catalyst SD-WAN, Cisco Spaces, Genea, OAuth, PagerDuty, Secure Access, Secure Connect, Splunk, XDR
+        example: Catalyst SD-WAN
+        enum_values: [Axis, Catalyst SD-WAN, Cisco Spaces, Genea, OAuth, PagerDuty, Secure Access, Secure Connect, Splunk, XDR]
+      - model_name: tags
+        type: List
+        element_type: String
+        description: Integration categories
+        example: SD-WAN
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

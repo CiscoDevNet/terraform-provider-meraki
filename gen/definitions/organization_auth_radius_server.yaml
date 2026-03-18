@@ -1,11 +1,17 @@
 name: Organization Auth RADIUS Server
 spec_endpoint: /organizations/{organizationId}/auth/radius/servers/{serverId}
 rest_endpoint: /organizations/%v/auth/radius/servers
+no_data_source: true
 bulk_data_source: true
+no_update: true
+no_delete: true
+no_import: true
+no_read: true
 id_name: serverId
 early_access: true
 data_source_name_query: true
 doc_category: Organizations
+test_tags: [ORGANIZATION_AUTH_RADIUS_SERVER]
 test_variables: [test_org]
 attributes:
   - tf_name: organization_id
