@@ -32,6 +32,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiSwitchOrganizationPortsProfile(t *testing.T) {
+	if os.Getenv("SWITCH_ORGANIZATION_PORTS_PROFILE") == "" {
+		t.Skip("skipping test, set environment variable SWITCH_ORGANIZATION_PORTS_PROFILE")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
