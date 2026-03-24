@@ -4,6 +4,7 @@ rest_endpoint: /devices/%v/wireless/radio/settings
 put_create: true
 no_delete: true
 doc_category: Wireless
+test_tags: [WIRELESS_RADIO_SETTINGS]
 test_variables: [test_org, test_network, test_ap_1_serial]
 attributes:
   - tf_name: serial

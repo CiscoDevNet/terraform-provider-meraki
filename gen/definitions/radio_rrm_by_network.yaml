@@ -24,7 +24,7 @@ attributes:
     type: Int64
     data_path: [meta, counts, items]
     description: Total number of items available
-    example: "42"
+    example: "34"
   - model_name: items
     type: List
     description: List of RRM settings
