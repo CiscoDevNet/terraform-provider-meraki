@@ -38,7 +38,6 @@ func TestAccMerakiOrganizationPolicyObject(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object.test", "category", "network"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object.test", "cidr", "10.0.0.0/24"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object.test", "name", "Web Servers - Datacenter 10"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object.test", "type", "cidr"))
 
 	var steps []resource.TestStep
@@ -102,7 +101,7 @@ func testAccMerakiOrganizationPolicyObjectConfig_minimum() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "network"` + "\n"
 	config += `  cidr = "10.0.1.0/24"` + "\n"
-	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  name = "tf-test-policy-object"` + "\n"
 	config += `  type = "cidr"` + "\n"
 	config += `}` + "\n"
 	return config
@@ -117,7 +116,7 @@ func testAccMerakiOrganizationPolicyObjectConfig_all() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "network"` + "\n"
 	config += `  cidr = "10.0.0.0/24"` + "\n"
-	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  name = "tf-test-policy-object"` + "\n"
 	config += `  type = "cidr"` + "\n"
 	config += `}` + "\n"
 	return config

@@ -25,6 +25,7 @@ attributes:
     data_path: [meta, counts, items]
     description: The total number of available objects
     example: "100"
+    test_value: "0"
   - model_name: items
     type: List
     description: An integration that you can add to your organization.

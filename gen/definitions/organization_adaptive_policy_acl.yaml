@@ -62,6 +62,7 @@ attributes:
         type: Bool
         description: If enabled, means TCP connection with this node must be established.
         example: "true"
+        test_value: "false"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

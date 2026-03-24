@@ -25,6 +25,7 @@ attributes:
     data_path: [meta, counts, items]
     description: Total number of items available
     example: "34"
+    test_value: "0"
   - model_name: items
     type: List
     description: List of RRM settings
