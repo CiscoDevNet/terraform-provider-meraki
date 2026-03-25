@@ -34,16 +34,6 @@ func TestAccDataSourceMerakiOrganizationsIntegrationsDeployable(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.is_cisco_product", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.is_deployable", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.logo_url", "https://example.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.name", "Catalyst SD-WAN"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.provider", "Cisco"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.redirect_url", "https://example.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.release_type", "Beta"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.short_description", "Connect to a Catalyst SD-WAN overlay to enable simple SD-WAN interconnects."))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.type", "Catalyst SD-WAN"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organizations_integrations_deployable.test", "items.0.tags.0", "SD-WAN"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

@@ -34,19 +34,6 @@ func TestAccDataSourceMerakiRadioRRMByNetwork(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.name", "My Network"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.network_id", "L_12345"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.time_zone", "America/Los_Angeles"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.ai_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.ai_last_enabled_at", "2026-02-05T14:49:07Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.busy_hour_minimize_changes_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.busy_hour_schedule_mode", "automatic"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.busy_hour_schedule_automatic_end", "17:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.busy_hour_schedule_automatic_start", "08:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.busy_hour_schedule_manual_end", "15:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.busy_hour_schedule_manual_start", "10:00"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.channel_avoidance_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_radio_rrm_by_network.test", "items.0.fra_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

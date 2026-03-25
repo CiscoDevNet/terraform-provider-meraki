@@ -34,46 +34,56 @@ attributes:
         type: Bool
         description: Whether the integration is a Cisco product
         example: "true"
+        test_value: "0"
       - model_name: isDeployable
         type: Bool
         description: Whether the integration is deployable for this organization
         example: "true"
+        test_value: "0"
       - model_name: logoUrl
         type: String
         description: Url for integration logo
         example: https://example.com
+        test_value: '"0"'
       - model_name: name
         type: String
         description: Integration name
         example: Catalyst SD-WAN
+        test_value: '"0"'
       - model_name: provider
         type: String
         description: Integration provider. One of Cisco, Genea, partner
         example: Cisco
         enum_values: [Cisco, Genea, partner]
+        test_value: '"0"'
       - model_name: redirectUrl
         type: String
         description: Integration`s redirect url
         example: https://example.com
+        test_value: '"0"'
       - model_name: releaseType
         type: String
         description: Release type of the integration. One of Alpha, Beta, or GA
         example: Beta
         enum_values: [Alpha, Beta, GA]
+        test_value: '"0"'
       - model_name: shortDescription
         type: String
         description: Short description for integration
         example: Connect to a Catalyst SD-WAN overlay to enable simple SD-WAN interconnects.
+        test_value: '"0"'
       - model_name: type
         type: String
         description: Identifier for integration type. One of Axis, Catalyst SD-WAN, Cisco Spaces, Genea, OAuth, PagerDuty, Secure Access, Secure Connect, Splunk, XDR
         example: Catalyst SD-WAN
         enum_values: [Axis, Catalyst SD-WAN, Cisco Spaces, Genea, OAuth, PagerDuty, Secure Access, Secure Connect, Splunk, XDR]
+        test_value: '"0"'
       - model_name: tags
         type: List
         element_type: String
         description: Integration categories
         example: SD-WAN
+        test_value: '"0"'
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

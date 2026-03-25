@@ -70,7 +70,7 @@ func testAccDataSourceMerakiOrganizationPolicyObjectConfig() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "network"` + "\n"
 	config += `  cidr = "10.0.0.0/24"` + "\n"
-	config += `  name = "tf-test-policy-object"` + "\n"
+	config += `  name = "tf-acc-po-x9k2"` + "\n"
 	config += `  type = "cidr"` + "\n"
 	config += `}` + "\n"
 
@@ -89,7 +89,7 @@ func testAccNamedDataSourceMerakiOrganizationPolicyObjectConfig() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "network"` + "\n"
 	config += `  cidr = "10.0.0.0/24"` + "\n"
-	config += `  name = "tf-test-policy-object"` + "\n"
+	config += `  name = "tf-acc-po-x9k2"` + "\n"
 	config += `  type = "cidr"` + "\n"
 	config += `}` + "\n"
 
