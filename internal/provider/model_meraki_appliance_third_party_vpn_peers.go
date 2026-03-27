@@ -45,6 +45,7 @@ type ApplianceThirdPartyVPNPeers struct {
 type ApplianceThirdPartyVPNPeersPeers struct {
 	IkeVersion                         types.String `tfsdk:"ike_version"`
 	IpsecPoliciesPreset                types.String `tfsdk:"ipsec_policies_preset"`
+	IpVersion                          types.Int64  `tfsdk:"ip_version"`
 	IsRouteBased                       types.Bool   `tfsdk:"is_route_based"`
 	LocalId                            types.String `tfsdk:"local_id"`
 	Name                               types.String `tfsdk:"name"`
@@ -104,6 +105,9 @@ func (data ApplianceThirdPartyVPNPeers) toBody(ctx context.Context, state Applia
 			}
 			if !item.IpsecPoliciesPreset.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "ipsecPoliciesPreset", item.IpsecPoliciesPreset.ValueString())
+			}
+			if !item.IpVersion.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "ipVersion", item.IpVersion.ValueInt64())
 			}
 			if !item.IsRouteBased.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "isRouteBased", item.IsRouteBased.ValueBool())
@@ -254,6 +258,11 @@ func (data *ApplianceThirdPartyVPNPeers) fromBody(ctx context.Context, res merak
 				data.IpsecPoliciesPreset = types.StringValue(value.String())
 			} else {
 				data.IpsecPoliciesPreset = types.StringNull()
+			}
+			if value := res.Get("ipVersion"); value.Exists() && value.Value() != nil {
+				data.IpVersion = types.Int64Value(value.Int())
+			} else {
+				data.IpVersion = types.Int64Null()
 			}
 			if value := res.Get("isRouteBased"); value.Exists() && value.Value() != nil {
 				data.IsRouteBased = types.BoolValue(value.Bool())
@@ -485,6 +494,11 @@ func (data *ApplianceThirdPartyVPNPeers) fromBodyPartial(ctx context.Context, re
 			data.IpsecPoliciesPreset = types.StringValue(value.String())
 		} else {
 			data.IpsecPoliciesPreset = types.StringNull()
+		}
+		if value := res.Get("ipVersion"); value.Exists() && !data.IpVersion.IsNull() {
+			data.IpVersion = types.Int64Value(value.Int())
+		} else {
+			data.IpVersion = types.Int64Null()
 		}
 		if value := res.Get("isRouteBased"); value.Exists() && !data.IsRouteBased.IsNull() {
 			data.IsRouteBased = types.BoolValue(value.Bool())

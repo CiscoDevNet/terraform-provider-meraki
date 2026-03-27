@@ -94,6 +94,10 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 							MarkdownDescription: helpers.NewAttributeDescription("One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.").String,
 							Optional:            true,
 						},
+						"ip_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] The IP version of the VPN peer. Required when isRouteBased is true. Accepted values are 4 or 6.").String,
+							Optional:            true,
+						},
 						"is_route_based": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("[optional] If true, the VPN peer is route-based. If not included, the default is false. Supported only for MX 19.1 and above.").String,
 							Optional:            true,

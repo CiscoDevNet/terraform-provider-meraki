@@ -4,11 +4,14 @@ page_title: "meraki_wireless_ssid_open_roaming Resource - terraform-provider-mer
 subcategory: "Wireless"
 description: |-
   This resource can manage the Wireless SSID Open Roaming configuration.
+  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_wireless_ssid_open_roaming (Resource)
 
 This resource can manage the `Wireless SSID Open Roaming` configuration.
+
+~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 
 ## Example Usage
 
