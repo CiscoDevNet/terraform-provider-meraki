@@ -28,7 +28,7 @@ resource "meraki_wireless_rf_profiles" "example" {
     min_bitrate_type                           = "band"
     name                                       = "Main Office"
     ap_band_settings_band_operation_mode       = "5ghz"
-    ap_band_settings_band_steering_enabled     = true
+    ap_band_settings_band_steering_enabled     = false
     ap_band_settings_bands_enabled             = ["5"]
     five_ghz_settings_channel_width            = "auto"
     five_ghz_settings_max_power                = 30

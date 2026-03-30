@@ -6,6 +6,19 @@ ifneq (,$(wildcard ./.env))
     export
 endif
 
+# Clean up leftover test resources from previous runs
+# Usage: make clean
+.PHONY: clean
+clean:
+	@echo "========================================="
+	@echo "Cleaning up test resources..."
+	@echo "========================================="
+	@if [ -z "$(MERAKI_API_KEY)" ]; then \
+		echo "SKIPPED: MERAKI_API_KEY is not configured"; \
+	else \
+		go run internal/cleanup/main.go; \
+	fi
+
 # Run acceptance tests
 # Usage: make test [NAME="Definition Name"] [DEBUG=1]
 # NAME must be a definition name (e.g., "Organization Admin") matching the name: field in gen/definitions/*.yaml
