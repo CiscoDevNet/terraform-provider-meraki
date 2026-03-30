@@ -4,14 +4,11 @@ page_title: "meraki_wireless_ssid_open_roaming Data Source - terraform-provider-
 subcategory: "Wireless"
 description: |-
   This data source can read the Wireless SSID Open Roaming configuration.
-  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_wireless_ssid_open_roaming (Data Source)
 
 This data source can read the `Wireless SSID Open Roaming` configuration.
-
-~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 
 ## Example Usage
 

@@ -17,7 +17,7 @@ description: |-
 - Add `sp_initiated_idp_id` and `sp_initiated_subdomain` attributes to `meraki_organization_saml` resource and data source
 - Add `stp_port_fast_trunk` attribute to `meraki_switch_port` resources and data sources
 - Add `access_control_*` attributes to `meraki_wireless_ssids` data source
-- Implement IP version support for third-party VPN peers in Meraki appliance configuration. Update resource schema and model to include 'ip_version' attribute, required when 'is_route_based' is true. Adjust related documentation and examples accordingly. [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/200)
+- Add `ip_version` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/200)
 
 ## 1.9.0
 
