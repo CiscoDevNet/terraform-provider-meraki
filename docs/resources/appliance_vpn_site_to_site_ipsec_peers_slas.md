@@ -44,6 +44,10 @@ Required:
 - `name` (String) SLA policy name
 - `uri` (String) Endpoint for testing SLA
 
+Read-Only:
+
+- `id` (String) SLA policy ID
+
 ## Import
 
 Import is supported using the following syntax:
