@@ -32,6 +32,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationPolicyObjectGroups(t *testing.T) {
+	if os.Getenv("ORGANIZATION_POLICY_OBJECT_GROUP") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION_POLICY_OBJECT_GROUP")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
@@ -84,7 +87,7 @@ resource "meraki_organization_policy_object" "test" {
   organization_id = data.meraki_organization.test.id
   category = "network"
   cidr = "10.0.1.0/24"
-  name = "Web Servers - Datacenter 10"
+  name = "Web Servers"
   type = "cidr"
 }
 
@@ -98,7 +101,7 @@ func testAccMerakiOrganizationPolicyObjectGroupsConfig_minimum() string {
 	config := `resource "meraki_organization_policy_object_groups" "test" {` + "\n"
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
-	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  name = "Web Servers Group"` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config
@@ -113,7 +116,7 @@ func testAccMerakiOrganizationPolicyObjectGroupsConfig_all() string {
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
 	config += `  category = "NetworkObjectGroup"` + "\n"
-	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  name = "Web Servers Group"` + "\n"
 	config += `  object_ids = [meraki_organization_policy_object.test.id]` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"

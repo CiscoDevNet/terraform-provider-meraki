@@ -32,12 +32,15 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationPolicyObjectGroup(t *testing.T) {
+	if os.Getenv("ORGANIZATION_POLICY_OBJECT_GROUP") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION_POLICY_OBJECT_GROUP")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object_group.test", "category", "NetworkObjectGroup"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object_group.test", "name", "Web Servers - Datacenter 10"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object_group.test", "name", "Web Servers Group"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -92,7 +95,7 @@ resource "meraki_organization_policy_object" "test" {
   organization_id = data.meraki_organization.test.id
   category = "network"
   cidr = "10.0.1.0/24"
-  name = "Web Servers - Datacenter 10"
+  name = "Web Servers"
   type = "cidr"
 }
 
@@ -105,7 +108,7 @@ resource "meraki_organization_policy_object" "test" {
 func testAccMerakiOrganizationPolicyObjectGroupConfig_minimum() string {
 	config := `resource "meraki_organization_policy_object_group" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  name = "Web Servers Group"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -118,7 +121,7 @@ func testAccMerakiOrganizationPolicyObjectGroupConfig_all() string {
 	config := `resource "meraki_organization_policy_object_group" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "NetworkObjectGroup"` + "\n"
-	config += `  name = "Web Servers - Datacenter 10"` + "\n"
+	config += `  name = "Web Servers Group"` + "\n"
 	config += `  object_ids = [meraki_organization_policy_object.test.id]` + "\n"
 	config += `}` + "\n"
 	return config
