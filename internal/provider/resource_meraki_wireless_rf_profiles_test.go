@@ -123,7 +123,7 @@ func testAccMerakiWirelessRFProfilesConfig_all() string {
 	config += `  min_bitrate_type = "band"` + "\n"
 	config += `  name = "Main Office"` + "\n"
 	config += `  ap_band_settings_band_operation_mode = "5ghz"` + "\n"
-	config += `  ap_band_settings_band_steering_enabled = true` + "\n"
+	config += `  ap_band_settings_band_steering_enabled = false` + "\n"
 	config += `  ap_band_settings_bands_enabled = ["5"]` + "\n"
 	config += `  five_ghz_settings_channel_width = "auto"` + "\n"
 	config += `  five_ghz_settings_max_power = 30` + "\n"

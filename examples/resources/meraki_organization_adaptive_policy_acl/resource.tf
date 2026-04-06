@@ -7,7 +7,7 @@ resource "meraki_organization_adaptive_policy_acl" "example" {
     {
       dst_port        = "22-30"
       log             = true
-      policy          = "deny"
+      policy          = "allow"
       protocol        = "tcp"
       src_port        = "1,33"
       tcp_established = true

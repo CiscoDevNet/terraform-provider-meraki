@@ -32,6 +32,7 @@ description: |-
   - Remove `meraki_organization_extensions_thousand_eyes_network` data source (use `meraki_organization_extensions_thousand_eyes_networks` instead)
   - Remove `meraki_switch_organization_ports_profile` data source (use `meraki_switch_organization_ports_profiles` instead)
   - Remove `meraki_switch_organization_ports_profiles_automation` data source (use `meraki_switch_organization_ports_profiles_automations` instead)
+- Add `ip_version` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/200)
 
 ## 1.9.0
 

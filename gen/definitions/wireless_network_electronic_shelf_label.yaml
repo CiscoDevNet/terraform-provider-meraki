@@ -21,7 +21,7 @@ attributes:
   - model_name: hostname
     type: String
     description: Desired ESL hostname of the network
-    example: N_24329156
+    example: example.com
   - model_name: mode
     type: String
     description: Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`

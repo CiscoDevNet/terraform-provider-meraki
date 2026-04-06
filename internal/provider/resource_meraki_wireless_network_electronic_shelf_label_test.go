@@ -37,7 +37,7 @@ func TestAccMerakiWirelessNetworkElectronicShelfLabel(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_network_electronic_shelf_label.test", "enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_network_electronic_shelf_label.test", "hostname", "N_24329156"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_network_electronic_shelf_label.test", "hostname", "example.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_network_electronic_shelf_label.test", "mode", "high frequency"))
 
 	var steps []resource.TestStep
@@ -117,7 +117,7 @@ func testAccMerakiWirelessNetworkElectronicShelfLabelConfig_all() string {
 	config := `resource "meraki_wireless_network_electronic_shelf_label" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  enabled = true` + "\n"
-	config += `  hostname = "N_24329156"` + "\n"
+	config += `  hostname = "example.com"` + "\n"
 	config += `  mode = "high frequency"` + "\n"
 	config += `}` + "\n"
 	return config

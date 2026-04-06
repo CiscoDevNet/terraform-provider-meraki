@@ -32,6 +32,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationPolicyObjectGroup(t *testing.T) {
+	if os.Getenv("ORGANIZATION_POLICY_OBJECT_GROUP") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION_POLICY_OBJECT_GROUP")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}

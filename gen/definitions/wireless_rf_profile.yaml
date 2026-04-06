@@ -47,7 +47,7 @@ attributes:
     type: Bool
     data_path: [apBandSettings]
     description: Steers client to most open band. Can be either true or false. Defaults to true.
-    example: "true"
+    example: "false"
   - model_name: enabled
     type: Set
     element_type: String

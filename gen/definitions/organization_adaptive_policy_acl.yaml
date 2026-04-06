@@ -46,7 +46,7 @@ attributes:
         type: String
         mandatory: true
         description: '`allow` or `deny` traffic specified by this rule.'
-        example: deny
+        example: allow
         enum_values: [allow, deny]
       - model_name: protocol
         type: String

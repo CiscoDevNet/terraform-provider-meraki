@@ -1,3 +1,4 @@
+# Test currently fails with "500 Internal Error"
 name: Organization Policy Object Group
 spec_endpoint: /organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}
 rest_endpoint: /organizations/%v/policyObjects/groups
@@ -5,6 +6,7 @@ bulk_data_source: true
 bulk_resource: true
 data_source_name_query: true
 doc_category: Organizations
+test_tags: [ORGANIZATION_POLICY_OBJECT_GROUP]
 test_variables: [test_org]
 attributes:
   - tf_name: organization_id
