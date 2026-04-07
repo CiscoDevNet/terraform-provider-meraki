@@ -7,7 +7,6 @@ bulk_resource: true
 post_and_put: true
 data_source_name_query: true
 doc_category: Wireless
-test_tags: [WIRELESS_RF_PROFILE]
 test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id

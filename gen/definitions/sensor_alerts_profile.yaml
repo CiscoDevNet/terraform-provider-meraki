@@ -6,7 +6,6 @@ bulk_resource: true
 id_name: profileId
 data_source_name_query: true
 doc_category: Sensors
-test_tags: [SENSOR_ALERTS_PROFILE]
 test_variables: [test_org, test_network, test_sensor_1_serial]
 attributes:
   - tf_name: network_id

@@ -44,7 +44,6 @@ attributes:
     mandatory: true
     description: Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
     example: Web Servers - Datacenter 10
-    test_value: '"tf-acc-po-x9k2"'
   - model_name: type
     type: String
     mandatory: true

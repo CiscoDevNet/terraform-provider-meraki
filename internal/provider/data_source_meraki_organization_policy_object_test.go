@@ -36,6 +36,7 @@ func TestAccDataSourceMerakiOrganizationPolicyObject(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object.test", "category", "network"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object.test", "cidr", "10.0.0.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object.test", "name", "Web Servers - Datacenter 10"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object.test", "type", "cidr"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -70,7 +71,7 @@ func testAccDataSourceMerakiOrganizationPolicyObjectConfig() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "network"` + "\n"
 	config += `  cidr = "10.0.0.0/24"` + "\n"
-	config += `  name = "tf-acc-po-x9k2"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += `  type = "cidr"` + "\n"
 	config += `}` + "\n"
 
@@ -89,7 +90,7 @@ func testAccNamedDataSourceMerakiOrganizationPolicyObjectConfig() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "network"` + "\n"
 	config += `  cidr = "10.0.0.0/24"` + "\n"
-	config += `  name = "tf-acc-po-x9k2"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += `  type = "cidr"` + "\n"
 	config += `}` + "\n"
 

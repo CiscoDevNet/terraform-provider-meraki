@@ -5,7 +5,6 @@ bulk_data_source: true
 get_from_all: true
 data_source_name_query: true
 doc_category: Organizations
-test_tags: [ORGANIZATION_ADMIN]
 test_variables: [test_org, test_network]
 attributes:
   - tf_name: organization_id

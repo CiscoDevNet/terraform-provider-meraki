@@ -19,7 +19,7 @@ This resource can manage the `Switch Organization Ports Profiles Automation` con
 resource "meraki_switch_organization_ports_profiles_automation" "example" {
   organization_id = "123456"
   description     = "A full length description of the automation."
-  name            = "Automation 12"
+  name            = "Automation 1"
   assigned_switch_ports = [
     {
       switch_serial = "Q234-ABCD-5678"

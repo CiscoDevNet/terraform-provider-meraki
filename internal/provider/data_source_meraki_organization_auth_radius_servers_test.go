@@ -30,9 +30,6 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiOrganizationAuthRADIUSServers(t *testing.T) {
-	if os.Getenv("ORGANIZATION_AUTH_RADIUS_SERVER") == "" {
-		t.Skip("skipping test, set environment variable ORGANIZATION_AUTH_RADIUS_SERVER")
-	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}

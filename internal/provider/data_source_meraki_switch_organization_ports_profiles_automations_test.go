@@ -30,9 +30,6 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiSwitchOrganizationPortsProfilesAutomations(t *testing.T) {
-	if os.Getenv("SWITCH_ORGANIZATION_PORTS_PROFILES_AUTOMATION") == "" {
-		t.Skip("skipping test, set environment variable SWITCH_ORGANIZATION_PORTS_PROFILES_AUTOMATION")
-	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_3_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_3_serial")
 	}

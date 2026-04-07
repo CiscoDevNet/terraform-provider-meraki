@@ -4,7 +4,6 @@ rest_endpoint: /organizations/%v/snmp
 put_create: true
 no_delete: true
 doc_category: Organizations
-test_tags: [ORGANIZATION_SNMP]
 test_variables: [test_org]
 attributes:
   - tf_name: organization_id

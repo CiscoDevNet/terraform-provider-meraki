@@ -32,9 +32,6 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiWirelessRadioSettings(t *testing.T) {
-	if os.Getenv("WIRELESS_RADIO_SETTINGS") == "" {
-		t.Skip("skipping test, set environment variable WIRELESS_RADIO_SETTINGS")
-	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_ap_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
 	}

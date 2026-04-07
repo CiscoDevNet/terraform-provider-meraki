@@ -3,7 +3,6 @@ spec_endpoint: /organizations/{organizationId}/earlyAccess/features/optIns/{optI
 rest_endpoint: /organizations/%v/earlyAccess/features/optIns
 bulk_data_source: true
 doc_category: Organizations
-test_tags: [ORGANIZATION_EARLY_ACCESS_FEATURES_OPT_IN]
 test_variables: [test_org, test_network]
 attributes:
   - tf_name: organization_id

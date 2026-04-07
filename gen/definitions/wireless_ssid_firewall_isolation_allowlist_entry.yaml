@@ -5,7 +5,6 @@ bulk_data_source: true
 get_from_all: true
 id_name: entryId
 doc_category: Wireless
-test_tags: [WIRELESS_SSID_FIREWALL_ISOLATION_ALLOWLIST_ENTRY]
 test_variables: [test_org, test_network]
 attributes:
   - tf_name: organization_id

@@ -20,7 +20,7 @@ resource "meraki_switch_organization_ports_profile" "example" {
   organization_id            = "123456"
   description                = "IP Phones for all office workers"
   is_organization_wide       = true
-  name                       = "Phone 2"
+  name                       = "Phone"
   port_access_policy_type    = "Open"
   port_allowed_vlans         = "1-100"
   port_dai_trusted           = false

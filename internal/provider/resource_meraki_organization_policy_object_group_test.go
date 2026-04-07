@@ -40,6 +40,7 @@ func TestAccMerakiOrganizationPolicyObjectGroup(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object_group.test", "category", "NetworkObjectGroup"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_policy_object_group.test", "name", "Web Servers - Datacenter 10"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -107,7 +108,7 @@ resource "meraki_organization_policy_object" "test" {
 func testAccMerakiOrganizationPolicyObjectGroupConfig_minimum() string {
 	config := `resource "meraki_organization_policy_object_group" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  name = "tf-acc-pog-x9k2"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -120,7 +121,7 @@ func testAccMerakiOrganizationPolicyObjectGroupConfig_all() string {
 	config := `resource "meraki_organization_policy_object_group" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "NetworkObjectGroup"` + "\n"
-	config += `  name = "tf-acc-pog-x9k2"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += `  object_ids = [meraki_organization_policy_object.test.id]` + "\n"
 	config += `}` + "\n"
 	return config

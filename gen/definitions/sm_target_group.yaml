@@ -4,7 +4,6 @@ rest_endpoint: /networks/%v/sm/targetGroups
 bulk_data_source: true
 data_source_name_query: true
 doc_category: Systems Manager
-test_tags: [SM_TARGET_GROUP]
 test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id

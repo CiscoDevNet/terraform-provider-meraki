@@ -25,7 +25,6 @@ attributes:
     mandatory: true
     description: A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
     example: Web Servers - Datacenter 10
-    test_value: '"tf-acc-pog-x9k2"'
   - model_name: objectIds
     type: Set
     element_type: Int64

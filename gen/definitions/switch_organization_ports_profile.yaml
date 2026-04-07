@@ -11,7 +11,6 @@ id_name: profileId
 early_access: true
 data_source_name_query: true
 doc_category: Switches
-test_tags: [SWITCH_ORGANIZATION_PORTS_PROFILE]
 test_variables: [test_org]
 attributes:
   - tf_name: organization_id
@@ -32,7 +31,7 @@ attributes:
     type: String
     mandatory: true
     description: The name of the profile.
-    example: Phone 2
+    example: Phone
   - model_name: networkId
     type: String
     exclude_test: true
