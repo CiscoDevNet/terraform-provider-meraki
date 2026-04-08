@@ -235,6 +235,15 @@ func (data *ResourceSwitchRoutingMulticastRendezvousPoints) fromBodyImport(ctx c
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceSwitchRoutingMulticastRendezvousPoints) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceSwitchRoutingMulticastRendezvousPoints) hasChanges(ctx context.Context, state *ResourceSwitchRoutingMulticastRendezvousPoints, id string) bool {

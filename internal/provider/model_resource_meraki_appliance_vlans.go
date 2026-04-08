@@ -1005,6 +1005,15 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceApplianceVLANs) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceApplianceVLANs) hasChanges(ctx context.Context, state *ResourceApplianceVLANs, id string) bool {

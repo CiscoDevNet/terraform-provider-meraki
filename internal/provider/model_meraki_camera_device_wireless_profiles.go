@@ -124,3 +124,12 @@ func (data *CameraDeviceWirelessProfiles) fromBodyUnknowns(ctx context.Context, 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data CameraDeviceWirelessProfiles) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

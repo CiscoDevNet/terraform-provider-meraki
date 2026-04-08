@@ -359,6 +359,15 @@ func (data *ResourceNetworkWebhookPayloadTemplates) fromBodyImport(ctx context.C
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceNetworkWebhookPayloadTemplates) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceNetworkWebhookPayloadTemplates) hasChanges(ctx context.Context, state *ResourceNetworkWebhookPayloadTemplates, id string) bool {

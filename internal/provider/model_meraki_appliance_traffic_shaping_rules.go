@@ -65,13 +65,12 @@ func (data ApplianceTrafficShapingRules) getPath() string {
 }
 
 // End of section. //template:end getPath
-
 func (data ApplianceTrafficShapingRules) toBody(ctx context.Context, state ApplianceTrafficShapingRules) string {
 	body := ""
 	if !data.DefaultRulesEnabled.IsNull() {
 		body, _ = sjson.Set(body, "defaultRulesEnabled", data.DefaultRulesEnabled.ValueBool())
 	}
-	{
+	if data.Rules != nil {
 		body, _ = sjson.Set(body, "rules", []interface{}{})
 		for _, item := range data.Rules {
 			itemBody := ""

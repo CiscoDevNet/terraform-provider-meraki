@@ -204,6 +204,15 @@ func (data *ResourceOrganizationLicenses) fromBodyImport(ctx context.Context, re
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceOrganizationLicenses) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceOrganizationLicenses) hasChanges(ctx context.Context, state *ResourceOrganizationLicenses, id string) bool {

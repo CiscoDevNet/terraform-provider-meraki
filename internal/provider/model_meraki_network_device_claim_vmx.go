@@ -114,3 +114,12 @@ func (data *NetworkDeviceClaimVMX) fromBodyUnknowns(ctx context.Context, res mer
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data NetworkDeviceClaimVMX) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

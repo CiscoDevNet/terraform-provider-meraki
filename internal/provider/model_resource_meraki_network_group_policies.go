@@ -1500,6 +1500,15 @@ func (data *ResourceNetworkGroupPolicies) fromBodyImport(ctx context.Context, re
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceNetworkGroupPolicies) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceNetworkGroupPolicies) hasChanges(ctx context.Context, state *ResourceNetworkGroupPolicies, id string) bool {

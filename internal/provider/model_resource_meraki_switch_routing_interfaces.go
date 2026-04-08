@@ -501,6 +501,15 @@ func (data *ResourceSwitchRoutingInterfaces) fromBodyImport(ctx context.Context,
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceSwitchRoutingInterfaces) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceSwitchRoutingInterfaces) hasChanges(ctx context.Context, state *ResourceSwitchRoutingInterfaces, id string) bool {
