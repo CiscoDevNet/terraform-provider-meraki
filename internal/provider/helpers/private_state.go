@@ -76,24 +76,6 @@ func SetFlag(ctx context.Context, flagName string, value bool, sk SetKeyer, resp
 	respDiags.Append(diags...)
 }
 
-func GetJson(ctx context.Context, req resource.DeleteRequest, keyName string) (string, diag.Diagnostics) {
-	v, diags := req.Private.GetKey(ctx, keyName)
-	if diags.HasError() {
-		return "", diags
-	}
-
-	return string(v), diags
-}
-
-func SetJson(ctx context.Context, keyName string, jsonValue string, sk SetKeyer, respDiags *diag.Diagnostics) {
-	if respDiags.HasError() {
-		return
-	}
-
-	diags := sk.SetKey(ctx, keyName, []byte(jsonValue))
-	respDiags.Append(diags...)
-}
-
 // SetKeyer is something like ReadResponse.Private or ImportStateResponse.Private.
 type SetKeyer interface {
 	SetKey(ctx context.Context, key string, value []byte) diag.Diagnostics
