@@ -257,15 +257,6 @@ func (data *ResourceAppliancePrefixDelegatedStatics) fromBodyImport(ctx context.
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ResourceAppliancePrefixDelegatedStatics) addDeleteValues(ctx context.Context) string {
-	body := ""
-	return body
-}
-
-// End of section. //template:end addDeleteValues
-
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceAppliancePrefixDelegatedStatics) hasChanges(ctx context.Context, state *ResourceAppliancePrefixDelegatedStatics, id string) bool {

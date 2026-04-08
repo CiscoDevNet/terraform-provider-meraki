@@ -213,11 +213,3 @@ func (data *OrganizationAdaptivePolicyGroup) fromBodyUnknowns(ctx context.Contex
 }
 
 // End of section. //template:end fromBodyUnknowns
-
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data OrganizationAdaptivePolicyGroup) addDeleteValues(ctx context.Context, body string) string {
-	return body
-}
-
-// End of section. //template:end addDeleteValues

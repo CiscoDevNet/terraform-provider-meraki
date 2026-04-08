@@ -311,15 +311,6 @@ func (data *ResourceSwitchRoutingStaticRoutes) fromBodyImport(ctx context.Contex
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ResourceSwitchRoutingStaticRoutes) addDeleteValues(ctx context.Context) string {
-	body := ""
-	return body
-}
-
-// End of section. //template:end addDeleteValues
-
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceSwitchRoutingStaticRoutes) hasChanges(ctx context.Context, state *ResourceSwitchRoutingStaticRoutes, id string) bool {

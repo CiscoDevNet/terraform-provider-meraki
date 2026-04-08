@@ -129,11 +129,3 @@ func (data *ApplianceDNSSplitProfile) fromBodyUnknowns(ctx context.Context, res 
 }
 
 // End of section. //template:end fromBodyUnknowns
-
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ApplianceDNSSplitProfile) addDeleteValues(ctx context.Context, body string) string {
-	return body
-}
-
-// End of section. //template:end addDeleteValues

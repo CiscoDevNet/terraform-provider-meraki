@@ -114,11 +114,3 @@ func (data *OrganizationConfigTemplate) fromBodyUnknowns(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyUnknowns
-
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data OrganizationConfigTemplate) addDeleteValues(ctx context.Context, body string) string {
-	return body
-}
-
-// End of section. //template:end addDeleteValues

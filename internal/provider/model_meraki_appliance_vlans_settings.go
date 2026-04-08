@@ -96,11 +96,3 @@ func (data *ApplianceVLANsSettings) fromBodyUnknowns(ctx context.Context, res me
 }
 
 // End of section. //template:end fromBodyUnknowns
-
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ApplianceVLANsSettings) addDeleteValues(ctx context.Context, body string) string {
-	return body
-}
-
-// End of section. //template:end addDeleteValues

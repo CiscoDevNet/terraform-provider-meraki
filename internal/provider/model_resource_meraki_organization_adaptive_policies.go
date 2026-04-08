@@ -391,15 +391,6 @@ func (data *ResourceOrganizationAdaptivePolicies) fromBodyImport(ctx context.Con
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ResourceOrganizationAdaptivePolicies) addDeleteValues(ctx context.Context) string {
-	body := ""
-	return body
-}
-
-// End of section. //template:end addDeleteValues
-
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceOrganizationAdaptivePolicies) hasChanges(ctx context.Context, state *ResourceOrganizationAdaptivePolicies, id string) bool {

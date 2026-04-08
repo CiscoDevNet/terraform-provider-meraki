@@ -113,11 +113,3 @@ func (data *WirelessEthernetPortProfileAssign) fromBodyUnknowns(ctx context.Cont
 }
 
 // End of section. //template:end fromBodyUnknowns
-
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data WirelessEthernetPortProfileAssign) addDeleteValues(ctx context.Context, body string) string {
-	return body
-}
-
-// End of section. //template:end addDeleteValues

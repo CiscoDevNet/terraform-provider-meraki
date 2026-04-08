@@ -187,9 +187,10 @@ func (data *CellularGatewayConnectivityMonitoringDestinations) fromBodyUnknowns(
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data CellularGatewayConnectivityMonitoringDestinations) addDeleteValues(ctx context.Context, body string) string {
+func (data CellularGatewayConnectivityMonitoringDestinations) toDestroyBody(ctx context.Context) string {
+	body := ""
 	body, _ = sjson.Set(body, "destinations", []interface{}{
 		map[string]interface{}{
 			"ip":          "8.8.8.8",
@@ -200,4 +201,4 @@ func (data CellularGatewayConnectivityMonitoringDestinations) addDeleteValues(ct
 	return body
 }
 
-// End of section. //template:end addDeleteValues
+// End of section. //template:end toDestroyBody

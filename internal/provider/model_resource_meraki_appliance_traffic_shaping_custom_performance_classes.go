@@ -254,15 +254,6 @@ func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) fromBodyImp
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ResourceApplianceTrafficShapingCustomPerformanceClasses) addDeleteValues(ctx context.Context) string {
-	body := ""
-	return body
-}
-
-// End of section. //template:end addDeleteValues
-
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceApplianceTrafficShapingCustomPerformanceClasses) hasChanges(ctx context.Context, state *ResourceApplianceTrafficShapingCustomPerformanceClasses, id string) bool {

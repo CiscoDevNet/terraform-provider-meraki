@@ -234,7 +234,7 @@ func (r *SensorMQTTBrokersResource) Update(ctx context.Context, req resource.Upd
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(itemState.MqttBrokerId.ValueString()),
-				Body:      plan.addDeleteValues(ctx),
+				Body:      plan.toDestroyBody(ctx),
 			})
 		}
 	}
@@ -304,7 +304,7 @@ func (r *SensorMQTTBrokersResource) Delete(ctx context.Context, req resource.Del
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  state.getItemPath(item.MqttBrokerId.ValueString()),
-			Body:      state.addDeleteValues(ctx),
+			Body:      state.toDestroyBody(ctx),
 		}
 	}
 	if len(actions) > 0 {

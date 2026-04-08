@@ -721,7 +721,7 @@ func (r *WirelessSSIDsResource) Update(ctx context.Context, req resource.UpdateR
 			actions = append(actions, meraki.ActionModel{
 				Operation: "update",
 				Resource:  plan.getItemPath(itemState.Number.ValueString()),
-				Body:      plan.addDeleteValues(ctx),
+				Body:      plan.toDestroyBody(ctx),
 			})
 		}
 	}
@@ -791,7 +791,7 @@ func (r *WirelessSSIDsResource) Delete(ctx context.Context, req resource.DeleteR
 		actions[i] = meraki.ActionModel{
 			Operation: "update",
 			Resource:  state.getItemPath(item.Number.ValueString()),
-			Body:      state.addDeleteValues(ctx),
+			Body:      state.toDestroyBody(ctx),
 		}
 	}
 	if len(actions) > 0 {

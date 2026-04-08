@@ -480,15 +480,6 @@ func (data *ResourceApplianceSSIDs) fromBodyImport(ctx context.Context, res mera
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ResourceApplianceSSIDs) addDeleteValues(ctx context.Context) string {
-	body := ""
-	return body
-}
-
-// End of section. //template:end addDeleteValues
-
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceApplianceSSIDs) hasChanges(ctx context.Context, state *ResourceApplianceSSIDs, id string) bool {
