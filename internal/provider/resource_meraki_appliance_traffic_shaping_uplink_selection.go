@@ -51,7 +51,8 @@ func NewApplianceTrafficShapingUplinkSelectionResource() resource.Resource {
 }
 
 type ApplianceTrafficShapingUplinkSelectionResource struct {
-	client *meraki.Client
+	client                        *meraki.Client
+	restoreOriginalStateOnDestroy bool
 }
 
 func (r *ApplianceTrafficShapingUplinkSelectionResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -269,6 +270,7 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Configure(_ context.Con
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
 
 // End of section. //template:end model
@@ -276,7 +278,7 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Configure(_ context.Con
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
 func (r *ApplianceTrafficShapingUplinkSelectionResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan, initialState ApplianceTrafficShapingUplinkSelection
+	var plan ApplianceTrafficShapingUplinkSelection
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -286,13 +288,16 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Create(ctx context.Cont
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 	// If the resource is a singleton, we need to read and save the initial state
-	gres, err := r.client.Get(plan.getPath())
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
-		return
+	if r.restoreOriginalStateOnDestroy {
+		var initialState ApplianceTrafficShapingUplinkSelection
+		gres, err := r.client.Get(plan.getPath())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		initialState.fromBody(ctx, gres)
+		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, ApplianceTrafficShapingUplinkSelection{}), resp.Private, &resp.Diagnostics)
 	}
-	initialState.fromBody(ctx, gres)
-	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, ApplianceTrafficShapingUplinkSelection{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
 	body := plan.toBody(ctx, ApplianceTrafficShapingUplinkSelection{})

@@ -49,7 +49,8 @@ func NewWirelessLocationScanningResource() resource.Resource {
 }
 
 type WirelessLocationScanningResource struct {
-	client *meraki.Client
+	client                        *meraki.Client
+	restoreOriginalStateOnDestroy bool
 }
 
 func (r *WirelessLocationScanningResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -94,12 +95,13 @@ func (r *WirelessLocationScanningResource) Configure(_ context.Context, req reso
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
 
 // End of section. //template:end model
 
 func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan, initialState WirelessLocationScanning
+	var plan WirelessLocationScanning
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -109,30 +111,33 @@ func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resou
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 	// If the resource is a singleton, we need to read and save the initial state
-	networkPath := fmt.Sprintf("/networks/%v", plan.NetworkId.ValueString())
-	nres, err := r.client.Get(networkPath)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, nres.String()))
-		return
+	if r.restoreOriginalStateOnDestroy {
+		var initialState WirelessLocationScanning
+		networkPath := fmt.Sprintf("/networks/%v", plan.NetworkId.ValueString())
+		nres, err := r.client.Get(networkPath)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, nres.String()))
+			return
+		}
+		orgId := nres.Get("organizationId").String()
+		getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
+		gres, err := r.client.Get(getPath)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve wireless location scanning (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		if len(gres.Get("items").Array()) > 0 {
+			gres.Get("items").ForEach(func(k, v gjson.Result) bool {
+				if plan.NetworkId.ValueString() == v.Get("networkId").String() {
+					gres = meraki.Res{Result: v}
+					return false
+				}
+				return true
+			})
+		}
+		initialState.fromBody(ctx, gres)
+		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessLocationScanning{}), resp.Private, &resp.Diagnostics)
 	}
-	orgId := nres.Get("organizationId").String()
-	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
-	gres, err := r.client.Get(getPath)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve wireless location scanning (GET), got error: %s, %s", err, gres.String()))
-		return
-	}
-	if len(gres.Get("items").Array()) > 0 {
-		gres.Get("items").ForEach(func(k, v gjson.Result) bool {
-			if plan.NetworkId.ValueString() == v.Get("networkId").String() {
-				gres = meraki.Res{Result: v}
-				return false
-			}
-			return true
-		})
-	}
-	initialState.fromBody(ctx, gres)
-	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessLocationScanning{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
 	body := plan.toBody(ctx, WirelessLocationScanning{})
@@ -260,17 +265,18 @@ func (r *WirelessLocationScanningResource) Delete(ctx context.Context, req resou
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	// If the resource is a singleton, we need to restore the initial state
-	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
-	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
-	}
+	if r.restoreOriginalStateOnDestroy {
+		// Restore the saved initial state on destroy
+		jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
 
-	res, err := r.client.Put(state.getPath(), jsonInitialState)
-	if err != nil {
-		resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
-		return
+		res, err := r.client.Put(state.getPath(), jsonInitialState)
+		if err != nil {
+			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))

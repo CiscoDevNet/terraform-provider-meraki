@@ -48,7 +48,8 @@ func NewCameraDeviceWirelessProfilesResource() resource.Resource {
 }
 
 type CameraDeviceWirelessProfilesResource struct {
-	client *meraki.Client
+	client                        *meraki.Client
+	restoreOriginalStateOnDestroy bool
 }
 
 func (r *CameraDeviceWirelessProfilesResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -97,6 +98,7 @@ func (r *CameraDeviceWirelessProfilesResource) Configure(_ context.Context, req 
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
 
 // End of section. //template:end model
@@ -104,7 +106,7 @@ func (r *CameraDeviceWirelessProfilesResource) Configure(_ context.Context, req 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
 func (r *CameraDeviceWirelessProfilesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan, initialState CameraDeviceWirelessProfiles
+	var plan CameraDeviceWirelessProfiles
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -114,13 +116,16 @@ func (r *CameraDeviceWirelessProfilesResource) Create(ctx context.Context, req r
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 	// If the resource is a singleton, we need to read and save the initial state
-	gres, err := r.client.Get(plan.getPath())
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
-		return
+	if r.restoreOriginalStateOnDestroy {
+		var initialState CameraDeviceWirelessProfiles
+		gres, err := r.client.Get(plan.getPath())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		initialState.fromBody(ctx, gres)
+		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, CameraDeviceWirelessProfiles{}), resp.Private, &resp.Diagnostics)
 	}
-	initialState.fromBody(ctx, gres)
-	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, CameraDeviceWirelessProfiles{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
 	body := plan.toBody(ctx, CameraDeviceWirelessProfiles{})
