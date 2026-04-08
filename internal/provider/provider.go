@@ -280,6 +280,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		return
 	}
 
+	c.UserAgent = fmt.Sprintf("MerakiTerraform/%s Cisco", p.version)
 	data := MerakiProviderData{Client: &c}
 	resp.DataSourceData = &data
 	resp.ResourceData = &data
@@ -464,6 +465,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewWirelessEthernetPortProfileDefaultResource,
 		NewWirelessLocationScanningResource,
 		NewWirelessLocationScanningReceiverResource,
+		NewWirelessMQTTSettingsResource,
 		NewWirelessNetworkBluetoothSettingsResource,
 		NewWirelessNetworkElectronicShelfLabelResource,
 		NewWirelessRadioSettingsResource,
@@ -481,6 +483,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewWirelessSSIDIdentityPSKsResource,
 		NewWirelessSSIDL3FirewallRulesResource,
 		NewWirelessSSIDL7FirewallRulesResource,
+		NewWirelessSSIDOpenRoamingResource,
 		NewWirelessSSIDSchedulesResource,
 		NewWirelessSSIDSplashSettingsResource,
 		NewWirelessSSIDTrafficShapingRulesResource,
@@ -699,6 +702,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewWirelessLocationScanningDataSource,
 		NewWirelessLocationScanningReceiverDataSource,
 		NewWirelessLocationScanningReceiversDataSource,
+		NewWirelessMQTTSettingsDataSource,
 		NewWirelessNetworkBluetoothSettingsDataSource,
 		NewWirelessNetworkElectronicShelfLabelDataSource,
 		NewWirelessRadioSettingsDataSource,
@@ -716,6 +720,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewWirelessSSIDIdentityPSKsDataSource,
 		NewWirelessSSIDL3FirewallRulesDataSource,
 		NewWirelessSSIDL7FirewallRulesDataSource,
+		NewWirelessSSIDOpenRoamingDataSource,
 		NewWirelessSSIDSchedulesDataSource,
 		NewWirelessSSIDSplashSettingsDataSource,
 		NewWirelessSSIDTrafficShapingRulesDataSource,

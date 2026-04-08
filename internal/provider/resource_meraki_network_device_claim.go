@@ -100,6 +100,7 @@ func (r *NetworkDeviceClaimResource) Schema(ctx context.Context, req resource.Sc
 									"value": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("Value of device detail").String,
 										Optional:            true,
+										Sensitive:           true,
 									},
 								},
 							},

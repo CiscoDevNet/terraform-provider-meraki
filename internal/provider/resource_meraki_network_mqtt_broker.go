@@ -92,6 +92,7 @@ func (r *NetworkMQTTBrokerResource) Schema(ctx context.Context, req resource.Sch
 			"authentication_password": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Password for the MQTT broker.").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 			"authentication_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username for the MQTT broker.").String,

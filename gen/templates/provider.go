@@ -281,6 +281,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		return
 	}
 
+	c.UserAgent = fmt.Sprintf("MerakiTerraform/%s Cisco", p.version)
 	data := MerakiProviderData{Client: &c}
 	resp.DataSourceData = &data
 	resp.ResourceData = &data

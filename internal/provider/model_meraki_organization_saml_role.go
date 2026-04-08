@@ -74,7 +74,7 @@ func (data OrganizationSAMLRole) toBody(ctx context.Context, state OrganizationS
 	if !data.Role.IsNull() {
 		body, _ = sjson.Set(body, "role", data.Role.ValueString())
 	}
-	if len(data.Networks) > 0 {
+	if data.Networks != nil {
 		body, _ = sjson.Set(body, "networks", []interface{}{})
 		for _, item := range data.Networks {
 			itemBody := ""
@@ -87,7 +87,7 @@ func (data OrganizationSAMLRole) toBody(ctx context.Context, state OrganizationS
 			body, _ = sjson.SetRaw(body, "networks.-1", itemBody)
 		}
 	}
-	if len(data.Tags) > 0 {
+	if data.Tags != nil {
 		body, _ = sjson.Set(body, "tags", []interface{}{})
 		for _, item := range data.Tags {
 			itemBody := ""

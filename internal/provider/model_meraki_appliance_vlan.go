@@ -70,6 +70,7 @@ type ApplianceVLANFixedIpAssignments struct {
 
 type ApplianceVLANIpv6PrefixAssignments struct {
 	Autonomous         types.Bool   `tfsdk:"autonomous"`
+	Disabled           types.Bool   `tfsdk:"disabled"`
 	StaticApplianceIp6 types.String `tfsdk:"static_appliance_ip6"`
 	StaticPrefix       types.String `tfsdk:"static_prefix"`
 	OriginType         types.String `tfsdk:"origin_type"`
@@ -147,7 +148,7 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	if !data.VpnNatSubnet.IsNull() {
 		body, _ = sjson.Set(body, "vpnNatSubnet", data.VpnNatSubnet.ValueString())
 	}
-	if len(data.FixedIpAssignments) > 0 {
+	if data.FixedIpAssignments != nil {
 		body, _ = sjson.Set(body, "fixedIpAssignments", map[string]interface{}{})
 		for key, item := range data.FixedIpAssignments {
 			itemBody := ""
@@ -163,12 +164,15 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	if !data.Ipv6Enabled.IsNull() {
 		body, _ = sjson.Set(body, "ipv6.enabled", data.Ipv6Enabled.ValueBool())
 	}
-	if len(data.Ipv6PrefixAssignments) > 0 {
+	if data.Ipv6PrefixAssignments != nil {
 		body, _ = sjson.Set(body, "ipv6.prefixAssignments", []interface{}{})
 		for _, item := range data.Ipv6PrefixAssignments {
 			itemBody := ""
 			if !item.Autonomous.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "autonomous", item.Autonomous.ValueBool())
+			}
+			if !item.Disabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "disabled", item.Disabled.ValueBool())
 			}
 			if !item.StaticApplianceIp6.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "staticApplianceIp6", item.StaticApplianceIp6.ValueString())
@@ -190,7 +194,7 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	if !data.MandatoryDhcpEnabled.IsNull() {
 		body, _ = sjson.Set(body, "mandatoryDhcp.enabled", data.MandatoryDhcpEnabled.ValueBool())
 	}
-	if len(data.DhcpOptions) > 0 {
+	if data.DhcpOptions != nil {
 		body, _ = sjson.Set(body, "dhcpOptions", []interface{}{})
 		for _, item := range data.DhcpOptions {
 			itemBody := ""
@@ -211,7 +215,7 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 		data.DhcpRelayServerIps.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "dhcpRelayServerIps", values)
 	}
-	if len(data.ReservedIpRanges) > 0 {
+	if data.ReservedIpRanges != nil {
 		body, _ = sjson.Set(body, "reservedIpRanges", []interface{}{})
 		for _, item := range data.ReservedIpRanges {
 			itemBody := ""
@@ -343,6 +347,11 @@ func (data *ApplianceVLAN) fromBody(ctx context.Context, res meraki.Res) {
 				data.Autonomous = types.BoolValue(value.Bool())
 			} else {
 				data.Autonomous = types.BoolNull()
+			}
+			if value := res.Get("disabled"); value.Exists() && value.Value() != nil {
+				data.Disabled = types.BoolValue(value.Bool())
+			} else {
+				data.Disabled = types.BoolNull()
 			}
 			if value := res.Get("staticApplianceIp6"); value.Exists() && value.Value() != nil {
 				data.StaticApplianceIp6 = types.StringValue(value.String())
@@ -550,6 +559,11 @@ func (data *ApplianceVLAN) fromBodyPartial(ctx context.Context, res meraki.Res) 
 			data.Autonomous = types.BoolValue(value.Bool())
 		} else {
 			data.Autonomous = types.BoolNull()
+		}
+		if value := res.Get("disabled"); value.Exists() && !data.Disabled.IsNull() {
+			data.Disabled = types.BoolValue(value.Bool())
+		} else {
+			data.Disabled = types.BoolNull()
 		}
 		if value := res.Get("staticApplianceIp6"); value.Exists() && !data.StaticApplianceIp6.IsNull() {
 			data.StaticApplianceIp6 = types.StringValue(value.String())

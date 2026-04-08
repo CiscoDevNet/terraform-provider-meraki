@@ -52,6 +52,8 @@ Read-Only:
 - `mac_whitelist_limit` (Number) The maximum number of MAC addresses for regular MAC allow list. Only applicable when `accessPolicyType` is `MAC allow list`. Note: Config only supported on verions greater than ms18 only for classic switches.
 - `mirror_mode` (String) The port mirror mode. Can be one of (`Destination port`, `Source port` or `Not mirroring traffic`).
 - `module_model` (String) The model of the expansion module.
+- `module_serial` (String) The serial of the module.
+- `module_slot` (Number) The slot number of the module.
 - `name` (String) The name of the switch port.
 - `peer_sgt_capable` (Boolean) If true, Peer SGT is enabled for traffic through this switch port. Applicable to trunk port only, not access port. Cannot be applied to a port on a switch bound to profile.
 - `poe_enabled` (Boolean) The PoE status of the switch port.
@@ -69,6 +71,7 @@ Read-Only:
 - `sticky_mac_allow_list_limit` (Number) The maximum number of MAC addresses for sticky MAC allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
 - `storm_control_enabled` (Boolean) The storm control status of the switch port.
 - `stp_guard` (String) The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).
+- `stp_port_fast_trunk` (Boolean) The state of STP PortFast Trunk on the switch port.
 - `tags` (List of String) The list of tags of the switch port.
 - `type` (String) The type of the switch port (`trunk`, `access` or `stack`).
 - `udld` (String) The action to take when Unidirectional Link is detected (Alert only, Enforce). Default configuration is Alert only.

@@ -212,6 +212,7 @@ func (d *SwitchAccessPolicyDataSource) Schema(ctx context.Context, req datasourc
 						"secret": schema.StringAttribute{
 							MarkdownDescription: "RADIUS client shared secret",
 							Computed:            true,
+							Sensitive:           true,
 						},
 					},
 				},
@@ -236,6 +237,7 @@ func (d *SwitchAccessPolicyDataSource) Schema(ctx context.Context, req datasourc
 						"secret": schema.StringAttribute{
 							MarkdownDescription: "RADIUS client shared secret",
 							Computed:            true,
+							Sensitive:           true,
 						},
 					},
 				},

@@ -179,6 +179,50 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "The types of WPA encryption",
 							Computed:            true,
 						},
+						"access_control_clients_blocked_from_using_lan": schema.BoolAttribute{
+							MarkdownDescription: "Whether clients are blocked from using the LAN",
+							Computed:            true,
+						},
+						"access_control_wired_clients_part_of_wifi_network": schema.BoolAttribute{
+							MarkdownDescription: "Whether wired SSID clients are part of the Wi-Fi network",
+							Computed:            true,
+						},
+						"access_control_bandwidth_limit": schema.StringAttribute{
+							MarkdownDescription: "Defined SSID bandwidth limits",
+							Computed:            true,
+						},
+						"access_control_client_ip_assignment_mode": schema.StringAttribute{
+							MarkdownDescription: "Client IP assignment mode",
+							Computed:            true,
+						},
+						"access_control_encryption_mode": schema.StringAttribute{
+							MarkdownDescription: "Specifies the authentication and encryption type for the SSID",
+							Computed:            true,
+						},
+						"access_control_splash_page_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether the splash page is enabled",
+							Computed:            true,
+						},
+						"access_control_splash_page_theme": schema.StringAttribute{
+							MarkdownDescription: "Name of the splash theme, or `n/a` if not applicable",
+							Computed:            true,
+						},
+						"access_control_tunnel_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether tunneling is enabled",
+							Computed:            true,
+						},
+						"access_control_tunnel_summary": schema.StringAttribute{
+							MarkdownDescription: "Summary describing whether traffic is tunneled and to where",
+							Computed:            true,
+						},
+						"access_control_vlan_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether VLAN tagging is enabled",
+							Computed:            true,
+						},
+						"access_control_vlan_tag": schema.StringAttribute{
+							MarkdownDescription: "VLAN tag applied to this SSID when tagging is enabled",
+							Computed:            true,
+						},
 						"availability_tags": schema.ListAttribute{
 							MarkdownDescription: "List of tags for this SSID. If availableOnAllAps is false, then the SSID is only broadcast by APs with tags matching any of the tags in this list",
 							ElementType:         types.StringType,

@@ -16,11 +16,19 @@ This resource is meant to be used in addition to the `meraki_appliance_vlan` res
 resource "meraki_appliance_vlan_dhcp" "example" {
   network_id                = "L_123456"
   vlan_id                   = "1234"
-  dhcp_boot_options_enabled = false
+  dhcp_boot_filename        = "sample.file"
+  dhcp_boot_next_server     = "1.2.3.4"
+  dhcp_boot_options_enabled = true
   dhcp_handling             = "Run a DHCP server"
   dhcp_lease_time           = "1 day"
   dns_nameservers           = "upstream_dns"
-  mandatory_dhcp_enabled    = true
+  fixed_ip_assignments = {
+    "22:33:44:55:66:77" = {
+      ip   = "192.168.1.100"
+      name = "Some client name"
+    }
+  }
+  mandatory_dhcp_enabled = true
 }
 ```
 
@@ -44,8 +52,10 @@ resource "meraki_appliance_vlan_dhcp" "example" {
 - `dhcp_options` (Attributes List) The list of DHCP options that will be included in DHCP responses. Each object in the list should have 'code', 'type', and 'value' properties. (see [below for nested schema](#nestedatt--dhcp_options))
 - `dhcp_relay_server_ips` (List of String) The IPs of the DHCP servers that DHCP requests should be relayed to
 - `dns_nameservers` (String) The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names
+- `fixed_ip_assignments` (Attributes Map) The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address. (see [below for nested schema](#nestedatt--fixed_ip_assignments))
 - `mandatory_dhcp_enabled` (Boolean) Enable Mandatory DHCP on VLAN.
 - `reserved_ip_ranges` (Attributes List) The DHCP reserved IP ranges on the VLAN (see [below for nested schema](#nestedatt--reserved_ip_ranges))
+- `vpn_nat_subnet` (String) The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
 
 ### Read-Only
 
@@ -60,6 +70,15 @@ Required:
 - `type` (String) The type for the DHCP option. One of: `text`, `ip`, `hex` or `integer`
   - Choices: `hex`, `integer`, `ip`, `text`
 - `value` (String) The value for the DHCP option
+
+
+<a id="nestedatt--fixed_ip_assignments"></a>
+### Nested Schema for `fixed_ip_assignments`
+
+Required:
+
+- `ip` (String) The IP address to assign to the client
+- `name` (String) The name of the client
 
 
 <a id="nestedatt--reserved_ip_ranges"></a>

@@ -16,7 +16,7 @@ This resource can manage the `Wireless Network Electronic Shelf Label` configura
 resource "meraki_wireless_network_electronic_shelf_label" "example" {
   network_id = "L_123456"
   enabled    = true
-  hostname   = "N_24329156"
+  hostname   = "example.com"
   mode       = "high frequency"
 }
 ```

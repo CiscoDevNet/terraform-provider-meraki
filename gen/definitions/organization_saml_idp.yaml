@@ -17,12 +17,16 @@ attributes:
     type: String
     description: Dashboard will redirect users to this URL when they sign out.
     example: https://somewhere.com
+  - model_name: ssoLoginUrl
+    type: String
+    description: Dashboard will redirect users to this URL to log in again when their sessions expire.
+    example: https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b
   - model_name: x509certSha1Fingerprint
     type: String
     bulk_id: true
     mandatory: true
     description: Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.
-    example: 00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA
+    example: 00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:CA
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

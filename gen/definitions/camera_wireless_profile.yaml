@@ -20,6 +20,7 @@ attributes:
   - model_name: password
     type: String
     data_path: [identity]
+    sensitive: true
     description: The password of the identity.
     example: password123
   - model_name: username
@@ -49,6 +50,7 @@ attributes:
   - model_name: psk
     type: String
     data_path: [ssid]
+    sensitive: true
     exclude_test: true
     description: The pre-shared key of the SSID.
     example: sampleKey

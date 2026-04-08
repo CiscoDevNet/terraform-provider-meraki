@@ -4,15 +4,11 @@
 
 The Meraki provider provides resources to interact with a Cisco Meraki Dashboard. It communicates with Meraki Dashboard via the REST API.
 
-Please note that this Terraform provider is developed and maintained by a dedicated community of contributors. It is not directly supported by Cisco. While we strive to ensure the provider is robust and reliable, its development relies on community contributions and engagement.
-
-There is another Terraform Provider for Meraki developed and supported by Cisco, which is available [here](https://registry.terraform.io/providers/cisco-open/meraki).
-
 All resources and data sources have been tested with the following API releases.
 
 | API | Version |
 | ---------------- | ------- |
-| Meraki Dashboard | 1.62.0  |
+| Meraki Dashboard | 1.65.0  |
 
 Documentation: <https://registry.terraform.io/providers/CiscoDevNet/meraki/latest>
 
@@ -74,12 +70,12 @@ More information about how the code generation works can be found in the [contri
 
 ## Acceptance tests
 
-In order to run the full suite of acceptance tests, run `make testall`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
+In order to run the full suite of acceptance tests, run `make test`. Make sure the respective environment variables are set (e.g., `MERAKI_API_KEY`).
 
 Note: Acceptance tests create real resources.
 
 ```shell
-make testall
+make test
 ```
 
 More information about how the acceptance tests work can be found in the [contribution guide](https://github.com/CiscoDevNet/terraform-provider-meraki/blob/main/CONTRIBUTING.md).

@@ -40,4 +40,4 @@ Read-Only:
 - `group_policy_id` (String) The group policy to be applied to clients
 - `id` (String) The id of the object
 - `name` (String) The name of the Identity PSK
-- `passphrase` (String) The passphrase for client authentication. If left blank, one will be auto-generated.
+- `passphrase` (String, Sensitive) The passphrase for client authentication. If left blank, one will be auto-generated.

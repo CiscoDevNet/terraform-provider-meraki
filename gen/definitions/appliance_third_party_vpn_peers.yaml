@@ -28,6 +28,12 @@ attributes:
         exclude_test: true
         description: 'One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.'
         example: default
+      - model_name: ipVersion
+        tf_name: ip_version
+        type: Int64
+        exclude_test: true
+        description: '[optional] The IP version of the VPN peer. Required when isRouteBased is true. Accepted values are 4 or 6.'
+        example: "4"
       - model_name: isRouteBased
         type: Bool
         description: '[optional] If true, the VPN peer is route-based. If not included, the default is false. Supported only for MX 19.1 and above.'
@@ -69,6 +75,7 @@ attributes:
       - model_name: secret
         type: String
         mandatory: true
+        sensitive: true
         description: The shared secret with the VPN peer
         example: Sample Password
       - model_name: ebgpHoldTimer

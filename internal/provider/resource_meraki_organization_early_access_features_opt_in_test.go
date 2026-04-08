@@ -36,7 +36,7 @@ func TestAccMerakiOrganizationEarlyAccessFeaturesOptIn(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_early_access_features_opt_in.test", "short_name", "has_mx_no_nat_early_access"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_early_access_features_opt_in.test", "short_name", "has_vlan_db"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -103,7 +103,7 @@ resource "meraki_network" "test" {
 func testAccMerakiOrganizationEarlyAccessFeaturesOptInConfig_minimum() string {
 	config := `resource "meraki_organization_early_access_features_opt_in" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  short_name = "has_mx_no_nat_early_access"` + "\n"
+	config += `  short_name = "has_vlan_db"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -115,7 +115,7 @@ func testAccMerakiOrganizationEarlyAccessFeaturesOptInConfig_minimum() string {
 func testAccMerakiOrganizationEarlyAccessFeaturesOptInConfig_all() string {
 	config := `resource "meraki_organization_early_access_features_opt_in" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  short_name = "has_mx_no_nat_early_access"` + "\n"
+	config += `  short_name = "has_vlan_db"` + "\n"
 	config += `  limit_scope_to_networks = [meraki_network.test.id]` + "\n"
 	config += `}` + "\n"
 	return config

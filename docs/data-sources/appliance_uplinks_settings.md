@@ -30,7 +30,7 @@ data "meraki_appliance_uplinks_settings" "example" {
 - `id` (String) The id of the object
 - `interfaces_wan1_enabled` (Boolean) Enable or disable the interface.
 - `interfaces_wan1_pppoe_authentication_enabled` (Boolean) Whether PPPoE authentication is enabled.
-- `interfaces_wan1_pppoe_authentication_password` (String) Password for PPPoE authentication. This parameter is not returned.
+- `interfaces_wan1_pppoe_authentication_password` (String, Sensitive) Password for PPPoE authentication. This parameter is not returned.
 - `interfaces_wan1_pppoe_authentication_username` (String) Username for PPPoE authentication.
 - `interfaces_wan1_pppoe_enabled` (Boolean) Whether PPPoE is enabled.
 - `interfaces_wan1_svis_ipv4_address` (String) IP address and subnet mask when in static mode.
@@ -45,7 +45,7 @@ data "meraki_appliance_uplinks_settings" "example" {
 - `interfaces_wan1_vlan_tagging_vlan_id` (Number) The ID of the VLAN to use for VLAN tagging.
 - `interfaces_wan2_enabled` (Boolean) Enable or disable the interface.
 - `interfaces_wan2_pppoe_authentication_enabled` (Boolean) Whether PPPoE authentication is enabled.
-- `interfaces_wan2_pppoe_authentication_password` (String) Password for PPPoE authentication. This parameter is not returned.
+- `interfaces_wan2_pppoe_authentication_password` (String, Sensitive) Password for PPPoE authentication. This parameter is not returned.
 - `interfaces_wan2_pppoe_authentication_username` (String) Username for PPPoE authentication.
 - `interfaces_wan2_pppoe_enabled` (Boolean) Whether PPPoE is enabled.
 - `interfaces_wan2_svis_ipv4_address` (String) IP address and subnet mask when in static mode.

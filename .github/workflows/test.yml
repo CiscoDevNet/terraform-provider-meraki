@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
           python-version: "3.10"
@@ -34,7 +34,7 @@ jobs:
         with:
           go-version-file: "go.mod"
           cache: true
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: 1.10.4
       - run: pip install yamale
@@ -59,16 +59,22 @@ jobs:
           # - "1.0.*"
           - "1.12.*"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-go@v6
         with:
           go-version-file: "go.mod"
           cache: true
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ matrix.terraform }}
           terraform_wrapper: false
       - run: go mod download
+      - name: Clean up leftover test resources
+        env:
+          MERAKI_API_KEY: ${{ secrets.MERAKI_API_KEY }}
+          TF_VAR_test_org: ${{ secrets.TF_VAR_test_org }}
+          TF_VAR_test_network: ${{ secrets.TF_VAR_test_network }}
+        run: go run internal/cleanup/main.go
       - env:
           TF_ACC: "1"
           MERAKI_API_KEY: ${{ secrets.MERAKI_API_KEY }}

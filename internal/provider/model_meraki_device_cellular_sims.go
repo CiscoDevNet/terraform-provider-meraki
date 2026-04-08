@@ -85,7 +85,7 @@ func (data DeviceCellularSIMs) toBody(ctx context.Context, state DeviceCellularS
 		data.SimOrdering.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "simOrdering", values)
 	}
-	if len(data.Sims) > 0 {
+	if data.Sims != nil {
 		body, _ = sjson.Set(body, "sims", []interface{}{})
 		for _, item := range data.Sims {
 			itemBody := ""
@@ -98,7 +98,7 @@ func (data DeviceCellularSIMs) toBody(ctx context.Context, state DeviceCellularS
 			if !item.Slot.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "slot", item.Slot.ValueString())
 			}
-			if len(item.Apns) > 0 {
+			if item.Apns != nil {
 				itemBody, _ = sjson.Set(itemBody, "apns", []interface{}{})
 				for _, childItem := range item.Apns {
 					itemChildBody := ""

@@ -29,6 +29,7 @@ type YamlConfig struct {
 	NoDelete            bool                  `yaml:"no_delete,omitempty"`
 	NoImport            bool                  `yaml:"no_import,omitempty"`
 	NoRead              bool                  `yaml:"no_read,omitempty"`
+	PostAndPut          bool                  `yaml:"post_and_put,omitempty"`
 	IdName              string                `yaml:"id_name,omitempty"`
 	EarlyAccess         bool                  `yaml:"early_access,omitempty"`
 	DataSourceNameQuery bool                  `yaml:"data_source_name_query,omitempty"`
@@ -64,6 +65,7 @@ type YamlConfigP struct {
 	NoDelete            *bool                   `yaml:"no_delete,omitempty"`
 	NoImport            *bool                   `yaml:"no_import,omitempty"`
 	NoRead              *bool                   `yaml:"no_read,omitempty"`
+	PostAndPut          *bool                   `yaml:"post_and_put,omitempty"`
 	IdName              *string                 `yaml:"id_name,omitempty"`
 	EarlyAccess         *bool                   `yaml:"early_access,omitempty"`
 	DataSourceNameQuery *bool                   `yaml:"data_source_name_query,omitempty"`
@@ -97,6 +99,7 @@ type YamlConfigAttribute struct {
 	WriteOnly          bool                  `yaml:"write_only,omitempty"`
 	WriteChangesOnly   bool                  `yaml:"write_changes_only,omitempty"`
 	WriteEmptyList     bool                  `yaml:"write_empty_list,omitempty"`
+	Sensitive          bool                  `yaml:"sensitive,omitempty"`
 	ExcludeTest        bool                  `yaml:"exclude_test,omitempty"`
 	ExcludeExample     bool                  `yaml:"exclude_example,omitempty"`
 	AllowImportChanges bool                  `yaml:"allow_import_changes,omitempty"`
@@ -141,6 +144,7 @@ type YamlConfigAttributeP struct {
 	WriteOnly          *bool                   `yaml:"write_only,omitempty"`
 	WriteChangesOnly   *bool                   `yaml:"write_changes_only,omitempty"`
 	WriteEmptyList     *bool                   `yaml:"write_empty_list,omitempty"`
+	Sensitive          *bool                   `yaml:"sensitive,omitempty"`
 	ExcludeTest        *bool                   `yaml:"exclude_test,omitempty"`
 	ExcludeExample     *bool                   `yaml:"exclude_example,omitempty"`
 	AllowImportChanges *bool                   `yaml:"allow_import_changes,omitempty"`
@@ -735,6 +739,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	if existing.NoRead != nil {
 		new.NoRead = existing.NoRead
 	}
+	if existing.PostAndPut != nil {
+		new.PostAndPut = existing.PostAndPut
+	}
 	if existing.IdName != nil {
 		new.IdName = existing.IdName
 	}
@@ -893,6 +900,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.WriteEmptyList != nil {
 		new.WriteEmptyList = existing.WriteEmptyList
+	}
+	if existing.Sensitive != nil {
+		new.Sensitive = existing.Sensitive
 	}
 	if existing.ExcludeTest != nil {
 		new.ExcludeTest = existing.ExcludeTest

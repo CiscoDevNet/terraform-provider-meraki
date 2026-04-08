@@ -81,7 +81,7 @@ attributes:
   - model_name: poeEnabled
     type: Bool
     description: The PoE status of the switch port.
-    example: "true"
+    example: "false"
   - model_name: portScheduleId
     type: String
     exclude_test: true
@@ -105,6 +105,11 @@ attributes:
     description: The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).
     example: disabled
     enum_values: [bpdu guard, disabled, loop guard, root guard]
+  - model_name: stpPortFastTrunk
+    type: Bool
+    exclude_test: true
+    description: The state of STP PortFast Trunk on the switch port.
+    example: "false"
   - model_name: type
     type: String
     description: The type of the switch port (`trunk`, `access` or `stack`).
@@ -132,9 +137,9 @@ attributes:
   - model_name: enabled
     type: Bool
     data_path: [highSpeed]
+    exclude_test: true
     description: For C9500-32QC, whether or not the port is enabled for high speed.
     example: "false"
-    exclude_test: true
   - model_name: enabled
     type: Bool
     data_path: [profile]

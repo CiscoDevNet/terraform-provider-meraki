@@ -7,10 +7,37 @@ description: |-
 
 # Changelog
 
-## 1.8.0 (unreleased)
+## 1.10.0
+
+- Mark sensitive attributes (passwords, secrets, PSKs, passphrases, tokens, SNMP community strings) to prevent exposure in plan output and logs
+- Add Software Bill of Materials (SBOM) generation in SPDX and CycloneDX formats during releases
+- Add `sso_login_url` attribute to `meraki_organization_saml_idp` resources and data sources
+- Add `uplink_selection_candidates` and `uplink_selection_failback_enabled` attributes to `meraki_switch_settings` resource and data source
+- Add `meraki_wireless_ssid_open_roaming` resource and data source
+- Add `sp_initiated_idp_id` and `sp_initiated_subdomain` attributes to `meraki_organization_saml` resource and data source
+- Add `stp_port_fast_trunk` attribute to `meraki_switch_port` resources and data sources
+- Add `access_control_*` attributes to `meraki_wireless_ssids` data source
+- Add `ip_version` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/200)
+
+## 1.9.0
+
+- Enhance handling of DNS split profile assignments by adding checks for empty responses and refining matching logic for assignment IDs during updates - Issue #131, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/143)
+- Add undocumented `ipv6_prefix_assignments[].disabled` attribute to `meraki_appliance_single_vlan` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/143)
+- Allow pushing empty lists, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/128)
+- Add `switchport` option to `access` attribute of `meraki_organization_saml_role` resources, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/144)
+
+## 1.8.0
 
 - Add `high_speed_enabled` attribute to `meraki_switch_port` resources and data sources
 - Add support for `both` value to `ip_version` attribute of `wireless_ssid_l3_firewall_rules` resource
+- Fix issue with configuring DHCP relay (`dhcp_handling`, `dhcp_relay_server_ips` atributes) in `meraki_appliance_vlan_dhcp` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/123)
+- Add `fixed_ip_assignments` and `vpn_nat_subnet` attributes to `meraki_appliance_vlan_dhcp` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/124)
+- Add mandatory undocumented `ipv6_prefix_assignments[].disabled` attribute to `meraki_appliance_vlan` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/125)
+- Add `adaptive_policy_voice_group_id` attribute to `meraki_switch_organization_ports_profile` resource and data sources
+- Add `module_serial` and `module_slot` attributes to `meraki_switch_ports` data source
+- Add `radius_accounting_start_delay` attribute to `meraki_wireless_ssid` resources and data source
+- Add `meraki_wireless_mqtt_settings` resource and data source
+- Apply changes to default RF profiles during creation, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/127)
 
 ## 1.7.1
 

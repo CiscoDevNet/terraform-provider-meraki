@@ -23,7 +23,7 @@ attributes:
     bulk_id: true
     mandatory: true
     description: Email address of the user
-    example: miles321@meraki.com
+    example: miles323@meraki.com
   - model_name: emailPasswordToUser
     type: Bool
     write_only: true
@@ -42,6 +42,7 @@ attributes:
     type: String
     mandatory: true
     write_only: true
+    sensitive: true
     description: The password for this user account. Only required If the user is not a Dashboard administrator.
     example: Cisco123456&
   - model_name: authorizations

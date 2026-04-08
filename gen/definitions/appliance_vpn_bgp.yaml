@@ -79,6 +79,7 @@ attributes:
       - model_name: password
         type: String
         data_path: [authentication]
+        sensitive: true
         description: Password to configure MD5 authentication between BGP peers.
         example: abc123
       - model_name: address

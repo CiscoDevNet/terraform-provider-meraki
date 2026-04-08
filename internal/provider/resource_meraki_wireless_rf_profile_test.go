@@ -41,7 +41,7 @@ func TestAccMerakiWirelessRFProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "min_bitrate_type", "band"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "name", "Main Office"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "ap_band_settings_band_operation_mode", "5ghz"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "ap_band_settings_band_steering_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "ap_band_settings_band_steering_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_channel_width", "auto"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_max_power", "30"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_min_bitrate", "12"))
@@ -184,7 +184,7 @@ func testAccMerakiWirelessRFProfileConfig_all() string {
 	config += `  min_bitrate_type = "band"` + "\n"
 	config += `  name = "Main Office"` + "\n"
 	config += `  ap_band_settings_band_operation_mode = "5ghz"` + "\n"
-	config += `  ap_band_settings_band_steering_enabled = true` + "\n"
+	config += `  ap_band_settings_band_steering_enabled = false` + "\n"
 	config += `  ap_band_settings_bands_enabled = ["5"]` + "\n"
 	config += `  five_ghz_settings_channel_width = "auto"` + "\n"
 	config += `  five_ghz_settings_max_power = 30` + "\n"

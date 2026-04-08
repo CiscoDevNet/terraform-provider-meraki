@@ -39,38 +39,49 @@ type DataSourceWirelessSSIDs struct {
 }
 
 type DataSourceWirelessSSIDsItems struct {
-	Id                              types.String                                     `tfsdk:"id"`
-	AdminSplashUrl                  types.String                                     `tfsdk:"admin_splash_url"`
-	AuthMode                        types.String                                     `tfsdk:"auth_mode"`
-	AvailableOnAllAps               types.Bool                                       `tfsdk:"available_on_all_aps"`
-	BandSelection                   types.String                                     `tfsdk:"band_selection"`
-	Enabled                         types.Bool                                       `tfsdk:"enabled"`
-	EncryptionMode                  types.String                                     `tfsdk:"encryption_mode"`
-	IpAssignmentMode                types.String                                     `tfsdk:"ip_assignment_mode"`
-	LocalAuth                       types.Bool                                       `tfsdk:"local_auth"`
-	MandatoryDhcpEnabled            types.Bool                                       `tfsdk:"mandatory_dhcp_enabled"`
-	MinBitrate                      types.Int64                                      `tfsdk:"min_bitrate"`
-	Name                            types.String                                     `tfsdk:"name"`
-	Number                          types.Int64                                      `tfsdk:"number"`
-	PerClientBandwidthLimitDown     types.Int64                                      `tfsdk:"per_client_bandwidth_limit_down"`
-	PerClientBandwidthLimitUp       types.Int64                                      `tfsdk:"per_client_bandwidth_limit_up"`
-	PerSsidBandwidthLimitDown       types.Int64                                      `tfsdk:"per_ssid_bandwidth_limit_down"`
-	PerSsidBandwidthLimitUp         types.Int64                                      `tfsdk:"per_ssid_bandwidth_limit_up"`
-	RadiusAccountingEnabled         types.Bool                                       `tfsdk:"radius_accounting_enabled"`
-	RadiusAttributeForGroupPolicies types.String                                     `tfsdk:"radius_attribute_for_group_policies"`
-	RadiusEnabled                   types.Bool                                       `tfsdk:"radius_enabled"`
-	RadiusFailoverPolicy            types.String                                     `tfsdk:"radius_failover_policy"`
-	RadiusLoadBalancingPolicy       types.String                                     `tfsdk:"radius_load_balancing_policy"`
-	SplashPage                      types.String                                     `tfsdk:"splash_page"`
-	SplashTimeout                   types.String                                     `tfsdk:"splash_timeout"`
-	SsidAdminAccessible             types.Bool                                       `tfsdk:"ssid_admin_accessible"`
-	Visible                         types.Bool                                       `tfsdk:"visible"`
-	WalledGardenEnabled             types.Bool                                       `tfsdk:"walled_garden_enabled"`
-	WpaEncryptionMode               types.String                                     `tfsdk:"wpa_encryption_mode"`
-	AvailabilityTags                types.List                                       `tfsdk:"availability_tags"`
-	RadiusAccountingServers         []DataSourceWirelessSSIDsRadiusAccountingServers `tfsdk:"radius_accounting_servers"`
-	RadiusServers                   []DataSourceWirelessSSIDsRadiusServers           `tfsdk:"radius_servers"`
-	WalledGardenRanges              types.List                                       `tfsdk:"walled_garden_ranges"`
+	Id                                         types.String                                     `tfsdk:"id"`
+	AdminSplashUrl                             types.String                                     `tfsdk:"admin_splash_url"`
+	AuthMode                                   types.String                                     `tfsdk:"auth_mode"`
+	AvailableOnAllAps                          types.Bool                                       `tfsdk:"available_on_all_aps"`
+	BandSelection                              types.String                                     `tfsdk:"band_selection"`
+	Enabled                                    types.Bool                                       `tfsdk:"enabled"`
+	EncryptionMode                             types.String                                     `tfsdk:"encryption_mode"`
+	IpAssignmentMode                           types.String                                     `tfsdk:"ip_assignment_mode"`
+	LocalAuth                                  types.Bool                                       `tfsdk:"local_auth"`
+	MandatoryDhcpEnabled                       types.Bool                                       `tfsdk:"mandatory_dhcp_enabled"`
+	MinBitrate                                 types.Int64                                      `tfsdk:"min_bitrate"`
+	Name                                       types.String                                     `tfsdk:"name"`
+	Number                                     types.Int64                                      `tfsdk:"number"`
+	PerClientBandwidthLimitDown                types.Int64                                      `tfsdk:"per_client_bandwidth_limit_down"`
+	PerClientBandwidthLimitUp                  types.Int64                                      `tfsdk:"per_client_bandwidth_limit_up"`
+	PerSsidBandwidthLimitDown                  types.Int64                                      `tfsdk:"per_ssid_bandwidth_limit_down"`
+	PerSsidBandwidthLimitUp                    types.Int64                                      `tfsdk:"per_ssid_bandwidth_limit_up"`
+	RadiusAccountingEnabled                    types.Bool                                       `tfsdk:"radius_accounting_enabled"`
+	RadiusAttributeForGroupPolicies            types.String                                     `tfsdk:"radius_attribute_for_group_policies"`
+	RadiusEnabled                              types.Bool                                       `tfsdk:"radius_enabled"`
+	RadiusFailoverPolicy                       types.String                                     `tfsdk:"radius_failover_policy"`
+	RadiusLoadBalancingPolicy                  types.String                                     `tfsdk:"radius_load_balancing_policy"`
+	SplashPage                                 types.String                                     `tfsdk:"splash_page"`
+	SplashTimeout                              types.String                                     `tfsdk:"splash_timeout"`
+	SsidAdminAccessible                        types.Bool                                       `tfsdk:"ssid_admin_accessible"`
+	Visible                                    types.Bool                                       `tfsdk:"visible"`
+	WalledGardenEnabled                        types.Bool                                       `tfsdk:"walled_garden_enabled"`
+	WpaEncryptionMode                          types.String                                     `tfsdk:"wpa_encryption_mode"`
+	AccessControlClientsBlockedFromUsingLan    types.Bool                                       `tfsdk:"access_control_clients_blocked_from_using_lan"`
+	AccessControlWiredClientsPartOfWifiNetwork types.Bool                                       `tfsdk:"access_control_wired_clients_part_of_wifi_network"`
+	AccessControlBandwidthLimit                types.String                                     `tfsdk:"access_control_bandwidth_limit"`
+	AccessControlClientIpAssignmentMode        types.String                                     `tfsdk:"access_control_client_ip_assignment_mode"`
+	AccessControlEncryptionMode                types.String                                     `tfsdk:"access_control_encryption_mode"`
+	AccessControlSplashPageEnabled             types.Bool                                       `tfsdk:"access_control_splash_page_enabled"`
+	AccessControlSplashPageTheme               types.String                                     `tfsdk:"access_control_splash_page_theme"`
+	AccessControlTunnelEnabled                 types.Bool                                       `tfsdk:"access_control_tunnel_enabled"`
+	AccessControlTunnelSummary                 types.String                                     `tfsdk:"access_control_tunnel_summary"`
+	AccessControlVlanEnabled                   types.Bool                                       `tfsdk:"access_control_vlan_enabled"`
+	AccessControlVlanTag                       types.String                                     `tfsdk:"access_control_vlan_tag"`
+	AvailabilityTags                           types.List                                       `tfsdk:"availability_tags"`
+	RadiusAccountingServers                    []DataSourceWirelessSSIDsRadiusAccountingServers `tfsdk:"radius_accounting_servers"`
+	RadiusServers                              []DataSourceWirelessSSIDsRadiusServers           `tfsdk:"radius_servers"`
+	WalledGardenRanges                         types.List                                       `tfsdk:"walled_garden_ranges"`
 }
 
 type DataSourceWirelessSSIDsRadiusAccountingServers struct {
@@ -239,6 +250,61 @@ func (data *DataSourceWirelessSSIDs) fromBody(ctx context.Context, res meraki.Re
 			data.WpaEncryptionMode = types.StringValue(value.String())
 		} else {
 			data.WpaEncryptionMode = types.StringNull()
+		}
+		if value := res.Get("accessControl.clientsBlockedFromUsingLan"); value.Exists() && value.Value() != nil {
+			data.AccessControlClientsBlockedFromUsingLan = types.BoolValue(value.Bool())
+		} else {
+			data.AccessControlClientsBlockedFromUsingLan = types.BoolNull()
+		}
+		if value := res.Get("accessControl.wiredClientsPartOfWifiNetwork"); value.Exists() && value.Value() != nil {
+			data.AccessControlWiredClientsPartOfWifiNetwork = types.BoolValue(value.Bool())
+		} else {
+			data.AccessControlWiredClientsPartOfWifiNetwork = types.BoolNull()
+		}
+		if value := res.Get("accessControl.bandwidth.limit"); value.Exists() && value.Value() != nil {
+			data.AccessControlBandwidthLimit = types.StringValue(value.String())
+		} else {
+			data.AccessControlBandwidthLimit = types.StringNull()
+		}
+		if value := res.Get("accessControl.clientIpAssignment.mode"); value.Exists() && value.Value() != nil {
+			data.AccessControlClientIpAssignmentMode = types.StringValue(value.String())
+		} else {
+			data.AccessControlClientIpAssignmentMode = types.StringNull()
+		}
+		if value := res.Get("accessControl.encryption.mode"); value.Exists() && value.Value() != nil {
+			data.AccessControlEncryptionMode = types.StringValue(value.String())
+		} else {
+			data.AccessControlEncryptionMode = types.StringNull()
+		}
+		if value := res.Get("accessControl.splashPage.enabled"); value.Exists() && value.Value() != nil {
+			data.AccessControlSplashPageEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.AccessControlSplashPageEnabled = types.BoolNull()
+		}
+		if value := res.Get("accessControl.splashPage.theme"); value.Exists() && value.Value() != nil {
+			data.AccessControlSplashPageTheme = types.StringValue(value.String())
+		} else {
+			data.AccessControlSplashPageTheme = types.StringNull()
+		}
+		if value := res.Get("accessControl.tunnel.enabled"); value.Exists() && value.Value() != nil {
+			data.AccessControlTunnelEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.AccessControlTunnelEnabled = types.BoolNull()
+		}
+		if value := res.Get("accessControl.tunnel.summary"); value.Exists() && value.Value() != nil {
+			data.AccessControlTunnelSummary = types.StringValue(value.String())
+		} else {
+			data.AccessControlTunnelSummary = types.StringNull()
+		}
+		if value := res.Get("accessControl.vlan.enabled"); value.Exists() && value.Value() != nil {
+			data.AccessControlVlanEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.AccessControlVlanEnabled = types.BoolNull()
+		}
+		if value := res.Get("accessControl.vlan.tag"); value.Exists() && value.Value() != nil {
+			data.AccessControlVlanTag = types.StringValue(value.String())
+		} else {
+			data.AccessControlVlanTag = types.StringNull()
 		}
 		if value := res.Get("availabilityTags"); value.Exists() && value.Value() != nil {
 			data.AvailabilityTags = helpers.GetStringList(value.Array())

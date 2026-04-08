@@ -37,10 +37,10 @@ resource "meraki_camera_wireless_profile" "example" {
 
 ### Optional
 
-- `identity_password` (String) The password of the identity.
+- `identity_password` (String, Sensitive) The password of the identity.
 - `identity_username` (String) The username of the identity.
 - `ssid_encryption_mode` (String) The encryption mode of the SSID. It can be set to (`wpa`, `wpa-eap`). With `wpa` mode, the authMode should be `psk` and with `wpa-eap` the authMode should be `8021x-radius`
-- `ssid_psk` (String) The pre-shared key of the SSID.
+- `ssid_psk` (String, Sensitive) The pre-shared key of the SSID.
 
 ### Read-Only
 

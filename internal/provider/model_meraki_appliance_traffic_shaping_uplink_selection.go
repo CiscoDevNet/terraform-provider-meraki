@@ -185,7 +185,7 @@ func (data ApplianceTrafficShapingUplinkSelection) toBody(ctx context.Context, s
 			body, _ = sjson.SetRaw(body, "vpnTrafficUplinkPreferences.-1", itemBody)
 		}
 	}
-	if len(data.WanTrafficUplinkPreferences) > 0 {
+	if data.WanTrafficUplinkPreferences != nil {
 		body, _ = sjson.Set(body, "wanTrafficUplinkPreferences", []interface{}{})
 		for _, item := range data.WanTrafficUplinkPreferences {
 			itemBody := ""

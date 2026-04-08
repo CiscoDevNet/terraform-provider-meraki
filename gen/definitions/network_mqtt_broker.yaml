@@ -31,6 +31,7 @@ attributes:
     type: String
     data_path: [authentication]
     write_only: true
+    sensitive: true
     description: Password for the MQTT broker.
     example: '*****'
   - model_name: username

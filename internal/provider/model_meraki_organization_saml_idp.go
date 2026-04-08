@@ -36,6 +36,7 @@ type OrganizationSAMLIdP struct {
 	Id                      types.String `tfsdk:"id"`
 	OrganizationId          types.String `tfsdk:"organization_id"`
 	SloLogoutUrl            types.String `tfsdk:"slo_logout_url"`
+	SsoLoginUrl             types.String `tfsdk:"sso_login_url"`
 	X509certSha1Fingerprint types.String `tfsdk:"x509cert_sha1_fingerprint"`
 }
 
@@ -56,6 +57,9 @@ func (data OrganizationSAMLIdP) toBody(ctx context.Context, state OrganizationSA
 	if !data.SloLogoutUrl.IsNull() {
 		body, _ = sjson.Set(body, "sloLogoutUrl", data.SloLogoutUrl.ValueString())
 	}
+	if !data.SsoLoginUrl.IsNull() {
+		body, _ = sjson.Set(body, "ssoLoginUrl", data.SsoLoginUrl.ValueString())
+	}
 	if !data.X509certSha1Fingerprint.IsNull() {
 		body, _ = sjson.Set(body, "x509certSha1Fingerprint", data.X509certSha1Fingerprint.ValueString())
 	}
@@ -71,6 +75,11 @@ func (data *OrganizationSAMLIdP) fromBody(ctx context.Context, res meraki.Res) {
 		data.SloLogoutUrl = types.StringValue(value.String())
 	} else {
 		data.SloLogoutUrl = types.StringNull()
+	}
+	if value := res.Get("ssoLoginUrl"); value.Exists() && value.Value() != nil {
+		data.SsoLoginUrl = types.StringValue(value.String())
+	} else {
+		data.SsoLoginUrl = types.StringNull()
 	}
 	if value := res.Get("x509certSha1Fingerprint"); value.Exists() && value.Value() != nil {
 		data.X509certSha1Fingerprint = types.StringValue(value.String())
@@ -92,6 +101,11 @@ func (data *OrganizationSAMLIdP) fromBodyPartial(ctx context.Context, res meraki
 		data.SloLogoutUrl = types.StringValue(value.String())
 	} else {
 		data.SloLogoutUrl = types.StringNull()
+	}
+	if value := res.Get("ssoLoginUrl"); value.Exists() && !data.SsoLoginUrl.IsNull() {
+		data.SsoLoginUrl = types.StringValue(value.String())
+	} else {
+		data.SsoLoginUrl = types.StringNull()
 	}
 	if value := res.Get("x509certSha1Fingerprint"); value.Exists() && !data.X509certSha1Fingerprint.IsNull() {
 		data.X509certSha1Fingerprint = types.StringValue(value.String())

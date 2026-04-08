@@ -135,6 +135,63 @@ attributes:
     description: The types of WPA encryption
     example: WPA2 only
     enum_values: [WPA1 and WPA2, WPA1 only, WPA2 only, WPA3 192-bit Security, WPA3 Transition Mode, WPA3 only]
+  - model_name: clientsBlockedFromUsingLan
+    type: Bool
+    data_path: [accessControl]
+    description: Whether clients are blocked from using the LAN
+    example: "false"
+  - model_name: wiredClientsPartOfWifiNetwork
+    type: Bool
+    data_path: [accessControl]
+    description: Whether wired SSID clients are part of the Wi-Fi network
+    example: "false"
+  - model_name: limit
+    type: String
+    data_path: [accessControl, bandwidth]
+    description: Defined SSID bandwidth limits
+    example: unlimited
+  - model_name: mode
+    type: String
+    data_path: [accessControl, clientIpAssignment]
+    description: Client IP assignment mode
+    example: NAT mode
+    enum_values: [Bridge mode, Campus Gateway, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, Stateless L2TPv3, VPN]
+  - model_name: mode
+    type: String
+    data_path: [accessControl, encryption]
+    description: Specifies the authentication and encryption type for the SSID
+    example: Open
+    enum_values: [802.1X with Access Manager, 802.1X with Google, 802.1X with Local Auth, 802.1X with Meraki RADIUS, 802.1X with custom RADIUS, Enterprise WPA3 192-bit security, Identity PSK with Access Manager, Identity PSK with RADIUS, Identity PSK without RADIUS, Open, Open with Access Manager, Open with RADIUS, Opportunistic Wireless Encryption, PSK (WPA1 and WPA2), PSK (WPA1), PSK (WPA2), PSK (WPA3-SAE Transition Mode), PSK (WPA3-SAE), WEP]
+  - model_name: enabled
+    type: Bool
+    data_path: [accessControl, splashPage]
+    description: Whether the splash page is enabled
+    example: "false"
+  - model_name: theme
+    type: String
+    data_path: [accessControl, splashPage]
+    description: Name of the splash theme, or `n/a` if not applicable
+    example: n/a
+  - model_name: enabled
+    type: Bool
+    data_path: [accessControl, tunnel]
+    description: Whether tunneling is enabled
+    example: "false"
+  - model_name: summary
+    type: String
+    data_path: [accessControl, tunnel]
+    description: Summary describing whether traffic is tunneled and to where
+    example: Disabled
+  - model_name: enabled
+    type: Bool
+    data_path: [accessControl, vlan]
+    description: Whether VLAN tagging is enabled
+    example: "false"
+  - model_name: tag
+    type: String
+    data_path: [accessControl, vlan]
+    description: VLAN tag applied to this SSID when tagging is enabled
+    example: n/a
   - model_name: availabilityTags
     type: List
     element_type: String

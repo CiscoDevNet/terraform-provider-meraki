@@ -80,6 +80,7 @@ func (d *NetworkSettingsDataSource) Schema(ctx context.Context, req datasource.S
 			"local_status_page_authentication_password": schema.StringAttribute{
 				MarkdownDescription: "The password used for Local Status Page(s). Set this to null to clear the password.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"local_status_page_authentication_username": schema.StringAttribute{
 				MarkdownDescription: "The username used for Local Status Page(s).",

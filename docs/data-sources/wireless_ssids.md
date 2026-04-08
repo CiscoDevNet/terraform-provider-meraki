@@ -34,6 +34,17 @@ data "meraki_wireless_ssids" "example" {
 
 Read-Only:
 
+- `access_control_bandwidth_limit` (String) Defined SSID bandwidth limits
+- `access_control_client_ip_assignment_mode` (String) Client IP assignment mode
+- `access_control_clients_blocked_from_using_lan` (Boolean) Whether clients are blocked from using the LAN
+- `access_control_encryption_mode` (String) Specifies the authentication and encryption type for the SSID
+- `access_control_splash_page_enabled` (Boolean) Whether the splash page is enabled
+- `access_control_splash_page_theme` (String) Name of the splash theme, or `n/a` if not applicable
+- `access_control_tunnel_enabled` (Boolean) Whether tunneling is enabled
+- `access_control_tunnel_summary` (String) Summary describing whether traffic is tunneled and to where
+- `access_control_vlan_enabled` (Boolean) Whether VLAN tagging is enabled
+- `access_control_vlan_tag` (String) VLAN tag applied to this SSID when tagging is enabled
+- `access_control_wired_clients_part_of_wifi_network` (Boolean) Whether wired SSID clients are part of the Wi-Fi network
 - `admin_splash_url` (String) URL for the admin splash page
 - `auth_mode` (String) The association control method for the SSID
 - `availability_tags` (List of String) List of tags for this SSID. If availableOnAllAps is false, then the SSID is only broadcast by APs with tags matching any of the tags in this list

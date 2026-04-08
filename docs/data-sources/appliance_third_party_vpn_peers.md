@@ -48,6 +48,7 @@ Read-Only:
 - `group_failover_direct_to_internet` (Boolean) [optional] When both primary and backup tunnels are down, direct traffic to the internet. Traffic will be routed via the WAN
 - `group_number` (Number) [optional] Represents the ordering of primary and backup tunnels group. primary and backup tunnels are grouped by this number. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.
 - `ike_version` (String) [optional] The IKE version to be used for the IPsec VPN peer configuration. Defaults to `1` when omitted.
+- `ip_version` (Number) [optional] The IP version of the VPN peer. Required when isRouteBased is true. Accepted values are 4 or 6.
 - `ipsec_policies_child_auth_algo` (List of String) This is the authentication algorithms to be used in Phase 2. The value should be an array with one of the following algorithms: `sha256`, `sha1`, `md5`
 - `ipsec_policies_child_cipher_algo` (List of String) This is the cipher algorithms to be used in Phase 2. The value should be an array with one or more of the following algorithms: `aes256`, `aes192`, `aes128`, `tripledes`, `des`, `null`
 - `ipsec_policies_child_lifetime` (Number) The lifetime of the Phase 2 SA in seconds.
@@ -69,5 +70,5 @@ Read-Only:
 - `public_hostname` (String) [optional] The public hostname of the VPN peer
 - `public_ip` (String) [optional] The public IP of the VPN peer
 - `remote_id` (String) [optional] The remote ID is used to identify the connecting VPN peer. This can either be a valid IPv4 Address, FQDN or User FQDN.
-- `secret` (String) The shared secret with the VPN peer
+- `secret` (String, Sensitive) The shared secret with the VPN peer
 - `sla_policy_id` (String) The ID of the SLA policy

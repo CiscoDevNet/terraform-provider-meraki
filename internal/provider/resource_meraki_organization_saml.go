@@ -79,6 +79,14 @@ func (r *OrganizationSAMLResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean for updating SAML SSO enabled settings.").String,
 				Optional:            true,
 			},
+			"sp_initiated_idp_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("SAML IdP ID for SP-Initiated SSO Authentication").String,
+				Optional:            true,
+			},
+			"sp_initiated_subdomain": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Organization`s unique SSO identifier").String,
+				Optional:            true,
+			},
 		},
 	}
 }

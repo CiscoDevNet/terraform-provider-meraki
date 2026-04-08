@@ -38,7 +38,7 @@ data "meraki_organization_auth_radius_server" "example" {
 
 - `address` (String) The IP address or FQDN of the RADIUS server
 - `modes` (Attributes List) Available server modes (see [below for nested schema](#nestedatt--modes))
-- `secret` (String) Shared secret of the RADIUS server
+- `secret` (String, Sensitive) Shared secret of the RADIUS server
 
 <a id="nestedatt--modes"></a>
 ### Nested Schema for `modes`

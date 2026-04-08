@@ -95,12 +95,12 @@ To understand which elements have changed, been added or deleted, we need to uni
 
 To import items of bulk resources, we can unconditionally import all items using the following syntax:
 
-```
+```hcl
 terraform import meraki_organization_policy_objects.example "<organization_id>"
 ```
 
 Optionally, we can also add a list of item IDs to import specific items:
 
-```
+```hcl
 terraform import meraki_organization_policy_objects.example "<organization_id>,[<id_1>,<id_2>,...]"
 ```

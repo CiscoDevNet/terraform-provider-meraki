@@ -103,7 +103,7 @@ func (data SwitchRoutingInterfaceDHCP) toBody(ctx context.Context, state SwitchR
 	if !data.DnsNameserversOption.IsNull() {
 		body, _ = sjson.Set(body, "dnsNameserversOption", data.DnsNameserversOption.ValueString())
 	}
-	if len(data.DhcpOptions) > 0 {
+	if data.DhcpOptions != nil {
 		body, _ = sjson.Set(body, "dhcpOptions", []interface{}{})
 		for _, item := range data.DhcpOptions {
 			itemBody := ""
@@ -129,7 +129,7 @@ func (data SwitchRoutingInterfaceDHCP) toBody(ctx context.Context, state SwitchR
 		data.DnsCustomNameservers.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "dnsCustomNameservers", values)
 	}
-	if len(data.FixedIpAssignments) > 0 {
+	if data.FixedIpAssignments != nil {
 		body, _ = sjson.Set(body, "fixedIpAssignments", []interface{}{})
 		for _, item := range data.FixedIpAssignments {
 			itemBody := ""
@@ -145,7 +145,7 @@ func (data SwitchRoutingInterfaceDHCP) toBody(ctx context.Context, state SwitchR
 			body, _ = sjson.SetRaw(body, "fixedIpAssignments.-1", itemBody)
 		}
 	}
-	if len(data.ReservedIpRanges) > 0 {
+	if data.ReservedIpRanges != nil {
 		body, _ = sjson.Set(body, "reservedIpRanges", []interface{}{})
 		for _, item := range data.ReservedIpRanges {
 			itemBody := ""

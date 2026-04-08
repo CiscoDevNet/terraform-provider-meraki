@@ -13,6 +13,7 @@ no_update: bool(required=False) # Set to true if the PUT request is not supporte
 no_delete: bool(required=False) # Set to true if the DELETE request is not supported
 no_import: bool(required=False) # Set to true if the resource does not support importing
 no_read: bool(required=False) # Set to true if the resource does not support reading (GET)
+post_and_put: bool(required=False) # Set to true if the resource should issue another PUT request after a POST request
 data_source_name_query: bool(required=False) # Set to true if the data source supports name queries
 minimum_version: str(required=False) # Define a minimum supported version
 ds_description: str(required=False) # Define a data source description
@@ -44,6 +45,7 @@ attribute:
   write_only: bool(required=False) # Set to true if the attribute is write-only, meaning we cannot read the value
   write_changes_only: bool(required=False) # Set to true if the attribute should only be written (included in PUT payload) if it has changed
   write_empty_list: bool(required=False) # Set to true if the attribute should be written as an empty list if it is not set, only relevant if type is "List" or "Set"
+  sensitive: bool(required=False)  # Set to true if the attribute is sensitive, meaning it should not show up in clear-text in plan and logs
   exclude_test: bool(required=False) # Exclude attribute from example (documentation) and acceptance test
   exclude_example: bool(required=False) # Exclude attribute from acceptance test only (example/documentation is still generated)
   allow_import_changes: bool(required=False) # Allow changes to the attribute during import

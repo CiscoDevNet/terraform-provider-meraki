@@ -97,7 +97,7 @@ resource "meraki_network" "test" {
 resource "meraki_wireless_network_electronic_shelf_label" "test" {
   network_id = meraki_network.test.id
   enabled    = true
-  hostname   = "N_24329156"
+  hostname   = "example.com"
 }
 resource "meraki_network_device_claim" "test" {
   network_id = meraki_wireless_network_electronic_shelf_label.test.network_id

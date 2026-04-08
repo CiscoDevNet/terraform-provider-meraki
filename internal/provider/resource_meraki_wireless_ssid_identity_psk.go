@@ -99,6 +99,7 @@ func (r *WirelessSSIDIdentityPSKResource) Schema(ctx context.Context, req resour
 			"passphrase": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The passphrase for client authentication. If left blank, one will be auto-generated.").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 		},
 	}

@@ -126,6 +126,7 @@ func (d *ApplianceVPNBGPDataSource) Schema(ctx context.Context, req datasource.S
 						"authentication_password": schema.StringAttribute{
 							MarkdownDescription: "Password to configure MD5 authentication between BGP peers.",
 							Computed:            true,
+							Sensitive:           true,
 						},
 						"ipv6_address": schema.StringAttribute{
 							MarkdownDescription: "The IPv6 address of the neighbor.",

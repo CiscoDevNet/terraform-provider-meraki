@@ -31,7 +31,7 @@ resource "meraki_switch_ports" "example" {
     isolation_enabled           = false
     link_negotiation            = "Auto negotiate"
     name                        = "My switch port"
-    poe_enabled                 = true
+    poe_enabled                 = false
     rstp_enabled                = true
     sticky_mac_allow_list_limit = 5
     stp_guard                   = "disabled"
@@ -95,6 +95,7 @@ Optional:
 - `storm_control_enabled` (Boolean) The storm control status of the switch port.
 - `stp_guard` (String) The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).
   - Choices: `bpdu guard`, `disabled`, `loop guard`, `root guard`
+- `stp_port_fast_trunk` (Boolean) The state of STP PortFast Trunk on the switch port.
 - `tags` (Set of String) The list of tags of the switch port.
 - `type` (String) The type of the switch port (`trunk`, `access` or `stack`).
   - Choices: `access`, `stack`, `trunk`

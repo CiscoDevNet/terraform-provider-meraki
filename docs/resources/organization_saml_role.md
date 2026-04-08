@@ -55,8 +55,8 @@ resource "meraki_organization_saml_role" "example" {
 
 Required:
 
-- `access` (String) The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'
-  - Choices: `full`, `guest-ambassador`, `monitor-only`, `read-only`, `ssid-admin`, `port-tags`, `custom-role`
+- `access` (String) The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only`, `ssid-admin`, `port-tags`, `switchport` or `custom-role`
+  - Choices: `full`, `guest-ambassador`, `monitor-only`, `read-only`, `ssid-admin`, `port-tags`, `switchport`, `custom-role`
 - `id` (String) The network ID
 
 

@@ -93,10 +93,10 @@ func (r *OrganizationSAMLRoleResource) Schema(ctx context.Context, req resource.
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"access": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the SAML administrator on the network. Can be one of `full', `read-only', `guest-ambassador', `monitor-only', `ssid-admin', `port-tags' or `custom-role'").AddStringEnumDescription("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin", "port-tags", "custom-role").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The privilege of the SAML administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador`, `monitor-only`, `ssid-admin`, `port-tags`, `switchport` or `custom-role`").AddStringEnumDescription("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin", "port-tags", "switchport", "custom-role").String,
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin", "port-tags", "custom-role"),
+								stringvalidator.OneOf("full", "guest-ambassador", "monitor-only", "read-only", "ssid-admin", "port-tags", "switchport", "custom-role"),
 							},
 						},
 						"id": schema.StringAttribute{

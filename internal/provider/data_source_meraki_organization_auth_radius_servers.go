@@ -81,6 +81,7 @@ func (d *OrganizationAuthRADIUSServersDataSource) Schema(ctx context.Context, re
 						"secret": schema.StringAttribute{
 							MarkdownDescription: "Shared secret of the RADIUS server",
 							Computed:            true,
+							Sensitive:           true,
 						},
 						"modes": schema.ListNestedAttribute{
 							MarkdownDescription: "Available server modes",

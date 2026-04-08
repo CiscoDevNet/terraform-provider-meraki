@@ -112,6 +112,9 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 				{{- if or (len .DefaultValue) .Computed}}
 				Computed:            true,
 				{{- end}}
+				{{- if .Sensitive}}
+				Sensitive:           true,
+				{{- end}}
 				{{- if len .EnumValues}}
 				Validators: []validator.String{
 					stringvalidator.OneOf({{range .EnumValues}}"{{.}}", {{end}}),
@@ -191,6 +194,9 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 							{{- if or (len .DefaultValue) .Computed}}
 							Computed:            true,
 							{{- end}}
+							{{- if .Sensitive}}
+							Sensitive:           true,
+							{{- end}}
 							{{- if len .EnumValues}}
 							Validators: []validator.String{
 								stringvalidator.OneOf({{range .EnumValues}}"{{.}}", {{end}}),
@@ -261,6 +267,9 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 										{{- if or (len .DefaultValue) .Computed}}
 										Computed:            true,
 										{{- end}}
+										{{- if .Sensitive}}
+										Sensitive:           true,
+										{{- end}}
 										{{- if len .EnumValues}}
 										Validators: []validator.String{
 											stringvalidator.OneOf({{range .EnumValues}}"{{.}}", {{end}}),
@@ -326,6 +335,9 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 													{{- if or (len .DefaultValue) .Computed}}
 													Computed:            true,
 													{{- end}}
+													{{- if .Sensitive}}
+													Sensitive:           true,
+													{{- end}}
 													{{- if len .EnumValues}}
 													Validators: []validator.String{
 														stringvalidator.OneOf({{range .EnumValues}}"{{.}}", {{end}}),
@@ -390,6 +402,9 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 																{{- end}}
 																{{- if or (len .DefaultValue) .Computed}}
 																Computed:            true,
+																{{- end}}
+																{{- if .Sensitive}}
+																Sensitive:           true,
 																{{- end}}
 																{{- if len .EnumValues}}
 																Validators: []validator.String{

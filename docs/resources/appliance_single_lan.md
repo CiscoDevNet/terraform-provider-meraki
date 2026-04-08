@@ -44,6 +44,10 @@ resource "meraki_appliance_single_lan" "example" {
 <a id="nestedatt--ipv6_prefix_assignments"></a>
 ### Nested Schema for `ipv6_prefix_assignments`
 
+Required:
+
+- `disabled` (Boolean) Disable IPv6 on VLAN.
+
 Optional:
 
 - `autonomous` (Boolean) Auto assign a /64 prefix from the origin to the VLAN

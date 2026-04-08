@@ -41,7 +41,7 @@ Read-Only:
 - `id` (String) The id of the object
 - `is_admin` (Boolean) Whether or not the user is a Dashboard administrator.
 - `name` (String) Name of the user. Only required If the user is not a Dashboard administrator.
-- `password` (String) The password for this user account. Only required If the user is not a Dashboard administrator.
+- `password` (String, Sensitive) The password for this user account. Only required If the user is not a Dashboard administrator.
 
 <a id="nestedatt--items--authorizations"></a>
 ### Nested Schema for `items.authorizations`

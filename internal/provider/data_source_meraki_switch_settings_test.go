@@ -38,6 +38,8 @@ func TestAccDataSourceMerakiSwitchSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "vlan", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "mac_blocklist_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "uplink_client_sampling_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "uplink_selection_candidates", "all"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_settings.test", "uplink_selection_failback_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -79,6 +81,8 @@ func testAccDataSourceMerakiSwitchSettingsConfig() string {
 	config += `  vlan = 1` + "\n"
 	config += `  mac_blocklist_enabled = true` + "\n"
 	config += `  uplink_client_sampling_enabled = false` + "\n"
+	config += `  uplink_selection_candidates = "all"` + "\n"
+	config += `  uplink_selection_failback_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

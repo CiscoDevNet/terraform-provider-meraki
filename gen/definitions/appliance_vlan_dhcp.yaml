@@ -1,6 +1,5 @@
-# Customize Create(), Read(), Update(), Delete()
 name: Appliance VLAN DHCP
-rest_endpoint: /networks/%v/appliance/vlans
+rest_endpoint: /networks/%v/appliance/vlans/%v
 put_create: true
 no_delete: true
 no_data_source: true
@@ -18,28 +17,28 @@ attributes:
   - model_name: id
     tf_name: vlan_id
     type: String
-    mandatory: true
+    id: true
+    reference: true
     description: The VLAN ID of the new VLAN (must be between 1 and 4094)
     example: "1234"
     test_value: meraki_appliance_vlan.test.vlan_id
   - model_name: dhcpBootFilename
     type: String
-    exclude_test: true
     description: DHCP boot option for boot filename
     example: sample.file
   - model_name: dhcpBootNextServer
     type: String
-    exclude_test: true
     description: DHCP boot option to direct boot clients to the server to load the boot file from
     example: 1.2.3.4
   - model_name: dhcpBootOptionsEnabled
     type: Bool
     description: Use DHCP boot options specified in other properties
-    example: "false"
+    example: "true"
   - model_name: dhcpHandling
     type: String
     description: "The appliance`s handling of DHCP requests on this VLAN. One of: `Run a DHCP server`, `Relay DHCP to another server` or `Do not respond to DHCP requests`"
     example: Run a DHCP server
+    minimum_test_value: '"Do not respond to DHCP requests"'
     enum_values:
       [
         Do not respond to DHCP requests,
@@ -55,6 +54,26 @@ attributes:
     type: String
     description: The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names
     example: upstream_dns
+  - model_name: vpnNatSubnet
+    type: String
+    exclude_test: true
+    description: The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
+    example: 192.168.1.0/24
+  - model_name: fixedIpAssignments
+    type: Map
+    description: The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address.
+    map_key_example: 22:33:44:55:66:77
+    attributes:
+      - model_name: ip
+        type: String
+        mandatory: true
+        description: The IP address to assign to the client
+        example: 192.168.1.100
+      - model_name: name
+        type: String
+        mandatory: true
+        description: The name of the client
+        example: Some client name
   - model_name: enabled
     type: Bool
     data_path: [mandatoryDhcp]
@@ -133,3 +152,11 @@ test_prerequisites: |
     name = "My VLAN"
     subnet = "192.168.1.0/24"
   }
+additional_tests:
+ - |-
+   resource "meraki_appliance_vlan_dhcp" "test" {
+     network_id = meraki_appliance_vlans_settings.test.network_id
+     vlan_id = meraki_appliance_vlan.test.vlan_id
+     dhcp_handling = "Relay DHCP to another server"
+     dhcp_relay_server_ips = ["192.168.20.2", "192.168.20.3"]
+   }

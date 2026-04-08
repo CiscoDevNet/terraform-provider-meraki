@@ -28,7 +28,7 @@ data "meraki_network_snmp" "example" {
 ### Read-Only
 
 - `access` (String) The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).
-- `community_string` (String) The SNMP community string. Only relevant if `access` is set to `community`.
+- `community_string` (String, Sensitive) The SNMP community string. Only relevant if `access` is set to `community`.
 - `id` (String) The id of the object
 - `users` (Attributes List) The list of SNMP users. Only relevant if `access` is set to `users`. (see [below for nested schema](#nestedatt--users))
 
@@ -37,5 +37,5 @@ data "meraki_network_snmp" "example" {
 
 Read-Only:
 
-- `passphrase` (String) The passphrase for the SNMP user. Required.
+- `passphrase` (String, Sensitive) The passphrase for the SNMP user. Required.
 - `username` (String) The username for the SNMP user. Required.

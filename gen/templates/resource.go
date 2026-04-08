@@ -108,6 +108,9 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- if or (len .DefaultValue) .Computed}}
 				Computed:            true,
 				{{- end}}
+				{{- if .Sensitive}}
+				Sensitive:           true,
+				{{- end}}
 				{{- if len .EnumValues}}
 				Validators: []validator.String{
 					stringvalidator.OneOf({{range .EnumValues}}"{{.}}", {{end}}),
@@ -178,6 +181,9 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- if or (len .DefaultValue) .Computed}}
 							Computed:            true,
 							{{- end}}
+							{{- if .Sensitive}}
+							Sensitive:           true,
+							{{- end}}
 							{{- if len .EnumValues}}
 							Validators: []validator.String{
 								stringvalidator.OneOf({{range .EnumValues}}"{{.}}", {{end}}),
@@ -243,6 +249,9 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- if or (len .DefaultValue) .Computed}}
 										Computed:            true,
 										{{- end}}
+										{{- if .Sensitive}}
+										Sensitive:           true,
+										{{- end}}
 										{{- if len .EnumValues}}
 										Validators: []validator.String{
 											stringvalidator.OneOf({{range .EnumValues}}"{{.}}", {{end}}),
@@ -307,6 +316,9 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													{{- end}}
 													{{- if or (len .DefaultValue) .Computed}}
 													Computed:            true,
+													{{- end}}
+													{{- if .Sensitive}}
+													Sensitive:           true,
 													{{- end}}
 													{{- if len .EnumValues}}
 													Validators: []validator.String{
@@ -449,6 +461,14 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 	plan.Id = types.StringValue(res.Get("{{.IdName}}").String())
 	{{- end}}
 	plan.fromBodyUnknowns(ctx, res)
+
+	{{- if .PostAndPut}}
+	res, err = r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
+	{{- end}}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 

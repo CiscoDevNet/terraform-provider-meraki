@@ -26,6 +26,7 @@ attributes:
   - model_name: v3AuthPass
     type: String
     write_only: true
+    sensitive: true
     description: The SNMP version 3 authentication password. Must be at least 8 characters if specified.
     example: password
   - model_name: v3Enabled
@@ -40,6 +41,7 @@ attributes:
   - model_name: v3PrivPass
     type: String
     write_only: true
+    sensitive: true
     description: The SNMP version 3 privacy password. Must be at least 8 characters if specified.
     example: password
   - model_name: peerIps

@@ -20,6 +20,7 @@ attributes:
   - model_name: sharedSecret
     type: String
     write_only: true
+    sensitive: true
     description: A shared secret that will be included in POSTs sent to the HTTP server. This secret can be used to verify that the request was sent by Meraki.
     example: shhh
   - model_name: url

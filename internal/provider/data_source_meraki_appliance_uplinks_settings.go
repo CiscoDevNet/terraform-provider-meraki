@@ -81,6 +81,7 @@ func (d *ApplianceUplinksSettingsDataSource) Schema(ctx context.Context, req dat
 			"interfaces_wan1_pppoe_authentication_password": schema.StringAttribute{
 				MarkdownDescription: "Password for PPPoE authentication. This parameter is not returned.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"interfaces_wan1_pppoe_authentication_username": schema.StringAttribute{
 				MarkdownDescription: "Username for PPPoE authentication.",
@@ -143,6 +144,7 @@ func (d *ApplianceUplinksSettingsDataSource) Schema(ctx context.Context, req dat
 			"interfaces_wan2_pppoe_authentication_password": schema.StringAttribute{
 				MarkdownDescription: "Password for PPPoE authentication. This parameter is not returned.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"interfaces_wan2_pppoe_authentication_username": schema.StringAttribute{
 				MarkdownDescription: "Username for PPPoE authentication.",

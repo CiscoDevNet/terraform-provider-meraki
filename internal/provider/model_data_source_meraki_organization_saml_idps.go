@@ -40,6 +40,7 @@ type DataSourceOrganizationSAMLIdPs struct {
 type DataSourceOrganizationSAMLIdPsItems struct {
 	Id                      types.String `tfsdk:"id"`
 	SloLogoutUrl            types.String `tfsdk:"slo_logout_url"`
+	SsoLoginUrl             types.String `tfsdk:"sso_login_url"`
 	X509certSha1Fingerprint types.String `tfsdk:"x509cert_sha1_fingerprint"`
 }
 
@@ -65,6 +66,11 @@ func (data *DataSourceOrganizationSAMLIdPs) fromBody(ctx context.Context, res me
 			data.SloLogoutUrl = types.StringValue(value.String())
 		} else {
 			data.SloLogoutUrl = types.StringNull()
+		}
+		if value := res.Get("ssoLoginUrl"); value.Exists() && value.Value() != nil {
+			data.SsoLoginUrl = types.StringValue(value.String())
+		} else {
+			data.SsoLoginUrl = types.StringNull()
 		}
 		if value := res.Get("x509certSha1Fingerprint"); value.Exists() && value.Value() != nil {
 			data.X509certSha1Fingerprint = types.StringValue(value.String())

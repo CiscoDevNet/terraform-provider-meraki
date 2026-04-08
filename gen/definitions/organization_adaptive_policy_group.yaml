@@ -1,3 +1,4 @@
+# Manually disable bulk resource test due to consistent 500 errors
 name: Organization Adaptive Policy Group
 spec_endpoint: /organizations/{organizationId}/adaptivePolicy/groups/{id}
 rest_endpoint: /organizations/%v/adaptivePolicy/groups

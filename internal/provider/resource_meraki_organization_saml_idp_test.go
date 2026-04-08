@@ -37,7 +37,8 @@ func TestAccMerakiOrganizationSAMLIdP(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_saml_idp.test", "slo_logout_url", "https://somewhere.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_saml_idp.test", "x509cert_sha1_fingerprint", "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_saml_idp.test", "sso_login_url", "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_saml_idp.test", "x509cert_sha1_fingerprint", "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:CA"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -98,7 +99,7 @@ data "meraki_organization" "test" {
 func testAccMerakiOrganizationSAMLIdPConfig_minimum() string {
 	config := `resource "meraki_organization_saml_idp" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA"` + "\n"
+	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:CA"` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -111,7 +112,8 @@ func testAccMerakiOrganizationSAMLIdPConfig_all() string {
 	config := `resource "meraki_organization_saml_idp" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  slo_logout_url = "https://somewhere.com"` + "\n"
-	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:AA"` + "\n"
+	config += `  sso_login_url = "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b"` + "\n"
+	config += `  x509cert_sha1_fingerprint = "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:CA"` + "\n"
 	config += `}` + "\n"
 	return config
 }

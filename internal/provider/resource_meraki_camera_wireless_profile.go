@@ -86,6 +86,7 @@ func (r *CameraWirelessProfileResource) Schema(ctx context.Context, req resource
 			"identity_password": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The password of the identity.").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 			"identity_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The username of the identity.").String,
@@ -109,6 +110,7 @@ func (r *CameraWirelessProfileResource) Schema(ctx context.Context, req resource
 			"ssid_psk": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The pre-shared key of the SSID.").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 		},
 	}

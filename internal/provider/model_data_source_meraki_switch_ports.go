@@ -58,6 +58,7 @@ type DataSourceSwitchPortsItems struct {
 	StickyMacAllowListLimit                types.Int64  `tfsdk:"sticky_mac_allow_list_limit"`
 	StormControlEnabled                    types.Bool   `tfsdk:"storm_control_enabled"`
 	StpGuard                               types.String `tfsdk:"stp_guard"`
+	StpPortFastTrunk                       types.Bool   `tfsdk:"stp_port_fast_trunk"`
 	Type                                   types.String `tfsdk:"type"`
 	Udld                                   types.String `tfsdk:"udld"`
 	Vlan                                   types.Int64  `tfsdk:"vlan"`
@@ -68,6 +69,8 @@ type DataSourceSwitchPortsItems struct {
 	HighSpeedEnabled                       types.Bool   `tfsdk:"high_speed_enabled"`
 	MirrorMode                             types.String `tfsdk:"mirror_mode"`
 	ModuleModel                            types.String `tfsdk:"module_model"`
+	ModuleSerial                           types.String `tfsdk:"module_serial"`
+	ModuleSlot                             types.Int64  `tfsdk:"module_slot"`
 	ProfileEnabled                         types.Bool   `tfsdk:"profile_enabled"`
 	ProfileId                              types.String `tfsdk:"profile_id"`
 	ProfileIname                           types.String `tfsdk:"profile_iname"`
@@ -189,6 +192,11 @@ func (data *DataSourceSwitchPorts) fromBody(ctx context.Context, res meraki.Res)
 		} else {
 			data.StpGuard = types.StringNull()
 		}
+		if value := res.Get("stpPortFastTrunk"); value.Exists() && value.Value() != nil {
+			data.StpPortFastTrunk = types.BoolValue(value.Bool())
+		} else {
+			data.StpPortFastTrunk = types.BoolNull()
+		}
 		if value := res.Get("type"); value.Exists() && value.Value() != nil {
 			data.Type = types.StringValue(value.String())
 		} else {
@@ -238,6 +246,16 @@ func (data *DataSourceSwitchPorts) fromBody(ctx context.Context, res meraki.Res)
 			data.ModuleModel = types.StringValue(value.String())
 		} else {
 			data.ModuleModel = types.StringNull()
+		}
+		if value := res.Get("module.serial"); value.Exists() && value.Value() != nil {
+			data.ModuleSerial = types.StringValue(value.String())
+		} else {
+			data.ModuleSerial = types.StringNull()
+		}
+		if value := res.Get("module.slot"); value.Exists() && value.Value() != nil {
+			data.ModuleSlot = types.Int64Value(value.Int())
+		} else {
+			data.ModuleSlot = types.Int64Null()
 		}
 		if value := res.Get("profile.enabled"); value.Exists() && value.Value() != nil {
 			data.ProfileEnabled = types.BoolValue(value.Bool())

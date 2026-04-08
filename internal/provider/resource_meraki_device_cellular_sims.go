@@ -120,6 +120,7 @@ func (r *DeviceCellularSIMsResource) Schema(ctx context.Context, req resource.Sc
 									"authentication_password": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("APN password, if type is set (if APN password is not supplied, the password is left unchanged).").String,
 										Optional:            true,
+										Sensitive:           true,
 									},
 									"authentication_type": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("APN auth type.").AddStringEnumDescription("chap", "none", "pap").String,

@@ -36,4 +36,5 @@ Read-Only:
 
 - `id` (String) The id of the object
 - `slo_logout_url` (String) Dashboard will redirect users to this URL when they sign out.
+- `sso_login_url` (String) Dashboard will redirect users to this URL to log in again when their sessions expire.
 - `x509cert_sha1_fingerprint` (String) Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.

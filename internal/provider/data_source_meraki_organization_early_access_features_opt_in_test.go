@@ -34,7 +34,7 @@ func TestAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptIn(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_early_access_features_opt_in.test", "short_name", "has_mx_no_nat_early_access"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_early_access_features_opt_in.test", "short_name", "has_vlan_db"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -72,7 +72,7 @@ resource "meraki_network" "test" {
 func testAccDataSourceMerakiOrganizationEarlyAccessFeaturesOptInConfig() string {
 	config := `resource "meraki_organization_early_access_features_opt_in" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  short_name = "has_mx_no_nat_early_access"` + "\n"
+	config += `  short_name = "has_vlan_db"` + "\n"
 	config += `  limit_scope_to_networks = [meraki_network.test.id]` + "\n"
 	config += `}` + "\n"
 

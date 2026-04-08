@@ -65,7 +65,7 @@ func (data SwitchMTU) toBody(ctx context.Context, state SwitchMTU) string {
 	if !data.DefaultMtuSize.IsNull() {
 		body, _ = sjson.Set(body, "defaultMtuSize", data.DefaultMtuSize.ValueInt64())
 	}
-	if len(data.Overrides) > 0 {
+	if data.Overrides != nil {
 		body, _ = sjson.Set(body, "overrides", []interface{}{})
 		for _, item := range data.Overrides {
 			itemBody := ""

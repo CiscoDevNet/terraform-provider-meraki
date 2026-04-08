@@ -49,6 +49,7 @@ attributes:
     example: My SSID
   - model_name: psk
     type: String
+    sensitive: true
     exclude_test: true
     description: The passkey for the SSID. This param is only valid if the authMode is `psk`.
     example: psk
@@ -95,6 +96,7 @@ attributes:
       - model_name: secret
         type: String
         write_only: true
+        sensitive: true
         description: The RADIUS client shared secret.
         example: secret
 test_prerequisites: |

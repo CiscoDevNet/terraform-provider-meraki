@@ -29,3 +29,5 @@ data "meraki_organization_saml" "example" {
 
 - `enabled` (Boolean) Boolean for updating SAML SSO enabled settings.
 - `id` (String) The id of the object
+- `sp_initiated_idp_id` (String) SAML IdP ID for SP-Initiated SSO Authentication
+- `sp_initiated_subdomain` (String) Organization`s unique SSO identifier

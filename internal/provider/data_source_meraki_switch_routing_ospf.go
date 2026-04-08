@@ -88,6 +88,7 @@ func (d *SwitchRoutingOSPFDataSource) Schema(ctx context.Context, req datasource
 			"md5_authentication_key_passphrase": schema.StringAttribute{
 				MarkdownDescription: "MD5 authentication passphrase",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"v3_dead_timer_in_seconds": schema.Int64Attribute{
 				MarkdownDescription: "Time interval to determine when the peer will be declared inactive/dead. Value must be between 1 and 65535",

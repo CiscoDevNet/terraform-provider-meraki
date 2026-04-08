@@ -118,6 +118,7 @@ func (r *ApplianceSSIDsResource) Schema(ctx context.Context, req resource.Schema
 						"psk": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The passkey for the SSID. This param is only valid if the authMode is `psk`.").String,
 							Optional:            true,
+							Sensitive:           true,
 						},
 						"visible": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether the MX should advertise or hide this SSID.").String,
@@ -158,6 +159,7 @@ func (r *ApplianceSSIDsResource) Schema(ctx context.Context, req resource.Schema
 									"secret": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("The RADIUS client shared secret.").String,
 										Optional:            true,
+										Sensitive:           true,
 									},
 								},
 							},

@@ -66,6 +66,9 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 			"{{.TfName}}": schema.{{.Type}}Attribute{
 				MarkdownDescription: "{{.Description}}",
 				Required:            true,
+				{{- if .Sensitive}}
+				Sensitive:           true,
+				{{- end}}
 			},
 			{{- end}}
 			"items": schema.SetNestedAttribute{
@@ -85,6 +88,9 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 							ElementType:         types.{{.ElementType}}Type,
 							{{- end}}
 							Computed:            true,
+							{{- if .Sensitive}}
+							Sensitive:           true,
+							{{- end}}
 							{{- if isNestedListSetMap .}}
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
@@ -96,6 +102,9 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 										ElementType:         types.{{.ElementType}}Type,
 										{{- end}}
 										Computed:            true,
+										{{- if .Sensitive}}
+										Sensitive:           true,
+										{{- end}}
 										{{- if isNestedListSetMap .}}
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
@@ -107,6 +116,9 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 													ElementType:         types.{{.ElementType}}Type,
 													{{- end}}
 													Computed:            true,
+													{{- if .Sensitive}}
+													Sensitive:           true,
+													{{- end}}
 													{{- if isNestedListSetMap .}}
 													NestedObject: schema.NestedAttributeObject{
 														Attributes: map[string]schema.Attribute{
@@ -118,6 +130,9 @@ func (d *{{camelCase .BulkName}}DataSource) Schema(ctx context.Context, req data
 																ElementType:         types.{{.ElementType}}Type,
 																{{- end}}
 																Computed:            true,
+																{{- if .Sensitive}}
+																Sensitive:           true,
+																{{- end}}
 															},
 															{{- end}}
 															{{- end}}

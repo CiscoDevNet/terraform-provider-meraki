@@ -1,3 +1,4 @@
+# Test currently fails with "500 Internal Error"
 name: Organization Policy Object Group
 spec_endpoint: /organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}
 rest_endpoint: /organizations/%v/policyObjects/groups
@@ -5,6 +6,7 @@ bulk_data_source: true
 bulk_resource: true
 data_source_name_query: true
 doc_category: Organizations
+test_tags: [ORGANIZATION_POLICY_OBJECT_GROUP]
 test_variables: [test_org]
 attributes:
   - tf_name: organization_id
@@ -22,7 +24,7 @@ attributes:
     bulk_id: true
     mandatory: true
     description: A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-    example: Web Servers - Datacenter 10
+    example: Web Servers Group
   - model_name: objectIds
     type: Set
     element_type: Int64
@@ -37,6 +39,6 @@ test_prerequisites: |
     organization_id = data.meraki_organization.test.id
     category = "network"
     cidr = "10.0.1.0/24"
-    name = "Web Servers - Datacenter 10"
+    name = "Web Servers"
     type = "cidr"
   }

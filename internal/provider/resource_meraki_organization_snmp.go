@@ -92,6 +92,7 @@ func (r *OrganizationSNMPResource) Schema(ctx context.Context, req resource.Sche
 			"v3_auth_pass": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The SNMP version 3 authentication password. Must be at least 8 characters if specified.").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 			"v3_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether SNMP version 3 is enabled for the organization.").String,
@@ -107,6 +108,7 @@ func (r *OrganizationSNMPResource) Schema(ctx context.Context, req resource.Sche
 			"v3_priv_pass": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The SNMP version 3 privacy password. Must be at least 8 characters if specified.").String,
 				Optional:            true,
+				Sensitive:           true,
 			},
 			"peer_ips": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of IPv4 addresses that are allowed to access the SNMP server.").String,

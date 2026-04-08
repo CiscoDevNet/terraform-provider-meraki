@@ -94,6 +94,10 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 							MarkdownDescription: helpers.NewAttributeDescription("One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.").String,
 							Optional:            true,
 						},
+						"ip_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("[optional] The IP version of the VPN peer. Required when isRouteBased is true. Accepted values are 4 or 6.").String,
+							Optional:            true,
+						},
 						"is_route_based": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("[optional] If true, the VPN peer is route-based. If not included, the default is false. Supported only for MX 19.1 and above.").String,
 							Optional:            true,
@@ -129,6 +133,7 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 						"secret": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The shared secret with the VPN peer").String,
 							Required:            true,
+							Sensitive:           true,
 						},
 						"ebgp_neighbor_ebgp_hold_timer": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.").String,

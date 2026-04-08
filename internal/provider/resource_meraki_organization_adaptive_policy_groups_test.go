@@ -29,9 +29,10 @@ import (
 
 // End of section. //template:end imports
 
-// Section below is generated&owned by "gen/generator.go". //template:begin testAcc
-
 func TestAccMerakiOrganizationAdaptivePolicyGroups(t *testing.T) {
+	if os.Getenv("ORGANIZATION_ADAPTIVE_POLICY_GROUPS") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION_ADAPTIVE_POLICY_GROUPS")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
@@ -57,8 +58,6 @@ func TestAccMerakiOrganizationAdaptivePolicyGroups(t *testing.T) {
 		Steps:                    steps,
 	})
 }
-
-// End of section. //template:end testAcc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
 

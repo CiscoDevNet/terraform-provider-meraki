@@ -4,6 +4,7 @@ spec_endpoint: /networks/{networkId}/wireless/rfProfiles/{rfProfileId}
 rest_endpoint: /networks/%v/wireless/rfProfiles
 bulk_data_source: true
 bulk_resource: true
+post_and_put: true
 data_source_name_query: true
 doc_category: Wireless
 test_variables: [test_org, test_network]
@@ -45,7 +46,7 @@ attributes:
     type: Bool
     data_path: [apBandSettings]
     description: Steers client to most open band. Can be either true or false. Defaults to true.
-    example: "true"
+    example: "false"
   - model_name: enabled
     type: Set
     element_type: String

@@ -15,13 +15,18 @@ All resources and data sources have been tested with the following API releases.
 
 | API | Version |
 | ---------------- | ------- |
-| Meraki Dashboard | 1.62.0  |
+| Meraki Dashboard | 1.65.0  |
 
 ## Getting Started
 
 The following guides with examples exist to demonstrate the use of the provider:
 
 - [Getting Started](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/getting_started)
+- [Bulk Resources](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/bulk_resources)
+
+## Bulk Resources
+
+The provider includes bulk resources designed to manage multiple objects of the same type within a single resource block. Bulk resources leverage Meraki's Action Batches API to significantly reduce the number of API calls required for large-scale operations, helping avoid rate limits. For detailed information and examples, see the [Bulk Resources guide](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/bulk_resources).
 
 ## Example Usage
 

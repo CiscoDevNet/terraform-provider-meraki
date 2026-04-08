@@ -14,8 +14,10 @@ This resource can manage the `Organization SAML` configuration.
 
 ```terraform
 resource "meraki_organization_saml" "example" {
-  organization_id = "123456"
-  enabled         = true
+  organization_id        = "123456"
+  enabled                = true
+  sp_initiated_idp_id    = "uu3H_bx28Nnd"
+  sp_initiated_subdomain = "example_subdomain"
 }
 ```
 
@@ -29,6 +31,8 @@ resource "meraki_organization_saml" "example" {
 ### Optional
 
 - `enabled` (Boolean) Boolean for updating SAML SSO enabled settings.
+- `sp_initiated_idp_id` (String) SAML IdP ID for SP-Initiated SSO Authentication
+- `sp_initiated_subdomain` (String) Organization`s unique SSO identifier
 
 ### Read-Only
 

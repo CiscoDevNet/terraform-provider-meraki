@@ -55,6 +55,7 @@ data "meraki_switch_port" "example" {
 - `sticky_mac_allow_list_limit` (Number) The maximum number of MAC addresses for sticky MAC allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
 - `storm_control_enabled` (Boolean) The storm control status of the switch port.
 - `stp_guard` (String) The state of the STP guard (`disabled`, `root guard`, `bpdu guard` or `loop guard`).
+- `stp_port_fast_trunk` (Boolean) The state of STP PortFast Trunk on the switch port.
 - `tags` (Set of String) The list of tags of the switch port.
 - `type` (String) The type of the switch port (`trunk`, `access` or `stack`).
 - `udld` (String) The action to take when Unidirectional Link is detected (Alert only, Enforce). Default configuration is Alert only.

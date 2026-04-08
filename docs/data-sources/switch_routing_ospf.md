@@ -34,7 +34,7 @@ data "meraki_switch_routing_ospf" "example" {
 - `id` (String) The id of the object
 - `md5_authentication_enabled` (Boolean) Boolean value to enable or disable MD5 authentication. MD5 authentication is disabled by default.
 - `md5_authentication_key_id` (Number) MD5 authentication key index. Key index must be between 1 to 255
-- `md5_authentication_key_passphrase` (String) MD5 authentication passphrase
+- `md5_authentication_key_passphrase` (String, Sensitive) MD5 authentication passphrase
 - `v3_areas` (Attributes List) OSPF v3 areas (see [below for nested schema](#nestedatt--v3_areas))
 - `v3_dead_timer_in_seconds` (Number) Time interval to determine when the peer will be declared inactive/dead. Value must be between 1 and 65535
 - `v3_enabled` (Boolean) Boolean value to enable or disable V3 OSPF routing. OSPF V3 routing is disabled by default.

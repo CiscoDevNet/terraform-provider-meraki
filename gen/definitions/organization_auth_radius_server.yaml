@@ -27,6 +27,7 @@ attributes:
     type: String
     mandatory: true
     write_only: true
+    sensitive: true
     description: Shared secret of the RADIUS server
     example: secret
   - model_name: modes

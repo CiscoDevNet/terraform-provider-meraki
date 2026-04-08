@@ -69,6 +69,14 @@ func (d *OrganizationSAMLDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Boolean for updating SAML SSO enabled settings.",
 				Computed:            true,
 			},
+			"sp_initiated_idp_id": schema.StringAttribute{
+				MarkdownDescription: "SAML IdP ID for SP-Initiated SSO Authentication",
+				Computed:            true,
+			},
+			"sp_initiated_subdomain": schema.StringAttribute{
+				MarkdownDescription: "Organization`s unique SSO identifier",
+				Computed:            true,
+			},
 		},
 	}
 }

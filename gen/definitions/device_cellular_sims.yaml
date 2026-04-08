@@ -60,6 +60,7 @@ attributes:
           - model_name: password
             type: String
             data_path: [authentication]
+            sensitive: true
             description: APN password, if type is set (if APN password is not supplied, the password is left unchanged).
             example: secret
           - model_name: type

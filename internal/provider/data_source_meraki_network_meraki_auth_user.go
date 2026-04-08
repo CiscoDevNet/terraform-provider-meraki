@@ -95,6 +95,7 @@ func (d *NetworkMerakiAuthUserDataSource) Schema(ctx context.Context, req dataso
 			"password": schema.StringAttribute{
 				MarkdownDescription: "The password for this user account. Only required If the user is not a Dashboard administrator.",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"authorizations": schema.ListNestedAttribute{
 				MarkdownDescription: "Authorization zones and expiration dates for the user.",

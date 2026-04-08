@@ -88,6 +88,7 @@ func (d *WirelessZigbeeDataSource) Schema(ctx context.Context, req datasource.Sc
 			"lock_management_password": schema.StringAttribute{
 				MarkdownDescription: "Password",
 				Computed:            true,
+				Sensitive:           true,
 			},
 			"lock_management_username": schema.StringAttribute{
 				MarkdownDescription: "Username",

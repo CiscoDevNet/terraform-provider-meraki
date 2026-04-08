@@ -62,6 +62,12 @@ The model of the definition files is defined by a [Yamale](https://github.com/23
 
 Whenever the `definition` is updated, it is necessary to run the generator again with the same command as above.
 
+To regenerate and/or update the complete codebase for all resources and data sources, run `make gen` without arguments:
+
+```shell
+make gen
+```
+
 In some cases it might also be required to update some of the generated Go code. This can be done by modifying the generated files in the `internal/provider` directory. Every code section has comment markers as shown below:
 
 ```go
@@ -75,31 +81,38 @@ func Create() {
 
 As long as those markers remain in the code, the code will continue to be updated by the generator. If the markers are removed, the code will not be updated anymore and the code can be modified manually.
 
-To regenerate and/or update the complete codebase for all resources and data sources, run the following command:
-
-```shell
-make genall
-```
-
 ### Acceptance Tests
 
-The acceptance tests are typically performed in a test organization which is assumed to be created already. The name of this organization needs to be configured using the `TF_VAR_test_org` environment variable. The tests will create and delete resources in this organization. Similarly, the tests might require other environment variables to be set, such as `TF_VAR_test_network` (temporary network to be created for testing) or `TF_VAR_test_switch_1_serial` (serial number of a switch to be used for testing). In case the necessary environment variables are not set, a message while be displayed, listing all the required environment variables.
-
-Every resource and data source implemented has a corresponding acceptance test. To run a single acceptance test use the following command:
+The acceptance tests are typically performed in a test organization which is assumed to be created already. Copy the `.env.sample` file to `.env` and fill in your actual values:
 
 ```shell
-make test NAME=OrganizationAdmin
+cp .env.sample .env
+# Edit .env with your actual API key and test environment values
 ```
 
-Where `NAME` is the camelcase name of the resource or data source to test. Make sure the respective environment variables to configure the provider are set (e.g., `MERAKI_API_KEY`).
+The `.env` file is automatically loaded by the Makefile and is git-ignored to protect your credentials. The required environment variables include `MERAKI_API_KEY`, `TF_VAR_test_org` (test organization name), `TF_VAR_test_network` (temporary network name), and various device serial numbers (`TF_VAR_test_switch_1_serial`, `TF_VAR_test_ap_1_serial`, etc.). In case the necessary environment variables are not set, the tests will be skipped with a message.
 
-In order to run the full suite of Acceptance tests, run `make testall`.
-
-Note: Acceptance tests create real resources.
+Every resource and data source has a corresponding acceptance test. To run tests for a specific definition:
 
 ```shell
-make testall
+# Run tests for a specific definition (by name from gen/definitions/*.yaml)
+make test NAME="Organization Admin"
+make test NAME="Network"
 ```
+
+To run the full suite of acceptance tests:
+
+```shell
+make test
+```
+
+To enable debug logging:
+
+```shell
+make test NAME="Organization Admin" DEBUG=1
+```
+
+> **Note**: Acceptance tests create real resources.
 
 ## Sending Pull Requests
 

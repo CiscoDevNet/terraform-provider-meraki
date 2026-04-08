@@ -78,7 +78,7 @@ Required:
 
 Optional:
 
-- `authentication_password` (String) APN password, if type is set (if APN password is not supplied, the password is left unchanged).
+- `authentication_password` (String, Sensitive) APN password, if type is set (if APN password is not supplied, the password is left unchanged).
 - `authentication_type` (String) APN auth type.
   - Choices: `chap`, `none`, `pap`
 - `authentication_username` (String) APN username, if type is set.
