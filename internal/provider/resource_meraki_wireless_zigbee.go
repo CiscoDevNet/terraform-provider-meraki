@@ -50,7 +50,8 @@ func NewWirelessZigbeeResource() resource.Resource {
 }
 
 type WirelessZigbeeResource struct {
-	client *meraki.Client
+	client                        *meraki.Client
+	restoreOriginalStateOnDestroy bool
 }
 
 func (r *WirelessZigbeeResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -119,11 +120,10 @@ func (r *WirelessZigbeeResource) Configure(_ context.Context, req resource.Confi
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
 
 // End of section. //template:end model
-
-// Section below is generated&owned by "gen/generator.go". //template:begin create
 
 func (r *WirelessZigbeeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan WirelessZigbee
@@ -135,6 +135,25 @@ func (r *WirelessZigbeeResource) Create(ctx context.Context, req resource.Create
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	// If the resource is a singleton, we need to read and save the initial state
+	if r.restoreOriginalStateOnDestroy {
+		var initialState WirelessZigbee
+		networkPath := fmt.Sprintf("/networks/%v", plan.NetworkId.ValueString())
+		nres, err := r.client.Get(networkPath)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, nres.String()))
+			return
+		}
+		orgId := nres.Get("organizationId").String()
+		settingsPath := fmt.Sprintf("/organizations/%v/wireless/zigbee/byNetwork?networkIds[]=%v", orgId, plan.NetworkId.ValueString())
+		gres, err := r.client.Get(settingsPath)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve zigbee settings (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		initialState.fromBody(ctx, meraki.Res{Result: gres.Get("items.0")})
+		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessZigbee{}), resp.Private, &resp.Diagnostics)
+	}
 
 	// Create object
 	body := plan.toBody(ctx, WirelessZigbee{})
@@ -153,8 +172,6 @@ func (r *WirelessZigbeeResource) Create(ctx context.Context, req resource.Create
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end create
 
 func (r *WirelessZigbeeResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state WirelessZigbee
@@ -256,6 +273,19 @@ func (r *WirelessZigbeeResource) Delete(ctx context.Context, req resource.Delete
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
+	if r.restoreOriginalStateOnDestroy {
+		// Restore the saved initial state on destroy
+		jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		res, err := r.client.Put(state.getPath(), jsonInitialState)
+		if err != nil {
+			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
 

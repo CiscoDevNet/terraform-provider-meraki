@@ -538,6 +538,11 @@ func GetBulkItemIdTfName(config YamlConfig) string {
 	return "id"
 }
 
+// IsSingleton returns true if the resource is a singleton
+func IsSingleton(config YamlConfig) bool {
+	return config.PutCreate && config.NoDelete && !config.NoRead
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":                ToGoName,
@@ -575,6 +580,7 @@ var Functions = template.FuncMap{
 	"hasOrganizationId":       HasOrganizationId,
 	"getBulkItemId":           GetBulkItemId,
 	"getBulkItemIdTfName":     GetBulkItemIdTfName,
+	"isSingleton":             IsSingleton,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")

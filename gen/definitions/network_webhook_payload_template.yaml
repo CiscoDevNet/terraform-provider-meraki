@@ -34,7 +34,7 @@ attributes:
     bulk_id: true
     mandatory: true
     description: The name of the new template
-    example: Custom Template New
+    example: Custom 1
   - model_name: headers
     type: List
     description: The liquid template used with the webhook headers.
