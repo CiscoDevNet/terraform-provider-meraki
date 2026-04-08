@@ -257,7 +257,7 @@ func (r *CellularGatewayConnectivityMonitoringDestinationsResource) Delete(ctx c
 			return
 		}
 	} else {
-		body := state.addDeleteValues(ctx, "")
+		body := state.toDestroyBody(ctx)
 		res, err := r.client.Put(state.getPath(), body)
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))

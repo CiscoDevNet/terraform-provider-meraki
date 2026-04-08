@@ -317,11 +317,12 @@ func (data *ApplianceOneToManyNATRules) fromBodyUnknowns(ctx context.Context, re
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data ApplianceOneToManyNATRules) addDeleteValues(ctx context.Context, body string) string {
+func (data ApplianceOneToManyNATRules) toDestroyBody(ctx context.Context) string {
+	body := ""
 	body, _ = sjson.Set(body, "rules", []interface{}{})
 	return body
 }
 
-// End of section. //template:end addDeleteValues
+// End of section. //template:end toDestroyBody

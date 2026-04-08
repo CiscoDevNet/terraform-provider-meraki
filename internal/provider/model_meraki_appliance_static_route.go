@@ -138,11 +138,3 @@ func (data *ApplianceStaticRoute) fromBodyUnknowns(ctx context.Context, res mera
 }
 
 // End of section. //template:end fromBodyUnknowns
-
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ApplianceStaticRoute) addDeleteValues(ctx context.Context, body string) string {
-	return body
-}
-
-// End of section. //template:end addDeleteValues

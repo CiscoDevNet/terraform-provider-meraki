@@ -718,11 +718,12 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyUnknowns(ctx context
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data ApplianceTrafficShapingUplinkSelection) addDeleteValues(ctx context.Context, body string) string {
+func (data ApplianceTrafficShapingUplinkSelection) toDestroyBody(ctx context.Context) string {
+	body := ""
 	body, _ = sjson.Set(body, "vpnTrafficUplinkPreferences", []interface{}{})
 	return body
 }
 
-// End of section. //template:end addDeleteValues
+// End of section. //template:end toDestroyBody

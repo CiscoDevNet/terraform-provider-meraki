@@ -1751,9 +1751,10 @@ func (data *WirelessSSID) fromBodyUnknowns(ctx context.Context, res meraki.Res) 
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data WirelessSSID) addDeleteValues(ctx context.Context, body string) string {
+func (data WirelessSSID) toDestroyBody(ctx context.Context) string {
+	body := ""
 	body, _ = sjson.Set(body, "adultContentFilteringEnabled", false)
 	body, _ = sjson.Set(body, "authMode", "open")
 	body, _ = sjson.Set(body, "availableOnAllAps", true)
@@ -1774,4 +1775,4 @@ func (data WirelessSSID) addDeleteValues(ctx context.Context, body string) strin
 	return body
 }
 
-// End of section. //template:end addDeleteValues
+// End of section. //template:end toDestroyBody

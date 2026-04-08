@@ -187,11 +187,12 @@ func (data *SwitchDSCPToCoSMappings) fromBodyUnknowns(ctx context.Context, res m
 
 // End of section. //template:end fromBodyUnknowns
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data SwitchDSCPToCoSMappings) addDeleteValues(ctx context.Context, body string) string {
+func (data SwitchDSCPToCoSMappings) toDestroyBody(ctx context.Context) string {
+	body := ""
 	body, _ = sjson.Set(body, "mappings", []interface{}{})
 	return body
 }
 
-// End of section. //template:end addDeleteValues
+// End of section. //template:end toDestroyBody

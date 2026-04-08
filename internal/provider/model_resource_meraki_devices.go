@@ -299,15 +299,6 @@ func (data *ResourceDevices) fromBodyImport(ctx context.Context, res meraki.Res)
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ResourceDevices) addDeleteValues(ctx context.Context) string {
-	body := ""
-	return body
-}
-
-// End of section. //template:end addDeleteValues
-
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceDevices) hasChanges(ctx context.Context, state *ResourceDevices, id string) bool {

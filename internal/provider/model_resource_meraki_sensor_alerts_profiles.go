@@ -919,15 +919,6 @@ func (data *ResourceSensorAlertsProfiles) fromBodyImport(ctx context.Context, re
 
 // End of section. //template:end fromBodyImport
 
-// Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
-
-func (data ResourceSensorAlertsProfiles) addDeleteValues(ctx context.Context) string {
-	body := ""
-	return body
-}
-
-// End of section. //template:end addDeleteValues
-
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceSensorAlertsProfiles) hasChanges(ctx context.Context, state *ResourceSensorAlertsProfiles, id string) bool {
