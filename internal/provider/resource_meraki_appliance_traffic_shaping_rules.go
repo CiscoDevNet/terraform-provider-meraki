@@ -289,6 +289,13 @@ func (r *ApplianceTrafficShapingRulesResource) Delete(ctx context.Context, req r
 			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 			return
 		}
+	} else {
+		body := state.addDeleteValues(ctx, "")
+		res, err := r.client.Put(state.getPath(), body)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))

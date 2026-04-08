@@ -193,6 +193,7 @@ func (data *NetworkSyslogServers) fromBodyUnknowns(ctx context.Context, res mera
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data NetworkSyslogServers) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "servers", []interface{}{})
 	return body
 }
 

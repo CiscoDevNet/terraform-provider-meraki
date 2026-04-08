@@ -251,6 +251,8 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBodyUnknowns(ctx context.C
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data ApplianceTrafficShapingVPNExclusions) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "custom", []interface{}{})
+	body, _ = sjson.Set(body, "majorApplications", []interface{}{})
 	return body
 }
 

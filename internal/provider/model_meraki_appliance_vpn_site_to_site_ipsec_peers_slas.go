@@ -175,6 +175,7 @@ func (data *ApplianceVPNSiteToSiteIPsecPeersSLAs) fromBodyUnknowns(ctx context.C
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data ApplianceVPNSiteToSiteIPsecPeersSLAs) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "items", []interface{}{})
 	return body
 }
 

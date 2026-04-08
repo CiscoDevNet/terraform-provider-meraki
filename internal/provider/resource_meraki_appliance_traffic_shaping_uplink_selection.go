@@ -406,17 +406,26 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Delete(ctx context.Cont
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	// If the resource is a singleton, we need to restore the initial state
-	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
-	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
-	}
 
-	res, err := r.client.Put(state.getPath(), jsonInitialState)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
-		return
+	if r.restoreOriginalStateOnDestroy {
+		// Restore the saved initial state on destroy
+		jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		res, err := r.client.Put(state.getPath(), jsonInitialState)
+		if err != nil {
+			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
+	} else {
+		body := state.addDeleteValues(ctx, "")
+		res, err := r.client.Put(state.getPath(), body)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	// Clear the shared wanTrafficUplinkPreferences
@@ -428,7 +437,7 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Delete(ctx context.Cont
 		NetworkId: state.NetworkId,
 	}
 	body, _ := sjson.Set("", "wanTrafficUplinkPreferences", []interface{}{})
-	res, err = r.client.Put(sdwanInternetPolicies.getPath(), body)
+	res, err := r.client.Put(sdwanInternetPolicies.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to clear Appliance Traffic Shaping Uplink Preferences wan_traffic_uplink_preferences via Appliance SDWAN Internet Policies endpoint (PUT), got error: %s, %s", err, res.String()))
 		return

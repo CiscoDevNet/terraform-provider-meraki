@@ -688,6 +688,7 @@ func (data *ApplianceThirdPartyVPNPeers) fromBodyUnknowns(ctx context.Context, r
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data ApplianceThirdPartyVPNPeers) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "peers", []interface{}{})
 	return body
 }
 

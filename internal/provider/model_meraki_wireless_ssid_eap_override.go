@@ -171,7 +171,6 @@ func (data *WirelessSSIDEAPOverride) fromBodyUnknowns(ctx context.Context, res m
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data WirelessSSIDEAPOverride) addDeleteValues(ctx context.Context, body string) string {
-	body, _ = sjson.Set(body, "maxRetries", 5)
 	return body
 }
 
