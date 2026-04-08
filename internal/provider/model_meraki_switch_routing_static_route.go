@@ -44,6 +44,11 @@ type SwitchRoutingStaticRoute struct {
 	VrfName                     types.String `tfsdk:"vrf_name"`
 }
 
+type SwitchRoutingStaticRouteIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+	Id     types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -180,6 +185,24 @@ func (data *SwitchRoutingStaticRoute) fromBodyUnknowns(ctx context.Context, res 
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchRoutingStaticRouteIdentity) toIdentity(ctx context.Context, plan *SwitchRoutingStaticRoute) {
+	data.Serial = plan.Serial
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchRoutingStaticRoute) fromIdentity(ctx context.Context, identity *SwitchRoutingStaticRouteIdentity) {
+	data.Serial = identity.Serial
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

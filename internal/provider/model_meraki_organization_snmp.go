@@ -45,6 +45,10 @@ type OrganizationSNMP struct {
 	PeerIps        types.Set    `tfsdk:"peer_ips"`
 }
 
+type OrganizationSNMPIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -163,6 +167,22 @@ func (data *OrganizationSNMP) fromBodyUnknowns(ctx context.Context, res meraki.R
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationSNMPIdentity) toIdentity(ctx context.Context, plan *OrganizationSNMP) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationSNMP) fromIdentity(ctx context.Context, identity *OrganizationSNMPIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

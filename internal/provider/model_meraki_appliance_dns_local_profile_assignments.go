@@ -47,6 +47,10 @@ type ApplianceDNSLocalProfileAssignmentsItems struct {
 	ProfileId    types.String `tfsdk:"profile_id"`
 }
 
+type ApplianceDNSLocalProfileAssignmentsIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -250,6 +254,22 @@ func (data *ApplianceDNSLocalProfileAssignments) fromBodyUnknowns(ctx context.Co
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceDNSLocalProfileAssignmentsIdentity) toIdentity(ctx context.Context, plan *ApplianceDNSLocalProfileAssignments) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceDNSLocalProfileAssignments) fromIdentity(ctx context.Context, identity *ApplianceDNSLocalProfileAssignmentsIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

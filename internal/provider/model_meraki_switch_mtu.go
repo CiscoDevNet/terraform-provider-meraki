@@ -48,6 +48,10 @@ type SwitchMTUOverrides struct {
 	Switches       types.Set   `tfsdk:"switches"`
 }
 
+type SwitchMTUIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -179,6 +183,22 @@ func (data *SwitchMTU) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchMTUIdentity) toIdentity(ctx context.Context, plan *SwitchMTU) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchMTU) fromIdentity(ctx context.Context, identity *SwitchMTUIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

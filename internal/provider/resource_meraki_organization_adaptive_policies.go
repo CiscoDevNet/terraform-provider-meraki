@@ -29,6 +29,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -44,7 +45,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &OrganizationAdaptivePoliciesResource{}
+	_ resource.ResourceWithIdentity    = &OrganizationAdaptivePoliciesResource{}
 	_ resource.ResourceWithImportState = &OrganizationAdaptivePoliciesResource{}
 	_ resource.ResourceWithModifyPlan  = &OrganizationAdaptivePoliciesResource{}
 )
@@ -144,6 +145,22 @@ func (r *OrganizationAdaptivePoliciesResource) Schema(ctx context.Context, req r
 	}
 }
 
+func (r *OrganizationAdaptivePoliciesResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"organization_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Organization ID").String,
+				RequiredForImport: true,
+			},
+			"item_ids": identityschema.ListAttribute{
+				Description:       "List of item IDs",
+				ElementType:       types.StringType,
+				OptionalForImport: true,
+			},
+		},
+	}
+}
+
 func (r *OrganizationAdaptivePoliciesResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -158,6 +175,7 @@ func (r *OrganizationAdaptivePoliciesResource) Configure(_ context.Context, req 
 
 func (r *OrganizationAdaptivePoliciesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ResourceOrganizationAdaptivePolicies
+	var identity ResourceOrganizationAdaptivePoliciesIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -189,10 +207,13 @@ func (r *OrganizationAdaptivePoliciesResource) Create(ctx context.Context, req r
 	for i := range plan.Items {
 		plan.Items[i].Id = types.StringValue(res.Get("status.createdResources." + strconv.Itoa(i) + ".id").String())
 	}
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -204,12 +225,21 @@ func (r *OrganizationAdaptivePoliciesResource) Create(ctx context.Context, req r
 
 func (r *OrganizationAdaptivePoliciesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ResourceOrganizationAdaptivePolicies
+	var identity ResourceOrganizationAdaptivePoliciesIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
@@ -236,10 +266,13 @@ func (r *OrganizationAdaptivePoliciesResource) Read(ctx context.Context, req res
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -412,32 +445,55 @@ func (r *OrganizationAdaptivePoliciesResource) Delete(ctx context.Context, req r
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *OrganizationAdaptivePoliciesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	itemIdParts := make([]string, 0)
-	if strings.Contains(req.ID, ",[") {
-		itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
-	}
-	idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
-
-	if len(idParts) != 1 || idParts[0] == "" {
-		expectedIdentifier := "Expected import identifier with format: <organization_id>"
-		expectedIdentifier += " or <organization_id>,[<id>,...]"
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
-		)
-		return
-	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
-
-	if len(itemIdParts) > 0 {
-		items := make([]ResourceOrganizationAdaptivePoliciesItems, len(itemIdParts))
-		for i, itemId := range itemIdParts {
-			item := ResourceOrganizationAdaptivePoliciesItems{}
-			item.Id = types.StringValue(itemId)
-			items[i] = item
+	if req.ID != "" {
+		itemIdParts := make([]string, 0)
+		if strings.Contains(req.ID, ",[") {
+			itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
 		}
-		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
+
+		if len(idParts) != 1 || idParts[0] == "" {
+			expectedIdentifier := "Expected import identifier with format: <organization_id>"
+			expectedIdentifier += " or <organization_id>,[<id>,...]"
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+
+		if len(itemIdParts) > 0 {
+			items := make([]ResourceOrganizationAdaptivePoliciesItems, len(itemIdParts))
+			for i, itemId := range itemIdParts {
+				item := ResourceOrganizationAdaptivePoliciesItems{}
+				item.Id = types.StringValue(itemId)
+				items[i] = item
+			}
+			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		}
+	} else {
+		var identity ResourceOrganizationAdaptivePoliciesIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), identity.OrganizationId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.OrganizationId.ValueString())...)
+
+		if len(identity.ItemIds.Elements()) > 0 {
+			items := make([]ResourceOrganizationAdaptivePoliciesItems, len(identity.ItemIds.Elements()))
+			var values []string
+			identity.ItemIds.ElementsAs(ctx, &values, false)
+			for i, itemId := range values {
+				item := ResourceOrganizationAdaptivePoliciesItems{}
+				item.Id = types.StringValue(itemId)
+				items[i] = item
+			}
+			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		}
 	}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

@@ -58,6 +58,11 @@ type WirelessSSIDTrafficShapingRulesRulesDefinitions struct {
 	Value types.String `tfsdk:"value"`
 }
 
+type WirelessSSIDTrafficShapingRulesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -314,6 +319,24 @@ func (data *WirelessSSIDTrafficShapingRules) fromBodyUnknowns(ctx context.Contex
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDTrafficShapingRulesIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDTrafficShapingRules) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDTrafficShapingRules) fromIdentity(ctx context.Context, identity *WirelessSSIDTrafficShapingRulesIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

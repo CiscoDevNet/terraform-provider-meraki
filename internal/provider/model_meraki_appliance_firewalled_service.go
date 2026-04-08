@@ -41,6 +41,11 @@ type ApplianceFirewalledService struct {
 	AllowedIps types.List   `tfsdk:"allowed_ips"`
 }
 
+type ApplianceFirewalledServiceIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Service   types.String `tfsdk:"service"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -114,6 +119,24 @@ func (data *ApplianceFirewalledService) fromBodyUnknowns(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceFirewalledServiceIdentity) toIdentity(ctx context.Context, plan *ApplianceFirewalledService) {
+	data.NetworkId = plan.NetworkId
+	data.Service = plan.Service
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceFirewalledService) fromIdentity(ctx context.Context, identity *ApplianceFirewalledServiceIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Service = identity.Service
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
