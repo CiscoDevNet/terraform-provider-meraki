@@ -223,6 +223,7 @@ func (data *CellularGatewayPortForwardingRules) fromBodyUnknowns(ctx context.Con
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data CellularGatewayPortForwardingRules) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "rules", []interface{}{})
 	return body
 }
 

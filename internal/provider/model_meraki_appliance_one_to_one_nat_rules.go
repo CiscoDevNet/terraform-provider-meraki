@@ -308,6 +308,7 @@ func (data *ApplianceOneToOneNATRules) fromBodyUnknowns(ctx context.Context, res
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data ApplianceOneToOneNATRules) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "rules", []interface{}{})
 	return body
 }
 

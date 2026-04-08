@@ -171,6 +171,7 @@ func (data *WirelessSSIDL7FirewallRules) fromBodyUnknowns(ctx context.Context, r
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data WirelessSSIDL7FirewallRules) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "rules", []interface{}{})
 	return body
 }
 

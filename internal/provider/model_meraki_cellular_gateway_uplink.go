@@ -114,8 +114,6 @@ func (data *CellularGatewayUplink) fromBodyUnknowns(ctx context.Context, res mer
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data CellularGatewayUplink) addDeleteValues(ctx context.Context, body string) string {
-	body, _ = sjson.Set(body, "bandwidthLimits.limitDown", nil)
-	body, _ = sjson.Set(body, "bandwidthLimits.limitUp", nil)
 	return body
 }
 

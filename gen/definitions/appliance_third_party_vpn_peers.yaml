@@ -17,6 +17,7 @@ attributes:
     type: List
     mandatory: true
     description: The list of VPN peers
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: ikeVersion
         type: String

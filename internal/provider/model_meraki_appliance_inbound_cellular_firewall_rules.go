@@ -237,6 +237,7 @@ func (data *ApplianceInboundCellularFirewallRules) fromBodyUnknowns(ctx context.
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data ApplianceInboundCellularFirewallRules) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "rules", []interface{}{})
 	return body
 }
 

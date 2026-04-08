@@ -721,6 +721,7 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyUnknowns(ctx context
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data ApplianceTrafficShapingUplinkSelection) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "vpnTrafficUplinkPreferences", []interface{}{})
 	return body
 }
 

@@ -175,6 +175,7 @@ func (data *ApplianceOrganizationSecurityIntrusion) fromBodyUnknowns(ctx context
 // Section below is generated&owned by "gen/generator.go". //template:begin addDeleteValues
 
 func (data ApplianceOrganizationSecurityIntrusion) addDeleteValues(ctx context.Context, body string) string {
+	body, _ = sjson.Set(body, "allowedRules", []interface{}{})
 	return body
 }
 
