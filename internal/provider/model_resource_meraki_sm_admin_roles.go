@@ -237,6 +237,15 @@ func (data *ResourceSMAdminRoles) fromBodyImport(ctx context.Context, res meraki
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceSMAdminRoles) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceSMAdminRoles) hasChanges(ctx context.Context, state *ResourceSMAdminRoles, id string) bool {

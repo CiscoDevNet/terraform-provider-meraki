@@ -188,3 +188,12 @@ func (data *WirelessBilling) fromBodyUnknowns(ctx context.Context, res meraki.Re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data WirelessBilling) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

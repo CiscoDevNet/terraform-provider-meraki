@@ -205,6 +205,16 @@ func (data *ResourceSensorMQTTBrokers) fromBodyImport(ctx context.Context, res m
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceSensorMQTTBrokers) toDestroyBody(ctx context.Context) string {
+	body := ""
+	body, _ = sjson.Set(body, "enabled", false)
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceSensorMQTTBrokers) hasChanges(ctx context.Context, state *ResourceSensorMQTTBrokers, id string) bool {
@@ -234,13 +244,3 @@ func (data *ResourceSensorMQTTBrokers) hasChanges(ctx context.Context, state *Re
 }
 
 // End of section. //template:end hasChanges
-
-// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
-
-func (data ResourceSensorMQTTBrokers) toDestroyBody(ctx context.Context) string {
-	body := ""
-	body, _ = sjson.Set(body, "enabled", false)
-	return body
-}
-
-// End of section. //template:end toDestroyBody

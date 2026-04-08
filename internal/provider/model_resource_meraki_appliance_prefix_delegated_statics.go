@@ -257,6 +257,15 @@ func (data *ResourceAppliancePrefixDelegatedStatics) fromBodyImport(ctx context.
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ResourceAppliancePrefixDelegatedStatics) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
+
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
 func (data *ResourceAppliancePrefixDelegatedStatics) hasChanges(ctx context.Context, state *ResourceAppliancePrefixDelegatedStatics, id string) bool {

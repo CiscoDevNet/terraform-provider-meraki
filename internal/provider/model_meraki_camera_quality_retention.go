@@ -180,3 +180,12 @@ func (data *CameraQualityRetention) fromBodyUnknowns(ctx context.Context, res me
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data CameraQualityRetention) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody
