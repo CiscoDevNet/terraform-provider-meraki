@@ -48,7 +48,8 @@ func NewAppliancePortResource() resource.Resource {
 }
 
 type AppliancePortResource struct {
-	client *meraki.Client
+	client                        *meraki.Client
+	restoreOriginalStateOnDestroy bool
 }
 
 func (r *AppliancePortResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -116,6 +117,7 @@ func (r *AppliancePortResource) Configure(_ context.Context, req resource.Config
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
 
 // End of section. //template:end model
@@ -123,7 +125,7 @@ func (r *AppliancePortResource) Configure(_ context.Context, req resource.Config
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
 func (r *AppliancePortResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan, initialState AppliancePort
+	var plan AppliancePort
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -133,13 +135,16 @@ func (r *AppliancePortResource) Create(ctx context.Context, req resource.CreateR
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 	// If the resource is a singleton, we need to read and save the initial state
-	gres, err := r.client.Get(plan.getPath())
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
-		return
+	if r.restoreOriginalStateOnDestroy {
+		var initialState AppliancePort
+		gres, err := r.client.Get(plan.getPath())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		initialState.fromBody(ctx, gres)
+		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, AppliancePort{}), resp.Private, &resp.Diagnostics)
 	}
-	initialState.fromBody(ctx, gres)
-	helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, AppliancePort{}), resp.Private, &resp.Diagnostics)
 
 	// Create object
 	body := plan.toBody(ctx, AppliancePort{})
@@ -250,17 +255,18 @@ func (r *AppliancePortResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	// If the resource is a singleton, we need to restore the initial state
-	jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
-	jsonInitialState = state.addDeleteValues(ctx, jsonInitialState)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
-	}
+	if r.restoreOriginalStateOnDestroy {
+		// Restore the saved initial state on destroy
+		jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
 
-	res, err := r.client.Put(state.getPath(), jsonInitialState)
-	if err != nil {
-		resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
-		return
+		res, err := r.client.Put(state.getPath(), jsonInitialState)
+		if err != nil {
+			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
