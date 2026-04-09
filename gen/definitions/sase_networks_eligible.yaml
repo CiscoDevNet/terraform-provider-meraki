@@ -1,9 +1,13 @@
 name: Sase Networks Eligible
 spec_endpoint: /organizations/{organizationId}/sase/networks/eligible
 rest_endpoint: /organizations/%v/sase/networks/eligible
+no_data_source: true
 no_resource: true
 no_update: true
 no_delete: true
+no_import: true
+no_read: true
+early_access: true
 doc_category: Organizations
 test_tags: [SASE_NETWORKS_ELIGIBLE]
 test_variables: [test_org]

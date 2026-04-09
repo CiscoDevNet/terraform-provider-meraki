@@ -55,7 +55,7 @@ func (d *OrganizationsWirelessDevicesProvisioningDeploymentDataSource) Metadata(
 func (d *OrganizationsWirelessDevicesProvisioningDeploymentDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organizations Wireless Devices Provisioning Deployments` configuration in bulk.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organizations Wireless Devices Provisioning Deployments` configuration in bulk.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{

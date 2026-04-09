@@ -33,14 +33,12 @@ func TestAccDataSourceMerakiRadioRRMByNetwork(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
-	var checks []resource.TestCheckFunc
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceMerakiRadioRRMByNetworkPrerequisitesConfig + testAccDataSourceMerakiRadioRRMByNetworkConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -63,11 +61,11 @@ data "meraki_organization" "test" {
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
 func testAccDataSourceMerakiRadioRRMByNetworkConfig() string {
-	return `
-		data "meraki_radio_rrm_by_network" "test" {
+	config := `data "meraki_radio_rrm_by_network" "test" {
 			organization_id = data.meraki_organization.test.id
 		}
 	`
+	return config
 }
 
 // End of section. //template:end testAccDataSourceConfig

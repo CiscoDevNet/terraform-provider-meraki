@@ -4,11 +4,14 @@ page_title: "meraki_organizations_wireless_devices_provisioning_deployment Data 
 subcategory: "Wireless"
 description: |-
   This data source can read the Organizations Wireless Devices Provisioning Deployments configuration in bulk.
+  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_organizations_wireless_devices_provisioning_deployment (Data Source)
 
 This data source can read the `Organizations Wireless Devices Provisioning Deployments` configuration in bulk.
+
+~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 
 ## Example Usage
 

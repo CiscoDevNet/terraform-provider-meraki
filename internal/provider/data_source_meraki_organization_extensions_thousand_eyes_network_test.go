@@ -29,17 +29,22 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiOrganizationsIntegrationsDeployable(t *testing.T) {
+func TestAccDataSourceMerakiOrganizationExtensionsThousandEyesNetwork(t *testing.T) {
+	if os.Getenv("ORGANIZATION_EXTENSIONS_THOUSAND_EYES_NETWORK") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATION_EXTENSIONS_THOUSAND_EYES_NETWORK")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_extensions_thousand_eyes_network.test", "enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_extensions_thousand_eyes_network.test", "network_id", "N_123456"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiOrganizationsIntegrationsDeployablePrerequisitesConfig + testAccDataSourceMerakiOrganizationsIntegrationsDeployableConfig(),
+				Config: testAccDataSourceMerakiOrganizationExtensionsThousandEyesNetworkPrerequisitesConfig + testAccDataSourceMerakiOrganizationExtensionsThousandEyesNetworkConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
@@ -50,7 +55,7 @@ func TestAccDataSourceMerakiOrganizationsIntegrationsDeployable(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiOrganizationsIntegrationsDeployablePrerequisitesConfig = `
+const testAccDataSourceMerakiOrganizationExtensionsThousandEyesNetworkPrerequisitesConfig = `
 variable "test_org" {}
 data "meraki_organization" "test" {
   name = var.test_org
@@ -62,12 +67,26 @@ data "meraki_organization" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiOrganizationsIntegrationsDeployableConfig() string {
-	return `
-		data "meraki_organizations_integrations_deployable" "test" {
+func testAccDataSourceMerakiOrganizationExtensionsThousandEyesNetworkConfig() string {
+	config := `resource "meraki_organization_extensions_thousand_eyes_network" "test" {` + "\n"
+	config += `  organization_id = data.meraki_organization.test.id` + "\n"
+	config += `  enabled = true` + "\n"
+	config += `  network_id = "N_123456"` + "\n"
+	config += `  tests = [{` + "\n"
+	config += `    network_id = "N_123456"` + "\n"
+	config += `    template_id = "123abc"` + "\n"
+	config += `    template_user_inputs_tenant = "cisco"` + "\n"
+	config += `  }]` + "\n"
+	config += `}` + "\n"
+
+	config += `
+		data "meraki_organization_extensions_thousand_eyes_network" "test" {
+			id = meraki_organization_extensions_thousand_eyes_network.test.id
 			organization_id = data.meraki_organization.test.id
+			depends_on = [meraki_organization_extensions_thousand_eyes_network.test]
 		}
 	`
+	return config
 }
 
 // End of section. //template:end testAccDataSourceConfig

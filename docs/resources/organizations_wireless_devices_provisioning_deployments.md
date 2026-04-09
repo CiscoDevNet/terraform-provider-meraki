@@ -4,11 +4,14 @@ page_title: "meraki_organizations_wireless_devices_provisioning_deployments Reso
 subcategory: "Wireless"
 description: |-
   This resource can manage the Organizations Wireless Devices Provisioning Deployments configuration.
+  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_organizations_wireless_devices_provisioning_deployments (Resource)
 
 This resource can manage the `Organizations Wireless Devices Provisioning Deployments` configuration.
+
+~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 
 ## Example Usage
 

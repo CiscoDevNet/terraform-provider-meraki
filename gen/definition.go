@@ -37,8 +37,8 @@ import (
 	"golang.org/x/exp/maps"
 )
 
-const specPath = "./gen/models/openapiSpec?version=3"
-const betaSpecPath = "./gen/models/openapiSpec?version=3"
+const specPath = "./gen/models/spec3.json"
+const betaSpecPath = "./gen/models/beta_spec3.json"
 const definitionsPath = "./gen/definitions/"
 
 var usePutSchema = [...]string{"/networks/{networkId}/appliance/vlans/{vlanId}"}

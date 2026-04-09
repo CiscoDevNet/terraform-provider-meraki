@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -35,79 +36,59 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &SaseNetworksEligibleDataSource{}
-	_ datasource.DataSourceWithConfigure = &SaseNetworksEligibleDataSource{}
+	_ datasource.DataSource              = &OrganizationExtensionsThousandEyesNetworkDataSource{}
+	_ datasource.DataSourceWithConfigure = &OrganizationExtensionsThousandEyesNetworkDataSource{}
 )
 
-func NewSaseNetworksEligibleDataSource() datasource.DataSource {
-	return &SaseNetworksEligibleDataSource{}
+func NewOrganizationExtensionsThousandEyesNetworkDataSource() datasource.DataSource {
+	return &OrganizationExtensionsThousandEyesNetworkDataSource{}
 }
 
-type SaseNetworksEligibleDataSource struct {
+type OrganizationExtensionsThousandEyesNetworkDataSource struct {
 	client *meraki.Client
 }
 
-func (d *SaseNetworksEligibleDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_sase_networks_eligible"
+func (d *OrganizationExtensionsThousandEyesNetworkDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_organization_extensions_thousand_eyes_network"
 }
 
-func (d *SaseNetworksEligibleDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *OrganizationExtensionsThousandEyesNetworkDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Sase Networks Eligible` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Extensions Thousand Eyes Network` configuration.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: "The id of the object",
-				Computed:            true,
+				Required:            true,
 			},
 			"organization_id": schema.StringAttribute{
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
-			"meta_counts_items_remaining": schema.Int64Attribute{
-				MarkdownDescription: "The number of items in the dataset that are available on subsequent pages",
+			"enabled": schema.BoolAttribute{
+				MarkdownDescription: "Whether or not the ThousandEyes agent is enabled for the network.",
 				Computed:            true,
 			},
-			"meta_counts_items_total": schema.Int64Attribute{
-				MarkdownDescription: "The total number of items in the dataset",
+			"network_id": schema.StringAttribute{
+				MarkdownDescription: "Network that will have the ThousandEyes agent installed on.",
 				Computed:            true,
 			},
-			"items": schema.ListNestedAttribute{
-				MarkdownDescription: "List of enrollable networks",
+			"tests": schema.ListNestedAttribute{
+				MarkdownDescription: "An array of tests to be created, this can only be configured during resource creation and cannot be changed afterwards.",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"name": schema.StringAttribute{
-							MarkdownDescription: "Site name",
-							Computed:            true,
-						},
 						"network_id": schema.StringAttribute{
-							MarkdownDescription: "Network ID, may not be unique in result set",
+							MarkdownDescription: "Network Id e.g. N_12345",
 							Computed:            true,
 						},
-						"type": schema.StringAttribute{
-							MarkdownDescription: "The site`s type (one of: `Meraki spoke`, `Meraki hub`, `Meraki template`)",
+						"template_id": schema.StringAttribute{
+							MarkdownDescription: "Template id",
 							Computed:            true,
 						},
-						"address_street": schema.StringAttribute{
-							MarkdownDescription: "The street address of the site",
-							Computed:            true,
-						},
-						"device_primary_model": schema.StringAttribute{
-							MarkdownDescription: "Model of the primary MX device",
-							Computed:            true,
-						},
-						"region_name": schema.StringAttribute{
-							MarkdownDescription: "The name of the region",
-							Computed:            true,
-						},
-						"routing_default_route_enabled": schema.BoolAttribute{
-							MarkdownDescription: "Whether the site has default route enabled",
-							Computed:            true,
-						},
-						"vpn_type": schema.StringAttribute{
-							MarkdownDescription: "The VPN type of the site",
+						"template_user_inputs_tenant": schema.StringAttribute{
+							MarkdownDescription: "Tenant value",
 							Computed:            true,
 						},
 					},
@@ -117,7 +98,7 @@ func (d *SaseNetworksEligibleDataSource) Schema(ctx context.Context, req datasou
 	}
 }
 
-func (d *SaseNetworksEligibleDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *OrganizationExtensionsThousandEyesNetworkDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -129,8 +110,8 @@ func (d *SaseNetworksEligibleDataSource) Configure(_ context.Context, req dataso
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (d *SaseNetworksEligibleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SaseNetworksEligible
+func (d *OrganizationExtensionsThousandEyesNetworkDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config OrganizationExtensionsThousandEyesNetwork
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
@@ -145,7 +126,7 @@ func (d *SaseNetworksEligibleDataSource) Read(ctx context.Context, req datasourc
 	var err error
 
 	if !res.Exists() {
-		res, err = d.client.Get(config.getPath())
+		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
 			return
@@ -153,7 +134,6 @@ func (d *SaseNetworksEligibleDataSource) Read(ctx context.Context, req datasourc
 	}
 
 	config.fromBody(ctx, res)
-	config.Id = config.OrganizationId
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", config.Id.ValueString()))
 

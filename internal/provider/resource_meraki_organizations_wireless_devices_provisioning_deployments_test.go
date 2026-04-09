@@ -77,14 +77,6 @@ func TestAccMerakiOrganizationsWirelessDevicesProvisioningDeployments(t *testing
 		Config: testAccMerakiOrganizationsWirelessDevicesProvisioningDeploymentsPrerequisitesConfig + testAccMerakiOrganizationsWirelessDevicesProvisioningDeploymentsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
-	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_organizations_wireless_devices_provisioning_deployments.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiOrganizationsWirelessDevicesProvisioningDeploymentsImportStateIdFunc("meraki_organizations_wireless_devices_provisioning_deployments.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
-	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
