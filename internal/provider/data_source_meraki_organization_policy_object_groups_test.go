@@ -60,7 +60,7 @@ resource "meraki_organization_policy_object" "test" {
   organization_id = data.meraki_organization.test.id
   category = "network"
   cidr = "10.0.1.0/24"
-  name = "Web Servers"
+  name = "tf-acc-po-x9k2"
   type = "cidr"
 }
 

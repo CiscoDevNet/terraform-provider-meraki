@@ -19,6 +19,7 @@ attributes:
     mandatory: true
     description: Name of profile
     example: Default profile
+    test_value: '"tf-test-split-profile"'
   - model_name: addresses
     type: List
     element_type: String

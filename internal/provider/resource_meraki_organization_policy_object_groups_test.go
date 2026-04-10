@@ -87,7 +87,7 @@ resource "meraki_organization_policy_object" "test" {
   organization_id = data.meraki_organization.test.id
   category = "network"
   cidr = "10.0.1.0/24"
-  name = "Web Servers"
+  name = "tf-acc-po-x9k2"
   type = "cidr"
 }
 
@@ -101,7 +101,7 @@ func testAccMerakiOrganizationPolicyObjectGroupsConfig_minimum() string {
 	config := `resource "meraki_organization_policy_object_groups" "test" {` + "\n"
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
-	config += `  name = "Web Servers Group"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config
@@ -116,7 +116,7 @@ func testAccMerakiOrganizationPolicyObjectGroupsConfig_all() string {
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
 	config += `  category = "NetworkObjectGroup"` + "\n"
-	config += `  name = "Web Servers Group"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += `  object_ids = [meraki_organization_policy_object.test.id]` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"

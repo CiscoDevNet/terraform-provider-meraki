@@ -39,8 +39,10 @@ func TestAccDataSourceMerakiWirelessSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "location_analytics_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "meshing_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "upgrade_strategy", "minimizeUpgradeTime"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "multicast_to_unicast_conversion_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "named_vlans_pool_dhcp_monitoring_duration", "5"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "named_vlans_pool_dhcp_monitoring_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "upgrade_predownload_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -83,8 +85,10 @@ func testAccDataSourceMerakiWirelessSettingsConfig() string {
 	config += `  location_analytics_enabled = false` + "\n"
 	config += `  meshing_enabled = true` + "\n"
 	config += `  upgrade_strategy = "minimizeUpgradeTime"` + "\n"
+	config += `  multicast_to_unicast_conversion_enabled = true` + "\n"
 	config += `  named_vlans_pool_dhcp_monitoring_duration = 5` + "\n"
 	config += `  named_vlans_pool_dhcp_monitoring_enabled = false` + "\n"
+	config += `  upgrade_predownload_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `

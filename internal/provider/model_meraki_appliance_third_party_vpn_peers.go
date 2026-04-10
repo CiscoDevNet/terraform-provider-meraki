@@ -43,43 +43,52 @@ type ApplianceThirdPartyVPNPeers struct {
 }
 
 type ApplianceThirdPartyVPNPeersPeers struct {
-	IkeVersion                         types.String `tfsdk:"ike_version"`
-	IpsecPoliciesPreset                types.String `tfsdk:"ipsec_policies_preset"`
-	IpVersion                          types.Int64  `tfsdk:"ip_version"`
-	IsRouteBased                       types.Bool   `tfsdk:"is_route_based"`
-	LocalId                            types.String `tfsdk:"local_id"`
-	Name                               types.String `tfsdk:"name"`
-	PeerId                             types.String `tfsdk:"peer_id"`
-	PriorityInGroup                    types.Int64  `tfsdk:"priority_in_group"`
-	PublicHostname                     types.String `tfsdk:"public_hostname"`
-	PublicIp                           types.String `tfsdk:"public_ip"`
-	RemoteId                           types.String `tfsdk:"remote_id"`
-	Secret                             types.String `tfsdk:"secret"`
-	EbgpNeighborEbgpHoldTimer          types.Int64  `tfsdk:"ebgp_neighbor_ebgp_hold_timer"`
-	EbgpNeighborEbgpMultihop           types.Int64  `tfsdk:"ebgp_neighbor_ebgp_multihop"`
-	EbgpNeighborIpVersion              types.Int64  `tfsdk:"ebgp_neighbor_ip_version"`
-	EbgpNeighborMultiExitDiscriminator types.Int64  `tfsdk:"ebgp_neighbor_multi_exit_discriminator"`
-	EbgpNeighborNeighborIp             types.String `tfsdk:"ebgp_neighbor_neighbor_ip"`
-	EbgpNeighborRemoteAsNumber         types.Int64  `tfsdk:"ebgp_neighbor_remote_as_number"`
-	EbgpNeighborSourceIp               types.String `tfsdk:"ebgp_neighbor_source_ip"`
-	EbgpNeighborWeight                 types.Int64  `tfsdk:"ebgp_neighbor_weight"`
-	EbgpNeighborPathPrepend            types.List   `tfsdk:"ebgp_neighbor_path_prepend"`
-	GroupActiveActiveTunnel            types.Bool   `tfsdk:"group_active_active_tunnel"`
-	GroupNumber                        types.Int64  `tfsdk:"group_number"`
-	GroupFailoverDirectToInternet      types.Bool   `tfsdk:"group_failover_direct_to_internet"`
-	IpsecPoliciesChildLifetime         types.Int64  `tfsdk:"ipsec_policies_child_lifetime"`
-	IpsecPoliciesIkeLifetime           types.Int64  `tfsdk:"ipsec_policies_ike_lifetime"`
-	IpsecPoliciesChildAuthAlgo         types.List   `tfsdk:"ipsec_policies_child_auth_algo"`
-	IpsecPoliciesChildCipherAlgo       types.List   `tfsdk:"ipsec_policies_child_cipher_algo"`
-	IpsecPoliciesChildPfsGroup         types.List   `tfsdk:"ipsec_policies_child_pfs_group"`
-	IpsecPoliciesIkeAuthAlgo           types.List   `tfsdk:"ipsec_policies_ike_auth_algo"`
-	IpsecPoliciesIkeCipherAlgo         types.List   `tfsdk:"ipsec_policies_ike_cipher_algo"`
-	IpsecPoliciesIkeDiffieHellmanGroup types.List   `tfsdk:"ipsec_policies_ike_diffie_hellman_group"`
-	IpsecPoliciesIkePrfAlgo            types.List   `tfsdk:"ipsec_policies_ike_prf_algo"`
-	NetworkIds                         types.List   `tfsdk:"network_ids"`
-	SlaPolicyId                        types.String `tfsdk:"sla_policy_id"`
-	NetworkTags                        types.List   `tfsdk:"network_tags"`
-	PrivateSubnets                     types.List   `tfsdk:"private_subnets"`
+	IkeVersion                         types.String                                        `tfsdk:"ike_version"`
+	IpsecPoliciesPreset                types.String                                        `tfsdk:"ipsec_policies_preset"`
+	IpVersion                          types.Int64                                         `tfsdk:"ip_version"`
+	IsRouteBased                       types.Bool                                          `tfsdk:"is_route_based"`
+	LocalId                            types.String                                        `tfsdk:"local_id"`
+	Name                               types.String                                        `tfsdk:"name"`
+	PeerId                             types.String                                        `tfsdk:"peer_id"`
+	PriorityInGroup                    types.Int64                                         `tfsdk:"priority_in_group"`
+	PublicHostname                     types.String                                        `tfsdk:"public_hostname"`
+	PublicIp                           types.String                                        `tfsdk:"public_ip"`
+	RemoteId                           types.String                                        `tfsdk:"remote_id"`
+	Secret                             types.String                                        `tfsdk:"secret"`
+	EbgpNeighborEbgpHoldTimer          types.Int64                                         `tfsdk:"ebgp_neighbor_ebgp_hold_timer"`
+	EbgpNeighborEbgpMultihop           types.Int64                                         `tfsdk:"ebgp_neighbor_ebgp_multihop"`
+	EbgpNeighborIpVersion              types.Int64                                         `tfsdk:"ebgp_neighbor_ip_version"`
+	EbgpNeighborMultiExitDiscriminator types.Int64                                         `tfsdk:"ebgp_neighbor_multi_exit_discriminator"`
+	EbgpNeighborNeighborIp             types.String                                        `tfsdk:"ebgp_neighbor_neighbor_ip"`
+	EbgpNeighborRemoteAsNumber         types.Int64                                         `tfsdk:"ebgp_neighbor_remote_as_number"`
+	EbgpNeighborSourceIp               types.String                                        `tfsdk:"ebgp_neighbor_source_ip"`
+	EbgpNeighborWeight                 types.Int64                                         `tfsdk:"ebgp_neighbor_weight"`
+	EbgpNeighborPathPrepend            types.List                                          `tfsdk:"ebgp_neighbor_path_prepend"`
+	GroupActiveActiveTunnel            types.Bool                                          `tfsdk:"group_active_active_tunnel"`
+	GroupNumber                        types.Int64                                         `tfsdk:"group_number"`
+	GroupFailoverDirectToInternet      types.Bool                                          `tfsdk:"group_failover_direct_to_internet"`
+	IpsecPoliciesChildLifetime         types.Int64                                         `tfsdk:"ipsec_policies_child_lifetime"`
+	IpsecPoliciesIkeLifetime           types.Int64                                         `tfsdk:"ipsec_policies_ike_lifetime"`
+	IpsecPoliciesChildAuthAlgo         types.List                                          `tfsdk:"ipsec_policies_child_auth_algo"`
+	IpsecPoliciesChildCipherAlgo       types.List                                          `tfsdk:"ipsec_policies_child_cipher_algo"`
+	IpsecPoliciesChildPfsGroup         types.List                                          `tfsdk:"ipsec_policies_child_pfs_group"`
+	IpsecPoliciesIkeAuthAlgo           types.List                                          `tfsdk:"ipsec_policies_ike_auth_algo"`
+	IpsecPoliciesIkeCipherAlgo         types.List                                          `tfsdk:"ipsec_policies_ike_cipher_algo"`
+	IpsecPoliciesIkeDiffieHellmanGroup types.List                                          `tfsdk:"ipsec_policies_ike_diffie_hellman_group"`
+	IpsecPoliciesIkePrfAlgo            types.List                                          `tfsdk:"ipsec_policies_ike_prf_algo"`
+	NetworkIds                         types.List                                          `tfsdk:"network_ids"`
+	SlaPolicyId                        types.String                                        `tfsdk:"sla_policy_id"`
+	EcmpUplinkConfigs                  []ApplianceThirdPartyVPNPeersPeersEcmpUplinkConfigs `tfsdk:"ecmp_uplink_configs"`
+	NetworkTags                        types.List                                          `tfsdk:"network_tags"`
+	PrivateSubnets                     types.List                                          `tfsdk:"private_subnets"`
+}
+
+type ApplianceThirdPartyVPNPeersPeersEcmpUplinkConfigs struct {
+	Id                     types.String `tfsdk:"id"`
+	Wan                    types.String `tfsdk:"wan"`
+	EbgpNeighborNeighborIp types.String `tfsdk:"ebgp_neighbor_neighbor_ip"`
+	EbgpNeighborSourceIp   types.String `tfsdk:"ebgp_neighbor_source_ip"`
+	PrivateSubnets         types.List   `tfsdk:"private_subnets"`
 }
 
 // End of section. //template:end types
@@ -222,6 +231,30 @@ func (data ApplianceThirdPartyVPNPeers) toBody(ctx context.Context, state Applia
 			}
 			if !item.SlaPolicyId.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "slaPolicy.id", item.SlaPolicyId.ValueString())
+			}
+			if item.EcmpUplinkConfigs != nil {
+				itemBody, _ = sjson.Set(itemBody, "ecmpUplinkConfigs", []interface{}{})
+				for _, childItem := range item.EcmpUplinkConfigs {
+					itemChildBody := ""
+					if !childItem.Id.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "id", childItem.Id.ValueString())
+					}
+					if !childItem.Wan.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "wan", childItem.Wan.ValueString())
+					}
+					if !childItem.EbgpNeighborNeighborIp.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "ebgpNeighbor.neighborIp", childItem.EbgpNeighborNeighborIp.ValueString())
+					}
+					if !childItem.EbgpNeighborSourceIp.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "ebgpNeighbor.sourceIp", childItem.EbgpNeighborSourceIp.ValueString())
+					}
+					if !childItem.PrivateSubnets.IsNull() {
+						var values []string
+						childItem.PrivateSubnets.ElementsAs(ctx, &values, false)
+						itemChildBody, _ = sjson.Set(itemChildBody, "privateSubnets", values)
+					}
+					itemBody, _ = sjson.SetRaw(itemBody, "ecmpUplinkConfigs.-1", itemChildBody)
+				}
 			}
 			if !item.NetworkTags.IsNull() {
 				var values []string
@@ -423,6 +456,40 @@ func (data *ApplianceThirdPartyVPNPeers) fromBody(ctx context.Context, res merak
 				data.SlaPolicyId = types.StringValue(value.String())
 			} else {
 				data.SlaPolicyId = types.StringNull()
+			}
+			if value := res.Get("ecmpUplinkConfigs"); value.Exists() && value.Value() != nil {
+				data.EcmpUplinkConfigs = make([]ApplianceThirdPartyVPNPeersPeersEcmpUplinkConfigs, 0)
+				value.ForEach(func(k, res gjson.Result) bool {
+					parent := &data
+					data := ApplianceThirdPartyVPNPeersPeersEcmpUplinkConfigs{}
+					if value := res.Get("id"); value.Exists() && value.Value() != nil {
+						data.Id = types.StringValue(value.String())
+					} else {
+						data.Id = types.StringNull()
+					}
+					if value := res.Get("wan"); value.Exists() && value.Value() != nil {
+						data.Wan = types.StringValue(value.String())
+					} else {
+						data.Wan = types.StringNull()
+					}
+					if value := res.Get("ebgpNeighbor.neighborIp"); value.Exists() && value.Value() != nil {
+						data.EbgpNeighborNeighborIp = types.StringValue(value.String())
+					} else {
+						data.EbgpNeighborNeighborIp = types.StringNull()
+					}
+					if value := res.Get("ebgpNeighbor.sourceIp"); value.Exists() && value.Value() != nil {
+						data.EbgpNeighborSourceIp = types.StringValue(value.String())
+					} else {
+						data.EbgpNeighborSourceIp = types.StringNull()
+					}
+					if value := res.Get("privateSubnets"); value.Exists() && value.Value() != nil {
+						data.PrivateSubnets = helpers.GetStringList(value.Array())
+					} else {
+						data.PrivateSubnets = types.ListNull(types.StringType)
+					}
+					(*parent).EcmpUplinkConfigs = append((*parent).EcmpUplinkConfigs, data)
+					return true
+				})
 			}
 			if value := res.Get("networkTags"); value.Exists() && value.Value() != nil {
 				data.NetworkTags = helpers.GetStringList(value.Array())
@@ -659,6 +726,69 @@ func (data *ApplianceThirdPartyVPNPeers) fromBodyPartial(ctx context.Context, re
 			data.SlaPolicyId = types.StringValue(value.String())
 		} else {
 			data.SlaPolicyId = types.StringNull()
+		}
+		for i := 0; i < len(data.EcmpUplinkConfigs); i++ {
+			keys := [...]string{"id", "wan", "ebgpNeighbor.neighborIp", "ebgpNeighbor.sourceIp"}
+			keyValues := [...]string{data.EcmpUplinkConfigs[i].Id.ValueString(), data.EcmpUplinkConfigs[i].Wan.ValueString(), data.EcmpUplinkConfigs[i].EbgpNeighborNeighborIp.ValueString(), data.EcmpUplinkConfigs[i].EbgpNeighborSourceIp.ValueString()}
+
+			parent := &data
+			data := (*parent).EcmpUplinkConfigs[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("ecmpUplinkConfigs").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing EcmpUplinkConfigs[%d] = %+v",
+					i,
+					(*parent).EcmpUplinkConfigs[i],
+				))
+				(*parent).EcmpUplinkConfigs = slices.Delete((*parent).EcmpUplinkConfigs, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("id"); value.Exists() && !data.Id.IsNull() {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
+			if value := res.Get("wan"); value.Exists() && !data.Wan.IsNull() {
+				data.Wan = types.StringValue(value.String())
+			} else {
+				data.Wan = types.StringNull()
+			}
+			if value := res.Get("ebgpNeighbor.neighborIp"); value.Exists() && !data.EbgpNeighborNeighborIp.IsNull() {
+				data.EbgpNeighborNeighborIp = types.StringValue(value.String())
+			} else {
+				data.EbgpNeighborNeighborIp = types.StringNull()
+			}
+			if value := res.Get("ebgpNeighbor.sourceIp"); value.Exists() && !data.EbgpNeighborSourceIp.IsNull() {
+				data.EbgpNeighborSourceIp = types.StringValue(value.String())
+			} else {
+				data.EbgpNeighborSourceIp = types.StringNull()
+			}
+			if value := res.Get("privateSubnets"); value.Exists() && !data.PrivateSubnets.IsNull() {
+				data.PrivateSubnets = helpers.GetStringList(value.Array())
+			} else {
+				data.PrivateSubnets = types.ListNull(types.StringType)
+			}
+			(*parent).EcmpUplinkConfigs[i] = data
 		}
 		if value := res.Get("networkTags"); value.Exists() && !data.NetworkTags.IsNull() {
 			data.NetworkTags = helpers.GetStringList(value.Array())

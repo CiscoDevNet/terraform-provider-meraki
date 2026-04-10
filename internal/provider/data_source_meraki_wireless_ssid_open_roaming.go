@@ -55,7 +55,7 @@ func (d *WirelessSSIDOpenRoamingDataSource) Metadata(_ context.Context, req data
 func (d *WirelessSSIDOpenRoamingDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless SSID Open Roaming` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless SSID Open Roaming` configuration.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{

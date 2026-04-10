@@ -17,6 +17,21 @@ description: |-
 - Add `sp_initiated_idp_id` and `sp_initiated_subdomain` attributes to `meraki_organization_saml` resource and data source
 - Add `stp_port_fast_trunk` attribute to `meraki_switch_port` resources and data sources
 - Add `access_control_*` attributes to `meraki_wireless_ssids` data source
+- Fix issue with `meraki_switch_ports` always showing changes when `storm_control_enabled` is set but not returned by the API - Issue #167, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/167)
+- Update provider to support Meraki API version 1.68.0:
+  - Add `meraki_networks_moves` resource and data source
+  - Add `meraki_organizations_wireless_devices_provisioning_deployments` resource and data source
+  - Add `meraki_organizations_integrations_deployable` data source
+  - Add `meraki_organizations_wireless_devices_provisioning_deployment` data source
+  - Add `meraki_radio_rrm_by_network` data source
+  - Add `meraki_sase_networks_eligible` data source
+  - Add `ecmp_uplink_configs` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
+  - Add `products_wireless_next_upgrade_predownload_enabled` attribute to `meraki_network_firmware_upgrades` resource and data source
+  - Add `multicast_to_unicast_conversion_enabled` and `upgrade_predownload_enabled` attributes to `meraki_wireless_settings` resource and data source
+  - Remove `meraki_organization_auth_radius_server` data source (use `meraki_organization_auth_radius_servers` instead)
+  - Remove `meraki_organization_extensions_thousand_eyes_network` data source (use `meraki_organization_extensions_thousand_eyes_networks` instead)
+  - Remove `meraki_switch_organization_ports_profile` data source (use `meraki_switch_organization_ports_profiles` instead)
+  - Remove `meraki_switch_organization_ports_profiles_automation` data source (use `meraki_switch_organization_ports_profiles_automations` instead)
 - Add `ip_version` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/200)
 
 ## 1.9.0
