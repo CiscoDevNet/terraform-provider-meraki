@@ -19,6 +19,11 @@ attributes:
     description: List of IPsec SLA policies
     destroy_value: '[]interface{}{}'
     attributes:
+      - model_name: id
+        type: String
+        computed: true
+        description: SLA policy ID
+        example: "12345"
       - model_name: name
         type: String
         id: true
