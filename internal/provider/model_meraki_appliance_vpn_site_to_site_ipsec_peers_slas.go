@@ -42,6 +42,7 @@ type ApplianceVPNSiteToSiteIPsecPeersSLAs struct {
 }
 
 type ApplianceVPNSiteToSiteIPsecPeersSLAsItems struct {
+	Id   types.String `tfsdk:"id"`
 	Name types.String `tfsdk:"name"`
 	Uri  types.String `tfsdk:"uri"`
 }
@@ -86,6 +87,11 @@ func (data *ApplianceVPNSiteToSiteIPsecPeersSLAs) fromBody(ctx context.Context, 
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
 			data := ApplianceVPNSiteToSiteIPsecPeersSLAsItems{}
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
 			if value := res.Get("name"); value.Exists() && value.Value() != nil {
 				data.Name = types.StringValue(value.String())
 			} else {
@@ -147,6 +153,11 @@ func (data *ApplianceVPNSiteToSiteIPsecPeersSLAs) fromBodyPartial(ctx context.Co
 
 			continue
 		}
+		if value := res.Get("id"); value.Exists() && !data.Id.IsNull() {
+			data.Id = types.StringValue(value.String())
+		} else {
+			data.Id = types.StringNull()
+		}
 		if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
 			data.Name = types.StringValue(value.String())
 		} else {
@@ -168,6 +179,51 @@ func (data *ApplianceVPNSiteToSiteIPsecPeersSLAs) fromBodyPartial(ctx context.Co
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
 func (data *ApplianceVPNSiteToSiteIPsecPeersSLAs) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+	for i := 0; i < len(data.Items); i++ {
+		keys := [...]string{"name"}
+		keyValues := [...]string{data.Items[i].Name.ValueString()}
+
+		parent := &data
+		data := (*parent).Items[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.Get("items").ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing Items[%d] = %+v",
+				i,
+				(*parent).Items[i],
+			))
+			(*parent).Items = slices.Delete((*parent).Items, i, i+1)
+			i--
+
+			continue
+		}
+		if data.Id.IsUnknown() {
+			if value := res.Get("id"); value.Exists() && !data.Id.IsNull() {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
+		}
+		(*parent).Items[i] = data
+	}
 }
 
 // End of section. //template:end fromBodyUnknowns

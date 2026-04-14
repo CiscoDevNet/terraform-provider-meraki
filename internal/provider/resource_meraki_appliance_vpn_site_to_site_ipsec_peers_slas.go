@@ -80,6 +80,13 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Schema(ctx context.Contex
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("SLA policy ID").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("SLA policy name").String,
 							Required:            true,
