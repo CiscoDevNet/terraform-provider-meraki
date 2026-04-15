@@ -75,7 +75,7 @@ func (d *ApplianceCellularFirewallRulesDataSource) Schema(ctx context.Context, r
 							Computed:            true,
 						},
 						"dest_cidr": schema.StringAttribute{
-							MarkdownDescription: "Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `any`",
+							MarkdownDescription: "Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN), `any`, policy objects using format `OBJ(<policy_object_id>)`, or policy object groups using format `GRP(<policy_object_group_id>)`",
 							Computed:            true,
 						},
 						"dest_port": schema.StringAttribute{
@@ -91,7 +91,7 @@ func (d *ApplianceCellularFirewallRulesDataSource) Schema(ctx context.Context, r
 							Computed:            true,
 						},
 						"src_cidr": schema.StringAttribute{
-							MarkdownDescription: "Comma-separated list of source IP address(es) (in IP or CIDR notation), or `any` (note: FQDN not supported for source addresses)",
+							MarkdownDescription: "Comma-separated list of source IP address(es) (in IP or CIDR notation), `any` (note: FQDN not supported for source addresses), policy objects using format `OBJ(<policy_object_id>)`, or policy object groups using format `GRP(<policy_object_group_id>)`",
 							Computed:            true,
 						},
 						"src_port": schema.StringAttribute{
