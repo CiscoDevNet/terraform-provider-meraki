@@ -35,6 +35,7 @@ func TestAccDataSourceMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ike_version", "2"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ip_version", "4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.is_route_based", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.local_id", "myMXId@meraki.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.name", "Peer Name"))
@@ -54,6 +55,11 @@ func TestAccDataSourceMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_ike_cipher_algo.0", "tripledes"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_ike_diffie_hellman_group.0", "group2"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ipsec_policies_ike_prf_algo.0", "prfsha1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.id", "7890"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.wan", "WAN 1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.ebgp_neighbor_neighbor_ip", "169.254.10.2"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.ebgp_neighbor_source_ip", "169.254.10.1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.ecmp_uplink_configs.0.private_subnets.0", "169.254.10.0/30"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.network_tags.0", "none"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_third_party_vpn_peers.test", "peers.0.private_subnets.0", "192.168.1.0/24"))
 	resource.Test(t, resource.TestCase{
@@ -89,6 +95,7 @@ func testAccDataSourceMerakiApplianceThirdPartyVPNPeersConfig() string {
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  peers = [{` + "\n"
 	config += `    ike_version = "2"` + "\n"
+	config += `    ip_version = 4` + "\n"
 	config += `    is_route_based = false` + "\n"
 	config += `    local_id = "myMXId@meraki.com"` + "\n"
 	config += `    name = "Peer Name"` + "\n"
@@ -108,6 +115,13 @@ func testAccDataSourceMerakiApplianceThirdPartyVPNPeersConfig() string {
 	config += `    ipsec_policies_ike_cipher_algo = ["tripledes"]` + "\n"
 	config += `    ipsec_policies_ike_diffie_hellman_group = ["group2"]` + "\n"
 	config += `    ipsec_policies_ike_prf_algo = ["prfsha1"]` + "\n"
+	config += `    ecmp_uplink_configs = [{` + "\n"
+	config += `      id = "7890"` + "\n"
+	config += `      wan = "WAN 1"` + "\n"
+	config += `      ebgp_neighbor_neighbor_ip = "169.254.10.2"` + "\n"
+	config += `      ebgp_neighbor_source_ip = "169.254.10.1"` + "\n"
+	config += `      private_subnets = ["169.254.10.0/30"]` + "\n"
+	config += `    }]` + "\n"
 	config += `    network_tags = ["none"]` + "\n"
 	config += `    private_subnets = ["192.168.1.0/24"]` + "\n"
 	config += `  }]` + "\n"

@@ -146,6 +146,17 @@ variable "{{.}}" {}
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
 func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
+	{{- if .NoResource}}
+	return `
+		data "meraki_{{snakeCase .Name}}" "test" {
+			{{- range  .Attributes}}
+			{{- if .Reference}}
+			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}
+			{{- end}}
+			{{- end}}
+		}
+	`
+	{{- else}}
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
 	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
@@ -264,6 +275,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 		}
 	`
 	return config
+	{{- end}}
 }
 
 {{if .DataSourceNameQuery -}}

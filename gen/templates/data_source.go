@@ -69,7 +69,7 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 				{{- if .DataSourceNameQuery}}
 				Optional:            true,
 				Computed:            true,
-				{{- else if .PutCreate}}
+				{{- else if or .PutCreate .NoResource}}
 				Computed:            true,
 				{{- else}}
 				Required:            true,
@@ -229,7 +229,7 @@ func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource
 	{{- end}}
 
 	if !res.Exists() {
-		{{- if or .GetFromAll .PutCreate}}
+		{{- if or .GetFromAll .PutCreate .NoResource}}
 		res, err = d.client.Get(config.getPath())
 		{{- else}}
 		res, err = d.client.Get(config.getPath() + "/" + url.QueryEscape(config.Id.ValueString()))

@@ -3,12 +3,12 @@
 page_title: "meraki_switch_dscp_to_cos_mappings Data Source - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This data source can read the Switch DSCP to CoS mappings configuration.
+  This data source can read the Switch DSCP To CoS Mappings configuration.
 ---
 
 # meraki_switch_dscp_to_cos_mappings (Data Source)
 
-This data source can read the `Switch DSCP to CoS mappings` configuration.
+This data source can read the `Switch DSCP To CoS Mappings` configuration.
 
 ## Example Usage
 

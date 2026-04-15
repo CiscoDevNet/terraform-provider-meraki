@@ -44,7 +44,7 @@ func TestAccMerakiWirelessSSIDHotspot20(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "mcc_mncs.0.mcc", "123"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "mcc_mncs.0.mnc", "456"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.format", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.realm", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.realm", "Realm 1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.methods.0.id", "1"))
 
 	var steps []resource.TestStep
@@ -143,7 +143,7 @@ func testAccMerakiWirelessSSIDHotspot20Config_all() string {
 	config += `  }]` + "\n"
 	config += `  nai_realms = [{` + "\n"
 	config += `    format = "1"` + "\n"
-	config += `    realm = ""` + "\n"
+	config += `    realm = "Realm 1"` + "\n"
 	config += `    methods = [{` + "\n"
 	config += `      id = "1"` + "\n"
 	config += `      authentication_types_non_eap_inner_authentication = ["MSCHAPV2"]` + "\n"

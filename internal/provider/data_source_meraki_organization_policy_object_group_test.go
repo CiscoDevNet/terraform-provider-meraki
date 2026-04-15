@@ -38,7 +38,7 @@ func TestAccDataSourceMerakiOrganizationPolicyObjectGroup(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object_group.test", "category", "NetworkObjectGroup"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object_group.test", "name", "Web Servers Group"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_policy_object_group.test", "name", "Web Servers - Datacenter 10"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -64,7 +64,7 @@ resource "meraki_organization_policy_object" "test" {
   organization_id = data.meraki_organization.test.id
   category = "network"
   cidr = "10.0.1.0/24"
-  name = "Web Servers"
+  name = "tf-acc-po-x9k2"
   type = "cidr"
 }
 
@@ -78,7 +78,7 @@ func testAccDataSourceMerakiOrganizationPolicyObjectGroupConfig() string {
 	config := `resource "meraki_organization_policy_object_group" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "NetworkObjectGroup"` + "\n"
-	config += `  name = "Web Servers Group"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += `  object_ids = [meraki_organization_policy_object.test.id]` + "\n"
 	config += `}` + "\n"
 
@@ -96,7 +96,7 @@ func testAccNamedDataSourceMerakiOrganizationPolicyObjectGroupConfig() string {
 	config := `resource "meraki_organization_policy_object_group" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  category = "NetworkObjectGroup"` + "\n"
-	config += `  name = "Web Servers Group"` + "\n"
+	config += `  name = "Web Servers - Datacenter 10"` + "\n"
 	config += `  object_ids = [meraki_organization_policy_object.test.id]` + "\n"
 	config += `}` + "\n"
 
