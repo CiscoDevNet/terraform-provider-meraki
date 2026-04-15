@@ -29,7 +29,10 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiRadioRRMByNetwork(t *testing.T) {
+func TestAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeployment(t *testing.T) {
+	if os.Getenv("ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS") == "" {
+		t.Skip("skipping test, set environment variable ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
@@ -38,7 +41,7 @@ func TestAccDataSourceMerakiRadioRRMByNetwork(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiRadioRRMByNetworkPrerequisitesConfig + testAccDataSourceMerakiRadioRRMByNetworkConfig(),
+				Config: testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentPrerequisitesConfig + testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentConfig(),
 			},
 		},
 	})
@@ -48,7 +51,7 @@ func TestAccDataSourceMerakiRadioRRMByNetwork(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiRadioRRMByNetworkPrerequisitesConfig = `
+const testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentPrerequisitesConfig = `
 variable "test_org" {}
 data "meraki_organization" "test" {
   name = var.test_org
@@ -60,8 +63,8 @@ data "meraki_organization" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiRadioRRMByNetworkConfig() string {
-	config := `data "meraki_radio_rrm_by_network" "test" {
+func testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentConfig() string {
+	config := `data "meraki_organization_wireless_devices_provisioning_deployment" "test" {
 			organization_id = data.meraki_organization.test.id
 		}
 	`

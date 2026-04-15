@@ -33,19 +33,19 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type DataSourceOrganizationsWirelessDevicesProvisioningDeployment struct {
-	OrganizationId types.String                                                        `tfsdk:"organization_id"`
-	Items          []DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItems `tfsdk:"items"`
+type DataSourceOrganizationWirelessDevicesProvisioningDeployment struct {
+	OrganizationId types.String                                                       `tfsdk:"organization_id"`
+	Items          []DataSourceOrganizationWirelessDevicesProvisioningDeploymentItems `tfsdk:"items"`
 }
 
-type DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItems struct {
-	Id                       types.String                                                            `tfsdk:"id"`
-	MetaCountsItemsRemaining types.Int64                                                             `tfsdk:"meta_counts_items_remaining"`
-	MetaCountsItemsTotal     types.Int64                                                             `tfsdk:"meta_counts_items_total"`
-	Items                    []DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItemsItem `tfsdk:"items"`
+type DataSourceOrganizationWirelessDevicesProvisioningDeploymentItems struct {
+	Id                       types.String                                                           `tfsdk:"id"`
+	MetaCountsItemsRemaining types.Int64                                                            `tfsdk:"meta_counts_items_remaining"`
+	MetaCountsItemsTotal     types.Int64                                                            `tfsdk:"meta_counts_items_total"`
+	Items                    []DataSourceOrganizationWirelessDevicesProvisioningDeploymentItemsItem `tfsdk:"items"`
 }
 
-type DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItemsItem struct {
+type DataSourceOrganizationWirelessDevicesProvisioningDeploymentItemsItem struct {
 	CompletedAt             types.String `tfsdk:"completed_at"`
 	CreatedAt               types.String `tfsdk:"created_at"`
 	DeploymentId            types.String `tfsdk:"deployment_id"`
@@ -77,7 +77,7 @@ type DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItemsItem struc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data DataSourceOrganizationsWirelessDevicesProvisioningDeployment) getPath() string {
+func (data DataSourceOrganizationWirelessDevicesProvisioningDeployment) getPath() string {
 	return fmt.Sprintf("/organizations/%v/wireless/devices/provisioning/deployments", url.QueryEscape(data.OrganizationId.ValueString()))
 }
 
@@ -85,11 +85,11 @@ func (data DataSourceOrganizationsWirelessDevicesProvisioningDeployment) getPath
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *DataSourceOrganizationsWirelessDevicesProvisioningDeployment) fromBody(ctx context.Context, res meraki.Res) {
-	data.Items = make([]DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItems, 0)
+func (data *DataSourceOrganizationWirelessDevicesProvisioningDeployment) fromBody(ctx context.Context, res meraki.Res) {
+	data.Items = make([]DataSourceOrganizationWirelessDevicesProvisioningDeploymentItems, 0)
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
-		data := DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItems{}
+		data := DataSourceOrganizationWirelessDevicesProvisioningDeploymentItems{}
 		data.Id = types.StringValue(res.Get("").String())
 		if value := res.Get("meta.counts.items.remaining"); value.Exists() && value.Value() != nil {
 			data.MetaCountsItemsRemaining = types.Int64Value(value.Int())
@@ -102,10 +102,10 @@ func (data *DataSourceOrganizationsWirelessDevicesProvisioningDeployment) fromBo
 			data.MetaCountsItemsTotal = types.Int64Null()
 		}
 		if value := res.Get("items"); value.Exists() && value.Value() != nil {
-			data.Items = make([]DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItemsItem, 0)
+			data.Items = make([]DataSourceOrganizationWirelessDevicesProvisioningDeploymentItemsItem, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
-				data := DataSourceOrganizationsWirelessDevicesProvisioningDeploymentItemsItem{}
+				data := DataSourceOrganizationWirelessDevicesProvisioningDeploymentItemsItem{}
 				if value := res.Get("completedAt"); value.Exists() && value.Value() != nil {
 					data.CompletedAt = types.StringValue(value.String())
 				} else {

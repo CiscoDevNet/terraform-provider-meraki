@@ -36,6 +36,7 @@ func TestAccMerakiApplianceDNSSplitProfile(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_dns_split_profile.test", "name", "Default profile"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_dns_split_profile.test", "nameservers_addresses.0", "12.1.10.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_dns_split_profile.test", "hostnames.0", "*.test1.com"))
 
@@ -98,7 +99,7 @@ data "meraki_organization" "test" {
 func testAccMerakiApplianceDNSSplitProfileConfig_minimum() string {
 	config := `resource "meraki_appliance_dns_split_profile" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  name = "tf-test-split-profile"` + "\n"
+	config += `  name = "Default profile"` + "\n"
 	config += `  nameservers_addresses = ["12.1.10.1"]` + "\n"
 	config += `  hostnames = ["*.test1.com"]` + "\n"
 	config += `}` + "\n"
@@ -112,7 +113,7 @@ func testAccMerakiApplianceDNSSplitProfileConfig_minimum() string {
 func testAccMerakiApplianceDNSSplitProfileConfig_all() string {
 	config := `resource "meraki_appliance_dns_split_profile" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  name = "tf-test-split-profile"` + "\n"
+	config += `  name = "Default profile"` + "\n"
 	config += `  nameservers_addresses = ["12.1.10.1"]` + "\n"
 	config += `  hostnames = ["*.test1.com"]` + "\n"
 	config += `}` + "\n"

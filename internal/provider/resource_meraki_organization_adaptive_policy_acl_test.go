@@ -44,6 +44,7 @@ func TestAccMerakiOrganizationAdaptivePolicyACL(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_adaptive_policy_acl.test", "rules.0.policy", "allow"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_adaptive_policy_acl.test", "rules.0.protocol", "tcp"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_adaptive_policy_acl.test", "rules.0.src_port", "1,33"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_adaptive_policy_acl.test", "rules.0.tcp_established", "true"))
 
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
@@ -130,7 +131,7 @@ func testAccMerakiOrganizationAdaptivePolicyACLConfig_all() string {
 	config += `    policy = "allow"` + "\n"
 	config += `    protocol = "tcp"` + "\n"
 	config += `    src_port = "1,33"` + "\n"
-	config += `    tcp_established = false` + "\n"
+	config += `    tcp_established = true` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config

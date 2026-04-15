@@ -38,25 +38,25 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &OrganizationsWirelessDevicesProvisioningDeploymentsResource{}
+	_ resource.Resource = &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
 )
 
-func NewOrganizationsWirelessDevicesProvisioningDeploymentsResource() resource.Resource {
-	return &OrganizationsWirelessDevicesProvisioningDeploymentsResource{}
+func NewOrganizationWirelessDevicesProvisioningDeploymentsResource() resource.Resource {
+	return &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
 }
 
-type OrganizationsWirelessDevicesProvisioningDeploymentsResource struct {
+type OrganizationWirelessDevicesProvisioningDeploymentsResource struct {
 	client *meraki.Client
 }
 
-func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_organizations_wireless_devices_provisioning_deployments"
+func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_organization_wireless_devices_provisioning_deployments"
 }
 
-func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organizations Wireless Devices Provisioning Deployments` configuration.").AddEarlyAccessDescription().String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Wireless Devices Provisioning Deployments` configuration.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -196,7 +196,7 @@ func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Schema(ctx
 	}
 }
 
-func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -208,8 +208,8 @@ func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Configure(
 
 // Section below is generated&owned by "gen/generator.go". //template:begin create
 
-func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan OrganizationsWirelessDevicesProvisioningDeployments
+func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan OrganizationWirelessDevicesProvisioningDeployments
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -220,7 +220,7 @@ func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Create(ctx
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
 	// Create object
-	body := plan.toBody(ctx, OrganizationsWirelessDevicesProvisioningDeployments{})
+	body := plan.toBody(ctx, OrganizationWirelessDevicesProvisioningDeployments{})
 	res, err := r.client.Post(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
@@ -241,8 +241,8 @@ func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Create(ctx
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state OrganizationsWirelessDevicesProvisioningDeployments
+func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state OrganizationWirelessDevicesProvisioningDeployments
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -264,8 +264,8 @@ func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Read(ctx c
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
-func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state OrganizationsWirelessDevicesProvisioningDeployments
+func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state OrganizationWirelessDevicesProvisioningDeployments
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -291,8 +291,8 @@ func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Update(ctx
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *OrganizationsWirelessDevicesProvisioningDeploymentsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state OrganizationsWirelessDevicesProvisioningDeployments
+func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state OrganizationWirelessDevicesProvisioningDeployments
 
 	// Read state
 	diags := req.State.Get(ctx, &state)

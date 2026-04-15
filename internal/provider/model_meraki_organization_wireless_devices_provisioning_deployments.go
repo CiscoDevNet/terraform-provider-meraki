@@ -36,15 +36,15 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type OrganizationsWirelessDevicesProvisioningDeployments struct {
-	Id                       types.String                                               `tfsdk:"id"`
-	OrganizationId           types.String                                               `tfsdk:"organization_id"`
-	MetaCountsItemsRemaining types.Int64                                                `tfsdk:"meta_counts_items_remaining"`
-	MetaCountsItemsTotal     types.Int64                                                `tfsdk:"meta_counts_items_total"`
-	Items                    []OrganizationsWirelessDevicesProvisioningDeploymentsItems `tfsdk:"items"`
+type OrganizationWirelessDevicesProvisioningDeployments struct {
+	Id                       types.String                                              `tfsdk:"id"`
+	OrganizationId           types.String                                              `tfsdk:"organization_id"`
+	MetaCountsItemsRemaining types.Int64                                               `tfsdk:"meta_counts_items_remaining"`
+	MetaCountsItemsTotal     types.Int64                                               `tfsdk:"meta_counts_items_total"`
+	Items                    []OrganizationWirelessDevicesProvisioningDeploymentsItems `tfsdk:"items"`
 }
 
-type OrganizationsWirelessDevicesProvisioningDeploymentsItems struct {
+type OrganizationWirelessDevicesProvisioningDeploymentsItems struct {
 	CompletedAt             types.String `tfsdk:"completed_at"`
 	CreatedAt               types.String `tfsdk:"created_at"`
 	DeploymentId            types.String `tfsdk:"deployment_id"`
@@ -76,7 +76,7 @@ type OrganizationsWirelessDevicesProvisioningDeploymentsItems struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data OrganizationsWirelessDevicesProvisioningDeployments) getPath() string {
+func (data OrganizationWirelessDevicesProvisioningDeployments) getPath() string {
 	return fmt.Sprintf("/organizations/%v/wireless/devices/provisioning/deployments", url.QueryEscape(data.OrganizationId.ValueString()))
 }
 
@@ -84,7 +84,7 @@ func (data OrganizationsWirelessDevicesProvisioningDeployments) getPath() string
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data OrganizationsWirelessDevicesProvisioningDeployments) toBody(ctx context.Context, state OrganizationsWirelessDevicesProvisioningDeployments) string {
+func (data OrganizationWirelessDevicesProvisioningDeployments) toBody(ctx context.Context, state OrganizationWirelessDevicesProvisioningDeployments) string {
 	body := ""
 	if !data.MetaCountsItemsRemaining.IsNull() {
 		body, _ = sjson.Set(body, "meta.counts.items.remaining", data.MetaCountsItemsRemaining.ValueInt64())
@@ -187,7 +187,7 @@ func (data OrganizationsWirelessDevicesProvisioningDeployments) toBody(ctx conte
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *OrganizationsWirelessDevicesProvisioningDeployments) fromBody(ctx context.Context, res meraki.Res) {
+func (data *OrganizationWirelessDevicesProvisioningDeployments) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("meta.counts.items.remaining"); value.Exists() && value.Value() != nil {
 		data.MetaCountsItemsRemaining = types.Int64Value(value.Int())
 	} else {
@@ -199,10 +199,10 @@ func (data *OrganizationsWirelessDevicesProvisioningDeployments) fromBody(ctx co
 		data.MetaCountsItemsTotal = types.Int64Null()
 	}
 	if value := res.Get("items"); value.Exists() && value.Value() != nil {
-		data.Items = make([]OrganizationsWirelessDevicesProvisioningDeploymentsItems, 0)
+		data.Items = make([]OrganizationWirelessDevicesProvisioningDeploymentsItems, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
-			data := OrganizationsWirelessDevicesProvisioningDeploymentsItems{}
+			data := OrganizationWirelessDevicesProvisioningDeploymentsItems{}
 			if value := res.Get("completedAt"); value.Exists() && value.Value() != nil {
 				data.CompletedAt = types.StringValue(value.String())
 			} else {
@@ -342,7 +342,7 @@ func (data *OrganizationsWirelessDevicesProvisioningDeployments) fromBody(ctx co
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *OrganizationsWirelessDevicesProvisioningDeployments) fromBodyPartial(ctx context.Context, res meraki.Res) {
+func (data *OrganizationWirelessDevicesProvisioningDeployments) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("meta.counts.items.remaining"); value.Exists() && !data.MetaCountsItemsRemaining.IsNull() {
 		data.MetaCountsItemsRemaining = types.Int64Value(value.Int())
 	} else {
@@ -524,14 +524,14 @@ func (data *OrganizationsWirelessDevicesProvisioningDeployments) fromBodyPartial
 
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
-func (data *OrganizationsWirelessDevicesProvisioningDeployments) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+func (data *OrganizationWirelessDevicesProvisioningDeployments) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data OrganizationsWirelessDevicesProvisioningDeployments) toDestroyBody(ctx context.Context) string {
+func (data OrganizationWirelessDevicesProvisioningDeployments) toDestroyBody(ctx context.Context) string {
 	body := ""
 	return body
 }

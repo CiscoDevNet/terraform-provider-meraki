@@ -18,6 +18,7 @@ resource "meraki_appliance_third_party_vpn_peers" "example" {
   peers = [
     {
       ike_version                             = "2"
+      ip_version                              = 4
       is_route_based                          = false
       local_id                                = "myMXId@meraki.com"
       name                                    = "Peer Name"
@@ -37,8 +38,17 @@ resource "meraki_appliance_third_party_vpn_peers" "example" {
       ipsec_policies_ike_cipher_algo          = ["tripledes"]
       ipsec_policies_ike_diffie_hellman_group = ["group2"]
       ipsec_policies_ike_prf_algo             = ["prfsha1"]
-      network_tags                            = ["none"]
-      private_subnets                         = ["192.168.1.0/24"]
+      ecmp_uplink_configs = [
+        {
+          id                        = "7890"
+          wan                       = "WAN 1"
+          ebgp_neighbor_neighbor_ip = "169.254.10.2"
+          ebgp_neighbor_source_ip   = "169.254.10.1"
+          private_subnets           = ["169.254.10.0/30"]
+        }
+      ]
+      network_tags    = ["none"]
+      private_subnets = ["192.168.1.0/24"]
     }
   ]
 }

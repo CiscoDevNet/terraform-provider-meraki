@@ -35,26 +35,26 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &RadioRRMByNetworkDataSource{}
-	_ datasource.DataSourceWithConfigure = &RadioRRMByNetworkDataSource{}
+	_ datasource.DataSource              = &WirelessRadioRRMByNetworkDataSource{}
+	_ datasource.DataSourceWithConfigure = &WirelessRadioRRMByNetworkDataSource{}
 )
 
-func NewRadioRRMByNetworkDataSource() datasource.DataSource {
-	return &RadioRRMByNetworkDataSource{}
+func NewWirelessRadioRRMByNetworkDataSource() datasource.DataSource {
+	return &WirelessRadioRRMByNetworkDataSource{}
 }
 
-type RadioRRMByNetworkDataSource struct {
+type WirelessRadioRRMByNetworkDataSource struct {
 	client *meraki.Client
 }
 
-func (d *RadioRRMByNetworkDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_radio_rrm_by_network"
+func (d *WirelessRadioRRMByNetworkDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_wireless_radio_rrm_by_network"
 }
 
-func (d *RadioRRMByNetworkDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *WirelessRadioRRMByNetworkDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Radio RRM By Network` configuration in bulk.").AddEarlyAccessDescription().String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless Radio RRM By Network` configuration in bulk.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
@@ -197,7 +197,7 @@ func (d *RadioRRMByNetworkDataSource) Schema(ctx context.Context, req datasource
 	}
 }
 
-func (d *RadioRRMByNetworkDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *WirelessRadioRRMByNetworkDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -209,8 +209,8 @@ func (d *RadioRRMByNetworkDataSource) Configure(_ context.Context, req datasourc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (d *RadioRRMByNetworkDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config DataSourceRadioRRMByNetwork
+func (d *WirelessRadioRRMByNetworkDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config DataSourceWirelessRadioRRMByNetwork
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
@@ -219,7 +219,7 @@ func (d *RadioRRMByNetworkDataSource) Read(ctx context.Context, req datasource.R
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", "RadioRRMByNetworkDataSource"))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", "WirelessRadioRRMByNetworkDataSource"))
 
 	res, err := d.client.Get(config.getPath())
 	if err != nil {
@@ -232,7 +232,7 @@ func (d *RadioRRMByNetworkDataSource) Read(ctx context.Context, req datasource.R
 	}
 	config.fromBody(ctx, res)
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", "RadioRRMByNetworkDataSource"))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", "WirelessRadioRRMByNetworkDataSource"))
 
 	diags = resp.State.Set(ctx, &config)
 	resp.Diagnostics.Append(diags...)

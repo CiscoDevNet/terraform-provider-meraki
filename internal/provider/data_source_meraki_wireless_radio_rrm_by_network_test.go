@@ -29,10 +29,7 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiOrganizationsWirelessDevicesProvisioningDeployment(t *testing.T) {
-	if os.Getenv("ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS") == "" {
-		t.Skip("skipping test, set environment variable ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS")
-	}
+func TestAccDataSourceMerakiWirelessRadioRRMByNetwork(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
@@ -41,7 +38,7 @@ func TestAccDataSourceMerakiOrganizationsWirelessDevicesProvisioningDeployment(t
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiOrganizationsWirelessDevicesProvisioningDeploymentPrerequisitesConfig + testAccDataSourceMerakiOrganizationsWirelessDevicesProvisioningDeploymentConfig(),
+				Config: testAccDataSourceMerakiWirelessRadioRRMByNetworkPrerequisitesConfig + testAccDataSourceMerakiWirelessRadioRRMByNetworkConfig(),
 			},
 		},
 	})
@@ -51,7 +48,7 @@ func TestAccDataSourceMerakiOrganizationsWirelessDevicesProvisioningDeployment(t
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiOrganizationsWirelessDevicesProvisioningDeploymentPrerequisitesConfig = `
+const testAccDataSourceMerakiWirelessRadioRRMByNetworkPrerequisitesConfig = `
 variable "test_org" {}
 data "meraki_organization" "test" {
   name = var.test_org
@@ -63,8 +60,8 @@ data "meraki_organization" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiOrganizationsWirelessDevicesProvisioningDeploymentConfig() string {
-	config := `data "meraki_organizations_wireless_devices_provisioning_deployment" "test" {
+func testAccDataSourceMerakiWirelessRadioRRMByNetworkConfig() string {
+	config := `data "meraki_wireless_radio_rrm_by_network" "test" {
 			organization_id = data.meraki_organization.test.id
 		}
 	`

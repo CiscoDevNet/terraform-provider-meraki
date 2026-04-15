@@ -728,8 +728,8 @@ func (data *ApplianceThirdPartyVPNPeers) fromBodyPartial(ctx context.Context, re
 			data.SlaPolicyId = types.StringNull()
 		}
 		for i := 0; i < len(data.EcmpUplinkConfigs); i++ {
-			keys := [...]string{"id", "wan", "ebgpNeighbor.neighborIp", "ebgpNeighbor.sourceIp"}
-			keyValues := [...]string{data.EcmpUplinkConfigs[i].Id.ValueString(), data.EcmpUplinkConfigs[i].Wan.ValueString(), data.EcmpUplinkConfigs[i].EbgpNeighborNeighborIp.ValueString(), data.EcmpUplinkConfigs[i].EbgpNeighborSourceIp.ValueString()}
+			keys := [...]string{"id"}
+			keyValues := [...]string{data.EcmpUplinkConfigs[i].Id.ValueString()}
 
 			parent := &data
 			data := (*parent).EcmpUplinkConfigs[i]

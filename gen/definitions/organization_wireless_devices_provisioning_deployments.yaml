@@ -1,5 +1,5 @@
-name: Organizations Wireless Devices Provisioning Deployments
-bulk_name: Organizations Wireless Devices Provisioning Deployment
+name: Organization Wireless Devices Provisioning Deployments
+bulk_name: Organization Wireless Devices Provisioning Deployment
 spec_endpoint: /organizations/{organizationId}/wireless/devices/provisioning/deployments/{deploymentId}
 rest_endpoint: /organizations/%v/wireless/devices/provisioning/deployments
 no_data_source: true

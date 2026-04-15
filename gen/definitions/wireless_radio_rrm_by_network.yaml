@@ -1,5 +1,5 @@
-name: Radio RRM By Network
-bulk_name: Radio RRM By Network
+name: Wireless Radio RRM By Network
+bulk_name: Wireless Radio RRM By Network
 spec_endpoint: /organizations/{organizationId}/wireless/radio/rrm/byNetwork
 rest_endpoint: /organizations/%v/wireless/radio/rrm/byNetwork
 no_data_source: true

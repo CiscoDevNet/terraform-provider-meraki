@@ -32,32 +32,32 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type DataSourceRadioRRMByNetwork struct {
-	OrganizationId types.String                       `tfsdk:"organization_id"`
-	Items          []DataSourceRadioRRMByNetworkItems `tfsdk:"items"`
+type DataSourceWirelessRadioRRMByNetwork struct {
+	OrganizationId types.String                               `tfsdk:"organization_id"`
+	Items          []DataSourceWirelessRadioRRMByNetworkItems `tfsdk:"items"`
 }
 
-type DataSourceRadioRRMByNetworkItems struct {
-	Id                             types.String                           `tfsdk:"id"`
-	Name                           types.String                           `tfsdk:"name"`
-	NetworkId                      types.String                           `tfsdk:"network_id"`
-	TimeZone                       types.String                           `tfsdk:"time_zone"`
-	AiRrmEnabled                   types.Bool                             `tfsdk:"ai_rrm_enabled"`
-	AiRrmEnablementDate            types.String                           `tfsdk:"ai_rrm_enablement_date"`
-	BusyHourMinimizeChangesEnabled types.Bool                             `tfsdk:"busy_hour_minimize_changes_enabled"`
-	BusyHourScheduleMode           types.String                           `tfsdk:"busy_hour_schedule_mode"`
-	BusyHourScheduleAutomaticEnd   types.String                           `tfsdk:"busy_hour_schedule_automatic_end"`
-	BusyHourScheduleAutomaticStart types.String                           `tfsdk:"busy_hour_schedule_automatic_start"`
-	BusyHourScheduleManualEnd      types.String                           `tfsdk:"busy_hour_schedule_manual_end"`
-	BusyHourScheduleManualStart    types.String                           `tfsdk:"busy_hour_schedule_manual_start"`
-	ChannelAvoidanceEnabled        types.Bool                             `tfsdk:"channel_avoidance_enabled"`
-	FraEnabled                     types.Bool                             `tfsdk:"fra_enabled"`
-	MetaCountsItemsRemaining       types.Int64                            `tfsdk:"meta_counts_items_remaining"`
-	MetaCountsItemsTotal           types.Int64                            `tfsdk:"meta_counts_items_total"`
-	Items                          []DataSourceRadioRRMByNetworkItemsItem `tfsdk:"items"`
+type DataSourceWirelessRadioRRMByNetworkItems struct {
+	Id                             types.String                                   `tfsdk:"id"`
+	Name                           types.String                                   `tfsdk:"name"`
+	NetworkId                      types.String                                   `tfsdk:"network_id"`
+	TimeZone                       types.String                                   `tfsdk:"time_zone"`
+	AiRrmEnabled                   types.Bool                                     `tfsdk:"ai_rrm_enabled"`
+	AiRrmEnablementDate            types.String                                   `tfsdk:"ai_rrm_enablement_date"`
+	BusyHourMinimizeChangesEnabled types.Bool                                     `tfsdk:"busy_hour_minimize_changes_enabled"`
+	BusyHourScheduleMode           types.String                                   `tfsdk:"busy_hour_schedule_mode"`
+	BusyHourScheduleAutomaticEnd   types.String                                   `tfsdk:"busy_hour_schedule_automatic_end"`
+	BusyHourScheduleAutomaticStart types.String                                   `tfsdk:"busy_hour_schedule_automatic_start"`
+	BusyHourScheduleManualEnd      types.String                                   `tfsdk:"busy_hour_schedule_manual_end"`
+	BusyHourScheduleManualStart    types.String                                   `tfsdk:"busy_hour_schedule_manual_start"`
+	ChannelAvoidanceEnabled        types.Bool                                     `tfsdk:"channel_avoidance_enabled"`
+	FraEnabled                     types.Bool                                     `tfsdk:"fra_enabled"`
+	MetaCountsItemsRemaining       types.Int64                                    `tfsdk:"meta_counts_items_remaining"`
+	MetaCountsItemsTotal           types.Int64                                    `tfsdk:"meta_counts_items_total"`
+	Items                          []DataSourceWirelessRadioRRMByNetworkItemsItem `tfsdk:"items"`
 }
 
-type DataSourceRadioRRMByNetworkItemsItem struct {
+type DataSourceWirelessRadioRRMByNetworkItemsItem struct {
 	Name                           types.String `tfsdk:"name"`
 	NetworkId                      types.String `tfsdk:"network_id"`
 	TimeZone                       types.String `tfsdk:"time_zone"`
@@ -77,7 +77,7 @@ type DataSourceRadioRRMByNetworkItemsItem struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data DataSourceRadioRRMByNetwork) getPath() string {
+func (data DataSourceWirelessRadioRRMByNetwork) getPath() string {
 	return fmt.Sprintf("/organizations/%v/wireless/radio/rrm/byNetwork", url.QueryEscape(data.OrganizationId.ValueString()))
 }
 
@@ -85,11 +85,11 @@ func (data DataSourceRadioRRMByNetwork) getPath() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *DataSourceRadioRRMByNetwork) fromBody(ctx context.Context, res meraki.Res) {
-	data.Items = make([]DataSourceRadioRRMByNetworkItems, 0)
+func (data *DataSourceWirelessRadioRRMByNetwork) fromBody(ctx context.Context, res meraki.Res) {
+	data.Items = make([]DataSourceWirelessRadioRRMByNetworkItems, 0)
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
-		data := DataSourceRadioRRMByNetworkItems{}
+		data := DataSourceWirelessRadioRRMByNetworkItems{}
 		data.Id = types.StringValue(res.Get("").String())
 		if value := res.Get("name"); value.Exists() && value.Value() != nil {
 			data.Name = types.StringValue(value.String())
@@ -167,10 +167,10 @@ func (data *DataSourceRadioRRMByNetwork) fromBody(ctx context.Context, res merak
 			data.MetaCountsItemsTotal = types.Int64Null()
 		}
 		if value := res.Get("items"); value.Exists() && value.Value() != nil {
-			data.Items = make([]DataSourceRadioRRMByNetworkItemsItem, 0)
+			data.Items = make([]DataSourceWirelessRadioRRMByNetworkItemsItem, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
 				parent := &data
-				data := DataSourceRadioRRMByNetworkItemsItem{}
+				data := DataSourceWirelessRadioRRMByNetworkItemsItem{}
 				if value := res.Get("name"); value.Exists() && value.Value() != nil {
 					data.Name = types.StringValue(value.String())
 				} else {
