@@ -41,6 +41,10 @@ type CameraSense struct {
 	AudioDetectionEnabled types.Bool   `tfsdk:"audio_detection_enabled"`
 }
 
+type CameraSenseIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -138,6 +142,22 @@ func (data *CameraSense) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *CameraSenseIdentity) toIdentity(ctx context.Context, plan *CameraSense) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *CameraSense) fromIdentity(ctx context.Context, identity *CameraSenseIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

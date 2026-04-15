@@ -29,6 +29,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -44,7 +45,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &ApplianceRFProfilesResource{}
+	_ resource.ResourceWithIdentity    = &ApplianceRFProfilesResource{}
 	_ resource.ResourceWithImportState = &ApplianceRFProfilesResource{}
 	_ resource.ResourceWithModifyPlan  = &ApplianceRFProfilesResource{}
 )
@@ -165,6 +166,26 @@ func (r *ApplianceRFProfilesResource) Schema(ctx context.Context, req resource.S
 	}
 }
 
+func (r *ApplianceRFProfilesResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"organization_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("").String,
+				RequiredForImport: true,
+			},
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+			"item_ids": identityschema.ListAttribute{
+				Description:       "List of item IDs",
+				ElementType:       types.StringType,
+				OptionalForImport: true,
+			},
+		},
+	}
+}
+
 func (r *ApplianceRFProfilesResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -179,6 +200,7 @@ func (r *ApplianceRFProfilesResource) Configure(_ context.Context, req resource.
 
 func (r *ApplianceRFProfilesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ResourceApplianceRFProfiles
+	var identity ResourceApplianceRFProfilesIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -210,10 +232,13 @@ func (r *ApplianceRFProfilesResource) Create(ctx context.Context, req resource.C
 	for i := range plan.Items {
 		plan.Items[i].Id = types.StringValue(res.Get("status.createdResources." + strconv.Itoa(i) + ".id").String())
 	}
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -225,12 +250,21 @@ func (r *ApplianceRFProfilesResource) Create(ctx context.Context, req resource.C
 
 func (r *ApplianceRFProfilesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ResourceApplianceRFProfiles
+	var identity ResourceApplianceRFProfilesIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
+
+	// Read identity
+	diags = req.Identity.Get(ctx, &identity)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
@@ -257,10 +291,13 @@ func (r *ApplianceRFProfilesResource) Read(ctx context.Context, req resource.Rea
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -403,33 +440,58 @@ func (r *ApplianceRFProfilesResource) Delete(ctx context.Context, req resource.D
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *ApplianceRFProfilesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	itemIdParts := make([]string, 0)
-	if strings.Contains(req.ID, ",[") {
-		itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
-	}
-	idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
-
-	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
-		expectedIdentifier := "Expected import identifier with format: <organization_id>,<network_id>"
-		expectedIdentifier += " or <organization_id>,<network_id>,[<id>,...]"
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
-		)
-		return
-	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[1])...)
-
-	if len(itemIdParts) > 0 {
-		items := make([]ResourceApplianceRFProfilesItems, len(itemIdParts))
-		for i, itemId := range itemIdParts {
-			item := ResourceApplianceRFProfilesItems{}
-			item.Id = types.StringValue(itemId)
-			items[i] = item
+	if req.ID != "" {
+		itemIdParts := make([]string, 0)
+		if strings.Contains(req.ID, ",[") {
+			itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")
 		}
-		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		idParts := strings.Split(strings.Split(req.ID, ",[")[0], ",")
+
+		if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
+			expectedIdentifier := "Expected import identifier with format: <organization_id>,<network_id>"
+			expectedIdentifier += " or <organization_id>,<network_id>,[<id>,...]"
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("%s. Got: %q", expectedIdentifier, req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("network_id"), idParts[1])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[1])...)
+
+		if len(itemIdParts) > 0 {
+			items := make([]ResourceApplianceRFProfilesItems, len(itemIdParts))
+			for i, itemId := range itemIdParts {
+				item := ResourceApplianceRFProfilesItems{}
+				item.Id = types.StringValue(itemId)
+				items[i] = item
+			}
+			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		}
+	} else {
+		var identity ResourceApplianceRFProfilesIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), identity.OrganizationId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.OrganizationId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), identity.NetworkId.ValueString())...)
+
+		if len(identity.ItemIds.Elements()) > 0 {
+			items := make([]ResourceApplianceRFProfilesItems, len(identity.ItemIds.Elements()))
+			var values []string
+			identity.ItemIds.ElementsAs(ctx, &values, false)
+			for i, itemId := range values {
+				item := ResourceApplianceRFProfilesItems{}
+				item.Id = types.StringValue(itemId)
+				items[i] = item
+			}
+			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
+		}
 	}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)

@@ -39,6 +39,11 @@ type WirelessZigbeeDoorLock struct {
 	Name           types.String `tfsdk:"name"`
 }
 
+type WirelessZigbeeDoorLockIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	DoorLockId     types.String `tfsdk:"door_lock_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -97,6 +102,24 @@ func (data *WirelessZigbeeDoorLock) fromBodyUnknowns(ctx context.Context, res me
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessZigbeeDoorLockIdentity) toIdentity(ctx context.Context, plan *WirelessZigbeeDoorLock) {
+	data.OrganizationId = plan.OrganizationId
+	data.DoorLockId = plan.DoorLockId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessZigbeeDoorLock) fromIdentity(ctx context.Context, identity *WirelessZigbeeDoorLockIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.DoorLockId = identity.DoorLockId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

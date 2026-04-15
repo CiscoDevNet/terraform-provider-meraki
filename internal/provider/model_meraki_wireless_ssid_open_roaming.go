@@ -40,6 +40,11 @@ type WirelessSSIDOpenRoaming struct {
 	TenantId  types.String `tfsdk:"tenant_id"`
 }
 
+type WirelessSSIDOpenRoamingIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Number    types.String `tfsdk:"number"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -111,6 +116,24 @@ func (data *WirelessSSIDOpenRoaming) fromBodyUnknowns(ctx context.Context, res m
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessSSIDOpenRoamingIdentity) toIdentity(ctx context.Context, plan *WirelessSSIDOpenRoaming) {
+	data.NetworkId = plan.NetworkId
+	data.Number = plan.Number
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessSSIDOpenRoaming) fromIdentity(ctx context.Context, identity *WirelessSSIDOpenRoamingIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Number = identity.Number
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

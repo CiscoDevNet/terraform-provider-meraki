@@ -78,6 +78,12 @@ type ResourceSwitchPortsItems struct {
 	Tags                    types.Set    `tfsdk:"tags"`
 }
 
+type ResourceSwitchPortsIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	Serial         types.String `tfsdk:"serial"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -781,6 +787,27 @@ func (data *ResourceSwitchPorts) fromBodyImport(ctx context.Context, res meraki.
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceSwitchPortsIdentity) toIdentity(ctx context.Context, plan *ResourceSwitchPorts) {
+	data.OrganizationId = plan.OrganizationId
+	data.Serial = plan.Serial
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceSwitchPorts) fromIdentity(ctx context.Context, identity *ResourceSwitchPortsIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 func (data ResourceSwitchPortsItems) toDestroyBody(ctx context.Context) string {
 	body := ""

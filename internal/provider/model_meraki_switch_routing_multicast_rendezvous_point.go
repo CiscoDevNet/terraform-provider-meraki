@@ -40,6 +40,11 @@ type SwitchRoutingMulticastRendezvousPoint struct {
 	VrfName        types.String `tfsdk:"vrf_name"`
 }
 
+type SwitchRoutingMulticastRendezvousPointIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	Id        types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -124,6 +129,24 @@ func (data *SwitchRoutingMulticastRendezvousPoint) fromBodyUnknowns(ctx context.
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchRoutingMulticastRendezvousPointIdentity) toIdentity(ctx context.Context, plan *SwitchRoutingMulticastRendezvousPoint) {
+	data.NetworkId = plan.NetworkId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchRoutingMulticastRendezvousPoint) fromIdentity(ctx context.Context, identity *SwitchRoutingMulticastRendezvousPointIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

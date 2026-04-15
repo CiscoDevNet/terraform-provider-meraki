@@ -53,6 +53,11 @@ type NetworkClientSplashAuthorizationStatus struct {
 	Ssids9IsAuthorized  types.Bool   `tfsdk:"ssids_9_is_authorized"`
 }
 
+type NetworkClientSplashAuthorizationStatusIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	ClientId  types.String `tfsdk:"client_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -293,6 +298,24 @@ func (data *NetworkClientSplashAuthorizationStatus) fromBodyUnknowns(ctx context
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkClientSplashAuthorizationStatusIdentity) toIdentity(ctx context.Context, plan *NetworkClientSplashAuthorizationStatus) {
+	data.NetworkId = plan.NetworkId
+	data.ClientId = plan.ClientId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkClientSplashAuthorizationStatus) fromIdentity(ctx context.Context, identity *NetworkClientSplashAuthorizationStatusIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.ClientId = identity.ClientId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

@@ -44,6 +44,11 @@ type AppliancePort struct {
 	Vlan                types.Int64  `tfsdk:"vlan"`
 }
 
+type AppliancePortIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	PortId    types.String `tfsdk:"port_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -167,6 +172,24 @@ func (data *AppliancePort) fromBodyUnknowns(ctx context.Context, res meraki.Res)
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *AppliancePortIdentity) toIdentity(ctx context.Context, plan *AppliancePort) {
+	data.NetworkId = plan.NetworkId
+	data.PortId = plan.PortId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *AppliancePort) fromIdentity(ctx context.Context, identity *AppliancePortIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.PortId = identity.PortId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

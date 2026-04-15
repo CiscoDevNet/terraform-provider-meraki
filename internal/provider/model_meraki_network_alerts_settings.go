@@ -79,6 +79,10 @@ type NetworkAlertsSettingsAlertsFiltersConditions struct {
 	Unit      types.String  `tfsdk:"unit"`
 }
 
+type NetworkAlertsSettingsIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -634,6 +638,22 @@ func (data *NetworkAlertsSettings) fromBodyUnknowns(ctx context.Context, res mer
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkAlertsSettingsIdentity) toIdentity(ctx context.Context, plan *NetworkAlertsSettings) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkAlertsSettings) fromIdentity(ctx context.Context, identity *NetworkAlertsSettingsIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
