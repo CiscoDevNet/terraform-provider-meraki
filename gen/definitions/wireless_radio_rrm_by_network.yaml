@@ -7,7 +7,6 @@ no_resource: true
 bulk_data_source: true
 no_update: true
 no_delete: true
-early_access: true
 data_source_name_query: true
 doc_category: Wireless
 test_variables: [test_org]

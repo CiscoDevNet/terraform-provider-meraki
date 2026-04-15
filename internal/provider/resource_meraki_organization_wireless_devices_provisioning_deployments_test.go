@@ -32,9 +32,6 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployments(t *testing.T) {
-	if os.Getenv("ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS") == "" {
-		t.Skip("skipping test, set environment variable ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS")
-	}
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
@@ -76,6 +73,14 @@ func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployments(t *testing.
 	steps = append(steps, resource.TestStep{
 		Config: testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsPrerequisitesConfig + testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
+	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_organization_wireless_devices_provisioning_deployments.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiOrganizationWirelessDevicesProvisioningDeploymentsImportStateIdFunc("meraki_organization_wireless_devices_provisioning_deployments.test"),
+		ImportStateVerifyIgnore: []string{},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{

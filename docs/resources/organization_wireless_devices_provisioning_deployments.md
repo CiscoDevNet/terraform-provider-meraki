@@ -4,14 +4,11 @@ page_title: "meraki_organization_wireless_devices_provisioning_deployments Resou
 subcategory: "Wireless"
 description: |-
   This resource can manage the Organization Wireless Devices Provisioning Deployments configuration.
-  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_organization_wireless_devices_provisioning_deployments (Resource)
 
 This resource can manage the `Organization Wireless Devices Provisioning Deployments` configuration.
-
-~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 
 ## Example Usage
 
@@ -102,3 +99,13 @@ Optional:
 - `network_id` (String) ID of the network the device is being added to
 - `network_name` (String) Name of the network the device is being added to
 - `requested_at` (String) Timestamp of when the zero touch deployment request was created
+
+## Import
+
+Import is supported using the following syntax:
+
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
+
+```shell
+terraform import meraki_organization_wireless_devices_provisioning_deployments.example "<organization_id>"
+```

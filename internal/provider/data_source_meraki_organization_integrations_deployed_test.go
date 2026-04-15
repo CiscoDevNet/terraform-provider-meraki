@@ -29,19 +29,25 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeployment(t *testing.T) {
-	if os.Getenv("ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS") == "" {
-		t.Skip("skipping test, set environment variable ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS")
-	}
+func TestAccDataSourceMerakiOrganizationIntegrationsDeployed(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
+	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_integrations_deployed.test", "meta_counts_items_remaining", "10"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_integrations_deployed.test", "meta_counts_items_total", "100"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_integrations_deployed.test", "items.0.id", "98765"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_integrations_deployed.test", "items.0.name", "OAuth Application"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_integrations_deployed.test", "items.0.provider", "partner"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_integrations_deployed.test", "items.0.type", "OAuth"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_integrations_deployed.test", "items.0.tags.0", "Wayfinding"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentPrerequisitesConfig + testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentConfig(),
+				Config: testAccDataSourceMerakiOrganizationIntegrationsDeployedPrerequisitesConfig + testAccDataSourceMerakiOrganizationIntegrationsDeployedConfig(),
+				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
 	})
@@ -51,7 +57,7 @@ func TestAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeployment(t 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentPrerequisitesConfig = `
+const testAccDataSourceMerakiOrganizationIntegrationsDeployedPrerequisitesConfig = `
 variable "test_org" {}
 data "meraki_organization" "test" {
   name = var.test_org
@@ -63,12 +69,12 @@ data "meraki_organization" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentConfig() string {
-	config := `data "meraki_organization_wireless_devices_provisioning_deployment" "test" {
+func testAccDataSourceMerakiOrganizationIntegrationsDeployedConfig() string {
+	return `
+		data "meraki_organization_integrations_deployed" "test" {
 			organization_id = data.meraki_organization.test.id
 		}
 	`
-	return config
 }
 
 // End of section. //template:end testAccDataSourceConfig

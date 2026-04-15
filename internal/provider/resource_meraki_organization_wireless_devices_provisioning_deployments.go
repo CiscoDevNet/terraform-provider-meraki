@@ -21,8 +21,11 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -38,7 +41,8 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource = &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
+	_ resource.Resource                = &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
+	_ resource.ResourceWithImportState = &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
 )
 
 func NewOrganizationWirelessDevicesProvisioningDeploymentsResource() resource.Resource {
@@ -56,7 +60,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Metadata(ct
 func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Wireless Devices Provisioning Deployments` configuration.").AddEarlyAccessDescription().String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Wireless Devices Provisioning Deployments` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -251,6 +255,26 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Read(ctx co
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
+	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		resp.State.RemoveResource(ctx)
+		return
+	} else if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	imp, diags := helpers.IsFlagImporting(ctx, req)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
+	// After `terraform import` we switch to a full read.
+	if imp {
+		state.fromBody(ctx, res)
+	} else {
+		state.fromBodyPartial(ctx, res)
+	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
@@ -281,6 +305,13 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Update(ctx 
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
+	body := plan.toBody(ctx, state)
+	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -310,4 +341,20 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Delete(ctx 
 // End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
+func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	idParts := strings.Split(req.ID, ",")
+
+	if len(idParts) != 1 || idParts[0] == "" {
+		resp.Diagnostics.AddError(
+			"Unexpected Import Identifier",
+			fmt.Sprintf("Expected import identifier with format: <organization_id>. Got: %q", req.ID),
+		)
+		return
+	}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
+
+	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
+}
+
 // End of section. //template:end import

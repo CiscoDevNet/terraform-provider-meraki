@@ -1,17 +1,8 @@
 name: Organization Wireless Devices Provisioning Deployments
-bulk_name: Organization Wireless Devices Provisioning Deployment
-spec_endpoint: /organizations/{organizationId}/wireless/devices/provisioning/deployments/{deploymentId}
+spec_endpoint: /organizations/{organizationId}/wireless/devices/provisioning/deployments
 rest_endpoint: /organizations/%v/wireless/devices/provisioning/deployments
-no_data_source: true
-bulk_data_source: true
-get_from_all: true
-no_update: true
 no_delete: true
-no_import: true
-no_read: true
-early_access: true
 doc_category: Wireless
-test_tags: [ORGANIZATIONS_WIRELESS_DEVICES_PROVISIONING_DEPLOYMENTS]
 test_variables: [test_org]
 attributes:
   - tf_name: organization_id

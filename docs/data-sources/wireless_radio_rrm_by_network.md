@@ -4,14 +4,11 @@ page_title: "meraki_wireless_radio_rrm_by_network Data Source - terraform-provid
 subcategory: "Wireless"
 description: |-
   This data source can read the Wireless Radio RRM By Network configuration in bulk.
-  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_wireless_radio_rrm_by_network (Data Source)
 
 This data source can read the `Wireless Radio RRM By Network` configuration in bulk.
-
-~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 
 ## Example Usage
 
