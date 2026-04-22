@@ -21,6 +21,7 @@ resource "meraki_switch_organization_ports_profile" "example" {
   description                = "IP Phones for all office workers"
   is_organization_wide       = true
   name                       = "Phone"
+  authentication_host_mode   = "single-host"
   port_access_policy_type    = "Open"
   port_allowed_vlans         = "1-100"
   port_dai_trusted           = false
@@ -50,6 +51,7 @@ resource "meraki_switch_organization_ports_profile" "example" {
 
 ### Optional
 
+- `authentication_host_mode` (String) The host mode override for RADIUS-based port profile application. Supported values are `single-host` and `multi-host`.
 - `description` (String) Text describing the profile.
 - `is_organization_wide` (Boolean) The scope of the profile whether it is organization level or network level
 - `network_id` (String) The network identifier

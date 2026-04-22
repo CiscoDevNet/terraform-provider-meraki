@@ -4,6 +4,7 @@ rest_endpoint: /devices/%v/switch/routing/interfaces
 bulk_data_source: true
 bulk_resource: true
 id_name: interfaceId
+early_access: true
 data_source_name_query: true
 doc_category: Switches
 test_variables: [test_org, test_network, test_switch_1_serial]
@@ -15,6 +16,10 @@ attributes:
     description: Switch serial
     example: 1234-ABCD-1234
     test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: candidateUplinkV4
+    type: Bool
+    description: When true, this interface is a UAC candidate for IPv4 Uplink.
+    example: "true"
   - model_name: defaultGateway
     type: String
     write_changes_only: true
@@ -26,6 +31,11 @@ attributes:
     description: The IP address this switch will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.
     example: 192.168.1.2
     minimum_test_value: '"192.168.1.2"'
+  - model_name: isSwitchDefaultGateway
+    type: Bool
+    exclude_test: true
+    description: When true, the switch uses the IPv4 uplink gateway as its IPv4 default gateway. This can only be set if the interface is designated as the IPv4 uplink.
+    example: "false"
   - model_name: mode
     type: String
     description: L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.
@@ -43,6 +53,14 @@ attributes:
     description: A friendly name or description for the interface or VLAN.
     example: L3 interface
     minimum_test_value: '"L3 interface"'
+  - model_name: staticV4Dns1
+    type: String
+    description: Primary IPv4 DNS server address
+    example: 8.8.8.8
+  - model_name: staticV4Dns2
+    type: String
+    description: Secondary IPv4 DNS server address
+    example: 8.8.4.4
   - model_name: subnet
     type: String
     description: The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).
@@ -53,6 +71,14 @@ attributes:
     exclude_test: true
     description: Switch Port ID when in Routed mode (CS 17.18 or higher required)
     example: "1"
+  - model_name: uplinkV4
+    type: Bool
+    description: When true, this interface is used as static IPv4 uplink.
+    example: "true"
+  - model_name: uplinkV6
+    type: Bool
+    description: When true, this interface is used as static IPv6 uplink.
+    example: "true"
   - model_name: vlanId
     type: Int64
     description: The VLAN this routed interface is on. VLAN must be between 1 and 4094.
@@ -68,16 +94,37 @@ attributes:
     data_path: [ipv6]
     description: The IPv6 assignment mode for the interface. Can be either `eui-64` or `static`.
     example: static
+  - model_name: candidateUplink
+    type: Bool
+    data_path: [ipv6]
+    description: When true, this interface is a UAC candidate for IPv6 Uplink.
+    example: "true"
   - model_name: gateway
     type: String
     data_path: [ipv6]
     description: The IPv6 default gateway of the interface. Required if prefix is defined and this is the first interface with IPv6 configured for the switch.
     example: 1:2:3:4::2
+  - model_name: isSwitchDefaultGateway
+    type: Bool
+    data_path: [ipv6]
+    exclude_test: true
+    description: When true, the switch uses the IPv6 uplink gateway as its IPv6 default gateway. This can only be set if the interface is designated as the IPv6 uplink.
+    example: "false"
   - model_name: prefix
     type: String
     data_path: [ipv6]
     description: The IPv6 prefix of the interface. Required if IPv6 object is included.
     example: 1:2:3:4::/64
+  - model_name: staticV6Dns1
+    type: String
+    data_path: [ipv6]
+    description: Primary IPv6 DNS server address
+    example: 2001:db8::1234
+  - model_name: staticV6Dns2
+    type: String
+    data_path: [ipv6]
+    description: Secondary IPv6 DNS server address
+    example: 2001:db8::8888
   - model_name: area
     type: String
     data_path: [ospfSettings]

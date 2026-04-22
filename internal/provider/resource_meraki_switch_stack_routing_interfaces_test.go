@@ -32,6 +32,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiSwitchStackRoutingInterfaces(t *testing.T) {
+	if os.Getenv("SWITCH_STACK_ROUTING_INTERFACE") == "" {
+		t.Skip("skipping test, set environment variable SWITCH_STACK_ROUTING_INTERFACE")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" || os.Getenv("TF_VAR_test_switch_2_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
 	}
@@ -116,6 +119,7 @@ func testAccMerakiSwitchStackRoutingInterfacesConfig_minimum() string {
 	config += `  interface_ip = "192.168.1.2"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"
+	config += `  uplink_v4 = true` + "\n"
 	config += `  vlan_id = 100` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
@@ -132,17 +136,25 @@ func testAccMerakiSwitchStackRoutingInterfacesConfig_all() string {
 	config += ` switch_stack_id = meraki_switch_stack.test.id` + "\n"
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
+	config += `  candidate_uplink_v4 = true` + "\n"
 	config += `  default_gateway = "192.168.1.1"` + "\n"
 	config += `  interface_ip = "192.168.1.2"` + "\n"
 	config += `  mode = "vlan"` + "\n"
 	config += `  multicast_routing = "disabled"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
+	config += `  static_v4_dns1 = "8.8.8.8"` + "\n"
+	config += `  static_v4_dns2 = "8.8.4.4"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"
+	config += `  uplink_v4 = true` + "\n"
+	config += `  uplink_v6 = true` + "\n"
 	config += `  vlan_id = 100` + "\n"
 	config += `  ipv6_address = "1:2:3:4::1"` + "\n"
 	config += `  ipv6_assignment_mode = "static"` + "\n"
+	config += `  ipv6_candidate_uplink = true` + "\n"
 	config += `  ipv6_gateway = "1:2:3:4::2"` + "\n"
 	config += `  ipv6_prefix = "1:2:3:4::/64"` + "\n"
+	config += `  ipv6_static_v6_dns1 = "2001:db8::1234"` + "\n"
+	config += `  ipv6_static_v6_dns2 = "2001:db8::8888"` + "\n"
 	config += `  ospf_settings_area = "ospfDisabled"` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"

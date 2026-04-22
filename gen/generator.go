@@ -249,7 +249,11 @@ func updateDefinitions() {
 			continue
 		}
 
-		cmd := exec.Command("go", "run", "gen/definition.go", config.SpecEndpoint, config.Name)
+		args := []string{"run", "gen/definition.go", config.SpecEndpoint, config.Name}
+		if config.EarlyAccess {
+			args = append(args, "--early-access")
+		}
+		cmd := exec.Command("go", args...)
 		if out, err := cmd.CombinedOutput(); err != nil {
 			log.Fatalf("Error creating definition '%s' for endpoint '%s': %s, %+v", config.SpecEndpoint, config.Name, out, err)
 		}

@@ -109,11 +109,12 @@ func main() {
 
 	endpointPath := os.Args[1]
 	resourceName := os.Args[2]
+	earlyAccess := len(os.Args) > 3 && os.Args[3] == "--early-access"
 
-	generateDefinition(endpointPath, resourceName)
+	generateDefinition(endpointPath, resourceName, earlyAccess)
 }
 
-func generateDefinition(endpointPath, resourceName string) {
+func generateDefinition(endpointPath, resourceName string, earlyAccess bool) {
 	specData, err := os.ReadFile(specPath)
 	if err != nil {
 		fmt.Printf("Error reading OpenAPI spec file: %v\n", err)
@@ -151,7 +152,7 @@ func generateDefinition(endpointPath, resourceName string) {
 	}
 
 	config := yamlconfig.YamlConfigP{}
-	urlResult := parseUrl(endpointPath, spec, betaSpec)
+	urlResult := parseUrl(endpointPath, spec, betaSpec, earlyAccess)
 
 	var example map[string]interface{}
 	if e, ok := urlResult.schema["schema"].(map[string]interface{})["example"]; ok {
@@ -321,7 +322,7 @@ type parseUrlResult struct {
 	testVariables  *[]string
 }
 
-func parseUrl(url string, spec interface{}, betaSpec interface{}) parseUrlResult {
+func parseUrl(url string, spec interface{}, betaSpec interface{}, forceEarlyAccess bool) parseUrlResult {
 	ret := parseUrlResult{}
 
 	shortUrl := ""
@@ -345,7 +346,12 @@ func parseUrl(url string, spec interface{}, betaSpec interface{}) parseUrlResult
 	hasDelete := false
 	hasShortDelete := false
 
-	paths := spec.(map[string]interface{})["paths"].(map[string]interface{})
+	var paths map[string]interface{}
+	if forceEarlyAccess {
+		paths = betaSpec.(map[string]interface{})["paths"].(map[string]interface{})
+	} else {
+		paths = spec.(map[string]interface{})["paths"].(map[string]interface{})
+	}
 	if p, ok := paths[shortUrl]; ok && shortUrl != "" {
 		if _, ok := p.(map[string]interface{})["post"]; ok {
 			hasShortPost = true
@@ -406,6 +412,10 @@ func parseUrl(url string, spec interface{}, betaSpec interface{}) parseUrlResult
 				hasDelete = true
 			}
 		}
+		ret.earlyAccess = P(true)
+	}
+
+	if forceEarlyAccess {
 		ret.earlyAccess = P(true)
 	}
 

@@ -99,6 +99,7 @@ resource "meraki_switch_routing_interface" "test" {
   name = "L3 interface"
   subnet = "192.168.1.0/24"
   vlan_id = 100
+  uplink_v4 = true
 }
 
 `

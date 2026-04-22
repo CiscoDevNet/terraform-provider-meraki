@@ -32,21 +32,32 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiSwitchStackRoutingInterface(t *testing.T) {
+	if os.Getenv("SWITCH_STACK_ROUTING_INTERFACE") == "" {
+		t.Skip("skipping test, set environment variable SWITCH_STACK_ROUTING_INTERFACE")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" || os.Getenv("TF_VAR_test_switch_2_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "candidate_uplink_v4", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "default_gateway", "192.168.1.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "interface_ip", "192.168.1.2"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "mode", "vlan"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "multicast_routing", "disabled"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "name", "L3 interface"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "static_v4_dns1", "8.8.8.8"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "static_v4_dns2", "8.8.4.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "subnet", "192.168.1.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "uplink_v4", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "uplink_v6", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "vlan_id", "100"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "ipv6_address", "1:2:3:4::1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "ipv6_assignment_mode", "static"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "ipv6_candidate_uplink", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "ipv6_gateway", "1:2:3:4::2"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "ipv6_prefix", "1:2:3:4::/64"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "ipv6_static_v6_dns1", "2001:db8::1234"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "ipv6_static_v6_dns2", "2001:db8::8888"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_interface.test", "ospf_settings_area", "ospfDisabled"))
 
 	var steps []resource.TestStep
@@ -131,6 +142,7 @@ func testAccMerakiSwitchStackRoutingInterfaceConfig_minimum() string {
 	config += `  interface_ip = "192.168.1.2"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"
+	config += `  uplink_v4 = true` + "\n"
 	config += `  vlan_id = 100` + "\n"
 	config += `}` + "\n"
 	return config
@@ -144,17 +156,25 @@ func testAccMerakiSwitchStackRoutingInterfaceConfig_all() string {
 	config := `resource "meraki_switch_stack_routing_interface" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  switch_stack_id = meraki_switch_stack.test.id` + "\n"
+	config += `  candidate_uplink_v4 = true` + "\n"
 	config += `  default_gateway = "192.168.1.1"` + "\n"
 	config += `  interface_ip = "192.168.1.2"` + "\n"
 	config += `  mode = "vlan"` + "\n"
 	config += `  multicast_routing = "disabled"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
+	config += `  static_v4_dns1 = "8.8.8.8"` + "\n"
+	config += `  static_v4_dns2 = "8.8.4.4"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"
+	config += `  uplink_v4 = true` + "\n"
+	config += `  uplink_v6 = true` + "\n"
 	config += `  vlan_id = 100` + "\n"
 	config += `  ipv6_address = "1:2:3:4::1"` + "\n"
 	config += `  ipv6_assignment_mode = "static"` + "\n"
+	config += `  ipv6_candidate_uplink = true` + "\n"
 	config += `  ipv6_gateway = "1:2:3:4::2"` + "\n"
 	config += `  ipv6_prefix = "1:2:3:4::/64"` + "\n"
+	config += `  ipv6_static_v6_dns1 = "2001:db8::1234"` + "\n"
+	config += `  ipv6_static_v6_dns2 = "2001:db8::8888"` + "\n"
 	config += `  ospf_settings_area = "ospfDisabled"` + "\n"
 	config += `}` + "\n"
 	return config

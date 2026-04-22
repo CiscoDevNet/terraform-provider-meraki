@@ -9,6 +9,9 @@
 - Add `stp_port_fast_trunk` attribute to `meraki_switch_port` resources and data sources
 - Add `access_control_*` attributes to `meraki_wireless_ssids` data source
 - Add `ip_version` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/200)
+- Add `candidate_uplink_v4`, `is_switch_default_gateway`, `static_v4_dns1`, `static_v4_dns2`, `uplink_v4`, `uplink_v6`, `ipv6_candidate_uplink`, `ipv6_is_switch_default_gateway`, `ipv6_static_v6_dns1`, `ipv6_static_v6_dns2` attributes to `meraki_switch_routing_interface` resources and data sources
+- Add `candidate_uplink_v4`, `is_switch_default_gateway`, `static_v4_dns1`, `static_v4_dns2`, `uplink_v4`, `uplink_v6`, `ipv6_candidate_uplink`, `ipv6_is_switch_default_gateway`, `ipv6_static_v6_dns1`, `ipv6_static_v6_dns2` attributes to `meraki_switch_stack_routing_interface` resources and data sources
+- Add `authentication_host_mode` attribute to `meraki_switch_organization_ports_profile` resource and data sources
 
 ## 1.9.0
 

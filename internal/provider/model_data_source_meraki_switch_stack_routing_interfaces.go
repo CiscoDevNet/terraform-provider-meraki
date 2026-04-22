@@ -40,18 +40,28 @@ type DataSourceSwitchStackRoutingInterfaces struct {
 
 type DataSourceSwitchStackRoutingInterfacesItems struct {
 	Id                           types.String `tfsdk:"id"`
+	CandidateUplinkV4            types.Bool   `tfsdk:"candidate_uplink_v4"`
 	DefaultGateway               types.String `tfsdk:"default_gateway"`
 	InterfaceIp                  types.String `tfsdk:"interface_ip"`
+	IsSwitchDefaultGateway       types.Bool   `tfsdk:"is_switch_default_gateway"`
 	Mode                         types.String `tfsdk:"mode"`
 	MulticastRouting             types.String `tfsdk:"multicast_routing"`
 	Name                         types.String `tfsdk:"name"`
+	StaticV4Dns1                 types.String `tfsdk:"static_v4_dns1"`
+	StaticV4Dns2                 types.String `tfsdk:"static_v4_dns2"`
 	Subnet                       types.String `tfsdk:"subnet"`
 	SwitchPortId                 types.String `tfsdk:"switch_port_id"`
+	UplinkV4                     types.Bool   `tfsdk:"uplink_v4"`
+	UplinkV6                     types.Bool   `tfsdk:"uplink_v6"`
 	VlanId                       types.Int64  `tfsdk:"vlan_id"`
 	Ipv6Address                  types.String `tfsdk:"ipv6_address"`
 	Ipv6AssignmentMode           types.String `tfsdk:"ipv6_assignment_mode"`
+	Ipv6CandidateUplink          types.Bool   `tfsdk:"ipv6_candidate_uplink"`
 	Ipv6Gateway                  types.String `tfsdk:"ipv6_gateway"`
+	Ipv6IsSwitchDefaultGateway   types.Bool   `tfsdk:"ipv6_is_switch_default_gateway"`
 	Ipv6Prefix                   types.String `tfsdk:"ipv6_prefix"`
+	Ipv6StaticV6Dns1             types.String `tfsdk:"ipv6_static_v6_dns1"`
+	Ipv6StaticV6Dns2             types.String `tfsdk:"ipv6_static_v6_dns2"`
 	OspfSettingsArea             types.String `tfsdk:"ospf_settings_area"`
 	OspfSettingsCost             types.Int64  `tfsdk:"ospf_settings_cost"`
 	OspfSettingsIsPassiveEnabled types.Bool   `tfsdk:"ospf_settings_is_passive_enabled"`
@@ -77,6 +87,11 @@ func (data *DataSourceSwitchStackRoutingInterfaces) fromBody(ctx context.Context
 		parent := &data
 		data := DataSourceSwitchStackRoutingInterfacesItems{}
 		data.Id = types.StringValue(res.Get("interfaceId").String())
+		if value := res.Get("candidateUplinkV4"); value.Exists() && value.Value() != nil {
+			data.CandidateUplinkV4 = types.BoolValue(value.Bool())
+		} else {
+			data.CandidateUplinkV4 = types.BoolNull()
+		}
 		if value := res.Get("defaultGateway"); value.Exists() && value.Value() != nil {
 			data.DefaultGateway = types.StringValue(value.String())
 		} else {
@@ -86,6 +101,11 @@ func (data *DataSourceSwitchStackRoutingInterfaces) fromBody(ctx context.Context
 			data.InterfaceIp = types.StringValue(value.String())
 		} else {
 			data.InterfaceIp = types.StringNull()
+		}
+		if value := res.Get("isSwitchDefaultGateway"); value.Exists() && value.Value() != nil {
+			data.IsSwitchDefaultGateway = types.BoolValue(value.Bool())
+		} else {
+			data.IsSwitchDefaultGateway = types.BoolNull()
 		}
 		if value := res.Get("mode"); value.Exists() && value.Value() != nil {
 			data.Mode = types.StringValue(value.String())
@@ -102,6 +122,16 @@ func (data *DataSourceSwitchStackRoutingInterfaces) fromBody(ctx context.Context
 		} else {
 			data.Name = types.StringNull()
 		}
+		if value := res.Get("staticV4Dns1"); value.Exists() && value.Value() != nil {
+			data.StaticV4Dns1 = types.StringValue(value.String())
+		} else {
+			data.StaticV4Dns1 = types.StringNull()
+		}
+		if value := res.Get("staticV4Dns2"); value.Exists() && value.Value() != nil {
+			data.StaticV4Dns2 = types.StringValue(value.String())
+		} else {
+			data.StaticV4Dns2 = types.StringNull()
+		}
 		if value := res.Get("subnet"); value.Exists() && value.Value() != nil {
 			data.Subnet = types.StringValue(value.String())
 		} else {
@@ -111,6 +141,16 @@ func (data *DataSourceSwitchStackRoutingInterfaces) fromBody(ctx context.Context
 			data.SwitchPortId = types.StringValue(value.String())
 		} else {
 			data.SwitchPortId = types.StringNull()
+		}
+		if value := res.Get("uplinkV4"); value.Exists() && value.Value() != nil {
+			data.UplinkV4 = types.BoolValue(value.Bool())
+		} else {
+			data.UplinkV4 = types.BoolNull()
+		}
+		if value := res.Get("uplinkV6"); value.Exists() && value.Value() != nil {
+			data.UplinkV6 = types.BoolValue(value.Bool())
+		} else {
+			data.UplinkV6 = types.BoolNull()
 		}
 		if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 			data.VlanId = types.Int64Value(value.Int())
@@ -127,15 +167,35 @@ func (data *DataSourceSwitchStackRoutingInterfaces) fromBody(ctx context.Context
 		} else {
 			data.Ipv6AssignmentMode = types.StringNull()
 		}
+		if value := res.Get("ipv6.candidateUplink"); value.Exists() && value.Value() != nil {
+			data.Ipv6CandidateUplink = types.BoolValue(value.Bool())
+		} else {
+			data.Ipv6CandidateUplink = types.BoolNull()
+		}
 		if value := res.Get("ipv6.gateway"); value.Exists() && value.Value() != nil {
 			data.Ipv6Gateway = types.StringValue(value.String())
 		} else {
 			data.Ipv6Gateway = types.StringNull()
 		}
+		if value := res.Get("ipv6.isSwitchDefaultGateway"); value.Exists() && value.Value() != nil {
+			data.Ipv6IsSwitchDefaultGateway = types.BoolValue(value.Bool())
+		} else {
+			data.Ipv6IsSwitchDefaultGateway = types.BoolNull()
+		}
 		if value := res.Get("ipv6.prefix"); value.Exists() && value.Value() != nil {
 			data.Ipv6Prefix = types.StringValue(value.String())
 		} else {
 			data.Ipv6Prefix = types.StringNull()
+		}
+		if value := res.Get("ipv6.staticV6Dns1"); value.Exists() && value.Value() != nil {
+			data.Ipv6StaticV6Dns1 = types.StringValue(value.String())
+		} else {
+			data.Ipv6StaticV6Dns1 = types.StringNull()
+		}
+		if value := res.Get("ipv6.staticV6Dns2"); value.Exists() && value.Value() != nil {
+			data.Ipv6StaticV6Dns2 = types.StringValue(value.String())
+		} else {
+			data.Ipv6StaticV6Dns2 = types.StringNull()
 		}
 		if value := res.Get("ospfSettings.area"); value.Exists() && value.Value() != nil {
 			data.OspfSettingsArea = types.StringValue(value.String())
