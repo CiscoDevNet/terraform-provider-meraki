@@ -64,7 +64,7 @@ func (r *SwitchRoutingInterfacesResource) Metadata(ctx context.Context, req reso
 func (r *SwitchRoutingInterfacesResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Routing Interface` configuration in bulk.").AddBulkResourceIds("name").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Routing Interface` configuration in bulk.").AddBulkResourceIds("name").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -94,12 +94,20 @@ func (r *SwitchRoutingInterfacesResource) Schema(ctx context.Context, req resour
 								stringplanmodifier.UseStateForUnknown(),
 							},
 						},
+						"candidate_uplink_v4": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("When true, this interface is a UAC candidate for IPv4 Uplink.").String,
+							Optional:            true,
+						},
 						"default_gateway": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The next hop for any traffic that isn`t going to a directly connected subnet or over a static route. This IP address must exist in a subnet with a routed interface. Required if this is the first IPv4 interface.").String,
 							Optional:            true,
 						},
 						"interface_ip": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IP address this switch will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.").String,
+							Optional:            true,
+						},
+						"is_switch_default_gateway": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("When true, the switch uses the IPv4 uplink gateway as its IPv4 default gateway. This can only be set if the interface is designated as the IPv4 uplink.").String,
 							Optional:            true,
 						},
 						"mode": schema.StringAttribute{
@@ -120,12 +128,28 @@ func (r *SwitchRoutingInterfacesResource) Schema(ctx context.Context, req resour
 							MarkdownDescription: helpers.NewAttributeDescription("A friendly name or description for the interface or VLAN.").String,
 							Required:            true,
 						},
+						"static_v4_dns1": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Primary IPv4 DNS server address").String,
+							Optional:            true,
+						},
+						"static_v4_dns2": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Secondary IPv4 DNS server address").String,
+							Optional:            true,
+						},
 						"subnet": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).").String,
 							Optional:            true,
 						},
 						"switch_port_id": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Switch Port ID when in Routed mode (CS 17.18 or higher required)").String,
+							Optional:            true,
+						},
+						"uplink_v4": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("When true, this interface is used as static IPv4 uplink.").String,
+							Optional:            true,
+						},
+						"uplink_v6": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("When true, this interface is used as static IPv6 uplink.").String,
 							Optional:            true,
 						},
 						"vlan_id": schema.Int64Attribute{
@@ -140,12 +164,28 @@ func (r *SwitchRoutingInterfacesResource) Schema(ctx context.Context, req resour
 							MarkdownDescription: helpers.NewAttributeDescription("The IPv6 assignment mode for the interface. Can be either `eui-64` or `static`.").String,
 							Optional:            true,
 						},
+						"ipv6_candidate_uplink": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("When true, this interface is a UAC candidate for IPv6 Uplink.").String,
+							Optional:            true,
+						},
 						"ipv6_gateway": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IPv6 default gateway of the interface. Required if prefix is defined and this is the first interface with IPv6 configured for the switch.").String,
 							Optional:            true,
 						},
+						"ipv6_is_switch_default_gateway": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("When true, the switch uses the IPv6 uplink gateway as its IPv6 default gateway. This can only be set if the interface is designated as the IPv6 uplink.").String,
+							Optional:            true,
+						},
 						"ipv6_prefix": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IPv6 prefix of the interface. Required if IPv6 object is included.").String,
+							Optional:            true,
+						},
+						"ipv6_static_v6_dns1": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Primary IPv6 DNS server address").String,
+							Optional:            true,
+						},
+						"ipv6_static_v6_dns2": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Secondary IPv6 DNS server address").String,
 							Optional:            true,
 						},
 						"ospf_settings_area": schema.StringAttribute{

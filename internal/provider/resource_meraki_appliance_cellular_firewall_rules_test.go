@@ -63,6 +63,9 @@ func TestAccMerakiApplianceCellularFirewallRules(t *testing.T) {
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceCellularFirewallRulesPrerequisitesConfig + testAccApplianceCellularFirewallRulesConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -145,5 +148,34 @@ func testAccMerakiApplianceCellularFirewallRulesConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccApplianceCellularFirewallRulesConfigAdditional0 = `
+resource "meraki_organization_policy_object" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = "test_policy_object"
+  category        = "network"
+  type            = "cidr"
+  cidr            = "10.10.10.1"
+}
+resource "meraki_organization_policy_object_group" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = "test_policy_group"
+  category        = "NetworkObjectGroup"
+  object_ids      = [meraki_organization_policy_object.test.id]
+}
+resource "meraki_appliance_cellular_firewall_rules" "test" {
+  network_id = meraki_network.test.id
+  rules = [{
+    comment        = "Policy object based rule"
+    dest_cidr      = "GRP(${meraki_organization_policy_object_group.test.id}),OBJ(${meraki_organization_policy_object.test.id})"
+    dest_port      = "443"
+    policy         = "allow"
+    protocol       = "tcp"
+    src_cidr       = "Any"
+    src_port       = "Any"
+    syslog_enabled = false
+  }]
+}
+`
 
 // End of section. //template:end testAccConfigAdditional

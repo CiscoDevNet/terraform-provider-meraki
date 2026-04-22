@@ -4,29 +4,40 @@ page_title: "meraki_switch_routing_interface Resource - terraform-provider-merak
 subcategory: "Switches"
 description: |-
   This resource can manage the Switch Routing Interface configuration.
+  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_switch_routing_interface (Resource)
 
 This resource can manage the `Switch Routing Interface` configuration.
 
+~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
+
 ## Example Usage
 
 ```terraform
 resource "meraki_switch_routing_interface" "example" {
-  serial               = "1234-ABCD-1234"
-  default_gateway      = "192.168.1.1"
-  interface_ip         = "192.168.1.2"
-  mode                 = "vlan"
-  multicast_routing    = "disabled"
-  name                 = "L3 interface"
-  subnet               = "192.168.1.0/24"
-  vlan_id              = 100
-  ipv6_address         = "1:2:3:4::1"
-  ipv6_assignment_mode = "static"
-  ipv6_gateway         = "1:2:3:4::2"
-  ipv6_prefix          = "1:2:3:4::/64"
-  ospf_settings_area   = "ospfDisabled"
+  serial                = "1234-ABCD-1234"
+  candidate_uplink_v4   = true
+  default_gateway       = "192.168.1.1"
+  interface_ip          = "192.168.1.2"
+  mode                  = "vlan"
+  multicast_routing     = "disabled"
+  name                  = "L3 interface"
+  static_v4_dns1        = "8.8.8.8"
+  static_v4_dns2        = "8.8.4.4"
+  subnet                = "192.168.1.0/24"
+  uplink_v4             = true
+  uplink_v6             = true
+  vlan_id               = 100
+  ipv6_address          = "1:2:3:4::1"
+  ipv6_assignment_mode  = "static"
+  ipv6_candidate_uplink = true
+  ipv6_gateway          = "1:2:3:4::2"
+  ipv6_prefix           = "1:2:3:4::/64"
+  ipv6_static_v6_dns1   = "2001:db8::1234"
+  ipv6_static_v6_dns2   = "2001:db8::8888"
+  ospf_settings_area    = "ospfDisabled"
 }
 ```
 
@@ -40,12 +51,18 @@ resource "meraki_switch_routing_interface" "example" {
 
 ### Optional
 
+- `candidate_uplink_v4` (Boolean) When true, this interface is a UAC candidate for IPv4 Uplink.
 - `default_gateway` (String) The next hop for any traffic that isn`t going to a directly connected subnet or over a static route. This IP address must exist in a subnet with a routed interface. Required if this is the first IPv4 interface.
 - `interface_ip` (String) The IP address this switch will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.
 - `ipv6_address` (String) The IPv6 address of the interface. Required if assignmentMode is `static`. Must not be included if assignmentMode is `eui-64`.
 - `ipv6_assignment_mode` (String) The IPv6 assignment mode for the interface. Can be either `eui-64` or `static`.
+- `ipv6_candidate_uplink` (Boolean) When true, this interface is a UAC candidate for IPv6 Uplink.
 - `ipv6_gateway` (String) The IPv6 default gateway of the interface. Required if prefix is defined and this is the first interface with IPv6 configured for the switch.
+- `ipv6_is_switch_default_gateway` (Boolean) When true, the switch uses the IPv6 uplink gateway as its IPv6 default gateway. This can only be set if the interface is designated as the IPv6 uplink.
 - `ipv6_prefix` (String) The IPv6 prefix of the interface. Required if IPv6 object is included.
+- `ipv6_static_v6_dns1` (String) Primary IPv6 DNS server address
+- `ipv6_static_v6_dns2` (String) Secondary IPv6 DNS server address
+- `is_switch_default_gateway` (Boolean) When true, the switch uses the IPv4 uplink gateway as its IPv4 default gateway. This can only be set if the interface is designated as the IPv4 uplink.
 - `mode` (String) L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.
   - Choices: `loopback`, `routed`, `vlan`
 - `multicast_routing` (String) Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.
@@ -55,8 +72,12 @@ resource "meraki_switch_routing_interface" "example" {
 - `ospf_settings_is_passive_enabled` (Boolean) When enabled, OSPF will not run on the interface, but the subnet will still be advertised.
 - `ospf_settings_network_type` (String) OSPF network type
   - Choices: `broadcast`, `point-to-point`
+- `static_v4_dns1` (String) Primary IPv4 DNS server address
+- `static_v4_dns2` (String) Secondary IPv4 DNS server address
 - `subnet` (String) The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).
 - `switch_port_id` (String) Switch Port ID when in Routed mode (CS 17.18 or higher required)
+- `uplink_v4` (Boolean) When true, this interface is used as static IPv4 uplink.
+- `uplink_v6` (Boolean) When true, this interface is used as static IPv6 uplink.
 - `vlan_id` (Number) The VLAN this routed interface is on. VLAN must be between 1 and 4094.
 - `vrf_name` (String) The name of the VRF this interface belongs to.
 

@@ -37,6 +37,7 @@ data "meraki_switch_organization_ports_profiles" "example" {
 
 Read-Only:
 
+- `authentication_host_mode` (String) The host mode override for RADIUS-based port profile application. Supported values are `single-host` and `multi-host`.
 - `description` (String) Text describing the profile.
 - `id` (String) The id of the object
 - `is_organization_wide` (Boolean) The scope of the profile whether it is organization level or network level

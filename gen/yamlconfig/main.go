@@ -40,8 +40,10 @@ type YamlConfig struct {
 	ResBulkDescription  string                `yaml:"res_bulk_description,omitempty"`
 	DocCategory         string                `yaml:"doc_category,omitempty"`
 	ExcludeTest         bool                  `yaml:"exclude_test,omitempty"`
-	SkipMinimumTest     bool                  `yaml:"skip_minimum_test,omitempty"`
-	TestTags            []string              `yaml:"test_tags,omitempty,flow"`
+	SkipMinimumTest        bool                  `yaml:"skip_minimum_test,omitempty"`
+	SkipBulkResourceTest   bool                  `yaml:"skip_bulk_resource_test,omitempty"`
+	SkipBulkDataSourceTest bool                  `yaml:"skip_bulk_data_source_test,omitempty"`
+	TestTags               []string              `yaml:"test_tags,omitempty,flow"`
 	TestVariables       []string              `yaml:"test_variables,omitempty,flow"`
 	IgnoreAttributes    []string              `yaml:"ignore_attributes,omitempty,flow"`
 	Attributes          []YamlConfigAttribute `yaml:"attributes,omitempty"`
@@ -76,8 +78,10 @@ type YamlConfigP struct {
 	ResBulkDescription  *string                 `yaml:"res_bulk_description,omitempty"`
 	DocCategory         *string                 `yaml:"doc_category,omitempty"`
 	ExcludeTest         *bool                   `yaml:"exclude_test,omitempty"`
-	SkipMinimumTest     *bool                   `yaml:"skip_minimum_test,omitempty"`
-	TestTags            *[]string               `yaml:"test_tags,omitempty,flow"`
+	SkipMinimumTest        *bool                   `yaml:"skip_minimum_test,omitempty"`
+	SkipBulkResourceTest   *bool                   `yaml:"skip_bulk_resource_test,omitempty"`
+	SkipBulkDataSourceTest *bool                   `yaml:"skip_bulk_data_source_test,omitempty"`
+	TestTags               *[]string               `yaml:"test_tags,omitempty,flow"`
 	TestVariables       *[]string               `yaml:"test_variables,omitempty,flow"`
 	IgnoreAttributes    *[]string               `yaml:"ignore_attributes,omitempty,flow"`
 	Attributes          *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
@@ -770,6 +774,12 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.SkipMinimumTest != nil {
 		new.SkipMinimumTest = existing.SkipMinimumTest
+	}
+	if existing.SkipBulkResourceTest != nil {
+		new.SkipBulkResourceTest = existing.SkipBulkResourceTest
+	}
+	if existing.SkipBulkDataSourceTest != nil {
+		new.SkipBulkDataSourceTest = existing.SkipBulkDataSourceTest
 	}
 	if existing.TestTags != nil {
 		new.TestTags = existing.TestTags

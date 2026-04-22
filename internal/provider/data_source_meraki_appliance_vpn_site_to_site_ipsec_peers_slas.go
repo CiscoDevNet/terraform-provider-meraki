@@ -70,6 +70,10 @@ func (d *ApplianceVPNSiteToSiteIPsecPeersSLAsDataSource) Schema(ctx context.Cont
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: "SLA policy ID",
+							Computed:            true,
+						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: "SLA policy name",
 							Computed:            true,

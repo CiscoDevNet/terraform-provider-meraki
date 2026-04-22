@@ -1,5 +1,13 @@
 ## Unreleased
 
+- Add support for policy objects (`OBJ(<id>)`) and policy object groups (`GRP(<id>)`) in `src_cidr` and `dest_cidr` fields of `meraki_appliance_l3_firewall_rules` and `meraki_appliance_cellular_firewall_rules` resources.[link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/201)
+- Add `candidate_uplink_v4`, `is_switch_default_gateway`, `static_v4_dns1`, `static_v4_dns2`, `uplink_v4`, `uplink_v6`, `ipv6_candidate_uplink`, `ipv6_is_switch_default_gateway`, `ipv6_static_v6_dns1`, `ipv6_static_v6_dns2` attributes to `meraki_switch_routing_interface` resources and data sources
+- Add `candidate_uplink_v4`, `is_switch_default_gateway`, `static_v4_dns1`, `static_v4_dns2`, `uplink_v4`, `uplink_v6`, `ipv6_candidate_uplink`, `ipv6_is_switch_default_gateway`, `ipv6_static_v6_dns1`, `ipv6_static_v6_dns2` attributes to `meraki_switch_stack_routing_interface` resources and data sources
+- Add `authentication_host_mode` attribute to `meraki_switch_organization_ports_profile` resource and data sources
+- Add `items.id` attribute to `meraki_appliance_vpn_site_to_site_ipsec_peers_slas` resource and data source
+
+## 1.10.0
+
 - Mark sensitive attributes (passwords, secrets, PSKs, passphrases, tokens, SNMP community strings) to prevent exposure in plan output and logs
 - Add Software Bill of Materials (SBOM) generation in SPDX and CycloneDX formats during releases
 - Add `sso_login_url` attribute to `meraki_organization_saml_idp` resources and data sources

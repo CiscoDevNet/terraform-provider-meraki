@@ -35,18 +35,28 @@ import (
 type SwitchRoutingInterface struct {
 	Id                           types.String `tfsdk:"id"`
 	Serial                       types.String `tfsdk:"serial"`
+	CandidateUplinkV4            types.Bool   `tfsdk:"candidate_uplink_v4"`
 	DefaultGateway               types.String `tfsdk:"default_gateway"`
 	InterfaceIp                  types.String `tfsdk:"interface_ip"`
+	IsSwitchDefaultGateway       types.Bool   `tfsdk:"is_switch_default_gateway"`
 	Mode                         types.String `tfsdk:"mode"`
 	MulticastRouting             types.String `tfsdk:"multicast_routing"`
 	Name                         types.String `tfsdk:"name"`
+	StaticV4Dns1                 types.String `tfsdk:"static_v4_dns1"`
+	StaticV4Dns2                 types.String `tfsdk:"static_v4_dns2"`
 	Subnet                       types.String `tfsdk:"subnet"`
 	SwitchPortId                 types.String `tfsdk:"switch_port_id"`
+	UplinkV4                     types.Bool   `tfsdk:"uplink_v4"`
+	UplinkV6                     types.Bool   `tfsdk:"uplink_v6"`
 	VlanId                       types.Int64  `tfsdk:"vlan_id"`
 	Ipv6Address                  types.String `tfsdk:"ipv6_address"`
 	Ipv6AssignmentMode           types.String `tfsdk:"ipv6_assignment_mode"`
+	Ipv6CandidateUplink          types.Bool   `tfsdk:"ipv6_candidate_uplink"`
 	Ipv6Gateway                  types.String `tfsdk:"ipv6_gateway"`
+	Ipv6IsSwitchDefaultGateway   types.Bool   `tfsdk:"ipv6_is_switch_default_gateway"`
 	Ipv6Prefix                   types.String `tfsdk:"ipv6_prefix"`
+	Ipv6StaticV6Dns1             types.String `tfsdk:"ipv6_static_v6_dns1"`
+	Ipv6StaticV6Dns2             types.String `tfsdk:"ipv6_static_v6_dns2"`
 	OspfSettingsArea             types.String `tfsdk:"ospf_settings_area"`
 	OspfSettingsCost             types.Int64  `tfsdk:"ospf_settings_cost"`
 	OspfSettingsIsPassiveEnabled types.Bool   `tfsdk:"ospf_settings_is_passive_enabled"`
@@ -68,11 +78,17 @@ func (data SwitchRoutingInterface) getPath() string {
 
 func (data SwitchRoutingInterface) toBody(ctx context.Context, state SwitchRoutingInterface) string {
 	body := ""
-	if !data.DefaultGateway.IsNull() && data.DefaultGateway != state.DefaultGateway {
+	if !data.CandidateUplinkV4.IsNull() {
+		body, _ = sjson.Set(body, "candidateUplinkV4", data.CandidateUplinkV4.ValueBool())
+	}
+	if !data.DefaultGateway.IsNull() {
 		body, _ = sjson.Set(body, "defaultGateway", data.DefaultGateway.ValueString())
 	}
 	if !data.InterfaceIp.IsNull() {
 		body, _ = sjson.Set(body, "interfaceIp", data.InterfaceIp.ValueString())
+	}
+	if !data.IsSwitchDefaultGateway.IsNull() {
+		body, _ = sjson.Set(body, "isSwitchDefaultGateway", data.IsSwitchDefaultGateway.ValueBool())
 	}
 	if !data.Mode.IsNull() {
 		body, _ = sjson.Set(body, "mode", data.Mode.ValueString())
@@ -83,11 +99,23 @@ func (data SwitchRoutingInterface) toBody(ctx context.Context, state SwitchRouti
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
+	if !data.StaticV4Dns1.IsNull() {
+		body, _ = sjson.Set(body, "staticV4Dns1", data.StaticV4Dns1.ValueString())
+	}
+	if !data.StaticV4Dns2.IsNull() {
+		body, _ = sjson.Set(body, "staticV4Dns2", data.StaticV4Dns2.ValueString())
+	}
 	if !data.Subnet.IsNull() {
 		body, _ = sjson.Set(body, "subnet", data.Subnet.ValueString())
 	}
 	if !data.SwitchPortId.IsNull() {
 		body, _ = sjson.Set(body, "switchPortId", data.SwitchPortId.ValueString())
+	}
+	if !data.UplinkV4.IsNull() {
+		body, _ = sjson.Set(body, "uplinkV4", data.UplinkV4.ValueBool())
+	}
+	if !data.UplinkV6.IsNull() {
+		body, _ = sjson.Set(body, "uplinkV6", data.UplinkV6.ValueBool())
 	}
 	if !data.VlanId.IsNull() {
 		body, _ = sjson.Set(body, "vlanId", data.VlanId.ValueInt64())
@@ -98,11 +126,23 @@ func (data SwitchRoutingInterface) toBody(ctx context.Context, state SwitchRouti
 	if !data.Ipv6AssignmentMode.IsNull() {
 		body, _ = sjson.Set(body, "ipv6.assignmentMode", data.Ipv6AssignmentMode.ValueString())
 	}
+	if !data.Ipv6CandidateUplink.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.candidateUplink", data.Ipv6CandidateUplink.ValueBool())
+	}
 	if !data.Ipv6Gateway.IsNull() {
 		body, _ = sjson.Set(body, "ipv6.gateway", data.Ipv6Gateway.ValueString())
 	}
+	if !data.Ipv6IsSwitchDefaultGateway.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.isSwitchDefaultGateway", data.Ipv6IsSwitchDefaultGateway.ValueBool())
+	}
 	if !data.Ipv6Prefix.IsNull() {
 		body, _ = sjson.Set(body, "ipv6.prefix", data.Ipv6Prefix.ValueString())
+	}
+	if !data.Ipv6StaticV6Dns1.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.staticV6Dns1", data.Ipv6StaticV6Dns1.ValueString())
+	}
+	if !data.Ipv6StaticV6Dns2.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.staticV6Dns2", data.Ipv6StaticV6Dns2.ValueString())
 	}
 	if !data.OspfSettingsArea.IsNull() {
 		body, _ = sjson.Set(body, "ospfSettings.area", data.OspfSettingsArea.ValueString())
@@ -127,6 +167,11 @@ func (data SwitchRoutingInterface) toBody(ctx context.Context, state SwitchRouti
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchRoutingInterface) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("candidateUplinkV4"); value.Exists() && value.Value() != nil {
+		data.CandidateUplinkV4 = types.BoolValue(value.Bool())
+	} else {
+		data.CandidateUplinkV4 = types.BoolNull()
+	}
 	if value := res.Get("defaultGateway"); value.Exists() && value.Value() != nil {
 		data.DefaultGateway = types.StringValue(value.String())
 	} else {
@@ -136,6 +181,11 @@ func (data *SwitchRoutingInterface) fromBody(ctx context.Context, res meraki.Res
 		data.InterfaceIp = types.StringValue(value.String())
 	} else {
 		data.InterfaceIp = types.StringNull()
+	}
+	if value := res.Get("isSwitchDefaultGateway"); value.Exists() && value.Value() != nil {
+		data.IsSwitchDefaultGateway = types.BoolValue(value.Bool())
+	} else {
+		data.IsSwitchDefaultGateway = types.BoolNull()
 	}
 	if value := res.Get("mode"); value.Exists() && value.Value() != nil {
 		data.Mode = types.StringValue(value.String())
@@ -152,6 +202,16 @@ func (data *SwitchRoutingInterface) fromBody(ctx context.Context, res meraki.Res
 	} else {
 		data.Name = types.StringNull()
 	}
+	if value := res.Get("staticV4Dns1"); value.Exists() && value.Value() != nil {
+		data.StaticV4Dns1 = types.StringValue(value.String())
+	} else {
+		data.StaticV4Dns1 = types.StringNull()
+	}
+	if value := res.Get("staticV4Dns2"); value.Exists() && value.Value() != nil {
+		data.StaticV4Dns2 = types.StringValue(value.String())
+	} else {
+		data.StaticV4Dns2 = types.StringNull()
+	}
 	if value := res.Get("subnet"); value.Exists() && value.Value() != nil {
 		data.Subnet = types.StringValue(value.String())
 	} else {
@@ -161,6 +221,16 @@ func (data *SwitchRoutingInterface) fromBody(ctx context.Context, res meraki.Res
 		data.SwitchPortId = types.StringValue(value.String())
 	} else {
 		data.SwitchPortId = types.StringNull()
+	}
+	if value := res.Get("uplinkV4"); value.Exists() && value.Value() != nil {
+		data.UplinkV4 = types.BoolValue(value.Bool())
+	} else {
+		data.UplinkV4 = types.BoolNull()
+	}
+	if value := res.Get("uplinkV6"); value.Exists() && value.Value() != nil {
+		data.UplinkV6 = types.BoolValue(value.Bool())
+	} else {
+		data.UplinkV6 = types.BoolNull()
 	}
 	if value := res.Get("vlanId"); value.Exists() && value.Value() != nil {
 		data.VlanId = types.Int64Value(value.Int())
@@ -177,15 +247,35 @@ func (data *SwitchRoutingInterface) fromBody(ctx context.Context, res meraki.Res
 	} else {
 		data.Ipv6AssignmentMode = types.StringNull()
 	}
+	if value := res.Get("ipv6.candidateUplink"); value.Exists() && value.Value() != nil {
+		data.Ipv6CandidateUplink = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6CandidateUplink = types.BoolNull()
+	}
 	if value := res.Get("ipv6.gateway"); value.Exists() && value.Value() != nil {
 		data.Ipv6Gateway = types.StringValue(value.String())
 	} else {
 		data.Ipv6Gateway = types.StringNull()
 	}
+	if value := res.Get("ipv6.isSwitchDefaultGateway"); value.Exists() && value.Value() != nil {
+		data.Ipv6IsSwitchDefaultGateway = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6IsSwitchDefaultGateway = types.BoolNull()
+	}
 	if value := res.Get("ipv6.prefix"); value.Exists() && value.Value() != nil {
 		data.Ipv6Prefix = types.StringValue(value.String())
 	} else {
 		data.Ipv6Prefix = types.StringNull()
+	}
+	if value := res.Get("ipv6.staticV6Dns1"); value.Exists() && value.Value() != nil {
+		data.Ipv6StaticV6Dns1 = types.StringValue(value.String())
+	} else {
+		data.Ipv6StaticV6Dns1 = types.StringNull()
+	}
+	if value := res.Get("ipv6.staticV6Dns2"); value.Exists() && value.Value() != nil {
+		data.Ipv6StaticV6Dns2 = types.StringValue(value.String())
+	} else {
+		data.Ipv6StaticV6Dns2 = types.StringNull()
 	}
 	if value := res.Get("ospfSettings.area"); value.Exists() && value.Value() != nil {
 		data.OspfSettingsArea = types.StringValue(value.String())
@@ -223,6 +313,11 @@ func (data *SwitchRoutingInterface) fromBody(ctx context.Context, res meraki.Res
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *SwitchRoutingInterface) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("candidateUplinkV4"); value.Exists() && !data.CandidateUplinkV4.IsNull() {
+		data.CandidateUplinkV4 = types.BoolValue(value.Bool())
+	} else {
+		data.CandidateUplinkV4 = types.BoolNull()
+	}
 	if value := res.Get("defaultGateway"); value.Exists() && !data.DefaultGateway.IsNull() {
 		data.DefaultGateway = types.StringValue(value.String())
 	} else {
@@ -232,6 +327,11 @@ func (data *SwitchRoutingInterface) fromBodyPartial(ctx context.Context, res mer
 		data.InterfaceIp = types.StringValue(value.String())
 	} else {
 		data.InterfaceIp = types.StringNull()
+	}
+	if value := res.Get("isSwitchDefaultGateway"); value.Exists() && !data.IsSwitchDefaultGateway.IsNull() {
+		data.IsSwitchDefaultGateway = types.BoolValue(value.Bool())
+	} else {
+		data.IsSwitchDefaultGateway = types.BoolNull()
 	}
 	if value := res.Get("mode"); value.Exists() && !data.Mode.IsNull() {
 		data.Mode = types.StringValue(value.String())
@@ -248,6 +348,16 @@ func (data *SwitchRoutingInterface) fromBodyPartial(ctx context.Context, res mer
 	} else {
 		data.Name = types.StringNull()
 	}
+	if value := res.Get("staticV4Dns1"); value.Exists() && !data.StaticV4Dns1.IsNull() {
+		data.StaticV4Dns1 = types.StringValue(value.String())
+	} else {
+		data.StaticV4Dns1 = types.StringNull()
+	}
+	if value := res.Get("staticV4Dns2"); value.Exists() && !data.StaticV4Dns2.IsNull() {
+		data.StaticV4Dns2 = types.StringValue(value.String())
+	} else {
+		data.StaticV4Dns2 = types.StringNull()
+	}
 	if value := res.Get("subnet"); value.Exists() && !data.Subnet.IsNull() {
 		data.Subnet = types.StringValue(value.String())
 	} else {
@@ -257,6 +367,16 @@ func (data *SwitchRoutingInterface) fromBodyPartial(ctx context.Context, res mer
 		data.SwitchPortId = types.StringValue(value.String())
 	} else {
 		data.SwitchPortId = types.StringNull()
+	}
+	if value := res.Get("uplinkV4"); value.Exists() && !data.UplinkV4.IsNull() {
+		data.UplinkV4 = types.BoolValue(value.Bool())
+	} else {
+		data.UplinkV4 = types.BoolNull()
+	}
+	if value := res.Get("uplinkV6"); value.Exists() && !data.UplinkV6.IsNull() {
+		data.UplinkV6 = types.BoolValue(value.Bool())
+	} else {
+		data.UplinkV6 = types.BoolNull()
 	}
 	if value := res.Get("vlanId"); value.Exists() && !data.VlanId.IsNull() {
 		data.VlanId = types.Int64Value(value.Int())
@@ -273,15 +393,35 @@ func (data *SwitchRoutingInterface) fromBodyPartial(ctx context.Context, res mer
 	} else {
 		data.Ipv6AssignmentMode = types.StringNull()
 	}
+	if value := res.Get("ipv6.candidateUplink"); value.Exists() && !data.Ipv6CandidateUplink.IsNull() {
+		data.Ipv6CandidateUplink = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6CandidateUplink = types.BoolNull()
+	}
 	if value := res.Get("ipv6.gateway"); value.Exists() && !data.Ipv6Gateway.IsNull() {
 		data.Ipv6Gateway = types.StringValue(value.String())
 	} else {
 		data.Ipv6Gateway = types.StringNull()
 	}
+	if value := res.Get("ipv6.isSwitchDefaultGateway"); value.Exists() && !data.Ipv6IsSwitchDefaultGateway.IsNull() {
+		data.Ipv6IsSwitchDefaultGateway = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6IsSwitchDefaultGateway = types.BoolNull()
+	}
 	if value := res.Get("ipv6.prefix"); value.Exists() && !data.Ipv6Prefix.IsNull() {
 		data.Ipv6Prefix = types.StringValue(value.String())
 	} else {
 		data.Ipv6Prefix = types.StringNull()
+	}
+	if value := res.Get("ipv6.staticV6Dns1"); value.Exists() && !data.Ipv6StaticV6Dns1.IsNull() {
+		data.Ipv6StaticV6Dns1 = types.StringValue(value.String())
+	} else {
+		data.Ipv6StaticV6Dns1 = types.StringNull()
+	}
+	if value := res.Get("ipv6.staticV6Dns2"); value.Exists() && !data.Ipv6StaticV6Dns2.IsNull() {
+		data.Ipv6StaticV6Dns2 = types.StringValue(value.String())
+	} else {
+		data.Ipv6StaticV6Dns2 = types.StringNull()
 	}
 	if value := res.Get("ospfSettings.area"); value.Exists() && !data.OspfSettingsArea.IsNull() {
 		data.OspfSettingsArea = types.StringValue(value.String())

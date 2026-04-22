@@ -28,7 +28,7 @@ attributes:
       - model_name: destCidr
         type: String
         mandatory: true
-        description: Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `any`
+        description: Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN), `any`, policy objects using format `OBJ(<policy_object_id>)`, or policy object groups using format `GRP(<policy_object_group_id>)`
         example: 192.168.1.0/24
       - model_name: destPort
         type: String
@@ -50,7 +50,7 @@ attributes:
       - model_name: srcCidr
         type: String
         mandatory: true
-        description: 'Comma-separated list of source IP address(es) (in IP or CIDR notation), or `any` (note: FQDN not supported for source addresses)'
+        description: 'Comma-separated list of source IP address(es) (in IP or CIDR notation), `any` (note: FQDN not supported for source addresses), policy objects using format `OBJ(<policy_object_id>)`, or policy object groups using format `GRP(<policy_object_group_id>)`'
         example: Any
       - model_name: srcPort
         type: String
@@ -70,3 +70,31 @@ test_prerequisites: |
     name            = var.test_network
     product_types   = ["appliance"]
   }
+additional_tests:
+  - |-
+    resource "meraki_organization_policy_object" "test" {
+      organization_id = data.meraki_organization.test.id
+      name            = "test_policy_object"
+      category        = "network"
+      type            = "cidr"
+      cidr            = "10.10.10.1"
+    }
+    resource "meraki_organization_policy_object_group" "test" {
+      organization_id = data.meraki_organization.test.id
+      name            = "test_policy_group"
+      category        = "NetworkObjectGroup"
+      object_ids      = [meraki_organization_policy_object.test.id]
+    }
+    resource "meraki_appliance_cellular_firewall_rules" "test" {
+      network_id = meraki_network.test.id
+      rules = [{
+        comment        = "Policy object based rule"
+        dest_cidr      = "GRP(${meraki_organization_policy_object_group.test.id}),OBJ(${meraki_organization_policy_object.test.id})"
+        dest_port      = "443"
+        policy         = "allow"
+        protocol       = "tcp"
+        src_cidr       = "Any"
+        src_port       = "Any"
+        syslog_enabled = false
+      }]
+    }

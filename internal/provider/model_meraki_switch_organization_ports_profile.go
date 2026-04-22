@@ -43,6 +43,7 @@ type SwitchOrganizationPortsProfile struct {
 	IsOrganizationWide             types.Bool                                     `tfsdk:"is_organization_wide"`
 	Name                           types.String                                   `tfsdk:"name"`
 	NetworkId                      types.String                                   `tfsdk:"network_id"`
+	AuthenticationHostMode         types.String                                   `tfsdk:"authentication_host_mode"`
 	NetworksType                   types.String                                   `tfsdk:"networks_type"`
 	NetworksValues                 []SwitchOrganizationPortsProfileNetworksValues `tfsdk:"networks_values"`
 	PortAccessPolicyNumber         types.Int64                                    `tfsdk:"port_access_policy_number"`
@@ -97,6 +98,9 @@ func (data SwitchOrganizationPortsProfile) toBody(ctx context.Context, state Swi
 	}
 	if !data.NetworkId.IsNull() {
 		body, _ = sjson.Set(body, "networkId", data.NetworkId.ValueString())
+	}
+	if !data.AuthenticationHostMode.IsNull() {
+		body, _ = sjson.Set(body, "authentication.host.mode", data.AuthenticationHostMode.ValueString())
 	}
 	if !data.NetworksType.IsNull() {
 		body, _ = sjson.Set(body, "networks.type", data.NetworksType.ValueString())
@@ -207,6 +211,11 @@ func (data *SwitchOrganizationPortsProfile) fromBody(ctx context.Context, res me
 		data.NetworkId = types.StringValue(value.String())
 	} else {
 		data.NetworkId = types.StringNull()
+	}
+	if value := res.Get("authentication.host.mode"); value.Exists() && value.Value() != nil {
+		data.AuthenticationHostMode = types.StringValue(value.String())
+	} else {
+		data.AuthenticationHostMode = types.StringNull()
 	}
 	if value := res.Get("networks.type"); value.Exists() && value.Value() != nil {
 		data.NetworksType = types.StringValue(value.String())
@@ -362,6 +371,11 @@ func (data *SwitchOrganizationPortsProfile) fromBodyPartial(ctx context.Context,
 		data.NetworkId = types.StringValue(value.String())
 	} else {
 		data.NetworkId = types.StringNull()
+	}
+	if value := res.Get("authentication.host.mode"); value.Exists() && !data.AuthenticationHostMode.IsNull() {
+		data.AuthenticationHostMode = types.StringValue(value.String())
+	} else {
+		data.AuthenticationHostMode = types.StringNull()
 	}
 	if value := res.Get("networks.type"); value.Exists() && !data.NetworksType.IsNull() {
 		data.NetworksType = types.StringValue(value.String())

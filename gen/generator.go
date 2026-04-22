@@ -249,7 +249,11 @@ func updateDefinitions() {
 			continue
 		}
 
-		cmd := exec.Command("go", "run", "gen/definition.go", config.SpecEndpoint, config.Name)
+		args := []string{"run", "gen/definition.go", config.SpecEndpoint, config.Name}
+		if config.EarlyAccess {
+			args = append(args, "--early-access")
+		}
+		cmd := exec.Command("go", args...)
 		if out, err := cmd.CombinedOutput(); err != nil {
 			log.Fatalf("Error creating definition '%s' for endpoint '%s': %s, %+v", config.SpecEndpoint, config.Name, out, err)
 		}
@@ -308,10 +312,12 @@ func main() {
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model_data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
+				(configs[i].SkipBulkDataSourceTest && t.path == "./gen/templates/bulk/data_source_test.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/model_resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource_test.go") ||
+				(configs[i].SkipBulkResourceTest && t.path == "./gen/templates/bulk/resource_test.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.tf") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import.sh") {
 				continue
