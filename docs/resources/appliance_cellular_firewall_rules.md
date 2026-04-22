@@ -47,12 +47,12 @@ resource "meraki_appliance_cellular_firewall_rules" "example" {
 
 Required:
 
-- `dest_cidr` (String) Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `any`
+- `dest_cidr` (String) Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN), `any`, policy objects using format `OBJ(<policy_object_id>)`, or policy object groups using format `GRP(<policy_object_group_id>)`
 - `policy` (String) `allow` or `deny` traffic specified by this rule
   - Choices: `allow`, `deny`
 - `protocol` (String) The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)
   - Choices: `any`, `icmp`, `icmp6`, `tcp`, `udp`
-- `src_cidr` (String) Comma-separated list of source IP address(es) (in IP or CIDR notation), or `any` (note: FQDN not supported for source addresses)
+- `src_cidr` (String) Comma-separated list of source IP address(es) (in IP or CIDR notation), `any` (note: FQDN not supported for source addresses), policy objects using format `OBJ(<policy_object_id>)`, or policy object groups using format `GRP(<policy_object_group_id>)`
 
 Optional:
 
