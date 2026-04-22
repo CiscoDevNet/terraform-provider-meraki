@@ -5,7 +5,7 @@ put_create: true
 no_delete: true
 doc_category: Devices
 skip_minimum_test: true
-test_variables: [test_org, test_network, test_switch_1_serial]
+test_variables: [test_org, test_network, test_appliance_1_serial]
 attributes:
   - tf_name: serial
     type: String
@@ -42,9 +42,8 @@ attributes:
   - model_name: wanEnabled
     type: String
     data_path: [wan1]
-    exclude_test: true
     description: Enable or disable the interface (only for MX devices). Valid values are `enabled`, `disabled`, and `not configured`.
-    example: not configured
+    example: enabled
     enum_values: [disabled, enabled, not configured]
   - model_name: staticDns
     type: List
@@ -73,19 +72,16 @@ attributes:
   - model_name: usingStaticIp
     type: Bool
     data_path: [wan2]
-    exclude_test: true
     description: Configure the interface to have static IP settings or use DHCP.
     example: "false"
   - model_name: vlan
     type: Int64
     data_path: [wan2]
-    exclude_test: true
     description: The VLAN that management traffic should be tagged with. Applies whether usingStaticIp is true or false.
-    example: "2"
+    example: "1"
   - model_name: wanEnabled
     type: String
     data_path: [wan2]
-    exclude_test: true
     description: Enable or disable the interface (only for MX devices). Valid values are `enabled`, `disabled`, and `not configured`.
     example: enabled
     enum_values: [disabled, enabled, not configured]
@@ -103,9 +99,9 @@ test_prerequisites: |
   resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
     name            = var.test_network
-    product_types   = ["switch", "wireless"]
+    product_types   = ["switch", "wireless", "appliance"]
   }
   resource "meraki_network_device_claim" "test" {
     network_id = meraki_network.test.id
-    serials    = [var.test_switch_1_serial]
+    serials    = [var.test_appliance_1_serial]
   }

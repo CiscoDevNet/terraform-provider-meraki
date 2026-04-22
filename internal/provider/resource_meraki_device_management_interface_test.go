@@ -32,8 +32,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiDeviceManagementInterface(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan1_static_gateway_ip", "1.2.3.1"))
@@ -41,7 +41,11 @@ func TestAccMerakiDeviceManagementInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan1_static_subnet_mask", "255.255.255.0"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan1_using_static_ip", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan1_vlan", "7"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan1_wan_enabled", "enabled"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan1_static_dns.0", "1.2.3.2"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan2_using_static_ip", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan2_vlan", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_management_interface.test", "wan2_wan_enabled", "enabled"))
 
 	var steps []resource.TestStep
 	steps = append(steps, resource.TestStep{
@@ -84,18 +88,18 @@ func merakiDeviceManagementInterfaceImportStateIdFunc(resourceName string) resou
 const testAccMerakiDeviceManagementInterfacePrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
-variable "test_switch_1_serial" {}
+variable "test_appliance_1_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = var.test_network
-  product_types   = ["switch", "wireless"]
+  product_types   = ["switch", "wireless", "appliance"]
 }
 resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
-  serials    = [var.test_switch_1_serial]
+  serials    = [var.test_appliance_1_serial]
 }
 
 `
@@ -123,7 +127,11 @@ func testAccMerakiDeviceManagementInterfaceConfig_all() string {
 	config += `  wan1_static_subnet_mask = "255.255.255.0"` + "\n"
 	config += `  wan1_using_static_ip = true` + "\n"
 	config += `  wan1_vlan = 7` + "\n"
+	config += `  wan1_wan_enabled = "enabled"` + "\n"
 	config += `  wan1_static_dns = ["1.2.3.2"]` + "\n"
+	config += `  wan2_using_static_ip = false` + "\n"
+	config += `  wan2_vlan = 1` + "\n"
+	config += `  wan2_wan_enabled = "enabled"` + "\n"
 	config += `}` + "\n"
 	return config
 }
