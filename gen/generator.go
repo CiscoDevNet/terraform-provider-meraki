@@ -312,10 +312,12 @@ func main() {
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model_data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
+				(configs[i].SkipBulkDataSourceTest && t.path == "./gen/templates/bulk/data_source_test.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/model_resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource_test.go") ||
+				(configs[i].SkipBulkResourceTest && t.path == "./gen/templates/bulk/resource_test.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.tf") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import.sh") {
 				continue

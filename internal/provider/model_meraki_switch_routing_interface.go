@@ -81,7 +81,7 @@ func (data SwitchRoutingInterface) toBody(ctx context.Context, state SwitchRouti
 	if !data.CandidateUplinkV4.IsNull() {
 		body, _ = sjson.Set(body, "candidateUplinkV4", data.CandidateUplinkV4.ValueBool())
 	}
-	if !data.DefaultGateway.IsNull() && data.DefaultGateway != state.DefaultGateway {
+	if !data.DefaultGateway.IsNull() {
 		body, _ = sjson.Set(body, "defaultGateway", data.DefaultGateway.ValueString())
 	}
 	if !data.InterfaceIp.IsNull() {

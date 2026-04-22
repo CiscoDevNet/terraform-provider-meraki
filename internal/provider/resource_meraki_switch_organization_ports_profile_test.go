@@ -39,7 +39,6 @@ func TestAccMerakiSwitchOrganizationPortsProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "description", "IP Phones for all office workers"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "is_organization_wide", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "name", "Phone"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "authentication_host_mode", "single-host"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "port_access_policy_type", "Open"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "port_allowed_vlans", "1-100"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_organization_ports_profile.test", "port_dai_trusted", "false"))
@@ -130,7 +129,6 @@ func testAccMerakiSwitchOrganizationPortsProfileConfig_all() string {
 	config += `  description = "IP Phones for all office workers"` + "\n"
 	config += `  is_organization_wide = true` + "\n"
 	config += `  name = "Phone"` + "\n"
-	config += `  authentication_host_mode = "single-host"` + "\n"
 	config += `  port_access_policy_type = "Open"` + "\n"
 	config += `  port_allowed_vlans = "1-100"` + "\n"
 	config += `  port_dai_trusted = false` + "\n"

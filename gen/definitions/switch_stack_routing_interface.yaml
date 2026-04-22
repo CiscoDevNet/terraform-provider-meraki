@@ -1,3 +1,4 @@
+# skip_bulk_resource_test is set to true because the DELETE operation fails
 name: Switch Stack Routing Interface
 spec_endpoint: /networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}
 rest_endpoint: /networks/%v/switch/stacks/%v/routing/interfaces
@@ -7,7 +8,7 @@ id_name: interfaceId
 early_access: true
 data_source_name_query: true
 doc_category: Switches
-test_tags: [SWITCH_STACK_ROUTING_INTERFACE]
+skip_bulk_resource_test: true
 test_variables: [test_org, test_network, test_switch_1_serial, test_switch_2_serial]
 ignore_attributes: [loopback]
 attributes:

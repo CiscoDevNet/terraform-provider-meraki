@@ -131,6 +131,7 @@ func testAccMerakiSwitchRoutingInterfaceConfig_minimum() string {
 	config += `  interface_ip = "192.168.1.2"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
 	config += `  subnet = "192.168.1.0/24"` + "\n"
+	config += `  uplink_v4 = true` + "\n"
 	config += `  vlan_id = 100` + "\n"
 	config += `}` + "\n"
 	return config

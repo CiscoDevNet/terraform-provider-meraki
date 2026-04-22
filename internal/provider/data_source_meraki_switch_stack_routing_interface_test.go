@@ -30,9 +30,6 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiSwitchStackRoutingInterface(t *testing.T) {
-	if os.Getenv("SWITCH_STACK_ROUTING_INTERFACE") == "" {
-		t.Skip("skipping test, set environment variable SWITCH_STACK_ROUTING_INTERFACE")
-	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" || os.Getenv("TF_VAR_test_switch_2_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
 	}

@@ -21,9 +21,9 @@ attributes:
     attributes:
       - model_name: id
         type: String
-        computed: true
         description: SLA policy ID
         example: "12345"
+        computed: true
       - model_name: name
         type: String
         id: true

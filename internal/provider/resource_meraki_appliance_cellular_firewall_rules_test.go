@@ -155,7 +155,7 @@ resource "meraki_organization_policy_object" "test" {
   name            = "test_policy_object"
   category        = "network"
   type            = "cidr"
-  cidr            = "10.10.10.1/32"
+  cidr            = "10.10.10.1"
 }
 resource "meraki_organization_policy_object_group" "test" {
   organization_id = data.meraki_organization.test.id
