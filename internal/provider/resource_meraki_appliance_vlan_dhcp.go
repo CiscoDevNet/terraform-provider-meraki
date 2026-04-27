@@ -320,6 +320,7 @@ func (r *ApplianceVLANDHCPResource) Update(ctx context.Context, req resource.Upd
 	resp.Diagnostics.Append(diags...)
 }
 
+// End of section. //template:end update
 
 func (r *ApplianceVLANDHCPResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state ApplianceVLANDHCP
