@@ -1,0 +1,155 @@
+name: Organization Wireless Devices Provisioning Deployments
+spec_endpoint: /organizations/{organizationId}/wireless/devices/provisioning/deployments
+rest_endpoint: /organizations/%v/wireless/devices/provisioning/deployments
+no_delete: true
+doc_category: Wireless
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: remaining
+    type: Int64
+    data_path: [meta, counts, items]
+    description: The number of items in the dataset that are available on subsequent pages
+    example: "0"
+  - model_name: total
+    type: Int64
+    data_path: [meta, counts, items]
+    description: The total number of items in the dataset
+    example: "20"
+  - model_name: items
+    type: List
+    mandatory: true
+    description: List of zero touch deployments to create
+    attributes:
+      - model_name: completedAt
+        type: String
+        description: Timestamp of when the zero touch deployment request was completed
+        example: "2018-02-11T00:00:00.090210Z"
+      - model_name: createdAt
+        type: String
+        description: Timestamp of when the zero touch deployment request was created
+        example: "2018-02-11T00:00:00.090210Z"
+      - model_name: deploymentId
+        type: String
+        description: zero touch deployment request identifier
+        example: "1284392014819"
+      - model_name: lastUpdatedAt
+        type: String
+        description: Timestamp of when the zero touch deployment request was last updated
+        example: "2018-02-11T00:00:00.090210Z"
+      - model_name: requestedAt
+        type: String
+        description: Timestamp of when the zero touch deployment request was created
+        example: "2018-02-11T00:00:00.090210Z"
+      - model_name: status
+        type: String
+        mandatory: true
+        description: Status of the zero touch deployment request. enum = [ready, in progress, completed, failed]
+        example: ready
+      - model_name: type
+        type: String
+        mandatory: true
+        description: Type of the zero touch deployment request. enum = [deploy, replace]
+        example: replace
+      - model_name: mac
+        type: String
+        data_path: [devices, new]
+        description: MAC address of the new device
+        example: "00:11:22:33:44:55"
+      - model_name: model
+        type: String
+        data_path: [devices, new]
+        description: Model of the new device
+        example: CW9166I
+      - model_name: name
+        type: String
+        data_path: [devices, new]
+        description: Name of the new device or serial number if not named
+        example: My AP
+      - model_name: serial
+        type: String
+        data_path: [devices, new]
+        description: Serial number of the new device
+        example: Q234-ABCD-5678
+      - model_name: id
+        type: String
+        data_path: [devices, new, rfProfile]
+        description: ID of RfProfile for new device
+        example: "1284392014819"
+      - model_name: name
+        type: String
+        data_path: [devices, new, rfProfile]
+        description: Name of RfProfile for new device
+        example: RF Profile Name
+      - model_name: tags
+        type: List
+        element_type: String
+        data_path: [devices, new]
+        description: Tag(s) of the new device
+        example: tag1
+      - model_name: afterAction
+        type: String
+        data_path: [devices, old]
+        description: Action to be taken on the old device
+        example: unclaim
+      - model_name: mac
+        type: String
+        data_path: [devices, old]
+        description: MAC address of the old device
+        example: "00:11:22:33:44:55"
+      - model_name: model
+        type: String
+        data_path: [devices, old]
+        description: Model of the old device
+        example: MR34
+      - model_name: name
+        type: String
+        data_path: [devices, old]
+        description: Name of the old device
+        example: My AP
+      - model_name: serial
+        type: String
+        data_path: [devices, old]
+        description: Serial number of the old device
+        example: Q234-ABCD-5678
+      - model_name: id
+        type: String
+        data_path: [devices, old, rfProfile]
+        description: ID of the RF profile
+        example: "1284392014819"
+      - model_name: name
+        type: String
+        data_path: [devices, old, rfProfile]
+        description: Name of the RF profile
+        example: RF Profile Name
+      - model_name: tags
+        type: List
+        element_type: String
+        data_path: [devices, old]
+        description: Tag(s) of the old device
+        example: tag1
+      - model_name: id
+        type: String
+        data_path: [network]
+        description: ID of the network the device is being added to
+        example: N_24329156
+      - model_name: name
+        type: String
+        data_path: [network]
+        description: Name of the network the device is being added to
+        example: Main Office
+      - model_name: errors
+        type: List
+        element_type: String
+        description: Array of error message(s) if any
+        example: error message1
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

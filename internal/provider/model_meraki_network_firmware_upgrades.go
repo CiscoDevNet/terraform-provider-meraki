@@ -59,6 +59,7 @@ type NetworkFirmwareUpgrades struct {
 	ProductsSwitchCatalystNextUpgradeToVersionId           types.String `tfsdk:"products_switch_catalyst_next_upgrade_to_version_id"`
 	ProductsWirelessParticipateInNextBetaRelease           types.Bool   `tfsdk:"products_wireless_participate_in_next_beta_release"`
 	ProductsWirelessNextUpgradeTime                        types.String `tfsdk:"products_wireless_next_upgrade_time"`
+	ProductsWirelessNextUpgradePredownloadEnabled          types.Bool   `tfsdk:"products_wireless_next_upgrade_predownload_enabled"`
 	ProductsWirelessNextUpgradeToVersionId                 types.String `tfsdk:"products_wireless_next_upgrade_to_version_id"`
 	ProductsWirelessControllerParticipateInNextBetaRelease types.Bool   `tfsdk:"products_wireless_controller_participate_in_next_beta_release"`
 	ProductsWirelessControllerNextUpgradeTime              types.String `tfsdk:"products_wireless_controller_next_upgrade_time"`
@@ -152,6 +153,9 @@ func (data NetworkFirmwareUpgrades) toBody(ctx context.Context, state NetworkFir
 	}
 	if !data.ProductsWirelessNextUpgradeTime.IsNull() {
 		body, _ = sjson.Set(body, "products.wireless.nextUpgrade.time", data.ProductsWirelessNextUpgradeTime.ValueString())
+	}
+	if !data.ProductsWirelessNextUpgradePredownloadEnabled.IsNull() {
+		body, _ = sjson.Set(body, "products.wireless.nextUpgrade.predownload.enabled", data.ProductsWirelessNextUpgradePredownloadEnabled.ValueBool())
 	}
 	if !data.ProductsWirelessNextUpgradeToVersionId.IsNull() {
 		body, _ = sjson.Set(body, "products.wireless.nextUpgrade.toVersion.id", data.ProductsWirelessNextUpgradeToVersionId.ValueString())
@@ -298,6 +302,11 @@ func (data *NetworkFirmwareUpgrades) fromBody(ctx context.Context, res meraki.Re
 		data.ProductsWirelessNextUpgradeTime = types.StringValue(value.String())
 	} else {
 		data.ProductsWirelessNextUpgradeTime = types.StringNull()
+	}
+	if value := res.Get("products.wireless.nextUpgrade.predownload.enabled"); value.Exists() && value.Value() != nil {
+		data.ProductsWirelessNextUpgradePredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.ProductsWirelessNextUpgradePredownloadEnabled = types.BoolNull()
 	}
 	if value := res.Get("products.wireless.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
 		data.ProductsWirelessNextUpgradeToVersionId = types.StringValue(value.String())
@@ -459,6 +468,11 @@ func (data *NetworkFirmwareUpgrades) fromBodyPartial(ctx context.Context, res me
 		data.ProductsWirelessNextUpgradeTime = types.StringValue(value.String())
 	} else {
 		data.ProductsWirelessNextUpgradeTime = types.StringNull()
+	}
+	if value := res.Get("products.wireless.nextUpgrade.predownload.enabled"); value.Exists() && !data.ProductsWirelessNextUpgradePredownloadEnabled.IsNull() {
+		data.ProductsWirelessNextUpgradePredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.ProductsWirelessNextUpgradePredownloadEnabled = types.BoolNull()
 	}
 	if value := res.Get("products.wireless.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsWirelessNextUpgradeToVersionId.IsNull() {
 		data.ProductsWirelessNextUpgradeToVersionId = types.StringValue(value.String())

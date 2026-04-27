@@ -164,6 +164,8 @@ func (d *SwitchOrganizationPortsProfilesAutomationDataSource) Configure(_ contex
 
 // End of section. //template:end model
 
+// Section below is generated&owned by "gen/generator.go". //template:begin read
+
 func (d *SwitchOrganizationPortsProfilesAutomationDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var config SwitchOrganizationPortsProfilesAutomation
 
@@ -184,13 +186,18 @@ func (d *SwitchOrganizationPortsProfilesAutomationDataSource) Read(ctx context.C
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve objects, got error: %s", err))
 			return
 		}
-		if len(res.Get("items").Array()) > 0 {
-			res.Get("items").ForEach(func(k, v gjson.Result) bool {
+		found := false
+		if len(res.Array()) > 0 {
+			res.ForEach(func(k, v gjson.Result) bool {
 				if config.Name.ValueString() == v.Get("name").String() {
+					if found {
+						resp.Diagnostics.AddWarning("Multiple objects with same name", fmt.Sprintf("Found multiple objects with name: %s", config.Name.ValueString()))
+						return false
+					}
 					config.Id = types.StringValue(v.Get("id").String())
 					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
 					res = meraki.Res{Result: v}
-					return false
+					found = true
 				}
 				return true
 			})
@@ -209,8 +216,11 @@ func (d *SwitchOrganizationPortsProfilesAutomationDataSource) Read(ctx context.C
 			return
 		}
 	}
-	if len(res.Get("items").Array()) > 0 {
-		res.Get("items").ForEach(func(k, v gjson.Result) bool {
+	if res.Get("items").Exists() {
+		res = meraki.Res{Result: res.Get("items")}
+	}
+	if len(res.Array()) > 0 {
+		res.ForEach(func(k, v gjson.Result) bool {
 			if config.Id.ValueString() == v.Get("id").String() {
 				res = meraki.Res{Result: v}
 				return false
@@ -226,3 +236,5 @@ func (d *SwitchOrganizationPortsProfilesAutomationDataSource) Read(ctx context.C
 	diags = resp.State.Set(ctx, &config)
 	resp.Diagnostics.Append(diags...)
 }
+
+// End of section. //template:end read

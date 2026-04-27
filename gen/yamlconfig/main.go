@@ -606,6 +606,13 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 	attr.GoTypeName = parentGoTypeName + ToGoName(attr.TfName)
 	attr.GoTypeBulkName = parentGoTypeBulkName + ToGoName(attr.TfName)
 
+	// Check for name collision: if GoTypeBulkName matches the container structure name (parentGoTypeBulkName + "Items"),
+	// append "Item" to avoid duplication. This happens when a field named "items" exists inside the Items structure.
+	expectedContainerName := parentGoTypeBulkName + "Items"
+	if attr.GoTypeBulkName == expectedContainerName {
+		attr.GoTypeBulkName = attr.GoTypeBulkName + "Item"
+	}
+
 	// Validate
 	if len(attr.Attributes) > 0 && attr.Type != "List" && attr.Type != "Map" && attr.Type != "Set" {
 		return fmt.Errorf("%q has type %q which cannot have `attributes`: instead use type List, Map, Set",

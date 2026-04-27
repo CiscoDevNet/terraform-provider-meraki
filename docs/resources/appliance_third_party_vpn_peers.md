@@ -18,6 +18,7 @@ resource "meraki_appliance_third_party_vpn_peers" "example" {
   peers = [
     {
       ike_version                             = "2"
+      ip_version                              = 4
       is_route_based                          = false
       local_id                                = "myMXId@meraki.com"
       name                                    = "Peer Name"
@@ -37,8 +38,17 @@ resource "meraki_appliance_third_party_vpn_peers" "example" {
       ipsec_policies_ike_cipher_algo          = ["tripledes"]
       ipsec_policies_ike_diffie_hellman_group = ["group2"]
       ipsec_policies_ike_prf_algo             = ["prfsha1"]
-      network_tags                            = ["none"]
-      private_subnets                         = ["192.168.1.0/24"]
+      ecmp_uplink_configs = [
+        {
+          id                        = "7890"
+          wan                       = "WAN 1"
+          ebgp_neighbor_neighbor_ip = "169.254.10.2"
+          ebgp_neighbor_source_ip   = "169.254.10.1"
+          private_subnets           = ["169.254.10.0/30"]
+        }
+      ]
+      network_tags    = ["none"]
+      private_subnets = ["192.168.1.0/24"]
     }
   ]
 }
@@ -76,6 +86,7 @@ Optional:
 - `ebgp_neighbor_remote_as_number` (Number) Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.
 - `ebgp_neighbor_source_ip` (String) Source IP of eBGP neighbor
 - `ebgp_neighbor_weight` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
+- `ecmp_uplink_configs` (Attributes List) [optional] The ECMP per-uplink BGP-over-IPsec configuration for the VPN peer. (see [below for nested schema](#nestedatt--peers--ecmp_uplink_configs))
 - `group_active_active_tunnel` (Boolean) [optional] Both primary and backup tunnels are active.
 - `group_failover_direct_to_internet` (Boolean) [optional] When both primary and backup tunnels are down, direct traffic to the internet. Traffic will be routed via the WAN
 - `group_number` (Number) [optional] Represents the ordering of primary and backup tunnels group. primary and backup tunnels are grouped by this number. If you submit a request with the numbers [1, 9, 999], these numbers will be automatically adjusted to a sequential order starting from 1. So, they will be changed to [1, 2, 3] to reflect their positions in the sequence.
@@ -102,6 +113,18 @@ Optional:
 - `public_ip` (String) [optional] The public IP of the VPN peer
 - `remote_id` (String) [optional] The remote ID is used to identify the connecting VPN peer. This can either be a valid IPv4 Address, FQDN or User FQDN.
 - `sla_policy_id` (String) The ID of the SLA policy
+
+<a id="nestedatt--peers--ecmp_uplink_configs"></a>
+### Nested Schema for `peers.ecmp_uplink_configs`
+
+Optional:
+
+- `ebgp_neighbor_neighbor_ip` (String) IPv4/IPv6 address of the neighbor
+- `ebgp_neighbor_source_ip` (String) Source IP of eBGP neighbor
+- `id` (String) ID of the ECMP uplink configuration
+- `private_subnets` (List of String) The list of the private subnets of the VPN peer
+- `wan` (String) The WAN uplink associated with this ECMP configuration.
+  - Choices: `WAN 1`, `WAN 2`, `WAN 3`, `WAN 4`
 
 ## Import
 

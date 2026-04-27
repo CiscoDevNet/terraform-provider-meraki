@@ -155,10 +155,32 @@ func generateDefinition(endpointPath, resourceName string, earlyAccess bool) {
 	urlResult := parseUrl(endpointPath, spec, betaSpec, earlyAccess)
 
 	var example map[string]interface{}
-	if e, ok := urlResult.schema["schema"].(map[string]interface{})["example"]; ok {
-		example = e.(map[string]interface{})
-	} else {
-		example = urlResult.schema["example"].([]interface{})[0].(map[string]interface{})
+	if schemaVal, ok := urlResult.schema["schema"]; ok && schemaVal != nil {
+		if schemaMap, ok := schemaVal.(map[string]interface{}); ok {
+			if e, ok := schemaMap["example"]; ok {
+				if exampleMap, ok := e.(map[string]interface{}); ok {
+					example = exampleMap
+				} else if exampleArray, ok := e.([]interface{}); ok && len(exampleArray) > 0 {
+					if exampleMap, ok := exampleArray[0].(map[string]interface{}); ok {
+						example = exampleMap
+					}
+				}
+			}
+		}
+	}
+	if example == nil {
+		if e, ok := urlResult.schema["example"]; ok {
+			if exampleArray, ok := e.([]interface{}); ok && len(exampleArray) > 0 {
+				if exampleMap, ok := exampleArray[0].(map[string]interface{}); ok {
+					example = exampleMap
+				}
+			} else if exampleMap, ok := e.(map[string]interface{}); ok {
+				example = exampleMap
+			}
+		}
+	}
+	if example == nil {
+		example = map[string]interface{}{}
 	}
 	exampleStr, err := json.Marshal(&example)
 	if err != nil {
@@ -216,14 +238,35 @@ func generateDefinition(endpointPath, resourceName string, earlyAccess bool) {
 		attributes = append(attributes, attr)
 	}
 	required := []string{}
-	if r, ok := urlResult.schema["schema"].(map[string]interface{})["required"]; ok {
-		required = toStringSlice(r.([]interface{}))
+	if schemaVal, ok := urlResult.schema["schema"]; ok && schemaVal != nil {
+		if schemaMap, ok := schemaVal.(map[string]interface{}); ok {
+			if r, ok := schemaMap["required"]; ok {
+				if requiredArray, ok := r.([]interface{}); ok {
+					required = toStringSlice(requiredArray)
+				}
+			}
+		}
 	}
 	var rootProperties map[string]interface{}
-	if p, ok := urlResult.schema["schema"].(map[string]interface{})["properties"]; ok {
-		rootProperties = p.(map[string]interface{})
-	} else {
-		rootProperties = urlResult.schema["schema"].(map[string]interface{})["items"].(map[string]interface{})["properties"].(map[string]interface{})
+	if schemaVal, ok := urlResult.schema["schema"]; ok && schemaVal != nil {
+		if schemaMap, ok := schemaVal.(map[string]interface{}); ok {
+			if p, ok := schemaMap["properties"]; ok {
+				if propertiesMap, ok := p.(map[string]interface{}); ok {
+					rootProperties = propertiesMap
+				}
+			} else if items, ok := schemaMap["items"]; ok {
+				if itemsMap, ok := items.(map[string]interface{}); ok {
+					if p, ok := itemsMap["properties"]; ok {
+						if propertiesMap, ok := p.(map[string]interface{}); ok {
+							rootProperties = propertiesMap
+						}
+					}
+				}
+			}
+		}
+	}
+	if rootProperties == nil {
+		rootProperties = map[string]interface{}{}
 	}
 	attributes = append(attributes, traverseProperties(rootProperties, []string{}, "", string(exampleStr), required)...)
 	config.Attributes = &attributes
@@ -237,14 +280,16 @@ func generateDefinition(endpointPath, resourceName string, earlyAccess bool) {
 	}
 	config.DataSourceNameQuery = dataSourceNameQuery
 
-	if urlResult.category == "Systems Manager" && slices.Contains(*config.TestVariables, "test_network") {
-		config.TestPrerequisites = P(smPrerequisites)
-	} else if slices.Contains(*config.TestVariables, "test_switch_1_serial") {
-		config.TestPrerequisites = P(devicePrerequisites)
-	} else if slices.Contains(*config.TestVariables, "test_network") {
-		config.TestPrerequisites = P(networkPrerequisites)
-	} else if slices.Contains(*config.TestVariables, "test_org") {
-		config.TestPrerequisites = P(orgPrerequisites)
+	if config.TestVariables != nil {
+		if urlResult.category == "Systems Manager" && slices.Contains(*config.TestVariables, "test_network") {
+			config.TestPrerequisites = P(smPrerequisites)
+		} else if slices.Contains(*config.TestVariables, "test_switch_1_serial") {
+			config.TestPrerequisites = P(devicePrerequisites)
+		} else if slices.Contains(*config.TestVariables, "test_network") {
+			config.TestPrerequisites = P(networkPrerequisites)
+		} else if slices.Contains(*config.TestVariables, "test_org") {
+			config.TestPrerequisites = P(orgPrerequisites)
+		}
 	}
 
 	outputPath := definitionsPath + yamlconfig.SnakeCase(resourceName) + ".yaml"

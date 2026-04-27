@@ -3,12 +3,12 @@
 page_title: "meraki_switch_dscp_to_cos_mappings Resource - terraform-provider-meraki"
 subcategory: "Switches"
 description: |-
-  This resource can manage the Switch DSCP to CoS mappings configuration.
+  This resource can manage the Switch DSCP To CoS Mappings configuration.
 ---
 
 # meraki_switch_dscp_to_cos_mappings (Resource)
 
-This resource can manage the `Switch DSCP to CoS mappings` configuration.
+This resource can manage the `Switch DSCP To CoS Mappings` configuration.
 
 ## Example Usage
 

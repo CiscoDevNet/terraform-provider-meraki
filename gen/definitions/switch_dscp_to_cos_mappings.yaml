@@ -1,4 +1,4 @@
-name: Switch DSCP to CoS mappings
+name: Switch DSCP To CoS Mappings
 spec_endpoint: /networks/{networkId}/switch/dscpToCosMappings
 rest_endpoint: /networks/%v/switch/dscpToCosMappings
 put_create: true

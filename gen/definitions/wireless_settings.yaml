@@ -35,6 +35,11 @@ attributes:
     description: The default strategy that network devices will use to perform an upgrade. Requires firmware version MR 26.8 or higher.
     example: minimizeUpgradeTime
     enum_values: [minimizeClientDowntime, minimizeUpgradeTime]
+  - model_name: enabled
+    type: Bool
+    data_path: [multicastToUnicastConversion]
+    description: Toggle for enabling or disabling multicast-to-unicast conversion across the network
+    example: "true"
   - model_name: duration
     type: Int64
     data_path: [namedVlans, poolDhcpMonitoring]
@@ -44,6 +49,11 @@ attributes:
     type: Bool
     data_path: [namedVlans, poolDhcpMonitoring]
     description: Whether or not devices using named VLAN pools should remove dirty VLANs from the pool, thereby preventing clients from being assigned to VLANs where they would be unable to obtain an IP address via DHCP.
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [upgrade, predownload]
+    description: The default setting for upgrade firmware predownload. Only applies to devices running MR 32 or higher.
     example: "false"
 test_prerequisites: |
   data "meraki_organization" "test" {

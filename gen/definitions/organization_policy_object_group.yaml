@@ -24,7 +24,7 @@ attributes:
     bulk_id: true
     mandatory: true
     description: A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-    example: Web Servers Group
+    example: Web Servers - Datacenter 10
   - model_name: objectIds
     type: Set
     element_type: Int64
@@ -39,6 +39,6 @@ test_prerequisites: |
     organization_id = data.meraki_organization.test.id
     category = "network"
     cidr = "10.0.1.0/24"
-    name = "Web Servers"
+    name = "tf-acc-po-x9k2"
     type = "cidr"
   }
