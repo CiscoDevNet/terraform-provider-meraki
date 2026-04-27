@@ -84,7 +84,7 @@ func (data SwitchSettings) toBody(ctx context.Context, state SwitchSettings) str
 	if !data.UplinkSelectionFailbackEnabled.IsNull() {
 		body, _ = sjson.Set(body, "uplinkSelection.failback.enabled", data.UplinkSelectionFailbackEnabled.ValueBool())
 	}
-	if data.PowerExceptions != nil {
+	if len(data.PowerExceptions) > 0 {
 		body, _ = sjson.Set(body, "powerExceptions", []interface{}{})
 		for _, item := range data.PowerExceptions {
 			itemBody := ""

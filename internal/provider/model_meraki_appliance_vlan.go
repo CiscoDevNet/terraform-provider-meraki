@@ -148,7 +148,7 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	if !data.VpnNatSubnet.IsNull() {
 		body, _ = sjson.Set(body, "vpnNatSubnet", data.VpnNatSubnet.ValueString())
 	}
-	if data.FixedIpAssignments != nil {
+	if len(data.FixedIpAssignments) > 0 {
 		body, _ = sjson.Set(body, "fixedIpAssignments", map[string]interface{}{})
 		for key, item := range data.FixedIpAssignments {
 			itemBody := ""
@@ -164,7 +164,7 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	if !data.Ipv6Enabled.IsNull() {
 		body, _ = sjson.Set(body, "ipv6.enabled", data.Ipv6Enabled.ValueBool())
 	}
-	if data.Ipv6PrefixAssignments != nil {
+	if len(data.Ipv6PrefixAssignments) > 0 {
 		body, _ = sjson.Set(body, "ipv6.prefixAssignments", []interface{}{})
 		for _, item := range data.Ipv6PrefixAssignments {
 			itemBody := ""
@@ -194,7 +194,7 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	if !data.MandatoryDhcpEnabled.IsNull() {
 		body, _ = sjson.Set(body, "mandatoryDhcp.enabled", data.MandatoryDhcpEnabled.ValueBool())
 	}
-	if data.DhcpOptions != nil {
+	if len(data.DhcpOptions) > 0 {
 		body, _ = sjson.Set(body, "dhcpOptions", []interface{}{})
 		for _, item := range data.DhcpOptions {
 			itemBody := ""
@@ -215,7 +215,7 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 		data.DhcpRelayServerIps.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "dhcpRelayServerIps", values)
 	}
-	if data.ReservedIpRanges != nil {
+	if len(data.ReservedIpRanges) > 0 {
 		body, _ = sjson.Set(body, "reservedIpRanges", []interface{}{})
 		for _, item := range data.ReservedIpRanges {
 			itemBody := ""

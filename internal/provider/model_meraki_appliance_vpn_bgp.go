@@ -85,7 +85,7 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 	if !data.IbgpHoldTimer.IsNull() {
 		body, _ = sjson.Set(body, "ibgpHoldTimer", data.IbgpHoldTimer.ValueInt64())
 	}
-	if data.Neighbors != nil {
+	if len(data.Neighbors) > 0 {
 		body, _ = sjson.Set(body, "neighbors", []interface{}{})
 		for _, item := range data.Neighbors {
 			itemBody := ""

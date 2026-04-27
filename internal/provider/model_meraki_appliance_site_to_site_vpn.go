@@ -76,7 +76,7 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 	if !data.SubnetNatIsAllowed.IsNull() {
 		body, _ = sjson.Set(body, "subnet.nat.isAllowed", data.SubnetNatIsAllowed.ValueBool())
 	}
-	if data.Hubs != nil {
+	if len(data.Hubs) > 0 {
 		body, _ = sjson.Set(body, "hubs", []interface{}{})
 		for _, item := range data.Hubs {
 			itemBody := ""
@@ -89,7 +89,7 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 			body, _ = sjson.SetRaw(body, "hubs.-1", itemBody)
 		}
 	}
-	if data.Subnets != nil {
+	if len(data.Subnets) > 0 {
 		body, _ = sjson.Set(body, "subnets", []interface{}{})
 		for _, item := range data.Subnets {
 			itemBody := ""

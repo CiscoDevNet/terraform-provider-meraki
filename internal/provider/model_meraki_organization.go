@@ -62,7 +62,7 @@ func (data Organization) toBody(ctx context.Context, state Organization) string 
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if data.ManagementDetails != nil {
+	if len(data.ManagementDetails) > 0 {
 		body, _ = sjson.Set(body, "management.details", []interface{}{})
 		for _, item := range data.ManagementDetails {
 			itemBody := ""
