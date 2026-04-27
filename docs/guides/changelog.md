@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## Unreleased
+## 1.11.0
 
 - Add support for policy objects (`OBJ(<id>)`) and policy object groups (`GRP(<id>)`) in `src_cidr` and `dest_cidr` fields of `meraki_appliance_l3_firewall_rules` and `meraki_appliance_cellular_firewall_rules` resources.[link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/201)
 - Add `candidate_uplink_v4`, `is_switch_default_gateway`, `static_v4_dns1`, `static_v4_dns2`, `uplink_v4`, `uplink_v6`, `ipv6_candidate_uplink`, `ipv6_is_switch_default_gateway`, `ipv6_static_v6_dns1`, `ipv6_static_v6_dns2` attributes to `meraki_switch_routing_interface` resources and data sources
