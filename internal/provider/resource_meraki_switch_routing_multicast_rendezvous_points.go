@@ -204,13 +204,14 @@ func (r *SwitchRoutingMulticastRendezvousPointsResource) Read(ctx context.Contex
 		return
 	}
 
-	// Read identity
-	diags = req.Identity.Get(ctx, &identity)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
 	}
-
-	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
@@ -392,7 +393,7 @@ func (r *SwitchRoutingMulticastRendezvousPointsResource) Delete(ctx context.Cont
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *SwitchRoutingMulticastRendezvousPointsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	if req.ID != "" {
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
 		itemIdParts := make([]string, 0)
 		if strings.Contains(req.ID, ",[") {
 			itemIdParts = strings.Split(strings.Split(strings.Split(req.ID, ",[")[1], "]")[0], ",")

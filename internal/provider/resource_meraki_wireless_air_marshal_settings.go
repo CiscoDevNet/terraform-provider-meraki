@@ -299,7 +299,7 @@ func (r *WirelessAirMarshalSettingsResource) Delete(ctx context.Context, req res
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *WirelessAirMarshalSettingsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	if req.ID != "" {
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
 		idParts := strings.Split(req.ID, ",")
 
 		if len(idParts) != 1 || idParts[0] == "" {

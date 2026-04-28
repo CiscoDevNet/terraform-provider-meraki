@@ -190,13 +190,14 @@ func (r *OrganizationAuthRADIUSServerResource) Read(ctx context.Context, req res
 		return
 	}
 
-	// Read identity
-	diags = req.Identity.Get(ctx, &identity)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
 	}
-
-	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
@@ -294,7 +295,7 @@ func (r *OrganizationAuthRADIUSServerResource) Delete(ctx context.Context, req r
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *OrganizationAuthRADIUSServerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	if req.ID != "" {
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
 		idParts := strings.Split(req.ID, ",")
 
 		if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
