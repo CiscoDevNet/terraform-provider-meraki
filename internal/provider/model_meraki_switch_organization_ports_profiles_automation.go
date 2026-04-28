@@ -91,7 +91,7 @@ func (data SwitchOrganizationPortsProfilesAutomation) toBody(ctx context.Context
 	if !data.FallbackProfileName.IsNull() {
 		body, _ = sjson.Set(body, "fallbackProfile.name", data.FallbackProfileName.ValueString())
 	}
-	if data.AssignedSwitchPorts != nil {
+	if len(data.AssignedSwitchPorts) > 0 {
 		body, _ = sjson.Set(body, "assignedSwitchPorts", []interface{}{})
 		for _, item := range data.AssignedSwitchPorts {
 			itemBody := ""

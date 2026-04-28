@@ -191,7 +191,7 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 	if !data.RadiusCriticalAuthVoiceVlanId.IsNull() {
 		body, _ = sjson.Set(body, "radius.criticalAuth.voiceVlanId", data.RadiusCriticalAuthVoiceVlanId.ValueInt64())
 	}
-	if data.RadiusAccountingServers != nil {
+	if len(data.RadiusAccountingServers) > 0 {
 		body, _ = sjson.Set(body, "radiusAccountingServers", []interface{}{})
 		for _, item := range data.RadiusAccountingServers {
 			itemBody := ""

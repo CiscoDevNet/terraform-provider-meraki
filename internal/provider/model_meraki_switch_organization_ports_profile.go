@@ -105,7 +105,7 @@ func (data SwitchOrganizationPortsProfile) toBody(ctx context.Context, state Swi
 	if !data.NetworksType.IsNull() {
 		body, _ = sjson.Set(body, "networks.type", data.NetworksType.ValueString())
 	}
-	if data.NetworksValues != nil {
+	if len(data.NetworksValues) > 0 {
 		body, _ = sjson.Set(body, "networks.values", []interface{}{})
 		for _, item := range data.NetworksValues {
 			itemBody := ""

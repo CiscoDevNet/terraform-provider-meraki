@@ -74,7 +74,7 @@ func (data WirelessAlternateManagementInterface) toBody(ctx context.Context, sta
 	if !data.VlanId.IsNull() {
 		body, _ = sjson.Set(body, "vlanId", data.VlanId.ValueInt64())
 	}
-	if data.AccessPoints != nil {
+	if len(data.AccessPoints) > 0 {
 		body, _ = sjson.Set(body, "accessPoints", []interface{}{})
 		for _, item := range data.AccessPoints {
 			itemBody := ""

@@ -68,7 +68,7 @@ func (data NetworkSNMP) toBody(ctx context.Context, state NetworkSNMP) string {
 	if !data.CommunityString.IsNull() {
 		body, _ = sjson.Set(body, "communityString", data.CommunityString.ValueString())
 	}
-	if data.Users != nil {
+	if len(data.Users) > 0 {
 		body, _ = sjson.Set(body, "users", []interface{}{})
 		for _, item := range data.Users {
 			itemBody := ""

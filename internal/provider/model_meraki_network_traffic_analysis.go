@@ -65,7 +65,7 @@ func (data NetworkTrafficAnalysis) toBody(ctx context.Context, state NetworkTraf
 	if !data.Mode.IsNull() {
 		body, _ = sjson.Set(body, "mode", data.Mode.ValueString())
 	}
-	if data.CustomPieChartItems != nil {
+	if len(data.CustomPieChartItems) > 0 {
 		body, _ = sjson.Set(body, "customPieChartItems", []interface{}{})
 		for _, item := range data.CustomPieChartItems {
 			itemBody := ""

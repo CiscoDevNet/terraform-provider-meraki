@@ -68,7 +68,7 @@ func (data SwitchSTP) toBody(ctx context.Context, state SwitchSTP) string {
 	if !data.RstpEnabled.IsNull() {
 		body, _ = sjson.Set(body, "rstpEnabled", data.RstpEnabled.ValueBool())
 	}
-	if data.StpBridgePriority != nil {
+	if len(data.StpBridgePriority) > 0 {
 		body, _ = sjson.Set(body, "stpBridgePriority", []interface{}{})
 		for _, item := range data.StpBridgePriority {
 			itemBody := ""

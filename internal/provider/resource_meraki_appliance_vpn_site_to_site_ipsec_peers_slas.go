@@ -48,7 +48,8 @@ func NewApplianceVPNSiteToSiteIPsecPeersSLAsResource() resource.Resource {
 }
 
 type ApplianceVPNSiteToSiteIPsecPeersSLAsResource struct {
-	client *meraki.Client
+	client                        *meraki.Client
+	restoreOriginalStateOnDestroy bool
 }
 
 func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -108,6 +109,7 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Configure(_ context.Conte
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
 
 // End of section. //template:end model
@@ -124,6 +126,17 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Create(ctx context.Contex
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	// If the resource is a singleton, we need to read and save the initial state
+	if r.restoreOriginalStateOnDestroy {
+		var initialState ApplianceVPNSiteToSiteIPsecPeersSLAs
+		gres, err := r.client.Get(plan.getPath())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		initialState.fromBody(ctx, gres)
+		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, ApplianceVPNSiteToSiteIPsecPeersSLAs{}), resp.Private, &resp.Diagnostics)
+	}
 
 	// Create object
 	body := plan.toBody(ctx, ApplianceVPNSiteToSiteIPsecPeersSLAs{})
@@ -234,11 +247,25 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Delete(ctx context.Contex
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	body := state.toDestroyBody(ctx)
-	res, err := r.client.Put(state.getPath(), body)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
-		return
+	if r.restoreOriginalStateOnDestroy {
+		// Restore the saved initial state on destroy
+		jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		res, err := r.client.Put(state.getPath(), jsonInitialState)
+		if err != nil {
+			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
+	} else {
+		body := state.toDestroyBody(ctx)
+		res, err := r.client.Put(state.getPath(), body)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))

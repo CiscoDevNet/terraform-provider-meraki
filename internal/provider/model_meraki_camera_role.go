@@ -79,7 +79,7 @@ func (data CameraRole) toBody(ctx context.Context, state CameraRole) string {
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if data.AppliedOnDevices != nil {
+	if len(data.AppliedOnDevices) > 0 {
 		body, _ = sjson.Set(body, "appliedOnDevices", []interface{}{})
 		for _, item := range data.AppliedOnDevices {
 			itemBody := ""
@@ -101,7 +101,7 @@ func (data CameraRole) toBody(ctx context.Context, state CameraRole) string {
 			body, _ = sjson.SetRaw(body, "appliedOnDevices.-1", itemBody)
 		}
 	}
-	if data.AppliedOnNetworks != nil {
+	if len(data.AppliedOnNetworks) > 0 {
 		body, _ = sjson.Set(body, "appliedOnNetworks", []interface{}{})
 		for _, item := range data.AppliedOnNetworks {
 			itemBody := ""
@@ -117,7 +117,7 @@ func (data CameraRole) toBody(ctx context.Context, state CameraRole) string {
 			body, _ = sjson.SetRaw(body, "appliedOnNetworks.-1", itemBody)
 		}
 	}
-	if data.AppliedOrgWide != nil {
+	if len(data.AppliedOrgWide) > 0 {
 		body, _ = sjson.Set(body, "appliedOrgWide", []interface{}{})
 		for _, item := range data.AppliedOrgWide {
 			itemBody := ""

@@ -65,7 +65,7 @@ func (data WirelessBilling) toBody(ctx context.Context, state WirelessBilling) s
 	if !data.Currency.IsNull() {
 		body, _ = sjson.Set(body, "currency", data.Currency.ValueString())
 	}
-	if data.Plans != nil {
+	if len(data.Plans) > 0 {
 		body, _ = sjson.Set(body, "plans", []interface{}{})
 		for _, item := range data.Plans {
 			itemBody := ""

@@ -87,7 +87,7 @@ func (data WirelessSSIDVPN) toBody(ctx context.Context, state WirelessSSIDVPN) s
 	if !data.SplitTunnelEnabled.IsNull() {
 		body, _ = sjson.Set(body, "splitTunnel.enabled", data.SplitTunnelEnabled.ValueBool())
 	}
-	if data.SplitTunnelRules != nil {
+	if len(data.SplitTunnelRules) > 0 {
 		body, _ = sjson.Set(body, "splitTunnel.rules", []interface{}{})
 		for _, item := range data.SplitTunnelRules {
 			itemBody := ""
