@@ -105,7 +105,7 @@ func (p *MerakiProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 				Optional:            true,
 			},
 			"restore_original_state_on_destroy": schema.BoolAttribute{
-				MarkdownDescription: "Whether to restore the original state of singleton resources on destroy. If enabled, the provider will capture the initial state of singleton resources during creation and restore it when the resource is destroyed. This can also be set as the MERAKI_RESTORE_ORIGINAL_STATE_ON_DESTROY environment variable. Defaults to `false`.",
+				MarkdownDescription: "**Experimental.** Whether to restore the original state of singleton resources on destroy. If enabled, the provider will capture the initial state of singleton resources during creation and restore it when the resource is destroyed. This feature is experimental and may change in future releases. This can also be set as the MERAKI_RESTORE_ORIGINAL_STATE_ON_DESTROY environment variable. Defaults to `false`.",
 				Optional:            true,
 			},
 		},
