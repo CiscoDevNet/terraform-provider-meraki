@@ -23,6 +23,7 @@ The following guides with examples exist to demonstrate the use of the provider:
 
 - [Getting Started](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/getting_started)
 - [Bulk Resources](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/bulk_resources)
+- [Restore State on Destroy (Experimental)](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/restore_state_on_destroy)
 
 ## Bulk Resources
 

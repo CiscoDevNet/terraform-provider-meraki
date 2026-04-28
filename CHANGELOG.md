@@ -1,3 +1,8 @@
+## 1.12.0
+
+- EXPERIMENTAL: Add `restore_original_state_on_destroy` provider attribute to opt in to restoring the original API state of singleton resources on destroy. When enabled, the provider captures the initial state during resource creation and restores it when the resource is destroyed. This feature is experimental and may change in future releases. See the [Restore State on Destroy guide](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/restore_state_on_destroy) for details and limitations.
+- Fix missing `Update` and `Delete` methods in `meraki_appliance_vlan_dhcp` resource
+
 ## 1.11.0
 
 - Add support for policy objects (`OBJ(<id>)`) and policy object groups (`GRP(<id>)`) in `src_cidr` and `dest_cidr` fields of `meraki_appliance_l3_firewall_rules` and `meraki_appliance_cellular_firewall_rules` resources.[link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/201)

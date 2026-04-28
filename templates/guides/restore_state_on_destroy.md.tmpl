@@ -5,7 +5,9 @@ description: |-
     Restore State on Destroy
 ---
 
-# Restore State on Destroy
+# Restore State on Destroy (Experimental)
+
+~>**This feature is experimental and may change in future releases. Use with caution and review the [Limitations](#limitations) section carefully.**
 
 Many Meraki resources represent API-managed settings that always exist on the dashboard and cannot be truly deleted — only updated. These are referred to as **singleton resources**. By default, when you destroy a singleton resource in Terraform, it is simply removed from the Terraform state with no API call, or a set of hardcoded default values is sent to reset the configuration.
 
