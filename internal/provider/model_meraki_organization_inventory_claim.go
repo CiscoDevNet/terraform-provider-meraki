@@ -49,6 +49,10 @@ type OrganizationInventoryClaimLicenses struct {
 	Mode types.String `tfsdk:"mode"`
 }
 
+type OrganizationInventoryClaimIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -212,6 +216,22 @@ func (data *OrganizationInventoryClaim) fromBodyUnknowns(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationInventoryClaimIdentity) toIdentity(ctx context.Context, plan *OrganizationInventoryClaim) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationInventoryClaim) fromIdentity(ctx context.Context, identity *OrganizationInventoryClaimIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

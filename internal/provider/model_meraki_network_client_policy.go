@@ -40,6 +40,11 @@ type NetworkClientPolicy struct {
 	GroupPolicyId types.String `tfsdk:"group_policy_id"`
 }
 
+type NetworkClientPolicyIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+	ClientId  types.String `tfsdk:"client_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -111,6 +116,24 @@ func (data *NetworkClientPolicy) fromBodyUnknowns(ctx context.Context, res merak
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *NetworkClientPolicyIdentity) toIdentity(ctx context.Context, plan *NetworkClientPolicy) {
+	data.NetworkId = plan.NetworkId
+	data.ClientId = plan.ClientId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *NetworkClientPolicy) fromIdentity(ctx context.Context, identity *NetworkClientPolicyIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.ClientId = identity.ClientId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

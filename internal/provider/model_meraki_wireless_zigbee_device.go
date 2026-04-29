@@ -40,6 +40,11 @@ type WirelessZigbeeDevice struct {
 	Enrolled       types.Bool   `tfsdk:"enrolled"`
 }
 
+type WirelessZigbeeDeviceIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	DeviceId       types.String `tfsdk:"device_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -111,6 +116,24 @@ func (data *WirelessZigbeeDevice) fromBodyUnknowns(ctx context.Context, res mera
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *WirelessZigbeeDeviceIdentity) toIdentity(ctx context.Context, plan *WirelessZigbeeDevice) {
+	data.OrganizationId = plan.OrganizationId
+	data.DeviceId = plan.DeviceId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *WirelessZigbeeDevice) fromIdentity(ctx context.Context, identity *WirelessZigbeeDeviceIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.DeviceId = identity.DeviceId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

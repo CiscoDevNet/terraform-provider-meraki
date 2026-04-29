@@ -56,6 +56,11 @@ type OrganizationAdminTags struct {
 	Tag    types.String `tfsdk:"tag"`
 }
 
+type OrganizationAdminIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	Id             types.String `tfsdk:"id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -313,6 +318,24 @@ func (data *OrganizationAdmin) fromBodyUnknowns(ctx context.Context, res meraki.
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationAdminIdentity) toIdentity(ctx context.Context, plan *OrganizationAdmin) {
+	data.OrganizationId = plan.OrganizationId
+	data.Id = plan.Id
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationAdmin) fromIdentity(ctx context.Context, identity *OrganizationAdminIdentity) {
+	data.OrganizationId = identity.OrganizationId
+	data.Id = identity.Id
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

@@ -43,6 +43,10 @@ type ApplianceRadioSettings struct {
 	TwoFourGhzSettingsTargetPower types.Int64  `tfsdk:"two_four_ghz_settings_target_power"`
 }
 
+type ApplianceRadioSettingsIdentity struct {
+	Serial types.String `tfsdk:"serial"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -166,6 +170,22 @@ func (data *ApplianceRadioSettings) fromBodyUnknowns(ctx context.Context, res me
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceRadioSettingsIdentity) toIdentity(ctx context.Context, plan *ApplianceRadioSettings) {
+	data.Serial = plan.Serial
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceRadioSettings) fromIdentity(ctx context.Context, identity *ApplianceRadioSettingsIdentity) {
+	data.Serial = identity.Serial
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

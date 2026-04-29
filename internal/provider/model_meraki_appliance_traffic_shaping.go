@@ -39,6 +39,10 @@ type ApplianceTrafficShaping struct {
 	GlobalBandwidthLimitUp   types.Int64  `tfsdk:"global_bandwidth_limit_up"`
 }
 
+type ApplianceTrafficShapingIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -110,6 +114,22 @@ func (data *ApplianceTrafficShaping) fromBodyUnknowns(ctx context.Context, res m
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceTrafficShapingIdentity) toIdentity(ctx context.Context, plan *ApplianceTrafficShaping) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceTrafficShaping) fromIdentity(ctx context.Context, identity *ApplianceTrafficShapingIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

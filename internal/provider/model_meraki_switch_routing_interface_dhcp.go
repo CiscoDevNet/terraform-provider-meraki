@@ -71,6 +71,11 @@ type SwitchRoutingInterfaceDHCPReservedIpRanges struct {
 	Start   types.String `tfsdk:"start"`
 }
 
+type SwitchRoutingInterfaceDHCPIdentity struct {
+	Serial      types.String `tfsdk:"serial"`
+	InterfaceId types.String `tfsdk:"interface_id"`
+}
+
 // End of section. //template:end types
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
@@ -503,6 +508,24 @@ func (data *SwitchRoutingInterfaceDHCP) fromBodyUnknowns(ctx context.Context, re
 }
 
 // End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *SwitchRoutingInterfaceDHCPIdentity) toIdentity(ctx context.Context, plan *SwitchRoutingInterfaceDHCP) {
+	data.Serial = plan.Serial
+	data.InterfaceId = plan.InterfaceId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *SwitchRoutingInterfaceDHCP) fromIdentity(ctx context.Context, identity *SwitchRoutingInterfaceDHCPIdentity) {
+	data.Serial = identity.Serial
+	data.InterfaceId = identity.InterfaceId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
