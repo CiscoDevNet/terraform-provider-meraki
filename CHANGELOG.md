@@ -5,6 +5,7 @@
 - Add `meraki_organization_integrations_xdr_networks` resource and data source
 - Add `peer_sgt_capable` attribute to `meraki_appliance_port` resource and data source
 - Add `peer_sgt_capable` attribute to `meraki_appliance_site_to_site_vpn` resource and data source
+- Add `meraki_network_vlan_profile_assignment` resource and data source
 
 ## 1.11.0
 

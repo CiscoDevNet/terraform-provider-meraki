@@ -163,7 +163,9 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 		var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
 		data.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "{{getFullModelName . true}}", values)
-	}
+	}{{if .WriteEmptyList}} else {
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", []interface{}{})
+	}{{end}}
 	{{- else if isNestedListSetMap .}}
 	{{if and (not .Mandatory) (not .WriteEmptyList)}}if len(data.{{toGoName .TfName}}) > 0 {{end}}{
 		{{- if isNestedMap .}}
@@ -188,7 +190,9 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 				var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
 				item.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", values)
-			}
+			}{{if .WriteEmptyList}} else {
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", []interface{}{})
+			}{{end}}
 			{{- else if isNestedListSetMap .}}
 			{{if and (not .Mandatory) (not .WriteEmptyList)}}if len(item.{{toGoName .TfName}}) > 0 {{end}}{
 				{{- if isNestedMap .}}
@@ -213,7 +217,9 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 						var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
 						childItem.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", values)
-					}
+					}{{if .WriteEmptyList}} else {
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", []interface{}{})
+					}{{end}}
 					{{- else if isNestedListSetMap .}}
 					{{if and (not .Mandatory) (not .WriteEmptyList)}}if len(childItem.{{toGoName .TfName}}) > 0 {{end}}{
 						{{- if isNestedMap .}}
@@ -238,7 +244,9 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 								var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
 								childChildItem.{{toGoName .TfName}}.ElementsAs(ctx, &values, false)
 								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", values)
-							}
+							}{{if .WriteEmptyList}} else {
+								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", []interface{}{})
+							}{{end}}
 							{{- end}}
 							{{- end}}
 							{{- end}}
