@@ -1,0 +1,1 @@
+terraform import meraki_organization_integrations_xdr_networks.example "<organization_id>"

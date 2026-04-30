@@ -1,0 +1,49 @@
+# Customize Read(), Update(), Delete() to support procedural endpoints
+name: Organization Integrations XDR Networks
+spec_endpoint: /organizations/{organizationId}/integrations/xdr/networks/enable
+rest_endpoint: /organizations/%v/integrations/xdr/networks/enable
+no_data_source: false
+no_update: false
+no_delete: false
+no_import: false
+no_read: false
+doc_category: Organizations
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: true
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: networks
+    type: List
+    mandatory: true
+    description: List containing the network ID and the product type to enable XDR on
+    attributes:
+      - model_name: networkId
+        type: String
+        mandatory: true
+        description: Network ID
+        example: N_1234567
+        test_value: meraki_network_device_claim.test.id
+      - model_name: productTypes
+        type: List
+        element_type: String
+        mandatory: true
+        description: List of products for which to enable XDR
+        example: appliance
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "appliance"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
