@@ -47,12 +47,6 @@ echo "$CHANGED_FILES"
 echo ""
 
 RUN_ALL_PATTERNS=(
-  "^go\.mod$"
-  "^go\.sum$"
-  "^main\.go$"
-  "^internal/provider/provider\.go$"
-  "^internal/provider/provider_test\.go$"
-  "^internal/provider/helpers"
 )
 
 for pattern in "${RUN_ALL_PATTERNS[@]}"; do
@@ -105,6 +99,9 @@ for file in $PROVIDER_FILES; do
       ds_test="data_source_${resource_name%.go}_test.go"
       TEST_FILES_MAP["internal/provider/$res_test"]=1
       TEST_FILES_MAP["internal/provider/$ds_test"]=1
+      ;;
+    provider_test.go)
+      echo "Skipping provider_test.go (test helpers only)"
       ;;
     *)
       echo "Unrecognized provider file pattern: $basename — running all tests"
