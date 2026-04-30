@@ -86,6 +86,10 @@ func (r *ApplianceSiteToSiteVPNResource) Schema(ctx context.Context, req resourc
 					stringvalidator.OneOf("hub", "none", "spoke"),
 				},
 			},
+			"peer_sgt_capable": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("If true, Peer SGT is enabled for the site-to-site VPN.").String,
+				Optional:            true,
+			},
 			"subnet_nat_is_allowed": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.").String,
 				Optional:            true,

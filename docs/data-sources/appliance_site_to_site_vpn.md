@@ -30,6 +30,7 @@ data "meraki_appliance_site_to_site_vpn" "example" {
 - `hubs` (Attributes List) The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required. (see [below for nested schema](#nestedatt--hubs))
 - `id` (String) The id of the object
 - `mode` (String) The site-to-site VPN mode. Can be one of `none`, `spoke` or `hub`
+- `peer_sgt_capable` (Boolean) If true, Peer SGT is enabled for the site-to-site VPN.
 - `subnet_nat_is_allowed` (Boolean) If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
 - `subnets` (Attributes List) The list of subnets and their VPN presence. (see [below for nested schema](#nestedatt--subnets))
 

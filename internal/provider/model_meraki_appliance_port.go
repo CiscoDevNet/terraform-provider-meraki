@@ -41,6 +41,7 @@ type AppliancePort struct {
 	DropUntaggedTraffic types.Bool   `tfsdk:"drop_untagged_traffic"`
 	Enabled             types.Bool   `tfsdk:"enabled"`
 	Type                types.String `tfsdk:"type"`
+	PeerSgtCapable      types.Bool   `tfsdk:"peer_sgt_capable"`
 	Vlan                types.Int64  `tfsdk:"vlan"`
 }
 
@@ -78,6 +79,9 @@ func (data AppliancePort) toBody(ctx context.Context, state AppliancePort) strin
 	if !data.Type.IsNull() {
 		body, _ = sjson.Set(body, "type", data.Type.ValueString())
 	}
+	if !data.PeerSgtCapable.IsNull() {
+		body, _ = sjson.Set(body, "peerSgtCapable", data.PeerSgtCapable.ValueBool())
+	}
 	if !data.Vlan.IsNull() {
 		body, _ = sjson.Set(body, "vlan", data.Vlan.ValueInt64())
 	}
@@ -113,6 +117,11 @@ func (data *AppliancePort) fromBody(ctx context.Context, res meraki.Res) {
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
+	}
+	if value := res.Get("peerSgtCapable"); value.Exists() && value.Value() != nil {
+		data.PeerSgtCapable = types.BoolValue(value.Bool())
+	} else {
+		data.PeerSgtCapable = types.BoolNull()
 	}
 	if value := res.Get("vlan"); value.Exists() && value.Value() != nil {
 		data.Vlan = types.Int64Value(value.Int())
@@ -154,6 +163,11 @@ func (data *AppliancePort) fromBodyPartial(ctx context.Context, res meraki.Res) 
 		data.Type = types.StringValue(value.String())
 	} else {
 		data.Type = types.StringNull()
+	}
+	if value := res.Get("peerSgtCapable"); value.Exists() && !data.PeerSgtCapable.IsNull() {
+		data.PeerSgtCapable = types.BoolValue(value.Bool())
+	} else {
+		data.PeerSgtCapable = types.BoolNull()
 	}
 	if value := res.Get("vlan"); value.Exists() && !data.Vlan.IsNull() {
 		data.Vlan = types.Int64Value(value.Int())

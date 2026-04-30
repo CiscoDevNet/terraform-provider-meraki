@@ -38,7 +38,7 @@ test:
 		if [ -n "$(NAME)" ]; then \
 			MATCH=$$(grep -rl "^name: $${CLEAN_NAME}$$" gen/definitions/*.yaml | head -1); \
 			if [ -n "$${MATCH}" ]; then \
-				CAMEL=$$(echo "$${CLEAN_NAME}" | tr -d ' '); \
+				CAMEL=$$(echo "$${CLEAN_NAME}" | awk '{for(i=1;i<=NF;i++) $$i=toupper(substr($$i,1,1)) substr($$i,2)}1' | tr -d ' '); \
 				TEST_NAME="TestAcc.*Meraki$${CAMEL}$${ANCHOR}"; \
 				echo "Resolved definition '$${CLEAN_NAME}' to test pattern: $${TEST_NAME}"; \
 			else \

@@ -12,6 +12,8 @@ description: |-
 - EXPERIMENTAL: Add `restore_original_state_on_destroy` provider attribute to opt in to restoring the original API state of singleton resources on destroy. When enabled, the provider captures the initial state during resource creation and restores it when the resource is destroyed. This feature is experimental and may change in future releases. See the [Restore State on Destroy guide](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/restore_state_on_destroy) for details and limitations.
 - Add resource identity support for Terraform 1.12+ import blocks, with backward compatibility for older Terraform versions
 - Add `meraki_organization_integrations_xdr_networks` resource and data source
+- Add `peer_sgt_capable` attribute to `meraki_appliance_port` resource and data source
+- Add `peer_sgt_capable` attribute to `meraki_appliance_site_to_site_vpn` resource and data source
 
 ## 1.11.0
 

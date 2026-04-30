@@ -104,6 +104,10 @@ func (r *AppliancePortResource) Schema(ctx context.Context, req resource.SchemaR
 				MarkdownDescription: helpers.NewAttributeDescription("The type of the port: `access` or `trunk`.").String,
 				Optional:            true,
 			},
+			"peer_sgt_capable": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("If true, Peer SGT is enabled for traffic through this appliance port. Applicable to trunk port only, not access port.").String,
+				Optional:            true,
+			},
 			"vlan": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.").String,
 				Optional:            true,

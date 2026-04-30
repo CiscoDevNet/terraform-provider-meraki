@@ -49,6 +49,7 @@ type ResourceAppliancePortsItems struct {
 	DropUntaggedTraffic types.Bool   `tfsdk:"drop_untagged_traffic"`
 	Enabled             types.Bool   `tfsdk:"enabled"`
 	Type                types.String `tfsdk:"type"`
+	PeerSgtCapable      types.Bool   `tfsdk:"peer_sgt_capable"`
 	Vlan                types.Int64  `tfsdk:"vlan"`
 }
 
@@ -90,6 +91,9 @@ func (data ResourceAppliancePortsItems) toBody(ctx context.Context, state Resour
 	}
 	if !data.Type.IsNull() {
 		body, _ = sjson.Set(body, "type", data.Type.ValueString())
+	}
+	if !data.PeerSgtCapable.IsNull() {
+		body, _ = sjson.Set(body, "peerSgtCapable", data.PeerSgtCapable.ValueBool())
 	}
 	if !data.Vlan.IsNull() {
 		body, _ = sjson.Set(body, "vlan", data.Vlan.ValueInt64())
@@ -138,6 +142,11 @@ func (data *ResourceAppliancePorts) fromBody(ctx context.Context, res meraki.Res
 			data.Type = types.StringValue(value.String())
 		} else {
 			data.Type = types.StringNull()
+		}
+		if value := res.Get("peerSgtCapable"); value.Exists() && value.Value() != nil {
+			data.PeerSgtCapable = types.BoolValue(value.Bool())
+		} else {
+			data.PeerSgtCapable = types.BoolNull()
 		}
 		if value := res.Get("vlan"); value.Exists() && value.Value() != nil {
 			data.Vlan = types.Int64Value(value.Int())
@@ -208,6 +217,11 @@ func (data *ResourceAppliancePorts) fromBodyPartial(ctx context.Context, res mer
 			data.Type = types.StringValue(value.String())
 		} else {
 			data.Type = types.StringNull()
+		}
+		if value := res.Get("peerSgtCapable"); value.Exists() && !data.PeerSgtCapable.IsNull() {
+			data.PeerSgtCapable = types.BoolValue(value.Bool())
+		} else {
+			data.PeerSgtCapable = types.BoolNull()
 		}
 		if value := res.Get("vlan"); value.Exists() && !data.Vlan.IsNull() {
 			data.Vlan = types.Int64Value(value.Int())
@@ -291,6 +305,11 @@ func (data *ResourceAppliancePorts) fromBodyImport(ctx context.Context, res mera
 		} else {
 			data.Type = types.StringNull()
 		}
+		if value := res.Get("peerSgtCapable"); value.Exists() && value.Value() != nil {
+			data.PeerSgtCapable = types.BoolValue(value.Bool())
+		} else {
+			data.PeerSgtCapable = types.BoolNull()
+		}
 		if value := res.Get("vlan"); value.Exists() && value.Value() != nil {
 			data.Vlan = types.Int64Value(value.Int())
 		} else {
@@ -371,6 +390,9 @@ func (data *ResourceAppliancePorts) hasChanges(ctx context.Context, state *Resou
 		hasChanges = true
 	}
 	if !item.Type.Equal(stateItem.Type) {
+		hasChanges = true
+	}
+	if !item.PeerSgtCapable.Equal(stateItem.PeerSgtCapable) {
 		hasChanges = true
 	}
 	if !item.Vlan.Equal(stateItem.Vlan) {

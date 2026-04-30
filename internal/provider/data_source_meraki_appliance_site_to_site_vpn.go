@@ -69,6 +69,10 @@ func (d *ApplianceSiteToSiteVPNDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "The site-to-site VPN mode. Can be one of `none`, `spoke` or `hub`",
 				Computed:            true,
 			},
+			"peer_sgt_capable": schema.BoolAttribute{
+				MarkdownDescription: "If true, Peer SGT is enabled for the site-to-site VPN.",
+				Computed:            true,
+			},
 			"subnet_nat_is_allowed": schema.BoolAttribute{
 				MarkdownDescription: "If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.",
 				Computed:            true,

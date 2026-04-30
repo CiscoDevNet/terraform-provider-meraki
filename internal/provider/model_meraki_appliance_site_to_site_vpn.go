@@ -39,6 +39,7 @@ type ApplianceSiteToSiteVPN struct {
 	Id                 types.String                    `tfsdk:"id"`
 	NetworkId          types.String                    `tfsdk:"network_id"`
 	Mode               types.String                    `tfsdk:"mode"`
+	PeerSgtCapable     types.Bool                      `tfsdk:"peer_sgt_capable"`
 	SubnetNatIsAllowed types.Bool                      `tfsdk:"subnet_nat_is_allowed"`
 	Hubs               []ApplianceSiteToSiteVPNHubs    `tfsdk:"hubs"`
 	Subnets            []ApplianceSiteToSiteVPNSubnets `tfsdk:"subnets"`
@@ -76,6 +77,9 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 	body := ""
 	if !data.Mode.IsNull() {
 		body, _ = sjson.Set(body, "mode", data.Mode.ValueString())
+	}
+	if !data.PeerSgtCapable.IsNull() {
+		body, _ = sjson.Set(body, "peerSgtCapable", data.PeerSgtCapable.ValueBool())
 	}
 	if !data.SubnetNatIsAllowed.IsNull() {
 		body, _ = sjson.Set(body, "subnet.nat.isAllowed", data.SubnetNatIsAllowed.ValueBool())
@@ -124,6 +128,11 @@ func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
+	}
+	if value := res.Get("peerSgtCapable"); value.Exists() && value.Value() != nil {
+		data.PeerSgtCapable = types.BoolValue(value.Bool())
+	} else {
+		data.PeerSgtCapable = types.BoolNull()
 	}
 	if value := res.Get("subnet.nat.isAllowed"); value.Exists() && value.Value() != nil {
 		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())
@@ -193,6 +202,11 @@ func (data *ApplianceSiteToSiteVPN) fromBodyPartial(ctx context.Context, res mer
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
+	}
+	if value := res.Get("peerSgtCapable"); value.Exists() && !data.PeerSgtCapable.IsNull() {
+		data.PeerSgtCapable = types.BoolValue(value.Bool())
+	} else {
+		data.PeerSgtCapable = types.BoolNull()
 	}
 	if value := res.Get("subnet.nat.isAllowed"); value.Exists() && !data.SubnetNatIsAllowed.IsNull() {
 		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())

@@ -20,6 +20,11 @@ attributes:
     example: hub
     enum_values: [hub, none, spoke]
     minimum_test_value: '"none"'
+  - model_name: peerSgtCapable
+    type: Bool
+    exclude_test: true
+    description: If true, Peer SGT is enabled for the site-to-site VPN.
+    example: "false"
   - model_name: isAllowed
     type: Bool
     data_path: [subnet, nat]
