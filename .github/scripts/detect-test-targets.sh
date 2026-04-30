@@ -47,7 +47,6 @@ echo "$CHANGED_FILES"
 echo ""
 
 RUN_ALL_PATTERNS=(
-  "^gen/"
   "^go\.mod$"
   "^go\.sum$"
   "^main\.go$"
