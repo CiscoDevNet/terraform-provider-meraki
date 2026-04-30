@@ -35,8 +35,12 @@ resource "meraki_wireless_ssid_identity_psk" "example" {
 
 ### Optional
 
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
 - `expires_at` (String) Timestamp for when the Identity PSK expires. Will not expire if left blank.
 - `passphrase` (String, Sensitive) The passphrase for client authentication. If left blank, one will be auto-generated.
+- `passphrase_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `passphrase_wo_version` (Number) Version of passphrase_wo.
 
 ### Read-Only
 

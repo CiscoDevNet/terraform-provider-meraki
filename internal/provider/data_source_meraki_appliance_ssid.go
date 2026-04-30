@@ -94,6 +94,14 @@ func (d *ApplianceSSIDDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"psk_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"psk_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of psk_wo.",
+				Computed:            true,
+			},
 			"visible": schema.BoolAttribute{
 				MarkdownDescription: "Boolean indicating whether the MX should advertise or hide this SSID.",
 				Computed:            true,
@@ -131,6 +139,14 @@ func (d *ApplianceSSIDDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "The RADIUS client shared secret.",
 							Computed:            true,
 							Sensitive:           true,
+						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of secret_wo.",
+							Computed:            true,
 						},
 					},
 				},

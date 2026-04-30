@@ -32,10 +32,12 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type ApplianceVMXAuthenticationToken struct {
-	Id        types.String `tfsdk:"id"`
-	Serial    types.String `tfsdk:"serial"`
-	Token     types.String `tfsdk:"token"`
-	ExpiresAt types.String `tfsdk:"expires_at"`
+	Id             types.String `tfsdk:"id"`
+	Serial         types.String `tfsdk:"serial"`
+	Token          types.String `tfsdk:"token"`
+	TokenWo        types.String `tfsdk:"token_wo"`
+	TokenWoVersion types.Int64  `tfsdk:"token_wo_version"`
+	ExpiresAt      types.String `tfsdk:"expires_at"`
 }
 
 type ApplianceVMXAuthenticationTokenIdentity struct {

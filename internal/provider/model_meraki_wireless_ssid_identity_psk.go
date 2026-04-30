@@ -33,13 +33,15 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type WirelessSSIDIdentityPSK struct {
-	Id            types.String `tfsdk:"id"`
-	NetworkId     types.String `tfsdk:"network_id"`
-	Number        types.String `tfsdk:"number"`
-	ExpiresAt     types.String `tfsdk:"expires_at"`
-	GroupPolicyId types.String `tfsdk:"group_policy_id"`
-	Name          types.String `tfsdk:"name"`
-	Passphrase    types.String `tfsdk:"passphrase"`
+	Id                  types.String `tfsdk:"id"`
+	NetworkId           types.String `tfsdk:"network_id"`
+	Number              types.String `tfsdk:"number"`
+	ExpiresAt           types.String `tfsdk:"expires_at"`
+	GroupPolicyId       types.String `tfsdk:"group_policy_id"`
+	Name                types.String `tfsdk:"name"`
+	Passphrase          types.String `tfsdk:"passphrase"`
+	PassphraseWo        types.String `tfsdk:"passphrase_wo"`
+	PassphraseWoVersion types.Int64  `tfsdk:"passphrase_wo_version"`
 }
 
 type WirelessSSIDIdentityPSKIdentity struct {
@@ -71,7 +73,9 @@ func (data WirelessSSIDIdentityPSK) toBody(ctx context.Context, state WirelessSS
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !data.Passphrase.IsNull() {
+	if !data.PassphraseWo.IsNull() {
+		body, _ = sjson.Set(body, "passphrase", data.PassphraseWo.ValueString())
+	} else if !data.Passphrase.IsNull() {
 		body, _ = sjson.Set(body, "passphrase", data.Passphrase.ValueString())
 	}
 	return body

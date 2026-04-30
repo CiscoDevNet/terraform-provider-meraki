@@ -124,6 +124,15 @@ func (r *DeviceCellularSIMsResource) Schema(ctx context.Context, req resource.Sc
 										Optional:            true,
 										Sensitive:           true,
 									},
+									"authentication_password_wo": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+										WriteOnly:           true,
+										Optional:            true,
+									},
+									"authentication_password_wo_version": schema.Int64Attribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Version of authentication_password_wo.").String,
+										Optional:            true,
+									},
 									"authentication_type": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("APN auth type.").AddStringEnumDescription("chap", "none", "pap").String,
 										Optional:            true,

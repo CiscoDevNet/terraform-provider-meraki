@@ -37,6 +37,8 @@ type NetworkWebhookHTTPServer struct {
 	NetworkId                        types.String `tfsdk:"network_id"`
 	Name                             types.String `tfsdk:"name"`
 	SharedSecret                     types.String `tfsdk:"shared_secret"`
+	SharedSecretWo                   types.String `tfsdk:"shared_secret_wo"`
+	SharedSecretWoVersion            types.Int64  `tfsdk:"shared_secret_wo_version"`
 	Url                              types.String `tfsdk:"url"`
 	PayloadTemplateName              types.String `tfsdk:"payload_template_name"`
 	PayloadTemplatePayloadTemplateId types.String `tfsdk:"payload_template_payload_template_id"`
@@ -64,7 +66,9 @@ func (data NetworkWebhookHTTPServer) toBody(ctx context.Context, state NetworkWe
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !data.SharedSecret.IsNull() {
+	if !data.SharedSecretWo.IsNull() {
+		body, _ = sjson.Set(body, "sharedSecret", data.SharedSecretWo.ValueString())
+	} else if !data.SharedSecret.IsNull() {
 		body, _ = sjson.Set(body, "sharedSecret", data.SharedSecret.ValueString())
 	}
 	if !data.Url.IsNull() {

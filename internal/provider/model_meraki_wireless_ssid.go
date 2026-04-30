@@ -62,6 +62,8 @@ type WirelessSSID struct {
 	PerSsidBandwidthLimitDown                                           types.Int64                             `tfsdk:"per_ssid_bandwidth_limit_down"`
 	PerSsidBandwidthLimitUp                                             types.Int64                             `tfsdk:"per_ssid_bandwidth_limit_up"`
 	Psk                                                                 types.String                            `tfsdk:"psk"`
+	PskWo                                                               types.String                            `tfsdk:"psk_wo"`
+	PskWoVersion                                                        types.Int64                             `tfsdk:"psk_wo_version"`
 	RadiusAccountingEnabled                                             types.Bool                              `tfsdk:"radius_accounting_enabled"`
 	RadiusAccountingInterimInterval                                     types.Int64                             `tfsdk:"radius_accounting_interim_interval"`
 	RadiusAccountingStartDelay                                          types.Int64                             `tfsdk:"radius_accounting_start_delay"`
@@ -88,6 +90,8 @@ type WirelessSSID struct {
 	WpaEncryptionMode                                                   types.String                            `tfsdk:"wpa_encryption_mode"`
 	ActiveDirectoryCredentialsLogonName                                 types.String                            `tfsdk:"active_directory_credentials_logon_name"`
 	ActiveDirectoryCredentialsPassword                                  types.String                            `tfsdk:"active_directory_credentials_password"`
+	ActiveDirectoryCredentialsPasswordWo                                types.String                            `tfsdk:"active_directory_credentials_password_wo"`
+	ActiveDirectoryCredentialsPasswordWoVersion                         types.Int64                             `tfsdk:"active_directory_credentials_password_wo_version"`
 	ActiveDirectoryServers                                              []WirelessSSIDActiveDirectoryServers    `tfsdk:"active_directory_servers"`
 	DnsRewriteEnabled                                                   types.Bool                              `tfsdk:"dns_rewrite_enabled"`
 	DnsRewriteDnsCustomNameservers                                      types.List                              `tfsdk:"dns_rewrite_dns_custom_nameservers"`
@@ -100,6 +104,8 @@ type WirelessSSID struct {
 	LdapBaseDistinguishedName                                           types.String                            `tfsdk:"ldap_base_distinguished_name"`
 	LdapCredentialsDistinguishedName                                    types.String                            `tfsdk:"ldap_credentials_distinguished_name"`
 	LdapCredentialsPassword                                             types.String                            `tfsdk:"ldap_credentials_password"`
+	LdapCredentialsPasswordWo                                           types.String                            `tfsdk:"ldap_credentials_password_wo"`
+	LdapCredentialsPasswordWoVersion                                    types.Int64                             `tfsdk:"ldap_credentials_password_wo_version"`
 	LdapServerCaCertificateContents                                     types.String                            `tfsdk:"ldap_server_ca_certificate_contents"`
 	LdapServers                                                         []WirelessSSIDLdapServers               `tfsdk:"ldap_servers"`
 	LocalAuthFallbackCacheTimeout                                       types.Int64                             `tfsdk:"local_auth_fallback_cache_timeout"`
@@ -128,6 +134,8 @@ type WirelessSSID struct {
 	WalledGardenRanges                                                  types.Set                               `tfsdk:"walled_garden_ranges"`
 	RadiusDasClientsIps                                                 types.Set                               `tfsdk:"radius_das_clients_ips"`
 	RadiusDasClientsSharedSecret                                        types.String                            `tfsdk:"radius_das_clients_shared_secret"`
+	RadiusDasClientsSharedSecretWo                                      types.String                            `tfsdk:"radius_das_clients_shared_secret_wo"`
+	RadiusDasClientsSharedSecretWoVersion                               types.Int64                             `tfsdk:"radius_das_clients_shared_secret_wo_version"`
 }
 
 type WirelessSSIDActiveDirectoryServers struct {
@@ -151,11 +159,13 @@ type WirelessSSIDApTagsAndVlanIds struct {
 }
 
 type WirelessSSIDRadiusAccountingServers struct {
-	CaCertificate types.String `tfsdk:"ca_certificate"`
-	Host          types.String `tfsdk:"host"`
-	Port          types.Int64  `tfsdk:"port"`
-	RadsecEnabled types.Bool   `tfsdk:"radsec_enabled"`
-	Secret        types.String `tfsdk:"secret"`
+	CaCertificate   types.String `tfsdk:"ca_certificate"`
+	Host            types.String `tfsdk:"host"`
+	Port            types.Int64  `tfsdk:"port"`
+	RadsecEnabled   types.Bool   `tfsdk:"radsec_enabled"`
+	Secret          types.String `tfsdk:"secret"`
+	SecretWo        types.String `tfsdk:"secret_wo"`
+	SecretWoVersion types.Int64  `tfsdk:"secret_wo_version"`
 }
 
 type WirelessSSIDRadiusServers struct {
@@ -165,6 +175,8 @@ type WirelessSSIDRadiusServers struct {
 	Port                     types.Int64  `tfsdk:"port"`
 	RadsecEnabled            types.Bool   `tfsdk:"radsec_enabled"`
 	Secret                   types.String `tfsdk:"secret"`
+	SecretWo                 types.String `tfsdk:"secret_wo"`
+	SecretWoVersion          types.Int64  `tfsdk:"secret_wo_version"`
 }
 
 type WirelessSSIDIdentity struct {
@@ -246,7 +258,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	if !data.PerSsidBandwidthLimitUp.IsNull() {
 		body, _ = sjson.Set(body, "perSsidBandwidthLimitUp", data.PerSsidBandwidthLimitUp.ValueInt64())
 	}
-	if !data.Psk.IsNull() {
+	if !data.PskWo.IsNull() {
+		body, _ = sjson.Set(body, "psk", data.PskWo.ValueString())
+	} else if !data.Psk.IsNull() {
 		body, _ = sjson.Set(body, "psk", data.Psk.ValueString())
 	}
 	if !data.RadiusAccountingEnabled.IsNull() {
@@ -324,7 +338,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	if !data.ActiveDirectoryCredentialsLogonName.IsNull() {
 		body, _ = sjson.Set(body, "activeDirectory.credentials.logonName", data.ActiveDirectoryCredentialsLogonName.ValueString())
 	}
-	if !data.ActiveDirectoryCredentialsPassword.IsNull() {
+	if !data.ActiveDirectoryCredentialsPasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "activeDirectory.credentials.password", data.ActiveDirectoryCredentialsPasswordWo.ValueString())
+	} else if !data.ActiveDirectoryCredentialsPassword.IsNull() {
 		body, _ = sjson.Set(body, "activeDirectory.credentials.password", data.ActiveDirectoryCredentialsPassword.ValueString())
 	}
 	if len(data.ActiveDirectoryServers) > 0 {
@@ -372,7 +388,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	if !data.LdapCredentialsDistinguishedName.IsNull() {
 		body, _ = sjson.Set(body, "ldap.credentials.distinguishedName", data.LdapCredentialsDistinguishedName.ValueString())
 	}
-	if !data.LdapCredentialsPassword.IsNull() {
+	if !data.LdapCredentialsPasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "ldap.credentials.password", data.LdapCredentialsPasswordWo.ValueString())
+	} else if !data.LdapCredentialsPassword.IsNull() {
 		body, _ = sjson.Set(body, "ldap.credentials.password", data.LdapCredentialsPassword.ValueString())
 	}
 	if !data.LdapServerCaCertificateContents.IsNull() {
@@ -495,7 +513,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 			if !item.RadsecEnabled.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "radsecEnabled", item.RadsecEnabled.ValueBool())
 			}
-			if !item.Secret.IsNull() {
+			if !item.SecretWo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "secret", item.SecretWo.ValueString())
+			} else if !item.Secret.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "secret", item.Secret.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "radiusAccountingServers.-1", itemBody)
@@ -520,7 +540,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 			if !item.RadsecEnabled.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "radsecEnabled", item.RadsecEnabled.ValueBool())
 			}
-			if !item.Secret.IsNull() {
+			if !item.SecretWo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "secret", item.SecretWo.ValueString())
+			} else if !item.Secret.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "secret", item.Secret.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "radiusServers.-1", itemBody)
@@ -541,7 +563,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 		data.RadiusDasClientsIps.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "radiusDasClients.clientsIps", values)
 	}
-	if !data.RadiusDasClientsSharedSecret.IsNull() {
+	if !data.RadiusDasClientsSharedSecretWo.IsNull() {
+		body, _ = sjson.Set(body, "radiusDasClients.clientsSharedSecret", data.RadiusDasClientsSharedSecretWo.ValueString())
+	} else if !data.RadiusDasClientsSharedSecret.IsNull() {
 		body, _ = sjson.Set(body, "radiusDasClients.clientsSharedSecret", data.RadiusDasClientsSharedSecret.ValueString())
 	}
 	return body

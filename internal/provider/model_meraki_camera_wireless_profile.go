@@ -33,15 +33,19 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type CameraWirelessProfile struct {
-	Id                 types.String `tfsdk:"id"`
-	NetworkId          types.String `tfsdk:"network_id"`
-	Name               types.String `tfsdk:"name"`
-	IdentityPassword   types.String `tfsdk:"identity_password"`
-	IdentityUsername   types.String `tfsdk:"identity_username"`
-	SsidAuthMode       types.String `tfsdk:"ssid_auth_mode"`
-	SsidEncryptionMode types.String `tfsdk:"ssid_encryption_mode"`
-	SsidName           types.String `tfsdk:"ssid_name"`
-	SsidPsk            types.String `tfsdk:"ssid_psk"`
+	Id                        types.String `tfsdk:"id"`
+	NetworkId                 types.String `tfsdk:"network_id"`
+	Name                      types.String `tfsdk:"name"`
+	IdentityPassword          types.String `tfsdk:"identity_password"`
+	IdentityPasswordWo        types.String `tfsdk:"identity_password_wo"`
+	IdentityPasswordWoVersion types.Int64  `tfsdk:"identity_password_wo_version"`
+	IdentityUsername          types.String `tfsdk:"identity_username"`
+	SsidAuthMode              types.String `tfsdk:"ssid_auth_mode"`
+	SsidEncryptionMode        types.String `tfsdk:"ssid_encryption_mode"`
+	SsidName                  types.String `tfsdk:"ssid_name"`
+	SsidPsk                   types.String `tfsdk:"ssid_psk"`
+	SsidPskWo                 types.String `tfsdk:"ssid_psk_wo"`
+	SsidPskWoVersion          types.Int64  `tfsdk:"ssid_psk_wo_version"`
 }
 
 type CameraWirelessProfileIdentity struct {
@@ -66,7 +70,9 @@ func (data CameraWirelessProfile) toBody(ctx context.Context, state CameraWirele
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !data.IdentityPassword.IsNull() {
+	if !data.IdentityPasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "identity.password", data.IdentityPasswordWo.ValueString())
+	} else if !data.IdentityPassword.IsNull() {
 		body, _ = sjson.Set(body, "identity.password", data.IdentityPassword.ValueString())
 	}
 	if !data.IdentityUsername.IsNull() {
@@ -81,7 +87,9 @@ func (data CameraWirelessProfile) toBody(ctx context.Context, state CameraWirele
 	if !data.SsidName.IsNull() {
 		body, _ = sjson.Set(body, "ssid.name", data.SsidName.ValueString())
 	}
-	if !data.SsidPsk.IsNull() {
+	if !data.SsidPskWo.IsNull() {
+		body, _ = sjson.Set(body, "ssid.psk", data.SsidPskWo.ValueString())
+	} else if !data.SsidPsk.IsNull() {
 		body, _ = sjson.Set(body, "ssid.psk", data.SsidPsk.ValueString())
 	}
 	return body

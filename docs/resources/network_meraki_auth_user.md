@@ -43,10 +43,14 @@ resource "meraki_network_meraki_auth_user" "example" {
 
 ### Optional
 
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
 - `account_type` (String) Authorization type for user. Can be `Guest` or `802.1X` for wireless networks, or `Client VPN` for MX networks. Defaults to `802.1X`.
   - Choices: `802.1X`, `Client VPN`, `Guest`
 - `email_password_to_user` (Boolean) Whether or not Meraki should email the password to user. Default is false.
 - `is_admin` (Boolean) Whether or not the user is a Dashboard administrator.
+- `password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `password_wo_version` (Number) Version of password_wo.
 
 ### Read-Only
 

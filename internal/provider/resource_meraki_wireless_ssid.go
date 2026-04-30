@@ -184,6 +184,15 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"psk_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"psk_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of psk_wo.").String,
+				Optional:            true,
+			},
 			"radius_accounting_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`").String,
 				Optional:            true,
@@ -304,6 +313,15 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"active_directory_credentials_password_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"active_directory_credentials_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of active_directory_credentials_password_wo.").String,
+				Optional:            true,
+			},
 			"active_directory_servers": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The Active Directory servers to be used for authentication.").String,
 				Optional:            true,
@@ -365,6 +383,15 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				MarkdownDescription: helpers.NewAttributeDescription("The password of the LDAP user account.").String,
 				Optional:            true,
 				Sensitive:           true,
+			},
+			"ldap_credentials_password_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"ldap_credentials_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of ldap_credentials_password_wo.").String,
+				Optional:            true,
 			},
 			"ldap_server_ca_certificate_contents": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The contents of the CA certificate. Must be in PEM or DER format.").String,
@@ -520,6 +547,15 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 							Optional:            true,
 							Sensitive:           true,
 						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							WriteOnly:           true,
+							Optional:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Version of secret_wo.").String,
+							Optional:            true,
+						},
 					},
 				},
 			},
@@ -553,6 +589,15 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 							Optional:            true,
 							Sensitive:           true,
 						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							WriteOnly:           true,
+							Optional:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Version of secret_wo.").String,
+							Optional:            true,
+						},
 					},
 				},
 			},
@@ -575,6 +620,15 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				MarkdownDescription: helpers.NewAttributeDescription("Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.").String,
 				Optional:            true,
 				Sensitive:           true,
+			},
+			"radius_das_clients_shared_secret_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"radius_das_clients_shared_secret_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of radius_das_clients_shared_secret_wo.").String,
+				Optional:            true,
 			},
 		},
 	}

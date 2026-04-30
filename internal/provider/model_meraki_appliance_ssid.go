@@ -44,6 +44,8 @@ type ApplianceSSID struct {
 	EncryptionMode                      types.String                 `tfsdk:"encryption_mode"`
 	Name                                types.String                 `tfsdk:"name"`
 	Psk                                 types.String                 `tfsdk:"psk"`
+	PskWo                               types.String                 `tfsdk:"psk_wo"`
+	PskWoVersion                        types.Int64                  `tfsdk:"psk_wo_version"`
 	Visible                             types.Bool                   `tfsdk:"visible"`
 	WpaEncryptionMode                   types.String                 `tfsdk:"wpa_encryption_mode"`
 	DhcpEnforcedDeauthenticationEnabled types.Bool                   `tfsdk:"dhcp_enforced_deauthentication_enabled"`
@@ -53,9 +55,11 @@ type ApplianceSSID struct {
 }
 
 type ApplianceSSIDRadiusServers struct {
-	Host   types.String `tfsdk:"host"`
-	Port   types.Int64  `tfsdk:"port"`
-	Secret types.String `tfsdk:"secret"`
+	Host            types.String `tfsdk:"host"`
+	Port            types.Int64  `tfsdk:"port"`
+	Secret          types.String `tfsdk:"secret"`
+	SecretWo        types.String `tfsdk:"secret_wo"`
+	SecretWoVersion types.Int64  `tfsdk:"secret_wo_version"`
 }
 
 type ApplianceSSIDIdentity struct {
@@ -92,7 +96,9 @@ func (data ApplianceSSID) toBody(ctx context.Context, state ApplianceSSID) strin
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !data.Psk.IsNull() {
+	if !data.PskWo.IsNull() {
+		body, _ = sjson.Set(body, "psk", data.PskWo.ValueString())
+	} else if !data.Psk.IsNull() {
 		body, _ = sjson.Set(body, "psk", data.Psk.ValueString())
 	}
 	if !data.Visible.IsNull() {
@@ -120,7 +126,9 @@ func (data ApplianceSSID) toBody(ctx context.Context, state ApplianceSSID) strin
 			if !item.Port.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "port", item.Port.ValueInt64())
 			}
-			if !item.Secret.IsNull() {
+			if !item.SecretWo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "secret", item.SecretWo.ValueString())
+			} else if !item.Secret.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "secret", item.Secret.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "radiusServers.-1", itemBody)

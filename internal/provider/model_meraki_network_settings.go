@@ -33,15 +33,17 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkSettings struct {
-	Id                                    types.String `tfsdk:"id"`
-	NetworkId                             types.String `tfsdk:"network_id"`
-	LocalStatusPageEnabled                types.Bool   `tfsdk:"local_status_page_enabled"`
-	RemoteStatusPageEnabled               types.Bool   `tfsdk:"remote_status_page_enabled"`
-	LocalStatusPageAuthenticationEnabled  types.Bool   `tfsdk:"local_status_page_authentication_enabled"`
-	LocalStatusPageAuthenticationPassword types.String `tfsdk:"local_status_page_authentication_password"`
-	LocalStatusPageAuthenticationUsername types.String `tfsdk:"local_status_page_authentication_username"`
-	NamedVlansEnabled                     types.Bool   `tfsdk:"named_vlans_enabled"`
-	SecurePortEnabled                     types.Bool   `tfsdk:"secure_port_enabled"`
+	Id                                             types.String `tfsdk:"id"`
+	NetworkId                                      types.String `tfsdk:"network_id"`
+	LocalStatusPageEnabled                         types.Bool   `tfsdk:"local_status_page_enabled"`
+	RemoteStatusPageEnabled                        types.Bool   `tfsdk:"remote_status_page_enabled"`
+	LocalStatusPageAuthenticationEnabled           types.Bool   `tfsdk:"local_status_page_authentication_enabled"`
+	LocalStatusPageAuthenticationPassword          types.String `tfsdk:"local_status_page_authentication_password"`
+	LocalStatusPageAuthenticationPasswordWo        types.String `tfsdk:"local_status_page_authentication_password_wo"`
+	LocalStatusPageAuthenticationPasswordWoVersion types.Int64  `tfsdk:"local_status_page_authentication_password_wo_version"`
+	LocalStatusPageAuthenticationUsername          types.String `tfsdk:"local_status_page_authentication_username"`
+	NamedVlansEnabled                              types.Bool   `tfsdk:"named_vlans_enabled"`
+	SecurePortEnabled                              types.Bool   `tfsdk:"secure_port_enabled"`
 }
 
 type NetworkSettingsIdentity struct {
@@ -71,7 +73,9 @@ func (data NetworkSettings) toBody(ctx context.Context, state NetworkSettings) s
 	if !data.LocalStatusPageAuthenticationEnabled.IsNull() {
 		body, _ = sjson.Set(body, "localStatusPage.authentication.enabled", data.LocalStatusPageAuthenticationEnabled.ValueBool())
 	}
-	if !data.LocalStatusPageAuthenticationPassword.IsNull() {
+	if !data.LocalStatusPageAuthenticationPasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "localStatusPage.authentication.password", data.LocalStatusPageAuthenticationPasswordWo.ValueString())
+	} else if !data.LocalStatusPageAuthenticationPassword.IsNull() {
 		body, _ = sjson.Set(body, "localStatusPage.authentication.password", data.LocalStatusPageAuthenticationPassword.ValueString())
 	}
 	if !data.LocalStatusPageAuthenticationUsername.IsNull() {

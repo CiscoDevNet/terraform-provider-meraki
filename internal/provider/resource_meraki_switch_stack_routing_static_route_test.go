@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -41,6 +43,7 @@ func TestAccMerakiSwitchStackRoutingStaticRoute(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_stack_routing_static_route.test", "subnet", "192.168.2.0/24"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiSwitchStackRoutingStaticRoutePrerequisitesConfig + testAccMerakiSwitchStackRoutingStaticRouteConfig_minimum(),
@@ -62,7 +65,10 @@ func TestAccMerakiSwitchStackRoutingStaticRoute(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -137,7 +143,6 @@ func testAccMerakiSwitchStackRoutingStaticRouteConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiSwitchStackRoutingStaticRouteConfig_all() string {
 	config := `resource "meraki_switch_stack_routing_static_route" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"

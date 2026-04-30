@@ -81,6 +81,14 @@ func (d *CameraWirelessProfileDataSource) Schema(ctx context.Context, req dataso
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"identity_password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"identity_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of identity_password_wo.",
+				Computed:            true,
+			},
 			"identity_username": schema.StringAttribute{
 				MarkdownDescription: "The username of the identity.",
 				Computed:            true,
@@ -102,6 +110,14 @@ func (d *CameraWirelessProfileDataSource) Schema(ctx context.Context, req dataso
 				MarkdownDescription: "The pre-shared key of the SSID.",
 				Computed:            true,
 				Sensitive:           true,
+			},
+			"ssid_psk_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"ssid_psk_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of ssid_psk_wo.",
+				Computed:            true,
 			},
 		},
 	}

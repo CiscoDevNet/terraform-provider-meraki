@@ -33,16 +33,18 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkMQTTBroker struct {
-	Id                         types.String `tfsdk:"id"`
-	NetworkId                  types.String `tfsdk:"network_id"`
-	Host                       types.String `tfsdk:"host"`
-	Name                       types.String `tfsdk:"name"`
-	Port                       types.Int64  `tfsdk:"port"`
-	AuthenticationPassword     types.String `tfsdk:"authentication_password"`
-	AuthenticationUsername     types.String `tfsdk:"authentication_username"`
-	SecurityMode               types.String `tfsdk:"security_mode"`
-	SecurityTlsCaCertificate   types.String `tfsdk:"security_tls_ca_certificate"`
-	SecurityTlsVerifyHostnames types.Bool   `tfsdk:"security_tls_verify_hostnames"`
+	Id                              types.String `tfsdk:"id"`
+	NetworkId                       types.String `tfsdk:"network_id"`
+	Host                            types.String `tfsdk:"host"`
+	Name                            types.String `tfsdk:"name"`
+	Port                            types.Int64  `tfsdk:"port"`
+	AuthenticationPassword          types.String `tfsdk:"authentication_password"`
+	AuthenticationPasswordWo        types.String `tfsdk:"authentication_password_wo"`
+	AuthenticationPasswordWoVersion types.Int64  `tfsdk:"authentication_password_wo_version"`
+	AuthenticationUsername          types.String `tfsdk:"authentication_username"`
+	SecurityMode                    types.String `tfsdk:"security_mode"`
+	SecurityTlsCaCertificate        types.String `tfsdk:"security_tls_ca_certificate"`
+	SecurityTlsVerifyHostnames      types.Bool   `tfsdk:"security_tls_verify_hostnames"`
 }
 
 type NetworkMQTTBrokerIdentity struct {
@@ -73,7 +75,9 @@ func (data NetworkMQTTBroker) toBody(ctx context.Context, state NetworkMQTTBroke
 	if !data.Port.IsNull() {
 		body, _ = sjson.Set(body, "port", data.Port.ValueInt64())
 	}
-	if !data.AuthenticationPassword.IsNull() {
+	if !data.AuthenticationPasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "authentication.password", data.AuthenticationPasswordWo.ValueString())
+	} else if !data.AuthenticationPassword.IsNull() {
 		body, _ = sjson.Set(body, "authentication.password", data.AuthenticationPassword.ValueString())
 	}
 	if !data.AuthenticationUsername.IsNull() {

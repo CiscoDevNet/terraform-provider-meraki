@@ -55,6 +55,8 @@ type ApplianceThirdPartyVPNPeersPeers struct {
 	PublicIp                           types.String `tfsdk:"public_ip"`
 	RemoteId                           types.String `tfsdk:"remote_id"`
 	Secret                             types.String `tfsdk:"secret"`
+	SecretWo                           types.String `tfsdk:"secret_wo"`
+	SecretWoVersion                    types.Int64  `tfsdk:"secret_wo_version"`
 	EbgpNeighborEbgpHoldTimer          types.Int64  `tfsdk:"ebgp_neighbor_ebgp_hold_timer"`
 	EbgpNeighborEbgpMultihop           types.Int64  `tfsdk:"ebgp_neighbor_ebgp_multihop"`
 	EbgpNeighborIpVersion              types.Int64  `tfsdk:"ebgp_neighbor_ip_version"`
@@ -137,7 +139,9 @@ func (data ApplianceThirdPartyVPNPeers) toBody(ctx context.Context, state Applia
 			if !item.RemoteId.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "remoteId", item.RemoteId.ValueString())
 			}
-			if !item.Secret.IsNull() {
+			if !item.SecretWo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "secret", item.SecretWo.ValueString())
+			} else if !item.Secret.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "secret", item.Secret.ValueString())
 			}
 			if !item.EbgpNeighborEbgpHoldTimer.IsNull() {

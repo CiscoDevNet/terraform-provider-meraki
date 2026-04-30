@@ -42,7 +42,11 @@ resource "meraki_organization_auth_radius_server" "example" {
 
 ### Optional
 
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
 - `name` (String) The name of the RADIUS server
+- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `secret_wo_version` (Number) Version of secret_wo.
 
 ### Read-Only
 

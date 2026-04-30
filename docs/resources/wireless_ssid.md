@@ -56,8 +56,12 @@ resource "meraki_wireless_ssid" "example" {
 
 ### Optional
 
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
 - `active_directory_credentials_logon_name` (String) The logon name of the Active Directory account.
 - `active_directory_credentials_password` (String, Sensitive) The password to the Active Directory user account.
+- `active_directory_credentials_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `active_directory_credentials_password_wo_version` (Number) Version of active_directory_credentials_password_wo.
 - `active_directory_servers` (Attributes List) The Active Directory servers to be used for authentication. (see [below for nested schema](#nestedatt--active_directory_servers))
 - `adaptive_policy_group_id` (String) Adaptive policy group ID this SSID is assigned to.
 - `adult_content_filtering_enabled` (Boolean) Boolean indicating whether or not adult content will be blocked
@@ -89,6 +93,8 @@ resource "meraki_wireless_ssid" "example" {
 - `ldap_base_distinguished_name` (String) The base distinguished name of users on the LDAP server.
 - `ldap_credentials_distinguished_name` (String) The distinguished name of the LDAP user account (example: cn=user,dc=meraki,dc=com).
 - `ldap_credentials_password` (String, Sensitive) The password of the LDAP user account.
+- `ldap_credentials_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `ldap_credentials_password_wo_version` (Number) Version of ldap_credentials_password_wo.
 - `ldap_server_ca_certificate_contents` (String) The contents of the CA certificate. Must be in PEM or DER format.
 - `ldap_servers` (Attributes List) The LDAP servers to be used for authentication. (see [below for nested schema](#nestedatt--ldap_servers))
 - `local_auth_fallback_cache_timeout` (Number) The duration (in seconds) for which auths are cached. The timeout is measured from the user`s most recent non-cached authentication to the network. Between 3600 (1 hour) and 86400 (1 day)
@@ -114,6 +120,8 @@ resource "meraki_wireless_ssid" "example" {
 - `per_ssid_bandwidth_limit_down` (Number) The total download bandwidth limit in Kbps. (0 represents no limit.)
 - `per_ssid_bandwidth_limit_up` (Number) The total upload bandwidth limit in Kbps. (0 represents no limit.)
 - `psk` (String, Sensitive) The passkey for the SSID. This param is only valid if the authMode is `psk`
+- `psk_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `psk_wo_version` (Number) Version of psk_wo.
 - `radius_accounting_enabled` (Boolean) Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`
 - `radius_accounting_interim_interval` (Number) The interval (in seconds) in which accounting information is updated and sent to the RADIUS accounting server.
 - `radius_accounting_servers` (Attributes List) The RADIUS accounting 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` and radiusAccountingEnabled is `true` (see [below for nested schema](#nestedatt--radius_accounting_servers))
@@ -125,6 +133,8 @@ resource "meraki_wireless_ssid" "example" {
 - `radius_coa_enabled` (Boolean) If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server.
 - `radius_das_clients_ips` (Set of String) List of DAS (Dynamic Authorization Server) IPs. This is an unsupported attribute and is subject to breaking changes without prior notice.
 - `radius_das_clients_shared_secret` (String, Sensitive) Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.
+- `radius_das_clients_shared_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `radius_das_clients_shared_secret_wo_version` (Number) Version of radius_das_clients_shared_secret_wo.
 - `radius_failover_policy` (String) This policy determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable (`Deny access` or `Allow access`)
   - Choices: `Allow access`, `Deny access`
 - `radius_fallback_enabled` (Boolean) Whether or not higher priority RADIUS servers should be retried after 60 seconds.
@@ -208,6 +218,8 @@ Optional:
 - `port` (Number) Port on the RADIUS server that is listening for accounting messages
 - `radsec_enabled` (Boolean) Use RADSEC (TLS over TCP) to connect to this RADIUS accounting server. Requires radiusProxyEnabled.
 - `secret` (String, Sensitive) Shared key used to authenticate messages between the APs and RADIUS server
+- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `secret_wo_version` (Number) Version of secret_wo.
 
 
 <a id="nestedatt--radius_servers"></a>
@@ -224,6 +236,8 @@ Optional:
 - `port` (Number) UDP port the RADIUS server listens on for Access-requests
 - `radsec_enabled` (Boolean) Use RADSEC (TLS over TCP) to connect to this RADIUS server. Requires radiusProxyEnabled.
 - `secret` (String, Sensitive) RADIUS client shared secret
+- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `secret_wo_version` (Number) Version of secret_wo.
 
 ## Import
 

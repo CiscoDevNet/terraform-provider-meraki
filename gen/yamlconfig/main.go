@@ -549,6 +549,36 @@ func IsSingleton(config YamlConfig) bool {
 	return config.PutCreate && config.NoDelete && !config.NoRead
 }
 
+func HasSensitiveAttr(attrs []YamlConfigAttribute) bool {
+	for _, attr := range attrs {
+		if attr.Sensitive && attr.Type == "String" {
+			return true
+		}
+	}
+	return false
+}
+
+func HasSensitiveAttrRecursive(attrs []YamlConfigAttribute) bool {
+	for _, attr := range attrs {
+		if attr.Sensitive && attr.Type == "String" {
+			return true
+		}
+		if HasSensitiveAttrRecursive(attr.Attributes) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasWriteOnly(attrs []YamlConfigAttribute) bool {
+	for _, attr := range attrs {
+		if attr.WriteOnly && !attr.ExcludeTest {
+			return true
+		}
+	}
+	return false
+}
+
 // Map of templating functions
 var Functions = template.FuncMap{
 	"toGoName":                ToGoName,
@@ -587,6 +617,9 @@ var Functions = template.FuncMap{
 	"getBulkItemId":           GetBulkItemId,
 	"getBulkItemIdTfName":     GetBulkItemIdTfName,
 	"isSingleton":             IsSingleton,
+	"hasSensitiveAttr":           HasSensitiveAttr,
+	"hasSensitiveAttrRecursive":  HasSensitiveAttrRecursive,
+	"hasWriteOnly":               HasWriteOnly,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")

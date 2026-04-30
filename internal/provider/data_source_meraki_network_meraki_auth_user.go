@@ -97,6 +97,14 @@ func (d *NetworkMerakiAuthUserDataSource) Schema(ctx context.Context, req dataso
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of password_wo.",
+				Computed:            true,
+			},
 			"authorizations": schema.ListNestedAttribute{
 				MarkdownDescription: "Authorization zones and expiration dates for the user.",
 				Computed:            true,

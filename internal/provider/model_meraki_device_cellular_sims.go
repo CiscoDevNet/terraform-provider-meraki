@@ -53,11 +53,13 @@ type DeviceCellularSIMsSims struct {
 }
 
 type DeviceCellularSIMsSimsApns struct {
-	Name                   types.String `tfsdk:"name"`
-	AuthenticationPassword types.String `tfsdk:"authentication_password"`
-	AuthenticationType     types.String `tfsdk:"authentication_type"`
-	AuthenticationUsername types.String `tfsdk:"authentication_username"`
-	AllowedIpTypes         types.Set    `tfsdk:"allowed_ip_types"`
+	Name                            types.String `tfsdk:"name"`
+	AuthenticationPassword          types.String `tfsdk:"authentication_password"`
+	AuthenticationPasswordWo        types.String `tfsdk:"authentication_password_wo"`
+	AuthenticationPasswordWoVersion types.Int64  `tfsdk:"authentication_password_wo_version"`
+	AuthenticationType              types.String `tfsdk:"authentication_type"`
+	AuthenticationUsername          types.String `tfsdk:"authentication_username"`
+	AllowedIpTypes                  types.Set    `tfsdk:"allowed_ip_types"`
 }
 
 type DeviceCellularSIMsIdentity struct {
@@ -109,7 +111,9 @@ func (data DeviceCellularSIMs) toBody(ctx context.Context, state DeviceCellularS
 					if !childItem.Name.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "name", childItem.Name.ValueString())
 					}
-					if !childItem.AuthenticationPassword.IsNull() {
+					if !childItem.AuthenticationPasswordWo.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "authentication.password", childItem.AuthenticationPasswordWo.ValueString())
+					} else if !childItem.AuthenticationPassword.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "authentication.password", childItem.AuthenticationPassword.ValueString())
 					}
 					if !childItem.AuthenticationType.IsNull() {

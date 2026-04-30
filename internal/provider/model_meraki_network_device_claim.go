@@ -49,8 +49,10 @@ type NetworkDeviceClaimDetailsByDevice struct {
 }
 
 type NetworkDeviceClaimDetailsByDeviceDetails struct {
-	Name  types.String `tfsdk:"name"`
-	Value types.String `tfsdk:"value"`
+	Name           types.String `tfsdk:"name"`
+	Value          types.String `tfsdk:"value"`
+	ValueWo        types.String `tfsdk:"value_wo"`
+	ValueWoVersion types.Int64  `tfsdk:"value_wo_version"`
 }
 
 type NetworkDeviceClaimIdentity struct {
@@ -93,7 +95,9 @@ func (data NetworkDeviceClaim) toBody(ctx context.Context, state NetworkDeviceCl
 					if !childItem.Name.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "name", childItem.Name.ValueString())
 					}
-					if !childItem.Value.IsNull() {
+					if !childItem.ValueWo.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "value", childItem.ValueWo.ValueString())
+					} else if !childItem.Value.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "value", childItem.Value.ValueString())
 					}
 					itemBody, _ = sjson.SetRaw(itemBody, "details.-1", itemChildBody)

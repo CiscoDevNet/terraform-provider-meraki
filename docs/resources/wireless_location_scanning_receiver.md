@@ -35,6 +35,13 @@ resource "meraki_wireless_location_scanning_receiver" "example" {
 - `url` (String) Receiver Url
 - `version` (String) Scanning API Version
 
+### Optional
+
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
+- `shared_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `shared_secret_wo_version` (Number) Version of shared_secret_wo.
+
 ### Read-Only
 
 - `id` (String) The id of the object

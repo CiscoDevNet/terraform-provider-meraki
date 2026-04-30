@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -63,6 +65,7 @@ func TestAccMerakiOrganizationBrandingPolicy(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_branding_policy.test", "help_settings_universal_search_knowledge_base_search", "hide"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiOrganizationBrandingPolicyPrerequisitesConfig + testAccMerakiOrganizationBrandingPolicyConfig_minimum(),
@@ -84,7 +87,10 @@ func TestAccMerakiOrganizationBrandingPolicy(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -129,7 +135,6 @@ func testAccMerakiOrganizationBrandingPolicyConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiOrganizationBrandingPolicyConfig_all() string {
 	config := `resource "meraki_organization_branding_policy" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"

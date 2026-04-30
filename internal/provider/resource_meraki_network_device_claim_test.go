@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -40,13 +42,15 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim.test", "details_by_device.0.details.0.value", "milesmeraki"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkDeviceClaimPrerequisitesConfig + testAccMerakiNetworkDeviceClaimConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkDeviceClaimPrerequisitesConfig + testAccMerakiNetworkDeviceClaimConfig_all(),
+		Config: testAccMerakiNetworkDeviceClaimPrerequisitesConfig + testAccMerakiNetworkDeviceClaimConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -61,7 +65,10 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 

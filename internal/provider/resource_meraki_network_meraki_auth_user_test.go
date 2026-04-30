@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -43,13 +45,15 @@ func TestAccMerakiNetworkMerakiAuthUser(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "authorizations.0.expires_at", "2018-03-13T00:00:00.090210Z"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkMerakiAuthUserPrerequisitesConfig + testAccMerakiNetworkMerakiAuthUserConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkMerakiAuthUserPrerequisitesConfig + testAccMerakiNetworkMerakiAuthUserConfig_all(),
+		Config: testAccMerakiNetworkMerakiAuthUserPrerequisitesConfig + testAccMerakiNetworkMerakiAuthUserConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -64,7 +68,10 @@ func TestAccMerakiNetworkMerakiAuthUser(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -127,8 +134,7 @@ func testAccMerakiNetworkMerakiAuthUserConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiNetworkMerakiAuthUserConfig_all() string {
+func testAccMerakiNetworkMerakiAuthUserConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_network_meraki_auth_user" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  account_type = "802.1X"` + "\n"
@@ -136,7 +142,13 @@ func testAccMerakiNetworkMerakiAuthUserConfig_all() string {
 	config += `  email_password_to_user = false` + "\n"
 	config += `  is_admin = false` + "\n"
 	config += `  name = "Miles Meraki"` + "\n"
-	config += `  password = "Cisco123456&"` + "\n"
+	if includeWriteOnly {
+		config += `  password = "Cisco123456&"` + "\n"
+		config += `  password_wo = "Cisco123456&"` + "\n"
+		config += `  password_wo_version = 1` + "\n"
+	} else {
+		config += `  password = "Cisco123456&"` + "\n"
+	}
 	config += `  authorizations = [{` + "\n"
 	config += `    expires_at = "2018-03-13T00:00:00.090210Z"` + "\n"
 	config += `    ssid_number = meraki_wireless_ssid.test.number` + "\n"

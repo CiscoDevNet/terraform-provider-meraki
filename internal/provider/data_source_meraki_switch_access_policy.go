@@ -214,6 +214,14 @@ func (d *SwitchAccessPolicyDataSource) Schema(ctx context.Context, req datasourc
 							Computed:            true,
 							Sensitive:           true,
 						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of secret_wo.",
+							Computed:            true,
+						},
 					},
 				},
 			},
@@ -238,6 +246,14 @@ func (d *SwitchAccessPolicyDataSource) Schema(ctx context.Context, req datasourc
 							MarkdownDescription: "RADIUS client shared secret",
 							Computed:            true,
 							Sensitive:           true,
+						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of secret_wo.",
+							Computed:            true,
 						},
 					},
 				},

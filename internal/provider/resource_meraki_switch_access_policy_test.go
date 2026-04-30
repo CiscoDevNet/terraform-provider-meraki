@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -60,13 +62,15 @@ func TestAccMerakiSwitchAccessPolicy(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_access_policy.test", "radius_servers.0.port", "22"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiSwitchAccessPolicyPrerequisitesConfig + testAccMerakiSwitchAccessPolicyConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchAccessPolicyPrerequisitesConfig + testAccMerakiSwitchAccessPolicyConfig_all(),
+		Config: testAccMerakiSwitchAccessPolicyPrerequisitesConfig + testAccMerakiSwitchAccessPolicyConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -81,7 +85,10 @@ func TestAccMerakiSwitchAccessPolicy(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -142,8 +149,7 @@ func testAccMerakiSwitchAccessPolicyConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiSwitchAccessPolicyConfig_all() string {
+func testAccMerakiSwitchAccessPolicyConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_switch_access_policy" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  access_policy_type = "Hybrid authentication"` + "\n"
@@ -169,12 +175,24 @@ func testAccMerakiSwitchAccessPolicyConfig_all() string {
 	config += `  radius_accounting_servers = [{` + "\n"
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 22` + "\n"
-	config += `    secret = "secret"` + "\n"
+	if includeWriteOnly {
+		config += `    secret = "secret"` + "\n"
+		config += `    secret_wo = "secret"` + "\n"
+		config += `    secret_wo_version = 1` + "\n"
+	} else {
+		config += `    secret = "secret"` + "\n"
+	}
 	config += `  }]` + "\n"
 	config += `  radius_servers = [{` + "\n"
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 22` + "\n"
-	config += `    secret = "secret"` + "\n"
+	if includeWriteOnly {
+		config += `    secret = "secret"` + "\n"
+		config += `    secret_wo = "secret"` + "\n"
+		config += `    secret_wo_version = 1` + "\n"
+	} else {
+		config += `    secret = "secret"` + "\n"
+	}
 	config += `  }]` + "\n"
 	config += `  url_redirect_walled_garden_ranges = ["192.168.1.0/24"]` + "\n"
 	config += `}` + "\n"

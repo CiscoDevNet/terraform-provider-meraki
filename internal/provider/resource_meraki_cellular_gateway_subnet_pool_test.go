@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -40,6 +42,7 @@ func TestAccMerakiCellularGatewaySubnetPool(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_cellular_gateway_subnet_pool.test", "mask", "26"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiCellularGatewaySubnetPoolPrerequisitesConfig + testAccMerakiCellularGatewaySubnetPoolConfig_minimum(),
@@ -61,7 +64,10 @@ func TestAccMerakiCellularGatewaySubnetPool(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -112,7 +118,6 @@ func testAccMerakiCellularGatewaySubnetPoolConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiCellularGatewaySubnetPoolConfig_all() string {
 	config := `resource "meraki_cellular_gateway_subnet_pool" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"

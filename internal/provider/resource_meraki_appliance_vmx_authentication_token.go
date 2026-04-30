@@ -81,6 +81,15 @@ func (r *ApplianceVMXAuthenticationTokenResource) Schema(ctx context.Context, re
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"token_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"token_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of token_wo.").String,
+				Optional:            true,
+			},
 			"expires_at": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The expiration time for the token, in ISO 8601 format").String,
 				Computed:            true,

@@ -34,38 +34,42 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type ApplianceUplinksSettings struct {
-	Id                                         types.String `tfsdk:"id"`
-	Serial                                     types.String `tfsdk:"serial"`
-	InterfacesWan1Enabled                      types.Bool   `tfsdk:"interfaces_wan1_enabled"`
-	InterfacesWan1PppoeEnabled                 types.Bool   `tfsdk:"interfaces_wan1_pppoe_enabled"`
-	InterfacesWan1PppoeAuthenticationEnabled   types.Bool   `tfsdk:"interfaces_wan1_pppoe_authentication_enabled"`
-	InterfacesWan1PppoeAuthenticationPassword  types.String `tfsdk:"interfaces_wan1_pppoe_authentication_password"`
-	InterfacesWan1PppoeAuthenticationUsername  types.String `tfsdk:"interfaces_wan1_pppoe_authentication_username"`
-	InterfacesWan1SvisIpv4Address              types.String `tfsdk:"interfaces_wan1_svis_ipv4_address"`
-	InterfacesWan1SvisIpv4AssignmentMode       types.String `tfsdk:"interfaces_wan1_svis_ipv4_assignment_mode"`
-	InterfacesWan1SvisIpv4Gateway              types.String `tfsdk:"interfaces_wan1_svis_ipv4_gateway"`
-	InterfacesWan1SvisIpv4NameserversAddresses types.List   `tfsdk:"interfaces_wan1_svis_ipv4_nameservers_addresses"`
-	InterfacesWan1SvisIpv6Address              types.String `tfsdk:"interfaces_wan1_svis_ipv6_address"`
-	InterfacesWan1SvisIpv6AssignmentMode       types.String `tfsdk:"interfaces_wan1_svis_ipv6_assignment_mode"`
-	InterfacesWan1SvisIpv6Gateway              types.String `tfsdk:"interfaces_wan1_svis_ipv6_gateway"`
-	InterfacesWan1SvisIpv6NameserversAddresses types.List   `tfsdk:"interfaces_wan1_svis_ipv6_nameservers_addresses"`
-	InterfacesWan1VlanTaggingEnabled           types.Bool   `tfsdk:"interfaces_wan1_vlan_tagging_enabled"`
-	InterfacesWan1VlanTaggingVlanId            types.Int64  `tfsdk:"interfaces_wan1_vlan_tagging_vlan_id"`
-	InterfacesWan2Enabled                      types.Bool   `tfsdk:"interfaces_wan2_enabled"`
-	InterfacesWan2PppoeEnabled                 types.Bool   `tfsdk:"interfaces_wan2_pppoe_enabled"`
-	InterfacesWan2PppoeAuthenticationEnabled   types.Bool   `tfsdk:"interfaces_wan2_pppoe_authentication_enabled"`
-	InterfacesWan2PppoeAuthenticationPassword  types.String `tfsdk:"interfaces_wan2_pppoe_authentication_password"`
-	InterfacesWan2PppoeAuthenticationUsername  types.String `tfsdk:"interfaces_wan2_pppoe_authentication_username"`
-	InterfacesWan2SvisIpv4Address              types.String `tfsdk:"interfaces_wan2_svis_ipv4_address"`
-	InterfacesWan2SvisIpv4AssignmentMode       types.String `tfsdk:"interfaces_wan2_svis_ipv4_assignment_mode"`
-	InterfacesWan2SvisIpv4Gateway              types.String `tfsdk:"interfaces_wan2_svis_ipv4_gateway"`
-	InterfacesWan2SvisIpv4NameserversAddresses types.List   `tfsdk:"interfaces_wan2_svis_ipv4_nameservers_addresses"`
-	InterfacesWan2SvisIpv6Address              types.String `tfsdk:"interfaces_wan2_svis_ipv6_address"`
-	InterfacesWan2SvisIpv6AssignmentMode       types.String `tfsdk:"interfaces_wan2_svis_ipv6_assignment_mode"`
-	InterfacesWan2SvisIpv6Gateway              types.String `tfsdk:"interfaces_wan2_svis_ipv6_gateway"`
-	InterfacesWan2SvisIpv6NameserversAddresses types.List   `tfsdk:"interfaces_wan2_svis_ipv6_nameservers_addresses"`
-	InterfacesWan2VlanTaggingEnabled           types.Bool   `tfsdk:"interfaces_wan2_vlan_tagging_enabled"`
-	InterfacesWan2VlanTaggingVlanId            types.Int64  `tfsdk:"interfaces_wan2_vlan_tagging_vlan_id"`
+	Id                                                 types.String `tfsdk:"id"`
+	Serial                                             types.String `tfsdk:"serial"`
+	InterfacesWan1Enabled                              types.Bool   `tfsdk:"interfaces_wan1_enabled"`
+	InterfacesWan1PppoeEnabled                         types.Bool   `tfsdk:"interfaces_wan1_pppoe_enabled"`
+	InterfacesWan1PppoeAuthenticationEnabled           types.Bool   `tfsdk:"interfaces_wan1_pppoe_authentication_enabled"`
+	InterfacesWan1PppoeAuthenticationPassword          types.String `tfsdk:"interfaces_wan1_pppoe_authentication_password"`
+	InterfacesWan1PppoeAuthenticationPasswordWo        types.String `tfsdk:"interfaces_wan1_pppoe_authentication_password_wo"`
+	InterfacesWan1PppoeAuthenticationPasswordWoVersion types.Int64  `tfsdk:"interfaces_wan1_pppoe_authentication_password_wo_version"`
+	InterfacesWan1PppoeAuthenticationUsername          types.String `tfsdk:"interfaces_wan1_pppoe_authentication_username"`
+	InterfacesWan1SvisIpv4Address                      types.String `tfsdk:"interfaces_wan1_svis_ipv4_address"`
+	InterfacesWan1SvisIpv4AssignmentMode               types.String `tfsdk:"interfaces_wan1_svis_ipv4_assignment_mode"`
+	InterfacesWan1SvisIpv4Gateway                      types.String `tfsdk:"interfaces_wan1_svis_ipv4_gateway"`
+	InterfacesWan1SvisIpv4NameserversAddresses         types.List   `tfsdk:"interfaces_wan1_svis_ipv4_nameservers_addresses"`
+	InterfacesWan1SvisIpv6Address                      types.String `tfsdk:"interfaces_wan1_svis_ipv6_address"`
+	InterfacesWan1SvisIpv6AssignmentMode               types.String `tfsdk:"interfaces_wan1_svis_ipv6_assignment_mode"`
+	InterfacesWan1SvisIpv6Gateway                      types.String `tfsdk:"interfaces_wan1_svis_ipv6_gateway"`
+	InterfacesWan1SvisIpv6NameserversAddresses         types.List   `tfsdk:"interfaces_wan1_svis_ipv6_nameservers_addresses"`
+	InterfacesWan1VlanTaggingEnabled                   types.Bool   `tfsdk:"interfaces_wan1_vlan_tagging_enabled"`
+	InterfacesWan1VlanTaggingVlanId                    types.Int64  `tfsdk:"interfaces_wan1_vlan_tagging_vlan_id"`
+	InterfacesWan2Enabled                              types.Bool   `tfsdk:"interfaces_wan2_enabled"`
+	InterfacesWan2PppoeEnabled                         types.Bool   `tfsdk:"interfaces_wan2_pppoe_enabled"`
+	InterfacesWan2PppoeAuthenticationEnabled           types.Bool   `tfsdk:"interfaces_wan2_pppoe_authentication_enabled"`
+	InterfacesWan2PppoeAuthenticationPassword          types.String `tfsdk:"interfaces_wan2_pppoe_authentication_password"`
+	InterfacesWan2PppoeAuthenticationPasswordWo        types.String `tfsdk:"interfaces_wan2_pppoe_authentication_password_wo"`
+	InterfacesWan2PppoeAuthenticationPasswordWoVersion types.Int64  `tfsdk:"interfaces_wan2_pppoe_authentication_password_wo_version"`
+	InterfacesWan2PppoeAuthenticationUsername          types.String `tfsdk:"interfaces_wan2_pppoe_authentication_username"`
+	InterfacesWan2SvisIpv4Address                      types.String `tfsdk:"interfaces_wan2_svis_ipv4_address"`
+	InterfacesWan2SvisIpv4AssignmentMode               types.String `tfsdk:"interfaces_wan2_svis_ipv4_assignment_mode"`
+	InterfacesWan2SvisIpv4Gateway                      types.String `tfsdk:"interfaces_wan2_svis_ipv4_gateway"`
+	InterfacesWan2SvisIpv4NameserversAddresses         types.List   `tfsdk:"interfaces_wan2_svis_ipv4_nameservers_addresses"`
+	InterfacesWan2SvisIpv6Address                      types.String `tfsdk:"interfaces_wan2_svis_ipv6_address"`
+	InterfacesWan2SvisIpv6AssignmentMode               types.String `tfsdk:"interfaces_wan2_svis_ipv6_assignment_mode"`
+	InterfacesWan2SvisIpv6Gateway                      types.String `tfsdk:"interfaces_wan2_svis_ipv6_gateway"`
+	InterfacesWan2SvisIpv6NameserversAddresses         types.List   `tfsdk:"interfaces_wan2_svis_ipv6_nameservers_addresses"`
+	InterfacesWan2VlanTaggingEnabled                   types.Bool   `tfsdk:"interfaces_wan2_vlan_tagging_enabled"`
+	InterfacesWan2VlanTaggingVlanId                    types.Int64  `tfsdk:"interfaces_wan2_vlan_tagging_vlan_id"`
 }
 
 type ApplianceUplinksSettingsIdentity struct {
@@ -95,7 +99,9 @@ func (data ApplianceUplinksSettings) toBody(ctx context.Context, state Appliance
 	if !data.InterfacesWan1PppoeAuthenticationEnabled.IsNull() {
 		body, _ = sjson.Set(body, "interfaces.wan1.pppoe.authentication.enabled", data.InterfacesWan1PppoeAuthenticationEnabled.ValueBool())
 	}
-	if !data.InterfacesWan1PppoeAuthenticationPassword.IsNull() {
+	if !data.InterfacesWan1PppoeAuthenticationPasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "interfaces.wan1.pppoe.authentication.password", data.InterfacesWan1PppoeAuthenticationPasswordWo.ValueString())
+	} else if !data.InterfacesWan1PppoeAuthenticationPassword.IsNull() {
 		body, _ = sjson.Set(body, "interfaces.wan1.pppoe.authentication.password", data.InterfacesWan1PppoeAuthenticationPassword.ValueString())
 	}
 	if !data.InterfacesWan1PppoeAuthenticationUsername.IsNull() {
@@ -144,7 +150,9 @@ func (data ApplianceUplinksSettings) toBody(ctx context.Context, state Appliance
 	if !data.InterfacesWan2PppoeAuthenticationEnabled.IsNull() {
 		body, _ = sjson.Set(body, "interfaces.wan2.pppoe.authentication.enabled", data.InterfacesWan2PppoeAuthenticationEnabled.ValueBool())
 	}
-	if !data.InterfacesWan2PppoeAuthenticationPassword.IsNull() {
+	if !data.InterfacesWan2PppoeAuthenticationPasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "interfaces.wan2.pppoe.authentication.password", data.InterfacesWan2PppoeAuthenticationPasswordWo.ValueString())
+	} else if !data.InterfacesWan2PppoeAuthenticationPassword.IsNull() {
 		body, _ = sjson.Set(body, "interfaces.wan2.pppoe.authentication.password", data.InterfacesWan2PppoeAuthenticationPassword.ValueString())
 	}
 	if !data.InterfacesWan2PppoeAuthenticationUsername.IsNull() {

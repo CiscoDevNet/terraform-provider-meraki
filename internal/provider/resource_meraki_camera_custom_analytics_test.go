@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -45,6 +47,7 @@ func TestAccMerakiCameraCustomAnalytics(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_custom_analytics.test", "parameters.0.value", "0.5"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiCameraCustomAnalyticsPrerequisitesConfig + testAccMerakiCameraCustomAnalyticsConfig_minimum(),
@@ -66,7 +69,10 @@ func TestAccMerakiCameraCustomAnalytics(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -121,7 +127,6 @@ func testAccMerakiCameraCustomAnalyticsConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiCameraCustomAnalyticsConfig_all() string {
 	config := `resource "meraki_camera_custom_analytics" "test" {` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"

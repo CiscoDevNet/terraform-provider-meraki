@@ -103,6 +103,15 @@ func (r *NetworkDeviceClaimResource) Schema(ctx context.Context, req resource.Sc
 										Optional:            true,
 										Sensitive:           true,
 									},
+									"value_wo": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+										WriteOnly:           true,
+										Optional:            true,
+									},
+									"value_wo_version": schema.Int64Attribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Version of value_wo.").String,
+										Optional:            true,
+									},
 								},
 							},
 						},
@@ -283,7 +292,11 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 					deviceDetailsBody, _ := sjson.Set("", "serial", details.Serial.ValueString())
 					for _, detail := range details.Details {
 						detailsBody, _ := sjson.Set("", "name", detail.Name.ValueString())
-						detailsBody, _ = sjson.Set(detailsBody, "value", detail.Value.ValueString())
+						if !detail.ValueWo.IsNull() {
+							detailsBody, _ = sjson.Set(detailsBody, "value", detail.ValueWo.ValueString())
+						} else {
+							detailsBody, _ = sjson.Set(detailsBody, "value", detail.Value.ValueString())
+						}
 						deviceDetailsBody, _ = sjson.SetRaw(deviceDetailsBody, "details.-1", detailsBody)
 					}
 					claimBody, _ = sjson.SetRaw(claimBody, "detailsByDevice.-1", deviceDetailsBody)

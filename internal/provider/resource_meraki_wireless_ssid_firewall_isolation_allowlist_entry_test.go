@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -41,6 +43,7 @@ func TestAccMerakiWirelessSSIDFirewallIsolationAllowlistEntry(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_firewall_isolation_allowlist_entry.test", "ssid_number", "2"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessSSIDFirewallIsolationAllowlistEntryPrerequisitesConfig + testAccMerakiWirelessSSIDFirewallIsolationAllowlistEntryConfig_minimum(),
@@ -62,7 +65,10 @@ func TestAccMerakiWirelessSSIDFirewallIsolationAllowlistEntry(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -115,7 +121,6 @@ func testAccMerakiWirelessSSIDFirewallIsolationAllowlistEntryConfig_minimum() st
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiWirelessSSIDFirewallIsolationAllowlistEntryConfig_all() string {
 	config := `resource "meraki_wireless_ssid_firewall_isolation_allowlist_entry" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"

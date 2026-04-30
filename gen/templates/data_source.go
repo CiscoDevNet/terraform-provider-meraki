@@ -136,24 +136,64 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 													Sensitive:           true,
 													{{- end}}
 												},
+												{{- if and .Sensitive (eq .Type "String")}}
+												"{{.TfName}}_wo": schema.StringAttribute{
+													MarkdownDescription: "Write-only attribute.",
+													Computed:            true,
+												},
+												"{{.TfName}}_wo_version": schema.Int64Attribute{
+													MarkdownDescription: "Version of {{.TfName}}_wo.",
+													Computed:            true,
+												},
+												{{- end}}
 												{{- end}}
 												{{- end}}
 											},
 										},
 										{{- end}}
 									},
+									{{- if and .Sensitive (eq .Type "String")}}
+									"{{.TfName}}_wo": schema.StringAttribute{
+										MarkdownDescription: "Write-only attribute.",
+										Computed:            true,
+									},
+									"{{.TfName}}_wo_version": schema.Int64Attribute{
+										MarkdownDescription: "Version of {{.TfName}}_wo.",
+										Computed:            true,
+									},
+									{{- end}}
 									{{- end}}
 									{{- end}}
 								},
 							},
 							{{- end}}
 						},
+						{{- if and .Sensitive (eq .Type "String")}}
+						"{{.TfName}}_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"{{.TfName}}_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of {{.TfName}}_wo.",
+							Computed:            true,
+						},
+						{{- end}}
 						{{- end}}
 						{{- end}}
 					},
 				},
 				{{- end}}
 			},
+			{{- if and .Sensitive (eq .Type "String")}}
+			"{{.TfName}}_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"{{.TfName}}_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of {{.TfName}}_wo.",
+				Computed:            true,
+			},
+			{{- end}}
 			{{- end}}
 			{{- end}}
 		},

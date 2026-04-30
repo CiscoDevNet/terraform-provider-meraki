@@ -102,6 +102,15 @@ func (r *WirelessSSIDIdentityPSKResource) Schema(ctx context.Context, req resour
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"passphrase_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"passphrase_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of passphrase_wo.").String,
+				Optional:            true,
+			},
 		},
 	}
 }

@@ -36,4 +36,6 @@ data "meraki_network_webhook_http_server" "example" {
 
 - `payload_template_payload_template_id` (String) The ID of the payload template. Defaults to `wpt_00001` for the Meraki template. For Meraki-included templates: for the Webex (included) template use `wpt_00002`; for the Slack (included) template use `wpt_00003`; for the Microsoft Teams (included) template use `wpt_00004`; for the ServiceNow (included) template use `wpt_00006`
 - `shared_secret` (String, Sensitive) A shared secret that will be included in POSTs sent to the HTTP server. This secret can be used to verify that the request was sent by Meraki.
+- `shared_secret_wo` (String) Write-only attribute.
+- `shared_secret_wo_version` (Number) Version of shared_secret_wo.
 - `url` (String) The URL of the HTTP server. Once set, cannot be updated.

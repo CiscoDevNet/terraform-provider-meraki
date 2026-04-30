@@ -71,6 +71,8 @@ Optional:
 
 - `allow_transit` (Boolean) When this feature is on, the Meraki device will advertise routes learned from other Autonomous Systems, thereby allowing traffic between Autonomous Systems to transit this AS. When absent, it defaults to false.
 - `authentication_password` (String, Sensitive) Password to configure MD5 authentication between BGP peers.
+- `authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `authentication_password_wo_version` (Number) Version of authentication_password_wo.
 - `ipv6_address` (String) The IPv6 address of the neighbor.
 - `multi_exit_discriminator` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
 - `next_hop_ip` (String) The IPv4 address of the remote BGP peer that will establish a TCP session with the local MX.
