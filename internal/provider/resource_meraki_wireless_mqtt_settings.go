@@ -261,14 +261,14 @@ func (r *WirelessMQTTSettingsResource) Read(ctx context.Context, req resource.Re
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
-
-	// Read identity
-	diags = req.Identity.Get(ctx, &identity)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
 	}
-
-	state.fromIdentity(ctx, &identity)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "?networkIds[]=" + url.QueryEscape(state.NetworkId.ValueString()))
