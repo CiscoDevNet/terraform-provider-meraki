@@ -119,7 +119,7 @@ func testAccMerakiNetworkDeviceClaimConfig_minimum() string {
 
 // End of section. //template:end testAccConfigMinimal
 
-func testAccMerakiNetworkDeviceClaimConfig_all() string {
+func testAccMerakiNetworkDeviceClaimConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_network_device_claim" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `	serials = [var.test_claim_serial_1, var.test_claim_serial_2]` + "\n"
@@ -128,11 +128,23 @@ func testAccMerakiNetworkDeviceClaimConfig_all() string {
 	config += `	  details = [` + "\n"
 	config += `	    {` + "\n"
 	config += `	      name = "username"` + "\n"
-	config += `	      value = "milesmeraki"` + "\n"
+	if includeWriteOnly {
+		config += `	      value = "milesmeraki"` + "\n"
+		config += `	      value_wo = "milesmeraki"` + "\n"
+		config += `	      value_wo_version = 1` + "\n"
+	} else {
+		config += `	      value = "milesmeraki"` + "\n"
+	}
 	config += `	    },` + "\n"
 	config += `	    {` + "\n"
 	config += `	      name = "password"` + "\n"
-	config += `	      value = "cisco"` + "\n"
+	if includeWriteOnly {
+		config += `	      value = "cisco"` + "\n"
+		config += `	      value_wo = "cisco"` + "\n"
+		config += `	      value_wo_version = 1` + "\n"
+	} else {
+		config += `	      value = "cisco"` + "\n"
+	}
 	config += `	    }` + "\n"
 	config += `	  ]` + "\n"
 	config += `	}]` + "\n"
