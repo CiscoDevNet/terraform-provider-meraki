@@ -5,12 +5,20 @@ name: Tests
 # Optionally, you can turn it on using a schedule for regular testing.
 on:
   workflow_dispatch:
+    inputs:
+      full_test:
+        description: "Run full test suite"
+        required: false
+        type: boolean
+        default: true
   pull_request:
     paths-ignore:
       - "README.md"
   push:
     paths-ignore:
       - "README.md"
+    tags:
+      - "v*"
 
 concurrency:
   group: DEV-org
@@ -42,10 +50,32 @@ jobs:
       - run: git diff --exit-code
       - run: go build -v .
 
+  detect-changes:
+    name: Detect Test Targets
+    needs: [build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      run_tests: ${{ steps.detect.outputs.run_tests }}
+      run_all: ${{ steps.detect.outputs.run_all }}
+      test_pattern: ${{ steps.detect.outputs.test_pattern }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Detect affected tests
+        id: detect
+        env:
+          FULL_TEST: ${{ inputs.full_test }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+        run: bash .github/scripts/detect-test-targets.sh
+
   # Run acceptance tests in a matrix with Terraform CLI versions
   test:
     name: Terraform Provider Acceptance Tests
-    needs: [build] # [consecutiveness, build]
+    needs: [detect-changes]
+    if: needs.detect-changes.outputs.run_tests == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 180
     strategy:
@@ -73,7 +103,8 @@ jobs:
           TF_VAR_test_org: ${{ secrets.TF_VAR_test_org }}
           TF_VAR_test_network: ${{ secrets.TF_VAR_test_network }}
         run: go run internal/cleanup/main.go
-      - env:
+      - name: Run acceptance tests
+        env:
           TF_ACC: "1"
           MERAKI_API_KEY: ${{ secrets.MERAKI_API_KEY }}
           MERAKI_RETRY_ON_ERROR_CODES: "308,401,404"
@@ -88,5 +119,13 @@ jobs:
           TF_VAR_test_appliance_2_serial: ${{ secrets.TF_VAR_test_appliance_2_serial }}
           TF_VAR_test_sensor_1_serial: ${{ secrets.TF_VAR_test_sensor_1_serial }}
           TF_VAR_test_camera_1_serial: ${{ secrets.TF_VAR_test_camera_1_serial }}
-        run: go test -v -cover -timeout 140m ./internal/provider/
-        timeout-minutes: 150
+        run: |
+          if [[ "${{ needs.detect-changes.outputs.run_all }}" == "true" ]]; then
+            echo "Running all tests..."
+            go test -v -cover -timeout 140m ./internal/provider/
+          else
+            echo "Running selective tests..."
+            echo "Pattern: ${{ needs.detect-changes.outputs.test_pattern }}"
+            go test -v -cover -timeout 140m -run '${{ needs.detect-changes.outputs.test_pattern }}' ./internal/provider/
+          fi
+        timeout-minutes: 170
