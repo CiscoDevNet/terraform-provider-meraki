@@ -24,6 +24,7 @@ The following guides are available to help you get started with the Meraki provi
 - **[Getting Started](guides/getting_started)** - A simple example demonstrating how to configure a network with a switch
 - **[Bulk Resources](guides/bulk_resources)** - Manage multiple objects of the same type within a single resource block using Action Batches
 - **[Importing Resources](guides/importing_resources)** - Import existing Meraki configurations into Terraform state using string-based or identity-based imports
+- **[Write-Only Attributes](guides/write_only_attributes)** - Use write-only attributes to keep sensitive values out of state (Terraform 1.11+)
 - **[Restore State on Destroy (Experimental)](guides/restore_state_on_destroy)** - Opt in to restoring the original API state of singleton resources on destroy
 - **[Changelog](guides/changelog)** - Review version history and breaking changes
 
