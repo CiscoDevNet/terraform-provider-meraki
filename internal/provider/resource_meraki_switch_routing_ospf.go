@@ -104,6 +104,15 @@ func (r *SwitchRoutingOSPFResource) Schema(ctx context.Context, req resource.Sch
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"md5_authentication_key_passphrase_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"md5_authentication_key_passphrase_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of md5_authentication_key_passphrase_wo.").String,
+				Optional:            true,
+			},
 			"v3_dead_timer_in_seconds": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Time interval to determine when the peer will be declared inactive/dead. Value must be between 1 and 65535").String,
 				Optional:            true,

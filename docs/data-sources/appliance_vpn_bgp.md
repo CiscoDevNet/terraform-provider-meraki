@@ -40,6 +40,8 @@ Read-Only:
 
 - `allow_transit` (Boolean) When this feature is on, the Meraki device will advertise routes learned from other Autonomous Systems, thereby allowing traffic between Autonomous Systems to transit this AS. When absent, it defaults to false.
 - `authentication_password` (String, Sensitive) Password to configure MD5 authentication between BGP peers.
+- `authentication_password_wo` (String) Write-only attribute.
+- `authentication_password_wo_version` (Number) Version of authentication_password_wo.
 - `ebgp_hold_timer` (Number) The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.
 - `ebgp_multihop` (Number) Configure this if the neighbor is not adjacent. The eBGP multi-hop must be an integer between 1 and 255.
 - `ip` (String) The IPv4 address of the neighbor

@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -42,6 +44,7 @@ func TestAccMerakiApplianceSiteToSiteVPN(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "subnets.0.use_vpn", "true"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceSiteToSiteVPNPrerequisitesConfig + testAccMerakiApplianceSiteToSiteVPNConfig_minimum(),
@@ -63,7 +66,10 @@ func TestAccMerakiApplianceSiteToSiteVPN(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -113,7 +119,6 @@ func testAccMerakiApplianceSiteToSiteVPNConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiApplianceSiteToSiteVPNConfig_all() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"

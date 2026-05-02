@@ -34,15 +34,19 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type OrganizationSNMP struct {
-	Id             types.String `tfsdk:"id"`
-	OrganizationId types.String `tfsdk:"organization_id"`
-	V2cEnabled     types.Bool   `tfsdk:"v2c_enabled"`
-	V3AuthMode     types.String `tfsdk:"v3_auth_mode"`
-	V3AuthPass     types.String `tfsdk:"v3_auth_pass"`
-	V3Enabled      types.Bool   `tfsdk:"v3_enabled"`
-	V3PrivMode     types.String `tfsdk:"v3_priv_mode"`
-	V3PrivPass     types.String `tfsdk:"v3_priv_pass"`
-	PeerIps        types.Set    `tfsdk:"peer_ips"`
+	Id                  types.String `tfsdk:"id"`
+	OrganizationId      types.String `tfsdk:"organization_id"`
+	V2cEnabled          types.Bool   `tfsdk:"v2c_enabled"`
+	V3AuthMode          types.String `tfsdk:"v3_auth_mode"`
+	V3AuthPass          types.String `tfsdk:"v3_auth_pass"`
+	V3AuthPassWo        types.String `tfsdk:"v3_auth_pass_wo"`
+	V3AuthPassWoVersion types.Int64  `tfsdk:"v3_auth_pass_wo_version"`
+	V3Enabled           types.Bool   `tfsdk:"v3_enabled"`
+	V3PrivMode          types.String `tfsdk:"v3_priv_mode"`
+	V3PrivPass          types.String `tfsdk:"v3_priv_pass"`
+	V3PrivPassWo        types.String `tfsdk:"v3_priv_pass_wo"`
+	V3PrivPassWoVersion types.Int64  `tfsdk:"v3_priv_pass_wo_version"`
+	PeerIps             types.Set    `tfsdk:"peer_ips"`
 }
 
 type OrganizationSNMPIdentity struct {
@@ -69,7 +73,9 @@ func (data OrganizationSNMP) toBody(ctx context.Context, state OrganizationSNMP)
 	if !data.V3AuthMode.IsNull() {
 		body, _ = sjson.Set(body, "v3AuthMode", data.V3AuthMode.ValueString())
 	}
-	if !data.V3AuthPass.IsNull() {
+	if !data.V3AuthPassWo.IsNull() {
+		body, _ = sjson.Set(body, "v3AuthPass", data.V3AuthPassWo.ValueString())
+	} else if !data.V3AuthPass.IsNull() {
 		body, _ = sjson.Set(body, "v3AuthPass", data.V3AuthPass.ValueString())
 	}
 	if !data.V3Enabled.IsNull() {
@@ -78,7 +84,9 @@ func (data OrganizationSNMP) toBody(ctx context.Context, state OrganizationSNMP)
 	if !data.V3PrivMode.IsNull() {
 		body, _ = sjson.Set(body, "v3PrivMode", data.V3PrivMode.ValueString())
 	}
-	if !data.V3PrivPass.IsNull() {
+	if !data.V3PrivPassWo.IsNull() {
+		body, _ = sjson.Set(body, "v3PrivPass", data.V3PrivPassWo.ValueString())
+	} else if !data.V3PrivPass.IsNull() {
 		body, _ = sjson.Set(body, "v3PrivPass", data.V3PrivPass.ValueString())
 	}
 	if !data.PeerIps.IsNull() {

@@ -85,6 +85,14 @@ func (d *OrganizationAuthRADIUSServerDataSource) Schema(ctx context.Context, req
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"secret_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"secret_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of secret_wo.",
+				Computed:            true,
+			},
 			"modes": schema.ListNestedAttribute{
 				MarkdownDescription: "Available server modes",
 				Computed:            true,

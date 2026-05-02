@@ -50,6 +50,8 @@ Read-Only:
 
 - `allowed_ip_types` (Set of String) IP versions to support (permitted values include `ipv4`, `ipv6`).
 - `authentication_password` (String, Sensitive) APN password, if type is set (if APN password is not supplied, the password is left unchanged).
+- `authentication_password_wo` (String) Write-only attribute.
+- `authentication_password_wo_version` (Number) Version of authentication_password_wo.
 - `authentication_type` (String) APN auth type.
 - `authentication_username` (String) APN username, if type is set.
 - `name` (String) APN name.

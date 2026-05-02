@@ -74,6 +74,14 @@ func (d *NetworkSNMPDataSource) Schema(ctx context.Context, req datasource.Schem
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"community_string_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"community_string_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of community_string_wo.",
+				Computed:            true,
+			},
 			"users": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of SNMP users. Only relevant if `access` is set to `users`.",
 				Computed:            true,
@@ -83,6 +91,14 @@ func (d *NetworkSNMPDataSource) Schema(ctx context.Context, req datasource.Schem
 							MarkdownDescription: "The passphrase for the SNMP user. Required.",
 							Computed:            true,
 							Sensitive:           true,
+						},
+						"passphrase_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"passphrase_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of passphrase_wo.",
+							Computed:            true,
 						},
 						"username": schema.StringAttribute{
 							MarkdownDescription: "The username for the SNMP user. Required.",

@@ -107,6 +107,15 @@ func (r *WirelessZigbeeResource) Schema(ctx context.Context, req resource.Schema
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"lock_management_password_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"lock_management_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of lock_management_password_wo.").String,
+				Optional:            true,
+			},
 			"lock_management_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username").String,
 				Optional:            true,

@@ -64,6 +64,8 @@ Required:
 Optional:
 
 - `value` (String, Sensitive) Value of device detail
+- `value_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `value_wo_version` (Number) Version of value_wo.
 
 ## Import
 

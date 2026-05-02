@@ -34,9 +34,13 @@ resource "meraki_network_snmp" "example" {
 
 ### Optional
 
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
 - `access` (String) The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).
   - Choices: `community`, `none`, `users`
 - `community_string` (String, Sensitive) The SNMP community string. Only relevant if `access` is set to `community`.
+- `community_string_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `community_string_wo_version` (Number) Version of community_string_wo.
 - `users` (Attributes List) The list of SNMP users. Only relevant if `access` is set to `users`. (see [below for nested schema](#nestedatt--users))
 
 ### Read-Only
@@ -50,6 +54,11 @@ Required:
 
 - `passphrase` (String, Sensitive) The passphrase for the SNMP user. Required.
 - `username` (String) The username for the SNMP user. Required.
+
+Optional:
+
+- `passphrase_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `passphrase_wo_version` (Number) Version of passphrase_wo.
 
 ## Import
 

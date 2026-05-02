@@ -128,6 +128,14 @@ func (d *ApplianceVPNBGPDataSource) Schema(ctx context.Context, req datasource.S
 							Computed:            true,
 							Sensitive:           true,
 						},
+						"authentication_password_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"authentication_password_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of authentication_password_wo.",
+							Computed:            true,
+						},
 						"ipv6_address": schema.StringAttribute{
 							MarkdownDescription: "The IPv6 address of the neighbor.",
 							Computed:            true,

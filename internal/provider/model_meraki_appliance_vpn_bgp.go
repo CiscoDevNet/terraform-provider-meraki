@@ -46,20 +46,22 @@ type ApplianceVPNBGP struct {
 }
 
 type ApplianceVPNBGPNeighbors struct {
-	AllowTransit           types.Bool   `tfsdk:"allow_transit"`
-	EbgpHoldTimer          types.Int64  `tfsdk:"ebgp_hold_timer"`
-	EbgpMultihop           types.Int64  `tfsdk:"ebgp_multihop"`
-	Ip                     types.String `tfsdk:"ip"`
-	MultiExitDiscriminator types.Int64  `tfsdk:"multi_exit_discriminator"`
-	NextHopIp              types.String `tfsdk:"next_hop_ip"`
-	ReceiveLimit           types.Int64  `tfsdk:"receive_limit"`
-	RemoteAsNumber         types.Int64  `tfsdk:"remote_as_number"`
-	SourceInterface        types.String `tfsdk:"source_interface"`
-	Weight                 types.Int64  `tfsdk:"weight"`
-	AuthenticationPassword types.String `tfsdk:"authentication_password"`
-	Ipv6Address            types.String `tfsdk:"ipv6_address"`
-	TtlSecurityEnabled     types.Bool   `tfsdk:"ttl_security_enabled"`
-	PathPrepend            types.List   `tfsdk:"path_prepend"`
+	AllowTransit                    types.Bool   `tfsdk:"allow_transit"`
+	EbgpHoldTimer                   types.Int64  `tfsdk:"ebgp_hold_timer"`
+	EbgpMultihop                    types.Int64  `tfsdk:"ebgp_multihop"`
+	Ip                              types.String `tfsdk:"ip"`
+	MultiExitDiscriminator          types.Int64  `tfsdk:"multi_exit_discriminator"`
+	NextHopIp                       types.String `tfsdk:"next_hop_ip"`
+	ReceiveLimit                    types.Int64  `tfsdk:"receive_limit"`
+	RemoteAsNumber                  types.Int64  `tfsdk:"remote_as_number"`
+	SourceInterface                 types.String `tfsdk:"source_interface"`
+	Weight                          types.Int64  `tfsdk:"weight"`
+	AuthenticationPassword          types.String `tfsdk:"authentication_password"`
+	AuthenticationPasswordWo        types.String `tfsdk:"authentication_password_wo"`
+	AuthenticationPasswordWoVersion types.Int64  `tfsdk:"authentication_password_wo_version"`
+	Ipv6Address                     types.String `tfsdk:"ipv6_address"`
+	TtlSecurityEnabled              types.Bool   `tfsdk:"ttl_security_enabled"`
+	PathPrepend                     types.List   `tfsdk:"path_prepend"`
 }
 
 type ApplianceVPNBGPIdentity struct {
@@ -123,7 +125,9 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 			if !item.Weight.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "weight", item.Weight.ValueInt64())
 			}
-			if !item.AuthenticationPassword.IsNull() {
+			if !item.AuthenticationPasswordWo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "authentication.password", item.AuthenticationPasswordWo.ValueString())
+			} else if !item.AuthenticationPassword.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "authentication.password", item.AuthenticationPassword.ValueString())
 			}
 			if !item.Ipv6Address.IsNull() {

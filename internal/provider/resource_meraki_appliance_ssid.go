@@ -117,6 +117,15 @@ func (r *ApplianceSSIDResource) Schema(ctx context.Context, req resource.SchemaR
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"psk_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"psk_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of psk_wo.").String,
+				Optional:            true,
+			},
 			"visible": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether the MX should advertise or hide this SSID.").String,
 				Optional:            true,
@@ -157,6 +166,15 @@ func (r *ApplianceSSIDResource) Schema(ctx context.Context, req resource.SchemaR
 							MarkdownDescription: helpers.NewAttributeDescription("The RADIUS client shared secret.").String,
 							Optional:            true,
 							Sensitive:           true,
+						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							WriteOnly:           true,
+							Optional:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Version of secret_wo.").String,
+							Optional:            true,
 						},
 					},
 				},

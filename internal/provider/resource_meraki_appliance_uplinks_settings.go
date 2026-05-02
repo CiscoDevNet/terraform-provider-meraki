@@ -97,6 +97,15 @@ func (r *ApplianceUplinksSettingsResource) Schema(ctx context.Context, req resou
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"interfaces_wan1_pppoe_authentication_password_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"interfaces_wan1_pppoe_authentication_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of interfaces_wan1_pppoe_authentication_password_wo.").String,
+				Optional:            true,
+			},
 			"interfaces_wan1_pppoe_authentication_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username for PPPoE authentication.").String,
 				Optional:            true,
@@ -165,6 +174,15 @@ func (r *ApplianceUplinksSettingsResource) Schema(ctx context.Context, req resou
 				MarkdownDescription: helpers.NewAttributeDescription("Password for PPPoE authentication. This parameter is not returned.").String,
 				Optional:            true,
 				Sensitive:           true,
+			},
+			"interfaces_wan2_pppoe_authentication_password_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"interfaces_wan2_pppoe_authentication_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of interfaces_wan2_pppoe_authentication_password_wo.").String,
+				Optional:            true,
 			},
 			"interfaces_wan2_pppoe_authentication_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username for PPPoE authentication.").String,

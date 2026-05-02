@@ -78,6 +78,8 @@ type SwitchAccessPolicyRadiusAccountingServers struct {
 	OrganizationRadiusServerId types.String `tfsdk:"organization_radius_server_id"`
 	Port                       types.Int64  `tfsdk:"port"`
 	Secret                     types.String `tfsdk:"secret"`
+	SecretWo                   types.String `tfsdk:"secret_wo"`
+	SecretWoVersion            types.Int64  `tfsdk:"secret_wo_version"`
 }
 
 type SwitchAccessPolicyRadiusServers struct {
@@ -85,6 +87,8 @@ type SwitchAccessPolicyRadiusServers struct {
 	OrganizationRadiusServerId types.String `tfsdk:"organization_radius_server_id"`
 	Port                       types.Int64  `tfsdk:"port"`
 	Secret                     types.String `tfsdk:"secret"`
+	SecretWo                   types.String `tfsdk:"secret_wo"`
+	SecretWoVersion            types.Int64  `tfsdk:"secret_wo_version"`
 }
 
 type SwitchAccessPolicyIdentity struct {
@@ -209,7 +213,9 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 			if !item.Port.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "port", item.Port.ValueInt64())
 			}
-			if !item.Secret.IsNull() {
+			if !item.SecretWo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "secret", item.SecretWo.ValueString())
+			} else if !item.Secret.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "secret", item.Secret.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "radiusAccountingServers.-1", itemBody)
@@ -228,7 +234,9 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 			if !item.Port.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "port", item.Port.ValueInt64())
 			}
-			if !item.Secret.IsNull() {
+			if !item.SecretWo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "secret", item.SecretWo.ValueString())
+			} else if !item.Secret.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "secret", item.Secret.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "radiusServers.-1", itemBody)

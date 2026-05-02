@@ -49,6 +49,10 @@ type {{camelCase .Name}} struct {
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
+{{- if and .Sensitive (eq .Type "String")}}
+	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
+	{{toGoName .TfName}}WoVersion types.Int64 `tfsdk:"{{.TfName}}_wo_version"`
+{{- end}}
 {{- end}}
 {{- end}}
 }
@@ -65,6 +69,10 @@ type {{.GoTypeName}} struct {
 	{{toGoName .TfName}} map[string]{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
+{{- end}}
+{{- if and .Sensitive (eq .Type "String")}}
+	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
+	{{toGoName .TfName}}WoVersion types.Int64 `tfsdk:"{{.TfName}}_wo_version"`
 {{- end}}
 {{- end}}
 {{- end}}
@@ -89,6 +97,10 @@ type {{.GoTypeName}} struct {
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
+{{- if and .Sensitive (eq .Type "String")}}
+	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
+	{{toGoName .TfName}}WoVersion types.Int64 `tfsdk:"{{.TfName}}_wo_version"`
+{{- end}}
 {{- end}}
 {{- end}}
 }
@@ -112,6 +124,10 @@ type {{.GoTypeName}} struct {
 {{- range .Attributes}}
 {{- if not .Value}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
+{{- if and .Sensitive (eq .Type "String")}}
+	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
+	{{toGoName .TfName}}WoVersion types.Int64 `tfsdk:"{{.TfName}}_wo_version"`
+{{- end}}
 {{- end}}
 {{- end}}
 }
@@ -154,7 +170,13 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if not .Reference}}
-	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+	{{- if and .Sensitive (eq .Type "String")}}
+	if !data.{{toGoName .TfName}}Wo.IsNull() {
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", data.{{toGoName .TfName}}Wo.ValueString())
+	} else if !data.{{toGoName .TfName}}.IsNull() {
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", data.{{toGoName .TfName}}.ValueString())
+	}
+	{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if !data.{{toGoName .TfName}}.IsNull() {{if .WriteChangesOnly}}&& data.{{toGoName .TfName}} != state.{{toGoName .TfName}}{{end}} {
 		body, _ = sjson.Set(body, "{{getFullModelName . true}}", data.{{toGoName .TfName}}.Value{{.Type}}())
 	}
@@ -181,7 +203,13 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 			{{- if .Value}}
 			itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 			{{- else if not .Reference}}
-			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+			{{- if and .Sensitive (eq .Type "String")}}
+			if !item.{{toGoName .TfName}}Wo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", item.{{toGoName .TfName}}Wo.ValueString())
+			} else if !item.{{toGoName .TfName}}.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", item.{{toGoName .TfName}}.ValueString())
+			}
+			{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 			if !item.{{toGoName .TfName}}.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", item.{{toGoName .TfName}}.Value{{.Type}}())
 			}
@@ -208,7 +236,13 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 					{{- if .Value}}
 					itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 					{{- else if not .Reference}}
-					{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+					{{- if and .Sensitive (eq .Type "String")}}
+					if !childItem.{{toGoName .TfName}}Wo.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", childItem.{{toGoName .TfName}}Wo.ValueString())
+					} else if !childItem.{{toGoName .TfName}}.IsNull() {
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", childItem.{{toGoName .TfName}}.ValueString())
+					}
+					{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 					if !childItem.{{toGoName .TfName}}.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", childItem.{{toGoName .TfName}}.Value{{.Type}}())
 					}
@@ -235,7 +269,13 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 							{{- if .Value}}
 							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 							{{- else if not .Reference}}
-							{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+							{{- if and .Sensitive (eq .Type "String")}}
+							if !childChildItem.{{toGoName .TfName}}Wo.IsNull() {
+								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", childChildItem.{{toGoName .TfName}}Wo.ValueString())
+							} else if !childChildItem.{{toGoName .TfName}}.IsNull() {
+								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", childChildItem.{{toGoName .TfName}}.ValueString())
+							}
+							{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 							if !childChildItem.{{toGoName .TfName}}.IsNull() {
 								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", childChildItem.{{toGoName .TfName}}.Value{{.Type}}())
 							}

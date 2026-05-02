@@ -91,6 +91,15 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"community_string_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"community_string_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of community_string_wo.").String,
+				Optional:            true,
+			},
 			"users": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of SNMP users. Only relevant if `access` is set to `users`.").String,
 				Optional:            true,
@@ -100,6 +109,15 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 							MarkdownDescription: helpers.NewAttributeDescription("The passphrase for the SNMP user. Required.").String,
 							Required:            true,
 							Sensitive:           true,
+						},
+						"passphrase_wo": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							WriteOnly:           true,
+							Optional:            true,
+						},
+						"passphrase_wo_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Version of passphrase_wo.").String,
+							Optional:            true,
 						},
 						"username": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The username for the SNMP user. Required.").String,

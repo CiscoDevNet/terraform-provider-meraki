@@ -108,6 +108,15 @@ func (r *NetworkMerakiAuthUserResource) Schema(ctx context.Context, req resource
 				Required:            true,
 				Sensitive:           true,
 			},
+			"password_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of password_wo.").String,
+				Optional:            true,
+			},
 			"authorizations": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Authorization zones and expiration dates for the user.").String,
 				Required:            true,

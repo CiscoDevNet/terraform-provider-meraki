@@ -93,6 +93,14 @@ func (d *WirelessSSIDIdentityPSKDataSource) Schema(ctx context.Context, req data
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"passphrase_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"passphrase_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of passphrase_wo.",
+				Computed:            true,
+			},
 		},
 	}
 }

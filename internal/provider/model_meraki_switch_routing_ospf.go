@@ -36,19 +36,21 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type SwitchRoutingOSPF struct {
-	Id                             types.String               `tfsdk:"id"`
-	NetworkId                      types.String               `tfsdk:"network_id"`
-	DeadTimerInSeconds             types.Int64                `tfsdk:"dead_timer_in_seconds"`
-	Enabled                        types.Bool                 `tfsdk:"enabled"`
-	HelloTimerInSeconds            types.Int64                `tfsdk:"hello_timer_in_seconds"`
-	Md5AuthenticationEnabled       types.Bool                 `tfsdk:"md5_authentication_enabled"`
-	Md5AuthenticationKeyId         types.Int64                `tfsdk:"md5_authentication_key_id"`
-	Md5AuthenticationKeyPassphrase types.String               `tfsdk:"md5_authentication_key_passphrase"`
-	V3DeadTimerInSeconds           types.Int64                `tfsdk:"v3_dead_timer_in_seconds"`
-	V3Enabled                      types.Bool                 `tfsdk:"v3_enabled"`
-	V3HelloTimerInSeconds          types.Int64                `tfsdk:"v3_hello_timer_in_seconds"`
-	V3Areas                        []SwitchRoutingOSPFV3Areas `tfsdk:"v3_areas"`
-	Areas                          []SwitchRoutingOSPFAreas   `tfsdk:"areas"`
+	Id                                      types.String               `tfsdk:"id"`
+	NetworkId                               types.String               `tfsdk:"network_id"`
+	DeadTimerInSeconds                      types.Int64                `tfsdk:"dead_timer_in_seconds"`
+	Enabled                                 types.Bool                 `tfsdk:"enabled"`
+	HelloTimerInSeconds                     types.Int64                `tfsdk:"hello_timer_in_seconds"`
+	Md5AuthenticationEnabled                types.Bool                 `tfsdk:"md5_authentication_enabled"`
+	Md5AuthenticationKeyId                  types.Int64                `tfsdk:"md5_authentication_key_id"`
+	Md5AuthenticationKeyPassphrase          types.String               `tfsdk:"md5_authentication_key_passphrase"`
+	Md5AuthenticationKeyPassphraseWo        types.String               `tfsdk:"md5_authentication_key_passphrase_wo"`
+	Md5AuthenticationKeyPassphraseWoVersion types.Int64                `tfsdk:"md5_authentication_key_passphrase_wo_version"`
+	V3DeadTimerInSeconds                    types.Int64                `tfsdk:"v3_dead_timer_in_seconds"`
+	V3Enabled                               types.Bool                 `tfsdk:"v3_enabled"`
+	V3HelloTimerInSeconds                   types.Int64                `tfsdk:"v3_hello_timer_in_seconds"`
+	V3Areas                                 []SwitchRoutingOSPFV3Areas `tfsdk:"v3_areas"`
+	Areas                                   []SwitchRoutingOSPFAreas   `tfsdk:"areas"`
 }
 
 type SwitchRoutingOSPFV3Areas struct {
@@ -96,7 +98,9 @@ func (data SwitchRoutingOSPF) toBody(ctx context.Context, state SwitchRoutingOSP
 	if !data.Md5AuthenticationKeyId.IsNull() {
 		body, _ = sjson.Set(body, "md5AuthenticationKey.id", data.Md5AuthenticationKeyId.ValueInt64())
 	}
-	if !data.Md5AuthenticationKeyPassphrase.IsNull() {
+	if !data.Md5AuthenticationKeyPassphraseWo.IsNull() {
+		body, _ = sjson.Set(body, "md5AuthenticationKey.passphrase", data.Md5AuthenticationKeyPassphraseWo.ValueString())
+	} else if !data.Md5AuthenticationKeyPassphrase.IsNull() {
 		body, _ = sjson.Set(body, "md5AuthenticationKey.passphrase", data.Md5AuthenticationKeyPassphrase.ValueString())
 	}
 	if !data.V3DeadTimerInSeconds.IsNull() {

@@ -94,6 +94,15 @@ func (r *NetworkSettingsResource) Schema(ctx context.Context, req resource.Schem
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"local_status_page_authentication_password_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"local_status_page_authentication_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of local_status_page_authentication_password_wo.").String,
+				Optional:            true,
+			},
 			"local_status_page_authentication_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The username used for Local Status Page(s).").String,
 				Optional:            true,

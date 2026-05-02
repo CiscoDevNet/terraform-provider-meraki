@@ -140,6 +140,15 @@ func (r *ApplianceVPNBGPResource) Schema(ctx context.Context, req resource.Schem
 							Optional:            true,
 							Sensitive:           true,
 						},
+						"authentication_password_wo": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							WriteOnly:           true,
+							Optional:            true,
+						},
+						"authentication_password_wo_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Version of authentication_password_wo.").String,
+							Optional:            true,
+						},
 						"ipv6_address": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IPv6 address of the neighbor.").String,
 							Optional:            true,

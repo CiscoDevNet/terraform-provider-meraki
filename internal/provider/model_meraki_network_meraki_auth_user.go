@@ -45,6 +45,8 @@ type NetworkMerakiAuthUser struct {
 	IsAdmin             types.Bool                            `tfsdk:"is_admin"`
 	Name                types.String                          `tfsdk:"name"`
 	Password            types.String                          `tfsdk:"password"`
+	PasswordWo          types.String                          `tfsdk:"password_wo"`
+	PasswordWoVersion   types.Int64                           `tfsdk:"password_wo_version"`
 	Authorizations      []NetworkMerakiAuthUserAuthorizations `tfsdk:"authorizations"`
 }
 
@@ -87,7 +89,9 @@ func (data NetworkMerakiAuthUser) toBody(ctx context.Context, state NetworkMerak
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !data.Password.IsNull() {
+	if !data.PasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "password", data.PasswordWo.ValueString())
+	} else if !data.Password.IsNull() {
 		body, _ = sjson.Set(body, "password", data.Password.ValueString())
 	}
 	{

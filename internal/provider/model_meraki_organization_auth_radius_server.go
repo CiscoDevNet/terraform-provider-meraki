@@ -37,12 +37,14 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type OrganizationAuthRADIUSServer struct {
-	Id             types.String                        `tfsdk:"id"`
-	OrganizationId types.String                        `tfsdk:"organization_id"`
-	Address        types.String                        `tfsdk:"address"`
-	Name           types.String                        `tfsdk:"name"`
-	Secret         types.String                        `tfsdk:"secret"`
-	Modes          []OrganizationAuthRADIUSServerModes `tfsdk:"modes"`
+	Id              types.String                        `tfsdk:"id"`
+	OrganizationId  types.String                        `tfsdk:"organization_id"`
+	Address         types.String                        `tfsdk:"address"`
+	Name            types.String                        `tfsdk:"name"`
+	Secret          types.String                        `tfsdk:"secret"`
+	SecretWo        types.String                        `tfsdk:"secret_wo"`
+	SecretWoVersion types.Int64                         `tfsdk:"secret_wo_version"`
+	Modes           []OrganizationAuthRADIUSServerModes `tfsdk:"modes"`
 }
 
 type OrganizationAuthRADIUSServerModes struct {
@@ -75,7 +77,9 @@ func (data OrganizationAuthRADIUSServer) toBody(ctx context.Context, state Organ
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
 	}
-	if !data.Secret.IsNull() {
+	if !data.SecretWo.IsNull() {
+		body, _ = sjson.Set(body, "secret", data.SecretWo.ValueString())
+	} else if !data.Secret.IsNull() {
 		body, _ = sjson.Set(body, "secret", data.Secret.ValueString())
 	}
 	{

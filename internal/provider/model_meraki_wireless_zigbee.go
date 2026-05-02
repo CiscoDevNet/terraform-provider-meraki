@@ -33,15 +33,17 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type WirelessZigbee struct {
-	Id                         types.String `tfsdk:"id"`
-	NetworkId                  types.String `tfsdk:"network_id"`
-	Enabled                    types.Bool   `tfsdk:"enabled"`
-	DefaultsChannel            types.String `tfsdk:"defaults_channel"`
-	DefaultsTransmitPowerLevel types.Int64  `tfsdk:"defaults_transmit_power_level"`
-	IotControllerSerial        types.String `tfsdk:"iot_controller_serial"`
-	LockManagementAddress      types.String `tfsdk:"lock_management_address"`
-	LockManagementPassword     types.String `tfsdk:"lock_management_password"`
-	LockManagementUsername     types.String `tfsdk:"lock_management_username"`
+	Id                              types.String `tfsdk:"id"`
+	NetworkId                       types.String `tfsdk:"network_id"`
+	Enabled                         types.Bool   `tfsdk:"enabled"`
+	DefaultsChannel                 types.String `tfsdk:"defaults_channel"`
+	DefaultsTransmitPowerLevel      types.Int64  `tfsdk:"defaults_transmit_power_level"`
+	IotControllerSerial             types.String `tfsdk:"iot_controller_serial"`
+	LockManagementAddress           types.String `tfsdk:"lock_management_address"`
+	LockManagementPassword          types.String `tfsdk:"lock_management_password"`
+	LockManagementPasswordWo        types.String `tfsdk:"lock_management_password_wo"`
+	LockManagementPasswordWoVersion types.Int64  `tfsdk:"lock_management_password_wo_version"`
+	LockManagementUsername          types.String `tfsdk:"lock_management_username"`
 }
 
 type WirelessZigbeeIdentity struct {
@@ -77,7 +79,9 @@ func (data WirelessZigbee) toBody(ctx context.Context, state WirelessZigbee) str
 	if !data.LockManagementAddress.IsNull() {
 		body, _ = sjson.Set(body, "lockManagement.address", data.LockManagementAddress.ValueString())
 	}
-	if !data.LockManagementPassword.IsNull() {
+	if !data.LockManagementPasswordWo.IsNull() {
+		body, _ = sjson.Set(body, "lockManagement.password", data.LockManagementPasswordWo.ValueString())
+	} else if !data.LockManagementPassword.IsNull() {
 		body, _ = sjson.Set(body, "lockManagement.password", data.LockManagementPassword.ValueString())
 	}
 	if !data.LockManagementUsername.IsNull() {

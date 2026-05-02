@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -42,13 +44,15 @@ func TestAccMerakiOrganizationSNMP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_snmp.test", "v3_priv_mode", "AES128"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiOrganizationSNMPPrerequisitesConfig + testAccMerakiOrganizationSNMPConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationSNMPPrerequisitesConfig + testAccMerakiOrganizationSNMPConfig_all(),
+		Config: testAccMerakiOrganizationSNMPPrerequisitesConfig + testAccMerakiOrganizationSNMPConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -63,7 +67,10 @@ func TestAccMerakiOrganizationSNMP(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -107,16 +114,27 @@ func testAccMerakiOrganizationSNMPConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiOrganizationSNMPConfig_all() string {
+func testAccMerakiOrganizationSNMPConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_organization_snmp" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  v2c_enabled = false` + "\n"
 	config += `  v3_auth_mode = "SHA"` + "\n"
-	config += `  v3_auth_pass = "password"` + "\n"
+	if includeWriteOnly {
+		config += `  v3_auth_pass = "password"` + "\n"
+		config += `  v3_auth_pass_wo = "password"` + "\n"
+		config += `  v3_auth_pass_wo_version = 1` + "\n"
+	} else {
+		config += `  v3_auth_pass = "password"` + "\n"
+	}
 	config += `  v3_enabled = true` + "\n"
 	config += `  v3_priv_mode = "AES128"` + "\n"
-	config += `  v3_priv_pass = "password"` + "\n"
+	if includeWriteOnly {
+		config += `  v3_priv_pass = "password"` + "\n"
+		config += `  v3_priv_pass_wo = "password"` + "\n"
+		config += `  v3_priv_pass_wo_version = 1` + "\n"
+	} else {
+		config += `  v3_priv_pass = "password"` + "\n"
+	}
 	config += `  peer_ips = ["123.123.123.1"]` + "\n"
 	config += `}` + "\n"
 	return config

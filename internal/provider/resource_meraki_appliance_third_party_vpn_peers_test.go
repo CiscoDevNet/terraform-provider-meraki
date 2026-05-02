@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -60,13 +62,15 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.private_subnets.0", "192.168.1.0/24"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceThirdPartyVPNPeersPrerequisitesConfig + testAccMerakiApplianceThirdPartyVPNPeersConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiApplianceThirdPartyVPNPeersPrerequisitesConfig + testAccMerakiApplianceThirdPartyVPNPeersConfig_all(),
+		Config: testAccMerakiApplianceThirdPartyVPNPeersPrerequisitesConfig + testAccMerakiApplianceThirdPartyVPNPeersConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -81,7 +85,10 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -130,8 +137,7 @@ func testAccMerakiApplianceThirdPartyVPNPeersConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiApplianceThirdPartyVPNPeersConfig_all() string {
+func testAccMerakiApplianceThirdPartyVPNPeersConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_appliance_third_party_vpn_peers" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	config += `  peers = [{` + "\n"
@@ -142,7 +148,13 @@ func testAccMerakiApplianceThirdPartyVPNPeersConfig_all() string {
 	config += `    priority_in_group = 1` + "\n"
 	config += `    public_ip = "123.123.123.1"` + "\n"
 	config += `    remote_id = "miles@meraki.com"` + "\n"
-	config += `    secret = "Sample Password"` + "\n"
+	if includeWriteOnly {
+		config += `    secret = "Sample Password"` + "\n"
+		config += `    secret_wo = "Sample Password"` + "\n"
+		config += `    secret_wo_version = 1` + "\n"
+	} else {
+		config += `    secret = "Sample Password"` + "\n"
+	}
 	config += `    group_active_active_tunnel = false` + "\n"
 	config += `    group_number = 1` + "\n"
 	config += `    group_failover_direct_to_internet = false` + "\n"

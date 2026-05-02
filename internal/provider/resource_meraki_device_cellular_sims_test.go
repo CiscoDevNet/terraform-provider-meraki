@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -51,13 +53,15 @@ func TestAccMerakiDeviceCellularSIMs(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sims.0.apns.0.authentication_username", "milesmeraki"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiDeviceCellularSIMsPrerequisitesConfig + testAccMerakiDeviceCellularSIMsConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiDeviceCellularSIMsPrerequisitesConfig + testAccMerakiDeviceCellularSIMsConfig_all(),
+		Config: testAccMerakiDeviceCellularSIMsPrerequisitesConfig + testAccMerakiDeviceCellularSIMsConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -72,7 +76,10 @@ func TestAccMerakiDeviceCellularSIMs(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -126,8 +133,7 @@ func testAccMerakiDeviceCellularSIMsConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiDeviceCellularSIMsConfig_all() string {
+func testAccMerakiDeviceCellularSIMsConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_device_cellular_sims" "test" {` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `  sim_failover_enabled = true` + "\n"
@@ -139,7 +145,13 @@ func testAccMerakiDeviceCellularSIMsConfig_all() string {
 	config += `    slot = "sim1"` + "\n"
 	config += `    apns = [{` + "\n"
 	config += `      name = "internet"` + "\n"
-	config += `      authentication_password = "secret"` + "\n"
+	if includeWriteOnly {
+		config += `      authentication_password = "secret"` + "\n"
+		config += `      authentication_password_wo = "secret"` + "\n"
+		config += `      authentication_password_wo_version = 1` + "\n"
+	} else {
+		config += `      authentication_password = "secret"` + "\n"
+	}
 	config += `      authentication_type = "pap"` + "\n"
 	config += `      authentication_username = "milesmeraki"` + "\n"
 	config += `      allowed_ip_types = ["ipv4"]` + "\n"

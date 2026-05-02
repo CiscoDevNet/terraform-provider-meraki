@@ -15,6 +15,7 @@ description: |-
 - Add `peer_sgt_capable` attribute to `meraki_appliance_port` resource and data source
 - Add `peer_sgt_capable` attribute to `meraki_appliance_site_to_site_vpn` resource and data source
 - Add `meraki_network_vlan_profile_assignment` resource and data source
+- Add write-only attribute support (`_wo` / `_wo_version` siblings) for sensitive string attributes, compatible with Terraform 1.11+
 
 ## 1.11.0
 

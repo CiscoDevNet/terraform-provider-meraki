@@ -33,13 +33,15 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type WirelessLocationScanningReceiver struct {
-	Id             types.String `tfsdk:"id"`
-	OrganizationId types.String `tfsdk:"organization_id"`
-	SharedSecret   types.String `tfsdk:"shared_secret"`
-	Url            types.String `tfsdk:"url"`
-	Version        types.String `tfsdk:"version"`
-	NetworkId      types.String `tfsdk:"network_id"`
-	RadioType      types.String `tfsdk:"radio_type"`
+	Id                    types.String `tfsdk:"id"`
+	OrganizationId        types.String `tfsdk:"organization_id"`
+	SharedSecret          types.String `tfsdk:"shared_secret"`
+	SharedSecretWo        types.String `tfsdk:"shared_secret_wo"`
+	SharedSecretWoVersion types.Int64  `tfsdk:"shared_secret_wo_version"`
+	Url                   types.String `tfsdk:"url"`
+	Version               types.String `tfsdk:"version"`
+	NetworkId             types.String `tfsdk:"network_id"`
+	RadioType             types.String `tfsdk:"radio_type"`
 }
 
 type WirelessLocationScanningReceiverIdentity struct {
@@ -61,7 +63,9 @@ func (data WirelessLocationScanningReceiver) getPath() string {
 
 func (data WirelessLocationScanningReceiver) toBody(ctx context.Context, state WirelessLocationScanningReceiver) string {
 	body := ""
-	if !data.SharedSecret.IsNull() {
+	if !data.SharedSecretWo.IsNull() {
+		body, _ = sjson.Set(body, "sharedSecret", data.SharedSecretWo.ValueString())
+	} else if !data.SharedSecret.IsNull() {
 		body, _ = sjson.Set(body, "sharedSecret", data.SharedSecret.ValueString())
 	}
 	if !data.Url.IsNull() {

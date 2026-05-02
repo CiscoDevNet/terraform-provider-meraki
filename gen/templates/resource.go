@@ -359,6 +359,17 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													},
 													{{- end}}
 												},
+												{{- if and .Sensitive (eq .Type "String")}}
+												"{{.TfName}}_wo": schema.StringAttribute{
+													MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+													WriteOnly:           true,
+													Optional:            true,
+												},
+												"{{.TfName}}_wo_version": schema.Int64Attribute{
+													MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+													Optional:            true,
+												},
+												{{- end}}
 												{{- end}}
 												{{- end}}
 											},
@@ -375,6 +386,17 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- end}}
 										{{- end}}
 									},
+									{{- if and .Sensitive (eq .Type "String")}}
+									"{{.TfName}}_wo": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+										WriteOnly:           true,
+										Optional:            true,
+									},
+									"{{.TfName}}_wo_version": schema.Int64Attribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+										Optional:            true,
+									},
+									{{- end}}
 									{{- end}}
 									{{- end}}
 								},
@@ -391,6 +413,17 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- end}}
 							{{- end}}
 						},
+						{{- if and .Sensitive (eq .Type "String")}}
+						"{{.TfName}}_wo": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							WriteOnly:           true,
+							Optional:            true,
+						},
+						"{{.TfName}}_wo_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+							Optional:            true,
+						},
+						{{- end}}
 						{{- end}}
 						{{- end}}
 					},
@@ -407,6 +440,17 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- end}}
 				{{- end}}
 			},
+			{{- if and .Sensitive (eq .Type "String")}}
+			"{{.TfName}}_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"{{.TfName}}_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+				Optional:            true,
+			},
+			{{- end}}
 			{{- end}}
 			{{- end}}
 		},

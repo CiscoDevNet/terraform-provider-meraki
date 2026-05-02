@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -41,6 +43,7 @@ func TestAccMerakiWirelessDeviceBluetoothSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_device_bluetooth_settings.test", "uuid", "00000000-0000-0000-0000-000000000000"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessDeviceBluetoothSettingsPrerequisitesConfig + testAccMerakiWirelessDeviceBluetoothSettingsConfig_minimum(),
@@ -62,7 +65,10 @@ func TestAccMerakiWirelessDeviceBluetoothSettings(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -122,7 +128,6 @@ func testAccMerakiWirelessDeviceBluetoothSettingsConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiWirelessDeviceBluetoothSettingsConfig_all() string {
 	config := `resource "meraki_wireless_device_bluetooth_settings" "test" {` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"

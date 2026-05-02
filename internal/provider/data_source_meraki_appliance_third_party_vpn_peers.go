@@ -120,6 +120,14 @@ func (d *ApplianceThirdPartyVPNPeersDataSource) Schema(ctx context.Context, req 
 							Computed:            true,
 							Sensitive:           true,
 						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of secret_wo.",
+							Computed:            true,
+						},
 						"ebgp_neighbor_ebgp_hold_timer": schema.Int64Attribute{
 							MarkdownDescription: "The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.",
 							Computed:            true,

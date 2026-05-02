@@ -38,7 +38,11 @@ resource "meraki_network_mqtt_broker" "example" {
 
 ### Optional
 
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
 - `authentication_password` (String, Sensitive) Password for the MQTT broker.
+- `authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `authentication_password_wo_version` (Number) Version of authentication_password_wo.
 - `authentication_username` (String) Username for the MQTT broker.
 - `security_mode` (String) Security protocol of the MQTT broker.
 - `security_tls_ca_certificate` (String) CA Certificate of the MQTT broker.

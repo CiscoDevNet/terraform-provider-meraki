@@ -71,6 +71,14 @@ func (d *WirelessLocationScanningReceiverDataSource) Schema(ctx context.Context,
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"shared_secret_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"shared_secret_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of shared_secret_wo.",
+				Computed:            true,
+			},
 			"url": schema.StringAttribute{
 				MarkdownDescription: "Receiver Url",
 				Computed:            true,

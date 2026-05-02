@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -39,6 +41,7 @@ func TestAccMerakiOrganizationSAML(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_saml.test", "enabled", "true"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	steps = append(steps, resource.TestStep{
 		Config: testAccMerakiOrganizationSAMLPrerequisitesConfig + testAccMerakiOrganizationSAMLConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
@@ -55,7 +58,10 @@ func TestAccMerakiOrganizationSAML(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -98,7 +104,6 @@ func testAccMerakiOrganizationSAMLConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiOrganizationSAMLConfig_all() string {
 	config := `resource "meraki_organization_saml" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"

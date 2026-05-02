@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -40,13 +42,15 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim.test", "details_by_device.0.details.0.value", "milesmeraki"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkDeviceClaimPrerequisitesConfig + testAccMerakiNetworkDeviceClaimConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkDeviceClaimPrerequisitesConfig + testAccMerakiNetworkDeviceClaimConfig_all(),
+		Config: testAccMerakiNetworkDeviceClaimPrerequisitesConfig + testAccMerakiNetworkDeviceClaimConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -61,7 +65,10 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -112,7 +119,7 @@ func testAccMerakiNetworkDeviceClaimConfig_minimum() string {
 
 // End of section. //template:end testAccConfigMinimal
 
-func testAccMerakiNetworkDeviceClaimConfig_all() string {
+func testAccMerakiNetworkDeviceClaimConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_network_device_claim" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
 	config += `	serials = [var.test_claim_serial_1, var.test_claim_serial_2]` + "\n"
@@ -121,11 +128,23 @@ func testAccMerakiNetworkDeviceClaimConfig_all() string {
 	config += `	  details = [` + "\n"
 	config += `	    {` + "\n"
 	config += `	      name = "username"` + "\n"
-	config += `	      value = "milesmeraki"` + "\n"
+	if includeWriteOnly {
+		config += `	      value = "milesmeraki"` + "\n"
+		config += `	      value_wo = "milesmeraki"` + "\n"
+		config += `	      value_wo_version = 1` + "\n"
+	} else {
+		config += `	      value = "milesmeraki"` + "\n"
+	}
 	config += `	    },` + "\n"
 	config += `	    {` + "\n"
 	config += `	      name = "password"` + "\n"
-	config += `	      value = "cisco"` + "\n"
+	if includeWriteOnly {
+		config += `	      value = "cisco"` + "\n"
+		config += `	      value_wo = "cisco"` + "\n"
+		config += `	      value_wo_version = 1` + "\n"
+	} else {
+		config += `	      value = "cisco"` + "\n"
+	}
 	config += `	    }` + "\n"
 	config += `	  ]` + "\n"
 	config += `	}]` + "\n"

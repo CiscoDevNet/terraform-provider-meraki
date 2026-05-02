@@ -36,16 +36,20 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkSNMP struct {
-	Id              types.String       `tfsdk:"id"`
-	NetworkId       types.String       `tfsdk:"network_id"`
-	Access          types.String       `tfsdk:"access"`
-	CommunityString types.String       `tfsdk:"community_string"`
-	Users           []NetworkSNMPUsers `tfsdk:"users"`
+	Id                       types.String       `tfsdk:"id"`
+	NetworkId                types.String       `tfsdk:"network_id"`
+	Access                   types.String       `tfsdk:"access"`
+	CommunityString          types.String       `tfsdk:"community_string"`
+	CommunityStringWo        types.String       `tfsdk:"community_string_wo"`
+	CommunityStringWoVersion types.Int64        `tfsdk:"community_string_wo_version"`
+	Users                    []NetworkSNMPUsers `tfsdk:"users"`
 }
 
 type NetworkSNMPUsers struct {
-	Passphrase types.String `tfsdk:"passphrase"`
-	Username   types.String `tfsdk:"username"`
+	Passphrase          types.String `tfsdk:"passphrase"`
+	PassphraseWo        types.String `tfsdk:"passphrase_wo"`
+	PassphraseWoVersion types.Int64  `tfsdk:"passphrase_wo_version"`
+	Username            types.String `tfsdk:"username"`
 }
 
 type NetworkSNMPIdentity struct {
@@ -69,14 +73,18 @@ func (data NetworkSNMP) toBody(ctx context.Context, state NetworkSNMP) string {
 	if !data.Access.IsNull() {
 		body, _ = sjson.Set(body, "access", data.Access.ValueString())
 	}
-	if !data.CommunityString.IsNull() {
+	if !data.CommunityStringWo.IsNull() {
+		body, _ = sjson.Set(body, "communityString", data.CommunityStringWo.ValueString())
+	} else if !data.CommunityString.IsNull() {
 		body, _ = sjson.Set(body, "communityString", data.CommunityString.ValueString())
 	}
 	if len(data.Users) > 0 {
 		body, _ = sjson.Set(body, "users", []interface{}{})
 		for _, item := range data.Users {
 			itemBody := ""
-			if !item.Passphrase.IsNull() {
+			if !item.PassphraseWo.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "passphrase", item.PassphraseWo.ValueString())
+			} else if !item.Passphrase.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "passphrase", item.Passphrase.ValueString())
 			}
 			if !item.Username.IsNull() {

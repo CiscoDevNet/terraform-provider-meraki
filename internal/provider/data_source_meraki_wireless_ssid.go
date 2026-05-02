@@ -155,6 +155,14 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"psk_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"psk_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of psk_wo.",
+				Computed:            true,
+			},
 			"radius_accounting_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`",
 				Computed:            true,
@@ -260,6 +268,14 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"active_directory_credentials_password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"active_directory_credentials_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of active_directory_credentials_password_wo.",
+				Computed:            true,
+			},
 			"active_directory_servers": schema.ListNestedAttribute{
 				MarkdownDescription: "The Active Directory servers to be used for authentication.",
 				Computed:            true,
@@ -321,6 +337,14 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				MarkdownDescription: "The password of the LDAP user account.",
 				Computed:            true,
 				Sensitive:           true,
+			},
+			"ldap_credentials_password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"ldap_credentials_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of ldap_credentials_password_wo.",
+				Computed:            true,
 			},
 			"ldap_server_ca_certificate_contents": schema.StringAttribute{
 				MarkdownDescription: "The contents of the CA certificate. Must be in PEM or DER format.",
@@ -476,6 +500,14 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 							Computed:            true,
 							Sensitive:           true,
 						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of secret_wo.",
+							Computed:            true,
+						},
 					},
 				},
 			},
@@ -509,6 +541,14 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 							Computed:            true,
 							Sensitive:           true,
 						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of secret_wo.",
+							Computed:            true,
+						},
 					},
 				},
 			},
@@ -531,6 +571,14 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				MarkdownDescription: "Shared secret for DAS (Dynamic Authorization Server). This is an unsupported attribute and is subject to breaking changes without prior notice.",
 				Computed:            true,
 				Sensitive:           true,
+			},
+			"radius_das_clients_shared_secret_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"radius_das_clients_shared_secret_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of radius_das_clients_shared_secret_wo.",
+				Computed:            true,
 			},
 		},
 	}

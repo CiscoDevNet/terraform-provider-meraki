@@ -34,6 +34,8 @@ resource "meraki_wireless_zigbee" "example" {
 
 ### Optional
 
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
 - `defaults_channel` (String) Channel
 - `defaults_transmit_power_level` (Number) Transmit Power Level
   - Range: `10`-`20`
@@ -41,6 +43,8 @@ resource "meraki_wireless_zigbee" "example" {
 - `iot_controller_serial` (String) Device Serial number
 - `lock_management_address` (String) Host Address
 - `lock_management_password` (String, Sensitive) Password
+- `lock_management_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `lock_management_password_wo_version` (Number) Version of lock_management_password_wo.
 - `lock_management_username` (String) Username
 
 ### Read-Only
