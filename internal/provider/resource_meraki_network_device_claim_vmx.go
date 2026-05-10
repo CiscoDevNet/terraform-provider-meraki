@@ -173,6 +173,7 @@ func (r *NetworkDeviceClaimVMXResource) Read(ctx context.Context, req resource.R
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 

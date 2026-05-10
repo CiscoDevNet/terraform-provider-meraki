@@ -181,6 +181,7 @@ func (r *ApplianceVMXAuthenticationTokenResource) Read(ctx context.Context, req 
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 

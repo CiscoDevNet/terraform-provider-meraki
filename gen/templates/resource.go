@@ -613,9 +613,9 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
-	identity.toIdentity(ctx, &state)
 
 	{{- end}}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
