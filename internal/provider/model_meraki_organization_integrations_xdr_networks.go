@@ -44,7 +44,7 @@ type OrganizationIntegrationsXDRNetworks struct {
 
 type OrganizationIntegrationsXDRNetworksNetworks struct {
 	NetworkId    types.String `tfsdk:"network_id"`
-	ProductTypes types.List   `tfsdk:"product_types"`
+	ProductTypes types.Set    `tfsdk:"product_types"`
 }
 
 type OrganizationIntegrationsXDRNetworksIdentity struct {
@@ -107,9 +107,9 @@ func (data *OrganizationIntegrationsXDRNetworks) fromBody(ctx context.Context, r
 				data.NetworkId = types.StringNull()
 			}
 			if value := res.Get("productTypes"); value.Exists() && value.Value() != nil {
-				data.ProductTypes = helpers.GetStringList(value.Array())
+				data.ProductTypes = helpers.GetStringSet(value.Array())
 			} else {
-				data.ProductTypes = types.ListNull(types.StringType)
+				data.ProductTypes = types.SetNull(types.StringType)
 			}
 			(*parent).Networks = append((*parent).Networks, data)
 			return true
@@ -168,9 +168,9 @@ func (data *OrganizationIntegrationsXDRNetworks) fromBodyPartial(ctx context.Con
 			data.NetworkId = types.StringNull()
 		}
 		if value := res.Get("productTypes"); value.Exists() && !data.ProductTypes.IsNull() {
-			data.ProductTypes = helpers.GetStringList(value.Array())
+			data.ProductTypes = helpers.GetStringSet(value.Array())
 		} else {
-			data.ProductTypes = types.ListNull(types.StringType)
+			data.ProductTypes = types.SetNull(types.StringType)
 		}
 		(*parent).Networks[i] = data
 	}

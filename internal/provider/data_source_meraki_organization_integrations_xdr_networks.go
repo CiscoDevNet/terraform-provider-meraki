@@ -67,7 +67,7 @@ func (d *OrganizationIntegrationsXDRNetworksDataSource) Schema(ctx context.Conte
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
-			"networks": schema.ListNestedAttribute{
+			"networks": schema.SetNestedAttribute{
 				MarkdownDescription: "List containing the network ID and the product type to enable XDR on",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
@@ -76,7 +76,7 @@ func (d *OrganizationIntegrationsXDRNetworksDataSource) Schema(ctx context.Conte
 							MarkdownDescription: "Network ID",
 							Computed:            true,
 						},
-						"product_types": schema.ListAttribute{
+						"product_types": schema.SetAttribute{
 							MarkdownDescription: "List of products for which to enable XDR",
 							ElementType:         types.StringType,
 							Computed:            true,

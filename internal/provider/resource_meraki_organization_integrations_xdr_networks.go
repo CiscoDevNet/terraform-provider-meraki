@@ -78,7 +78,7 @@ func (r *OrganizationIntegrationsXDRNetworksResource) Schema(ctx context.Context
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"networks": schema.ListNestedAttribute{
+			"networks": schema.SetNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("List containing the network ID and the product type to enable XDR on").String,
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
@@ -87,7 +87,7 @@ func (r *OrganizationIntegrationsXDRNetworksResource) Schema(ctx context.Context
 							MarkdownDescription: helpers.NewAttributeDescription("Network ID").String,
 							Required:            true,
 						},
-						"product_types": schema.ListAttribute{
+						"product_types": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of products for which to enable XDR").String,
 							ElementType:         types.StringType,
 							Required:            true,
@@ -201,7 +201,7 @@ func (r *OrganizationIntegrationsXDRNetworksResource) Read(ctx context.Context, 
 				n.NetworkId = types.StringValue(v.String())
 			}
 			if v := item.Get("productTypes"); v.Exists() {
-				n.ProductTypes = helpers.GetStringList(v.Array())
+				n.ProductTypes = helpers.GetStringSet(v.Array())
 			}
 			state.Networks = append(state.Networks, n)
 			return true
@@ -218,7 +218,7 @@ func (r *OrganizationIntegrationsXDRNetworksResource) Read(ctx context.Context, 
 				n := OrganizationIntegrationsXDRNetworksNetworks{}
 				n.NetworkId = types.StringValue(nid)
 				if v := item.Get("productTypes"); v.Exists() {
-					n.ProductTypes = helpers.GetStringList(v.Array())
+					n.ProductTypes = helpers.GetStringSet(v.Array())
 				}
 				result = append(result, n)
 			}

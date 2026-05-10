@@ -29,7 +29,7 @@ resource "meraki_organization_integrations_xdr_networks" "example" {
 
 ### Required
 
-- `networks` (Attributes List) List containing the network ID and the product type to enable XDR on (see [below for nested schema](#nestedatt--networks))
+- `networks` (Attributes Set) List containing the network ID and the product type to enable XDR on (see [below for nested schema](#nestedatt--networks))
 - `organization_id` (String) Organization ID
 
 ### Read-Only
@@ -42,7 +42,7 @@ resource "meraki_organization_integrations_xdr_networks" "example" {
 Required:
 
 - `network_id` (String) Network ID
-- `product_types` (List of String) List of products for which to enable XDR
+- `product_types` (Set of String) List of products for which to enable XDR
 
 ## Import
 
