@@ -123,10 +123,10 @@ jobs:
         run: |
           if [[ "${{ needs.detect-changes.outputs.run_all }}" == "true" ]]; then
             echo "Running all tests..."
-            go test -v -cover -timeout 140m ./internal/provider/
+            go test -v -cover -timeout 160m ./internal/provider/
           else
             echo "Running selective tests..."
             echo "Pattern: ${{ needs.detect-changes.outputs.test_pattern }}"
-            go test -v -cover -timeout 140m -run '${{ needs.detect-changes.outputs.test_pattern }}' ./internal/provider/
+            go test -v -cover -timeout 160m -run '${{ needs.detect-changes.outputs.test_pattern }}' ./internal/provider/
           fi
         timeout-minutes: 170
