@@ -85,6 +85,10 @@ func (d *WirelessSettingsDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "The default strategy that network devices will use to perform an upgrade. Requires firmware version MR 26.8 or higher.",
 				Computed:            true,
 			},
+			"multicast_to_unicast_conversion_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Toggle for enabling or disabling multicast-to-unicast conversion across the network",
+				Computed:            true,
+			},
 			"named_vlans_pool_dhcp_monitoring_duration": schema.Int64Attribute{
 				MarkdownDescription: "The duration in minutes that devices will refrain from using dirty VLANs before adding them back to the pool.",
 				Computed:            true,

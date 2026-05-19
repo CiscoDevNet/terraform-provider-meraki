@@ -31,7 +31,7 @@ resource "meraki_wireless_ssid_hotspot_20" "example" {
   nai_realms = [
     {
       format = "1"
-      realm  = ""
+      realm  = "Realm 1"
       methods = [
         {
           id                                                   = "1"
