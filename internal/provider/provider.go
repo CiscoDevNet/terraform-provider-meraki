@@ -649,6 +649,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewOrganizationExtensionsThousandEyesNetworkDataSource,
 		NewOrganizationExtensionsThousandEyesNetworksDataSource,
 		NewOrganizationFirmwareUpgradesDataSource,
+		NewOrganizationIntegrationsDeployableDataSource,
 		NewOrganizationIntegrationsXDRNetworksDataSource,
 		NewOrganizationInventoryDevicesDataSource,
 		NewOrganizationLicenseDataSource,

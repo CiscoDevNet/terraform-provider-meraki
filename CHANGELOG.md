@@ -4,6 +4,9 @@
 - Add `ecmp_uplink_configs` nested attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
 - Add `eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status` attributes to `meraki_organization_inventory_devices` data source
 - Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
+- Add `meraki_organization_integrations_deployable` data source to list integrations deployable for an organization, including integration metadata such as name, provider, type, release stage, and deployability status
+- Fix panic in `gen/definition.go` when an OpenAPI spec endpoint returns an example that is a plain object (`map`) instead of an array -- the example extractor now handles both `[]interface{}` (array, takes first element) and `map[string]interface{}` (plain object, uses directly)
+- Fix `gen/templates/data_source_test.go`: when a definition has `no_resource: true`, the generated test config function now emits only a `data` block using the reference attributes -- previously it always emitted a `resource` block first regardless of whether the resource existed, causing test failures with "Invalid resource type".
 
 ## 1.12.0
 
