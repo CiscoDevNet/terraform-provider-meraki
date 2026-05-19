@@ -379,6 +379,10 @@ func (r *NetworkMerakiAuthUsersResource) Update(ctx context.Context, req resourc
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceNetworkMerakiAuthUsersIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update

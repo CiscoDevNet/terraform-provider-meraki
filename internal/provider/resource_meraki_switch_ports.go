@@ -455,6 +455,10 @@ func (r *SwitchPortsResource) Update(ctx context.Context, req resource.UpdateReq
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceSwitchPortsIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 func (r *SwitchPortsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

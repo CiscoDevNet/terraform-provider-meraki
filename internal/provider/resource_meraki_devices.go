@@ -324,6 +324,10 @@ func (r *DevicesResource) Update(ctx context.Context, req resource.UpdateRequest
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceDevicesIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update

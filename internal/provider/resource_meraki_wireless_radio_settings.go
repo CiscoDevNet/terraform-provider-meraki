@@ -235,6 +235,7 @@ func (r *WirelessRadioSettingsResource) Read(ctx context.Context, req resource.R
 
 func (r *WirelessRadioSettingsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state WirelessRadioSettings
+	var identity WirelessRadioSettingsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -260,6 +261,9 @@ func (r *WirelessRadioSettingsResource) Update(ctx context.Context, req resource
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

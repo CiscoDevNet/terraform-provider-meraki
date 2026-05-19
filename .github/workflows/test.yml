@@ -11,6 +11,10 @@ on:
         required: false
         type: boolean
         default: true
+      terraform_version:
+        description: "Terraform version to test with (e.g. 1.10.*, 1.14.*)"
+        required: false
+        type: string
   pull_request:
     paths-ignore:
       - "README.md"
@@ -82,8 +86,7 @@ jobs:
       matrix:
         # list whatever Terraform versions here you would like to support
         terraform:
-          # - "1.0.*"
-          - "1.14.*"
+          - ${{ inputs.terraform_version || '1.15.*' }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-go@v6

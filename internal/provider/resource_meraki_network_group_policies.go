@@ -646,6 +646,10 @@ func (r *NetworkGroupPoliciesResource) Update(ctx context.Context, req resource.
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceNetworkGroupPoliciesIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 func (r *NetworkGroupPoliciesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

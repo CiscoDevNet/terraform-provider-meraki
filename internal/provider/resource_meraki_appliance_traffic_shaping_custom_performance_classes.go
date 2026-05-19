@@ -349,6 +349,10 @@ func (r *ApplianceTrafficShapingCustomPerformanceClassesResource) Update(ctx con
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceApplianceTrafficShapingCustomPerformanceClassesIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update

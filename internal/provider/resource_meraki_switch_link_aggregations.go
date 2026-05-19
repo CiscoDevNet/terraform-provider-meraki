@@ -363,6 +363,10 @@ func (r *SwitchLinkAggregationsResource) Update(ctx context.Context, req resourc
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceSwitchLinkAggregationsIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete

@@ -205,6 +205,10 @@ func (r *WirelessEthernetPortProfileAssignResource) Update(ctx context.Context, 
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity WirelessEthernetPortProfileAssignIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete

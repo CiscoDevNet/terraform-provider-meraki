@@ -234,6 +234,7 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Read(ctx context.Context,
 
 func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceVPNSiteToSiteIPsecPeersSLAs
+	var identity ApplianceVPNSiteToSiteIPsecPeersSLAsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -259,6 +260,9 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Update(ctx context.Contex
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

@@ -226,6 +226,7 @@ func (r *NetworkResource) Read(ctx context.Context, req resource.ReadRequest, re
 
 func (r *NetworkResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state Network
+	var identity NetworkIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -251,6 +252,9 @@ func (r *NetworkResource) Update(ctx context.Context, req resource.UpdateRequest
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

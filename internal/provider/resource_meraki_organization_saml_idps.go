@@ -337,6 +337,10 @@ func (r *OrganizationSAMLIdPsResource) Update(ctx context.Context, req resource.
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceOrganizationSAMLIdPsIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update

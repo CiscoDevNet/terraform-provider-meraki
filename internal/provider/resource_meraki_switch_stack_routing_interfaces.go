@@ -460,6 +460,10 @@ func (r *SwitchStackRoutingInterfacesResource) Update(ctx context.Context, req r
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceSwitchStackRoutingInterfacesIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update

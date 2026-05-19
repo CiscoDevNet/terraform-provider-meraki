@@ -807,6 +807,10 @@ func (r *WirelessSSIDsResource) Update(ctx context.Context, req resource.UpdateR
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity ResourceWirelessSSIDsIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update

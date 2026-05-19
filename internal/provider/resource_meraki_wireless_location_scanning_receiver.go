@@ -247,6 +247,7 @@ func (r *WirelessLocationScanningReceiverResource) Read(ctx context.Context, req
 
 func (r *WirelessLocationScanningReceiverResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state WirelessLocationScanningReceiver
+	var identity WirelessLocationScanningReceiverIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -272,6 +273,9 @@ func (r *WirelessLocationScanningReceiverResource) Update(ctx context.Context, r
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

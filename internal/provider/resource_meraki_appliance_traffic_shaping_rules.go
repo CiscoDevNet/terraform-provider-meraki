@@ -264,6 +264,7 @@ func (r *ApplianceTrafficShapingRulesResource) Read(ctx context.Context, req res
 
 func (r *ApplianceTrafficShapingRulesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceTrafficShapingRules
+	var identity ApplianceTrafficShapingRulesIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -289,6 +290,9 @@ func (r *ApplianceTrafficShapingRulesResource) Update(ctx context.Context, req r
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

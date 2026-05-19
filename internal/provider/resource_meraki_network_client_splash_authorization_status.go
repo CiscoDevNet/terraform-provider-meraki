@@ -282,6 +282,7 @@ func (r *NetworkClientSplashAuthorizationStatusResource) Read(ctx context.Contex
 
 func (r *NetworkClientSplashAuthorizationStatusResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state NetworkClientSplashAuthorizationStatus
+	var identity NetworkClientSplashAuthorizationStatusIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -307,6 +308,9 @@ func (r *NetworkClientSplashAuthorizationStatusResource) Update(ctx context.Cont
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

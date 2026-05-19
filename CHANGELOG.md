@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix "Missing Resource Identity After Update" provider error when updating resources with Terraform versions not supporting resource identity (< 1.12)
+
 ## 1.12.0
 
 - EXPERIMENTAL: Add `restore_original_state_on_destroy` provider attribute to opt in to restoring the original API state of singleton resources on destroy. When enabled, the provider captures the initial state during resource creation and restores it when the resource is destroyed. This feature is experimental and may change in future releases. See the [Restore State on Destroy guide](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/restore_state_on_destroy) for details and limitations.

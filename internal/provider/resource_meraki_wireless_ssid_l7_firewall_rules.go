@@ -250,6 +250,7 @@ func (r *WirelessSSIDL7FirewallRulesResource) Read(ctx context.Context, req reso
 
 func (r *WirelessSSIDL7FirewallRulesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state WirelessSSIDL7FirewallRules
+	var identity WirelessSSIDL7FirewallRulesIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -275,6 +276,9 @@ func (r *WirelessSSIDL7FirewallRulesResource) Update(ctx context.Context, req re
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

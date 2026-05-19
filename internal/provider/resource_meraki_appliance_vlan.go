@@ -383,6 +383,7 @@ func (r *ApplianceVLANResource) Read(ctx context.Context, req resource.ReadReque
 
 func (r *ApplianceVLANResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceVLAN
+	var identity ApplianceVLANIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -408,6 +409,9 @@ func (r *ApplianceVLANResource) Update(ctx context.Context, req resource.UpdateR
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

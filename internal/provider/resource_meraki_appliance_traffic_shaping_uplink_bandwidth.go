@@ -235,6 +235,7 @@ func (r *ApplianceTrafficShapingUplinkBandwidthResource) Read(ctx context.Contex
 
 func (r *ApplianceTrafficShapingUplinkBandwidthResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceTrafficShapingUplinkBandwidth
+	var identity ApplianceTrafficShapingUplinkBandwidthIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -260,6 +261,9 @@ func (r *ApplianceTrafficShapingUplinkBandwidthResource) Update(ctx context.Cont
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

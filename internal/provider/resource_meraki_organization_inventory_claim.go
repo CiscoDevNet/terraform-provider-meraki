@@ -311,6 +311,10 @@ func (r *OrganizationInventoryClaimResource) Update(ctx context.Context, req res
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity OrganizationInventoryClaimIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 func (r *OrganizationInventoryClaimResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

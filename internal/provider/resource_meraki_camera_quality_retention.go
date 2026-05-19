@@ -247,6 +247,7 @@ func (r *CameraQualityRetentionResource) Read(ctx context.Context, req resource.
 
 func (r *CameraQualityRetentionResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state CameraQualityRetention
+	var identity CameraQualityRetentionIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -272,6 +273,9 @@ func (r *CameraQualityRetentionResource) Update(ctx context.Context, req resourc
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 

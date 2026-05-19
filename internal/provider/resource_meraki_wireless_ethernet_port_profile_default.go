@@ -215,6 +215,10 @@ func (r *WirelessEthernetPortProfileDefaultResource) Update(ctx context.Context,
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity WirelessEthernetPortProfileDefaultIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 func (r *WirelessEthernetPortProfileDefaultResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

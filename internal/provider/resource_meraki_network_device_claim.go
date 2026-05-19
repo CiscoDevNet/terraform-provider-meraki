@@ -340,6 +340,10 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity NetworkDeviceClaimIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 func (r *NetworkDeviceClaimResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

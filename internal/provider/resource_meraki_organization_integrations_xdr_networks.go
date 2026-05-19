@@ -309,6 +309,10 @@ func (r *OrganizationIntegrationsXDRNetworksResource) Update(ctx context.Context
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity OrganizationIntegrationsXDRNetworksIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 func (r *OrganizationIntegrationsXDRNetworksResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

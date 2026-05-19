@@ -263,6 +263,7 @@ func (r *ApplianceVPNFirewallRulesResource) Read(ctx context.Context, req resour
 
 func (r *ApplianceVPNFirewallRulesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceVPNFirewallRules
+	var identity ApplianceVPNFirewallRulesIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -288,6 +289,9 @@ func (r *ApplianceVPNFirewallRulesResource) Update(ctx context.Context, req reso
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 
