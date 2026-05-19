@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_settings Resource - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This resource can manage the Wireless settings configuration.
+  This resource can manage the Wireless Settings configuration.
 ---
 
 # meraki_wireless_settings (Resource)
 
-This resource can manage the `Wireless settings` configuration.
+This resource can manage the `Wireless Settings` configuration.
 
 ## Example Usage
 

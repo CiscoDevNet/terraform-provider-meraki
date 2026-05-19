@@ -3,12 +3,12 @@
 page_title: "meraki_wireless_settings Data Source - terraform-provider-meraki"
 subcategory: "Wireless"
 description: |-
-  This data source can read the Wireless settings configuration.
+  This data source can read the Wireless Settings configuration.
 ---
 
 # meraki_wireless_settings (Data Source)
 
-This data source can read the `Wireless settings` configuration.
+This data source can read the `Wireless Settings` configuration.
 
 ## Example Usage
 
