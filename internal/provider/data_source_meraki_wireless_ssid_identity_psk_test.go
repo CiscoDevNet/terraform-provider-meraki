@@ -30,11 +30,14 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiWirelessSSIDIdentityPSK(t *testing.T) {
+	if os.Getenv("WIRELESS_SSID_IDENTITY_PSK") == "" {
+		t.Skip("skipping test, set environment variable WIRELESS_SSID_IDENTITY_PSK")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_identity_psk.test", "expires_at", "2018-02-11T00:00:00.090209Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_identity_psk.test", "expires_at", "2030-02-11T00:00:00.090209Z"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_identity_psk.test", "name", "Sample Identity PSK"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid_identity_psk.test", "passphrase", "Cisco123"))
 	resource.Test(t, resource.TestCase{
@@ -84,7 +87,7 @@ func testAccDataSourceMerakiWirelessSSIDIdentityPSKConfig() string {
 	config := `resource "meraki_wireless_ssid_identity_psk" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  number = meraki_wireless_ssid.test.id` + "\n"
-	config += `  expires_at = "2018-02-11T00:00:00.090209Z"` + "\n"
+	config += `  expires_at = "2030-02-11T00:00:00.090209Z"` + "\n"
 	config += `  group_policy_id = meraki_network_group_policy.test.id` + "\n"
 	config += `  name = "Sample Identity PSK"` + "\n"
 	config += `  passphrase = "Cisco123"` + "\n"
@@ -105,7 +108,7 @@ func testAccNamedDataSourceMerakiWirelessSSIDIdentityPSKConfig() string {
 	config := `resource "meraki_wireless_ssid_identity_psk" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  number = meraki_wireless_ssid.test.id` + "\n"
-	config += `  expires_at = "2018-02-11T00:00:00.090209Z"` + "\n"
+	config += `  expires_at = "2030-02-11T00:00:00.090209Z"` + "\n"
 	config += `  group_policy_id = meraki_network_group_policy.test.id` + "\n"
 	config += `  name = "Sample Identity PSK"` + "\n"
 	config += `  passphrase = "Cisco123"` + "\n"

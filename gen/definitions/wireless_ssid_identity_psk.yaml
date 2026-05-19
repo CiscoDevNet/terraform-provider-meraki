@@ -1,3 +1,4 @@
+# Added test tag as bulk resource test started to fail
 name: Wireless SSID Identity PSK
 spec_endpoint: /networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}
 rest_endpoint: /networks/%v/wireless/ssids/%v/identityPsks
@@ -6,6 +7,7 @@ bulk_resource: true
 data_source_name_query: true
 doc_category: Wireless
 test_variables: [test_org, test_network]
+test_tags: [WIRELESS_SSID_IDENTITY_PSK]
 attributes:
   - tf_name: network_id
     type: String
@@ -22,7 +24,7 @@ attributes:
   - model_name: expiresAt
     type: String
     description: Timestamp for when the Identity PSK expires. Will not expire if left blank.
-    example: "2018-02-11T00:00:00.090209Z"
+    example: "2030-02-11T00:00:00.090209Z"
   - model_name: groupPolicyId
     type: String
     mandatory: true
