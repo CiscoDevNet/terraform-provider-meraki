@@ -646,6 +646,12 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 
 	attr.GoTypeName = parentGoTypeName + ToGoName(attr.TfName)
 	attr.GoTypeBulkName = parentGoTypeBulkName + ToGoName(attr.TfName)
+	// When a nested attribute's GoTypeBulkName equals parentGoTypeBulkName+"Items" it collides
+	// with the DataSource<BulkName>Items struct that the bulk model template always emits.
+	// Use the singular parent type name instead to break the collision.
+	if attr.GoTypeBulkName == parentGoTypeBulkName+"Items" && parentGoTypeBulkName != parentGoTypeName {
+		attr.GoTypeBulkName = parentGoTypeName + ToGoName(attr.TfName)
+	}
 
 	// Validate
 	if len(attr.Attributes) > 0 && attr.Type != "List" && attr.Type != "Map" && attr.Type != "Set" {
