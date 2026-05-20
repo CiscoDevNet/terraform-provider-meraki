@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## Unreleased
+## 1.12.1
 
 - Fix "Missing Resource Identity After Update" provider error when updating resources with Terraform versions not supporting resource identity (< 1.12)
 - Add `ecmp_uplink_configs` nested attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
