@@ -92,3 +92,15 @@ test_prerequisites: |
       }
     ]
   }
+additional_tests:
+  - |-
+    resource "meraki_switch_stack" "test" {
+      network_id = meraki_network.test.id
+      name       = "A cool stack"
+      serials    = meraki_network_device_claim.test.serials
+    }
+    resource "meraki_network_vlan_profile_assignment" "test" {
+      network_id         = meraki_network.test.id
+      vlan_profile_iname = meraki_network_vlan_profile.test.iname
+      stack_ids          = [meraki_switch_stack.test.id]
+    }
