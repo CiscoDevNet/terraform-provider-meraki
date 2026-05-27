@@ -184,12 +184,22 @@ func (data *NetworkVLANProfileAssignment) fromByDeviceBody(ctx context.Context, 
 		if profileIname != iname {
 			continue
 		}
+		if stackId := item.Get("stack.id").String(); stackId != "" {
+			if !stackIdSet[stackId] {
+				stackIdSet[stackId] = true
+				stackIdValues = append(stackIdValues, types.StringValue(stackId))
+			}
+			// When a stack is assigned to the profile,
+			// the byDevice response includes an assignment for every device in the stack,
+			// with the stack ID specified for each assignment.
+			// An assignment to an individual device (non-stack switch) is returned with null stack ID.
+			//
+			// Ignore the device serial if non-null stack ID is returned,
+			// so that we don't try to unassign the stack's devices on Update/Delete.
+			continue
+		}
 		if serial := item.Get("serial").String(); serial != "" {
 			serialValues = append(serialValues, types.StringValue(serial))
-		}
-		if stackId := item.Get("stack.id").String(); stackId != "" && !stackIdSet[stackId] {
-			stackIdSet[stackId] = true
-			stackIdValues = append(stackIdValues, types.StringValue(stackId))
 		}
 	}
 	if len(serialValues) > 0 {

@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## Unreleased
+
+- Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
+
 ## 1.12.1
 
 - Fix "Missing Resource Identity After Update" provider error when updating resources with Terraform versions not supporting resource identity (< 1.12)
