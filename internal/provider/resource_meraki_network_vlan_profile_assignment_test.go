@@ -58,6 +58,9 @@ func TestAccMerakiNetworkVLANProfileAssignment(t *testing.T) {
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiNetworkVLANProfileAssignmentPrerequisitesConfig + testAccNetworkVLANProfileAssignmentConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -167,5 +170,18 @@ func testAccMerakiNetworkVLANProfileAssignmentConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccNetworkVLANProfileAssignmentConfigAdditional0 = `
+resource "meraki_switch_stack" "test" {
+  network_id = meraki_network.test.id
+  name       = "A cool stack"
+  serials    = meraki_network_device_claim.test.serials
+}
+resource "meraki_network_vlan_profile_assignment" "test" {
+  network_id         = meraki_network.test.id
+  vlan_profile_iname = meraki_network_vlan_profile.test.iname
+  stack_ids          = [meraki_switch_stack.test.id]
+}
+`
 
 // End of section. //template:end testAccConfigAdditional
