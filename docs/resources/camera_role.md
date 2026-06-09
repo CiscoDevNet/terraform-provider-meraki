@@ -82,8 +82,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_camera_role.example
   identity = {
-    "organization_id" : "<organization_id>"
-    "id" : "<id>"
+    organization_id = "<organization_id>"
+    id              = "<id>"
   }
 }
 ```

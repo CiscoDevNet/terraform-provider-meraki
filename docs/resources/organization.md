@@ -57,7 +57,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_organization.example
   identity = {
-    "id" : "<id>"
+    id = "<id>"
   }
 }
 ```

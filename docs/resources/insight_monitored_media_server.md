@@ -48,7 +48,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_insight_monitored_media_server.example
   identity = {
-    "organization_id" : "<organization_id>"
+    organization_id = "<organization_id>"
   }
 }
 ```

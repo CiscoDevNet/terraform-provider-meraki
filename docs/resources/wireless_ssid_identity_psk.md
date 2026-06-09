@@ -56,9 +56,9 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_wireless_ssid_identity_psk.example
   identity = {
-    "network_id" : "<network_id>"
-    "number" : "<number>"
-    "id" : "<id>"
+    network_id = "<network_id>"
+    number     = "<number>"
+    id         = "<id>"
   }
 }
 ```

@@ -88,8 +88,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_wireless_ssid_traffic_shaping_rules.example
   identity = {
-    "network_id" : "<network_id>"
-    "number" : "<number>"
+    network_id = "<network_id>"
+    number     = "<number>"
   }
 }
 ```

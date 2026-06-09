@@ -77,8 +77,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_network_meraki_auth_user.example
   identity = {
-    "network_id" : "<network_id>"
-    "id" : "<id>"
+    network_id = "<network_id>"
+    id         = "<id>"
   }
 }
 ```

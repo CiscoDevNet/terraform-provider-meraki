@@ -6,8 +6,8 @@ bulk_data_source: true
 bulk_resource: true
 data_source_name_query: true
 doc_category: Wireless
-test_variables: [test_org, test_network]
 test_tags: [WIRELESS_SSID_IDENTITY_PSK]
+test_variables: [test_org, test_network]
 attributes:
   - tf_name: network_id
     type: String
