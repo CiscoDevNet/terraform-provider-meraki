@@ -18,6 +18,7 @@ attributes:
     exclude_test: true
     allow_import_changes: true
     description: The ID of the object detection model
+    example: "1234"
   - model_name: mqttBrokerId
     type: String
     exclude_test: true

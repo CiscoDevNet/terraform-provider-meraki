@@ -35,6 +35,11 @@ attributes:
     description: The default strategy that network devices will use to perform an upgrade. Requires firmware version MR 26.8 or higher.
     example: minimizeUpgradeTime
     enum_values: [minimizeClientDowntime, minimizeUpgradeTime]
+  - model_name: enabled
+    type: Bool
+    data_path: [multicastToUnicastConversion]
+    description: Toggle for enabling or disabling multicast-to-unicast conversion across the network
+    example: "true"
   - model_name: duration
     type: Int64
     data_path: [namedVlans, poolDhcpMonitoring]
