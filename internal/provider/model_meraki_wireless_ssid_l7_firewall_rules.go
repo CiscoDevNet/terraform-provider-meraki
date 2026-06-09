@@ -88,6 +88,14 @@ func (data WirelessSSIDL7FirewallRules) toBody(ctx context.Context, state Wirele
 	return body
 }
 
+func (data WirelessSSIDL7FirewallRules) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("rules"); value.Exists() {
+		body, _ = sjson.SetRaw(body, "rules", value.Raw)
+	}
+	return body
+}
+
 func (data *WirelessSSIDL7FirewallRules) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]WirelessSSIDL7FirewallRulesRules, 0)

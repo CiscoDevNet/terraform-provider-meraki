@@ -116,6 +116,110 @@ func (data ApplianceSingleLAN) toBody(ctx context.Context, state ApplianceSingle
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceSingleLAN) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("applianceIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "applianceIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "applianceIp", value.String())
+		}
+	}
+	if value := res.Get("subnet"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "subnet", "null")
+		} else {
+			body, _ = sjson.Set(body, "subnet", value.String())
+		}
+	}
+	if value := res.Get("ipv6.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("ipv6.prefixAssignments"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.prefixAssignments", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.prefixAssignments", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("autonomous"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "autonomous", "null")
+					} else {
+						body, _ = sjson.Set(body, "autonomous", value.Bool())
+					}
+				}
+				if value := res.Get("disabled"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "disabled", "null")
+					} else {
+						body, _ = sjson.Set(body, "disabled", value.Bool())
+					}
+				}
+				if value := res.Get("staticApplianceIp6"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "staticApplianceIp6", "null")
+					} else {
+						body, _ = sjson.Set(body, "staticApplianceIp6", value.String())
+					}
+				}
+				if value := res.Get("staticPrefix"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "staticPrefix", "null")
+					} else {
+						body, _ = sjson.Set(body, "staticPrefix", value.String())
+					}
+				}
+				if value := res.Get("origin.type"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "origin.type", "null")
+					} else {
+						body, _ = sjson.Set(body, "origin.type", value.String())
+					}
+				}
+				if value := res.Get("origin.interfaces"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "origin.interfaces", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "origin.interfaces", values)
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "ipv6.prefixAssignments.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("mandatoryDhcp.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "mandatoryDhcp.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "mandatoryDhcp.enabled", value.Bool())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceSingleLAN) fromBody(ctx context.Context, res meraki.Res) {

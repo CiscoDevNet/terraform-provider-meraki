@@ -325,6 +325,73 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data {{camelCase .Name}}) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+{{- define "toBodyPreservingNullsTemplate"}}
+	{{- range .Attributes}}
+	{{- if or .Computed (not .ModelName) .Value .Reference .WriteOnly}}{{- continue}}{{- end}}
+	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+	if value := res.Get("{{getFullModelName . false}}"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "{{getFullModelName . true}}", "null")
+		} else {
+			body, _ = sjson.Set(body, "{{getFullModelName . true}}", value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
+		}
+	}
+	{{- else if isListSet .}}
+	if value := res.Get("{{getFullModelName . false}}"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "{{getFullModelName . true}}", "null")
+		} else {
+			var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
+			for _, v := range value.Array() {
+				values = append(values, v.{{if isStringListSet .}}String{{else if isInt64ListSet .}}Int{{end}}())
+			}
+			body, _ = sjson.Set(body, "{{getFullModelName . true}}", values)
+		}
+	}
+	{{- else if isNestedListSetMap .}}
+	if value := res.Get("{{getFullModelName . false}}"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "{{getFullModelName . true}}", "null")
+		} else {
+			{{- if isNestedMap .}}
+			body, _ = sjson.Set(body, "{{getFullModelName . true}}", map[string]interface{}{})
+			{{- else}}
+			body, _ = sjson.Set(body, "{{getFullModelName . true}}", []interface{}{})
+			{{- end}}
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				{{- template "toBodyPreservingNullsTemplate" .}}
+				{{- if isNestedMap .}}
+				*parent, _ = sjson.SetRaw(*parent, "{{getFullModelName . true}}."+k.String(), body)
+				{{- else}}
+				*parent, _ = sjson.SetRaw(*parent, "{{getFullModelName . true}}.-1", body)
+				{{- end}}
+				return true
+			})
+		}
+	}
+	{{- end}}
+	{{- end}}
+{{- end}}
+	body := ""
+	{{- template "toBodyPreservingNullsTemplate" .}}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res meraki.Res) {

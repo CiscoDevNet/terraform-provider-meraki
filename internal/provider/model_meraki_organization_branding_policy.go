@@ -152,6 +152,181 @@ func (data OrganizationBrandingPolicy) toBody(ctx context.Context, state Organiz
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data OrganizationBrandingPolicy) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("adminSettings.appliesTo"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "adminSettings.appliesTo", "null")
+		} else {
+			body, _ = sjson.Set(body, "adminSettings.appliesTo", value.String())
+		}
+	}
+	if value := res.Get("adminSettings.values"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "adminSettings.values", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "adminSettings.values", values)
+		}
+	}
+	if value := res.Get("customLogo.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "customLogo.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "customLogo.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("customLogo.image.contents"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "customLogo.image.contents", "null")
+		} else {
+			body, _ = sjson.Set(body, "customLogo.image.contents", value.String())
+		}
+	}
+	if value := res.Get("customLogo.image.format"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "customLogo.image.format", "null")
+		} else {
+			body, _ = sjson.Set(body, "customLogo.image.format", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.apiDocsSubtab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.apiDocsSubtab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.apiDocsSubtab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.casesSubtab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.casesSubtab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.casesSubtab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.ciscoMerakiProductDocumentation"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.ciscoMerakiProductDocumentation", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.ciscoMerakiProductDocumentation", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.communitySubtab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.communitySubtab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.communitySubtab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.dataProtectionRequestsSubtab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.dataProtectionRequestsSubtab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.dataProtectionRequestsSubtab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.firewallInfoSubtab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.firewallInfoSubtab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.firewallInfoSubtab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.getHelpSubtab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.getHelpSubtab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.getHelpSubtab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.getHelpSubtabKnowledgeBaseSearch"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.getHelpSubtabKnowledgeBaseSearch", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.getHelpSubtabKnowledgeBaseSearch", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.hardwareReplacementsSubtab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.hardwareReplacementsSubtab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.hardwareReplacementsSubtab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.helpTab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.helpTab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.helpTab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.helpWidget"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.helpWidget", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.helpWidget", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.newFeaturesSubtab"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.newFeaturesSubtab", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.newFeaturesSubtab", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.smForums"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.smForums", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.smForums", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.supportContactInfo"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.supportContactInfo", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.supportContactInfo", value.String())
+		}
+	}
+	if value := res.Get("helpSettings.universalSearchKnowledgeBaseSearch"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helpSettings.universalSearchKnowledgeBaseSearch", "null")
+		} else {
+			body, _ = sjson.Set(body, "helpSettings.universalSearchKnowledgeBaseSearch", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationBrandingPolicy) fromBody(ctx context.Context, res meraki.Res) {

@@ -252,6 +252,298 @@ func (data SwitchAccessPolicy) toBody(ctx context.Context, state SwitchAccessPol
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchAccessPolicy) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("accessPolicyType"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "accessPolicyType", "null")
+		} else {
+			body, _ = sjson.Set(body, "accessPolicyType", value.String())
+		}
+	}
+	if value := res.Get("guestGroupPolicyId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "guestGroupPolicyId", "null")
+		} else {
+			body, _ = sjson.Set(body, "guestGroupPolicyId", value.String())
+		}
+	}
+	if value := res.Get("guestPortBouncing"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "guestPortBouncing", "null")
+		} else {
+			body, _ = sjson.Set(body, "guestPortBouncing", value.Bool())
+		}
+	}
+	if value := res.Get("guestSgtId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "guestSgtId", "null")
+		} else {
+			body, _ = sjson.Set(body, "guestSgtId", value.Int())
+		}
+	}
+	if value := res.Get("guestVlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "guestVlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "guestVlanId", value.Int())
+		}
+	}
+	if value := res.Get("hostMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "hostMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "hostMode", value.String())
+		}
+	}
+	if value := res.Get("increaseAccessSpeed"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "increaseAccessSpeed", "null")
+		} else {
+			body, _ = sjson.Set(body, "increaseAccessSpeed", value.Bool())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("radiusAccountingEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radiusAccountingEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "radiusAccountingEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("radiusCoaSupportEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radiusCoaSupportEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "radiusCoaSupportEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("radiusGroupAttribute"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radiusGroupAttribute", "null")
+		} else {
+			body, _ = sjson.Set(body, "radiusGroupAttribute", value.String())
+		}
+	}
+	if value := res.Get("radiusTestingEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radiusTestingEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "radiusTestingEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("urlRedirectWalledGardenEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "urlRedirectWalledGardenEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "urlRedirectWalledGardenEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("voiceVlanClients"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "voiceVlanClients", "null")
+		} else {
+			body, _ = sjson.Set(body, "voiceVlanClients", value.Bool())
+		}
+	}
+	if value := res.Get("dot1x.controlDirection"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dot1x.controlDirection", "null")
+		} else {
+			body, _ = sjson.Set(body, "dot1x.controlDirection", value.String())
+		}
+	}
+	if value := res.Get("radius.failedAuthGroupPolicyId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.failedAuthGroupPolicyId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.failedAuthGroupPolicyId", value.String())
+		}
+	}
+	if value := res.Get("radius.failedAuthSgtId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.failedAuthSgtId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.failedAuthSgtId", value.Int())
+		}
+	}
+	if value := res.Get("radius.failedAuthVlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.failedAuthVlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.failedAuthVlanId", value.Int())
+		}
+	}
+	if value := res.Get("radius.preAuthenticationGroupPolicyId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.preAuthenticationGroupPolicyId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.preAuthenticationGroupPolicyId", value.String())
+		}
+	}
+	if value := res.Get("radius.reAuthenticationInterval"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.reAuthenticationInterval", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.reAuthenticationInterval", value.Int())
+		}
+	}
+	if value := res.Get("radius.authentication.mode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.authentication.mode", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.authentication.mode", value.String())
+		}
+	}
+	if value := res.Get("radius.criticalAuth.dataGroupPolicyId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.criticalAuth.dataGroupPolicyId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.criticalAuth.dataGroupPolicyId", value.String())
+		}
+	}
+	if value := res.Get("radius.criticalAuth.dataSgtId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.criticalAuth.dataSgtId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.criticalAuth.dataSgtId", value.Int())
+		}
+	}
+	if value := res.Get("radius.criticalAuth.dataVlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.criticalAuth.dataVlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.criticalAuth.dataVlanId", value.Int())
+		}
+	}
+	if value := res.Get("radius.criticalAuth.suspendPortBounce"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.criticalAuth.suspendPortBounce", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.criticalAuth.suspendPortBounce", value.Bool())
+		}
+	}
+	if value := res.Get("radius.criticalAuth.voiceGroupPolicyId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.criticalAuth.voiceGroupPolicyId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.criticalAuth.voiceGroupPolicyId", value.String())
+		}
+	}
+	if value := res.Get("radius.criticalAuth.voiceSgtId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.criticalAuth.voiceSgtId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.criticalAuth.voiceSgtId", value.Int())
+		}
+	}
+	if value := res.Get("radius.criticalAuth.voiceVlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radius.criticalAuth.voiceVlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "radius.criticalAuth.voiceVlanId", value.Int())
+		}
+	}
+	if value := res.Get("radiusAccountingServers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radiusAccountingServers", "null")
+		} else {
+			body, _ = sjson.Set(body, "radiusAccountingServers", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("host"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "host", "null")
+					} else {
+						body, _ = sjson.Set(body, "host", value.String())
+					}
+				}
+				if value := res.Get("organizationRadiusServerId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "organizationRadiusServerId", "null")
+					} else {
+						body, _ = sjson.Set(body, "organizationRadiusServerId", value.String())
+					}
+				}
+				if value := res.Get("port"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "port", "null")
+					} else {
+						body, _ = sjson.Set(body, "port", value.Int())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "radiusAccountingServers.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("radiusServers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radiusServers", "null")
+		} else {
+			body, _ = sjson.Set(body, "radiusServers", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("host"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "host", "null")
+					} else {
+						body, _ = sjson.Set(body, "host", value.String())
+					}
+				}
+				if value := res.Get("organizationRadiusServerId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "organizationRadiusServerId", "null")
+					} else {
+						body, _ = sjson.Set(body, "organizationRadiusServerId", value.String())
+					}
+				}
+				if value := res.Get("port"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "port", "null")
+					} else {
+						body, _ = sjson.Set(body, "port", value.Int())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "radiusServers.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("urlRedirectWalledGardenRanges"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "urlRedirectWalledGardenRanges", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "urlRedirectWalledGardenRanges", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchAccessPolicy) fromBody(ctx context.Context, res meraki.Res) {

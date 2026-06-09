@@ -119,6 +119,113 @@ func (data WirelessSSIDVPN) toBody(ctx context.Context, state WirelessSSIDVPN) s
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessSSIDVPN) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("concentrator.networkId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "concentrator.networkId", "null")
+		} else {
+			body, _ = sjson.Set(body, "concentrator.networkId", value.String())
+		}
+	}
+	if value := res.Get("concentrator.vlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "concentrator.vlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "concentrator.vlanId", value.Int())
+		}
+	}
+	if value := res.Get("failover.heartbeatInterval"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "failover.heartbeatInterval", "null")
+		} else {
+			body, _ = sjson.Set(body, "failover.heartbeatInterval", value.Int())
+		}
+	}
+	if value := res.Get("failover.idleTimeout"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "failover.idleTimeout", "null")
+		} else {
+			body, _ = sjson.Set(body, "failover.idleTimeout", value.Int())
+		}
+	}
+	if value := res.Get("failover.requestIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "failover.requestIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "failover.requestIp", value.String())
+		}
+	}
+	if value := res.Get("splitTunnel.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splitTunnel.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "splitTunnel.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("splitTunnel.rules"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splitTunnel.rules", "null")
+		} else {
+			body, _ = sjson.Set(body, "splitTunnel.rules", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("comment"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "comment", "null")
+					} else {
+						body, _ = sjson.Set(body, "comment", value.String())
+					}
+				}
+				if value := res.Get("destCidr"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "destCidr", "null")
+					} else {
+						body, _ = sjson.Set(body, "destCidr", value.String())
+					}
+				}
+				if value := res.Get("destPort"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "destPort", "null")
+					} else {
+						body, _ = sjson.Set(body, "destPort", value.String())
+					}
+				}
+				if value := res.Get("policy"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "policy", "null")
+					} else {
+						body, _ = sjson.Set(body, "policy", value.String())
+					}
+				}
+				if value := res.Get("protocol"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "protocol", "null")
+					} else {
+						body, _ = sjson.Set(body, "protocol", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "splitTunnel.rules.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDVPN) fromBody(ctx context.Context, res meraki.Res) {

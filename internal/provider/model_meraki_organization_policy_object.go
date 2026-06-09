@@ -96,6 +96,83 @@ func (data OrganizationPolicyObject) toBody(ctx context.Context, state Organizat
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data OrganizationPolicyObject) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("category"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "category", "null")
+		} else {
+			body, _ = sjson.Set(body, "category", value.String())
+		}
+	}
+	if value := res.Get("cidr"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "cidr", "null")
+		} else {
+			body, _ = sjson.Set(body, "cidr", value.String())
+		}
+	}
+	if value := res.Get("fqdn"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "fqdn", "null")
+		} else {
+			body, _ = sjson.Set(body, "fqdn", value.String())
+		}
+	}
+	if value := res.Get("ip"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ip", "null")
+		} else {
+			body, _ = sjson.Set(body, "ip", value.String())
+		}
+	}
+	if value := res.Get("mask"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "mask", "null")
+		} else {
+			body, _ = sjson.Set(body, "mask", value.String())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("type"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "type", "null")
+		} else {
+			body, _ = sjson.Set(body, "type", value.String())
+		}
+	}
+	if value := res.Get("groupIds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "groupIds", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "groupIds", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationPolicyObject) fromBody(ctx context.Context, res meraki.Res) {

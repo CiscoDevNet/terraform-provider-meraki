@@ -112,6 +112,78 @@ func (data NetworkMerakiAuthUser) toBody(ctx context.Context, state NetworkMerak
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data NetworkMerakiAuthUser) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("accountType"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "accountType", "null")
+		} else {
+			body, _ = sjson.Set(body, "accountType", value.String())
+		}
+	}
+	if value := res.Get("email"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "email", "null")
+		} else {
+			body, _ = sjson.Set(body, "email", value.String())
+		}
+	}
+	if value := res.Get("isAdmin"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "isAdmin", "null")
+		} else {
+			body, _ = sjson.Set(body, "isAdmin", value.Bool())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("authorizations"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "authorizations", "null")
+		} else {
+			body, _ = sjson.Set(body, "authorizations", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("expiresAt"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "expiresAt", "null")
+					} else {
+						body, _ = sjson.Set(body, "expiresAt", value.String())
+					}
+				}
+				if value := res.Get("ssidNumber"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ssidNumber", "null")
+					} else {
+						body, _ = sjson.Set(body, "ssidNumber", value.Int())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "authorizations.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkMerakiAuthUser) fromBody(ctx context.Context, res meraki.Res) {

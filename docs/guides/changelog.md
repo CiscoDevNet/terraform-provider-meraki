@@ -9,6 +9,7 @@ description: |-
 
 ## Unreleased
 
+- Preserve attributes that the API explicitly returned as `null` in the saved initial state used by `restore_original_state_on_destroy`, so they are restored on destroy instead of being silently dropped
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
 
 ## 1.12.1

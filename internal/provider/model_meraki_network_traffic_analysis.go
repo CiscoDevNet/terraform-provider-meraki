@@ -90,6 +90,64 @@ func (data NetworkTrafficAnalysis) toBody(ctx context.Context, state NetworkTraf
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data NetworkTrafficAnalysis) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("mode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "mode", "null")
+		} else {
+			body, _ = sjson.Set(body, "mode", value.String())
+		}
+	}
+	if value := res.Get("customPieChartItems"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "customPieChartItems", "null")
+		} else {
+			body, _ = sjson.Set(body, "customPieChartItems", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "name", "null")
+					} else {
+						body, _ = sjson.Set(body, "name", value.String())
+					}
+				}
+				if value := res.Get("type"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "type", "null")
+					} else {
+						body, _ = sjson.Set(body, "type", value.String())
+					}
+				}
+				if value := res.Get("value"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "value", "null")
+					} else {
+						body, _ = sjson.Set(body, "value", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "customPieChartItems.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkTrafficAnalysis) fromBody(ctx context.Context, res meraki.Res) {

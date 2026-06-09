@@ -289,6 +289,422 @@ func (data CameraQualityRetentionProfile) toBody(ctx context.Context, state Came
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data CameraQualityRetentionProfile) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("audioRecordingEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "audioRecordingEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "audioRecordingEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("cloudArchiveEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "cloudArchiveEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "cloudArchiveEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("maxRetentionDays"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "maxRetentionDays", "null")
+		} else {
+			body, _ = sjson.Set(body, "maxRetentionDays", value.Int())
+		}
+	}
+	if value := res.Get("motionBasedRetentionEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "motionBasedRetentionEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "motionBasedRetentionEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("motionDetectorVersion"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "motionDetectorVersion", "null")
+		} else {
+			body, _ = sjson.Set(body, "motionDetectorVersion", value.Int())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("restrictedBandwidthModeEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "restrictedBandwidthModeEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "restrictedBandwidthModeEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("scheduleId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "scheduleId", "null")
+		} else {
+			body, _ = sjson.Set(body, "scheduleId", value.String())
+		}
+	}
+	if value := res.Get("smartRetention.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "smartRetention.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "smartRetention.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("videoSettings.MV12/MV22/MV72.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV12/MV22/MV72.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV12/MV22/MV72.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV12/MV22/MV72.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV12/MV22/MV72.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV12/MV22/MV72.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV12WE.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV12WE.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV12WE.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV12WE.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV12WE.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV12WE.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV13.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV13.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV13.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV13.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV13.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV13.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV13M.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV13M.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV13M.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV13M.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV13M.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV13M.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV21/MV71.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV21/MV71.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV21/MV71.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV21/MV71.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV21/MV71.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV21/MV71.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV22X/MV72X.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV22X/MV72X.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV22X/MV72X.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV22X/MV72X.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV22X/MV72X.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV22X/MV72X.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV23.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV23.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV23.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV23.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV23.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV23.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV23M.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV23M.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV23M.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV23M.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV23M.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV23M.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV23X.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV23X.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV23X.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV23X.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV23X.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV23X.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV32.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV32.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV32.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV32.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV32.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV32.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV33.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV33.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV33.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV33.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV33.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV33.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV33M.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV33M.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV33M.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV33M.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV33M.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV33M.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV52.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV52.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV52.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV52.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV52.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV52.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV53X.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV53X.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV53X.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV53X.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV53X.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV53X.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV63.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV63.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV63.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV63.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV63.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV63.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV63M.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV63M.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV63M.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV63M.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV63M.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV63M.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV63X.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV63X.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV63X.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV63X.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV63X.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV63X.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV73.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV73.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV73.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV73.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV73.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV73.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV73M.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV73M.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV73M.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV73M.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV73M.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV73M.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV73X.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV73X.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV73X.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV73X.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV73X.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV73X.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV84X.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV84X.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV84X.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV84X.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV84X.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV84X.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV93.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV93.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV93.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV93.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV93.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV93.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV93M.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV93M.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV93M.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV93M.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV93M.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV93M.resolution", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV93X.quality"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV93X.quality", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV93X.quality", value.String())
+		}
+	}
+	if value := res.Get("videoSettings.MV93X.resolution"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "videoSettings.MV93X.resolution", "null")
+		} else {
+			body, _ = sjson.Set(body, "videoSettings.MV93X.resolution", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *CameraQualityRetentionProfile) fromBody(ctx context.Context, res meraki.Res) {
