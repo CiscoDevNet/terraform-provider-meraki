@@ -149,6 +149,177 @@ func (data SwitchPortSchedule) toBody(ctx context.Context, state SwitchPortSched
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchPortSchedule) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.friday.active"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.friday.active", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.friday.active", value.Bool())
+		}
+	}
+	if value := res.Get("portSchedule.friday.from"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.friday.from", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.friday.from", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.friday.to"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.friday.to", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.friday.to", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.monday.active"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.monday.active", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.monday.active", value.Bool())
+		}
+	}
+	if value := res.Get("portSchedule.monday.from"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.monday.from", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.monday.from", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.monday.to"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.monday.to", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.monday.to", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.saturday.active"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.saturday.active", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.saturday.active", value.Bool())
+		}
+	}
+	if value := res.Get("portSchedule.saturday.from"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.saturday.from", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.saturday.from", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.saturday.to"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.saturday.to", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.saturday.to", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.sunday.active"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.sunday.active", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.sunday.active", value.Bool())
+		}
+	}
+	if value := res.Get("portSchedule.sunday.from"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.sunday.from", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.sunday.from", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.sunday.to"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.sunday.to", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.sunday.to", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.thursday.active"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.thursday.active", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.thursday.active", value.Bool())
+		}
+	}
+	if value := res.Get("portSchedule.thursday.from"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.thursday.from", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.thursday.from", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.thursday.to"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.thursday.to", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.thursday.to", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.tuesday.active"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.tuesday.active", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.tuesday.active", value.Bool())
+		}
+	}
+	if value := res.Get("portSchedule.tuesday.from"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.tuesday.from", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.tuesday.from", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.tuesday.to"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.tuesday.to", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.tuesday.to", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.wednesday.active"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.wednesday.active", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.wednesday.active", value.Bool())
+		}
+	}
+	if value := res.Get("portSchedule.wednesday.from"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.wednesday.from", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.wednesday.from", value.String())
+		}
+	}
+	if value := res.Get("portSchedule.wednesday.to"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portSchedule.wednesday.to", "null")
+		} else {
+			body, _ = sjson.Set(body, "portSchedule.wednesday.to", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchPortSchedule) fromBody(ctx context.Context, res meraki.Res) {

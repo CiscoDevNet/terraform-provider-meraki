@@ -118,6 +118,16 @@ func (data ApplianceTrafficShapingRules) toBody(ctx context.Context, state Appli
 	return body
 }
 
+func (data ApplianceTrafficShapingRules) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	for _, key := range []string{"defaultRulesEnabled", "rules"} {
+		if value := res.Get(key); value.Exists() {
+			body, _ = sjson.SetRaw(body, key, value.Raw)
+		}
+	}
+	return body
+}
+
 func (data *ApplianceTrafficShapingRules) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("defaultRulesEnabled"); value.Exists() && value.Value() != nil {
 		data.DefaultRulesEnabled = types.BoolValue(value.Bool())

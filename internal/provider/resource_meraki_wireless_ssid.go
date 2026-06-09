@@ -681,8 +681,7 @@ func (r *WirelessSSIDResource) Create(ctx context.Context, req resource.CreateRe
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
-		initialState.fromBody(ctx, gres)
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessSSID{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object

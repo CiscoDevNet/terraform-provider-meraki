@@ -160,6 +160,174 @@ func (data ApplianceSDWANInternetPolicies) toBody(ctx context.Context, state App
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceSDWANInternetPolicies) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("wanTrafficUplinkPreferences"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wanTrafficUplinkPreferences", "null")
+		} else {
+			body, _ = sjson.Set(body, "wanTrafficUplinkPreferences", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("failOverCriterion"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "failOverCriterion", "null")
+					} else {
+						body, _ = sjson.Set(body, "failOverCriterion", value.String())
+					}
+				}
+				if value := res.Get("preferredUplink"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "preferredUplink", "null")
+					} else {
+						body, _ = sjson.Set(body, "preferredUplink", value.String())
+					}
+				}
+				if value := res.Get("performanceClass.builtinPerformanceClassName"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "performanceClass.builtinPerformanceClassName", "null")
+					} else {
+						body, _ = sjson.Set(body, "performanceClass.builtinPerformanceClassName", value.String())
+					}
+				}
+				if value := res.Get("performanceClass.customPerformanceClassId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "performanceClass.customPerformanceClassId", "null")
+					} else {
+						body, _ = sjson.Set(body, "performanceClass.customPerformanceClassId", value.String())
+					}
+				}
+				if value := res.Get("performanceClass.type"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "performanceClass.type", "null")
+					} else {
+						body, _ = sjson.Set(body, "performanceClass.type", value.String())
+					}
+				}
+				if value := res.Get("trafficFilters"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "trafficFilters", "null")
+					} else {
+						body, _ = sjson.Set(body, "trafficFilters", []interface{}{})
+						parent := &body
+						value.ForEach(func(k, res gjson.Result) bool {
+							body := ""
+							if value := res.Get("type"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "type", "null")
+								} else {
+									body, _ = sjson.Set(body, "type", value.String())
+								}
+							}
+							if value := res.Get("value.protocol"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "value.protocol", "null")
+								} else {
+									body, _ = sjson.Set(body, "value.protocol", value.String())
+								}
+							}
+							if value := res.Get("value.destination.cidr"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "value.destination.cidr", "null")
+								} else {
+									body, _ = sjson.Set(body, "value.destination.cidr", value.String())
+								}
+							}
+							if value := res.Get("value.destination.port"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "value.destination.port", "null")
+								} else {
+									body, _ = sjson.Set(body, "value.destination.port", value.String())
+								}
+							}
+							if value := res.Get("value.destination.applications"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "value.destination.applications", "null")
+								} else {
+									body, _ = sjson.Set(body, "value.destination.applications", []interface{}{})
+									parent := &body
+									value.ForEach(func(k, res gjson.Result) bool {
+										body := ""
+										if value := res.Get("id"); value.Exists() {
+											if value.Value() == nil {
+												body, _ = sjson.SetRaw(body, "id", "null")
+											} else {
+												body, _ = sjson.Set(body, "id", value.String())
+											}
+										}
+										if value := res.Get("name"); value.Exists() {
+											if value.Value() == nil {
+												body, _ = sjson.SetRaw(body, "name", "null")
+											} else {
+												body, _ = sjson.Set(body, "name", value.String())
+											}
+										}
+										if value := res.Get("type"); value.Exists() {
+											if value.Value() == nil {
+												body, _ = sjson.SetRaw(body, "type", "null")
+											} else {
+												body, _ = sjson.Set(body, "type", value.String())
+											}
+										}
+										*parent, _ = sjson.SetRaw(*parent, "value.destination.applications.-1", body)
+										return true
+									})
+								}
+							}
+							if value := res.Get("value.source.cidr"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "value.source.cidr", "null")
+								} else {
+									body, _ = sjson.Set(body, "value.source.cidr", value.String())
+								}
+							}
+							if value := res.Get("value.source.host"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "value.source.host", "null")
+								} else {
+									body, _ = sjson.Set(body, "value.source.host", value.Int())
+								}
+							}
+							if value := res.Get("value.source.port"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "value.source.port", "null")
+								} else {
+									body, _ = sjson.Set(body, "value.source.port", value.String())
+								}
+							}
+							if value := res.Get("value.source.vlan"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "value.source.vlan", "null")
+								} else {
+									body, _ = sjson.Set(body, "value.source.vlan", value.Int())
+								}
+							}
+							*parent, _ = sjson.SetRaw(*parent, "trafficFilters.-1", body)
+							return true
+						})
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "wanTrafficUplinkPreferences.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceSDWANInternetPolicies) fromBody(ctx context.Context, res meraki.Res) {

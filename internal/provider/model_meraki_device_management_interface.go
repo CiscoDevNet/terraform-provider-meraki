@@ -121,6 +121,129 @@ func (data DeviceManagementInterface) toBody(ctx context.Context, state DeviceMa
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data DeviceManagementInterface) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("wan1.staticGatewayIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.staticGatewayIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.staticGatewayIp", value.String())
+		}
+	}
+	if value := res.Get("wan1.staticIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.staticIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.staticIp", value.String())
+		}
+	}
+	if value := res.Get("wan1.staticSubnetMask"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.staticSubnetMask", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.staticSubnetMask", value.String())
+		}
+	}
+	if value := res.Get("wan1.usingStaticIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.usingStaticIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.usingStaticIp", value.Bool())
+		}
+	}
+	if value := res.Get("wan1.vlan"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.vlan", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.vlan", value.Int())
+		}
+	}
+	if value := res.Get("wan1.wanEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.wanEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.wanEnabled", value.String())
+		}
+	}
+	if value := res.Get("wan1.staticDns"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.staticDns", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "wan1.staticDns", values)
+		}
+	}
+	if value := res.Get("wan2.staticGatewayIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.staticGatewayIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.staticGatewayIp", value.String())
+		}
+	}
+	if value := res.Get("wan2.staticIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.staticIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.staticIp", value.String())
+		}
+	}
+	if value := res.Get("wan2.staticSubnetMask"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.staticSubnetMask", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.staticSubnetMask", value.String())
+		}
+	}
+	if value := res.Get("wan2.usingStaticIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.usingStaticIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.usingStaticIp", value.Bool())
+		}
+	}
+	if value := res.Get("wan2.vlan"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.vlan", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.vlan", value.Int())
+		}
+	}
+	if value := res.Get("wan2.wanEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.wanEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.wanEnabled", value.String())
+		}
+	}
+	if value := res.Get("wan2.staticDns"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.staticDns", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "wan2.staticDns", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DeviceManagementInterface) fromBody(ctx context.Context, res meraki.Res) {

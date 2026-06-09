@@ -113,6 +113,103 @@ func (data WirelessAlternateManagementInterface) toBody(ctx context.Context, sta
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessAlternateManagementInterface) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("vlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "vlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "vlanId", value.Int())
+		}
+	}
+	if value := res.Get("accessPoints"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "accessPoints", "null")
+		} else {
+			body, _ = sjson.Set(body, "accessPoints", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("alternateManagementIp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "alternateManagementIp", "null")
+					} else {
+						body, _ = sjson.Set(body, "alternateManagementIp", value.String())
+					}
+				}
+				if value := res.Get("dns1"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "dns1", "null")
+					} else {
+						body, _ = sjson.Set(body, "dns1", value.String())
+					}
+				}
+				if value := res.Get("dns2"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "dns2", "null")
+					} else {
+						body, _ = sjson.Set(body, "dns2", value.String())
+					}
+				}
+				if value := res.Get("gateway"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "gateway", "null")
+					} else {
+						body, _ = sjson.Set(body, "gateway", value.String())
+					}
+				}
+				if value := res.Get("serial"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "serial", "null")
+					} else {
+						body, _ = sjson.Set(body, "serial", value.String())
+					}
+				}
+				if value := res.Get("subnetMask"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "subnetMask", "null")
+					} else {
+						body, _ = sjson.Set(body, "subnetMask", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "accessPoints.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("protocols"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "protocols", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "protocols", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessAlternateManagementInterface) fromBody(ctx context.Context, res meraki.Res) {

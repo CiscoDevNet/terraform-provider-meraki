@@ -97,6 +97,65 @@ func (data NetworkMQTTBroker) toBody(ctx context.Context, state NetworkMQTTBroke
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data NetworkMQTTBroker) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("host"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "host", "null")
+		} else {
+			body, _ = sjson.Set(body, "host", value.String())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("port"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "port", "null")
+		} else {
+			body, _ = sjson.Set(body, "port", value.Int())
+		}
+	}
+	if value := res.Get("authentication.username"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "authentication.username", "null")
+		} else {
+			body, _ = sjson.Set(body, "authentication.username", value.String())
+		}
+	}
+	if value := res.Get("security.mode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "security.mode", "null")
+		} else {
+			body, _ = sjson.Set(body, "security.mode", value.String())
+		}
+	}
+	if value := res.Get("security.tls.verifyHostnames"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "security.tls.verifyHostnames", "null")
+		} else {
+			body, _ = sjson.Set(body, "security.tls.verifyHostnames", value.Bool())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkMQTTBroker) fromBody(ctx context.Context, res meraki.Res) {

@@ -99,6 +99,75 @@ func (data WirelessSSIDBonjourForwarding) toBody(ctx context.Context, state Wire
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessSSIDBonjourForwarding) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("exception.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "exception.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "exception.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("rules"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "rules", "null")
+		} else {
+			body, _ = sjson.Set(body, "rules", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("description"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "description", "null")
+					} else {
+						body, _ = sjson.Set(body, "description", value.String())
+					}
+				}
+				if value := res.Get("vlanId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "vlanId", "null")
+					} else {
+						body, _ = sjson.Set(body, "vlanId", value.String())
+					}
+				}
+				if value := res.Get("services"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "services", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "services", values)
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "rules.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDBonjourForwarding) fromBody(ctx context.Context, res meraki.Res) {

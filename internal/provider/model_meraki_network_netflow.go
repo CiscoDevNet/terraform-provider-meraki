@@ -80,6 +80,58 @@ func (data NetworkNetflow) toBody(ctx context.Context, state NetworkNetflow) str
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data NetworkNetflow) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("collectorIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "collectorIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "collectorIp", value.String())
+		}
+	}
+	if value := res.Get("collectorPort"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "collectorPort", "null")
+		} else {
+			body, _ = sjson.Set(body, "collectorPort", value.Int())
+		}
+	}
+	if value := res.Get("etaDstPort"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "etaDstPort", "null")
+		} else {
+			body, _ = sjson.Set(body, "etaDstPort", value.Int())
+		}
+	}
+	if value := res.Get("etaEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "etaEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "etaEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("reportingEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "reportingEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "reportingEnabled", value.Bool())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkNetflow) fromBody(ctx context.Context, res meraki.Res) {

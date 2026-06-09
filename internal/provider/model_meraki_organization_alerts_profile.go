@@ -120,6 +120,126 @@ func (data OrganizationAlertsProfile) toBody(ctx context.Context, state Organiza
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data OrganizationAlertsProfile) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("description"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "description", "null")
+		} else {
+			body, _ = sjson.Set(body, "description", value.String())
+		}
+	}
+	if value := res.Get("type"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "type", "null")
+		} else {
+			body, _ = sjson.Set(body, "type", value.String())
+		}
+	}
+	if value := res.Get("alertCondition.bit_rate_bps"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alertCondition.bit_rate_bps", "null")
+		} else {
+			body, _ = sjson.Set(body, "alertCondition.bit_rate_bps", value.Int())
+		}
+	}
+	if value := res.Get("alertCondition.duration"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alertCondition.duration", "null")
+		} else {
+			body, _ = sjson.Set(body, "alertCondition.duration", value.Int())
+		}
+	}
+	if value := res.Get("alertCondition.interface"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alertCondition.interface", "null")
+		} else {
+			body, _ = sjson.Set(body, "alertCondition.interface", value.String())
+		}
+	}
+	if value := res.Get("alertCondition.jitter_ms"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alertCondition.jitter_ms", "null")
+		} else {
+			body, _ = sjson.Set(body, "alertCondition.jitter_ms", value.Int())
+		}
+	}
+	if value := res.Get("alertCondition.latency_ms"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alertCondition.latency_ms", "null")
+		} else {
+			body, _ = sjson.Set(body, "alertCondition.latency_ms", value.Int())
+		}
+	}
+	if value := res.Get("alertCondition.loss_ratio"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alertCondition.loss_ratio", "null")
+		} else {
+			body, _ = sjson.Set(body, "alertCondition.loss_ratio", value.Float())
+		}
+	}
+	if value := res.Get("alertCondition.mos"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alertCondition.mos", "null")
+		} else {
+			body, _ = sjson.Set(body, "alertCondition.mos", value.Float())
+		}
+	}
+	if value := res.Get("alertCondition.window"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alertCondition.window", "null")
+		} else {
+			body, _ = sjson.Set(body, "alertCondition.window", value.Int())
+		}
+	}
+	if value := res.Get("recipients.emails"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "recipients.emails", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "recipients.emails", values)
+		}
+	}
+	if value := res.Get("recipients.httpServerIds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "recipients.httpServerIds", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "recipients.httpServerIds", values)
+		}
+	}
+	if value := res.Get("networkTags"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "networkTags", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "networkTags", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationAlertsProfile) fromBody(ctx context.Context, res meraki.Res) {

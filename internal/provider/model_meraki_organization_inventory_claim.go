@@ -103,6 +103,72 @@ func (data OrganizationInventoryClaim) toBody(ctx context.Context, state Organiz
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data OrganizationInventoryClaim) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("licenses"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "licenses", "null")
+		} else {
+			body, _ = sjson.Set(body, "licenses", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("key"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "key", "null")
+					} else {
+						body, _ = sjson.Set(body, "key", value.String())
+					}
+				}
+				if value := res.Get("mode"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "mode", "null")
+					} else {
+						body, _ = sjson.Set(body, "mode", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "licenses.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("orders"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "orders", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "orders", values)
+		}
+	}
+	if value := res.Get("serials"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "serials", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "serials", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationInventoryClaim) fromBody(ctx context.Context, res meraki.Res) {

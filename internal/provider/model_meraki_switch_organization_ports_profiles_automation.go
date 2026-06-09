@@ -147,6 +147,147 @@ func (data SwitchOrganizationPortsProfilesAutomation) toBody(ctx context.Context
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchOrganizationPortsProfilesAutomation) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("description"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "description", "null")
+		} else {
+			body, _ = sjson.Set(body, "description", value.String())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("fallbackProfile.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "fallbackProfile.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "fallbackProfile.id", value.String())
+		}
+	}
+	if value := res.Get("fallbackProfile.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "fallbackProfile.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "fallbackProfile.name", value.String())
+		}
+	}
+	if value := res.Get("assignedSwitchPorts"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "assignedSwitchPorts", "null")
+		} else {
+			body, _ = sjson.Set(body, "assignedSwitchPorts", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("switch.serial"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "switch.serial", "null")
+					} else {
+						body, _ = sjson.Set(body, "switch.serial", value.String())
+					}
+				}
+				if value := res.Get("portIds"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "portIds", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "portIds", values)
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "assignedSwitchPorts.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("rules"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "rules", "null")
+		} else {
+			body, _ = sjson.Set(body, "rules", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("priority"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "priority", "null")
+					} else {
+						body, _ = sjson.Set(body, "priority", value.Int())
+					}
+				}
+				if value := res.Get("profile.id"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "profile.id", "null")
+					} else {
+						body, _ = sjson.Set(body, "profile.id", value.String())
+					}
+				}
+				if value := res.Get("profile.name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "profile.name", "null")
+					} else {
+						body, _ = sjson.Set(body, "profile.name", value.String())
+					}
+				}
+				if value := res.Get("conditions"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "conditions", "null")
+					} else {
+						body, _ = sjson.Set(body, "conditions", []interface{}{})
+						parent := &body
+						value.ForEach(func(k, res gjson.Result) bool {
+							body := ""
+							if value := res.Get("attribute"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "attribute", "null")
+								} else {
+									body, _ = sjson.Set(body, "attribute", value.String())
+								}
+							}
+							if value := res.Get("values"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "values", "null")
+								} else {
+									var values []string
+									for _, v := range value.Array() {
+										values = append(values, v.String())
+									}
+									body, _ = sjson.Set(body, "values", values)
+								}
+							}
+							*parent, _ = sjson.SetRaw(*parent, "conditions.-1", body)
+							return true
+						})
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "rules.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchOrganizationPortsProfilesAutomation) fromBody(ctx context.Context, res meraki.Res) {

@@ -197,6 +197,258 @@ func (data WirelessSSIDSplashSettings) toBody(ctx context.Context, state Wireles
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessSSIDSplashSettings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("allowSimultaneousLogins"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "allowSimultaneousLogins", "null")
+		} else {
+			body, _ = sjson.Set(body, "allowSimultaneousLogins", value.Bool())
+		}
+	}
+	if value := res.Get("blockAllTrafficBeforeSignOn"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "blockAllTrafficBeforeSignOn", "null")
+		} else {
+			body, _ = sjson.Set(body, "blockAllTrafficBeforeSignOn", value.Bool())
+		}
+	}
+	if value := res.Get("controllerDisconnectionBehavior"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "controllerDisconnectionBehavior", "null")
+		} else {
+			body, _ = sjson.Set(body, "controllerDisconnectionBehavior", value.String())
+		}
+	}
+	if value := res.Get("redirectUrl"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "redirectUrl", "null")
+		} else {
+			body, _ = sjson.Set(body, "redirectUrl", value.String())
+		}
+	}
+	if value := res.Get("splashTimeout"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashTimeout", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashTimeout", value.Int())
+		}
+	}
+	if value := res.Get("splashUrl"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashUrl", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashUrl", value.String())
+		}
+	}
+	if value := res.Get("themeId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "themeId", "null")
+		} else {
+			body, _ = sjson.Set(body, "themeId", value.String())
+		}
+	}
+	if value := res.Get("useRedirectUrl"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "useRedirectUrl", "null")
+		} else {
+			body, _ = sjson.Set(body, "useRedirectUrl", value.Bool())
+		}
+	}
+	if value := res.Get("useSplashUrl"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "useSplashUrl", "null")
+		} else {
+			body, _ = sjson.Set(body, "useSplashUrl", value.Bool())
+		}
+	}
+	if value := res.Get("welcomeMessage"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "welcomeMessage", "null")
+		} else {
+			body, _ = sjson.Set(body, "welcomeMessage", value.String())
+		}
+	}
+	if value := res.Get("billing.prepaidAccessFastLoginEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "billing.prepaidAccessFastLoginEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "billing.prepaidAccessFastLoginEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("billing.replyToEmailAddress"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "billing.replyToEmailAddress", "null")
+		} else {
+			body, _ = sjson.Set(body, "billing.replyToEmailAddress", value.String())
+		}
+	}
+	if value := res.Get("billing.freeAccess.durationInMinutes"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "billing.freeAccess.durationInMinutes", "null")
+		} else {
+			body, _ = sjson.Set(body, "billing.freeAccess.durationInMinutes", value.Int())
+		}
+	}
+	if value := res.Get("billing.freeAccess.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "billing.freeAccess.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "billing.freeAccess.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("guestSponsorship.durationInMinutes"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "guestSponsorship.durationInMinutes", "null")
+		} else {
+			body, _ = sjson.Set(body, "guestSponsorship.durationInMinutes", value.Int())
+		}
+	}
+	if value := res.Get("guestSponsorship.guestCanRequestTimeframe"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "guestSponsorship.guestCanRequestTimeframe", "null")
+		} else {
+			body, _ = sjson.Set(body, "guestSponsorship.guestCanRequestTimeframe", value.Bool())
+		}
+	}
+	if value := res.Get("selfRegistration.authorizationType"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "selfRegistration.authorizationType", "null")
+		} else {
+			body, _ = sjson.Set(body, "selfRegistration.authorizationType", value.String())
+		}
+	}
+	if value := res.Get("selfRegistration.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "selfRegistration.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "selfRegistration.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("sentryEnrollment.strength"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "sentryEnrollment.strength", "null")
+		} else {
+			body, _ = sjson.Set(body, "sentryEnrollment.strength", value.String())
+		}
+	}
+	if value := res.Get("sentryEnrollment.systemsManagerNetwork.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "sentryEnrollment.systemsManagerNetwork.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "sentryEnrollment.systemsManagerNetwork.id", value.String())
+		}
+	}
+	if value := res.Get("sentryEnrollment.enforcedSystems"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "sentryEnrollment.enforcedSystems", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "sentryEnrollment.enforcedSystems", values)
+		}
+	}
+	if value := res.Get("splashImage.extension"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashImage.extension", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashImage.extension", value.String())
+		}
+	}
+	if value := res.Get("splashImage.md5"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashImage.md5", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashImage.md5", value.String())
+		}
+	}
+	if value := res.Get("splashImage.image.contents"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashImage.image.contents", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashImage.image.contents", value.String())
+		}
+	}
+	if value := res.Get("splashImage.image.format"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashImage.image.format", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashImage.image.format", value.String())
+		}
+	}
+	if value := res.Get("splashLogo.extension"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashLogo.extension", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashLogo.extension", value.String())
+		}
+	}
+	if value := res.Get("splashLogo.md5"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashLogo.md5", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashLogo.md5", value.String())
+		}
+	}
+	if value := res.Get("splashLogo.image.contents"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashLogo.image.contents", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashLogo.image.contents", value.String())
+		}
+	}
+	if value := res.Get("splashLogo.image.format"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashLogo.image.format", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashLogo.image.format", value.String())
+		}
+	}
+	if value := res.Get("splashPrepaidFront.extension"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashPrepaidFront.extension", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashPrepaidFront.extension", value.String())
+		}
+	}
+	if value := res.Get("splashPrepaidFront.md5"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashPrepaidFront.md5", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashPrepaidFront.md5", value.String())
+		}
+	}
+	if value := res.Get("splashPrepaidFront.image.contents"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashPrepaidFront.image.contents", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashPrepaidFront.image.contents", value.String())
+		}
+	}
+	if value := res.Get("splashPrepaidFront.image.format"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "splashPrepaidFront.image.format", "null")
+		} else {
+			body, _ = sjson.Set(body, "splashPrepaidFront.image.format", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res meraki.Res) {
