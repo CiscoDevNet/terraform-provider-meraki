@@ -25,6 +25,7 @@ description: |-
 - Fix panic in `gen/definition.go` when an OpenAPI spec endpoint returns an example that is a plain object (`map`) instead of an array -- the example extractor now handles both `[]interface{}` (array, takes first element) and `map[string]interface{}` (plain object, uses directly)
 - Fix `gen/templates/data_source_test.go`: when a definition has `no_resource: true`, the generated test config function now emits only a `data` block using the reference attributes -- previously it always emitted a `resource` block first regardless of whether the resource existed, causing test failures with "Invalid resource type"
 - Fix `gen/yamlconfig/main.go`: bulk data source definitions with a nested attribute named `items` caused a duplicate Go struct name -- `GoTypeBulkName` was computed as `<BulkName>Items` which collided with the `DataSource<BulkName>Items` struct the bulk model template always emits; the fix detects this collision and uses `<SingleName>Items` instead, preventing compile errors
+- Add `meraki_network_wireless_radio_rrm` resource to manage AI-RRM, busy hour, channel avoidance, and FRA settings for wireless networks
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
 
 ## 1.12.1
