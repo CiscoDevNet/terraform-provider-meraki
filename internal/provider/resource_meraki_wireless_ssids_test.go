@@ -132,6 +132,7 @@ func testAccMerakiWirelessSSIDsConfig_all() string {
 	config += `  per_ssid_bandwidth_limit_up = 0` + "\n"
 	config += `  psk = "deadbeef"` + "\n"
 	config += `  splash_page = "Click-through splash page"` + "\n"
+	config += `  ssid_admin_accessible = false` + "\n"
 	config += `  use_vlan_tagging = false` + "\n"
 	config += `  visible = false` + "\n"
 	config += `  walled_garden_enabled = false` + "\n"

@@ -22,5 +22,11 @@ resource "meraki_appliance_vlans" "example" {
       }
     ]
     mandatory_dhcp_enabled = true
+    uplinks = [
+      {
+        interface   = "wan1"
+        nat_enabled = true
+      }
+    ]
   }]
 }

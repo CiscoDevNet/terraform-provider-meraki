@@ -161,6 +161,10 @@ func (d *NetworkFirmwareUpgradesDataSource) Schema(ctx context.Context, req data
 				MarkdownDescription: "The time of the last successful upgrade",
 				Computed:            true,
 			},
+			"products_wireless_next_upgrade_predownload_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Whether or not the network devices will predownload the firmware image in advance of the actual upgrade",
+				Computed:            true,
+			},
 			"products_wireless_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
 				Computed:            true,

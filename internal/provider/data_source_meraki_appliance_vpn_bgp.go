@@ -78,6 +78,10 @@ func (d *ApplianceVPNBGPDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer between 12 and 240. When absent, this field is not updated. If no value exists then it defaults to 240.",
 				Computed:            true,
 			},
+			"router_id": schema.StringAttribute{
+				MarkdownDescription: "The router ID of the appliance",
+				Computed:            true,
+			},
 			"neighbors": schema.ListNestedAttribute{
 				MarkdownDescription: "List of BGP neighbors. This list replaces the existing set of neighbors. When absent, this field is not updated.",
 				Computed:            true,
@@ -142,6 +146,16 @@ func (d *ApplianceVPNBGPDataSource) Schema(ctx context.Context, req datasource.S
 						},
 						"ttl_security_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Boolean value to enable or disable BGP TTL security.",
+							Computed:            true,
+						},
+						"community_out": schema.ListAttribute{
+							MarkdownDescription: "List of BGP communities tagged to the routes advertised to an eBGP neighbor.",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"filter_in": schema.ListAttribute{
+							MarkdownDescription: "Filters routes received from an eBGP neighbor. Each entry must be an IPv4 CIDR string (e.g., `10.0.0.0/8` or `10.0.0.5/32`).",
+							ElementType:         types.StringType,
 							Computed:            true,
 						},
 						"path_prepend": schema.ListAttribute{

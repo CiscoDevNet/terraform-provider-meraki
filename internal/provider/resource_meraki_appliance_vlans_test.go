@@ -139,6 +139,12 @@ func testAccMerakiApplianceVLANsConfig_all() string {
 	config += `    origin_interfaces = ["wan1"]` + "\n"
 	config += `  }]` + "\n"
 	config += `  mandatory_dhcp_enabled = true` + "\n"
+	if os.Getenv("APPLIANCE_VLAN_NAT_OVERRIDE") != "" {
+		config += `  uplinks = [{` + "\n"
+		config += `    interface = "wan1"` + "\n"
+		config += `    nat_enabled = true` + "\n"
+		config += `  }]` + "\n"
+	}
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config

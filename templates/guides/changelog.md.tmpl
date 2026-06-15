@@ -8,6 +8,13 @@ description: |-
 # Changelog
 
 ## Unreleased
+- Add `host_translations` nested attribute to `meraki_appliance_site_to_site_vpn` resource and data source to support VPN host address translations (requires MX firmware 26.1.2+ and VPN NAT enabled on the network); tests gated behind `APPLIANCE_VPN_HOST_TRANSLATIONS` env var; `subnets.0.nat_enabled` added to import verify ignore since the GET response includes it as a default even when not set via PUT
+- Add `uplinks` nested attribute to `meraki_appliance_vlan` resource and data source for per-uplink NAT exception override configuration; only applicable on networks that support NAT exceptions, tests gated behind `APPLIANCE_VLAN_NAT_OVERRIDE` env var
+- Add `router_id` attribute to `meraki_appliance_vpn_bgp` resource and data source
+- Add `neighbors.community_out` and `neighbors.filter_in` attributes to `meraki_appliance_vpn_bgp` resource and data source for BGP community tagging and inbound route filtering per eBGP neighbor
+- Add `products_wireless_next_upgrade_predownload_enabled` attribute to `meraki_network_firmware_upgrades` resource and data source to control firmware predownload for wireless devices
+- Add `upgrade_predownload_enabled` attribute to `meraki_wireless_settings` resource and data source for MR firmware predownload (requires MR 32+)
+- Add `ssid_admin_accessible` attribute to `meraki_wireless_ssid` resource and data source
 - Add `ecmp_uplink_configs` nested attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
 - Add `eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status` attributes to `meraki_organization_inventory_devices` data source
 - Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source

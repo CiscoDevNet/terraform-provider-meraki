@@ -39,7 +39,11 @@ func TestAccMerakiApplianceSiteToSiteVPN(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "mode", "hub"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "subnet_nat_is_allowed", "false"))
+	if os.Getenv("APPLIANCE_VPN_HOST_TRANSLATIONS") != "" {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "host_translations.0.name", "Host 1"))
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "host_translations.0.local_address", "192.168.1.10"))
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "host_translations.0.remote_address", "72.168.2.10"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "subnets.0.local_subnet", "192.168.128.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "subnets.0.use_vpn", "true"))
 
@@ -59,7 +63,7 @@ func TestAccMerakiApplianceSiteToSiteVPN(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceSiteToSiteVPNImportStateIdFunc("meraki_appliance_site_to_site_vpn.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"subnets.0.nat_enabled"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -123,7 +127,14 @@ func testAccMerakiApplianceSiteToSiteVPNConfig_all() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  mode = "hub"` + "\n"
-	config += `  subnet_nat_is_allowed = false` + "\n"
+	config += `  subnet_nat_is_allowed = true` + "\n"
+	if os.Getenv("APPLIANCE_VPN_HOST_TRANSLATIONS") != "" {
+		config += `  host_translations = [{` + "\n"
+		config += `    name = "Host 1"` + "\n"
+		config += `    local_address = "192.168.1.10"` + "\n"
+		config += `    remote_address = "72.168.2.10"` + "\n"
+		config += `  }]` + "\n"
+	}
 	config += `  subnets = [{` + "\n"
 	config += `    local_subnet = "192.168.128.0/24"` + "\n"
 	config += `    use_vpn = true` + "\n"

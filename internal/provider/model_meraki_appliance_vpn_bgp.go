@@ -42,6 +42,7 @@ type ApplianceVPNBGP struct {
 	AsNumber      types.Int64                `tfsdk:"as_number"`
 	Enabled       types.Bool                 `tfsdk:"enabled"`
 	IbgpHoldTimer types.Int64                `tfsdk:"ibgp_hold_timer"`
+	RouterId      types.String               `tfsdk:"router_id"`
 	Neighbors     []ApplianceVPNBGPNeighbors `tfsdk:"neighbors"`
 }
 
@@ -61,6 +62,8 @@ type ApplianceVPNBGPNeighbors struct {
 	AuthenticationPasswordWoVersion types.Int64  `tfsdk:"authentication_password_wo_version"`
 	Ipv6Address                     types.String `tfsdk:"ipv6_address"`
 	TtlSecurityEnabled              types.Bool   `tfsdk:"ttl_security_enabled"`
+	CommunityOut                    types.List   `tfsdk:"community_out"`
+	FilterIn                        types.List   `tfsdk:"filter_in"`
 	PathPrepend                     types.List   `tfsdk:"path_prepend"`
 }
 
@@ -90,6 +93,9 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 	}
 	if !data.IbgpHoldTimer.IsNull() {
 		body, _ = sjson.Set(body, "ibgpHoldTimer", data.IbgpHoldTimer.ValueInt64())
+	}
+	if !data.RouterId.IsNull() {
+		body, _ = sjson.Set(body, "routerId", data.RouterId.ValueString())
 	}
 	if len(data.Neighbors) > 0 {
 		body, _ = sjson.Set(body, "neighbors", []interface{}{})
@@ -136,6 +142,16 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 			if !item.TtlSecurityEnabled.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "ttlSecurity.enabled", item.TtlSecurityEnabled.ValueBool())
 			}
+			if !item.CommunityOut.IsNull() {
+				var values []string
+				item.CommunityOut.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "communityOut", values)
+			}
+			if !item.FilterIn.IsNull() {
+				var values []string
+				item.FilterIn.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "filterIn", values)
+			}
 			if !item.PathPrepend.IsNull() {
 				var values []int64
 				item.PathPrepend.ElementsAs(ctx, &values, false)
@@ -166,6 +182,11 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 		data.IbgpHoldTimer = types.Int64Value(value.Int())
 	} else {
 		data.IbgpHoldTimer = types.Int64Null()
+	}
+	if value := res.Get("routerId"); value.Exists() && value.Value() != nil {
+		data.RouterId = types.StringValue(value.String())
+	} else {
+		data.RouterId = types.StringNull()
 	}
 	if value := res.Get("neighbors"); value.Exists() && value.Value() != nil {
 		data.Neighbors = make([]ApplianceVPNBGPNeighbors, 0)
@@ -237,6 +258,16 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 			} else {
 				data.TtlSecurityEnabled = types.BoolNull()
 			}
+			if value := res.Get("communityOut"); value.Exists() && value.Value() != nil {
+				data.CommunityOut = helpers.GetStringList(value.Array())
+			} else {
+				data.CommunityOut = types.ListNull(types.StringType)
+			}
+			if value := res.Get("filterIn"); value.Exists() && value.Value() != nil {
+				data.FilterIn = helpers.GetStringList(value.Array())
+			} else {
+				data.FilterIn = types.ListNull(types.StringType)
+			}
 			if value := res.Get("pathPrepend"); value.Exists() && value.Value() != nil {
 				data.PathPrepend = helpers.GetInt64List(value.Array())
 			} else {
@@ -271,6 +302,11 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 		data.IbgpHoldTimer = types.Int64Value(value.Int())
 	} else {
 		data.IbgpHoldTimer = types.Int64Null()
+	}
+	if value := res.Get("routerId"); value.Exists() && !data.RouterId.IsNull() {
+		data.RouterId = types.StringValue(value.String())
+	} else {
+		data.RouterId = types.StringNull()
 	}
 	for i := 0; i < len(data.Neighbors); i++ {
 		keys := [...]string{"ip"}
@@ -372,6 +408,16 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 			data.TtlSecurityEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.TtlSecurityEnabled = types.BoolNull()
+		}
+		if value := res.Get("communityOut"); value.Exists() && !data.CommunityOut.IsNull() {
+			data.CommunityOut = helpers.GetStringList(value.Array())
+		} else {
+			data.CommunityOut = types.ListNull(types.StringType)
+		}
+		if value := res.Get("filterIn"); value.Exists() && !data.FilterIn.IsNull() {
+			data.FilterIn = helpers.GetStringList(value.Array())
+		} else {
+			data.FilterIn = types.ListNull(types.StringType)
 		}
 		if value := res.Get("pathPrepend"); value.Exists() && !data.PathPrepend.IsNull() {
 			data.PathPrepend = helpers.GetInt64List(value.Array())

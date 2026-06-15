@@ -43,6 +43,7 @@ type WirelessSettings struct {
 	MulticastToUnicastConversionEnabled  types.Bool   `tfsdk:"multicast_to_unicast_conversion_enabled"`
 	NamedVlansPoolDhcpMonitoringDuration types.Int64  `tfsdk:"named_vlans_pool_dhcp_monitoring_duration"`
 	NamedVlansPoolDhcpMonitoringEnabled  types.Bool   `tfsdk:"named_vlans_pool_dhcp_monitoring_enabled"`
+	UpgradePredownloadEnabled            types.Bool   `tfsdk:"upgrade_predownload_enabled"`
 }
 
 type WirelessSettingsIdentity struct {
@@ -86,6 +87,9 @@ func (data WirelessSettings) toBody(ctx context.Context, state WirelessSettings)
 	}
 	if !data.NamedVlansPoolDhcpMonitoringEnabled.IsNull() {
 		body, _ = sjson.Set(body, "namedVlans.poolDhcpMonitoring.enabled", data.NamedVlansPoolDhcpMonitoringEnabled.ValueBool())
+	}
+	if !data.UpgradePredownloadEnabled.IsNull() {
+		body, _ = sjson.Set(body, "upgrade.predownload.enabled", data.UpgradePredownloadEnabled.ValueBool())
 	}
 	return body
 }
@@ -134,6 +138,11 @@ func (data *WirelessSettings) fromBody(ctx context.Context, res meraki.Res) {
 		data.NamedVlansPoolDhcpMonitoringEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.NamedVlansPoolDhcpMonitoringEnabled = types.BoolNull()
+	}
+	if value := res.Get("upgrade.predownload.enabled"); value.Exists() && value.Value() != nil {
+		data.UpgradePredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.UpgradePredownloadEnabled = types.BoolNull()
 	}
 }
 
@@ -185,6 +194,11 @@ func (data *WirelessSettings) fromBodyPartial(ctx context.Context, res meraki.Re
 		data.NamedVlansPoolDhcpMonitoringEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.NamedVlansPoolDhcpMonitoringEnabled = types.BoolNull()
+	}
+	if value := res.Get("upgrade.predownload.enabled"); value.Exists() && !data.UpgradePredownloadEnabled.IsNull() {
+		data.UpgradePredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.UpgradePredownloadEnabled = types.BoolNull()
 	}
 }
 

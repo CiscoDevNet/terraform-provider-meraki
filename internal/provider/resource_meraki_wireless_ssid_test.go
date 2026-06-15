@@ -55,6 +55,7 @@ func TestAccMerakiWirelessSSID(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "per_ssid_bandwidth_limit_up", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "psk", "deadbeef"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "splash_page", "Click-through splash page"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "ssid_admin_accessible", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "use_vlan_tagging", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "visible", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "walled_garden_enabled", "false"))
@@ -170,6 +171,7 @@ func testAccMerakiWirelessSSIDConfig_all(includeWriteOnly bool) string {
 		config += `  psk = "deadbeef"` + "\n"
 	}
 	config += `  splash_page = "Click-through splash page"` + "\n"
+	config += `  ssid_admin_accessible = false` + "\n"
 	config += `  use_vlan_tagging = false` + "\n"
 	config += `  visible = false` + "\n"
 	config += `  walled_garden_enabled = false` + "\n"

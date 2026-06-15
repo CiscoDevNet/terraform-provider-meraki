@@ -24,6 +24,7 @@ import (
 	"maps"
 	"net/url"
 	"slices"
+	"strconv"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -68,6 +69,7 @@ type ResourceApplianceVLANsItems struct {
 	DhcpOptions            []ResourceApplianceVLANsDhcpOptions                 `tfsdk:"dhcp_options"`
 	DhcpRelayServerIps     types.List                                          `tfsdk:"dhcp_relay_server_ips"`
 	ReservedIpRanges       []ResourceApplianceVLANsReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
+	Uplinks                []ResourceApplianceVLANsUplinks                     `tfsdk:"uplinks"`
 }
 
 type ResourceApplianceVLANsFixedIpAssignments struct {
@@ -94,6 +96,11 @@ type ResourceApplianceVLANsReservedIpRanges struct {
 	Comment types.String `tfsdk:"comment"`
 	End     types.String `tfsdk:"end"`
 	Start   types.String `tfsdk:"start"`
+}
+
+type ResourceApplianceVLANsUplinks struct {
+	Interface  types.String `tfsdk:"interface"`
+	NatEnabled types.Bool   `tfsdk:"nat_enabled"`
 }
 
 type ResourceApplianceVLANsIdentity struct {
@@ -242,6 +249,19 @@ func (data ResourceApplianceVLANsItems) toBody(ctx context.Context, state Resour
 				itemBody, _ = sjson.Set(itemBody, "start", item.Start.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "reservedIpRanges.-1", itemBody)
+		}
+	}
+	if len(data.Uplinks) > 0 {
+		body, _ = sjson.Set(body, "uplinks", []interface{}{})
+		for _, item := range data.Uplinks {
+			itemBody := ""
+			if !item.Interface.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "interface", item.Interface.ValueString())
+			}
+			if !item.NatEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "nat.enabled", item.NatEnabled.ValueBool())
+			}
+			body, _ = sjson.SetRaw(body, "uplinks.-1", itemBody)
 		}
 	}
 	return body
@@ -452,6 +472,25 @@ func (data *ResourceApplianceVLANs) fromBody(ctx context.Context, res meraki.Res
 					data.Start = types.StringNull()
 				}
 				(*parent).ReservedIpRanges = append((*parent).ReservedIpRanges, data)
+				return true
+			})
+		}
+		if value := res.Get("uplinks"); value.Exists() && value.Value() != nil {
+			data.Uplinks = make([]ResourceApplianceVLANsUplinks, 0)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := ResourceApplianceVLANsUplinks{}
+				if value := res.Get("interface"); value.Exists() && value.Value() != nil {
+					data.Interface = types.StringValue(value.String())
+				} else {
+					data.Interface = types.StringNull()
+				}
+				if value := res.Get("nat.enabled"); value.Exists() && value.Value() != nil {
+					data.NatEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.NatEnabled = types.BoolNull()
+				}
+				(*parent).Uplinks = append((*parent).Uplinks, data)
 				return true
 			})
 		}
@@ -758,6 +797,54 @@ func (data *ResourceApplianceVLANs) fromBodyPartial(ctx context.Context, res mer
 			}
 			(*parent).ReservedIpRanges[i] = data
 		}
+		for i := 0; i < len(data.Uplinks); i++ {
+			keys := [...]string{"interface", "nat.enabled"}
+			keyValues := [...]string{data.Uplinks[i].Interface.ValueString(), strconv.FormatBool(data.Uplinks[i].NatEnabled.ValueBool())}
+
+			parent := &data
+			data := (*parent).Uplinks[i]
+			parentRes := &res
+			var res gjson.Result
+
+			parentRes.Get("uplinks").ForEach(
+				func(_, v gjson.Result) bool {
+					found := false
+					for ik := range keys {
+						if v.Get(keys[ik]).String() != keyValues[ik] {
+							found = false
+							break
+						}
+						found = true
+					}
+					if found {
+						res = v
+						return false
+					}
+					return true
+				},
+			)
+			if !res.Exists() {
+				tflog.Debug(ctx, fmt.Sprintf("removing Uplinks[%d] = %+v",
+					i,
+					(*parent).Uplinks[i],
+				))
+				(*parent).Uplinks = slices.Delete((*parent).Uplinks, i, i+1)
+				i--
+
+				continue
+			}
+			if value := res.Get("interface"); value.Exists() && !data.Interface.IsNull() {
+				data.Interface = types.StringValue(value.String())
+			} else {
+				data.Interface = types.StringNull()
+			}
+			if value := res.Get("nat.enabled"); value.Exists() && !data.NatEnabled.IsNull() {
+				data.NatEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.NatEnabled = types.BoolNull()
+			}
+			(*parent).Uplinks[i] = data
+		}
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
@@ -1001,6 +1088,25 @@ func (data *ResourceApplianceVLANs) fromBodyImport(ctx context.Context, res mera
 				return true
 			})
 		}
+		if value := res.Get("uplinks"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
+			data.Uplinks = make([]ResourceApplianceVLANsUplinks, 0)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := ResourceApplianceVLANsUplinks{}
+				if value := res.Get("interface"); value.Exists() && value.Value() != nil {
+					data.Interface = types.StringValue(value.String())
+				} else {
+					data.Interface = types.StringNull()
+				}
+				if value := res.Get("nat.enabled"); value.Exists() && value.Value() != nil {
+					data.NatEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.NatEnabled = types.BoolNull()
+				}
+				(*parent).Uplinks = append((*parent).Uplinks, data)
+				return true
+			})
+		}
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
@@ -1167,6 +1273,18 @@ func (data *ResourceApplianceVLANs) hasChanges(ctx context.Context, state *Resou
 				hasChanges = true
 			}
 			if !item.ReservedIpRanges[i].Start.Equal(stateItem.ReservedIpRanges[i].Start) {
+				hasChanges = true
+			}
+		}
+	}
+	if len(item.Uplinks) != len(stateItem.Uplinks) {
+		hasChanges = true
+	} else {
+		for i := range item.Uplinks {
+			if !item.Uplinks[i].Interface.Equal(stateItem.Uplinks[i].Interface) {
+				hasChanges = true
+			}
+			if !item.Uplinks[i].NatEnabled.Equal(stateItem.Uplinks[i].NatEnabled) {
 				hasChanges = true
 			}
 		}

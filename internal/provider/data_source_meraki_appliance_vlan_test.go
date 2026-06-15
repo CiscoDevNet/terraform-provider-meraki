@@ -50,6 +50,10 @@ func TestAccDataSourceMerakiApplianceVLAN(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.origin_type", "internet"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.origin_interfaces.0", "wan1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "mandatory_dhcp_enabled", "true"))
+	if os.Getenv("APPLIANCE_VLAN_NAT_OVERRIDE") != "" {
+		checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "uplinks.0.interface", "wan1"))
+		checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_vlan.test", "uplinks.0.nat_enabled", "true"))
+	}
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -109,6 +113,12 @@ func testAccDataSourceMerakiApplianceVLANConfig() string {
 	config += `    origin_interfaces = ["wan1"]` + "\n"
 	config += `  }]` + "\n"
 	config += `  mandatory_dhcp_enabled = true` + "\n"
+	if os.Getenv("APPLIANCE_VLAN_NAT_OVERRIDE") != "" {
+		config += `  uplinks = [{` + "\n"
+		config += `    interface = "wan1"` + "\n"
+		config += `    nat_enabled = true` + "\n"
+		config += `  }]` + "\n"
+	}
 	config += `}` + "\n"
 
 	config += `
@@ -142,6 +152,12 @@ func testAccNamedDataSourceMerakiApplianceVLANConfig() string {
 	config += `    origin_interfaces = ["wan1"]` + "\n"
 	config += `  }]` + "\n"
 	config += `  mandatory_dhcp_enabled = true` + "\n"
+	if os.Getenv("APPLIANCE_VLAN_NAT_OVERRIDE") != "" {
+		config += `  uplinks = [{` + "\n"
+		config += `    interface = "wan1"` + "\n"
+		config += `    nat_enabled = true` + "\n"
+		config += `  }]` + "\n"
+	}
 	config += `}` + "\n"
 
 	config += `

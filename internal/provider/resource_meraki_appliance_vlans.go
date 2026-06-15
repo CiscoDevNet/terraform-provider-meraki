@@ -272,6 +272,22 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 								},
 							},
 						},
+						"uplinks": schema.ListNestedAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions.").String,
+							Optional:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"interface": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Interface name of the uplink").String,
+										Required:            true,
+									},
+									"nat_enabled": schema.BoolAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Whether NAT is enabled on the uplink").String,
+										Optional:            true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
