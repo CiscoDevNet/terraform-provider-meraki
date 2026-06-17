@@ -3,6 +3,7 @@ resource "meraki_appliance_vpn_bgp" "example" {
   as_number       = 64515
   enabled         = true
   ibgp_hold_timer = 120
+  router_id       = "10.15.10.2"
   neighbors = [
     {
       allow_transit            = true
@@ -18,6 +19,8 @@ resource "meraki_appliance_vpn_bgp" "example" {
       authentication_password  = "abc123"
       ipv6_address             = "2002::1234:abcd:ffff:c0a8:101"
       ttl_security_enabled     = false
+      community_out            = ["64515:100"]
+      filter_in                = ["10.0.0.0/8"]
       path_prepend             = [1]
     }
   ]

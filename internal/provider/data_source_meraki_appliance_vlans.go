@@ -233,6 +233,22 @@ func (d *ApplianceVLANsDataSource) Schema(ctx context.Context, req datasource.Sc
 								},
 							},
 						},
+						"uplinks": schema.ListNestedAttribute{
+							MarkdownDescription: "Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions.",
+							Computed:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"interface": schema.StringAttribute{
+										MarkdownDescription: "Interface name of the uplink",
+										Computed:            true,
+									},
+									"nat_enabled": schema.BoolAttribute{
+										MarkdownDescription: "Whether NAT is enabled on the uplink",
+										Computed:            true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},

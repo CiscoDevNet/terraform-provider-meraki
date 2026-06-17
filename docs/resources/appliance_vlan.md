@@ -35,6 +35,12 @@ resource "meraki_appliance_vlan" "example" {
     }
   ]
   mandatory_dhcp_enabled = true
+  uplinks = [
+    {
+      interface   = "wan1"
+      nat_enabled = true
+    }
+  ]
 }
 ```
 
@@ -71,6 +77,7 @@ resource "meraki_appliance_vlan" "example" {
 - `subnet` (String) The subnet of the VLAN
 - `template_vlan_type` (String) Type of subnetting of the VLAN. Applicable only for template network.
   - Choices: `same`, `unique`
+- `uplinks` (Attributes List) Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions. (see [below for nested schema](#nestedatt--uplinks))
 - `vpn_nat_subnet` (String) The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
 
 ### Read-Only
@@ -122,6 +129,18 @@ Required:
 - `comment` (String) A text comment for the reserved range
 - `end` (String) The last IP in the reserved range
 - `start` (String) The first IP in the reserved range
+
+
+<a id="nestedatt--uplinks"></a>
+### Nested Schema for `uplinks`
+
+Required:
+
+- `interface` (String) Interface name of the uplink
+
+Optional:
+
+- `nat_enabled` (Boolean) Whether NAT is enabled on the uplink
 
 ## Import
 

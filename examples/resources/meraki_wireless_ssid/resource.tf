@@ -17,6 +17,7 @@ resource "meraki_wireless_ssid" "example" {
   per_ssid_bandwidth_limit_up     = 0
   psk                             = "deadbeef"
   splash_page                     = "Click-through splash page"
+  ssid_admin_accessible           = false
   use_vlan_tagging                = false
   visible                         = false
   walled_garden_enabled           = false

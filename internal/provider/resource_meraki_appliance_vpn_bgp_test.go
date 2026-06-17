@@ -44,6 +44,7 @@ func TestAccMerakiApplianceVPNBGP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "as_number", "64515"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "ibgp_hold_timer", "120"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "router_id", "10.15.10.2"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.allow_transit", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.ebgp_hold_timer", "180"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.ebgp_multihop", "2"))
@@ -57,6 +58,8 @@ func TestAccMerakiApplianceVPNBGP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.authentication_password", "abc123"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.ipv6_address", "2002::1234:abcd:ffff:c0a8:101"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.ttl_security_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.community_out.0", "64515:100"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.filter_in.0", "10.0.0.0/8"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.path_prepend.0", "1"))
 
 	var steps []resource.TestStep
@@ -146,6 +149,7 @@ func testAccMerakiApplianceVPNBGPConfig_all(includeWriteOnly bool) string {
 	config += `  as_number = 64515` + "\n"
 	config += `  enabled = true` + "\n"
 	config += `  ibgp_hold_timer = 120` + "\n"
+	config += `  router_id = "10.15.10.2"` + "\n"
 	config += `  neighbors = [{` + "\n"
 	config += `    allow_transit = true` + "\n"
 	config += `    ebgp_hold_timer = 180` + "\n"
@@ -166,6 +170,8 @@ func testAccMerakiApplianceVPNBGPConfig_all(includeWriteOnly bool) string {
 	}
 	config += `    ipv6_address = "2002::1234:abcd:ffff:c0a8:101"` + "\n"
 	config += `    ttl_security_enabled = false` + "\n"
+	config += `    community_out = ["64515:100"]` + "\n"
+	config += `    filter_in = ["10.0.0.0/8"]` + "\n"
 	config += `    path_prepend = [1]` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"

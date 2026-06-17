@@ -157,8 +157,10 @@ func generateDefinition(endpointPath, resourceName string, earlyAccess bool) {
 	var example map[string]interface{}
 	if e, ok := urlResult.schema["schema"].(map[string]interface{})["example"]; ok {
 		example = e.(map[string]interface{})
+	} else if arr, ok := urlResult.schema["example"].([]interface{}); ok {
+		example = arr[0].(map[string]interface{})
 	} else {
-		example = urlResult.schema["example"].([]interface{})[0].(map[string]interface{})
+		example = urlResult.schema["example"].(map[string]interface{})
 	}
 	exampleStr, err := json.Marshal(&example)
 	if err != nil {

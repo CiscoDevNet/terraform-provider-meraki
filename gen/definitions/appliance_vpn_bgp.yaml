@@ -27,6 +27,10 @@ attributes:
     type: Int64
     description: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer between 12 and 240. When absent, this field is not updated. If no value exists then it defaults to 240.
     example: "120"
+  - model_name: routerId
+    type: String
+    description: The router ID of the appliance
+    example: 10.15.10.2
   - model_name: neighbors
     type: List
     description: List of BGP neighbors. This list replaces the existing set of neighbors. When absent, this field is not updated.
@@ -92,6 +96,16 @@ attributes:
         data_path: [ttlSecurity]
         description: Boolean value to enable or disable BGP TTL security.
         example: "false"
+      - model_name: communityOut
+        type: List
+        element_type: String
+        description: List of BGP communities tagged to the routes advertised to an eBGP neighbor.
+        example: 64515:100
+      - model_name: filterIn
+        type: List
+        element_type: String
+        description: Filters routes received from an eBGP neighbor. Each entry must be an IPv4 CIDR string (e.g., `10.0.0.0/8` or `10.0.0.5/32`).
+        example: 10.0.0.0/8
       - model_name: pathPrepend
         type: List
         element_type: Int64

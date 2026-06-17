@@ -52,6 +52,7 @@ data "meraki_network_firmware_upgrades" "example" {
 - `products_wireless_controller_next_upgrade_time` (String) The time of the last successful upgrade
 - `products_wireless_controller_next_upgrade_to_version_id` (String) The version ID
 - `products_wireless_controller_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
+- `products_wireless_next_upgrade_predownload_enabled` (Boolean) Whether or not the network devices will predownload the firmware image in advance of the actual upgrade
 - `products_wireless_next_upgrade_time` (String) The time of the last successful upgrade
 - `products_wireless_next_upgrade_to_version_id` (String) The version ID
 - `products_wireless_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware

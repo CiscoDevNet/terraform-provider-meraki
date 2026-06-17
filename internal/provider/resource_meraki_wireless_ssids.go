@@ -275,6 +275,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 								stringvalidator.OneOf("Billing", "Cisco ISE", "Click-through splash page", "Facebook Wi-Fi", "Google Apps domain", "Google OAuth", "Microsoft Entra ID", "None", "Password-protected with Active Directory", "Password-protected with LDAP", "Password-protected with Meraki RADIUS", "Password-protected with custom RADIUS", "SMS authentication", "Sponsored guest", "Systems Manager Sentry"),
 							},
 						},
+						"ssid_admin_accessible": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("SSID Administrator access status").String,
+							Optional:            true,
+						},
 						"use_vlan_tagging": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`").String,
 							Optional:            true,

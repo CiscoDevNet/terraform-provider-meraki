@@ -73,6 +73,26 @@ func (d *ApplianceSiteToSiteVPNDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.",
 				Computed:            true,
 			},
+			"host_translations": schema.ListNestedAttribute{
+				MarkdownDescription: "The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2",
+				Computed:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							MarkdownDescription: "The name of the translated host.",
+							Computed:            true,
+						},
+						"local_address": schema.StringAttribute{
+							MarkdownDescription: "The local IP address of the translated host.",
+							Computed:            true,
+						},
+						"remote_address": schema.StringAttribute{
+							MarkdownDescription: "The remote IP address of the translated host.",
+							Computed:            true,
+						},
+					},
+				},
+			},
 			"hubs": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.",
 				Computed:            true,

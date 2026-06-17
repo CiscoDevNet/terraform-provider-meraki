@@ -204,6 +204,21 @@ attributes:
         mandatory: true
         description: The first IP in the reserved range
         example: 192.168.1.0
+  - model_name: uplinks
+    type: List
+    description: Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions.
+    test_tags: [APPLIANCE_VLAN_NAT_OVERRIDE]
+    attributes:
+      - model_name: interface
+        type: String
+        mandatory: true
+        description: Interface name of the uplink
+        example: wan1
+      - model_name: enabled
+        type: Bool
+        data_path: [nat]
+        description: Whether NAT is enabled on the uplink
+        example: "true"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

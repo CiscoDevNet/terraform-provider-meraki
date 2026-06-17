@@ -1,5 +1,22 @@
 ## Unreleased
-
+- Add `host_translations` nested attribute to `meraki_appliance_site_to_site_vpn` resource and data source to support VPN host address translations (requires MX firmware 26.1.2+ and VPN NAT enabled on the network); tests gated behind `APPLIANCE_VPN_HOST_TRANSLATIONS` env var; `subnets.0.nat_enabled` added to import verify ignore since the GET response includes it as a default even when not set via PUT
+- Add `uplinks` nested attribute to `meraki_appliance_vlan` resource and data source for per-uplink NAT exception override configuration; only applicable on networks that support NAT exceptions, tests gated behind `APPLIANCE_VLAN_NAT_OVERRIDE` env var
+- Add `router_id` attribute to `meraki_appliance_vpn_bgp` resource and data source
+- Add `neighbors.community_out` and `neighbors.filter_in` attributes to `meraki_appliance_vpn_bgp` resource and data source for BGP community tagging and inbound route filtering per eBGP neighbor
+- Add `products_wireless_next_upgrade_predownload_enabled` attribute to `meraki_network_firmware_upgrades` resource and data source to control firmware predownload for wireless devices
+- Add `upgrade_predownload_enabled` attribute to `meraki_wireless_settings` resource and data source for MR firmware predownload (requires MR 32+)
+- Add `ssid_admin_accessible` attribute to `meraki_wireless_ssid` resource and data source
+- Add `ecmp_uplink_configs` nested attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
+- Add `eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status` attributes to `meraki_organization_inventory_devices` data source
+- Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
+- Add `meraki_organization_integrations_deployable` data source to list integrations available for deployment in an organization, including `name`, `provider`, `type`, `tags`, `release_stage`, and `can_be_deployed` attributes per integration
+- Add `meraki_organization_integrations_deployed` data source to list currently deployed integrations for an organization, exposing `id`, `name`, `provider`, `type`, and `tags` per item alongside pagination metadata (`meta_counts_items_remaining`, `meta_counts_items_total`)
+- Add `meraki_organization_sase_networks_eligible` data source to list networks eligible for SASE enrollment, with per-item attributes covering site name, network ID, type, street address, primary MX model, region name, and SASE enabled status
+- Add `meraki_organization_wireless_devices_provisioning_deployments` resource and data source to manage zero-touch wireless device provisioning deployments, supporting `replace` and `deploy` types with full new/old device metadata (`serial`, `mac`, `model`, `name`, `rf_profile`, `tags`), network assignment, deployment status, and error reporting
+- Fix panic in `gen/definition.go` when an OpenAPI spec endpoint returns an example that is a plain object (`map`) instead of an array -- the example extractor now handles both `[]interface{}` (array, takes first element) and `map[string]interface{}` (plain object, uses directly)
+- Fix `gen/templates/data_source_test.go`: when a definition has `no_resource: true`, the generated test config function now emits only a `data` block using the reference attributes -- previously it always emitted a `resource` block first regardless of whether the resource existed, causing test failures with "Invalid resource type"
+- Fix `gen/yamlconfig/main.go`: bulk data source definitions with a nested attribute named `items` caused a duplicate Go struct name -- `GoTypeBulkName` was computed as `<BulkName>Items` which collided with the `DataSource<BulkName>Items` struct the bulk model template always emits; the fix detects this collision and uses `<SingleName>Items` instead, preventing compile errors
+- Add `meraki_network_wireless_radio_rrm` resource to manage AI-RRM, busy hour, channel avoidance, and FRA settings for wireless networks
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
 
 ## 1.12.1

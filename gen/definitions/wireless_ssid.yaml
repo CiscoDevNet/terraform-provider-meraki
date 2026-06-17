@@ -228,6 +228,10 @@ attributes:
     example: Click-through splash page
     enum_values: [Billing, Cisco ISE, Click-through splash page, Facebook Wi-Fi, Google Apps domain, Google OAuth, Microsoft Entra ID, None, Password-protected with Active Directory, Password-protected with LDAP, Password-protected with Meraki RADIUS, Password-protected with custom RADIUS, SMS authentication, Sponsored guest, Systems Manager Sentry]
     destroy_value: '"None"'
+  - model_name: ssidAdminAccessible
+    type: Bool
+    description: SSID Administrator access status
+    example: "false"
   - model_name: useVlanTagging
     type: Bool
     description: Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`

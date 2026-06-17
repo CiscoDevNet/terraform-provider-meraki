@@ -239,6 +239,10 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				MarkdownDescription: "The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.",
 				Computed:            true,
 			},
+			"ssid_admin_accessible": schema.BoolAttribute{
+				MarkdownDescription: "SSID Administrator access status",
+				Computed:            true,
+			},
 			"use_vlan_tagging": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`",
 				Computed:            true,

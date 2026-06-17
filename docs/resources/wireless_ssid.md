@@ -32,6 +32,7 @@ resource "meraki_wireless_ssid" "example" {
   per_ssid_bandwidth_limit_up     = 0
   psk                             = "deadbeef"
   splash_page                     = "Click-through splash page"
+  ssid_admin_accessible           = false
   use_vlan_tagging                = false
   visible                         = false
   walled_garden_enabled           = false
@@ -154,6 +155,7 @@ resource "meraki_wireless_ssid" "example" {
 - `splash_guest_sponsor_domains` (Set of String) Array of valid sponsor email domains for sponsored guest splash type.
 - `splash_page` (String) The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.
   - Choices: `Billing`, `Cisco ISE`, `Click-through splash page`, `Facebook Wi-Fi`, `Google Apps domain`, `Google OAuth`, `Microsoft Entra ID`, `None`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `SMS authentication`, `Sponsored guest`, `Systems Manager Sentry`
+- `ssid_admin_accessible` (Boolean) SSID Administrator access status
 - `use_vlan_tagging` (Boolean) Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
 - `visible` (Boolean) Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true
 - `vlan_id` (Number) The VLAN ID used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Layer 3 roaming with a concentrator` or `VPN`

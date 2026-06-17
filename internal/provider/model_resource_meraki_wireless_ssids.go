@@ -86,6 +86,7 @@ type ResourceWirelessSSIDsItems struct {
 	RadiusTestingEnabled                                                types.Bool                                       `tfsdk:"radius_testing_enabled"`
 	SecondaryConcentratorNetworkId                                      types.String                                     `tfsdk:"secondary_concentrator_network_id"`
 	SplashPage                                                          types.String                                     `tfsdk:"splash_page"`
+	SsidAdminAccessible                                                 types.Bool                                       `tfsdk:"ssid_admin_accessible"`
 	UseVlanTagging                                                      types.Bool                                       `tfsdk:"use_vlan_tagging"`
 	Visible                                                             types.Bool                                       `tfsdk:"visible"`
 	VlanId                                                              types.Int64                                      `tfsdk:"vlan_id"`
@@ -315,6 +316,9 @@ func (data ResourceWirelessSSIDsItems) toBody(ctx context.Context, state Resourc
 	}
 	if !data.SplashPage.IsNull() {
 		body, _ = sjson.Set(body, "splashPage", data.SplashPage.ValueString())
+	}
+	if !data.SsidAdminAccessible.IsNull() {
+		body, _ = sjson.Set(body, "ssidAdminAccessible", data.SsidAdminAccessible.ValueBool())
 	}
 	if !data.UseVlanTagging.IsNull() {
 		body, _ = sjson.Set(body, "useVlanTagging", data.UseVlanTagging.ValueBool())
@@ -773,6 +777,11 @@ func (data *ResourceWirelessSSIDs) fromBody(ctx context.Context, res meraki.Res)
 			data.SplashPage = types.StringValue(value.String())
 		} else {
 			data.SplashPage = types.StringNull()
+		}
+		if value := res.Get("ssidAdminAccessible"); value.Exists() && value.Value() != nil {
+			data.SsidAdminAccessible = types.BoolValue(value.Bool())
+		} else {
+			data.SsidAdminAccessible = types.BoolNull()
 		}
 		if value := res.Get("useVlanTagging"); value.Exists() && value.Value() != nil {
 			data.UseVlanTagging = types.BoolValue(value.Bool())
@@ -1352,6 +1361,11 @@ func (data *ResourceWirelessSSIDs) fromBodyPartial(ctx context.Context, res mera
 			data.SplashPage = types.StringValue(value.String())
 		} else {
 			data.SplashPage = types.StringNull()
+		}
+		if value := res.Get("ssidAdminAccessible"); value.Exists() && !data.SsidAdminAccessible.IsNull() {
+			data.SsidAdminAccessible = types.BoolValue(value.Bool())
+		} else {
+			data.SsidAdminAccessible = types.BoolNull()
 		}
 		if value := res.Get("useVlanTagging"); value.Exists() && !data.UseVlanTagging.IsNull() {
 			data.UseVlanTagging = types.BoolValue(value.Bool())
@@ -2046,6 +2060,11 @@ func (data *ResourceWirelessSSIDs) fromBodyImport(ctx context.Context, res merak
 		} else {
 			data.SplashPage = types.StringNull()
 		}
+		if value := res.Get("ssidAdminAccessible"); value.Exists() && value.Value() != nil {
+			data.SsidAdminAccessible = types.BoolValue(value.Bool())
+		} else {
+			data.SsidAdminAccessible = types.BoolNull()
+		}
 		if value := res.Get("useVlanTagging"); value.Exists() && value.Value() != nil {
 			data.UseVlanTagging = types.BoolValue(value.Bool())
 		} else {
@@ -2582,6 +2601,9 @@ func (data *ResourceWirelessSSIDs) hasChanges(ctx context.Context, state *Resour
 		hasChanges = true
 	}
 	if !item.SplashPage.Equal(stateItem.SplashPage) {
+		hasChanges = true
+	}
+	if !item.SsidAdminAccessible.Equal(stateItem.SsidAdminAccessible) {
 		hasChanges = true
 	}
 	if !item.UseVlanTagging.Equal(stateItem.UseVlanTagging) {

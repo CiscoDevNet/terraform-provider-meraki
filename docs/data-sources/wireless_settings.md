@@ -32,6 +32,8 @@ data "meraki_wireless_settings" "example" {
 - `led_lights_on` (Boolean) Toggle for enabling or disabling LED lights on all APs in the network (making them run dark)
 - `location_analytics_enabled` (Boolean) Toggle for enabling or disabling location analytics for your network
 - `meshing_enabled` (Boolean) Toggle for enabling or disabling meshing in a network
+- `multicast_to_unicast_conversion_enabled` (Boolean) Toggle for enabling or disabling multicast-to-unicast conversion across the network
 - `named_vlans_pool_dhcp_monitoring_duration` (Number) The duration in minutes that devices will refrain from using dirty VLANs before adding them back to the pool.
 - `named_vlans_pool_dhcp_monitoring_enabled` (Boolean) Whether or not devices using named VLAN pools should remove dirty VLANs from the pool, thereby preventing clients from being assigned to VLANs where they would be unable to obtain an IP address via DHCP.
+- `upgrade_predownload_enabled` (Boolean) The default setting for upgrade firmware predownload. Only applies to devices running MR 32 or higher.
 - `upgrade_strategy` (String) The default strategy that network devices will use to perform an upgrade. Requires firmware version MR 26.8 or higher.

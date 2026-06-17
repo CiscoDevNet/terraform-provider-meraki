@@ -25,6 +25,26 @@ attributes:
     data_path: [subnet, nat]
     description: If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
     example: "false"
+    test_value: "true"
+  - model_name: hostTranslations
+    type: List
+    description: The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2
+    test_tags: [APPLIANCE_VPN_HOST_TRANSLATIONS]
+    attributes:
+      - model_name: name
+        type: String
+        description: The name of the translated host.
+        example: Host 1
+      - model_name: address
+        type: String
+        data_path: [local]
+        description: The local IP address of the translated host.
+        example: 192.168.1.10
+      - model_name: address
+        type: String
+        data_path: [remote]
+        description: The remote IP address of the translated host.
+        example: 72.168.2.10
   - model_name: hubs
     type: List
     exclude_test: true
@@ -58,6 +78,7 @@ attributes:
         type: Bool
         data_path: [nat]
         exclude_test: true
+        allow_import_changes: true
         description: Whether or not VPN subnet translation is enabled for the subnet
         example: "true"
       - model_name: remoteSubnet
