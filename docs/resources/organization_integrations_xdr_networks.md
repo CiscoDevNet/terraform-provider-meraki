@@ -54,7 +54,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_organization_integrations_xdr_networks.example
   identity = {
-    "organization_id" : "<organization_id>"
+    organization_id = "<organization_id>"
   }
 }
 ```

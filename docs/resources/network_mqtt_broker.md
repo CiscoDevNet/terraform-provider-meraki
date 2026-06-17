@@ -62,8 +62,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_network_mqtt_broker.example
   identity = {
-    "network_id" : "<network_id>"
-    "id" : "<id>"
+    network_id = "<network_id>"
+    id         = "<id>"
   }
 }
 ```

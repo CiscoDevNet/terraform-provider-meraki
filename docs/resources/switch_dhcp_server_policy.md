@@ -53,7 +53,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_switch_dhcp_server_policy.example
   identity = {
-    "network_id" : "<network_id>"
+    network_id = "<network_id>"
   }
 }
 ```

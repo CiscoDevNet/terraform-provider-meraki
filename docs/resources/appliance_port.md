@@ -55,8 +55,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_appliance_port.example
   identity = {
-    "network_id" : "<network_id>"
-    "port_id" : "<port_id>"
+    network_id = "<network_id>"
+    port_id    = "<port_id>"
   }
 }
 ```

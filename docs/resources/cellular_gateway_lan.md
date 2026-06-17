@@ -77,7 +77,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_cellular_gateway_lan.example
   identity = {
-    "serial" : "<serial>"
+    serial = "<serial>"
   }
 }
 ```

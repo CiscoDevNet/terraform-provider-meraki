@@ -48,8 +48,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_wireless_zigbee_device.example
   identity = {
-    "organization_id" : "<organization_id>"
-    "device_id" : "<device_id>"
+    organization_id = "<organization_id>"
+    device_id       = "<device_id>"
   }
 }
 ```
