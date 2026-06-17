@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"net/url"
 	"slices"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -503,8 +504,8 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyPartial(ctx context.
 			data.PerformanceClassType = types.StringNull()
 		}
 		for i := 0; i < len(data.TrafficFilters); i++ {
-			keys := [...]string{"type"}
-			keyValues := [...]string{data.TrafficFilters[i].Type.ValueString()}
+			keys := [...]string{"type", "value.id", "value.protocol", "value.destination.cidr", "value.destination.fqdn", "value.destination.host", "value.destination.network", "value.destination.port", "value.destination.vlan", "value.source.cidr", "value.source.host", "value.source.network", "value.source.port", "value.source.vlan"}
+			keyValues := [...]string{data.TrafficFilters[i].Type.ValueString(), data.TrafficFilters[i].Id.ValueString(), data.TrafficFilters[i].Protocol.ValueString(), data.TrafficFilters[i].DestinationCidr.ValueString(), data.TrafficFilters[i].DestinationFqdn.ValueString(), strconv.FormatInt(data.TrafficFilters[i].DestinationHost.ValueInt64(), 10), data.TrafficFilters[i].DestinationNetwork.ValueString(), data.TrafficFilters[i].DestinationPort.ValueString(), strconv.FormatInt(data.TrafficFilters[i].DestinationVlan.ValueInt64(), 10), data.TrafficFilters[i].SourceCidr.ValueString(), strconv.FormatInt(data.TrafficFilters[i].SourceHost.ValueInt64(), 10), data.TrafficFilters[i].SourceNetwork.ValueString(), data.TrafficFilters[i].SourcePort.ValueString(), strconv.FormatInt(data.TrafficFilters[i].SourceVlan.ValueInt64(), 10)}
 
 			parent := &data
 			data := (*parent).TrafficFilters[i]
