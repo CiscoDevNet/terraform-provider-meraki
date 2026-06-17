@@ -1,0 +1,71 @@
+name: Network Wireless Radio RRM
+spec_endpoint: /networks/{networkId}/wireless/radio/rrm
+rest_endpoint: /networks/%v/wireless/radio/rrm
+no_data_source: true
+put_create: true
+no_delete: true
+no_import: true
+no_read: true
+doc_category: Wireless
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: enabled
+    tf_name: ai_enabled
+    type: Bool
+    data_path: [ai]
+    description: Toggle for enabling or disabling AI in a network
+    example: "true"
+    minimum_test_value: "true"
+  - model_name: enabled
+    tf_name: busy_hour_minimize_changes_enabled
+    type: Bool
+    data_path: [busyHour, minimizeChanges]
+    description: Toggle for enabling or disabling Busy Hour in a network
+    example: "true"
+  - model_name: mode
+    tf_name: busy_hour_schedule_mode
+    type: String
+    data_path: [busyHour, schedule]
+    description: The Busy Hour mode applied to the network when minimizeChanges is enabled. Must be one of `automatic` or `manual`. Automatic busy hour is only available on firmware versions >= MR 27.0
+    example: automatic
+    enum_values: [automatic, manual]
+  - model_name: end
+    tf_name: busy_hour_schedule_manual_end
+    type: String
+    data_path: [busyHour, schedule, manual]
+    description: The hour that Manual Busy Hour ends each day, in the network time zone
+    example: "15:00"
+  - model_name: start
+    tf_name: busy_hour_schedule_manual_start
+    type: String
+    data_path: [busyHour, schedule, manual]
+    description: The hour that Manual Busy Hour starts each day, in the network time zone
+    example: "10:00"
+  - model_name: enabled
+    tf_name: channel_avoidance_enabled
+    type: Bool
+    data_path: [channel, avoidance]
+    description: Toggle for enabling or disabling channel avoidance in a network
+    example: "true"
+  - model_name: enabled
+    tf_name: fra_enabled
+    type: Bool
+    data_path: [fra]
+    description: Toggle to activate or deactivate FRA in a network, contingent on AI-RRM being enabled.
+    example: "false"
+test_prerequisites: |-
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }

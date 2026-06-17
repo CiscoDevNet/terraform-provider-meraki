@@ -111,6 +111,18 @@ func (d *OrganizationInventoryDevicesDataSource) Schema(ctx context.Context, req
 							MarkdownDescription: "Serial number of the device",
 							Computed:            true,
 						},
+						"eox_end_of_sale_at": schema.StringAttribute{
+							MarkdownDescription: "End of sale date for the device product",
+							Computed:            true,
+						},
+						"eox_end_of_support_at": schema.StringAttribute{
+							MarkdownDescription: "End of support date for the device product",
+							Computed:            true,
+						},
+						"eox_status": schema.StringAttribute{
+							MarkdownDescription: "End of sale and support status of the device",
+							Computed:            true,
+						},
 						"details": schema.ListNestedAttribute{
 							MarkdownDescription: "Additional device information",
 							Computed:            true,
