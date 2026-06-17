@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
+- Update wireless SSID hotspot realm to "Realm 1" in configuration and tests; adjust OpenAPI model URLs to v1.66.0.
 
 ## 1.12.1
 
