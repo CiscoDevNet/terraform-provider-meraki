@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
+- Fix idempotency issue with `vpn_traffic_uplink_preferences[].traffic_filters`, `wan_traffic_uplink_preferences[].traffic_filters` attributes of `meraki_appliance_traffic_shaping_uplink_selection` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/235)
 
 ## 1.12.1
 
