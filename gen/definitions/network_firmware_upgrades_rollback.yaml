@@ -1,0 +1,57 @@
+name: Network Firmware Upgrades Rollback
+spec_endpoint: /networks/{networkId}/firmwareUpgrades/rollbacks
+rest_endpoint: /networks/%v/firmwareUpgrades/rollbacks
+no_data_source: true
+no_update: true
+no_delete: true
+no_import: true
+no_read: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: product
+    type: String
+    description: Product type to rollback (if the network is a combined network)
+    example: switch
+    enum_values: [appliance, camera, cellularGateway, secureConnect, switch, switchCatalyst, wireless, wirelessController]
+  - model_name: time
+    type: String
+    description: Scheduled time for the rollback
+    example: "2020-10-21T02:00:00Z"
+  - model_name: id
+    type: String
+    data_path: [toVersion]
+    description: The version ID
+    example: "7857"
+  - model_name: reasons
+    type: List
+    mandatory: true
+    description: Reasons for the rollback
+    attributes:
+      - model_name: category
+        type: String
+        mandatory: true
+        description: Reason for the rollback
+        example: performance
+        enum_values: [broke old features, other, performance, stability, testing, unifying networks versions]
+      - model_name: comment
+        type: String
+        mandatory: true
+        description: Additional comment about the rollback
+        example: Network was slower with the upgrade
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
