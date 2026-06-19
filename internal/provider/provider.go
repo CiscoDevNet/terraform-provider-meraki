@@ -389,6 +389,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewNetworkDeviceClaimResource,
 		NewNetworkDeviceClaimVMXResource,
 		NewNetworkFirmwareUpgradesResource,
+		NewNetworkFirmwareUpgradesRollbackResource,
 		NewNetworkFloorPlanResource,
 		NewNetworkGroupPolicyResource,
 		NewNetworkGroupPoliciesResource,
