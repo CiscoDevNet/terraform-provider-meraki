@@ -180,6 +180,233 @@ func (data NetworkFirmwareUpgrades) toBody(ctx context.Context, state NetworkFir
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("timezone"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "timezone", "null")
+		} else {
+			body, _ = sjson.Set(body, "timezone", value.String())
+		}
+	}
+	if value := res.Get("products.appliance.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.appliance.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.appliance.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.appliance.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.appliance.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.appliance.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.appliance.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.appliance.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.appliance.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("products.camera.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.camera.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.camera.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.camera.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.camera.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.camera.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.camera.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.camera.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.camera.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("products.cellularGateway.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.cellularGateway.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.cellularGateway.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.cellularGateway.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.cellularGateway.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.cellularGateway.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.cellularGateway.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.cellularGateway.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.cellularGateway.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("products.secureConnect.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.secureConnect.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.secureConnect.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.secureConnect.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.secureConnect.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.secureConnect.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.secureConnect.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.secureConnect.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.secureConnect.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("products.sensor.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.sensor.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.sensor.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.sensor.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.sensor.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.sensor.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.sensor.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.sensor.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.sensor.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("products.switch.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.switch.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.switch.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.switch.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.switch.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.switch.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.switch.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.switch.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.switch.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("products.switchCatalyst.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.switchCatalyst.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.switchCatalyst.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.switchCatalyst.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.switchCatalyst.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("products.wireless.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.wireless.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.wireless.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.wireless.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.wireless.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.wireless.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.wireless.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.wireless.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.wireless.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("products.wirelessController.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.wirelessController.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.wirelessController.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.wirelessController.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.wirelessController.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.wirelessController.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.wirelessController.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.wirelessController.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.wirelessController.nextUpgrade.toVersion.id", value.String())
+		}
+	}
+	if value := res.Get("upgradeWindow.dayOfWeek"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "upgradeWindow.dayOfWeek", "null")
+		} else {
+			body, _ = sjson.Set(body, "upgradeWindow.dayOfWeek", value.String())
+		}
+	}
+	if value := res.Get("upgradeWindow.hourOfDay"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "upgradeWindow.hourOfDay", "null")
+		} else {
+			body, _ = sjson.Set(body, "upgradeWindow.hourOfDay", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkFirmwareUpgrades) fromBody(ctx context.Context, res meraki.Res) {

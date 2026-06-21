@@ -102,6 +102,77 @@ func (data SwitchLinkAggregation) toBody(ctx context.Context, state SwitchLinkAg
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchLinkAggregation) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("switchPorts"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "switchPorts", "null")
+		} else {
+			body, _ = sjson.Set(body, "switchPorts", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("portId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "portId", "null")
+					} else {
+						body, _ = sjson.Set(body, "portId", value.String())
+					}
+				}
+				if value := res.Get("serial"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "serial", "null")
+					} else {
+						body, _ = sjson.Set(body, "serial", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "switchPorts.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("switchProfilePorts"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "switchProfilePorts", "null")
+		} else {
+			body, _ = sjson.Set(body, "switchProfilePorts", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("portId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "portId", "null")
+					} else {
+						body, _ = sjson.Set(body, "portId", value.String())
+					}
+				}
+				if value := res.Get("profile"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "profile", "null")
+					} else {
+						body, _ = sjson.Set(body, "profile", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "switchProfilePorts.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchLinkAggregation) fromBody(ctx context.Context, res meraki.Res) {

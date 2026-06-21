@@ -218,6 +218,283 @@ func (data NetworkAlertsSettings) toBody(ctx context.Context, state NetworkAlert
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data NetworkAlertsSettings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("defaultDestinations.allAdmins"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultDestinations.allAdmins", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaultDestinations.allAdmins", value.Bool())
+		}
+	}
+	if value := res.Get("defaultDestinations.snmp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultDestinations.snmp", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaultDestinations.snmp", value.Bool())
+		}
+	}
+	if value := res.Get("defaultDestinations.emails"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultDestinations.emails", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "defaultDestinations.emails", values)
+		}
+	}
+	if value := res.Get("defaultDestinations.httpServerIds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultDestinations.httpServerIds", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "defaultDestinations.httpServerIds", values)
+		}
+	}
+	if value := res.Get("muting.byPortSchedules.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "muting.byPortSchedules.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "muting.byPortSchedules.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("alerts"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alerts", "null")
+		} else {
+			body, _ = sjson.Set(body, "alerts", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("enabled"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "enabled", "null")
+					} else {
+						body, _ = sjson.Set(body, "enabled", value.Bool())
+					}
+				}
+				if value := res.Get("type"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "type", "null")
+					} else {
+						body, _ = sjson.Set(body, "type", value.String())
+					}
+				}
+				if value := res.Get("alertDestinations.allAdmins"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "alertDestinations.allAdmins", "null")
+					} else {
+						body, _ = sjson.Set(body, "alertDestinations.allAdmins", value.Bool())
+					}
+				}
+				if value := res.Get("alertDestinations.snmp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "alertDestinations.snmp", "null")
+					} else {
+						body, _ = sjson.Set(body, "alertDestinations.snmp", value.Bool())
+					}
+				}
+				if value := res.Get("alertDestinations.emails"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "alertDestinations.emails", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "alertDestinations.emails", values)
+					}
+				}
+				if value := res.Get("alertDestinations.httpServerIds"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "alertDestinations.httpServerIds", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "alertDestinations.httpServerIds", values)
+					}
+				}
+				if value := res.Get("alertDestinations.smsNumbers"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "alertDestinations.smsNumbers", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "alertDestinations.smsNumbers", values)
+					}
+				}
+				if value := res.Get("filters.failureType"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.failureType", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.failureType", value.String())
+					}
+				}
+				if value := res.Get("filters.lookbackWindow"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.lookbackWindow", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.lookbackWindow", value.Int())
+					}
+				}
+				if value := res.Get("filters.minDuration"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.minDuration", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.minDuration", value.Int())
+					}
+				}
+				if value := res.Get("filters.name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.name", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.name", value.String())
+					}
+				}
+				if value := res.Get("filters.period"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.period", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.period", value.Int())
+					}
+				}
+				if value := res.Get("filters.priority"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.priority", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.priority", value.String())
+					}
+				}
+				if value := res.Get("filters.regex"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.regex", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.regex", value.String())
+					}
+				}
+				if value := res.Get("filters.selector"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.selector", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.selector", value.String())
+					}
+				}
+				if value := res.Get("filters.ssidNum"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.ssidNum", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.ssidNum", value.Int())
+					}
+				}
+				if value := res.Get("filters.tag"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.tag", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.tag", value.String())
+					}
+				}
+				if value := res.Get("filters.threshold"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.threshold", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.threshold", value.Int())
+					}
+				}
+				if value := res.Get("filters.timeout"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.timeout", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.timeout", value.Int())
+					}
+				}
+				if value := res.Get("filters.conditions"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.conditions", "null")
+					} else {
+						body, _ = sjson.Set(body, "filters.conditions", []interface{}{})
+						parent := &body
+						value.ForEach(func(k, res gjson.Result) bool {
+							body := ""
+							if value := res.Get("direction"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "direction", "null")
+								} else {
+									body, _ = sjson.Set(body, "direction", value.String())
+								}
+							}
+							if value := res.Get("duration"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "duration", "null")
+								} else {
+									body, _ = sjson.Set(body, "duration", value.Int())
+								}
+							}
+							if value := res.Get("threshold"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "threshold", "null")
+								} else {
+									body, _ = sjson.Set(body, "threshold", value.Float())
+								}
+							}
+							if value := res.Get("type"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "type", "null")
+								} else {
+									body, _ = sjson.Set(body, "type", value.String())
+								}
+							}
+							if value := res.Get("unit"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "unit", "null")
+								} else {
+									body, _ = sjson.Set(body, "unit", value.String())
+								}
+							}
+							*parent, _ = sjson.SetRaw(*parent, "filters.conditions.-1", body)
+							return true
+						})
+					}
+				}
+				if value := res.Get("filters.serials"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filters.serials", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "filters.serials", values)
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "alerts.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkAlertsSettings) fromBody(ctx context.Context, res meraki.Res) {

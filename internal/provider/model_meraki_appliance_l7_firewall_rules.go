@@ -94,6 +94,14 @@ func (data ApplianceL7FirewallRules) toBody(ctx context.Context, state Appliance
 	return body
 }
 
+func (data ApplianceL7FirewallRules) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("rules"); value.Exists() {
+		body, _ = sjson.SetRaw(body, "rules", value.Raw)
+	}
+	return body
+}
+
 func (data *ApplianceL7FirewallRules) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
 		data.Rules = make([]ApplianceL7FirewallRulesRules, 0)

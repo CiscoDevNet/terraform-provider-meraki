@@ -85,6 +85,66 @@ func (data SwitchDHCPServerPolicy) toBody(ctx context.Context, state SwitchDHCPS
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchDHCPServerPolicy) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("defaultPolicy"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultPolicy", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaultPolicy", value.String())
+		}
+	}
+	if value := res.Get("alerts.email.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "alerts.email.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "alerts.email.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("arpInspection.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "arpInspection.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "arpInspection.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("allowedServers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "allowedServers", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "allowedServers", values)
+		}
+	}
+	if value := res.Get("blockedServers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "blockedServers", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "blockedServers", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchDHCPServerPolicy) fromBody(ctx context.Context, res meraki.Res) {

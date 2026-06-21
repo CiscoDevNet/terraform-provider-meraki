@@ -106,6 +106,92 @@ func (data SwitchSettings) toBody(ctx context.Context, state SwitchSettings) str
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchSettings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("useCombinedPower"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "useCombinedPower", "null")
+		} else {
+			body, _ = sjson.Set(body, "useCombinedPower", value.Bool())
+		}
+	}
+	if value := res.Get("vlan"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "vlan", "null")
+		} else {
+			body, _ = sjson.Set(body, "vlan", value.Int())
+		}
+	}
+	if value := res.Get("macBlocklist.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "macBlocklist.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "macBlocklist.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("uplinkClientSampling.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "uplinkClientSampling.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "uplinkClientSampling.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("uplinkSelection.candidates"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "uplinkSelection.candidates", "null")
+		} else {
+			body, _ = sjson.Set(body, "uplinkSelection.candidates", value.String())
+		}
+	}
+	if value := res.Get("uplinkSelection.failback.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "uplinkSelection.failback.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "uplinkSelection.failback.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("powerExceptions"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "powerExceptions", "null")
+		} else {
+			body, _ = sjson.Set(body, "powerExceptions", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("powerType"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "powerType", "null")
+					} else {
+						body, _ = sjson.Set(body, "powerType", value.String())
+					}
+				}
+				if value := res.Get("serial"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "serial", "null")
+					} else {
+						body, _ = sjson.Set(body, "serial", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "powerExceptions.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchSettings) fromBody(ctx context.Context, res meraki.Res) {

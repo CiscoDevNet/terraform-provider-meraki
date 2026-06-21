@@ -197,6 +197,235 @@ func (data ApplianceUplinksSettings) toBody(ctx context.Context, state Appliance
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceUplinksSettings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("interfaces.wan1.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("interfaces.wan1.pppoe.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.pppoe.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.pppoe.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("interfaces.wan1.pppoe.authentication.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.pppoe.authentication.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.pppoe.authentication.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("interfaces.wan1.pppoe.authentication.username"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.pppoe.authentication.username", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.pppoe.authentication.username", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan1.svis.ipv4.address"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.svis.ipv4.address", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.svis.ipv4.address", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan1.svis.ipv4.assignmentMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.svis.ipv4.assignmentMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.svis.ipv4.assignmentMode", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan1.svis.ipv4.gateway"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.svis.ipv4.gateway", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.svis.ipv4.gateway", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan1.svis.ipv4.nameservers.addresses"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.svis.ipv4.nameservers.addresses", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "interfaces.wan1.svis.ipv4.nameservers.addresses", values)
+		}
+	}
+	if value := res.Get("interfaces.wan1.svis.ipv6.address"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.svis.ipv6.address", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.svis.ipv6.address", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan1.svis.ipv6.assignmentMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.svis.ipv6.assignmentMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.svis.ipv6.assignmentMode", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan1.svis.ipv6.gateway"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.svis.ipv6.gateway", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.svis.ipv6.gateway", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan1.svis.ipv6.nameservers.addresses"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.svis.ipv6.nameservers.addresses", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "interfaces.wan1.svis.ipv6.nameservers.addresses", values)
+		}
+	}
+	if value := res.Get("interfaces.wan1.vlanTagging.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.vlanTagging.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.vlanTagging.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("interfaces.wan1.vlanTagging.vlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan1.vlanTagging.vlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan1.vlanTagging.vlanId", value.Int())
+		}
+	}
+	if value := res.Get("interfaces.wan2.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("interfaces.wan2.pppoe.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.pppoe.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.pppoe.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("interfaces.wan2.pppoe.authentication.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.pppoe.authentication.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.pppoe.authentication.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("interfaces.wan2.pppoe.authentication.username"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.pppoe.authentication.username", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.pppoe.authentication.username", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan2.svis.ipv4.address"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.svis.ipv4.address", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.svis.ipv4.address", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan2.svis.ipv4.assignmentMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.svis.ipv4.assignmentMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.svis.ipv4.assignmentMode", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan2.svis.ipv4.gateway"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.svis.ipv4.gateway", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.svis.ipv4.gateway", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan2.svis.ipv4.nameservers.addresses"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.svis.ipv4.nameservers.addresses", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "interfaces.wan2.svis.ipv4.nameservers.addresses", values)
+		}
+	}
+	if value := res.Get("interfaces.wan2.svis.ipv6.address"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.svis.ipv6.address", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.svis.ipv6.address", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan2.svis.ipv6.assignmentMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.svis.ipv6.assignmentMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.svis.ipv6.assignmentMode", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan2.svis.ipv6.gateway"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.svis.ipv6.gateway", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.svis.ipv6.gateway", value.String())
+		}
+	}
+	if value := res.Get("interfaces.wan2.svis.ipv6.nameservers.addresses"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.svis.ipv6.nameservers.addresses", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "interfaces.wan2.svis.ipv6.nameservers.addresses", values)
+		}
+	}
+	if value := res.Get("interfaces.wan2.vlanTagging.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.vlanTagging.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.vlanTagging.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("interfaces.wan2.vlanTagging.vlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaces.wan2.vlanTagging.vlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaces.wan2.vlanTagging.vlanId", value.Int())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceUplinksSettings) fromBody(ctx context.Context, res meraki.Res) {

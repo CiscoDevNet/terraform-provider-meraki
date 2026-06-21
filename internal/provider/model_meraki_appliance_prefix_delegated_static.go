@@ -80,6 +80,55 @@ func (data AppliancePrefixDelegatedStatic) toBody(ctx context.Context, state App
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data AppliancePrefixDelegatedStatic) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("description"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "description", "null")
+		} else {
+			body, _ = sjson.Set(body, "description", value.String())
+		}
+	}
+	if value := res.Get("prefix"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "prefix", "null")
+		} else {
+			body, _ = sjson.Set(body, "prefix", value.String())
+		}
+	}
+	if value := res.Get("origin.type"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "origin.type", "null")
+		} else {
+			body, _ = sjson.Set(body, "origin.type", value.String())
+		}
+	}
+	if value := res.Get("origin.interfaces"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "origin.interfaces", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "origin.interfaces", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *AppliancePrefixDelegatedStatic) fromBody(ctx context.Context, res meraki.Res) {

@@ -92,6 +92,72 @@ func (data WirelessZigbee) toBody(ctx context.Context, state WirelessZigbee) str
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessZigbee) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("defaults.channel"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaults.channel", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaults.channel", value.String())
+		}
+	}
+	if value := res.Get("defaults.transmitPowerLevel"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaults.transmitPowerLevel", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaults.transmitPowerLevel", value.Int())
+		}
+	}
+	if value := res.Get("iotController.serial"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "iotController.serial", "null")
+		} else {
+			body, _ = sjson.Set(body, "iotController.serial", value.String())
+		}
+	}
+	if value := res.Get("lockManagement.address"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "lockManagement.address", "null")
+		} else {
+			body, _ = sjson.Set(body, "lockManagement.address", value.String())
+		}
+	}
+	if value := res.Get("lockManagement.password"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "lockManagement.password", "null")
+		} else {
+			body, _ = sjson.Set(body, "lockManagement.password", value.String())
+		}
+	}
+	if value := res.Get("lockManagement.username"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "lockManagement.username", "null")
+		} else {
+			body, _ = sjson.Set(body, "lockManagement.username", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessZigbee) fromBody(ctx context.Context, res meraki.Res) {

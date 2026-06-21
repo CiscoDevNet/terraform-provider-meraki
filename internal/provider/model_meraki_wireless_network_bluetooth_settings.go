@@ -84,6 +84,65 @@ func (data WirelessNetworkBluetoothSettings) toBody(ctx context.Context, state W
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessNetworkBluetoothSettings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("advertisingEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "advertisingEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "advertisingEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("major"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "major", "null")
+		} else {
+			body, _ = sjson.Set(body, "major", value.Int())
+		}
+	}
+	if value := res.Get("majorMinorAssignmentMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "majorMinorAssignmentMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "majorMinorAssignmentMode", value.String())
+		}
+	}
+	if value := res.Get("minor"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "minor", "null")
+		} else {
+			body, _ = sjson.Set(body, "minor", value.Int())
+		}
+	}
+	if value := res.Get("scanningEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "scanningEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "scanningEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("uuid"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "uuid", "null")
+		} else {
+			body, _ = sjson.Set(body, "uuid", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessNetworkBluetoothSettings) fromBody(ctx context.Context, res meraki.Res) {

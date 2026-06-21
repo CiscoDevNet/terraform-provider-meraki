@@ -171,6 +171,212 @@ func (data SwitchStackRoutingInterface) toBody(ctx context.Context, state Switch
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchStackRoutingInterface) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("candidateUplinkV4"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "candidateUplinkV4", "null")
+		} else {
+			body, _ = sjson.Set(body, "candidateUplinkV4", value.Bool())
+		}
+	}
+	if value := res.Get("defaultGateway"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultGateway", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaultGateway", value.String())
+		}
+	}
+	if value := res.Get("interfaceIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "interfaceIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "interfaceIp", value.String())
+		}
+	}
+	if value := res.Get("isSwitchDefaultGateway"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "isSwitchDefaultGateway", "null")
+		} else {
+			body, _ = sjson.Set(body, "isSwitchDefaultGateway", value.Bool())
+		}
+	}
+	if value := res.Get("mode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "mode", "null")
+		} else {
+			body, _ = sjson.Set(body, "mode", value.String())
+		}
+	}
+	if value := res.Get("multicastRouting"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "multicastRouting", "null")
+		} else {
+			body, _ = sjson.Set(body, "multicastRouting", value.String())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("staticV4Dns1"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "staticV4Dns1", "null")
+		} else {
+			body, _ = sjson.Set(body, "staticV4Dns1", value.String())
+		}
+	}
+	if value := res.Get("staticV4Dns2"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "staticV4Dns2", "null")
+		} else {
+			body, _ = sjson.Set(body, "staticV4Dns2", value.String())
+		}
+	}
+	if value := res.Get("subnet"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "subnet", "null")
+		} else {
+			body, _ = sjson.Set(body, "subnet", value.String())
+		}
+	}
+	if value := res.Get("switchPortId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "switchPortId", "null")
+		} else {
+			body, _ = sjson.Set(body, "switchPortId", value.String())
+		}
+	}
+	if value := res.Get("uplinkV4"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "uplinkV4", "null")
+		} else {
+			body, _ = sjson.Set(body, "uplinkV4", value.Bool())
+		}
+	}
+	if value := res.Get("uplinkV6"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "uplinkV6", "null")
+		} else {
+			body, _ = sjson.Set(body, "uplinkV6", value.Bool())
+		}
+	}
+	if value := res.Get("vlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "vlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "vlanId", value.Int())
+		}
+	}
+	if value := res.Get("ipv6.address"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.address", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.address", value.String())
+		}
+	}
+	if value := res.Get("ipv6.assignmentMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.assignmentMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.assignmentMode", value.String())
+		}
+	}
+	if value := res.Get("ipv6.candidateUplink"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.candidateUplink", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.candidateUplink", value.Bool())
+		}
+	}
+	if value := res.Get("ipv6.gateway"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.gateway", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.gateway", value.String())
+		}
+	}
+	if value := res.Get("ipv6.isSwitchDefaultGateway"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.isSwitchDefaultGateway", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.isSwitchDefaultGateway", value.Bool())
+		}
+	}
+	if value := res.Get("ipv6.prefix"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.prefix", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.prefix", value.String())
+		}
+	}
+	if value := res.Get("ipv6.staticV6Dns1"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.staticV6Dns1", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.staticV6Dns1", value.String())
+		}
+	}
+	if value := res.Get("ipv6.staticV6Dns2"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.staticV6Dns2", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.staticV6Dns2", value.String())
+		}
+	}
+	if value := res.Get("ospfSettings.area"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ospfSettings.area", "null")
+		} else {
+			body, _ = sjson.Set(body, "ospfSettings.area", value.String())
+		}
+	}
+	if value := res.Get("ospfSettings.cost"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ospfSettings.cost", "null")
+		} else {
+			body, _ = sjson.Set(body, "ospfSettings.cost", value.Int())
+		}
+	}
+	if value := res.Get("ospfSettings.isPassiveEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ospfSettings.isPassiveEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "ospfSettings.isPassiveEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("ospfSettings.networkType"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ospfSettings.networkType", "null")
+		} else {
+			body, _ = sjson.Set(body, "ospfSettings.networkType", value.String())
+		}
+	}
+	if value := res.Get("vrf.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "vrf.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "vrf.name", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchStackRoutingInterface) fromBody(ctx context.Context, res meraki.Res) {

@@ -175,6 +175,198 @@ func (data WirelessSSIDHotspot20) toBody(ctx context.Context, state WirelessSSID
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessSSIDHotspot20) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("networkAccessType"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "networkAccessType", "null")
+		} else {
+			body, _ = sjson.Set(body, "networkAccessType", value.String())
+		}
+	}
+	if value := res.Get("operator.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "operator.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "operator.name", value.String())
+		}
+	}
+	if value := res.Get("venue.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "venue.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "venue.name", value.String())
+		}
+	}
+	if value := res.Get("venue.type"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "venue.type", "null")
+		} else {
+			body, _ = sjson.Set(body, "venue.type", value.String())
+		}
+	}
+	if value := res.Get("domains"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "domains", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "domains", values)
+		}
+	}
+	if value := res.Get("mccMncs"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "mccMncs", "null")
+		} else {
+			body, _ = sjson.Set(body, "mccMncs", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("mcc"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "mcc", "null")
+					} else {
+						body, _ = sjson.Set(body, "mcc", value.String())
+					}
+				}
+				if value := res.Get("mnc"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "mnc", "null")
+					} else {
+						body, _ = sjson.Set(body, "mnc", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "mccMncs.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("naiRealms"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "naiRealms", "null")
+		} else {
+			body, _ = sjson.Set(body, "naiRealms", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("format"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "format", "null")
+					} else {
+						body, _ = sjson.Set(body, "format", value.String())
+					}
+				}
+				if value := res.Get("realm"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "realm", "null")
+					} else {
+						body, _ = sjson.Set(body, "realm", value.String())
+					}
+				}
+				if value := res.Get("methods"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "methods", "null")
+					} else {
+						body, _ = sjson.Set(body, "methods", []interface{}{})
+						parent := &body
+						value.ForEach(func(k, res gjson.Result) bool {
+							body := ""
+							if value := res.Get("id"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "id", "null")
+								} else {
+									body, _ = sjson.Set(body, "id", value.String())
+								}
+							}
+							if value := res.Get("authenticationTypes.nonEapInnerAuthentication"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "authenticationTypes.nonEapInnerAuthentication", "null")
+								} else {
+									var values []string
+									for _, v := range value.Array() {
+										values = append(values, v.String())
+									}
+									body, _ = sjson.Set(body, "authenticationTypes.nonEapInnerAuthentication", values)
+								}
+							}
+							if value := res.Get("authenticationTypes.eapInnerAuthentication"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "authenticationTypes.eapInnerAuthentication", "null")
+								} else {
+									var values []string
+									for _, v := range value.Array() {
+										values = append(values, v.String())
+									}
+									body, _ = sjson.Set(body, "authenticationTypes.eapInnerAuthentication", values)
+								}
+							}
+							if value := res.Get("authenticationTypes.credentials"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "authenticationTypes.credentials", "null")
+								} else {
+									var values []string
+									for _, v := range value.Array() {
+										values = append(values, v.String())
+									}
+									body, _ = sjson.Set(body, "authenticationTypes.credentials", values)
+								}
+							}
+							if value := res.Get("authenticationTypes.tunneledEapMethodCredentials"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "authenticationTypes.tunneledEapMethodCredentials", "null")
+								} else {
+									var values []string
+									for _, v := range value.Array() {
+										values = append(values, v.String())
+									}
+									body, _ = sjson.Set(body, "authenticationTypes.tunneledEapMethodCredentials", values)
+								}
+							}
+							*parent, _ = sjson.SetRaw(*parent, "methods.-1", body)
+							return true
+						})
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "naiRealms.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("roamConsortOis"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "roamConsortOis", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "roamConsortOis", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDHotspot20) fromBody(ctx context.Context, res meraki.Res) {

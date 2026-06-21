@@ -224,6 +224,297 @@ func (data SensorAlertsProfile) toBody(ctx context.Context, state SensorAlertsPr
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SensorAlertsProfile) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("includeSensorUrl"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "includeSensorUrl", "null")
+		} else {
+			body, _ = sjson.Set(body, "includeSensorUrl", value.Bool())
+		}
+	}
+	if value := res.Get("message"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "message", "null")
+		} else {
+			body, _ = sjson.Set(body, "message", value.String())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("recipients.emails"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "recipients.emails", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "recipients.emails", values)
+		}
+	}
+	if value := res.Get("recipients.httpServerIds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "recipients.httpServerIds", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "recipients.httpServerIds", values)
+		}
+	}
+	if value := res.Get("recipients.smsNumbers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "recipients.smsNumbers", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "recipients.smsNumbers", values)
+		}
+	}
+	if value := res.Get("schedule.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "schedule.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "schedule.id", value.String())
+		}
+	}
+	if value := res.Get("conditions"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "conditions", "null")
+		} else {
+			body, _ = sjson.Set(body, "conditions", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("direction"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "direction", "null")
+					} else {
+						body, _ = sjson.Set(body, "direction", value.String())
+					}
+				}
+				if value := res.Get("duration"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "duration", "null")
+					} else {
+						body, _ = sjson.Set(body, "duration", value.Int())
+					}
+				}
+				if value := res.Get("metric"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "metric", "null")
+					} else {
+						body, _ = sjson.Set(body, "metric", value.String())
+					}
+				}
+				if value := res.Get("threshold.apparentPower.draw"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.apparentPower.draw", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.apparentPower.draw", value.Float())
+					}
+				}
+				if value := res.Get("threshold.co2.concentration"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.co2.concentration", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.co2.concentration", value.Int())
+					}
+				}
+				if value := res.Get("threshold.co2.quality"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.co2.quality", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.co2.quality", value.String())
+					}
+				}
+				if value := res.Get("threshold.current.draw"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.current.draw", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.current.draw", value.Float())
+					}
+				}
+				if value := res.Get("threshold.door.open"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.door.open", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.door.open", value.Bool())
+					}
+				}
+				if value := res.Get("threshold.frequency.level"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.frequency.level", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.frequency.level", value.Float())
+					}
+				}
+				if value := res.Get("threshold.humidity.quality"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.humidity.quality", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.humidity.quality", value.String())
+					}
+				}
+				if value := res.Get("threshold.humidity.relativePercentage"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.humidity.relativePercentage", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.humidity.relativePercentage", value.Int())
+					}
+				}
+				if value := res.Get("threshold.indoorAirQuality.quality"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.indoorAirQuality.quality", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.indoorAirQuality.quality", value.String())
+					}
+				}
+				if value := res.Get("threshold.indoorAirQuality.score"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.indoorAirQuality.score", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.indoorAirQuality.score", value.Int())
+					}
+				}
+				if value := res.Get("threshold.noise.ambient.level"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.noise.ambient.level", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.noise.ambient.level", value.Int())
+					}
+				}
+				if value := res.Get("threshold.noise.ambient.quality"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.noise.ambient.quality", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.noise.ambient.quality", value.String())
+					}
+				}
+				if value := res.Get("threshold.pm25.concentration"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.pm25.concentration", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.pm25.concentration", value.Int())
+					}
+				}
+				if value := res.Get("threshold.pm25.quality"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.pm25.quality", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.pm25.quality", value.String())
+					}
+				}
+				if value := res.Get("threshold.powerFactor.percentage"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.powerFactor.percentage", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.powerFactor.percentage", value.Int())
+					}
+				}
+				if value := res.Get("threshold.realPower.draw"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.realPower.draw", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.realPower.draw", value.Float())
+					}
+				}
+				if value := res.Get("threshold.temperature.celsius"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.temperature.celsius", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.temperature.celsius", value.Float())
+					}
+				}
+				if value := res.Get("threshold.temperature.fahrenheit"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.temperature.fahrenheit", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.temperature.fahrenheit", value.Float())
+					}
+				}
+				if value := res.Get("threshold.temperature.quality"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.temperature.quality", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.temperature.quality", value.String())
+					}
+				}
+				if value := res.Get("threshold.tvoc.concentration"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.tvoc.concentration", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.tvoc.concentration", value.Int())
+					}
+				}
+				if value := res.Get("threshold.tvoc.quality"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.tvoc.quality", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.tvoc.quality", value.String())
+					}
+				}
+				if value := res.Get("threshold.upstreamPower.outageDetected"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.upstreamPower.outageDetected", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.upstreamPower.outageDetected", value.Bool())
+					}
+				}
+				if value := res.Get("threshold.voltage.level"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.voltage.level", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.voltage.level", value.Float())
+					}
+				}
+				if value := res.Get("threshold.water.present"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "threshold.water.present", "null")
+					} else {
+						body, _ = sjson.Set(body, "threshold.water.present", value.Bool())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "conditions.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("serials"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "serials", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "serials", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SensorAlertsProfile) fromBody(ctx context.Context, res meraki.Res) {

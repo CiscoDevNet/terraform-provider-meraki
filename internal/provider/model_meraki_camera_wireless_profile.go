@@ -97,6 +97,72 @@ func (data CameraWirelessProfile) toBody(ctx context.Context, state CameraWirele
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data CameraWirelessProfile) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("identity.password"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "identity.password", "null")
+		} else {
+			body, _ = sjson.Set(body, "identity.password", value.String())
+		}
+	}
+	if value := res.Get("identity.username"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "identity.username", "null")
+		} else {
+			body, _ = sjson.Set(body, "identity.username", value.String())
+		}
+	}
+	if value := res.Get("ssid.authMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssid.authMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssid.authMode", value.String())
+		}
+	}
+	if value := res.Get("ssid.encryptionMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssid.encryptionMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssid.encryptionMode", value.String())
+		}
+	}
+	if value := res.Get("ssid.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssid.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssid.name", value.String())
+		}
+	}
+	if value := res.Get("ssid.psk"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssid.psk", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssid.psk", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *CameraWirelessProfile) fromBody(ctx context.Context, res meraki.Res) {

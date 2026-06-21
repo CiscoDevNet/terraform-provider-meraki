@@ -1,4 +1,4 @@
-# Customize Read(), Update(), Delete() to support custom endpoint paths
+# Customize Create(), Read(), Update(), Delete() to support custom endpoint paths
 name: Appliance DNS Split Profile Assignments
 spec_endpoint: /organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkCreate
 rest_endpoint: /organizations/%v/appliance/dns/split/profiles/assignments/bulkCreate

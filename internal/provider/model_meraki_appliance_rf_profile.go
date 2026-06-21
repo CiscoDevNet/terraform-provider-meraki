@@ -113,6 +113,114 @@ func (data ApplianceRFProfile) toBody(ctx context.Context, state ApplianceRFProf
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceRFProfile) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("fiveGhzSettings.axEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "fiveGhzSettings.axEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "fiveGhzSettings.axEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("fiveGhzSettings.minBitrate"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "fiveGhzSettings.minBitrate", "null")
+		} else {
+			body, _ = sjson.Set(body, "fiveGhzSettings.minBitrate", value.Int())
+		}
+	}
+	if value := res.Get("perSsidSettings.1.bandOperationMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "perSsidSettings.:1.bandOperationMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "perSsidSettings.:1.bandOperationMode", value.String())
+		}
+	}
+	if value := res.Get("perSsidSettings.1.bandSteeringEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "perSsidSettings.:1.bandSteeringEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "perSsidSettings.:1.bandSteeringEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("perSsidSettings.2.bandOperationMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "perSsidSettings.:2.bandOperationMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "perSsidSettings.:2.bandOperationMode", value.String())
+		}
+	}
+	if value := res.Get("perSsidSettings.2.bandSteeringEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "perSsidSettings.:2.bandSteeringEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "perSsidSettings.:2.bandSteeringEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("perSsidSettings.3.bandOperationMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "perSsidSettings.:3.bandOperationMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "perSsidSettings.:3.bandOperationMode", value.String())
+		}
+	}
+	if value := res.Get("perSsidSettings.3.bandSteeringEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "perSsidSettings.:3.bandSteeringEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "perSsidSettings.:3.bandSteeringEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("perSsidSettings.4.bandOperationMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "perSsidSettings.:4.bandOperationMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "perSsidSettings.:4.bandOperationMode", value.String())
+		}
+	}
+	if value := res.Get("perSsidSettings.4.bandSteeringEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "perSsidSettings.:4.bandSteeringEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "perSsidSettings.:4.bandSteeringEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("twoFourGhzSettings.axEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "twoFourGhzSettings.axEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "twoFourGhzSettings.axEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("twoFourGhzSettings.minBitrate"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "twoFourGhzSettings.minBitrate", "null")
+		} else {
+			body, _ = sjson.Set(body, "twoFourGhzSettings.minBitrate", value.Float())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceRFProfile) fromBody(ctx context.Context, res meraki.Res) {

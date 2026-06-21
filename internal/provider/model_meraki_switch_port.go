@@ -193,6 +193,252 @@ func (data SwitchPort) toBody(ctx context.Context, state SwitchPort) string {
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchPort) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("accessPolicyNumber"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "accessPolicyNumber", "null")
+		} else {
+			body, _ = sjson.Set(body, "accessPolicyNumber", value.Int())
+		}
+	}
+	if value := res.Get("accessPolicyType"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "accessPolicyType", "null")
+		} else {
+			body, _ = sjson.Set(body, "accessPolicyType", value.String())
+		}
+	}
+	if value := res.Get("adaptivePolicyGroupId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "adaptivePolicyGroupId", "null")
+		} else {
+			body, _ = sjson.Set(body, "adaptivePolicyGroupId", value.String())
+		}
+	}
+	if value := res.Get("allowedVlans"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "allowedVlans", "null")
+		} else {
+			body, _ = sjson.Set(body, "allowedVlans", value.String())
+		}
+	}
+	if value := res.Get("daiTrusted"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "daiTrusted", "null")
+		} else {
+			body, _ = sjson.Set(body, "daiTrusted", value.Bool())
+		}
+	}
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("flexibleStackingEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "flexibleStackingEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "flexibleStackingEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("isolationEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "isolationEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "isolationEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("linkNegotiation"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "linkNegotiation", "null")
+		} else {
+			body, _ = sjson.Set(body, "linkNegotiation", value.String())
+		}
+	}
+	if value := res.Get("macWhitelistLimit"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "macWhitelistLimit", "null")
+		} else {
+			body, _ = sjson.Set(body, "macWhitelistLimit", value.Int())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("peerSgtCapable"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "peerSgtCapable", "null")
+		} else {
+			body, _ = sjson.Set(body, "peerSgtCapable", value.Bool())
+		}
+	}
+	if value := res.Get("poeEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "poeEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "poeEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("portScheduleId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portScheduleId", "null")
+		} else {
+			body, _ = sjson.Set(body, "portScheduleId", value.String())
+		}
+	}
+	if value := res.Get("rstpEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "rstpEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "rstpEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("stickyMacAllowListLimit"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "stickyMacAllowListLimit", "null")
+		} else {
+			body, _ = sjson.Set(body, "stickyMacAllowListLimit", value.Int())
+		}
+	}
+	if value := res.Get("stormControlEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "stormControlEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "stormControlEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("stpGuard"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "stpGuard", "null")
+		} else {
+			body, _ = sjson.Set(body, "stpGuard", value.String())
+		}
+	}
+	if value := res.Get("stpPortFastTrunk"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "stpPortFastTrunk", "null")
+		} else {
+			body, _ = sjson.Set(body, "stpPortFastTrunk", value.Bool())
+		}
+	}
+	if value := res.Get("type"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "type", "null")
+		} else {
+			body, _ = sjson.Set(body, "type", value.String())
+		}
+	}
+	if value := res.Get("udld"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "udld", "null")
+		} else {
+			body, _ = sjson.Set(body, "udld", value.String())
+		}
+	}
+	if value := res.Get("vlan"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "vlan", "null")
+		} else {
+			body, _ = sjson.Set(body, "vlan", value.Int())
+		}
+	}
+	if value := res.Get("voiceVlan"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "voiceVlan", "null")
+		} else {
+			body, _ = sjson.Set(body, "voiceVlan", value.Int())
+		}
+	}
+	if value := res.Get("dot3az.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dot3az.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "dot3az.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("highSpeed.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "highSpeed.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "highSpeed.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("profile.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "profile.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "profile.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("profile.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "profile.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "profile.id", value.String())
+		}
+	}
+	if value := res.Get("profile.iname"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "profile.iname", "null")
+		} else {
+			body, _ = sjson.Set(body, "profile.iname", value.String())
+		}
+	}
+	if value := res.Get("macAllowList"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "macAllowList", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "macAllowList", values)
+		}
+	}
+	if value := res.Get("stickyMacAllowList"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "stickyMacAllowList", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "stickyMacAllowList", values)
+		}
+	}
+	if value := res.Get("tags"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "tags", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "tags", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchPort) fromBody(ctx context.Context, res meraki.Res) {
