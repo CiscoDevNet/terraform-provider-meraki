@@ -836,19 +836,8 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 
 {{- range .Attributes}}
 	{{- range .Attributes}}
-		{{- if .OrderedList }}
-			{{- errorf "ordered_list not yet implemented at this depth"}}
-		{{- end}}
-
 		{{- range .Attributes}}
-			{{- if .OrderedList }}
-				{{- errorf "ordered_list not yet implemented at this depth"}}
-			{{- end}}
-
 			{{- range .Attributes}}
-				{{- if .OrderedList }}
-					{{- errorf "ordered_list not yet implemented at this depth"}}
-				{{- end}}
 				{{- range .Attributes}}
 					{{- errorf "attributes not yet implemented at this depth"}}
 				{{- end}}
