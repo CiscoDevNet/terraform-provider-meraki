@@ -74,6 +74,7 @@ attributes:
         type: List
         mandatory: true
         description: Array of traffic filters for this uplink preference rule
+        ordered_list: true
         attributes:
           - model_name: type
             type: String
@@ -180,6 +181,7 @@ attributes:
         type: List
         mandatory: true
         description: Array of traffic filters for this uplink preference rule
+        ordered_list: true
         attributes:
           - model_name: type
             type: String

@@ -22,8 +22,6 @@ import (
 	"context"
 	"fmt"
 	"net/url"
-	"slices"
-	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -503,42 +501,18 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyPartial(ctx context.
 		} else {
 			data.PerformanceClassType = types.StringNull()
 		}
-		for i := 0; i < len(data.TrafficFilters); i++ {
-			keys := [...]string{"type", "value.id", "value.protocol", "value.destination.cidr", "value.destination.fqdn", "value.destination.host", "value.destination.network", "value.destination.port", "value.destination.vlan", "value.source.cidr", "value.source.host", "value.source.network", "value.source.port", "value.source.vlan"}
-			keyValues := [...]string{data.TrafficFilters[i].Type.ValueString(), data.TrafficFilters[i].Id.ValueString(), data.TrafficFilters[i].Protocol.ValueString(), data.TrafficFilters[i].DestinationCidr.ValueString(), data.TrafficFilters[i].DestinationFqdn.ValueString(), strconv.FormatInt(data.TrafficFilters[i].DestinationHost.ValueInt64(), 10), data.TrafficFilters[i].DestinationNetwork.ValueString(), data.TrafficFilters[i].DestinationPort.ValueString(), strconv.FormatInt(data.TrafficFilters[i].DestinationVlan.ValueInt64(), 10), data.TrafficFilters[i].SourceCidr.ValueString(), strconv.FormatInt(data.TrafficFilters[i].SourceHost.ValueInt64(), 10), data.TrafficFilters[i].SourceNetwork.ValueString(), data.TrafficFilters[i].SourcePort.ValueString(), strconv.FormatInt(data.TrafficFilters[i].SourceVlan.ValueInt64(), 10)}
-
+		{
+			l := len(res.Get("trafficFilters").Array())
+			tflog.Debug(ctx, fmt.Sprintf("trafficFilters array resizing from %d to %d", len(data.TrafficFilters), l))
+			if len(data.TrafficFilters) > l {
+				data.TrafficFilters = data.TrafficFilters[:l]
+			}
+		}
+		for i := range data.TrafficFilters {
 			parent := &data
 			data := (*parent).TrafficFilters[i]
 			parentRes := &res
-			var res gjson.Result
-
-			parentRes.Get("trafficFilters").ForEach(
-				func(_, v gjson.Result) bool {
-					found := false
-					for ik := range keys {
-						if v.Get(keys[ik]).String() != keyValues[ik] {
-							found = false
-							break
-						}
-						found = true
-					}
-					if found {
-						res = v
-						return false
-					}
-					return true
-				},
-			)
-			if !res.Exists() {
-				tflog.Debug(ctx, fmt.Sprintf("removing TrafficFilters[%d] = %+v",
-					i,
-					(*parent).TrafficFilters[i],
-				))
-				(*parent).TrafficFilters = slices.Delete((*parent).TrafficFilters, i, i+1)
-				i--
-
-				continue
-			}
+			res := parentRes.Get(fmt.Sprintf("trafficFilters.%d", i))
 			if value := res.Get("type"); value.Exists() && !data.Type.IsNull() {
 				data.Type = types.StringValue(value.String())
 			} else {
@@ -630,42 +604,18 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyPartial(ctx context.
 		} else {
 			data.PreferredUplink = types.StringNull()
 		}
-		for i := 0; i < len(data.TrafficFilters); i++ {
-			keys := [...]string{"type"}
-			keyValues := [...]string{data.TrafficFilters[i].Type.ValueString()}
-
+		{
+			l := len(res.Get("trafficFilters").Array())
+			tflog.Debug(ctx, fmt.Sprintf("trafficFilters array resizing from %d to %d", len(data.TrafficFilters), l))
+			if len(data.TrafficFilters) > l {
+				data.TrafficFilters = data.TrafficFilters[:l]
+			}
+		}
+		for i := range data.TrafficFilters {
 			parent := &data
 			data := (*parent).TrafficFilters[i]
 			parentRes := &res
-			var res gjson.Result
-
-			parentRes.Get("trafficFilters").ForEach(
-				func(_, v gjson.Result) bool {
-					found := false
-					for ik := range keys {
-						if v.Get(keys[ik]).String() != keyValues[ik] {
-							found = false
-							break
-						}
-						found = true
-					}
-					if found {
-						res = v
-						return false
-					}
-					return true
-				},
-			)
-			if !res.Exists() {
-				tflog.Debug(ctx, fmt.Sprintf("removing TrafficFilters[%d] = %+v",
-					i,
-					(*parent).TrafficFilters[i],
-				))
-				(*parent).TrafficFilters = slices.Delete((*parent).TrafficFilters, i, i+1)
-				i--
-
-				continue
-			}
+			res := parentRes.Get(fmt.Sprintf("trafficFilters.%d", i))
 			if value := res.Get("type"); value.Exists() && !data.Type.IsNull() {
 				data.Type = types.StringValue(value.String())
 			} else {
