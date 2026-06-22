@@ -405,6 +405,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewNetworkWebhookHTTPServerResource,
 		NewNetworkWebhookPayloadTemplateResource,
 		NewNetworkWebhookPayloadTemplatesResource,
+		NewNetworkWirelessRadioRRMResource,
 		NewOrganizationResource,
 		NewOrganizationAdaptivePolicyResource,
 		NewOrganizationAdaptivePoliciesResource,

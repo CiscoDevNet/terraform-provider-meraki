@@ -33,38 +33,29 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiWirelessSettings(t *testing.T) {
+func TestAccMerakiNetworkWirelessRadioRRM(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_settings.test", "ipv6_bridge_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_settings.test", "led_lights_on", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_settings.test", "location_analytics_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_settings.test", "meshing_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_settings.test", "upgrade_strategy", "minimizeUpgradeTime"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_settings.test", "multicast_to_unicast_conversion_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_settings.test", "named_vlans_pool_dhcp_monitoring_duration", "5"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_settings.test", "named_vlans_pool_dhcp_monitoring_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "ai_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "busy_hour_minimize_changes_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "busy_hour_schedule_mode", "automatic"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "busy_hour_schedule_manual_end", "15:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "busy_hour_schedule_manual_start", "10:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "channel_avoidance_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "fra_enabled", "false"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiWirelessSettingsPrerequisitesConfig + testAccMerakiWirelessSettingsConfig_minimum(),
+			Config: testAccMerakiNetworkWirelessRadioRRMPrerequisitesConfig + testAccMerakiNetworkWirelessRadioRRMConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessSettingsPrerequisitesConfig + testAccMerakiWirelessSettingsConfig_all(),
+		Config: testAccMerakiNetworkWirelessRadioRRMPrerequisitesConfig + testAccMerakiNetworkWirelessRadioRRMConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
-	})
-	steps = append(steps, resource.TestStep{
-		ResourceName:            "meraki_wireless_settings.test",
-		ImportState:             true,
-		ImportStateVerify:       true,
-		ImportStateIdFunc:       merakiWirelessSettingsImportStateIdFunc("meraki_wireless_settings.test"),
-		ImportStateVerifyIgnore: []string{},
-		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -81,7 +72,7 @@ func TestAccMerakiWirelessSettings(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
 
-func merakiWirelessSettingsImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+func merakiNetworkWirelessRadioRRMImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		NetworkId := primary.Attributes["network_id"]
@@ -94,7 +85,7 @@ func merakiWirelessSettingsImportStateIdFunc(resourceName string) resource.Impor
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccMerakiWirelessSettingsPrerequisitesConfig = `
+const testAccMerakiNetworkWirelessRadioRRMPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 data "meraki_organization" "test" {
@@ -103,19 +94,18 @@ data "meraki_organization" "test" {
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = var.test_network
-  product_types   = ["switch", "wireless"]
+  product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
 }
-
 `
 
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiWirelessSettingsConfig_minimum() string {
-	config := `resource "meraki_wireless_settings" "test" {` + "\n"
+func testAccMerakiNetworkWirelessRadioRRMConfig_minimum() string {
+	config := `resource "meraki_network_wireless_radio_rrm" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  ipv6_bridge_enabled = true` + "\n"
+	config += `  ai_enabled = true` + "\n"
 	config += `}` + "\n"
 	return config
 }
@@ -123,17 +113,16 @@ func testAccMerakiWirelessSettingsConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-func testAccMerakiWirelessSettingsConfig_all() string {
-	config := `resource "meraki_wireless_settings" "test" {` + "\n"
+func testAccMerakiNetworkWirelessRadioRRMConfig_all() string {
+	config := `resource "meraki_network_wireless_radio_rrm" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  ipv6_bridge_enabled = true` + "\n"
-	config += `  led_lights_on = true` + "\n"
-	config += `  location_analytics_enabled = false` + "\n"
-	config += `  meshing_enabled = true` + "\n"
-	config += `  upgrade_strategy = "minimizeUpgradeTime"` + "\n"
-	config += `  multicast_to_unicast_conversion_enabled = true` + "\n"
-	config += `  named_vlans_pool_dhcp_monitoring_duration = 5` + "\n"
-	config += `  named_vlans_pool_dhcp_monitoring_enabled = false` + "\n"
+	config += `  ai_enabled = true` + "\n"
+	config += `  busy_hour_minimize_changes_enabled = true` + "\n"
+	config += `  busy_hour_schedule_mode = "automatic"` + "\n"
+	config += `  busy_hour_schedule_manual_end = "15:00"` + "\n"
+	config += `  busy_hour_schedule_manual_start = "10:00"` + "\n"
+	config += `  channel_avoidance_enabled = true` + "\n"
+	config += `  fra_enabled = false` + "\n"
 	config += `}` + "\n"
 	return config
 }
