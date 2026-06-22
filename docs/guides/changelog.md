@@ -10,6 +10,8 @@ description: |-
 ## Unreleased
 
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
+- Add `wan1_vrf_name` and `wan2_vrf_name` attributes to `meraki_device_management_interface` resource and data source
+- Add `active_ddns_hostname`, `ddns_hostname_wan1`, and `ddns_hostname_wan2` computed attributes to `meraki_device_management_interface` resource and data source
 
 ## 1.12.1
 
