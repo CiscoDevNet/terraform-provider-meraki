@@ -475,7 +475,6 @@ attributes:
   - model_name: enabled
     type: Bool
     data_path: [namedVlans, tagging]
-    exclude_test: true
     description: Whether or not traffic should be directed to use specific VLAN names.
     example: "false"
   - model_name: byApTags
