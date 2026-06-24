@@ -228,8 +228,16 @@ func (r *NetworkVLANProfileAssignmentResource) Update(ctx context.Context, req r
 		return
 	}
 
-	// Reassign removed serials/stacks back to default profile
-	removedBody := plan.toRemovedBody(ctx, state)
+	// Reassign removed serials/stacks back to default profile.
+	// Fetch byDevice to skip serials that are now part of a switch stack —
+	// e.g. a device was assigned individually before, then moved into a stack;
+	// the Meraki API rejects individual reassignment of stack members.
+	byDeviceRes, err := r.client.Get(plan.getByDevicePath())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve byDevice assignments (GET), got error: %s, %s", err, byDeviceRes.String()))
+		return
+	}
+	removedBody := plan.toRemovedBody(ctx, state, byDeviceRes)
 	if removedBody != "" {
 		res, err = r.client.Post(plan.getPath(), removedBody)
 		if err != nil {
@@ -260,7 +268,14 @@ func (r *NetworkVLANProfileAssignmentResource) Delete(ctx context.Context, req r
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 
 	// Reassign all devices/stacks back to the default profile
-	body := state.toDefaultBody(ctx)
+	// Fetch current byDevice state so we can skip serials that are now part of a switch stack
+	// (the API rejects individual reassignment of stack member serials).
+	byDeviceRes, err := r.client.Get(state.getByDevicePath())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve byDevice assignments (GET), got error: %s, %s", err, byDeviceRes.String()))
+		return
+	}
+	body := state.toDefaultBody(ctx, byDeviceRes)
 	if body != "" {
 		res, err := r.client.Post(state.getPath(), body)
 		if err != nil {

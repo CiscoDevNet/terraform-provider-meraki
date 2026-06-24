@@ -212,10 +212,28 @@ func (data *NetworkVLANProfileAssignment) fromByDeviceBody(ctx context.Context, 
 	}
 }
 
-func (data NetworkVLANProfileAssignment) toRemovedBody(ctx context.Context, state NetworkVLANProfileAssignment) string {
+// stackedSerialsFromByDevice returns the set of device serials currently part of a switch stack,
+// according to the byDevice response. Such serials cannot be reassigned individually
+// (the Meraki API rejects them with "Stacked switches cannot be added separately to a profile").
+func stackedSerialsFromByDevice(res meraki.Res) map[string]bool {
+	stacked := map[string]bool{}
+	for _, item := range res.Array() {
+		if item.Get("stack.id").String() == "" {
+			continue
+		}
+		if serial := item.Get("serial").String(); serial != "" {
+			stacked[serial] = true
+		}
+	}
+	return stacked
+}
+
+func (data NetworkVLANProfileAssignment) toRemovedBody(ctx context.Context, state NetworkVLANProfileAssignment, byDeviceRes meraki.Res) string {
 	var stateSerials, planSerials []string
 	state.Serials.ElementsAs(ctx, &stateSerials, false)
 	data.Serials.ElementsAs(ctx, &planSerials, false)
+
+	stackedSerials := stackedSerialsFromByDevice(byDeviceRes)
 
 	planSet := map[string]bool{}
 	for _, s := range planSerials {
@@ -223,9 +241,15 @@ func (data NetworkVLANProfileAssignment) toRemovedBody(ctx context.Context, stat
 	}
 	var removedSerials []string
 	for _, s := range stateSerials {
-		if !planSet[s] {
-			removedSerials = append(removedSerials, s)
+		if planSet[s] {
+			continue
 		}
+		// Skip serials that are now part of a switch stack — the stack's assignment
+		// controls them, and the Meraki API rejects individual reassignment.
+		if stackedSerials[s] {
+			continue
+		}
+		removedSerials = append(removedSerials, s)
 	}
 
 	var stateStacks, planStacks []string
@@ -258,22 +282,34 @@ func (data NetworkVLANProfileAssignment) toRemovedBody(ctx context.Context, stat
 	return body
 }
 
-func (data NetworkVLANProfileAssignment) toDefaultBody(ctx context.Context) string {
-	body := ""
-	body, _ = sjson.Set(body, "vlanProfile.iname", "Default")
+func (data NetworkVLANProfileAssignment) toDefaultBody(ctx context.Context, byDeviceRes meraki.Res) string {
+	stackedSerials := stackedSerialsFromByDevice(byDeviceRes)
+
+	serials := []string{}
 	if !data.Serials.IsNull() {
 		var values []string
 		data.Serials.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "serials", values)
-	} else {
-		body, _ = sjson.Set(body, "serials", []string{})
+		for _, s := range values {
+			// Skip serials that are now part of a switch stack — the stack's assignment
+			// controls them, and the Meraki API rejects individual reassignment.
+			if stackedSerials[s] {
+				continue
+			}
+			serials = append(serials, s)
+		}
 	}
+	stackIds := []string{}
 	if !data.StackIds.IsNull() {
-		var values []string
-		data.StackIds.ElementsAs(ctx, &values, false)
-		body, _ = sjson.Set(body, "stackIds", values)
-	} else {
-		body, _ = sjson.Set(body, "stackIds", []string{})
+		data.StackIds.ElementsAs(ctx, &stackIds, false)
 	}
+
+	if len(serials) == 0 && len(stackIds) == 0 {
+		return ""
+	}
+
+	body := ""
+	body, _ = sjson.Set(body, "vlanProfile.iname", "Default")
+	body, _ = sjson.Set(body, "serials", serials)
+	body, _ = sjson.Set(body, "stackIds", stackIds)
 	return body
 }
