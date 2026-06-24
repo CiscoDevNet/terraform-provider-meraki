@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## Unreleased
+## 1.12.2
 
 - Fix "Missing Resource Identity After Read" provider error when a resource was first created with Terraform < 1.12 and has since been deleted out-of-band
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
