@@ -38,13 +38,13 @@ resource "meraki_organization_auth_radius_server" "example" {
 - `address` (String) The IP address or FQDN of the RADIUS server
 - `modes` (Attributes List) Available server modes (see [below for nested schema](#nestedatt--modes))
 - `organization_id` (String) Organization ID
-- `secret` (String, Sensitive) Shared secret of the RADIUS server
 
 ### Optional
 
 > **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
 
 - `name` (String) The name of the RADIUS server
+- `secret` (String, Sensitive) Shared secret of the RADIUS server
 - `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
 - `secret_wo_version` (Number) Version of secret_wo.
 

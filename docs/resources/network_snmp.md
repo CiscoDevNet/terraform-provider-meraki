@@ -52,11 +52,11 @@ resource "meraki_network_snmp" "example" {
 
 Required:
 
-- `passphrase` (String, Sensitive) The passphrase for the SNMP user. Required.
 - `username` (String) The username for the SNMP user. Required.
 
 Optional:
 
+- `passphrase` (String, Sensitive) The passphrase for the SNMP user. Required.
 - `passphrase_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
 - `passphrase_wo_version` (Number) Version of passphrase_wo.
 

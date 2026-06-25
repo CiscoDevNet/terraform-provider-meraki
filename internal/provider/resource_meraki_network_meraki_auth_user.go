@@ -105,7 +105,7 @@ func (r *NetworkMerakiAuthUserResource) Schema(ctx context.Context, req resource
 			},
 			"password": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The password for this user account. Only required If the user is not a Dashboard administrator.").String,
-				Required:            true,
+				Optional:            true,
 				Sensitive:           true,
 			},
 			"password_wo": schema.StringAttribute{

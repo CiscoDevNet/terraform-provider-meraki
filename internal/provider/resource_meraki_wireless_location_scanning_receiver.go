@@ -81,7 +81,7 @@ func (r *WirelessLocationScanningReceiverResource) Schema(ctx context.Context, r
 			},
 			"shared_secret": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Secret Value for Receiver").String,
-				Required:            true,
+				Optional:            true,
 				Sensitive:           true,
 			},
 			"shared_secret_wo": schema.StringAttribute{

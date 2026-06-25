@@ -107,7 +107,7 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 					Attributes: map[string]schema.Attribute{
 						"passphrase": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The passphrase for the SNMP user. Required.").String,
-							Required:            true,
+							Optional:            true,
 							Sensitive:           true,
 						},
 						"passphrase_wo": schema.StringAttribute{

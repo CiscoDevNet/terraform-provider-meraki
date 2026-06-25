@@ -104,7 +104,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- if isListSet .}}
 				ElementType:         types.{{.ElementType}}Type,
 				{{- end}}
-				{{- if or .Reference .Mandatory}}
+				{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 				Required:            true,
 				{{- else if not .Computed}}
 				Optional:            true,
@@ -177,7 +177,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- if isListSet .}}
 							ElementType:         types.{{.ElementType}}Type,
 							{{- end}}
-							{{- if or .Reference .Mandatory}}
+							{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 							Required:            true,
 							{{- else if not .Computed}}
 							Optional:            true,
@@ -245,7 +245,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- if isListSet .}}
 										ElementType:         types.{{.ElementType}}Type,
 										{{- end}}
-										{{- if or .Reference .Mandatory}}
+										{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 										Required:            true,
 										{{- else if not .Computed}}
 										Optional:            true,
@@ -313,7 +313,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													{{- if isListSet .}}
 													ElementType:         types.{{.ElementType}}Type,
 													{{- end}}
-													{{- if or .Reference .Mandatory}}
+													{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 													Required:            true,
 													{{- else if not .Computed}}
 													Optional:            true,

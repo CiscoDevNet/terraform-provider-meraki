@@ -134,7 +134,7 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 						},
 						"secret": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The shared secret with the VPN peer").String,
-							Required:            true,
+							Optional:            true,
 							Sensitive:           true,
 						},
 						"secret_wo": schema.StringAttribute{
