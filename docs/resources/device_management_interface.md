@@ -43,6 +43,7 @@ resource "meraki_device_management_interface" "example" {
 - `wan1_static_subnet_mask` (String) The subnet mask for the WAN.
 - `wan1_using_static_ip` (Boolean) Configure the interface to have static IP settings or use DHCP.
 - `wan1_vlan` (Number) The VLAN that management traffic should be tagged with. Applies whether usingStaticIp is true or false.
+- `wan1_vrf_name` (String) The name of the VRF associated with WAN 1. If not provided, the default VRF is used.
 - `wan1_wan_enabled` (String) Enable or disable the interface (only for MX devices). Valid values are `enabled`, `disabled`, and `not configured`.
   - Choices: `disabled`, `enabled`, `not configured`
 - `wan2_static_dns` (List of String) Up to two DNS IPs.
@@ -51,11 +52,15 @@ resource "meraki_device_management_interface" "example" {
 - `wan2_static_subnet_mask` (String) The subnet mask for the WAN.
 - `wan2_using_static_ip` (Boolean) Configure the interface to have static IP settings or use DHCP.
 - `wan2_vlan` (Number) The VLAN that management traffic should be tagged with. Applies whether usingStaticIp is true or false.
+- `wan2_vrf_name` (String) The name of the VRF associated with WAN 2. If not provided, the default VRF is used.
 - `wan2_wan_enabled` (String) Enable or disable the interface (only for MX devices). Valid values are `enabled`, `disabled`, and `not configured`.
   - Choices: `disabled`, `enabled`, `not configured`
 
 ### Read-Only
 
+- `ddns_hostnames_active_ddns_hostname` (String) Active dynamic DNS hostname.
+- `ddns_hostnames_ddns_hostname_wan1` (String) WAN 1 dynamic DNS hostname.
+- `ddns_hostnames_ddns_hostname_wan2` (String) WAN 2 dynamic DNS hostname.
 - `id` (String) The id of the object
 
 ## Import
