@@ -104,7 +104,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- if isListSet .}}
 				ElementType:         types.{{.ElementType}}Type,
 				{{- end}}
-				{{- if or .Reference .Mandatory}}
+				{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 				Required:            true,
 				{{- else if not .Computed}}
 				Optional:            true,
@@ -177,7 +177,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- if isListSet .}}
 							ElementType:         types.{{.ElementType}}Type,
 							{{- end}}
-							{{- if or .Reference .Mandatory}}
+							{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 							Required:            true,
 							{{- else if not .Computed}}
 							Optional:            true,
@@ -245,7 +245,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- if isListSet .}}
 										ElementType:         types.{{.ElementType}}Type,
 										{{- end}}
-										{{- if or .Reference .Mandatory}}
+										{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 										Required:            true,
 										{{- else if not .Computed}}
 										Optional:            true,
@@ -313,7 +313,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													{{- if isListSet .}}
 													ElementType:         types.{{.ElementType}}Type,
 													{{- end}}
-													{{- if or .Reference .Mandatory}}
+													{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 													Required:            true,
 													{{- else if not .Computed}}
 													Optional:            true,
@@ -581,6 +581,9 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	{{- end}}
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

@@ -74,10 +74,10 @@ attributes:
         type: List
         mandatory: true
         description: Array of traffic filters for this uplink preference rule
+        ordered_list: true
         attributes:
           - model_name: type
             type: String
-            id: true
             mandatory: true
             description: 'Type of this traffic filter. Must be one of: `applicationCategory`, `application` or `custom`'
             example: applicationCategory
@@ -181,10 +181,10 @@ attributes:
         type: List
         mandatory: true
         description: Array of traffic filters for this uplink preference rule
+        ordered_list: true
         attributes:
           - model_name: type
             type: String
-            id: true
             mandatory: true
             description: 'Type of this traffic filter. Must be one of: `custom`'
             example: custom

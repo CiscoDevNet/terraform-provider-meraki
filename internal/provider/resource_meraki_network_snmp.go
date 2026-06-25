@@ -107,7 +107,7 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 					Attributes: map[string]schema.Attribute{
 						"passphrase": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The passphrase for the SNMP user. Required.").String,
-							Required:            true,
+							Optional:            true,
 							Sensitive:           true,
 						},
 						"passphrase_wo": schema.StringAttribute{
@@ -224,6 +224,9 @@ func (r *NetworkSNMPResource) Read(ctx context.Context, req resource.ReadRequest
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

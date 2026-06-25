@@ -105,7 +105,7 @@ func (r *NetworkMerakiAuthUserResource) Schema(ctx context.Context, req resource
 			},
 			"password": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The password for this user account. Only required If the user is not a Dashboard administrator.").String,
-				Required:            true,
+				Optional:            true,
 				Sensitive:           true,
 			},
 			"password_wo": schema.StringAttribute{
@@ -223,6 +223,9 @@ func (r *NetworkMerakiAuthUserResource) Read(ctx context.Context, req resource.R
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

@@ -31,7 +31,6 @@ resource "meraki_wireless_location_scanning_receiver" "example" {
 - `network_id` (String) Network ID
 - `organization_id` (String) Organization ID
 - `radio_type` (String) Radio Type whether WiFi or Bluetooth
-- `shared_secret` (String, Sensitive) Secret Value for Receiver
 - `url` (String) Receiver Url
 - `version` (String) Scanning API Version
 
@@ -39,6 +38,7 @@ resource "meraki_wireless_location_scanning_receiver" "example" {
 
 > **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
 
+- `shared_secret` (String, Sensitive) Secret Value for Receiver
 - `shared_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
 - `shared_secret_wo_version` (Number) Version of shared_secret_wo.
 
