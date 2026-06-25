@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix "Missing Resource Identity After Read" provider error for resources with custom read implementations (`meraki_appliance_firewall_multicast_forwarding`, `meraki_appliance_traffic_shaping_vpn_exclusions`, `meraki_wireless_air_marshal_rule`, `meraki_wireless_air_marshal_settings`, `meraki_wireless_location_scanning`, `meraki_wireless_ssid_open_roaming`, `meraki_wireless_zigbee`, and others) when deleted out-of-band
+
 ## 1.12.2
 
 - Fix "Missing Resource Identity After Read" provider error when a resource was first created with Terraform < 1.12 and has since been deleted out-of-band
