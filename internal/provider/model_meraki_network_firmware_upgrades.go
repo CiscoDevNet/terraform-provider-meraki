@@ -210,39 +210,11 @@ func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.Set(body, "products.appliance.participateInNextBetaRelease", value.Bool())
 		}
 	}
-	if value := res.Get("products.appliance.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.appliance.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.appliance.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.appliance.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.appliance.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.appliance.nextUpgrade.toVersion.id", value.String())
-		}
-	}
 	if value := res.Get("products.camera.participateInNextBetaRelease"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "products.camera.participateInNextBetaRelease", "null")
 		} else {
 			body, _ = sjson.Set(body, "products.camera.participateInNextBetaRelease", value.Bool())
-		}
-	}
-	if value := res.Get("products.camera.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.camera.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.camera.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.camera.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.camera.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.camera.nextUpgrade.toVersion.id", value.String())
 		}
 	}
 	if value := res.Get("products.cellularGateway.participateInNextBetaRelease"); value.Exists() {
@@ -252,39 +224,11 @@ func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.Set(body, "products.cellularGateway.participateInNextBetaRelease", value.Bool())
 		}
 	}
-	if value := res.Get("products.cellularGateway.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.cellularGateway.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.cellularGateway.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.cellularGateway.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.cellularGateway.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.cellularGateway.nextUpgrade.toVersion.id", value.String())
-		}
-	}
 	if value := res.Get("products.secureConnect.participateInNextBetaRelease"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "products.secureConnect.participateInNextBetaRelease", "null")
 		} else {
 			body, _ = sjson.Set(body, "products.secureConnect.participateInNextBetaRelease", value.Bool())
-		}
-	}
-	if value := res.Get("products.secureConnect.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.secureConnect.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.secureConnect.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.secureConnect.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.secureConnect.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.secureConnect.nextUpgrade.toVersion.id", value.String())
 		}
 	}
 	if value := res.Get("products.sensor.participateInNextBetaRelease"); value.Exists() {
@@ -294,39 +238,11 @@ func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.Set(body, "products.sensor.participateInNextBetaRelease", value.Bool())
 		}
 	}
-	if value := res.Get("products.sensor.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.sensor.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.sensor.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.sensor.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.sensor.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.sensor.nextUpgrade.toVersion.id", value.String())
-		}
-	}
 	if value := res.Get("products.switch.participateInNextBetaRelease"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "products.switch.participateInNextBetaRelease", "null")
 		} else {
 			body, _ = sjson.Set(body, "products.switch.participateInNextBetaRelease", value.Bool())
-		}
-	}
-	if value := res.Get("products.switch.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.switch.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.switch.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.switch.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.switch.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.switch.nextUpgrade.toVersion.id", value.String())
 		}
 	}
 	if value := res.Get("products.switchCatalyst.participateInNextBetaRelease"); value.Exists() {
@@ -336,20 +252,6 @@ func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.Set(body, "products.switchCatalyst.participateInNextBetaRelease", value.Bool())
 		}
 	}
-	if value := res.Get("products.switchCatalyst.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.switchCatalyst.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.switchCatalyst.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.toVersion.id", value.String())
-		}
-	}
 	if value := res.Get("products.wireless.participateInNextBetaRelease"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "products.wireless.participateInNextBetaRelease", "null")
@@ -357,46 +259,11 @@ func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.Set(body, "products.wireless.participateInNextBetaRelease", value.Bool())
 		}
 	}
-	if value := res.Get("products.wireless.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.wireless.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.wireless.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.wireless.nextUpgrade.predownload.enabled"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.wireless.nextUpgrade.predownload.enabled", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.wireless.nextUpgrade.predownload.enabled", value.Bool())
-		}
-	}
-	if value := res.Get("products.wireless.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.wireless.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.wireless.nextUpgrade.toVersion.id", value.String())
-		}
-	}
 	if value := res.Get("products.wirelessController.participateInNextBetaRelease"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "products.wirelessController.participateInNextBetaRelease", "null")
 		} else {
 			body, _ = sjson.Set(body, "products.wirelessController.participateInNextBetaRelease", value.Bool())
-		}
-	}
-	if value := res.Get("products.wirelessController.nextUpgrade.time"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.wirelessController.nextUpgrade.time", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.wirelessController.nextUpgrade.time", value.String())
-		}
-	}
-	if value := res.Get("products.wirelessController.nextUpgrade.toVersion.id"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "products.wirelessController.nextUpgrade.toVersion.id", "null")
-		} else {
-			body, _ = sjson.Set(body, "products.wirelessController.nextUpgrade.toVersion.id", value.String())
 		}
 	}
 	if value := res.Get("upgradeWindow.dayOfWeek"); value.Exists() {
@@ -431,140 +298,45 @@ func (data *NetworkFirmwareUpgrades) fromBody(ctx context.Context, res meraki.Re
 	} else {
 		data.ProductsApplianceParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.appliance.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsApplianceNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsApplianceNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.appliance.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsApplianceNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsApplianceNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.camera.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsCameraParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsCameraParticipateInNextBetaRelease = types.BoolNull()
-	}
-	if value := res.Get("products.camera.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsCameraNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsCameraNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.camera.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsCameraNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsCameraNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.cellularGateway.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsCellularGatewayParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsCellularGatewayParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.cellularGateway.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsCellularGatewayNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsCellularGatewayNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.cellularGateway.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsCellularGatewayNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsCellularGatewayNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.secureConnect.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsSecureConnectParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSecureConnectParticipateInNextBetaRelease = types.BoolNull()
-	}
-	if value := res.Get("products.secureConnect.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsSecureConnectNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsSecureConnectNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.secureConnect.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsSecureConnectNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsSecureConnectNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.sensor.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsSensorParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSensorParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.sensor.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsSensorNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsSensorNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.sensor.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsSensorNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsSensorNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.switch.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsSwitchParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSwitchParticipateInNextBetaRelease = types.BoolNull()
-	}
-	if value := res.Get("products.switch.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsSwitchNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsSwitchNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.switch.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsSwitchNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsSwitchNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.switchCatalyst.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsSwitchCatalystParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSwitchCatalystParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.switchCatalyst.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsSwitchCatalystNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsSwitchCatalystNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsSwitchCatalystNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsSwitchCatalystNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.wireless.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.wireless.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsWirelessNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsWirelessNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.wireless.nextUpgrade.predownload.enabled"); value.Exists() && value.Value() != nil {
-		data.ProductsWirelessNextUpgradePredownloadEnabled = types.BoolValue(value.Bool())
-	} else {
-		data.ProductsWirelessNextUpgradePredownloadEnabled = types.BoolNull()
-	}
-	if value := res.Get("products.wireless.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsWirelessNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsWirelessNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.wirelessController.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsWirelessControllerParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsWirelessControllerParticipateInNextBetaRelease = types.BoolNull()
-	}
-	if value := res.Get("products.wirelessController.nextUpgrade.time"); value.Exists() && value.Value() != nil {
-		data.ProductsWirelessControllerNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsWirelessControllerNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.wirelessController.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
-		data.ProductsWirelessControllerNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsWirelessControllerNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("upgradeWindow.dayOfWeek"); value.Exists() && value.Value() != nil {
 		data.UpgradeWindowDayOfWeek = types.StringValue(value.String())
@@ -597,140 +369,45 @@ func (data *NetworkFirmwareUpgrades) fromBodyPartial(ctx context.Context, res me
 	} else {
 		data.ProductsApplianceParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.appliance.nextUpgrade.time"); value.Exists() && !data.ProductsApplianceNextUpgradeTime.IsNull() {
-		data.ProductsApplianceNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsApplianceNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.appliance.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsApplianceNextUpgradeToVersionId.IsNull() {
-		data.ProductsApplianceNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsApplianceNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.camera.participateInNextBetaRelease"); value.Exists() && !data.ProductsCameraParticipateInNextBetaRelease.IsNull() {
 		data.ProductsCameraParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsCameraParticipateInNextBetaRelease = types.BoolNull()
-	}
-	if value := res.Get("products.camera.nextUpgrade.time"); value.Exists() && !data.ProductsCameraNextUpgradeTime.IsNull() {
-		data.ProductsCameraNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsCameraNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.camera.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsCameraNextUpgradeToVersionId.IsNull() {
-		data.ProductsCameraNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsCameraNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.cellularGateway.participateInNextBetaRelease"); value.Exists() && !data.ProductsCellularGatewayParticipateInNextBetaRelease.IsNull() {
 		data.ProductsCellularGatewayParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsCellularGatewayParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.cellularGateway.nextUpgrade.time"); value.Exists() && !data.ProductsCellularGatewayNextUpgradeTime.IsNull() {
-		data.ProductsCellularGatewayNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsCellularGatewayNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.cellularGateway.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsCellularGatewayNextUpgradeToVersionId.IsNull() {
-		data.ProductsCellularGatewayNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsCellularGatewayNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.secureConnect.participateInNextBetaRelease"); value.Exists() && !data.ProductsSecureConnectParticipateInNextBetaRelease.IsNull() {
 		data.ProductsSecureConnectParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSecureConnectParticipateInNextBetaRelease = types.BoolNull()
-	}
-	if value := res.Get("products.secureConnect.nextUpgrade.time"); value.Exists() && !data.ProductsSecureConnectNextUpgradeTime.IsNull() {
-		data.ProductsSecureConnectNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsSecureConnectNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.secureConnect.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsSecureConnectNextUpgradeToVersionId.IsNull() {
-		data.ProductsSecureConnectNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsSecureConnectNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.sensor.participateInNextBetaRelease"); value.Exists() && !data.ProductsSensorParticipateInNextBetaRelease.IsNull() {
 		data.ProductsSensorParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSensorParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.sensor.nextUpgrade.time"); value.Exists() && !data.ProductsSensorNextUpgradeTime.IsNull() {
-		data.ProductsSensorNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsSensorNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.sensor.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsSensorNextUpgradeToVersionId.IsNull() {
-		data.ProductsSensorNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsSensorNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.switch.participateInNextBetaRelease"); value.Exists() && !data.ProductsSwitchParticipateInNextBetaRelease.IsNull() {
 		data.ProductsSwitchParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSwitchParticipateInNextBetaRelease = types.BoolNull()
-	}
-	if value := res.Get("products.switch.nextUpgrade.time"); value.Exists() && !data.ProductsSwitchNextUpgradeTime.IsNull() {
-		data.ProductsSwitchNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsSwitchNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.switch.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsSwitchNextUpgradeToVersionId.IsNull() {
-		data.ProductsSwitchNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsSwitchNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.switchCatalyst.participateInNextBetaRelease"); value.Exists() && !data.ProductsSwitchCatalystParticipateInNextBetaRelease.IsNull() {
 		data.ProductsSwitchCatalystParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSwitchCatalystParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.switchCatalyst.nextUpgrade.time"); value.Exists() && !data.ProductsSwitchCatalystNextUpgradeTime.IsNull() {
-		data.ProductsSwitchCatalystNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsSwitchCatalystNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsSwitchCatalystNextUpgradeToVersionId.IsNull() {
-		data.ProductsSwitchCatalystNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsSwitchCatalystNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.wireless.participateInNextBetaRelease"); value.Exists() && !data.ProductsWirelessParticipateInNextBetaRelease.IsNull() {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolNull()
 	}
-	if value := res.Get("products.wireless.nextUpgrade.time"); value.Exists() && !data.ProductsWirelessNextUpgradeTime.IsNull() {
-		data.ProductsWirelessNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsWirelessNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.wireless.nextUpgrade.predownload.enabled"); value.Exists() && !data.ProductsWirelessNextUpgradePredownloadEnabled.IsNull() {
-		data.ProductsWirelessNextUpgradePredownloadEnabled = types.BoolValue(value.Bool())
-	} else {
-		data.ProductsWirelessNextUpgradePredownloadEnabled = types.BoolNull()
-	}
-	if value := res.Get("products.wireless.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsWirelessNextUpgradeToVersionId.IsNull() {
-		data.ProductsWirelessNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsWirelessNextUpgradeToVersionId = types.StringNull()
-	}
 	if value := res.Get("products.wirelessController.participateInNextBetaRelease"); value.Exists() && !data.ProductsWirelessControllerParticipateInNextBetaRelease.IsNull() {
 		data.ProductsWirelessControllerParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsWirelessControllerParticipateInNextBetaRelease = types.BoolNull()
-	}
-	if value := res.Get("products.wirelessController.nextUpgrade.time"); value.Exists() && !data.ProductsWirelessControllerNextUpgradeTime.IsNull() {
-		data.ProductsWirelessControllerNextUpgradeTime = types.StringValue(value.String())
-	} else {
-		data.ProductsWirelessControllerNextUpgradeTime = types.StringNull()
-	}
-	if value := res.Get("products.wirelessController.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsWirelessControllerNextUpgradeToVersionId.IsNull() {
-		data.ProductsWirelessControllerNextUpgradeToVersionId = types.StringValue(value.String())
-	} else {
-		data.ProductsWirelessControllerNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("upgradeWindow.dayOfWeek"); value.Exists() && !data.UpgradeWindowDayOfWeek.IsNull() {
 		data.UpgradeWindowDayOfWeek = types.StringValue(value.String())
