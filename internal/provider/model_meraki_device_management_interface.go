@@ -34,27 +34,24 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DeviceManagementInterface struct {
-	Id                              types.String `tfsdk:"id"`
-	Serial                          types.String `tfsdk:"serial"`
-	Wan1StaticGatewayIp             types.String `tfsdk:"wan1_static_gateway_ip"`
-	Wan1StaticIp                    types.String `tfsdk:"wan1_static_ip"`
-	Wan1StaticSubnetMask            types.String `tfsdk:"wan1_static_subnet_mask"`
-	Wan1UsingStaticIp               types.Bool   `tfsdk:"wan1_using_static_ip"`
-	Wan1Vlan                        types.Int64  `tfsdk:"wan1_vlan"`
-	Wan1WanEnabled                  types.String `tfsdk:"wan1_wan_enabled"`
-	Wan1StaticDns                   types.List   `tfsdk:"wan1_static_dns"`
-	Wan1VrfName                     types.String `tfsdk:"wan1_vrf_name"`
-	Wan2StaticGatewayIp             types.String `tfsdk:"wan2_static_gateway_ip"`
-	Wan2StaticIp                    types.String `tfsdk:"wan2_static_ip"`
-	Wan2StaticSubnetMask            types.String `tfsdk:"wan2_static_subnet_mask"`
-	Wan2UsingStaticIp               types.Bool   `tfsdk:"wan2_using_static_ip"`
-	Wan2Vlan                        types.Int64  `tfsdk:"wan2_vlan"`
-	Wan2WanEnabled                  types.String `tfsdk:"wan2_wan_enabled"`
-	Wan2StaticDns                   types.List   `tfsdk:"wan2_static_dns"`
-	Wan2VrfName                     types.String `tfsdk:"wan2_vrf_name"`
-	DdnsHostnamesActiveDdnsHostname types.String `tfsdk:"ddns_hostnames_active_ddns_hostname"`
-	DdnsHostnamesDdnsHostnameWan1   types.String `tfsdk:"ddns_hostnames_ddns_hostname_wan1"`
-	DdnsHostnamesDdnsHostnameWan2   types.String `tfsdk:"ddns_hostnames_ddns_hostname_wan2"`
+	Id                   types.String `tfsdk:"id"`
+	Serial               types.String `tfsdk:"serial"`
+	Wan1StaticGatewayIp  types.String `tfsdk:"wan1_static_gateway_ip"`
+	Wan1StaticIp         types.String `tfsdk:"wan1_static_ip"`
+	Wan1StaticSubnetMask types.String `tfsdk:"wan1_static_subnet_mask"`
+	Wan1UsingStaticIp    types.Bool   `tfsdk:"wan1_using_static_ip"`
+	Wan1Vlan             types.Int64  `tfsdk:"wan1_vlan"`
+	Wan1WanEnabled       types.String `tfsdk:"wan1_wan_enabled"`
+	Wan1StaticDns        types.List   `tfsdk:"wan1_static_dns"`
+	Wan1VrfName          types.String `tfsdk:"wan1_vrf_name"`
+	Wan2StaticGatewayIp  types.String `tfsdk:"wan2_static_gateway_ip"`
+	Wan2StaticIp         types.String `tfsdk:"wan2_static_ip"`
+	Wan2StaticSubnetMask types.String `tfsdk:"wan2_static_subnet_mask"`
+	Wan2UsingStaticIp    types.Bool   `tfsdk:"wan2_using_static_ip"`
+	Wan2Vlan             types.Int64  `tfsdk:"wan2_vlan"`
+	Wan2WanEnabled       types.String `tfsdk:"wan2_wan_enabled"`
+	Wan2StaticDns        types.List   `tfsdk:"wan2_static_dns"`
+	Wan2VrfName          types.String `tfsdk:"wan2_vrf_name"`
 }
 
 type DeviceManagementInterfaceIdentity struct {
@@ -215,21 +212,6 @@ func (data *DeviceManagementInterface) fromBody(ctx context.Context, res meraki.
 	} else {
 		data.Wan2VrfName = types.StringNull()
 	}
-	if value := res.Get("ddnsHostnames.activeDdnsHostname"); value.Exists() && value.Value() != nil {
-		data.DdnsHostnamesActiveDdnsHostname = types.StringValue(value.String())
-	} else {
-		data.DdnsHostnamesActiveDdnsHostname = types.StringNull()
-	}
-	if value := res.Get("ddnsHostnames.ddnsHostnameWan1"); value.Exists() && value.Value() != nil {
-		data.DdnsHostnamesDdnsHostnameWan1 = types.StringValue(value.String())
-	} else {
-		data.DdnsHostnamesDdnsHostnameWan1 = types.StringNull()
-	}
-	if value := res.Get("ddnsHostnames.ddnsHostnameWan2"); value.Exists() && value.Value() != nil {
-		data.DdnsHostnamesDdnsHostnameWan2 = types.StringValue(value.String())
-	} else {
-		data.DdnsHostnamesDdnsHostnameWan2 = types.StringNull()
-	}
 }
 
 // End of section. //template:end fromBody
@@ -321,21 +303,6 @@ func (data *DeviceManagementInterface) fromBodyPartial(ctx context.Context, res 
 	} else {
 		data.Wan2VrfName = types.StringNull()
 	}
-	if value := res.Get("ddnsHostnames.activeDdnsHostname"); value.Exists() && !data.DdnsHostnamesActiveDdnsHostname.IsNull() {
-		data.DdnsHostnamesActiveDdnsHostname = types.StringValue(value.String())
-	} else {
-		data.DdnsHostnamesActiveDdnsHostname = types.StringNull()
-	}
-	if value := res.Get("ddnsHostnames.ddnsHostnameWan1"); value.Exists() && !data.DdnsHostnamesDdnsHostnameWan1.IsNull() {
-		data.DdnsHostnamesDdnsHostnameWan1 = types.StringValue(value.String())
-	} else {
-		data.DdnsHostnamesDdnsHostnameWan1 = types.StringNull()
-	}
-	if value := res.Get("ddnsHostnames.ddnsHostnameWan2"); value.Exists() && !data.DdnsHostnamesDdnsHostnameWan2.IsNull() {
-		data.DdnsHostnamesDdnsHostnameWan2 = types.StringValue(value.String())
-	} else {
-		data.DdnsHostnamesDdnsHostnameWan2 = types.StringNull()
-	}
 }
 
 // End of section. //template:end fromBodyPartial
@@ -345,27 +312,6 @@ func (data *DeviceManagementInterface) fromBodyPartial(ctx context.Context, res 
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
 func (data *DeviceManagementInterface) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
-	if data.DdnsHostnamesActiveDdnsHostname.IsUnknown() {
-		if value := res.Get("ddnsHostnames.activeDdnsHostname"); value.Exists() && !data.DdnsHostnamesActiveDdnsHostname.IsNull() {
-			data.DdnsHostnamesActiveDdnsHostname = types.StringValue(value.String())
-		} else {
-			data.DdnsHostnamesActiveDdnsHostname = types.StringNull()
-		}
-	}
-	if data.DdnsHostnamesDdnsHostnameWan1.IsUnknown() {
-		if value := res.Get("ddnsHostnames.ddnsHostnameWan1"); value.Exists() && !data.DdnsHostnamesDdnsHostnameWan1.IsNull() {
-			data.DdnsHostnamesDdnsHostnameWan1 = types.StringValue(value.String())
-		} else {
-			data.DdnsHostnamesDdnsHostnameWan1 = types.StringNull()
-		}
-	}
-	if data.DdnsHostnamesDdnsHostnameWan2.IsUnknown() {
-		if value := res.Get("ddnsHostnames.ddnsHostnameWan2"); value.Exists() && !data.DdnsHostnamesDdnsHostnameWan2.IsNull() {
-			data.DdnsHostnamesDdnsHostnameWan2 = types.StringValue(value.String())
-		} else {
-			data.DdnsHostnamesDdnsHostnameWan2 = types.StringNull()
-		}
-	}
 }
 
 // End of section. //template:end fromBodyUnknowns

@@ -106,24 +106,6 @@ attributes:
     exclude_test: true
     description: The name of the VRF associated with WAN 2. If not provided, the default VRF is used.
     example: Mgmt-vrf
-  - model_name: activeDdnsHostname
-    type: String
-    data_path: [ddnsHostnames]
-    description: Active dynamic DNS hostname.
-    example: mx1-sample.dynamic-m.com
-    computed: true
-  - model_name: ddnsHostnameWan1
-    type: String
-    data_path: [ddnsHostnames]
-    description: WAN 1 dynamic DNS hostname.
-    example: mx1-sample-1.dynamic-m.com
-    computed: true
-  - model_name: ddnsHostnameWan2
-    type: String
-    data_path: [ddnsHostnames]
-    description: WAN 2 dynamic DNS hostname.
-    example: mx1-sample-2.dynamic-m.com
-    computed: true
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

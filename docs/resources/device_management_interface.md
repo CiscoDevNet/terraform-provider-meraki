@@ -58,9 +58,6 @@ resource "meraki_device_management_interface" "example" {
 
 ### Read-Only
 
-- `ddns_hostnames_active_ddns_hostname` (String) Active dynamic DNS hostname.
-- `ddns_hostnames_ddns_hostname_wan1` (String) WAN 1 dynamic DNS hostname.
-- `ddns_hostnames_ddns_hostname_wan2` (String) WAN 2 dynamic DNS hostname.
 - `id` (String) The id of the object
 
 ## Import

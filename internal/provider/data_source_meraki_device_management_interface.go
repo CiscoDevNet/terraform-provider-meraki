@@ -132,18 +132,6 @@ func (d *DeviceManagementInterfaceDataSource) Schema(ctx context.Context, req da
 				MarkdownDescription: "The name of the VRF associated with WAN 2. If not provided, the default VRF is used.",
 				Computed:            true,
 			},
-			"ddns_hostnames_active_ddns_hostname": schema.StringAttribute{
-				MarkdownDescription: "Active dynamic DNS hostname.",
-				Computed:            true,
-			},
-			"ddns_hostnames_ddns_hostname_wan1": schema.StringAttribute{
-				MarkdownDescription: "WAN 1 dynamic DNS hostname.",
-				Computed:            true,
-			},
-			"ddns_hostnames_ddns_hostname_wan2": schema.StringAttribute{
-				MarkdownDescription: "WAN 2 dynamic DNS hostname.",
-				Computed:            true,
-			},
 		},
 	}
 }
