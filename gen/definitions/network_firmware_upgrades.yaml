@@ -27,11 +27,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, appliance, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, appliance, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1001"
   - model_name: participateInNextBetaRelease
@@ -42,11 +44,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, camera, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, camera, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1003"
   - model_name: participateInNextBetaRelease
@@ -57,11 +61,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, cellularGateway, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, cellularGateway, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1004"
   - model_name: participateInNextBetaRelease
@@ -72,11 +78,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, secureConnect, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, secureConnect, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1007"
   - model_name: participateInNextBetaRelease
@@ -87,11 +95,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, sensor, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, sensor, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1005"
   - model_name: participateInNextBetaRelease
@@ -102,11 +112,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, switch, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, switch, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1002"
   - model_name: participateInNextBetaRelease
@@ -117,11 +129,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, switchCatalyst, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, switchCatalyst, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1234"
   - model_name: participateInNextBetaRelease
@@ -132,11 +146,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, wireless, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, wireless, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1000"
   - model_name: participateInNextBetaRelease
@@ -147,11 +163,13 @@ attributes:
   - model_name: time
     type: String
     data_path: [products, wirelessController, nextUpgrade]
+    write_only: true
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
   - model_name: id
     type: String
     data_path: [products, wirelessController, nextUpgrade, toVersion]
+    write_only: true
     description: The version ID
     example: "1006"
   - model_name: dayOfWeek
