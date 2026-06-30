@@ -18,31 +18,37 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: product
     type: String
+    requires_replace: true
     description: Product type to rollback (if the network is a combined network)
     example: switch
     enum_values: [appliance, camera, cellularGateway, secureConnect, switch, switchCatalyst, wireless, wirelessController]
   - model_name: time
     type: String
+    requires_replace: true
     description: Scheduled time for the rollback
     example: "2020-10-21T02:00:00Z"
   - model_name: id
     type: String
     data_path: [toVersion]
+    requires_replace: true
     description: The version ID
     example: "7857"
   - model_name: reasons
     type: List
+    requires_replace: true
     mandatory: true
     description: Reasons for the rollback
     attributes:
       - model_name: category
         type: String
+        requires_replace: true
         mandatory: true
         description: Reason for the rollback
         example: performance
         enum_values: [broke old features, other, performance, stability, testing, unifying networks versions]
       - model_name: comment
         type: String
+        requires_replace: true
         mandatory: true
         description: Additional comment about the rollback
         example: Network was slower with the upgrade
