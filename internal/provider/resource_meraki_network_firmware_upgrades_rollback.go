@@ -27,6 +27,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -81,22 +83,37 @@ func (r *NetworkFirmwareUpgradesRollbackResource) Schema(ctx context.Context, re
 				Validators: []validator.String{
 					stringvalidator.OneOf("appliance", "camera", "cellularGateway", "secureConnect", "switch", "switchCatalyst", "wireless", "wirelessController"),
 				},
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Scheduled time for the rollback").String,
 				Optional:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"predownload_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network devices will predownload the firmware image in advance of the actual upgrade. Only applies to wireless devices running MR 32 or higher.").String,
 				Optional:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 			},
 			"to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"reasons": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Reasons for the rollback").String,
 				Required:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.RequiresReplace(),
+				},
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"category": schema.StringAttribute{
