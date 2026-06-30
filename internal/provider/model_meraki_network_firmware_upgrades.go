@@ -91,82 +91,82 @@ func (data NetworkFirmwareUpgrades) toBody(ctx context.Context, state NetworkFir
 	if !data.ProductsApplianceParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.appliance.participateInNextBetaRelease", data.ProductsApplianceParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsApplianceNextUpgradeTime.IsNull() {
+	if !data.ProductsApplianceNextUpgradeTime.IsNull() && data.ProductsApplianceNextUpgradeTime != state.ProductsApplianceNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.appliance.nextUpgrade.time", data.ProductsApplianceNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsApplianceNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsApplianceNextUpgradeToVersionId.IsNull() && data.ProductsApplianceNextUpgradeToVersionId != state.ProductsApplianceNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.appliance.nextUpgrade.toVersion.id", data.ProductsApplianceNextUpgradeToVersionId.ValueString())
 	}
 	if !data.ProductsCameraParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.camera.participateInNextBetaRelease", data.ProductsCameraParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsCameraNextUpgradeTime.IsNull() {
+	if !data.ProductsCameraNextUpgradeTime.IsNull() && data.ProductsCameraNextUpgradeTime != state.ProductsCameraNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.camera.nextUpgrade.time", data.ProductsCameraNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsCameraNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsCameraNextUpgradeToVersionId.IsNull() && data.ProductsCameraNextUpgradeToVersionId != state.ProductsCameraNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.camera.nextUpgrade.toVersion.id", data.ProductsCameraNextUpgradeToVersionId.ValueString())
 	}
 	if !data.ProductsCellularGatewayParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.cellularGateway.participateInNextBetaRelease", data.ProductsCellularGatewayParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsCellularGatewayNextUpgradeTime.IsNull() {
+	if !data.ProductsCellularGatewayNextUpgradeTime.IsNull() && data.ProductsCellularGatewayNextUpgradeTime != state.ProductsCellularGatewayNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.cellularGateway.nextUpgrade.time", data.ProductsCellularGatewayNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsCellularGatewayNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsCellularGatewayNextUpgradeToVersionId.IsNull() && data.ProductsCellularGatewayNextUpgradeToVersionId != state.ProductsCellularGatewayNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.cellularGateway.nextUpgrade.toVersion.id", data.ProductsCellularGatewayNextUpgradeToVersionId.ValueString())
 	}
 	if !data.ProductsSecureConnectParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.secureConnect.participateInNextBetaRelease", data.ProductsSecureConnectParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsSecureConnectNextUpgradeTime.IsNull() {
+	if !data.ProductsSecureConnectNextUpgradeTime.IsNull() && data.ProductsSecureConnectNextUpgradeTime != state.ProductsSecureConnectNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.secureConnect.nextUpgrade.time", data.ProductsSecureConnectNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsSecureConnectNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsSecureConnectNextUpgradeToVersionId.IsNull() && data.ProductsSecureConnectNextUpgradeToVersionId != state.ProductsSecureConnectNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.secureConnect.nextUpgrade.toVersion.id", data.ProductsSecureConnectNextUpgradeToVersionId.ValueString())
 	}
 	if !data.ProductsSensorParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.sensor.participateInNextBetaRelease", data.ProductsSensorParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsSensorNextUpgradeTime.IsNull() {
+	if !data.ProductsSensorNextUpgradeTime.IsNull() && data.ProductsSensorNextUpgradeTime != state.ProductsSensorNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.sensor.nextUpgrade.time", data.ProductsSensorNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsSensorNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsSensorNextUpgradeToVersionId.IsNull() && data.ProductsSensorNextUpgradeToVersionId != state.ProductsSensorNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.sensor.nextUpgrade.toVersion.id", data.ProductsSensorNextUpgradeToVersionId.ValueString())
 	}
 	if !data.ProductsSwitchParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.switch.participateInNextBetaRelease", data.ProductsSwitchParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsSwitchNextUpgradeTime.IsNull() {
+	if !data.ProductsSwitchNextUpgradeTime.IsNull() && data.ProductsSwitchNextUpgradeTime != state.ProductsSwitchNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.switch.nextUpgrade.time", data.ProductsSwitchNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsSwitchNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsSwitchNextUpgradeToVersionId.IsNull() && data.ProductsSwitchNextUpgradeToVersionId != state.ProductsSwitchNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.switch.nextUpgrade.toVersion.id", data.ProductsSwitchNextUpgradeToVersionId.ValueString())
 	}
 	if !data.ProductsSwitchCatalystParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.switchCatalyst.participateInNextBetaRelease", data.ProductsSwitchCatalystParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsSwitchCatalystNextUpgradeTime.IsNull() {
+	if !data.ProductsSwitchCatalystNextUpgradeTime.IsNull() && data.ProductsSwitchCatalystNextUpgradeTime != state.ProductsSwitchCatalystNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.time", data.ProductsSwitchCatalystNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsSwitchCatalystNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsSwitchCatalystNextUpgradeToVersionId.IsNull() && data.ProductsSwitchCatalystNextUpgradeToVersionId != state.ProductsSwitchCatalystNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.toVersion.id", data.ProductsSwitchCatalystNextUpgradeToVersionId.ValueString())
 	}
 	if !data.ProductsWirelessParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.wireless.participateInNextBetaRelease", data.ProductsWirelessParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsWirelessNextUpgradeTime.IsNull() {
+	if !data.ProductsWirelessNextUpgradeTime.IsNull() && data.ProductsWirelessNextUpgradeTime != state.ProductsWirelessNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.wireless.nextUpgrade.time", data.ProductsWirelessNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsWirelessNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsWirelessNextUpgradeToVersionId.IsNull() && data.ProductsWirelessNextUpgradeToVersionId != state.ProductsWirelessNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.wireless.nextUpgrade.toVersion.id", data.ProductsWirelessNextUpgradeToVersionId.ValueString())
 	}
 	if !data.ProductsWirelessControllerParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.wirelessController.participateInNextBetaRelease", data.ProductsWirelessControllerParticipateInNextBetaRelease.ValueBool())
 	}
-	if !data.ProductsWirelessControllerNextUpgradeTime.IsNull() {
+	if !data.ProductsWirelessControllerNextUpgradeTime.IsNull() && data.ProductsWirelessControllerNextUpgradeTime != state.ProductsWirelessControllerNextUpgradeTime {
 		body, _ = sjson.Set(body, "products.wirelessController.nextUpgrade.time", data.ProductsWirelessControllerNextUpgradeTime.ValueString())
 	}
-	if !data.ProductsWirelessControllerNextUpgradeToVersionId.IsNull() {
+	if !data.ProductsWirelessControllerNextUpgradeToVersionId.IsNull() && data.ProductsWirelessControllerNextUpgradeToVersionId != state.ProductsWirelessControllerNextUpgradeToVersionId {
 		body, _ = sjson.Set(body, "products.wirelessController.nextUpgrade.toVersion.id", data.ProductsWirelessControllerNextUpgradeToVersionId.ValueString())
 	}
 	if !data.UpgradeWindowDayOfWeek.IsNull() {
