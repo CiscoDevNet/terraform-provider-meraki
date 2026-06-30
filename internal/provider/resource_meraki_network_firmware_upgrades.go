@@ -29,6 +29,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -83,77 +85,1242 @@ func (r *NetworkFirmwareUpgradesResource) Schema(ctx context.Context, req resour
 				MarkdownDescription: helpers.NewAttributeDescription("The timezone for the network").String,
 				Optional:            true,
 			},
+			"products_appliance_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not an upgraded firmware version is available").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_appliance_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
+			},
+			"products_appliance_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_current_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Timestamp of the last successful firmware upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_appliance_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
 			},
+			"products_appliance_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_appliance_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
+			},
+			"products_appliance_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_appliance_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware versions available for upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+					},
+				},
+			},
+			"products_camera_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not an upgraded firmware version is available").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_camera_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
 			},
+			"products_camera_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_current_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Timestamp of the last successful firmware upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_camera_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
+			},
+			"products_camera_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_camera_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
 			},
+			"products_camera_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_camera_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware versions available for upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+					},
+				},
+			},
+			"products_cellular_gateway_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not an upgraded firmware version is available").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_cellular_gateway_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
+			},
+			"products_cellular_gateway_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_current_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Timestamp of the last successful firmware upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_cellular_gateway_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
 			},
+			"products_cellular_gateway_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_cellular_gateway_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
+			},
+			"products_cellular_gateway_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_cellular_gateway_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware versions available for upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+					},
+				},
+			},
+			"products_secure_connect_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not an upgraded firmware version is available").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_secure_connect_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
 			},
+			"products_secure_connect_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_current_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Timestamp of the last successful firmware upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_secure_connect_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
+			},
+			"products_secure_connect_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_secure_connect_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
 			},
+			"products_secure_connect_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_secure_connect_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware versions available for upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+					},
+				},
+			},
+			"products_sensor_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not an upgraded firmware version is available").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_sensor_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
+			},
+			"products_sensor_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_current_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Timestamp of the last successful firmware upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_sensor_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
 			},
+			"products_sensor_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_sensor_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
+			},
+			"products_sensor_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_sensor_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware versions available for upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+					},
+				},
+			},
+			"products_switch_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not an upgraded firmware version is available").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_switch_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
 			},
+			"products_switch_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_current_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Timestamp of the last successful firmware upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_switch_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
 			},
+			"products_switch_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_switch_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
+			},
+			"products_switch_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_switch_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware versions available for upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+					},
+				},
+			},
+			"products_wireless_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not an upgraded firmware version is available").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_switch_catalyst_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
@@ -171,25 +1338,404 @@ func (r *NetworkFirmwareUpgradesResource) Schema(ctx context.Context, req resour
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
 			},
+			"products_wireless_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_current_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Timestamp of the last successful firmware upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_wireless_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
+			},
+			"products_wireless_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_wireless_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
 			},
+			"products_wireless_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware versions available for upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+					},
+				},
+			},
+			"products_wireless_controller_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not an upgraded firmware version is available").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_wireless_controller_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
+			},
+			"products_wireless_controller_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_current_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Timestamp of the last successful firmware upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"products_wireless_controller_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
 			},
+			"products_wireless_controller_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"products_wireless_controller_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
+			},
+			"products_wireless_controller_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"products_wireless_controller_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Firmware versions available for upgrade").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Name of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version identifier").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release date of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Release type of the firmware version").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Firmware version short name").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+					},
+				},
 			},
 			"upgrade_window_day_of_week": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Day of the week").AddStringEnumDescription("fri", "friday", "mon", "monday", "sat", "saturday", "sun", "sunday", "thu", "thursday", "tue", "tuesday", "wed", "wednesday").String,
