@@ -35,33 +35,241 @@ func TestAccDataSourceMerakiNetworkFirmwareUpgradesData(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "timezone", "America/Los_Angeles"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_next_upgrade_to_version_id", "1001"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_appliance_available_versions.0.short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_next_upgrade_to_version_id", "1003"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_camera_available_versions.0.short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_next_upgrade_to_version_id", "1004"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_cellular_gateway_available_versions.0.short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_next_upgrade_to_version_id", "1008"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_secure_connect_available_versions.0.short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_next_upgrade_to_version_id", "1005"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_sensor_available_versions.0.short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_next_upgrade_to_version_id", "1002"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_available_versions.0.short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_time", "2019-03-17T17:22:52Z"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_to_version_id", "1234"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_to_version_id", "1000"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_available_versions.0.short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_next_upgrade_to_version_id", "1006"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_available_versions.0.short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "upgrade_window_day_of_week", "sun"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "upgrade_window_hour_of_day", "4:00"))
 	resource.Test(t, resource.TestCase{
@@ -102,33 +310,257 @@ func testAccDataSourceMerakiNetworkFirmwareUpgradesDataConfig() string {
 	config := `resource "meraki_network_firmware_upgrades_data" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  timezone = "America/Los_Angeles"` + "\n"
+	config += `  products_appliance_is_upgrade_available = ` + "\n"
 	config += `  products_appliance_participate_in_next_beta_release = false` + "\n"
+	config += `  products_appliance_current_version_firmware = ""` + "\n"
+	config += `  products_appliance_current_version_id = ""` + "\n"
+	config += `  products_appliance_current_version_release_date = ""` + "\n"
+	config += `  products_appliance_current_version_release_type = ""` + "\n"
+	config += `  products_appliance_current_version_short_name = ""` + "\n"
+	config += `  products_appliance_last_upgrade_time = ""` + "\n"
+	config += `  products_appliance_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_appliance_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_appliance_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_appliance_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_appliance_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_appliance_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_appliance_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_appliance_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_appliance_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_appliance_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_appliance_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_appliance_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_appliance_next_upgrade_to_version_id = "1001"` + "\n"
+	config += `  products_appliance_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_appliance_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_appliance_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_appliance_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
+	config += `  products_camera_is_upgrade_available = ` + "\n"
 	config += `  products_camera_participate_in_next_beta_release = false` + "\n"
+	config += `  products_camera_current_version_firmware = ""` + "\n"
+	config += `  products_camera_current_version_id = ""` + "\n"
+	config += `  products_camera_current_version_release_date = ""` + "\n"
+	config += `  products_camera_current_version_release_type = ""` + "\n"
+	config += `  products_camera_current_version_short_name = ""` + "\n"
+	config += `  products_camera_last_upgrade_time = ""` + "\n"
+	config += `  products_camera_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_camera_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_camera_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_camera_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_camera_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_camera_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_camera_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_camera_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_camera_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_camera_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_camera_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_camera_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_camera_next_upgrade_to_version_id = "1003"` + "\n"
+	config += `  products_camera_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_camera_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_camera_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_camera_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
+	config += `  products_cellular_gateway_is_upgrade_available = ` + "\n"
 	config += `  products_cellular_gateway_participate_in_next_beta_release = false` + "\n"
+	config += `  products_cellular_gateway_current_version_firmware = ""` + "\n"
+	config += `  products_cellular_gateway_current_version_id = ""` + "\n"
+	config += `  products_cellular_gateway_current_version_release_date = ""` + "\n"
+	config += `  products_cellular_gateway_current_version_release_type = ""` + "\n"
+	config += `  products_cellular_gateway_current_version_short_name = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_time = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_cellular_gateway_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_cellular_gateway_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_cellular_gateway_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_cellular_gateway_next_upgrade_to_version_id = "1004"` + "\n"
+	config += `  products_cellular_gateway_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_cellular_gateway_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_cellular_gateway_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_cellular_gateway_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
+	config += `  products_secure_connect_is_upgrade_available = ` + "\n"
 	config += `  products_secure_connect_participate_in_next_beta_release = false` + "\n"
+	config += `  products_secure_connect_current_version_firmware = ""` + "\n"
+	config += `  products_secure_connect_current_version_id = ""` + "\n"
+	config += `  products_secure_connect_current_version_release_date = ""` + "\n"
+	config += `  products_secure_connect_current_version_release_type = ""` + "\n"
+	config += `  products_secure_connect_current_version_short_name = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_time = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_secure_connect_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_secure_connect_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_secure_connect_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_secure_connect_next_upgrade_to_version_id = "1008"` + "\n"
+	config += `  products_secure_connect_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_secure_connect_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_secure_connect_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_secure_connect_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
+	config += `  products_sensor_is_upgrade_available = ` + "\n"
 	config += `  products_sensor_participate_in_next_beta_release = false` + "\n"
+	config += `  products_sensor_current_version_firmware = ""` + "\n"
+	config += `  products_sensor_current_version_id = ""` + "\n"
+	config += `  products_sensor_current_version_release_date = ""` + "\n"
+	config += `  products_sensor_current_version_release_type = ""` + "\n"
+	config += `  products_sensor_current_version_short_name = ""` + "\n"
+	config += `  products_sensor_last_upgrade_time = ""` + "\n"
+	config += `  products_sensor_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_sensor_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_sensor_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_sensor_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_sensor_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_sensor_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_sensor_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_sensor_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_sensor_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_sensor_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_sensor_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_sensor_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_sensor_next_upgrade_to_version_id = "1005"` + "\n"
+	config += `  products_sensor_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_sensor_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_sensor_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_sensor_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
+	config += `  products_switch_is_upgrade_available = ` + "\n"
 	config += `  products_switch_participate_in_next_beta_release = false` + "\n"
+	config += `  products_switch_current_version_firmware = ""` + "\n"
+	config += `  products_switch_current_version_id = ""` + "\n"
+	config += `  products_switch_current_version_release_date = ""` + "\n"
+	config += `  products_switch_current_version_release_type = ""` + "\n"
+	config += `  products_switch_current_version_short_name = ""` + "\n"
+	config += `  products_switch_last_upgrade_time = ""` + "\n"
+	config += `  products_switch_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_switch_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_switch_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_switch_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_switch_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_switch_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_switch_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_switch_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_switch_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_switch_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_switch_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_switch_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_switch_next_upgrade_to_version_id = "1002"` + "\n"
+	config += `  products_switch_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_switch_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_switch_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_switch_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
+	config += `  products_wireless_is_upgrade_available = ` + "\n"
 	config += `  products_switch_catalyst_participate_in_next_beta_release = false` + "\n"
 	config += `  products_switch_catalyst_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
 	config += `  products_switch_catalyst_next_upgrade_to_version_id = "1234"` + "\n"
 	config += `  products_wireless_participate_in_next_beta_release = false` + "\n"
+	config += `  products_wireless_current_version_firmware = ""` + "\n"
+	config += `  products_wireless_current_version_id = ""` + "\n"
+	config += `  products_wireless_current_version_release_date = ""` + "\n"
+	config += `  products_wireless_current_version_release_type = ""` + "\n"
+	config += `  products_wireless_current_version_short_name = ""` + "\n"
+	config += `  products_wireless_last_upgrade_time = ""` + "\n"
+	config += `  products_wireless_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_wireless_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_wireless_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_wireless_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_wireless_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_wireless_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_wireless_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_wireless_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_wireless_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_wireless_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_wireless_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_wireless_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_wireless_next_upgrade_to_version_id = "1000"` + "\n"
+	config += `  products_wireless_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_wireless_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_wireless_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_wireless_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
+	config += `  products_wireless_controller_is_upgrade_available = ` + "\n"
 	config += `  products_wireless_controller_participate_in_next_beta_release = false` + "\n"
+	config += `  products_wireless_controller_current_version_firmware = ""` + "\n"
+	config += `  products_wireless_controller_current_version_id = ""` + "\n"
+	config += `  products_wireless_controller_current_version_release_date = ""` + "\n"
+	config += `  products_wireless_controller_current_version_release_type = ""` + "\n"
+	config += `  products_wireless_controller_current_version_short_name = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_time = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_wireless_controller_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_wireless_controller_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_wireless_controller_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_wireless_controller_next_upgrade_to_version_id = "1006"` + "\n"
+	config += `  products_wireless_controller_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_wireless_controller_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_wireless_controller_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_wireless_controller_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
 	config += `  upgrade_window_day_of_week = "sun"` + "\n"
 	config += `  upgrade_window_hour_of_day = "4:00"` + "\n"
 	config += `}` + "\n"
