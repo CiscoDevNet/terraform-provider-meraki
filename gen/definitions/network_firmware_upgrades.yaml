@@ -4,6 +4,7 @@
 name: Network Firmware Upgrades
 spec_endpoint: /networks/{networkId}/firmwareUpgrades
 rest_endpoint: /networks/%v/firmwareUpgrades
+no_data_source: true
 put_create: true
 no_delete: true
 doc_category: Networks
