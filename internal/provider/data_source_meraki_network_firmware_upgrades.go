@@ -69,752 +69,76 @@ func (d *NetworkFirmwareUpgradesDataSource) Schema(ctx context.Context, req data
 				MarkdownDescription: "The timezone for the network",
 				Computed:            true,
 			},
-			"products_appliance_is_upgrade_available": schema.BoolAttribute{
-				MarkdownDescription: "Whether or not an upgraded firmware version is available",
-				Computed:            true,
-			},
 			"products_appliance_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not the network wants beta firmware",
-				Computed:            true,
-			},
-			"products_appliance_current_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_current_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_appliance_current_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_current_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_current_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_time": schema.StringAttribute{
-				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_from_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_from_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_from_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_from_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_from_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_to_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_last_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
 				Computed:            true,
 			},
 			"products_appliance_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
 				Computed:            true,
 			},
-			"products_appliance_next_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
 			"products_appliance_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
-				Computed:            true,
-			},
-			"products_appliance_next_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_next_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_appliance_next_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_appliance_available_versions": schema.ListNestedAttribute{
-				MarkdownDescription: "Firmware versions available for upgrade",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"firmware": schema.StringAttribute{
-							MarkdownDescription: "Name of the firmware version",
-							Computed:            true,
-						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Firmware version identifier",
-							Computed:            true,
-						},
-						"release_date": schema.StringAttribute{
-							MarkdownDescription: "Release date of the firmware version",
-							Computed:            true,
-						},
-						"release_type": schema.StringAttribute{
-							MarkdownDescription: "Release type of the firmware version",
-							Computed:            true,
-						},
-						"short_name": schema.StringAttribute{
-							MarkdownDescription: "Firmware version short name",
-							Computed:            true,
-						},
-					},
-				},
-			},
-			"products_camera_is_upgrade_available": schema.BoolAttribute{
-				MarkdownDescription: "Whether or not an upgraded firmware version is available",
 				Computed:            true,
 			},
 			"products_camera_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not the network wants beta firmware",
 				Computed:            true,
 			},
-			"products_camera_current_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_current_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_camera_current_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_current_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_current_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_time": schema.StringAttribute{
-				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_from_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_from_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_from_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_from_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_from_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_to_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_last_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
 			"products_camera_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
-				Computed:            true,
-			},
-			"products_camera_next_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
 				Computed:            true,
 			},
 			"products_camera_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
 				Computed:            true,
 			},
-			"products_camera_next_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_next_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_camera_next_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_camera_available_versions": schema.ListNestedAttribute{
-				MarkdownDescription: "Firmware versions available for upgrade",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"firmware": schema.StringAttribute{
-							MarkdownDescription: "Name of the firmware version",
-							Computed:            true,
-						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Firmware version identifier",
-							Computed:            true,
-						},
-						"release_date": schema.StringAttribute{
-							MarkdownDescription: "Release date of the firmware version",
-							Computed:            true,
-						},
-						"release_type": schema.StringAttribute{
-							MarkdownDescription: "Release type of the firmware version",
-							Computed:            true,
-						},
-						"short_name": schema.StringAttribute{
-							MarkdownDescription: "Firmware version short name",
-							Computed:            true,
-						},
-					},
-				},
-			},
-			"products_cellular_gateway_is_upgrade_available": schema.BoolAttribute{
-				MarkdownDescription: "Whether or not an upgraded firmware version is available",
-				Computed:            true,
-			},
 			"products_cellular_gateway_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not the network wants beta firmware",
-				Computed:            true,
-			},
-			"products_cellular_gateway_current_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_current_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_cellular_gateway_current_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_current_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_current_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_time": schema.StringAttribute{
-				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_from_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_from_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_from_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_from_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_from_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_to_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_last_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
 				Computed:            true,
 			},
 			"products_cellular_gateway_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
 				Computed:            true,
 			},
-			"products_cellular_gateway_next_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
 			"products_cellular_gateway_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
-				Computed:            true,
-			},
-			"products_cellular_gateway_next_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_next_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_cellular_gateway_next_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_cellular_gateway_available_versions": schema.ListNestedAttribute{
-				MarkdownDescription: "Firmware versions available for upgrade",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"firmware": schema.StringAttribute{
-							MarkdownDescription: "Name of the firmware version",
-							Computed:            true,
-						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Firmware version identifier",
-							Computed:            true,
-						},
-						"release_date": schema.StringAttribute{
-							MarkdownDescription: "Release date of the firmware version",
-							Computed:            true,
-						},
-						"release_type": schema.StringAttribute{
-							MarkdownDescription: "Release type of the firmware version",
-							Computed:            true,
-						},
-						"short_name": schema.StringAttribute{
-							MarkdownDescription: "Firmware version short name",
-							Computed:            true,
-						},
-					},
-				},
-			},
-			"products_secure_connect_is_upgrade_available": schema.BoolAttribute{
-				MarkdownDescription: "Whether or not an upgraded firmware version is available",
 				Computed:            true,
 			},
 			"products_secure_connect_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not the network wants beta firmware",
 				Computed:            true,
 			},
-			"products_secure_connect_current_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_current_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_secure_connect_current_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_current_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_current_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_time": schema.StringAttribute{
-				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_from_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_from_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_from_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_from_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_from_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_to_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_last_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
 			"products_secure_connect_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
-				Computed:            true,
-			},
-			"products_secure_connect_next_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
 				Computed:            true,
 			},
 			"products_secure_connect_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
 				Computed:            true,
 			},
-			"products_secure_connect_next_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_next_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_secure_connect_next_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_secure_connect_available_versions": schema.ListNestedAttribute{
-				MarkdownDescription: "Firmware versions available for upgrade",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"firmware": schema.StringAttribute{
-							MarkdownDescription: "Name of the firmware version",
-							Computed:            true,
-						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Firmware version identifier",
-							Computed:            true,
-						},
-						"release_date": schema.StringAttribute{
-							MarkdownDescription: "Release date of the firmware version",
-							Computed:            true,
-						},
-						"release_type": schema.StringAttribute{
-							MarkdownDescription: "Release type of the firmware version",
-							Computed:            true,
-						},
-						"short_name": schema.StringAttribute{
-							MarkdownDescription: "Firmware version short name",
-							Computed:            true,
-						},
-					},
-				},
-			},
-			"products_sensor_is_upgrade_available": schema.BoolAttribute{
-				MarkdownDescription: "Whether or not an upgraded firmware version is available",
-				Computed:            true,
-			},
 			"products_sensor_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not the network wants beta firmware",
-				Computed:            true,
-			},
-			"products_sensor_current_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_current_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_sensor_current_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_current_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_current_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_time": schema.StringAttribute{
-				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_from_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_from_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_from_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_from_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_from_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_to_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_last_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
 				Computed:            true,
 			},
 			"products_sensor_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
 				Computed:            true,
 			},
-			"products_sensor_next_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
 			"products_sensor_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
-				Computed:            true,
-			},
-			"products_sensor_next_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_next_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_sensor_next_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_sensor_available_versions": schema.ListNestedAttribute{
-				MarkdownDescription: "Firmware versions available for upgrade",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"firmware": schema.StringAttribute{
-							MarkdownDescription: "Name of the firmware version",
-							Computed:            true,
-						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Firmware version identifier",
-							Computed:            true,
-						},
-						"release_date": schema.StringAttribute{
-							MarkdownDescription: "Release date of the firmware version",
-							Computed:            true,
-						},
-						"release_type": schema.StringAttribute{
-							MarkdownDescription: "Release type of the firmware version",
-							Computed:            true,
-						},
-						"short_name": schema.StringAttribute{
-							MarkdownDescription: "Firmware version short name",
-							Computed:            true,
-						},
-					},
-				},
-			},
-			"products_switch_is_upgrade_available": schema.BoolAttribute{
-				MarkdownDescription: "Whether or not an upgraded firmware version is available",
 				Computed:            true,
 			},
 			"products_switch_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not the network wants beta firmware",
 				Computed:            true,
 			},
-			"products_switch_current_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_current_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_switch_current_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_current_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_current_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_time": schema.StringAttribute{
-				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_from_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_from_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_from_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_from_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_from_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_to_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_last_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
 			"products_switch_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
 				Computed:            true,
 			},
-			"products_switch_next_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
 			"products_switch_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
-				Computed:            true,
-			},
-			"products_switch_next_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_next_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_switch_next_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_switch_available_versions": schema.ListNestedAttribute{
-				MarkdownDescription: "Firmware versions available for upgrade",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"firmware": schema.StringAttribute{
-							MarkdownDescription: "Name of the firmware version",
-							Computed:            true,
-						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Firmware version identifier",
-							Computed:            true,
-						},
-						"release_date": schema.StringAttribute{
-							MarkdownDescription: "Release date of the firmware version",
-							Computed:            true,
-						},
-						"release_type": schema.StringAttribute{
-							MarkdownDescription: "Release type of the firmware version",
-							Computed:            true,
-						},
-						"short_name": schema.StringAttribute{
-							MarkdownDescription: "Firmware version short name",
-							Computed:            true,
-						},
-					},
-				},
-			},
-			"products_wireless_is_upgrade_available": schema.BoolAttribute{
-				MarkdownDescription: "Whether or not an upgraded firmware version is available",
 				Computed:            true,
 			},
 			"products_switch_catalyst_participate_in_next_beta_release": schema.BoolAttribute{
@@ -833,245 +157,25 @@ func (d *NetworkFirmwareUpgradesDataSource) Schema(ctx context.Context, req data
 				MarkdownDescription: "Whether or not the network wants beta firmware",
 				Computed:            true,
 			},
-			"products_wireless_current_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_current_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_wireless_current_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_current_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_current_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_time": schema.StringAttribute{
-				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_from_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_from_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_from_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_from_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_from_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_to_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_last_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
 			"products_wireless_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
-				Computed:            true,
-			},
-			"products_wireless_next_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
 				Computed:            true,
 			},
 			"products_wireless_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
 				Computed:            true,
 			},
-			"products_wireless_next_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_next_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_next_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_wireless_available_versions": schema.ListNestedAttribute{
-				MarkdownDescription: "Firmware versions available for upgrade",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"firmware": schema.StringAttribute{
-							MarkdownDescription: "Name of the firmware version",
-							Computed:            true,
-						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Firmware version identifier",
-							Computed:            true,
-						},
-						"release_date": schema.StringAttribute{
-							MarkdownDescription: "Release date of the firmware version",
-							Computed:            true,
-						},
-						"release_type": schema.StringAttribute{
-							MarkdownDescription: "Release type of the firmware version",
-							Computed:            true,
-						},
-						"short_name": schema.StringAttribute{
-							MarkdownDescription: "Firmware version short name",
-							Computed:            true,
-						},
-					},
-				},
-			},
-			"products_wireless_controller_is_upgrade_available": schema.BoolAttribute{
-				MarkdownDescription: "Whether or not an upgraded firmware version is available",
-				Computed:            true,
-			},
 			"products_wireless_controller_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not the network wants beta firmware",
-				Computed:            true,
-			},
-			"products_wireless_controller_current_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_current_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_wireless_controller_current_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_current_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_current_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_time": schema.StringAttribute{
-				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_from_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_from_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_from_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_from_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_from_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_to_version_id": schema.StringAttribute{
-				MarkdownDescription: "Firmware version identifier",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_last_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
 				Computed:            true,
 			},
 			"products_wireless_controller_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
 				Computed:            true,
 			},
-			"products_wireless_controller_next_upgrade_to_version_firmware": schema.StringAttribute{
-				MarkdownDescription: "Name of the firmware version",
-				Computed:            true,
-			},
 			"products_wireless_controller_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
 				Computed:            true,
-			},
-			"products_wireless_controller_next_upgrade_to_version_release_date": schema.StringAttribute{
-				MarkdownDescription: "Release date of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_next_upgrade_to_version_release_type": schema.StringAttribute{
-				MarkdownDescription: "Release type of the firmware version",
-				Computed:            true,
-			},
-			"products_wireless_controller_next_upgrade_to_version_short_name": schema.StringAttribute{
-				MarkdownDescription: "Firmware version short name",
-				Computed:            true,
-			},
-			"products_wireless_controller_available_versions": schema.ListNestedAttribute{
-				MarkdownDescription: "Firmware versions available for upgrade",
-				Computed:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"firmware": schema.StringAttribute{
-							MarkdownDescription: "Name of the firmware version",
-							Computed:            true,
-						},
-						"id": schema.StringAttribute{
-							MarkdownDescription: "Firmware version identifier",
-							Computed:            true,
-						},
-						"release_date": schema.StringAttribute{
-							MarkdownDescription: "Release date of the firmware version",
-							Computed:            true,
-						},
-						"release_type": schema.StringAttribute{
-							MarkdownDescription: "Release type of the firmware version",
-							Computed:            true,
-						},
-						"short_name": schema.StringAttribute{
-							MarkdownDescription: "Firmware version short name",
-							Computed:            true,
-						},
-					},
-				},
 			},
 			"upgrade_window_day_of_week": schema.StringAttribute{
 				MarkdownDescription: "Day of the week",
