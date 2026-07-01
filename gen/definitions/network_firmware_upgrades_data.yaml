@@ -1,0 +1,1008 @@
+name: Network Firmware Upgrades Data
+spec_endpoint: /networks/{networkId}/firmwareUpgrades
+rest_endpoint: /networks/%v/firmwareUpgrades
+no_resource: true
+put_create: true
+no_delete: true
+doc_category: Networks
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test.id
+  - model_name: timezone
+    type: String
+    description: The timezone for the network
+    example: America/Los_Angeles
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, appliance]
+    description: Whether or not an upgraded firmware version is available
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, appliance]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, appliance, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, appliance, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, appliance, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, appliance, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, appliance, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, appliance, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, appliance, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, appliance, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, appliance, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, appliance, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, appliance, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, appliance, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, appliance, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, appliance, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, appliance, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, appliance, lastUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, appliance, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, appliance, nextUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, appliance, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1001"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, appliance, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, appliance, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, appliance, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, appliance]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, camera]
+    description: Whether or not an upgraded firmware version is available
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, camera]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, camera, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, camera, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, camera, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, camera, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, camera, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, camera, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, camera, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, camera, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, camera, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, camera, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, camera, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, camera, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, camera, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, camera, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, camera, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, camera, lastUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, camera, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, camera, nextUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, camera, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1003"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, camera, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, camera, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, camera, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, camera]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, cellularGateway]
+    description: Whether or not an upgraded firmware version is available
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, cellularGateway]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, cellularGateway, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, cellularGateway, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, cellularGateway, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, cellularGateway, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, cellularGateway, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, cellularGateway, lastUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, cellularGateway, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, cellularGateway, nextUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, cellularGateway, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1004"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, cellularGateway, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, cellularGateway, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, cellularGateway, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, cellularGateway]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, secureConnect]
+    description: Whether or not an upgraded firmware version is available
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, secureConnect]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, secureConnect, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, secureConnect, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, secureConnect, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, secureConnect, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, secureConnect, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, secureConnect, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, secureConnect, lastUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, secureConnect, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, secureConnect, nextUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, secureConnect, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1008"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, secureConnect, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, secureConnect, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, secureConnect, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, secureConnect]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, sensor]
+    description: Whether or not an upgraded firmware version is available
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, sensor]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, sensor, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, sensor, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, sensor, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, sensor, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, sensor, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, sensor, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, sensor, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, sensor, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, sensor, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, sensor, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, sensor, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, sensor, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, sensor, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, sensor, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, sensor, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, sensor, lastUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, sensor, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, sensor, nextUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, sensor, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1005"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, sensor, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, sensor, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, sensor, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, sensor]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, switch]
+    description: Whether or not an upgraded firmware version is available
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, switch]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, switch, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, switch, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, switch, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, switch, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, switch, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, switch, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, switch, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, switch, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, switch, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, switch, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, switch, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, switch, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, switch, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, switch, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, switch, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, switch, lastUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, switch, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, switch, nextUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, switch, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1002"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, switch, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, switch, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, switch, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, switch]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, wireless]
+    description: Whether or not an upgraded firmware version is available
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, switchCatalyst]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: time
+    type: String
+    data_path: [products, switchCatalyst, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, switchCatalyst, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1234"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, wireless]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, wireless, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, wireless, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, wireless, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, wireless, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, wireless, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, wireless, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, wireless, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, wireless, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, wireless, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, wireless, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, wireless, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, wireless, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, wireless, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, wireless, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, wireless, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, wireless, lastUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, wireless, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, wireless, nextUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, wireless, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1000"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, wireless, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, wireless, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, wireless, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, wireless]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, wirelessController]
+    description: Whether or not an upgraded firmware version is available
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, wirelessController]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, wirelessController, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, wirelessController, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, wirelessController, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, wirelessController, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, wirelessController, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, wirelessController, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, wirelessController, lastUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, wirelessController, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, wirelessController, nextUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, wirelessController, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1006"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, wirelessController, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, wirelessController, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, wirelessController, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, wirelessController]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: dayOfWeek
+    type: String
+    data_path: [upgradeWindow]
+    description: Day of the week
+    example: sun
+    enum_values: [fri, friday, mon, monday, sat, saturday, sun, sunday, thu, thursday, tue, tuesday, wed, wednesday]
+  - model_name: hourOfDay
+    type: String
+    data_path: [upgradeWindow]
+    description: Hour of the day
+    example: "4:00"
+    enum_values: ["0:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "1:00", "20:00", "21:00", "22:00", "23:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00"]
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
