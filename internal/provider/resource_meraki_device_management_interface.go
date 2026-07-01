@@ -112,6 +112,10 @@ func (r *DeviceManagementInterfaceResource) Schema(ctx context.Context, req reso
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
+			"wan1_vrf_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The name of the VRF associated with WAN 1. If not provided, the default VRF is used.").String,
+				Optional:            true,
+			},
 			"wan2_static_gateway_ip": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The IP of the gateway on the WAN.").String,
 				Optional:            true,
@@ -142,6 +146,10 @@ func (r *DeviceManagementInterfaceResource) Schema(ctx context.Context, req reso
 			"wan2_static_dns": schema.ListAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Up to two DNS IPs.").String,
 				ElementType:         types.StringType,
+				Optional:            true,
+			},
+			"wan2_vrf_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The name of the VRF associated with WAN 2. If not provided, the default VRF is used.").String,
 				Optional:            true,
 			},
 		},

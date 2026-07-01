@@ -11,6 +11,7 @@ description: |-
 
 - Fix write-only attributes (`_wo`) requiring the base sensitive attribute to also be set in `meraki_network_snmp` (`users[*].passphrase`), `meraki_appliance_third_party_vpn_peers` (`peers[*].secret`), `meraki_network_meraki_auth_user` (`password`), `meraki_organization_auth_radius_server` (`secret`), and `meraki_wireless_location_scanning_receiver` (`shared_secret`), [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/243)
 - Fix "Missing Resource Identity After Read" provider error for resources with custom read implementations (`meraki_appliance_firewall_multicast_forwarding`, `meraki_appliance_traffic_shaping_vpn_exclusions`, `meraki_wireless_air_marshal_rule`, `meraki_wireless_air_marshal_settings`, `meraki_wireless_location_scanning`, `meraki_wireless_ssid_open_roaming`, `meraki_wireless_zigbee`, and others) when deleted out-of-band
+- Add `wan1_vrf_name` and `wan2_vrf_name` attributes to `meraki_device_management_interface` resource and data source
 
 ## 1.12.2
 

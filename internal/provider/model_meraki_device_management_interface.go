@@ -43,6 +43,7 @@ type DeviceManagementInterface struct {
 	Wan1Vlan             types.Int64  `tfsdk:"wan1_vlan"`
 	Wan1WanEnabled       types.String `tfsdk:"wan1_wan_enabled"`
 	Wan1StaticDns        types.List   `tfsdk:"wan1_static_dns"`
+	Wan1VrfName          types.String `tfsdk:"wan1_vrf_name"`
 	Wan2StaticGatewayIp  types.String `tfsdk:"wan2_static_gateway_ip"`
 	Wan2StaticIp         types.String `tfsdk:"wan2_static_ip"`
 	Wan2StaticSubnetMask types.String `tfsdk:"wan2_static_subnet_mask"`
@@ -50,6 +51,7 @@ type DeviceManagementInterface struct {
 	Wan2Vlan             types.Int64  `tfsdk:"wan2_vlan"`
 	Wan2WanEnabled       types.String `tfsdk:"wan2_wan_enabled"`
 	Wan2StaticDns        types.List   `tfsdk:"wan2_static_dns"`
+	Wan2VrfName          types.String `tfsdk:"wan2_vrf_name"`
 }
 
 type DeviceManagementInterfaceIdentity struct {
@@ -93,6 +95,9 @@ func (data DeviceManagementInterface) toBody(ctx context.Context, state DeviceMa
 		data.Wan1StaticDns.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "wan1.staticDns", values)
 	}
+	if !data.Wan1VrfName.IsNull() {
+		body, _ = sjson.Set(body, "wan1.vrf.name", data.Wan1VrfName.ValueString())
+	}
 	if !data.Wan2StaticGatewayIp.IsNull() {
 		body, _ = sjson.Set(body, "wan2.staticGatewayIp", data.Wan2StaticGatewayIp.ValueString())
 	}
@@ -115,6 +120,9 @@ func (data DeviceManagementInterface) toBody(ctx context.Context, state DeviceMa
 		var values []string
 		data.Wan2StaticDns.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "wan2.staticDns", values)
+	}
+	if !data.Wan2VrfName.IsNull() {
+		body, _ = sjson.Set(body, "wan2.vrf.name", data.Wan2VrfName.ValueString())
 	}
 	return body
 }
@@ -159,6 +167,11 @@ func (data *DeviceManagementInterface) fromBody(ctx context.Context, res meraki.
 	} else {
 		data.Wan1StaticDns = types.ListNull(types.StringType)
 	}
+	if value := res.Get("wan1.vrf.name"); value.Exists() && value.Value() != nil {
+		data.Wan1VrfName = types.StringValue(value.String())
+	} else {
+		data.Wan1VrfName = types.StringNull()
+	}
 	if value := res.Get("wan2.staticGatewayIp"); value.Exists() && value.Value() != nil {
 		data.Wan2StaticGatewayIp = types.StringValue(value.String())
 	} else {
@@ -193,6 +206,11 @@ func (data *DeviceManagementInterface) fromBody(ctx context.Context, res meraki.
 		data.Wan2StaticDns = helpers.GetStringList(value.Array())
 	} else {
 		data.Wan2StaticDns = types.ListNull(types.StringType)
+	}
+	if value := res.Get("wan2.vrf.name"); value.Exists() && value.Value() != nil {
+		data.Wan2VrfName = types.StringValue(value.String())
+	} else {
+		data.Wan2VrfName = types.StringNull()
 	}
 }
 
@@ -240,6 +258,11 @@ func (data *DeviceManagementInterface) fromBodyPartial(ctx context.Context, res 
 	} else {
 		data.Wan1StaticDns = types.ListNull(types.StringType)
 	}
+	if value := res.Get("wan1.vrf.name"); value.Exists() && !data.Wan1VrfName.IsNull() {
+		data.Wan1VrfName = types.StringValue(value.String())
+	} else {
+		data.Wan1VrfName = types.StringNull()
+	}
 	if value := res.Get("wan2.staticGatewayIp"); value.Exists() && !data.Wan2StaticGatewayIp.IsNull() {
 		data.Wan2StaticGatewayIp = types.StringValue(value.String())
 	} else {
@@ -274,6 +297,11 @@ func (data *DeviceManagementInterface) fromBodyPartial(ctx context.Context, res 
 		data.Wan2StaticDns = helpers.GetStringList(value.Array())
 	} else {
 		data.Wan2StaticDns = types.ListNull(types.StringType)
+	}
+	if value := res.Get("wan2.vrf.name"); value.Exists() && !data.Wan2VrfName.IsNull() {
+		data.Wan2VrfName = types.StringValue(value.String())
+	} else {
+		data.Wan2VrfName = types.StringNull()
 	}
 }
 
