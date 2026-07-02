@@ -58,6 +58,7 @@ func TestAccDataSourceMerakiNetworkFirmwareUpgradesData(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_to_version_id", "1234"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_predownload_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_next_upgrade_to_version_id", "1000"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_controller_next_upgrade_time", "2019-03-17T17:22:52Z"))
@@ -125,6 +126,7 @@ func testAccDataSourceMerakiNetworkFirmwareUpgradesDataConfig() string {
 	config += `  products_switch_catalyst_next_upgrade_to_version_id = "1234"` + "\n"
 	config += `  products_wireless_participate_in_next_beta_release = false` + "\n"
 	config += `  products_wireless_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_wireless_next_upgrade_predownload_enabled = false` + "\n"
 	config += `  products_wireless_next_upgrade_to_version_id = "1000"` + "\n"
 	config += `  products_wireless_controller_participate_in_next_beta_release = false` + "\n"
 	config += `  products_wireless_controller_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
