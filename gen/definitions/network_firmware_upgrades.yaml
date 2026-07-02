@@ -134,6 +134,11 @@ attributes:
     data_path: [products, wireless, nextUpgrade]
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
+  - model_name: enabled
+    type: Bool
+    data_path: [products, wireless, nextUpgrade, predownload]
+    description: Whether or not the network devices will predownload the firmware image in advance of the actual upgrade
+    example: "false"
   - model_name: id
     type: String
     data_path: [products, wireless, nextUpgrade, toVersion]
