@@ -14,10 +14,11 @@ This resource can manage the `Network Firmware Upgrades Rollback` configuration.
 
 ```terraform
 resource "meraki_network_firmware_upgrades_rollback" "example" {
-  network_id    = "L_123456"
-  product       = "switch"
-  time          = "2020-10-21T02:00:00Z"
-  to_version_id = "7857"
+  network_id          = "L_123456"
+  product             = "switch"
+  time                = "2020-10-21T02:00:00Z"
+  predownload_enabled = false
+  to_version_id       = "7857"
   reasons = [
     {
       category = "performance"
@@ -37,6 +38,7 @@ resource "meraki_network_firmware_upgrades_rollback" "example" {
 
 ### Optional
 
+- `predownload_enabled` (Boolean) Whether or not the network devices will predownload the firmware image in advance of the actual upgrade. Only applies to wireless devices running MR 32 or higher.
 - `product` (String) Product type to rollback (if the network is a combined network)
   - Choices: `appliance`, `camera`, `cellularGateway`, `secureConnect`, `switch`, `switchCatalyst`, `wireless`, `wirelessController`
 - `time` (String) Scheduled time for the rollback

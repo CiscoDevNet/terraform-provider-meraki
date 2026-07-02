@@ -86,6 +86,10 @@ func (r *NetworkFirmwareUpgradesRollbackResource) Schema(ctx context.Context, re
 				MarkdownDescription: helpers.NewAttributeDescription("Scheduled time for the rollback").String,
 				Optional:            true,
 			},
+			"predownload_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network devices will predownload the firmware image in advance of the actual upgrade. Only applies to wireless devices running MR 32 or higher.").String,
+				Optional:            true,
+			},
 			"to_version_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,

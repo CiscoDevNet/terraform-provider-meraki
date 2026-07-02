@@ -25,6 +25,11 @@ attributes:
     type: String
     description: Scheduled time for the rollback
     example: "2020-10-21T02:00:00Z"
+  - model_name: enabled
+    type: Bool
+    data_path: [predownload]
+    description: Whether or not the network devices will predownload the firmware image in advance of the actual upgrade. Only applies to wireless devices running MR 32 or higher.
+    example: "false"
   - model_name: id
     type: String
     data_path: [toVersion]

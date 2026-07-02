@@ -40,6 +40,7 @@ func TestAccMerakiNetworkFirmwareUpgradesRollback(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades_rollback.test", "product", "switch"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades_rollback.test", "time", "2020-10-21T02:00:00Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades_rollback.test", "predownload_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades_rollback.test", "to_version_id", "7857"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades_rollback.test", "reasons.0.category", "performance"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades_rollback.test", "reasons.0.comment", "Network was slower with the upgrade"))
@@ -120,6 +121,7 @@ func testAccMerakiNetworkFirmwareUpgradesRollbackConfig_all() string {
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  product = "switch"` + "\n"
 	config += `  time = "2020-10-21T02:00:00Z"` + "\n"
+	config += `  predownload_enabled = false` + "\n"
 	config += `  to_version_id = "7857"` + "\n"
 	config += `  reasons = [{` + "\n"
 	config += `    category = "performance"` + "\n"

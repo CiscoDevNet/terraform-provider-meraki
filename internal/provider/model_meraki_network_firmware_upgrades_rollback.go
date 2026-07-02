@@ -36,12 +36,13 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkFirmwareUpgradesRollback struct {
-	Id          types.String                             `tfsdk:"id"`
-	NetworkId   types.String                             `tfsdk:"network_id"`
-	Product     types.String                             `tfsdk:"product"`
-	Time        types.String                             `tfsdk:"time"`
-	ToVersionId types.String                             `tfsdk:"to_version_id"`
-	Reasons     []NetworkFirmwareUpgradesRollbackReasons `tfsdk:"reasons"`
+	Id                 types.String                             `tfsdk:"id"`
+	NetworkId          types.String                             `tfsdk:"network_id"`
+	Product            types.String                             `tfsdk:"product"`
+	Time               types.String                             `tfsdk:"time"`
+	PredownloadEnabled types.Bool                               `tfsdk:"predownload_enabled"`
+	ToVersionId        types.String                             `tfsdk:"to_version_id"`
+	Reasons            []NetworkFirmwareUpgradesRollbackReasons `tfsdk:"reasons"`
 }
 
 type NetworkFirmwareUpgradesRollbackReasons struct {
@@ -72,6 +73,9 @@ func (data NetworkFirmwareUpgradesRollback) toBody(ctx context.Context, state Ne
 	}
 	if !data.Time.IsNull() {
 		body, _ = sjson.Set(body, "time", data.Time.ValueString())
+	}
+	if !data.PredownloadEnabled.IsNull() {
+		body, _ = sjson.Set(body, "predownload.enabled", data.PredownloadEnabled.ValueBool())
 	}
 	if !data.ToVersionId.IsNull() {
 		body, _ = sjson.Set(body, "toVersion.id", data.ToVersionId.ValueString())
@@ -106,6 +110,11 @@ func (data *NetworkFirmwareUpgradesRollback) fromBody(ctx context.Context, res m
 		data.Time = types.StringValue(value.String())
 	} else {
 		data.Time = types.StringNull()
+	}
+	if value := res.Get("predownload.enabled"); value.Exists() && value.Value() != nil {
+		data.PredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.PredownloadEnabled = types.BoolNull()
 	}
 	if value := res.Get("toVersion.id"); value.Exists() && value.Value() != nil {
 		data.ToVersionId = types.StringValue(value.String())
@@ -151,6 +160,11 @@ func (data *NetworkFirmwareUpgradesRollback) fromBodyPartial(ctx context.Context
 		data.Time = types.StringValue(value.String())
 	} else {
 		data.Time = types.StringNull()
+	}
+	if value := res.Get("predownload.enabled"); value.Exists() && !data.PredownloadEnabled.IsNull() {
+		data.PredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.PredownloadEnabled = types.BoolNull()
 	}
 	if value := res.Get("toVersion.id"); value.Exists() && !data.ToVersionId.IsNull() {
 		data.ToVersionId = types.StringValue(value.String())
