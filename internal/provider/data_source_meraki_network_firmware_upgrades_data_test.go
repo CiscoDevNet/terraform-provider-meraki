@@ -209,10 +209,36 @@ func TestAccDataSourceMerakiNetworkFirmwareUpgradesData(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_available_versions.0.release_date", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_available_versions.0.release_type", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_available_versions.0.short_name", ""))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_is_upgrade_available", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_current_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_current_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_current_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_current_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_current_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_time", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_from_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_from_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_from_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_from_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_from_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_to_version_firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_to_version_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_last_upgrade_to_version_short_name", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_to_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_to_version_id", "1234"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_to_version_release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_to_version_release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_next_upgrade_to_version_short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_available_versions.0.firmware", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_available_versions.0.id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_available_versions.0.release_date", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_available_versions.0.release_type", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_switch_catalyst_available_versions.0.short_name", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_is_upgrade_available", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_current_version_firmware", ""))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_firmware_upgrades_data.test", "products_wireless_current_version_id", ""))
@@ -497,10 +523,38 @@ func testAccDataSourceMerakiNetworkFirmwareUpgradesDataConfig() string {
 	config += `    release_type = ""` + "\n"
 	config += `    short_name = ""` + "\n"
 	config += `  }]` + "\n"
-	config += `  products_wireless_is_upgrade_available = ` + "\n"
+	config += `  products_switch_catalyst_is_upgrade_available = ` + "\n"
 	config += `  products_switch_catalyst_participate_in_next_beta_release = false` + "\n"
+	config += `  products_switch_catalyst_current_version_firmware = ""` + "\n"
+	config += `  products_switch_catalyst_current_version_id = ""` + "\n"
+	config += `  products_switch_catalyst_current_version_release_date = ""` + "\n"
+	config += `  products_switch_catalyst_current_version_release_type = ""` + "\n"
+	config += `  products_switch_catalyst_current_version_short_name = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_time = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_from_version_firmware = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_from_version_id = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_from_version_release_date = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_from_version_release_type = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_from_version_short_name = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_to_version_firmware = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_to_version_id = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_switch_catalyst_last_upgrade_to_version_short_name = ""` + "\n"
 	config += `  products_switch_catalyst_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_switch_catalyst_next_upgrade_to_version_firmware = ""` + "\n"
 	config += `  products_switch_catalyst_next_upgrade_to_version_id = "1234"` + "\n"
+	config += `  products_switch_catalyst_next_upgrade_to_version_release_date = ""` + "\n"
+	config += `  products_switch_catalyst_next_upgrade_to_version_release_type = ""` + "\n"
+	config += `  products_switch_catalyst_next_upgrade_to_version_short_name = ""` + "\n"
+	config += `  products_switch_catalyst_available_versions = [{` + "\n"
+	config += `    firmware = ""` + "\n"
+	config += `    id = ""` + "\n"
+	config += `    release_date = ""` + "\n"
+	config += `    release_type = ""` + "\n"
+	config += `    short_name = ""` + "\n"
+	config += `  }]` + "\n"
+	config += `  products_wireless_is_upgrade_available = ` + "\n"
 	config += `  products_wireless_participate_in_next_beta_release = false` + "\n"
 	config += `  products_wireless_current_version_firmware = ""` + "\n"
 	config += `  products_wireless_current_version_id = ""` + "\n"

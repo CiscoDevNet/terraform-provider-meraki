@@ -734,23 +734,127 @@ attributes:
         description: Firmware version short name
   - model_name: isUpgradeAvailable
     type: Bool
-    data_path: [products, wireless]
+    data_path: [products, switchCatalyst]
     description: Whether or not an upgraded recommended firmware version is available
   - model_name: participateInNextBetaRelease
     type: Bool
     data_path: [products, switchCatalyst]
     description: Whether or not the network wants beta firmware
     example: "false"
+  - model_name: firmware
+    type: String
+    data_path: [products, switchCatalyst, currentVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, switchCatalyst, currentVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, switchCatalyst, currentVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, switchCatalyst, currentVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, switchCatalyst, currentVersion]
+    description: Firmware version short name
+  - model_name: time
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade]
+    description: Timestamp of the last successful firmware upgrade
+  - model_name: firmware
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, fromVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, fromVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, fromVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, fromVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, fromVersion]
+    description: Firmware version short name
+  - model_name: firmware
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, toVersion]
+    description: Name of the firmware version
+  - model_name: id
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, toVersion]
+    description: Firmware version identifier
+  - model_name: releaseDate
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, switchCatalyst, lastUpgrade, toVersion]
+    description: Firmware version short name
   - model_name: time
     type: String
     data_path: [products, switchCatalyst, nextUpgrade]
     description: The time of the last successful upgrade
     example: "2019-03-17T17:22:52Z"
+  - model_name: firmware
+    type: String
+    data_path: [products, switchCatalyst, nextUpgrade, toVersion]
+    description: Name of the firmware version
   - model_name: id
     type: String
     data_path: [products, switchCatalyst, nextUpgrade, toVersion]
     description: The version ID
     example: "1234"
+  - model_name: releaseDate
+    type: String
+    data_path: [products, switchCatalyst, nextUpgrade, toVersion]
+    description: Release date of the firmware version
+  - model_name: releaseType
+    type: String
+    data_path: [products, switchCatalyst, nextUpgrade, toVersion]
+    description: Release type of the firmware version
+  - model_name: shortName
+    type: String
+    data_path: [products, switchCatalyst, nextUpgrade, toVersion]
+    description: Firmware version short name
+  - model_name: availableVersions
+    type: List
+    data_path: [products, switchCatalyst]
+    description: Firmware versions available for upgrade
+    attributes:
+      - model_name: firmware
+        type: String
+        description: Name of the firmware version
+      - model_name: id
+        type: String
+        description: Firmware version identifier
+      - model_name: releaseDate
+        type: String
+        description: Release date of the firmware version
+      - model_name: releaseType
+        type: String
+        description: Release type of the firmware version
+      - model_name: shortName
+        type: String
+        description: Firmware version short name
+  - model_name: isUpgradeAvailable
+    type: Bool
+    data_path: [products, wireless]
+    description: Whether or not an upgraded firmware version is available
   - model_name: participateInNextBetaRelease
     type: Bool
     data_path: [products, wireless]

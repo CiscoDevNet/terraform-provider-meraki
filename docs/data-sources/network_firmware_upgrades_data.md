@@ -154,8 +154,30 @@ data "meraki_network_firmware_upgrades_data" "example" {
 - `products_sensor_next_upgrade_to_version_short_name` (String) Firmware version short name
 - `products_sensor_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
 - `products_switch_available_versions` (Attributes List) Firmware versions available for upgrade (see [below for nested schema](#nestedatt--products_switch_available_versions))
+- `products_switch_catalyst_available_versions` (Attributes List) Firmware versions available for upgrade (see [below for nested schema](#nestedatt--products_switch_catalyst_available_versions))
+- `products_switch_catalyst_current_version_firmware` (String) Name of the firmware version
+- `products_switch_catalyst_current_version_id` (String) Firmware version identifier
+- `products_switch_catalyst_current_version_release_date` (String) Release date of the firmware version
+- `products_switch_catalyst_current_version_release_type` (String) Release type of the firmware version
+- `products_switch_catalyst_current_version_short_name` (String) Firmware version short name
+- `products_switch_catalyst_is_upgrade_available` (Boolean) Whether or not an upgraded recommended firmware version is available
+- `products_switch_catalyst_last_upgrade_from_version_firmware` (String) Name of the firmware version
+- `products_switch_catalyst_last_upgrade_from_version_id` (String) Firmware version identifier
+- `products_switch_catalyst_last_upgrade_from_version_release_date` (String) Release date of the firmware version
+- `products_switch_catalyst_last_upgrade_from_version_release_type` (String) Release type of the firmware version
+- `products_switch_catalyst_last_upgrade_from_version_short_name` (String) Firmware version short name
+- `products_switch_catalyst_last_upgrade_time` (String) Timestamp of the last successful firmware upgrade
+- `products_switch_catalyst_last_upgrade_to_version_firmware` (String) Name of the firmware version
+- `products_switch_catalyst_last_upgrade_to_version_id` (String) Firmware version identifier
+- `products_switch_catalyst_last_upgrade_to_version_release_date` (String) Release date of the firmware version
+- `products_switch_catalyst_last_upgrade_to_version_release_type` (String) Release type of the firmware version
+- `products_switch_catalyst_last_upgrade_to_version_short_name` (String) Firmware version short name
 - `products_switch_catalyst_next_upgrade_time` (String) The time of the last successful upgrade
+- `products_switch_catalyst_next_upgrade_to_version_firmware` (String) Name of the firmware version
 - `products_switch_catalyst_next_upgrade_to_version_id` (String) The version ID
+- `products_switch_catalyst_next_upgrade_to_version_release_date` (String) Release date of the firmware version
+- `products_switch_catalyst_next_upgrade_to_version_release_type` (String) Release type of the firmware version
+- `products_switch_catalyst_next_upgrade_to_version_short_name` (String) Firmware version short name
 - `products_switch_catalyst_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
 - `products_switch_current_version_firmware` (String) Name of the firmware version
 - `products_switch_current_version_id` (String) Firmware version identifier
@@ -212,7 +234,7 @@ data "meraki_network_firmware_upgrades_data" "example" {
 - `products_wireless_current_version_release_date` (String) Release date of the firmware version
 - `products_wireless_current_version_release_type` (String) Release type of the firmware version
 - `products_wireless_current_version_short_name` (String) Firmware version short name
-- `products_wireless_is_upgrade_available` (Boolean) Whether or not an upgraded recommended firmware version is available
+- `products_wireless_is_upgrade_available` (Boolean) Whether or not an upgraded firmware version is available
 - `products_wireless_last_upgrade_from_version_firmware` (String) Name of the firmware version
 - `products_wireless_last_upgrade_from_version_id` (String) Firmware version identifier
 - `products_wireless_last_upgrade_from_version_release_date` (String) Release date of the firmware version
@@ -298,6 +320,18 @@ Read-Only:
 
 <a id="nestedatt--products_switch_available_versions"></a>
 ### Nested Schema for `products_switch_available_versions`
+
+Read-Only:
+
+- `firmware` (String) Name of the firmware version
+- `id` (String) Firmware version identifier
+- `release_date` (String) Release date of the firmware version
+- `release_type` (String) Release type of the firmware version
+- `short_name` (String) Firmware version short name
+
+
+<a id="nestedatt--products_switch_catalyst_available_versions"></a>
+### Nested Schema for `products_switch_catalyst_available_versions`
 
 Read-Only:
 

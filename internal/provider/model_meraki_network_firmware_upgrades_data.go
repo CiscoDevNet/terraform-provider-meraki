@@ -189,10 +189,32 @@ type NetworkFirmwareUpgradesData struct {
 	ProductsSwitchNextUpgradeToVersionReleaseType               types.String                                                             `tfsdk:"products_switch_next_upgrade_to_version_release_type"`
 	ProductsSwitchNextUpgradeToVersionShortName                 types.String                                                             `tfsdk:"products_switch_next_upgrade_to_version_short_name"`
 	ProductsSwitchAvailableVersions                             []NetworkFirmwareUpgradesDataProductsSwitchAvailableVersions             `tfsdk:"products_switch_available_versions"`
-	ProductsWirelessIsUpgradeAvailable                          types.Bool                                                               `tfsdk:"products_wireless_is_upgrade_available"`
+	ProductsSwitchCatalystIsUpgradeAvailable                    types.Bool                                                               `tfsdk:"products_switch_catalyst_is_upgrade_available"`
 	ProductsSwitchCatalystParticipateInNextBetaRelease          types.Bool                                                               `tfsdk:"products_switch_catalyst_participate_in_next_beta_release"`
+	ProductsSwitchCatalystCurrentVersionFirmware                types.String                                                             `tfsdk:"products_switch_catalyst_current_version_firmware"`
+	ProductsSwitchCatalystCurrentVersionId                      types.String                                                             `tfsdk:"products_switch_catalyst_current_version_id"`
+	ProductsSwitchCatalystCurrentVersionReleaseDate             types.String                                                             `tfsdk:"products_switch_catalyst_current_version_release_date"`
+	ProductsSwitchCatalystCurrentVersionReleaseType             types.String                                                             `tfsdk:"products_switch_catalyst_current_version_release_type"`
+	ProductsSwitchCatalystCurrentVersionShortName               types.String                                                             `tfsdk:"products_switch_catalyst_current_version_short_name"`
+	ProductsSwitchCatalystLastUpgradeTime                       types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_time"`
+	ProductsSwitchCatalystLastUpgradeFromVersionFirmware        types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_from_version_firmware"`
+	ProductsSwitchCatalystLastUpgradeFromVersionId              types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_from_version_id"`
+	ProductsSwitchCatalystLastUpgradeFromVersionReleaseDate     types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_from_version_release_date"`
+	ProductsSwitchCatalystLastUpgradeFromVersionReleaseType     types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_from_version_release_type"`
+	ProductsSwitchCatalystLastUpgradeFromVersionShortName       types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_from_version_short_name"`
+	ProductsSwitchCatalystLastUpgradeToVersionFirmware          types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_to_version_firmware"`
+	ProductsSwitchCatalystLastUpgradeToVersionId                types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_to_version_id"`
+	ProductsSwitchCatalystLastUpgradeToVersionReleaseDate       types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_to_version_release_date"`
+	ProductsSwitchCatalystLastUpgradeToVersionReleaseType       types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_to_version_release_type"`
+	ProductsSwitchCatalystLastUpgradeToVersionShortName         types.String                                                             `tfsdk:"products_switch_catalyst_last_upgrade_to_version_short_name"`
 	ProductsSwitchCatalystNextUpgradeTime                       types.String                                                             `tfsdk:"products_switch_catalyst_next_upgrade_time"`
+	ProductsSwitchCatalystNextUpgradeToVersionFirmware          types.String                                                             `tfsdk:"products_switch_catalyst_next_upgrade_to_version_firmware"`
 	ProductsSwitchCatalystNextUpgradeToVersionId                types.String                                                             `tfsdk:"products_switch_catalyst_next_upgrade_to_version_id"`
+	ProductsSwitchCatalystNextUpgradeToVersionReleaseDate       types.String                                                             `tfsdk:"products_switch_catalyst_next_upgrade_to_version_release_date"`
+	ProductsSwitchCatalystNextUpgradeToVersionReleaseType       types.String                                                             `tfsdk:"products_switch_catalyst_next_upgrade_to_version_release_type"`
+	ProductsSwitchCatalystNextUpgradeToVersionShortName         types.String                                                             `tfsdk:"products_switch_catalyst_next_upgrade_to_version_short_name"`
+	ProductsSwitchCatalystAvailableVersions                     []NetworkFirmwareUpgradesDataProductsSwitchCatalystAvailableVersions     `tfsdk:"products_switch_catalyst_available_versions"`
+	ProductsWirelessIsUpgradeAvailable                          types.Bool                                                               `tfsdk:"products_wireless_is_upgrade_available"`
 	ProductsWirelessParticipateInNextBetaRelease                types.Bool                                                               `tfsdk:"products_wireless_participate_in_next_beta_release"`
 	ProductsWirelessCurrentVersionFirmware                      types.String                                                             `tfsdk:"products_wireless_current_version_firmware"`
 	ProductsWirelessCurrentVersionId                            types.String                                                             `tfsdk:"products_wireless_current_version_id"`
@@ -288,6 +310,14 @@ type NetworkFirmwareUpgradesDataProductsSensorAvailableVersions struct {
 }
 
 type NetworkFirmwareUpgradesDataProductsSwitchAvailableVersions struct {
+	Firmware    types.String `tfsdk:"firmware"`
+	Id          types.String `tfsdk:"id"`
+	ReleaseDate types.String `tfsdk:"release_date"`
+	ReleaseType types.String `tfsdk:"release_type"`
+	ShortName   types.String `tfsdk:"short_name"`
+}
+
+type NetworkFirmwareUpgradesDataProductsSwitchCatalystAvailableVersions struct {
 	Firmware    types.String `tfsdk:"firmware"`
 	Id          types.String `tfsdk:"id"`
 	ReleaseDate types.String `tfsdk:"release_date"`
@@ -896,17 +926,102 @@ func (data NetworkFirmwareUpgradesData) toBody(ctx context.Context, state Networ
 			body, _ = sjson.SetRaw(body, "products.switch.availableVersions.-1", itemBody)
 		}
 	}
-	if !data.ProductsWirelessIsUpgradeAvailable.IsNull() {
-		body, _ = sjson.Set(body, "products.wireless.isUpgradeAvailable", data.ProductsWirelessIsUpgradeAvailable.ValueBool())
+	if !data.ProductsSwitchCatalystIsUpgradeAvailable.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.isUpgradeAvailable", data.ProductsSwitchCatalystIsUpgradeAvailable.ValueBool())
 	}
 	if !data.ProductsSwitchCatalystParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.switchCatalyst.participateInNextBetaRelease", data.ProductsSwitchCatalystParticipateInNextBetaRelease.ValueBool())
 	}
+	if !data.ProductsSwitchCatalystCurrentVersionFirmware.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.currentVersion.firmware", data.ProductsSwitchCatalystCurrentVersionFirmware.ValueString())
+	}
+	if !data.ProductsSwitchCatalystCurrentVersionId.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.currentVersion.id", data.ProductsSwitchCatalystCurrentVersionId.ValueString())
+	}
+	if !data.ProductsSwitchCatalystCurrentVersionReleaseDate.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.currentVersion.releaseDate", data.ProductsSwitchCatalystCurrentVersionReleaseDate.ValueString())
+	}
+	if !data.ProductsSwitchCatalystCurrentVersionReleaseType.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.currentVersion.releaseType", data.ProductsSwitchCatalystCurrentVersionReleaseType.ValueString())
+	}
+	if !data.ProductsSwitchCatalystCurrentVersionShortName.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.currentVersion.shortName", data.ProductsSwitchCatalystCurrentVersionShortName.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeTime.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.time", data.ProductsSwitchCatalystLastUpgradeTime.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeFromVersionFirmware.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.fromVersion.firmware", data.ProductsSwitchCatalystLastUpgradeFromVersionFirmware.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeFromVersionId.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.fromVersion.id", data.ProductsSwitchCatalystLastUpgradeFromVersionId.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseDate.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.fromVersion.releaseDate", data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseDate.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseType.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.fromVersion.releaseType", data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseType.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeFromVersionShortName.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.fromVersion.shortName", data.ProductsSwitchCatalystLastUpgradeFromVersionShortName.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeToVersionFirmware.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.toVersion.firmware", data.ProductsSwitchCatalystLastUpgradeToVersionFirmware.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeToVersionId.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.toVersion.id", data.ProductsSwitchCatalystLastUpgradeToVersionId.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeToVersionReleaseDate.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.toVersion.releaseDate", data.ProductsSwitchCatalystLastUpgradeToVersionReleaseDate.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeToVersionReleaseType.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.toVersion.releaseType", data.ProductsSwitchCatalystLastUpgradeToVersionReleaseType.ValueString())
+	}
+	if !data.ProductsSwitchCatalystLastUpgradeToVersionShortName.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.lastUpgrade.toVersion.shortName", data.ProductsSwitchCatalystLastUpgradeToVersionShortName.ValueString())
+	}
 	if !data.ProductsSwitchCatalystNextUpgradeTime.IsNull() {
 		body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.time", data.ProductsSwitchCatalystNextUpgradeTime.ValueString())
 	}
+	if !data.ProductsSwitchCatalystNextUpgradeToVersionFirmware.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.toVersion.firmware", data.ProductsSwitchCatalystNextUpgradeToVersionFirmware.ValueString())
+	}
 	if !data.ProductsSwitchCatalystNextUpgradeToVersionId.IsNull() {
 		body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.toVersion.id", data.ProductsSwitchCatalystNextUpgradeToVersionId.ValueString())
+	}
+	if !data.ProductsSwitchCatalystNextUpgradeToVersionReleaseDate.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.toVersion.releaseDate", data.ProductsSwitchCatalystNextUpgradeToVersionReleaseDate.ValueString())
+	}
+	if !data.ProductsSwitchCatalystNextUpgradeToVersionReleaseType.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.toVersion.releaseType", data.ProductsSwitchCatalystNextUpgradeToVersionReleaseType.ValueString())
+	}
+	if !data.ProductsSwitchCatalystNextUpgradeToVersionShortName.IsNull() {
+		body, _ = sjson.Set(body, "products.switchCatalyst.nextUpgrade.toVersion.shortName", data.ProductsSwitchCatalystNextUpgradeToVersionShortName.ValueString())
+	}
+	if len(data.ProductsSwitchCatalystAvailableVersions) > 0 {
+		body, _ = sjson.Set(body, "products.switchCatalyst.availableVersions", []interface{}{})
+		for _, item := range data.ProductsSwitchCatalystAvailableVersions {
+			itemBody := ""
+			if !item.Firmware.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "firmware", item.Firmware.ValueString())
+			}
+			if !item.Id.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "id", item.Id.ValueString())
+			}
+			if !item.ReleaseDate.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "releaseDate", item.ReleaseDate.ValueString())
+			}
+			if !item.ReleaseType.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "releaseType", item.ReleaseType.ValueString())
+			}
+			if !item.ShortName.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "shortName", item.ShortName.ValueString())
+			}
+			body, _ = sjson.SetRaw(body, "products.switchCatalyst.availableVersions.-1", itemBody)
+		}
+	}
+	if !data.ProductsWirelessIsUpgradeAvailable.IsNull() {
+		body, _ = sjson.Set(body, "products.wireless.isUpgradeAvailable", data.ProductsWirelessIsUpgradeAvailable.ValueBool())
 	}
 	if !data.ProductsWirelessParticipateInNextBetaRelease.IsNull() {
 		body, _ = sjson.Set(body, "products.wireless.participateInNextBetaRelease", data.ProductsWirelessParticipateInNextBetaRelease.ValueBool())
@@ -2039,25 +2154,164 @@ func (data *NetworkFirmwareUpgradesData) fromBody(ctx context.Context, res merak
 			return true
 		})
 	}
-	if value := res.Get("products.wireless.isUpgradeAvailable"); value.Exists() && value.Value() != nil {
-		data.ProductsWirelessIsUpgradeAvailable = types.BoolValue(value.Bool())
+	if value := res.Get("products.switchCatalyst.isUpgradeAvailable"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystIsUpgradeAvailable = types.BoolValue(value.Bool())
 	} else {
-		data.ProductsWirelessIsUpgradeAvailable = types.BoolNull()
+		data.ProductsSwitchCatalystIsUpgradeAvailable = types.BoolNull()
 	}
 	if value := res.Get("products.switchCatalyst.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsSwitchCatalystParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSwitchCatalystParticipateInNextBetaRelease = types.BoolNull()
 	}
+	if value := res.Get("products.switchCatalyst.currentVersion.firmware"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystCurrentVersionFirmware = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionFirmware = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.currentVersion.id"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystCurrentVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionId = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.currentVersion.releaseDate"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystCurrentVersionReleaseDate = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionReleaseDate = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.currentVersion.releaseType"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystCurrentVersionReleaseType = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionReleaseType = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.currentVersion.shortName"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystCurrentVersionShortName = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionShortName = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.time"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeTime = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeTime = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.firmware"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionFirmware = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionFirmware = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.id"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionId = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.releaseDate"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseDate = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseDate = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.releaseType"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseType = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseType = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.shortName"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionShortName = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionShortName = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.firmware"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeToVersionFirmware = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionFirmware = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeToVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionId = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.releaseDate"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeToVersionReleaseDate = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionReleaseDate = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.releaseType"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeToVersionReleaseType = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionReleaseType = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.shortName"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystLastUpgradeToVersionShortName = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionShortName = types.StringNull()
+	}
 	if value := res.Get("products.switchCatalyst.nextUpgrade.time"); value.Exists() && value.Value() != nil {
 		data.ProductsSwitchCatalystNextUpgradeTime = types.StringValue(value.String())
 	} else {
 		data.ProductsSwitchCatalystNextUpgradeTime = types.StringNull()
 	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.firmware"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystNextUpgradeToVersionFirmware = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystNextUpgradeToVersionFirmware = types.StringNull()
+	}
 	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
 		data.ProductsSwitchCatalystNextUpgradeToVersionId = types.StringValue(value.String())
 	} else {
 		data.ProductsSwitchCatalystNextUpgradeToVersionId = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.releaseDate"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystNextUpgradeToVersionReleaseDate = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystNextUpgradeToVersionReleaseDate = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.releaseType"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystNextUpgradeToVersionReleaseType = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystNextUpgradeToVersionReleaseType = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.shortName"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystNextUpgradeToVersionShortName = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystNextUpgradeToVersionShortName = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.availableVersions"); value.Exists() && value.Value() != nil {
+		data.ProductsSwitchCatalystAvailableVersions = make([]NetworkFirmwareUpgradesDataProductsSwitchCatalystAvailableVersions, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := NetworkFirmwareUpgradesDataProductsSwitchCatalystAvailableVersions{}
+			if value := res.Get("firmware"); value.Exists() && value.Value() != nil {
+				data.Firmware = types.StringValue(value.String())
+			} else {
+				data.Firmware = types.StringNull()
+			}
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
+			if value := res.Get("releaseDate"); value.Exists() && value.Value() != nil {
+				data.ReleaseDate = types.StringValue(value.String())
+			} else {
+				data.ReleaseDate = types.StringNull()
+			}
+			if value := res.Get("releaseType"); value.Exists() && value.Value() != nil {
+				data.ReleaseType = types.StringValue(value.String())
+			} else {
+				data.ReleaseType = types.StringNull()
+			}
+			if value := res.Get("shortName"); value.Exists() && value.Value() != nil {
+				data.ShortName = types.StringValue(value.String())
+			} else {
+				data.ShortName = types.StringNull()
+			}
+			(*parent).ProductsSwitchCatalystAvailableVersions = append((*parent).ProductsSwitchCatalystAvailableVersions, data)
+			return true
+		})
+	}
+	if value := res.Get("products.wireless.isUpgradeAvailable"); value.Exists() && value.Value() != nil {
+		data.ProductsWirelessIsUpgradeAvailable = types.BoolValue(value.Bool())
+	} else {
+		data.ProductsWirelessIsUpgradeAvailable = types.BoolNull()
 	}
 	if value := res.Get("products.wireless.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolValue(value.Bool())
@@ -3491,25 +3745,193 @@ func (data *NetworkFirmwareUpgradesData) fromBodyPartial(ctx context.Context, re
 		}
 		(*parent).ProductsSwitchAvailableVersions[i] = data
 	}
-	if value := res.Get("products.wireless.isUpgradeAvailable"); value.Exists() && !data.ProductsWirelessIsUpgradeAvailable.IsNull() {
-		data.ProductsWirelessIsUpgradeAvailable = types.BoolValue(value.Bool())
+	if value := res.Get("products.switchCatalyst.isUpgradeAvailable"); value.Exists() && !data.ProductsSwitchCatalystIsUpgradeAvailable.IsNull() {
+		data.ProductsSwitchCatalystIsUpgradeAvailable = types.BoolValue(value.Bool())
 	} else {
-		data.ProductsWirelessIsUpgradeAvailable = types.BoolNull()
+		data.ProductsSwitchCatalystIsUpgradeAvailable = types.BoolNull()
 	}
 	if value := res.Get("products.switchCatalyst.participateInNextBetaRelease"); value.Exists() && !data.ProductsSwitchCatalystParticipateInNextBetaRelease.IsNull() {
 		data.ProductsSwitchCatalystParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsSwitchCatalystParticipateInNextBetaRelease = types.BoolNull()
 	}
+	if value := res.Get("products.switchCatalyst.currentVersion.firmware"); value.Exists() && !data.ProductsSwitchCatalystCurrentVersionFirmware.IsNull() {
+		data.ProductsSwitchCatalystCurrentVersionFirmware = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionFirmware = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.currentVersion.id"); value.Exists() && !data.ProductsSwitchCatalystCurrentVersionId.IsNull() {
+		data.ProductsSwitchCatalystCurrentVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionId = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.currentVersion.releaseDate"); value.Exists() && !data.ProductsSwitchCatalystCurrentVersionReleaseDate.IsNull() {
+		data.ProductsSwitchCatalystCurrentVersionReleaseDate = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionReleaseDate = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.currentVersion.releaseType"); value.Exists() && !data.ProductsSwitchCatalystCurrentVersionReleaseType.IsNull() {
+		data.ProductsSwitchCatalystCurrentVersionReleaseType = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionReleaseType = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.currentVersion.shortName"); value.Exists() && !data.ProductsSwitchCatalystCurrentVersionShortName.IsNull() {
+		data.ProductsSwitchCatalystCurrentVersionShortName = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystCurrentVersionShortName = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.time"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeTime.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeTime = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeTime = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.firmware"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeFromVersionFirmware.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionFirmware = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionFirmware = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.id"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeFromVersionId.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionId = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.releaseDate"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseDate.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseDate = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseDate = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.releaseType"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseType.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseType = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionReleaseType = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.fromVersion.shortName"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeFromVersionShortName.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionShortName = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeFromVersionShortName = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.firmware"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeToVersionFirmware.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeToVersionFirmware = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionFirmware = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.id"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeToVersionId.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeToVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionId = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.releaseDate"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeToVersionReleaseDate.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeToVersionReleaseDate = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionReleaseDate = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.releaseType"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeToVersionReleaseType.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeToVersionReleaseType = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionReleaseType = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.lastUpgrade.toVersion.shortName"); value.Exists() && !data.ProductsSwitchCatalystLastUpgradeToVersionShortName.IsNull() {
+		data.ProductsSwitchCatalystLastUpgradeToVersionShortName = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystLastUpgradeToVersionShortName = types.StringNull()
+	}
 	if value := res.Get("products.switchCatalyst.nextUpgrade.time"); value.Exists() && !data.ProductsSwitchCatalystNextUpgradeTime.IsNull() {
 		data.ProductsSwitchCatalystNextUpgradeTime = types.StringValue(value.String())
 	} else {
 		data.ProductsSwitchCatalystNextUpgradeTime = types.StringNull()
 	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.firmware"); value.Exists() && !data.ProductsSwitchCatalystNextUpgradeToVersionFirmware.IsNull() {
+		data.ProductsSwitchCatalystNextUpgradeToVersionFirmware = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystNextUpgradeToVersionFirmware = types.StringNull()
+	}
 	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsSwitchCatalystNextUpgradeToVersionId.IsNull() {
 		data.ProductsSwitchCatalystNextUpgradeToVersionId = types.StringValue(value.String())
 	} else {
 		data.ProductsSwitchCatalystNextUpgradeToVersionId = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.releaseDate"); value.Exists() && !data.ProductsSwitchCatalystNextUpgradeToVersionReleaseDate.IsNull() {
+		data.ProductsSwitchCatalystNextUpgradeToVersionReleaseDate = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystNextUpgradeToVersionReleaseDate = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.releaseType"); value.Exists() && !data.ProductsSwitchCatalystNextUpgradeToVersionReleaseType.IsNull() {
+		data.ProductsSwitchCatalystNextUpgradeToVersionReleaseType = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystNextUpgradeToVersionReleaseType = types.StringNull()
+	}
+	if value := res.Get("products.switchCatalyst.nextUpgrade.toVersion.shortName"); value.Exists() && !data.ProductsSwitchCatalystNextUpgradeToVersionShortName.IsNull() {
+		data.ProductsSwitchCatalystNextUpgradeToVersionShortName = types.StringValue(value.String())
+	} else {
+		data.ProductsSwitchCatalystNextUpgradeToVersionShortName = types.StringNull()
+	}
+	for i := 0; i < len(data.ProductsSwitchCatalystAvailableVersions); i++ {
+		keys := [...]string{"firmware", "id", "releaseDate", "releaseType", "shortName"}
+		keyValues := [...]string{data.ProductsSwitchCatalystAvailableVersions[i].Firmware.ValueString(), data.ProductsSwitchCatalystAvailableVersions[i].Id.ValueString(), data.ProductsSwitchCatalystAvailableVersions[i].ReleaseDate.ValueString(), data.ProductsSwitchCatalystAvailableVersions[i].ReleaseType.ValueString(), data.ProductsSwitchCatalystAvailableVersions[i].ShortName.ValueString()}
+
+		parent := &data
+		data := (*parent).ProductsSwitchCatalystAvailableVersions[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.Get("products.switchCatalyst.availableVersions").ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing ProductsSwitchCatalystAvailableVersions[%d] = %+v",
+				i,
+				(*parent).ProductsSwitchCatalystAvailableVersions[i],
+			))
+			(*parent).ProductsSwitchCatalystAvailableVersions = slices.Delete((*parent).ProductsSwitchCatalystAvailableVersions, i, i+1)
+			i--
+
+			continue
+		}
+		if value := res.Get("firmware"); value.Exists() && !data.Firmware.IsNull() {
+			data.Firmware = types.StringValue(value.String())
+		} else {
+			data.Firmware = types.StringNull()
+		}
+		if value := res.Get("id"); value.Exists() && !data.Id.IsNull() {
+			data.Id = types.StringValue(value.String())
+		} else {
+			data.Id = types.StringNull()
+		}
+		if value := res.Get("releaseDate"); value.Exists() && !data.ReleaseDate.IsNull() {
+			data.ReleaseDate = types.StringValue(value.String())
+		} else {
+			data.ReleaseDate = types.StringNull()
+		}
+		if value := res.Get("releaseType"); value.Exists() && !data.ReleaseType.IsNull() {
+			data.ReleaseType = types.StringValue(value.String())
+		} else {
+			data.ReleaseType = types.StringNull()
+		}
+		if value := res.Get("shortName"); value.Exists() && !data.ShortName.IsNull() {
+			data.ShortName = types.StringValue(value.String())
+		} else {
+			data.ShortName = types.StringNull()
+		}
+		(*parent).ProductsSwitchCatalystAvailableVersions[i] = data
+	}
+	if value := res.Get("products.wireless.isUpgradeAvailable"); value.Exists() && !data.ProductsWirelessIsUpgradeAvailable.IsNull() {
+		data.ProductsWirelessIsUpgradeAvailable = types.BoolValue(value.Bool())
+	} else {
+		data.ProductsWirelessIsUpgradeAvailable = types.BoolNull()
 	}
 	if value := res.Get("products.wireless.participateInNextBetaRelease"); value.Exists() && !data.ProductsWirelessParticipateInNextBetaRelease.IsNull() {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolValue(value.Bool())

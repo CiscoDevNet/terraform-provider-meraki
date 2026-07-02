@@ -813,7 +813,7 @@ func (d *NetworkFirmwareUpgradesDataDataSource) Schema(ctx context.Context, req 
 					},
 				},
 			},
-			"products_wireless_is_upgrade_available": schema.BoolAttribute{
+			"products_switch_catalyst_is_upgrade_available": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not an upgraded recommended firmware version is available",
 				Computed:            true,
 			},
@@ -821,12 +821,124 @@ func (d *NetworkFirmwareUpgradesDataDataSource) Schema(ctx context.Context, req 
 				MarkdownDescription: "Whether or not the network wants beta firmware",
 				Computed:            true,
 			},
+			"products_switch_catalyst_current_version_firmware": schema.StringAttribute{
+				MarkdownDescription: "Name of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_current_version_id": schema.StringAttribute{
+				MarkdownDescription: "Firmware version identifier",
+				Computed:            true,
+			},
+			"products_switch_catalyst_current_version_release_date": schema.StringAttribute{
+				MarkdownDescription: "Release date of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_current_version_release_type": schema.StringAttribute{
+				MarkdownDescription: "Release type of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_current_version_short_name": schema.StringAttribute{
+				MarkdownDescription: "Firmware version short name",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: "Timestamp of the last successful firmware upgrade",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_from_version_firmware": schema.StringAttribute{
+				MarkdownDescription: "Name of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_from_version_id": schema.StringAttribute{
+				MarkdownDescription: "Firmware version identifier",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_from_version_release_date": schema.StringAttribute{
+				MarkdownDescription: "Release date of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_from_version_release_type": schema.StringAttribute{
+				MarkdownDescription: "Release type of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_from_version_short_name": schema.StringAttribute{
+				MarkdownDescription: "Firmware version short name",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: "Name of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: "Firmware version identifier",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: "Release date of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: "Release type of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_last_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: "Firmware version short name",
+				Computed:            true,
+			},
 			"products_switch_catalyst_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: "The time of the last successful upgrade",
 				Computed:            true,
 			},
+			"products_switch_catalyst_next_upgrade_to_version_firmware": schema.StringAttribute{
+				MarkdownDescription: "Name of the firmware version",
+				Computed:            true,
+			},
 			"products_switch_catalyst_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
+				Computed:            true,
+			},
+			"products_switch_catalyst_next_upgrade_to_version_release_date": schema.StringAttribute{
+				MarkdownDescription: "Release date of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_next_upgrade_to_version_release_type": schema.StringAttribute{
+				MarkdownDescription: "Release type of the firmware version",
+				Computed:            true,
+			},
+			"products_switch_catalyst_next_upgrade_to_version_short_name": schema.StringAttribute{
+				MarkdownDescription: "Firmware version short name",
+				Computed:            true,
+			},
+			"products_switch_catalyst_available_versions": schema.ListNestedAttribute{
+				MarkdownDescription: "Firmware versions available for upgrade",
+				Computed:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"firmware": schema.StringAttribute{
+							MarkdownDescription: "Name of the firmware version",
+							Computed:            true,
+						},
+						"id": schema.StringAttribute{
+							MarkdownDescription: "Firmware version identifier",
+							Computed:            true,
+						},
+						"release_date": schema.StringAttribute{
+							MarkdownDescription: "Release date of the firmware version",
+							Computed:            true,
+						},
+						"release_type": schema.StringAttribute{
+							MarkdownDescription: "Release type of the firmware version",
+							Computed:            true,
+						},
+						"short_name": schema.StringAttribute{
+							MarkdownDescription: "Firmware version short name",
+							Computed:            true,
+						},
+					},
+				},
+			},
+			"products_wireless_is_upgrade_available": schema.BoolAttribute{
+				MarkdownDescription: "Whether or not an upgraded firmware version is available",
 				Computed:            true,
 			},
 			"products_wireless_participate_in_next_beta_release": schema.BoolAttribute{
