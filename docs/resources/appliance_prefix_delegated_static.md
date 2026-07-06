@@ -51,8 +51,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_appliance_prefix_delegated_static.example
   identity = {
-    "network_id" : "<network_id>"
-    "id" : "<id>"
+    network_id = "<network_id>"
+    id         = "<id>"
   }
 }
 ```

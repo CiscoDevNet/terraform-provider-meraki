@@ -46,8 +46,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_wireless_zigbee_door_lock.example
   identity = {
-    "organization_id" : "<organization_id>"
-    "door_lock_id" : "<door_lock_id>"
+    organization_id = "<organization_id>"
+    door_lock_id    = "<door_lock_id>"
   }
 }
 ```

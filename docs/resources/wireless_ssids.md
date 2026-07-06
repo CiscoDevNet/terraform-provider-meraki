@@ -48,6 +48,7 @@ resource "meraki_wireless_ssids" "example" {
     dot11r_enabled                  = false
     dot11w_enabled                  = false
     dot11w_required                 = false
+    named_vlans_tagging_enabled     = false
     speed_burst_enabled             = false
     availability_tags               = ["tag1"]
   }]
@@ -252,8 +253,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_wireless_ssids.example
   identity = {
-    "organization_id" : "<organization_id>"
-    "network_id" : "<network_id>"
+    organization_id = "<organization_id>"
+    network_id      = "<network_id>"
   }
 }
 ```

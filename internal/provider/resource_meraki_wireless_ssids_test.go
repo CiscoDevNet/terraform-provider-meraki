@@ -140,6 +140,7 @@ func testAccMerakiWirelessSSIDsConfig_all() string {
 	config += `  dot11r_enabled = false` + "\n"
 	config += `  dot11w_enabled = false` + "\n"
 	config += `  dot11w_required = false` + "\n"
+	config += `  named_vlans_tagging_enabled = false` + "\n"
 	config += `  speed_burst_enabled = false` + "\n"
 	config += `  availability_tags = ["tag1"]` + "\n"
 	config += ` }]` + "\n"

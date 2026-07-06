@@ -90,7 +90,7 @@ func (r *OrganizationAuthRADIUSServerResource) Schema(ctx context.Context, req r
 			},
 			"secret": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Shared secret of the RADIUS server").String,
-				Required:            true,
+				Optional:            true,
 				Sensitive:           true,
 			},
 			"secret_wo": schema.StringAttribute{
@@ -211,6 +211,9 @@ func (r *OrganizationAuthRADIUSServerResource) Read(ctx context.Context, req res
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

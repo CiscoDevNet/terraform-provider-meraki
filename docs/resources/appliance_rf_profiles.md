@@ -93,8 +93,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_appliance_rf_profiles.example
   identity = {
-    "organization_id" : "<organization_id>"
-    "network_id" : "<network_id>"
+    organization_id = "<organization_id>"
+    network_id      = "<network_id>"
   }
 }
 ```

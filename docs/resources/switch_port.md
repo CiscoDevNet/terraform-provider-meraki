@@ -97,8 +97,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_switch_port.example
   identity = {
-    "serial" : "<serial>"
-    "port_id" : "<port_id>"
+    serial  = "<serial>"
+    port_id = "<port_id>"
   }
 }
 ```

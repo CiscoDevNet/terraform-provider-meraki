@@ -70,7 +70,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_switch_alternate_management_interface.example
   identity = {
-    "network_id" : "<network_id>"
+    network_id = "<network_id>"
   }
 }
 ```

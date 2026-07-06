@@ -44,7 +44,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_organization_adaptive_policy_settings.example
   identity = {
-    "organization_id" : "<organization_id>"
+    organization_id = "<organization_id>"
   }
 }
 ```

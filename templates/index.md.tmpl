@@ -15,7 +15,7 @@ All resources and data sources have been tested with the following API releases.
 
 | API | Version |
 | ---------------- | ------- |
-| Meraki Dashboard | 1.65.0  |
+| Meraki Dashboard | 1.66.0  |
 
 ## Guides
 

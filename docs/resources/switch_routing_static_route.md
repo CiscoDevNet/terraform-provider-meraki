@@ -52,8 +52,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_switch_routing_static_route.example
   identity = {
-    "serial" : "<serial>"
-    "id" : "<id>"
+    serial = "<serial>"
+    id     = "<id>"
   }
 }
 ```

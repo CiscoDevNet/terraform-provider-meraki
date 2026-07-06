@@ -75,7 +75,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_appliance_inbound_firewall_rules.example
   identity = {
-    "network_id" : "<network_id>"
+    network_id = "<network_id>"
   }
 }
 ```

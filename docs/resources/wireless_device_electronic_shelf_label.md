@@ -46,7 +46,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_wireless_device_electronic_shelf_label.example
   identity = {
-    "serial" : "<serial>"
+    serial = "<serial>"
   }
 }
 ```

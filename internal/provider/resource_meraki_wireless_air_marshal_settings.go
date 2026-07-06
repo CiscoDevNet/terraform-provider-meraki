@@ -187,6 +187,9 @@ func (r *WirelessAirMarshalSettingsResource) Read(ctx context.Context, req resou
 	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
 	res, err := r.client.Get(networkPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -198,6 +201,9 @@ func (r *WirelessAirMarshalSettingsResource) Read(ctx context.Context, req resou
 	settingsPath := fmt.Sprintf("/organizations/%v/wireless/airMarshal/settings/byNetwork?networkIds[]=%v", orgId, state.NetworkId.ValueString())
 	res, err = r.client.Get(settingsPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

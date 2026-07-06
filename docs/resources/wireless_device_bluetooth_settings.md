@@ -48,7 +48,7 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_wireless_device_bluetooth_settings.example
   identity = {
-    "serial" : "<serial>"
+    serial = "<serial>"
   }
 }
 ```

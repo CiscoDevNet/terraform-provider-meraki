@@ -39,7 +39,6 @@ resource "meraki_network_meraki_auth_user" "example" {
 - `email` (String) Email address of the user
 - `name` (String) Name of the user. Only required If the user is not a Dashboard administrator.
 - `network_id` (String) Network ID
-- `password` (String, Sensitive) The password for this user account. Only required If the user is not a Dashboard administrator.
 
 ### Optional
 
@@ -49,6 +48,7 @@ resource "meraki_network_meraki_auth_user" "example" {
   - Choices: `802.1X`, `Client VPN`, `Guest`
 - `email_password_to_user` (Boolean) Whether or not Meraki should email the password to user. Default is false.
 - `is_admin` (Boolean) Whether or not the user is a Dashboard administrator.
+- `password` (String, Sensitive) The password for this user account. Only required If the user is not a Dashboard administrator.
 - `password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
 - `password_wo_version` (Number) Version of password_wo.
 
@@ -77,8 +77,8 @@ In Terraform v1.12.0 and later, the [`import` block](https://developer.hashicorp
 import {
   to = meraki_network_meraki_auth_user.example
   identity = {
-    "network_id" : "<network_id>"
-    "id" : "<id>"
+    network_id = "<network_id>"
+    id         = "<id>"
   }
 }
 ```
