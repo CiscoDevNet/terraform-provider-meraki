@@ -194,6 +194,13 @@ func (data DeviceManagementInterface) toBodyPreservingNulls(ctx context.Context,
 			body, _ = sjson.Set(body, "wan1.staticDns", values)
 		}
 	}
+	if value := res.Get("wan1.vrf.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.vrf.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.vrf.name", value.String())
+		}
+	}
 	if value := res.Get("wan2.staticGatewayIp"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "wan2.staticGatewayIp", "null")
@@ -245,6 +252,13 @@ func (data DeviceManagementInterface) toBodyPreservingNulls(ctx context.Context,
 				values = append(values, v.String())
 			}
 			body, _ = sjson.Set(body, "wan2.staticDns", values)
+		}
+	}
+	if value := res.Get("wan2.vrf.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.vrf.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.vrf.name", value.String())
 		}
 	}
 	return body
