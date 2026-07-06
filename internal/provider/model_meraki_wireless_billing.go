@@ -93,6 +93,71 @@ func (data WirelessBilling) toBody(ctx context.Context, state WirelessBilling) s
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessBilling) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("currency"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "currency", "null")
+		} else {
+			body, _ = sjson.Set(body, "currency", value.String())
+		}
+	}
+	if value := res.Get("plans"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "plans", "null")
+		} else {
+			body, _ = sjson.Set(body, "plans", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("price"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "price", "null")
+					} else {
+						body, _ = sjson.Set(body, "price", value.Float())
+					}
+				}
+				if value := res.Get("timeLimit"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "timeLimit", "null")
+					} else {
+						body, _ = sjson.Set(body, "timeLimit", value.String())
+					}
+				}
+				if value := res.Get("bandwidthLimits.limitDown"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "bandwidthLimits.limitDown", "null")
+					} else {
+						body, _ = sjson.Set(body, "bandwidthLimits.limitDown", value.Int())
+					}
+				}
+				if value := res.Get("bandwidthLimits.limitUp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "bandwidthLimits.limitUp", "null")
+					} else {
+						body, _ = sjson.Set(body, "bandwidthLimits.limitUp", value.Int())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "plans.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessBilling) fromBody(ctx context.Context, res meraki.Res) {

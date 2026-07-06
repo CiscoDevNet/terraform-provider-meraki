@@ -86,6 +86,57 @@ func (data ApplianceConnectivityMonitoringDestinations) toBody(ctx context.Conte
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceConnectivityMonitoringDestinations) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("destinations"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "destinations", "null")
+		} else {
+			body, _ = sjson.Set(body, "destinations", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("default"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "default", "null")
+					} else {
+						body, _ = sjson.Set(body, "default", value.Bool())
+					}
+				}
+				if value := res.Get("description"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "description", "null")
+					} else {
+						body, _ = sjson.Set(body, "description", value.String())
+					}
+				}
+				if value := res.Get("ip"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ip", "null")
+					} else {
+						body, _ = sjson.Set(body, "ip", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "destinations.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceConnectivityMonitoringDestinations) fromBody(ctx context.Context, res meraki.Res) {

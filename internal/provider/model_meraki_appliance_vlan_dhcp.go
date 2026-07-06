@@ -169,6 +169,185 @@ func (data ApplianceVLANDHCP) toBody(ctx context.Context, state ApplianceVLANDHC
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceVLANDHCP) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("dhcpBootFilename"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpBootFilename", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpBootFilename", value.String())
+		}
+	}
+	if value := res.Get("dhcpBootNextServer"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpBootNextServer", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpBootNextServer", value.String())
+		}
+	}
+	if value := res.Get("dhcpBootOptionsEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpBootOptionsEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpBootOptionsEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("dhcpHandling"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpHandling", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpHandling", value.String())
+		}
+	}
+	if value := res.Get("dhcpLeaseTime"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpLeaseTime", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpLeaseTime", value.String())
+		}
+	}
+	if value := res.Get("dnsNameservers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dnsNameservers", "null")
+		} else {
+			body, _ = sjson.Set(body, "dnsNameservers", value.String())
+		}
+	}
+	if value := res.Get("vpnNatSubnet"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "vpnNatSubnet", "null")
+		} else {
+			body, _ = sjson.Set(body, "vpnNatSubnet", value.String())
+		}
+	}
+	if value := res.Get("fixedIpAssignments"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "fixedIpAssignments", "null")
+		} else {
+			body, _ = sjson.Set(body, "fixedIpAssignments", map[string]interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("ip"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ip", "null")
+					} else {
+						body, _ = sjson.Set(body, "ip", value.String())
+					}
+				}
+				if value := res.Get("name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "name", "null")
+					} else {
+						body, _ = sjson.Set(body, "name", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "fixedIpAssignments."+k.String(), body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("mandatoryDhcp.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "mandatoryDhcp.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "mandatoryDhcp.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("dhcpOptions"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpOptions", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpOptions", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("code"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "code", "null")
+					} else {
+						body, _ = sjson.Set(body, "code", value.String())
+					}
+				}
+				if value := res.Get("type"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "type", "null")
+					} else {
+						body, _ = sjson.Set(body, "type", value.String())
+					}
+				}
+				if value := res.Get("value"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "value", "null")
+					} else {
+						body, _ = sjson.Set(body, "value", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "dhcpOptions.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("dhcpRelayServerIps"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpRelayServerIps", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "dhcpRelayServerIps", values)
+		}
+	}
+	if value := res.Get("reservedIpRanges"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "reservedIpRanges", "null")
+		} else {
+			body, _ = sjson.Set(body, "reservedIpRanges", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("comment"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "comment", "null")
+					} else {
+						body, _ = sjson.Set(body, "comment", value.String())
+					}
+				}
+				if value := res.Get("end"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "end", "null")
+					} else {
+						body, _ = sjson.Set(body, "end", value.String())
+					}
+				}
+				if value := res.Get("start"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "start", "null")
+					} else {
+						body, _ = sjson.Set(body, "start", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "reservedIpRanges.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceVLANDHCP) fromBody(ctx context.Context, res meraki.Res) {
