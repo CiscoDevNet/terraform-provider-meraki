@@ -325,17 +325,6 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 
 // End of section. //template:end toBody
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
-
-// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
-// reads directly from the raw API response (gjson) instead of from the
-// Terraform model. Unlike toBody, it preserves attributes that the API
-// explicitly returned as `null` (emitting them as JSON `null` rather than
-// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
-// path so that explicit-null fields captured during Create are restored on
-// Delete. Keep this method in sync with toBody — both walk the same
-// `.Attributes` schema and must agree on which fields are writable.
-func (data {{camelCase .Name}}) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
 {{- define "toBodyPreservingNullsTemplate"}}
 	{{- range .Attributes}}
 	{{- if or .Computed (not .ModelName) .Value .Reference .WriteOnly}}{{- continue}}{{- end}}
@@ -385,12 +374,26 @@ func (data {{camelCase .Name}}) toBodyPreservingNulls(ctx context.Context, res m
 	{{- end}}
 	{{- end}}
 {{- end}}
+{{- if isSingleton .}}
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data {{camelCase .Name}}) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
 	body := ""
 	{{- template "toBodyPreservingNullsTemplate" .}}
 	return body
 }
 
 // End of section. //template:end toBodyPreservingNulls
+{{- end}}
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 

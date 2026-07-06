@@ -139,8 +139,7 @@ func (r *WirelessAirMarshalSettingsResource) Create(ctx context.Context, req res
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve rules (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
-		initialState.fromBody(ctx, meraki.Res{Result: gres.Get("items.0")})
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessAirMarshalSettings{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, meraki.Res{Result: gres.Get("items.0")}), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object

@@ -148,8 +148,7 @@ func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resou
 				return true
 			})
 		}
-		initialState.fromBody(ctx, gres)
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessLocationScanning{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object
