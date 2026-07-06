@@ -192,10 +192,10 @@ func (r *NetworkFirmwareUpgradesResource) Schema(ctx context.Context, req resour
 				Optional:            true,
 			},
 			"upgrade_window_day_of_week": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Day of the week").AddStringEnumDescription("fri", "friday", "mon", "monday", "sat", "saturday", "sun", "sunday", "thu", "thursday", "tue", "tuesday", "wed", "wednesday").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Day of the week").AddStringEnumDescription("Fri", "Friday", "Mon", "Monday", "Sat", "Saturday", "Sun", "Sunday", "Thu", "Thursday", "Tue", "Tuesday", "Wed", "Wednesday").String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("fri", "friday", "mon", "monday", "sat", "saturday", "sun", "sunday", "thu", "thursday", "tue", "tuesday", "wed", "wednesday"),
+					stringvalidator.OneOf("Fri", "Friday", "Mon", "Monday", "Sat", "Saturday", "Sun", "Sunday", "Thu", "Thursday", "Tue", "Tuesday", "Wed", "Wednesday"),
 				},
 			},
 			"upgrade_window_hour_of_day": schema.StringAttribute{

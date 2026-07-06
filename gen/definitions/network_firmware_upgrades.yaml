@@ -158,8 +158,8 @@ attributes:
     type: String
     data_path: [upgradeWindow]
     description: Day of the week
-    example: sun
-    enum_values: [fri, friday, mon, monday, sat, saturday, sun, sunday, thu, thursday, tue, tuesday, wed, wednesday]
+    example: Sun
+    enum_values: [Fri, Friday, Mon, Monday, Sat, Saturday, Sun, Sunday, Thu, Thursday, Tue, Tuesday, Wed, Wednesday]
   - model_name: hourOfDay
     type: String
     data_path: [upgradeWindow]

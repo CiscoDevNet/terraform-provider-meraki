@@ -28,6 +28,6 @@ resource "meraki_network_firmware_upgrades" "example" {
   products_wireless_controller_participate_in_next_beta_release = false
   products_wireless_controller_next_upgrade_time                = "2019-03-17T17:22:52Z"
   products_wireless_controller_next_upgrade_to_version_id       = "1006"
-  upgrade_window_day_of_week                                    = "sun"
+  upgrade_window_day_of_week                                    = "Sun"
   upgrade_window_hour_of_day                                    = "4:00"
 }
