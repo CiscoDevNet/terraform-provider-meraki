@@ -327,8 +327,10 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 
 {{- define "toBodyPreservingNullsTemplate"}}
 	{{- range .Attributes}}
-	{{- if or .Computed (not .ModelName) .Value .Reference .WriteOnly}}{{- continue}}{{- end}}
-	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
+	{{- if or .Computed (not .ModelName) .Reference .WriteOnly}}{{- continue}}{{- end}}
+	{{- if .Value}}
+	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
+	{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if value := res.Get("{{getFullModelName . false}}"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "{{getFullModelName . true}}", "null")
