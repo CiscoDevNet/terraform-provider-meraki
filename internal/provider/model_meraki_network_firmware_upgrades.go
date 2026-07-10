@@ -22,6 +22,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/netascode/go-meraki"
@@ -348,8 +349,6 @@ func (data *NetworkFirmwareUpgrades) fromBody(ctx context.Context, res meraki.Re
 
 // End of section. //template:end fromBody
 
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
-
 // fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
@@ -406,7 +405,13 @@ func (data *NetworkFirmwareUpgrades) fromBodyPartial(ctx context.Context, res me
 		data.ProductsWirelessControllerParticipateInNextBetaRelease = types.BoolNull()
 	}
 	if value := res.Get("upgradeWindow.dayOfWeek"); value.Exists() && !data.UpgradeWindowDayOfWeek.IsNull() {
-		data.UpgradeWindowDayOfWeek = types.StringValue(value.String())
+		// The API converts the enum to capitalized form ("Mon" instead of "mon")
+		// while accepting both the lowercase and capitalized form,
+		// while it is lowercase in the OpenAPI spec.
+		// Keep the state's case (which could be either) if the API returns the same value (case-insensitive).
+		if strings.ToLower(value.String()) != strings.ToLower(data.UpgradeWindowDayOfWeek.ValueString()) {
+			data.UpgradeWindowDayOfWeek = types.StringValue(value.String())
+		}
 	} else {
 		data.UpgradeWindowDayOfWeek = types.StringNull()
 	}
@@ -416,8 +421,6 @@ func (data *NetworkFirmwareUpgrades) fromBodyPartial(ctx context.Context, res me
 		data.UpgradeWindowHourOfDay = types.StringNull()
 	}
 }
-
-// End of section. //template:end fromBodyPartial
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
 

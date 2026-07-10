@@ -1,3 +1,7 @@
+# Customize fromBodyPartial() to ensure upgradeWindow.dayOfWeek is idempotent.
+# The API converts the enum to capitalized form ("Mon" instead of "mon")
+# while accepting both lowercase and capitalized forms.
+# The OpenAPI spec has the lowercase form.
 name: Network Firmware Upgrades
 spec_endpoint: /networks/{networkId}/firmwareUpgrades
 rest_endpoint: /networks/%v/firmwareUpgrades
