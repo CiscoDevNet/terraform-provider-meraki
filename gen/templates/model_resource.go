@@ -327,7 +327,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 
 {{- define "toBodyPreservingNullsTemplate"}}
 	{{- range .Attributes}}
-	{{- if or .Computed (not .ModelName) .Reference .WriteOnly}}{{- continue}}{{- end}}
+	{{- if or .Computed (not .ModelName) .Reference .WriteOnly .DataSourceOnly}}{{- continue}}{{- end}}
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
