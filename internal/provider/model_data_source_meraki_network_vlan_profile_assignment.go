@@ -19,11 +19,11 @@ package provider
 
 // This template renders for every definition with a data source (gated only by NoDataSource in gen/generator.go).
 // It emits a separate model - DataSourceNetworkVLANProfileAssignment - used only by the data source, always including every
-// attribute (unlike model.go's resource-side struct, which excludes `data_source_only` attributes), since
+// attribute (unlike model_resource.go's resource-side struct, which excludes `data_source_only` attributes), since
 // terraform-plugin-framework requires a model struct's tfsdk-tagged fields to exactly match the schema it's decoded
-// against. Keep this file's shape in sync with model.go's `types`/`getPath`/`fromBody` sections - the only
+// against. Keep this file's shape in sync with model_resource.go's `types`/`getPath`/`fromBody` sections - the only
 // differences are that nothing is skipped for `.DataSourceOnly` here, and every type is prefixed with `DataSource`
-// to avoid colliding with model.go's resource-side type names.
+// to avoid colliding with model_resource.go's resource-side type names.
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
@@ -81,7 +81,7 @@ func (data *DataSourceNetworkVLANProfileAssignment) fromBody(ctx context.Context
 
 // End of section. //template:end fromBody
 
-// getByDevicePath and fromByDeviceBody are custom (kept in sync manually with the resource-side model.go's
+// getByDevicePath and fromByDeviceBody are custom (kept in sync manually with the resource-side model_resource.go's
 // equivalents) - the data source resolves current assignment by querying the byDevice endpoint and filtering by
 // vlan_profile_iname, the same approach the resource uses to compute state.
 func (data DataSourceNetworkVLANProfileAssignment) getByDevicePath() string {

@@ -19,11 +19,11 @@ package provider
 
 // This template renders for every definition with a data source (gated only by NoDataSource in gen/generator.go).
 // It emits a separate model - DataSourceCameraQualityRetentionProfile - used only by the data source, always including every
-// attribute (unlike model.go's resource-side struct, which excludes `data_source_only` attributes), since
+// attribute (unlike model_resource.go's resource-side struct, which excludes `data_source_only` attributes), since
 // terraform-plugin-framework requires a model struct's tfsdk-tagged fields to exactly match the schema it's decoded
-// against. Keep this file's shape in sync with model.go's `types`/`getPath`/`fromBody` sections - the only
+// against. Keep this file's shape in sync with model_resource.go's `types`/`getPath`/`fromBody` sections - the only
 // differences are that nothing is skipped for `.DataSourceOnly` here, and every type is prefixed with `DataSource`
-// to avoid colliding with model.go's resource-side type names.
+// to avoid colliding with model_resource.go's resource-side type names.
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (

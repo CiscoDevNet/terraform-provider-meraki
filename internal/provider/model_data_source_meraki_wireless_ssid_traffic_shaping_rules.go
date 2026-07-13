@@ -19,11 +19,11 @@ package provider
 
 // This template renders for every definition with a data source (gated only by NoDataSource in gen/generator.go).
 // It emits a separate model - DataSourceWirelessSSIDTrafficShapingRules - used only by the data source, always including every
-// attribute (unlike model.go's resource-side struct, which excludes `data_source_only` attributes), since
+// attribute (unlike model_resource.go's resource-side struct, which excludes `data_source_only` attributes), since
 // terraform-plugin-framework requires a model struct's tfsdk-tagged fields to exactly match the schema it's decoded
-// against. Keep this file's shape in sync with model.go's `types`/`getPath`/`fromBody` sections - the only
+// against. Keep this file's shape in sync with model_resource.go's `types`/`getPath`/`fromBody` sections - the only
 // differences are that nothing is skipped for `.DataSourceOnly` here, and every type is prefixed with `DataSource`
-// to avoid colliding with model.go's resource-side type names.
+// to avoid colliding with model_resource.go's resource-side type names.
 
 // Section below is generated&owned by "gen/generator.go". //template:begin imports
 import (
@@ -73,7 +73,7 @@ func (data DataSourceWirelessSSIDTrafficShapingRules) getPath() string {
 
 // End of section. //template:end getPath
 
-// fromBody is de-generated (kept in sync manually with the resource-side model.go's custom fromBody) because
+// fromBody is de-generated (kept in sync manually with the resource-side model_resource.go's custom fromBody) because
 // `definitions[].type` discriminates whether `value` is read from the raw `value` path or `value.id`.
 func (data *DataSourceWirelessSSIDTrafficShapingRules) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("defaultRulesEnabled"); value.Exists() && value.Value() != nil {
