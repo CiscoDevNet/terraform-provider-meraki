@@ -139,6 +139,13 @@ func (data WirelessSettings) toBodyPreservingNulls(ctx context.Context, res mera
 			body, _ = sjson.Set(body, "upgradeStrategy", value.String())
 		}
 	}
+	if value := res.Get("multicastToUnicastConversion.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "multicastToUnicastConversion.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "multicastToUnicastConversion.enabled", value.Bool())
+		}
+	}
 	if value := res.Get("namedVlans.poolDhcpMonitoring.duration"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "namedVlans.poolDhcpMonitoring.duration", "null")
