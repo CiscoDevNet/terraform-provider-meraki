@@ -149,7 +149,7 @@ func (d *ApplianceRFProfileDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceRFProfileDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceRFProfile
+	var config DataSourceApplianceRFProfile
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

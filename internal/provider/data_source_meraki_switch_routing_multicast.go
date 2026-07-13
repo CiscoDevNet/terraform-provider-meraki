@@ -122,7 +122,7 @@ func (d *SwitchRoutingMulticastDataSource) Configure(_ context.Context, req data
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchRoutingMulticastDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchRoutingMulticast
+	var config DataSourceSwitchRoutingMulticast
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

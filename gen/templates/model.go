@@ -41,7 +41,7 @@ import (
 type {{camelCase .Name}} struct {
 	Id types.String `tfsdk:"id"`
 {{- range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}
@@ -58,11 +58,11 @@ type {{camelCase .Name}} struct {
 }
 
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}
@@ -82,14 +82,14 @@ type {{.GoTypeName}} struct {
 {{end}}
 
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []{{.GoTypeName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}
@@ -112,17 +112,17 @@ type {{.GoTypeName}} struct {
 {{end}}
 
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 type {{.GoTypeName}} struct {
 {{- range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- if and .Sensitive (eq .Type "String")}}
 	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
@@ -166,7 +166,7 @@ func (data {{camelCase .Name}}) getPath() string {
 func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .Name}}) string {
 	body := ""
 	{{- range .Attributes}}
-	{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+	{{- if or .Computed .DataSourceOnly (not .ModelName)}}{{- continue}}{{- end}}
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if not .Reference}}
@@ -199,7 +199,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 		{{- end}}
 			itemBody := ""
 			{{- range .Attributes}}
-			{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+			{{- if or .Computed .DataSourceOnly (not .ModelName)}}{{- continue}}{{- end}}
 			{{- if .Value}}
 			itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 			{{- else if not .Reference}}
@@ -232,7 +232,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 				{{- end}}
 					itemChildBody := ""
 					{{- range .Attributes}}
-					{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+					{{- if or .Computed .DataSourceOnly (not .ModelName)}}{{- continue}}{{- end}}
 					{{- if .Value}}
 					itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 					{{- else if not .Reference}}
@@ -265,7 +265,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 						{{- end}}
 							itemChildChildBody := ""
 							{{- range .Attributes}}
-							{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+							{{- if or .Computed .DataSourceOnly (not .ModelName)}}{{- continue}}{{- end}}
 							{{- if .Value}}
 							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 							{{- else if not .Reference}}
@@ -330,7 +330,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res meraki.Res) {
 {{- define "fromBodyTemplate"}}
 	{{- range .Attributes}}
-	{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
+	{{- if and (not .Value) (not .WriteOnly) (not .Reference) (not .DataSourceOnly) .ModelName}}
 	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if value := res.Get("{{getFullModelName . false}}"); value.Exists() && value.Value() != nil {
 		data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
@@ -392,7 +392,7 @@ func (data *{{camelCase .Name}}) fromBody(ctx context.Context, res meraki.Res) {
 func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki.Res) {
 {{- define "fromBodyPartialTemplate"}}
 	{{- range .Attributes}}
-	{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
+	{{- if and (not .Value) (not .WriteOnly) (not .Reference) (not .DataSourceOnly) .ModelName}}
 	{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
 		data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
@@ -428,8 +428,8 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki
 		res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%s", i))
 	{{- else }}
 	for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
-		keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
-		keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
+		keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly) (not .DataSourceOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
+		keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly) (not .DataSourceOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
 
 		parent := &data
 		data := (*parent).{{toGoName .TfName}}[i]
@@ -484,6 +484,7 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki
 func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 {{- define "fromBodyUnknownsTemplate"}}
 	{{- range .Attributes}}
+	{{- if .DataSourceOnly}}{{- continue}}{{- end}}
 	{{- if and (or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")) .Computed}}
 	if data.{{toGoName .TfName}}.IsUnknown() {
 		if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
@@ -523,8 +524,8 @@ func (data *{{camelCase .Name}}) fromBodyUnknowns(ctx context.Context, res merak
 		res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%s", i))
 	{{- else }}
 	for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
-		keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
-		keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
+		keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly) (not .DataSourceOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
+		keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly) (not .DataSourceOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
 
 		parent := &data
 		data := (*parent).{{toGoName .TfName}}[i]

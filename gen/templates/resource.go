@@ -85,7 +85,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			{{- range  .Attributes}}
-			{{- if not .Value}}
+			{{- if and (not .Value) (not .DataSourceOnly)}}
 			"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 					{{- if len .EnumValues -}}
@@ -158,7 +158,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						{{- range  .Attributes}}
-						{{- if not .Value}}
+						{{- if and (not .Value) (not .DataSourceOnly)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 								{{- if len .EnumValues -}}
@@ -226,7 +226,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									{{- range  .Attributes}}
-									{{- if not .Value}}
+									{{- if and (not .Value) (not .DataSourceOnly)}}
 									"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 										MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 											{{- if len .EnumValues -}}
@@ -294,7 +294,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												{{- range  .Attributes}}
-												{{- if not .Value}}
+												{{- if and (not .Value) (not .DataSourceOnly)}}
 												"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 													MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 														{{- if len .EnumValues -}}

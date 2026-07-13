@@ -90,7 +90,7 @@ func (d *WirelessDeviceElectronicShelfLabelDataSource) Configure(_ context.Conte
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessDeviceElectronicShelfLabelDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessDeviceElectronicShelfLabel
+	var config DataSourceWirelessDeviceElectronicShelfLabel
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

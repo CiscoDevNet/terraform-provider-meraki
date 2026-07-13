@@ -130,7 +130,7 @@ func (d *ApplianceTrafficShapingRulesDataSource) Configure(_ context.Context, re
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceTrafficShapingRulesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceTrafficShapingRules
+	var config DataSourceApplianceTrafficShapingRules
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

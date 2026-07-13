@@ -104,7 +104,7 @@ func (d *NetworkSyslogServersDataSource) Configure(_ context.Context, req dataso
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkSyslogServersDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkSyslogServers
+	var config DataSourceNetworkSyslogServers
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

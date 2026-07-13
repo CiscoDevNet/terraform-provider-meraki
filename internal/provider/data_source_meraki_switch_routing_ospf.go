@@ -167,7 +167,7 @@ func (d *SwitchRoutingOSPFDataSource) Configure(_ context.Context, req datasourc
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchRoutingOSPFDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchRoutingOSPF
+	var config DataSourceSwitchRoutingOSPF
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

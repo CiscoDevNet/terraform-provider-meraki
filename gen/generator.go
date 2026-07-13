@@ -58,6 +58,11 @@ var templates = []t{
 		suffix: ".go",
 	},
 	{
+		path:   "./gen/templates/model_data_source.go",
+		prefix: "./internal/provider/model_data_source_meraki_",
+		suffix: ".go",
+	},
+	{
 		path:   "./gen/templates/data_source.go",
 		prefix: "./internal/provider/data_source_meraki_",
 		suffix: ".go",
@@ -335,6 +340,7 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/import-by-string-id.tf") ||
 				(configs[i].NoResource && t.path == "./gen/templates/import-by-identity.tf") ||
 				(configs[i].NoResource && configs[i].NoDataSource && t.path == "./gen/templates/model.go") ||
+				(configs[i].NoDataSource && t.path == "./gen/templates/model_data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model_data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
