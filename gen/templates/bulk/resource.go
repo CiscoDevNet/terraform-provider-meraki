@@ -613,6 +613,9 @@ func (r *{{camelCase .BulkName}}Resource) Read(ctx context.Context, req resource
 	{{- if not .NoRead}}
 	res, err := r.client.Get(state.getPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

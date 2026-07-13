@@ -249,6 +249,339 @@ func (data ApplianceThirdPartyVPNPeers) toBody(ctx context.Context, state Applia
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceThirdPartyVPNPeers) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("peers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "peers", "null")
+		} else {
+			body, _ = sjson.Set(body, "peers", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("ikeVersion"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ikeVersion", "null")
+					} else {
+						body, _ = sjson.Set(body, "ikeVersion", value.String())
+					}
+				}
+				if value := res.Get("ipsecPoliciesPreset"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPoliciesPreset", "null")
+					} else {
+						body, _ = sjson.Set(body, "ipsecPoliciesPreset", value.String())
+					}
+				}
+				if value := res.Get("ipVersion"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipVersion", "null")
+					} else {
+						body, _ = sjson.Set(body, "ipVersion", value.Int())
+					}
+				}
+				if value := res.Get("isRouteBased"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "isRouteBased", "null")
+					} else {
+						body, _ = sjson.Set(body, "isRouteBased", value.Bool())
+					}
+				}
+				if value := res.Get("localId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "localId", "null")
+					} else {
+						body, _ = sjson.Set(body, "localId", value.String())
+					}
+				}
+				if value := res.Get("name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "name", "null")
+					} else {
+						body, _ = sjson.Set(body, "name", value.String())
+					}
+				}
+				if value := res.Get("peerId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "peerId", "null")
+					} else {
+						body, _ = sjson.Set(body, "peerId", value.String())
+					}
+				}
+				if value := res.Get("priorityInGroup"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "priorityInGroup", "null")
+					} else {
+						body, _ = sjson.Set(body, "priorityInGroup", value.Int())
+					}
+				}
+				if value := res.Get("publicHostname"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "publicHostname", "null")
+					} else {
+						body, _ = sjson.Set(body, "publicHostname", value.String())
+					}
+				}
+				if value := res.Get("publicIp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "publicIp", "null")
+					} else {
+						body, _ = sjson.Set(body, "publicIp", value.String())
+					}
+				}
+				if value := res.Get("remoteId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "remoteId", "null")
+					} else {
+						body, _ = sjson.Set(body, "remoteId", value.String())
+					}
+				}
+				if value := res.Get("secret"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "secret", "null")
+					} else {
+						body, _ = sjson.Set(body, "secret", value.String())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.ebgpHoldTimer"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.ebgpHoldTimer", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.ebgpHoldTimer", value.Int())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.ebgpMultihop"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.ebgpMultihop", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.ebgpMultihop", value.Int())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.ipVersion"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.ipVersion", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.ipVersion", value.Int())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.multiExitDiscriminator"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.multiExitDiscriminator", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.multiExitDiscriminator", value.Int())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.neighborIp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.neighborIp", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.neighborIp", value.String())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.remoteAsNumber"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.remoteAsNumber", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.remoteAsNumber", value.Int())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.sourceIp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.sourceIp", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.sourceIp", value.String())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.weight"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.weight", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.weight", value.Int())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.pathPrepend"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.pathPrepend", "null")
+					} else {
+						var values []int64
+						for _, v := range value.Array() {
+							values = append(values, v.Int())
+						}
+						body, _ = sjson.Set(body, "ebgpNeighbor.pathPrepend", values)
+					}
+				}
+				if value := res.Get("group.activeActiveTunnel"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "group.activeActiveTunnel", "null")
+					} else {
+						body, _ = sjson.Set(body, "group.activeActiveTunnel", value.Bool())
+					}
+				}
+				if value := res.Get("group.number"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "group.number", "null")
+					} else {
+						body, _ = sjson.Set(body, "group.number", value.Int())
+					}
+				}
+				if value := res.Get("group.failover.directToInternet"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "group.failover.directToInternet", "null")
+					} else {
+						body, _ = sjson.Set(body, "group.failover.directToInternet", value.Bool())
+					}
+				}
+				if value := res.Get("ipsecPolicies.childLifetime"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.childLifetime", "null")
+					} else {
+						body, _ = sjson.Set(body, "ipsecPolicies.childLifetime", value.Int())
+					}
+				}
+				if value := res.Get("ipsecPolicies.ikeLifetime"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.ikeLifetime", "null")
+					} else {
+						body, _ = sjson.Set(body, "ipsecPolicies.ikeLifetime", value.Int())
+					}
+				}
+				if value := res.Get("ipsecPolicies.childAuthAlgo"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.childAuthAlgo", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "ipsecPolicies.childAuthAlgo", values)
+					}
+				}
+				if value := res.Get("ipsecPolicies.childCipherAlgo"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.childCipherAlgo", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "ipsecPolicies.childCipherAlgo", values)
+					}
+				}
+				if value := res.Get("ipsecPolicies.childPfsGroup"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.childPfsGroup", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "ipsecPolicies.childPfsGroup", values)
+					}
+				}
+				if value := res.Get("ipsecPolicies.ikeAuthAlgo"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.ikeAuthAlgo", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "ipsecPolicies.ikeAuthAlgo", values)
+					}
+				}
+				if value := res.Get("ipsecPolicies.ikeCipherAlgo"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.ikeCipherAlgo", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "ipsecPolicies.ikeCipherAlgo", values)
+					}
+				}
+				if value := res.Get("ipsecPolicies.ikeDiffieHellmanGroup"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.ikeDiffieHellmanGroup", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "ipsecPolicies.ikeDiffieHellmanGroup", values)
+					}
+				}
+				if value := res.Get("ipsecPolicies.ikePrfAlgo"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipsecPolicies.ikePrfAlgo", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "ipsecPolicies.ikePrfAlgo", values)
+					}
+				}
+				if value := res.Get("network.ids"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "network.ids", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "network.ids", values)
+					}
+				}
+				if value := res.Get("slaPolicy.id"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "slaPolicy.id", "null")
+					} else {
+						body, _ = sjson.Set(body, "slaPolicy.id", value.String())
+					}
+				}
+				if value := res.Get("networkTags"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "networkTags", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "networkTags", values)
+					}
+				}
+				if value := res.Get("privateSubnets"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "privateSubnets", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "privateSubnets", values)
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "peers.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceThirdPartyVPNPeers) fromBody(ctx context.Context, res meraki.Res) {

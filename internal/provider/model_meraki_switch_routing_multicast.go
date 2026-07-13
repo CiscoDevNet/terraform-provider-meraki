@@ -110,6 +110,97 @@ func (data SwitchRoutingMulticast) toBody(ctx context.Context, state SwitchRouti
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchRoutingMulticast) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("defaultSettings.floodUnknownMulticastTrafficEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultSettings.floodUnknownMulticastTrafficEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaultSettings.floodUnknownMulticastTrafficEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("defaultSettings.igmpSnoopingEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultSettings.igmpSnoopingEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaultSettings.igmpSnoopingEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("overrides"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "overrides", "null")
+		} else {
+			body, _ = sjson.Set(body, "overrides", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("floodUnknownMulticastTrafficEnabled"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "floodUnknownMulticastTrafficEnabled", "null")
+					} else {
+						body, _ = sjson.Set(body, "floodUnknownMulticastTrafficEnabled", value.Bool())
+					}
+				}
+				if value := res.Get("igmpSnoopingEnabled"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "igmpSnoopingEnabled", "null")
+					} else {
+						body, _ = sjson.Set(body, "igmpSnoopingEnabled", value.Bool())
+					}
+				}
+				if value := res.Get("stacks"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "stacks", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "stacks", values)
+					}
+				}
+				if value := res.Get("switchProfiles"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "switchProfiles", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "switchProfiles", values)
+					}
+				}
+				if value := res.Get("switches"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "switches", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "switches", values)
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "overrides.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchRoutingMulticast) fromBody(ctx context.Context, res meraki.Res) {

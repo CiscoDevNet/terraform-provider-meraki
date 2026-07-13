@@ -43,7 +43,7 @@ resource "meraki_network_firmware_upgrades" "example" {
   products_wireless_controller_participate_in_next_beta_release = false
   products_wireless_controller_next_upgrade_time                = "2019-03-17T17:22:52Z"
   products_wireless_controller_next_upgrade_to_version_id       = "1006"
-  upgrade_window_day_of_week                                    = "sun"
+  upgrade_window_day_of_week                                    = "Sun"
   upgrade_window_hour_of_day                                    = "4:00"
 }
 ```
@@ -86,7 +86,7 @@ resource "meraki_network_firmware_upgrades" "example" {
 - `products_wireless_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
 - `timezone` (String) The timezone for the network
 - `upgrade_window_day_of_week` (String) Day of the week
-  - Choices: `fri`, `friday`, `mon`, `monday`, `sat`, `saturday`, `sun`, `sunday`, `thu`, `thursday`, `tue`, `tuesday`, `wed`, `wednesday`
+  - Choices: `Fri`, `Friday`, `Mon`, `Monday`, `Sat`, `Saturday`, `Sun`, `Sunday`, `Thu`, `Thursday`, `Tue`, `Tuesday`, `Wed`, `Wednesday`
 - `upgrade_window_hour_of_day` (String) Hour of the day
   - Choices: `0:00`, `10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`, `18:00`, `19:00`, `1:00`, `20:00`, `21:00`, `22:00`, `23:00`, `2:00`, `3:00`, `4:00`, `5:00`, `6:00`, `7:00`, `8:00`, `9:00`
 

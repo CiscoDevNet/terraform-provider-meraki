@@ -99,6 +99,62 @@ func (data OrganizationSNMP) toBody(ctx context.Context, state OrganizationSNMP)
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data OrganizationSNMP) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("v2cEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v2cEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "v2cEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("v3AuthMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3AuthMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3AuthMode", value.String())
+		}
+	}
+	if value := res.Get("v3Enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3Enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3Enabled", value.Bool())
+		}
+	}
+	if value := res.Get("v3PrivMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3PrivMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3PrivMode", value.String())
+		}
+	}
+	if value := res.Get("peerIps"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "peerIps", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "peerIps", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationSNMP) fromBody(ctx context.Context, res meraki.Res) {

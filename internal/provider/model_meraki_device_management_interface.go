@@ -43,6 +43,7 @@ type DeviceManagementInterface struct {
 	Wan1Vlan             types.Int64  `tfsdk:"wan1_vlan"`
 	Wan1WanEnabled       types.String `tfsdk:"wan1_wan_enabled"`
 	Wan1StaticDns        types.List   `tfsdk:"wan1_static_dns"`
+	Wan1VrfName          types.String `tfsdk:"wan1_vrf_name"`
 	Wan2StaticGatewayIp  types.String `tfsdk:"wan2_static_gateway_ip"`
 	Wan2StaticIp         types.String `tfsdk:"wan2_static_ip"`
 	Wan2StaticSubnetMask types.String `tfsdk:"wan2_static_subnet_mask"`
@@ -50,6 +51,7 @@ type DeviceManagementInterface struct {
 	Wan2Vlan             types.Int64  `tfsdk:"wan2_vlan"`
 	Wan2WanEnabled       types.String `tfsdk:"wan2_wan_enabled"`
 	Wan2StaticDns        types.List   `tfsdk:"wan2_static_dns"`
+	Wan2VrfName          types.String `tfsdk:"wan2_vrf_name"`
 }
 
 type DeviceManagementInterfaceIdentity struct {
@@ -93,6 +95,9 @@ func (data DeviceManagementInterface) toBody(ctx context.Context, state DeviceMa
 		data.Wan1StaticDns.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "wan1.staticDns", values)
 	}
+	if !data.Wan1VrfName.IsNull() {
+		body, _ = sjson.Set(body, "wan1.vrf.name", data.Wan1VrfName.ValueString())
+	}
 	if !data.Wan2StaticGatewayIp.IsNull() {
 		body, _ = sjson.Set(body, "wan2.staticGatewayIp", data.Wan2StaticGatewayIp.ValueString())
 	}
@@ -116,10 +121,150 @@ func (data DeviceManagementInterface) toBody(ctx context.Context, state DeviceMa
 		data.Wan2StaticDns.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "wan2.staticDns", values)
 	}
+	if !data.Wan2VrfName.IsNull() {
+		body, _ = sjson.Set(body, "wan2.vrf.name", data.Wan2VrfName.ValueString())
+	}
 	return body
 }
 
 // End of section. //template:end toBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data DeviceManagementInterface) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("wan1.staticGatewayIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.staticGatewayIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.staticGatewayIp", value.String())
+		}
+	}
+	if value := res.Get("wan1.staticIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.staticIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.staticIp", value.String())
+		}
+	}
+	if value := res.Get("wan1.staticSubnetMask"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.staticSubnetMask", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.staticSubnetMask", value.String())
+		}
+	}
+	if value := res.Get("wan1.usingStaticIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.usingStaticIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.usingStaticIp", value.Bool())
+		}
+	}
+	if value := res.Get("wan1.vlan"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.vlan", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.vlan", value.Int())
+		}
+	}
+	if value := res.Get("wan1.wanEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.wanEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.wanEnabled", value.String())
+		}
+	}
+	if value := res.Get("wan1.staticDns"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.staticDns", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "wan1.staticDns", values)
+		}
+	}
+	if value := res.Get("wan1.vrf.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan1.vrf.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan1.vrf.name", value.String())
+		}
+	}
+	if value := res.Get("wan2.staticGatewayIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.staticGatewayIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.staticGatewayIp", value.String())
+		}
+	}
+	if value := res.Get("wan2.staticIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.staticIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.staticIp", value.String())
+		}
+	}
+	if value := res.Get("wan2.staticSubnetMask"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.staticSubnetMask", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.staticSubnetMask", value.String())
+		}
+	}
+	if value := res.Get("wan2.usingStaticIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.usingStaticIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.usingStaticIp", value.Bool())
+		}
+	}
+	if value := res.Get("wan2.vlan"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.vlan", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.vlan", value.Int())
+		}
+	}
+	if value := res.Get("wan2.wanEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.wanEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.wanEnabled", value.String())
+		}
+	}
+	if value := res.Get("wan2.staticDns"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.staticDns", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "wan2.staticDns", values)
+		}
+	}
+	if value := res.Get("wan2.vrf.name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wan2.vrf.name", "null")
+		} else {
+			body, _ = sjson.Set(body, "wan2.vrf.name", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
@@ -159,6 +304,11 @@ func (data *DeviceManagementInterface) fromBody(ctx context.Context, res meraki.
 	} else {
 		data.Wan1StaticDns = types.ListNull(types.StringType)
 	}
+	if value := res.Get("wan1.vrf.name"); value.Exists() && value.Value() != nil {
+		data.Wan1VrfName = types.StringValue(value.String())
+	} else {
+		data.Wan1VrfName = types.StringNull()
+	}
 	if value := res.Get("wan2.staticGatewayIp"); value.Exists() && value.Value() != nil {
 		data.Wan2StaticGatewayIp = types.StringValue(value.String())
 	} else {
@@ -193,6 +343,11 @@ func (data *DeviceManagementInterface) fromBody(ctx context.Context, res meraki.
 		data.Wan2StaticDns = helpers.GetStringList(value.Array())
 	} else {
 		data.Wan2StaticDns = types.ListNull(types.StringType)
+	}
+	if value := res.Get("wan2.vrf.name"); value.Exists() && value.Value() != nil {
+		data.Wan2VrfName = types.StringValue(value.String())
+	} else {
+		data.Wan2VrfName = types.StringNull()
 	}
 }
 
@@ -240,6 +395,11 @@ func (data *DeviceManagementInterface) fromBodyPartial(ctx context.Context, res 
 	} else {
 		data.Wan1StaticDns = types.ListNull(types.StringType)
 	}
+	if value := res.Get("wan1.vrf.name"); value.Exists() && !data.Wan1VrfName.IsNull() {
+		data.Wan1VrfName = types.StringValue(value.String())
+	} else {
+		data.Wan1VrfName = types.StringNull()
+	}
 	if value := res.Get("wan2.staticGatewayIp"); value.Exists() && !data.Wan2StaticGatewayIp.IsNull() {
 		data.Wan2StaticGatewayIp = types.StringValue(value.String())
 	} else {
@@ -274,6 +434,11 @@ func (data *DeviceManagementInterface) fromBodyPartial(ctx context.Context, res 
 		data.Wan2StaticDns = helpers.GetStringList(value.Array())
 	} else {
 		data.Wan2StaticDns = types.ListNull(types.StringType)
+	}
+	if value := res.Get("wan2.vrf.name"); value.Exists() && !data.Wan2VrfName.IsNull() {
+		data.Wan2VrfName = types.StringValue(value.String())
+	} else {
+		data.Wan2VrfName = types.StringNull()
 	}
 }
 

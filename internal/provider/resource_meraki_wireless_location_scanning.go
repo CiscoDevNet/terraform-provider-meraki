@@ -148,8 +148,7 @@ func (r *WirelessLocationScanningResource) Create(ctx context.Context, req resou
 				return true
 			})
 		}
-		initialState.fromBody(ctx, gres)
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessLocationScanning{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object
@@ -196,6 +195,9 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
 	res, err := r.client.Get(networkPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -207,6 +209,9 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
 	res, err = r.client.Get(getPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

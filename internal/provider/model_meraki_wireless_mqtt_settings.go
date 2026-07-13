@@ -142,6 +142,16 @@ func (data WirelessMQTTSettings) toBody(ctx context.Context, state WirelessMQTTS
 	return body
 }
 
+func (data WirelessMQTTSettings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	for _, key := range []string{"ble", "mqtt", "wifi", "network"} {
+		if value := res.Get(key); value.Exists() {
+			body, _ = sjson.SetRaw(body, key, value.Raw)
+		}
+	}
+	return body
+}
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessMQTTSettings) fromBody(ctx context.Context, res meraki.Res) {

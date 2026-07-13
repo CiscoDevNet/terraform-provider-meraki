@@ -63,7 +63,6 @@ Required:
 
 - `name` (String) The name of the VPN peer
 - `private_subnets` (List of String) The list of the private subnets of the VPN peer
-- `secret` (String, Sensitive) The shared secret with the VPN peer
 
 Optional:
 
@@ -101,6 +100,7 @@ Optional:
 - `public_hostname` (String) [optional] The public hostname of the VPN peer
 - `public_ip` (String) [optional] The public IP of the VPN peer
 - `remote_id` (String) [optional] The remote ID is used to identify the connecting VPN peer. This can either be a valid IPv4 Address, FQDN or User FQDN.
+- `secret` (String, Sensitive) The shared secret with the VPN peer
 - `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
 - `secret_wo_version` (Number) Version of secret_wo.
 - `sla_policy_id` (String) The ID of the SLA policy

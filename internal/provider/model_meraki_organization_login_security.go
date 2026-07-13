@@ -125,6 +125,136 @@ func (data OrganizationLoginSecurity) toBody(ctx context.Context, state Organiza
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data OrganizationLoginSecurity) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("accountLockoutAttempts"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "accountLockoutAttempts", "null")
+		} else {
+			body, _ = sjson.Set(body, "accountLockoutAttempts", value.Int())
+		}
+	}
+	if value := res.Get("enforceAccountLockout"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enforceAccountLockout", "null")
+		} else {
+			body, _ = sjson.Set(body, "enforceAccountLockout", value.Bool())
+		}
+	}
+	if value := res.Get("enforceDifferentPasswords"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enforceDifferentPasswords", "null")
+		} else {
+			body, _ = sjson.Set(body, "enforceDifferentPasswords", value.Bool())
+		}
+	}
+	if value := res.Get("enforceIdleTimeout"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enforceIdleTimeout", "null")
+		} else {
+			body, _ = sjson.Set(body, "enforceIdleTimeout", value.Bool())
+		}
+	}
+	if value := res.Get("enforceLoginIpRanges"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enforceLoginIpRanges", "null")
+		} else {
+			body, _ = sjson.Set(body, "enforceLoginIpRanges", value.Bool())
+		}
+	}
+	if value := res.Get("enforcePasswordExpiration"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enforcePasswordExpiration", "null")
+		} else {
+			body, _ = sjson.Set(body, "enforcePasswordExpiration", value.Bool())
+		}
+	}
+	if value := res.Get("enforceStrongPasswords"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enforceStrongPasswords", "null")
+		} else {
+			body, _ = sjson.Set(body, "enforceStrongPasswords", value.Bool())
+		}
+	}
+	if value := res.Get("enforceTwoFactorAuth"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enforceTwoFactorAuth", "null")
+		} else {
+			body, _ = sjson.Set(body, "enforceTwoFactorAuth", value.Bool())
+		}
+	}
+	if value := res.Get("idleTimeoutMinutes"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "idleTimeoutMinutes", "null")
+		} else {
+			body, _ = sjson.Set(body, "idleTimeoutMinutes", value.Int())
+		}
+	}
+	if value := res.Get("minimumPasswordLength"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "minimumPasswordLength", "null")
+		} else {
+			body, _ = sjson.Set(body, "minimumPasswordLength", value.Int())
+		}
+	}
+	if value := res.Get("numDifferentPasswords"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "numDifferentPasswords", "null")
+		} else {
+			body, _ = sjson.Set(body, "numDifferentPasswords", value.Int())
+		}
+	}
+	if value := res.Get("passwordExpirationDays"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "passwordExpirationDays", "null")
+		} else {
+			body, _ = sjson.Set(body, "passwordExpirationDays", value.Int())
+		}
+	}
+	if value := res.Get("apiAuthentication.ipRestrictionsForKeys.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "apiAuthentication.ipRestrictionsForKeys.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "apiAuthentication.ipRestrictionsForKeys.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("apiAuthentication.ipRestrictionsForKeys.ranges"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "apiAuthentication.ipRestrictionsForKeys.ranges", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "apiAuthentication.ipRestrictionsForKeys.ranges", values)
+		}
+	}
+	if value := res.Get("loginIpRanges"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "loginIpRanges", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "loginIpRanges", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationLoginSecurity) fromBody(ctx context.Context, res meraki.Res) {

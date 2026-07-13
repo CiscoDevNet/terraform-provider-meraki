@@ -192,10 +192,10 @@ func (r *NetworkFirmwareUpgradesResource) Schema(ctx context.Context, req resour
 				Optional:            true,
 			},
 			"upgrade_window_day_of_week": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Day of the week").AddStringEnumDescription("fri", "friday", "mon", "monday", "sat", "saturday", "sun", "sunday", "thu", "thursday", "tue", "tuesday", "wed", "wednesday").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Day of the week").AddStringEnumDescription("Fri", "Friday", "Mon", "Monday", "Sat", "Saturday", "Sun", "Sunday", "Thu", "Thursday", "Tue", "Tuesday", "Wed", "Wednesday").String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("fri", "friday", "mon", "monday", "sat", "saturday", "sun", "sunday", "thu", "thursday", "tue", "tuesday", "wed", "wednesday"),
+					stringvalidator.OneOf("Fri", "Friday", "Mon", "Monday", "Sat", "Saturday", "Sun", "Sunday", "Thu", "Thursday", "Tue", "Tuesday", "Wed", "Wednesday"),
 				},
 			},
 			"upgrade_window_hour_of_day": schema.StringAttribute{
@@ -252,8 +252,7 @@ func (r *NetworkFirmwareUpgradesResource) Create(ctx context.Context, req resour
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
-		initialState.fromBody(ctx, gres)
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, NetworkFirmwareUpgrades{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object
@@ -303,6 +302,9 @@ func (r *NetworkFirmwareUpgradesResource) Read(ctx context.Context, req resource
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

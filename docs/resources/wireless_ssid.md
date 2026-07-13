@@ -40,6 +40,7 @@ resource "meraki_wireless_ssid" "example" {
   dot11r_enabled                  = false
   dot11w_enabled                  = false
   dot11w_required                 = false
+  named_vlans_tagging_enabled     = false
   speed_burst_enabled             = false
   availability_tags               = ["tag1"]
 }

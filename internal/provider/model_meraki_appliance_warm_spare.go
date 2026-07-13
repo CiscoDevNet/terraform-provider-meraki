@@ -80,6 +80,58 @@ func (data ApplianceWarmSpare) toBody(ctx context.Context, state ApplianceWarmSp
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceWarmSpare) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("spareSerial"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "spareSerial", "null")
+		} else {
+			body, _ = sjson.Set(body, "spareSerial", value.String())
+		}
+	}
+	if value := res.Get("uplinkMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "uplinkMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "uplinkMode", value.String())
+		}
+	}
+	if value := res.Get("virtualIp1"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "virtualIp1", "null")
+		} else {
+			body, _ = sjson.Set(body, "virtualIp1", value.String())
+		}
+	}
+	if value := res.Get("virtualIp2"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "virtualIp2", "null")
+		} else {
+			body, _ = sjson.Set(body, "virtualIp2", value.String())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 func (data *ApplianceWarmSpare) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
 		data.Enabled = types.BoolValue(value.Bool())

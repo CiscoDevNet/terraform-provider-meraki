@@ -69,7 +69,7 @@ func TestAccMerakiNetworkFirmwareUpgrades(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_controller_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_controller_next_upgrade_time", "2019-03-17T17:22:52Z"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_controller_next_upgrade_to_version_id", "1006"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "upgrade_window_day_of_week", "sun"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "upgrade_window_day_of_week", "Sun"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "upgrade_window_hour_of_day", "4:00"))
 
 	var steps []resource.TestStep
@@ -179,7 +179,7 @@ func testAccMerakiNetworkFirmwareUpgradesConfig_all() string {
 	config += `  products_wireless_controller_participate_in_next_beta_release = false` + "\n"
 	config += `  products_wireless_controller_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
 	config += `  products_wireless_controller_next_upgrade_to_version_id = "1006"` + "\n"
-	config += `  upgrade_window_day_of_week = "sun"` + "\n"
+	config += `  upgrade_window_day_of_week = "Sun"` + "\n"
 	config += `  upgrade_window_hour_of_day = "4:00"` + "\n"
 	config += `}` + "\n"
 	return config
