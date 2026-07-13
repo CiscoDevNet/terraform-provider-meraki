@@ -149,6 +149,159 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceVPNBGP) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("asNumber"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "asNumber", "null")
+		} else {
+			body, _ = sjson.Set(body, "asNumber", value.Int())
+		}
+	}
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("ibgpHoldTimer"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ibgpHoldTimer", "null")
+		} else {
+			body, _ = sjson.Set(body, "ibgpHoldTimer", value.Int())
+		}
+	}
+	if value := res.Get("neighbors"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "neighbors", "null")
+		} else {
+			body, _ = sjson.Set(body, "neighbors", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("allowTransit"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "allowTransit", "null")
+					} else {
+						body, _ = sjson.Set(body, "allowTransit", value.Bool())
+					}
+				}
+				if value := res.Get("ebgpHoldTimer"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpHoldTimer", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpHoldTimer", value.Int())
+					}
+				}
+				if value := res.Get("ebgpMultihop"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpMultihop", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpMultihop", value.Int())
+					}
+				}
+				if value := res.Get("ip"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ip", "null")
+					} else {
+						body, _ = sjson.Set(body, "ip", value.String())
+					}
+				}
+				if value := res.Get("multiExitDiscriminator"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "multiExitDiscriminator", "null")
+					} else {
+						body, _ = sjson.Set(body, "multiExitDiscriminator", value.Int())
+					}
+				}
+				if value := res.Get("nextHopIp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "nextHopIp", "null")
+					} else {
+						body, _ = sjson.Set(body, "nextHopIp", value.String())
+					}
+				}
+				if value := res.Get("receiveLimit"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "receiveLimit", "null")
+					} else {
+						body, _ = sjson.Set(body, "receiveLimit", value.Int())
+					}
+				}
+				if value := res.Get("remoteAsNumber"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "remoteAsNumber", "null")
+					} else {
+						body, _ = sjson.Set(body, "remoteAsNumber", value.Int())
+					}
+				}
+				if value := res.Get("sourceInterface"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "sourceInterface", "null")
+					} else {
+						body, _ = sjson.Set(body, "sourceInterface", value.String())
+					}
+				}
+				if value := res.Get("weight"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "weight", "null")
+					} else {
+						body, _ = sjson.Set(body, "weight", value.Int())
+					}
+				}
+				if value := res.Get("authentication.password"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "authentication.password", "null")
+					} else {
+						body, _ = sjson.Set(body, "authentication.password", value.String())
+					}
+				}
+				if value := res.Get("ipv6.address"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ipv6.address", "null")
+					} else {
+						body, _ = sjson.Set(body, "ipv6.address", value.String())
+					}
+				}
+				if value := res.Get("ttlSecurity.enabled"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ttlSecurity.enabled", "null")
+					} else {
+						body, _ = sjson.Set(body, "ttlSecurity.enabled", value.Bool())
+					}
+				}
+				if value := res.Get("pathPrepend"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "pathPrepend", "null")
+					} else {
+						var values []int64
+						for _, v := range value.Array() {
+							values = append(values, v.Int())
+						}
+						body, _ = sjson.Set(body, "pathPrepend", values)
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "neighbors.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {

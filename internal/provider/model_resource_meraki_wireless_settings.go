@@ -88,6 +88,72 @@ func (data WirelessSettings) toBody(ctx context.Context, state WirelessSettings)
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessSettings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("ipv6BridgeEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6BridgeEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6BridgeEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("ledLightsOn"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ledLightsOn", "null")
+		} else {
+			body, _ = sjson.Set(body, "ledLightsOn", value.Bool())
+		}
+	}
+	if value := res.Get("locationAnalyticsEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "locationAnalyticsEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "locationAnalyticsEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("meshingEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "meshingEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "meshingEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("upgradeStrategy"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "upgradeStrategy", "null")
+		} else {
+			body, _ = sjson.Set(body, "upgradeStrategy", value.String())
+		}
+	}
+	if value := res.Get("namedVlans.poolDhcpMonitoring.duration"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "namedVlans.poolDhcpMonitoring.duration", "null")
+		} else {
+			body, _ = sjson.Set(body, "namedVlans.poolDhcpMonitoring.duration", value.Int())
+		}
+	}
+	if value := res.Get("namedVlans.poolDhcpMonitoring.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "namedVlans.poolDhcpMonitoring.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "namedVlans.poolDhcpMonitoring.enabled", value.Bool())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSettings) fromBody(ctx context.Context, res meraki.Res) {

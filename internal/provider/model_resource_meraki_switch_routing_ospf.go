@@ -149,6 +149,154 @@ func (data SwitchRoutingOSPF) toBody(ctx context.Context, state SwitchRoutingOSP
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchRoutingOSPF) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("deadTimerInSeconds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "deadTimerInSeconds", "null")
+		} else {
+			body, _ = sjson.Set(body, "deadTimerInSeconds", value.Int())
+		}
+	}
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("helloTimerInSeconds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "helloTimerInSeconds", "null")
+		} else {
+			body, _ = sjson.Set(body, "helloTimerInSeconds", value.Int())
+		}
+	}
+	if value := res.Get("md5AuthenticationEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "md5AuthenticationEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "md5AuthenticationEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("md5AuthenticationKey.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "md5AuthenticationKey.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "md5AuthenticationKey.id", value.Int())
+		}
+	}
+	if value := res.Get("md5AuthenticationKey.passphrase"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "md5AuthenticationKey.passphrase", "null")
+		} else {
+			body, _ = sjson.Set(body, "md5AuthenticationKey.passphrase", value.String())
+		}
+	}
+	if value := res.Get("v3.deadTimerInSeconds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3.deadTimerInSeconds", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3.deadTimerInSeconds", value.Int())
+		}
+	}
+	if value := res.Get("v3.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("v3.helloTimerInSeconds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3.helloTimerInSeconds", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3.helloTimerInSeconds", value.Int())
+		}
+	}
+	if value := res.Get("v3.areas"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3.areas", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3.areas", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("areaId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "areaId", "null")
+					} else {
+						body, _ = sjson.Set(body, "areaId", value.String())
+					}
+				}
+				if value := res.Get("areaName"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "areaName", "null")
+					} else {
+						body, _ = sjson.Set(body, "areaName", value.String())
+					}
+				}
+				if value := res.Get("areaType"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "areaType", "null")
+					} else {
+						body, _ = sjson.Set(body, "areaType", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "v3.areas.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("areas"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "areas", "null")
+		} else {
+			body, _ = sjson.Set(body, "areas", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("areaId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "areaId", "null")
+					} else {
+						body, _ = sjson.Set(body, "areaId", value.String())
+					}
+				}
+				if value := res.Get("areaName"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "areaName", "null")
+					} else {
+						body, _ = sjson.Set(body, "areaName", value.String())
+					}
+				}
+				if value := res.Get("areaType"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "areaType", "null")
+					} else {
+						body, _ = sjson.Set(body, "areaType", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "areas.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchRoutingOSPF) fromBody(ctx context.Context, res meraki.Res) {

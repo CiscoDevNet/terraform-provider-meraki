@@ -118,6 +118,106 @@ func (data ApplianceOneToOneNATRules) toBody(ctx context.Context, state Applianc
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceOneToOneNATRules) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("rules"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "rules", "null")
+		} else {
+			body, _ = sjson.Set(body, "rules", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("lanIp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "lanIp", "null")
+					} else {
+						body, _ = sjson.Set(body, "lanIp", value.String())
+					}
+				}
+				if value := res.Get("name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "name", "null")
+					} else {
+						body, _ = sjson.Set(body, "name", value.String())
+					}
+				}
+				if value := res.Get("publicIp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "publicIp", "null")
+					} else {
+						body, _ = sjson.Set(body, "publicIp", value.String())
+					}
+				}
+				if value := res.Get("uplink"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "uplink", "null")
+					} else {
+						body, _ = sjson.Set(body, "uplink", value.String())
+					}
+				}
+				if value := res.Get("allowedInbound"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "allowedInbound", "null")
+					} else {
+						body, _ = sjson.Set(body, "allowedInbound", []interface{}{})
+						parent := &body
+						value.ForEach(func(k, res gjson.Result) bool {
+							body := ""
+							if value := res.Get("protocol"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "protocol", "null")
+								} else {
+									body, _ = sjson.Set(body, "protocol", value.String())
+								}
+							}
+							if value := res.Get("allowedIps"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "allowedIps", "null")
+								} else {
+									var values []string
+									for _, v := range value.Array() {
+										values = append(values, v.String())
+									}
+									body, _ = sjson.Set(body, "allowedIps", values)
+								}
+							}
+							if value := res.Get("destinationPorts"); value.Exists() {
+								if value.Value() == nil {
+									body, _ = sjson.SetRaw(body, "destinationPorts", "null")
+								} else {
+									var values []string
+									for _, v := range value.Array() {
+										values = append(values, v.String())
+									}
+									body, _ = sjson.Set(body, "destinationPorts", values)
+								}
+							}
+							*parent, _ = sjson.SetRaw(*parent, "allowedInbound.-1", body)
+							return true
+						})
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "rules.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceOneToOneNATRules) fromBody(ctx context.Context, res meraki.Res) {

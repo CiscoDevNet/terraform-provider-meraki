@@ -87,6 +87,57 @@ func (data SwitchDSCPToCoSMappings) toBody(ctx context.Context, state SwitchDSCP
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data SwitchDSCPToCoSMappings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("mappings"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "mappings", "null")
+		} else {
+			body, _ = sjson.Set(body, "mappings", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("cos"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "cos", "null")
+					} else {
+						body, _ = sjson.Set(body, "cos", value.Int())
+					}
+				}
+				if value := res.Get("dscp"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "dscp", "null")
+					} else {
+						body, _ = sjson.Set(body, "dscp", value.Int())
+					}
+				}
+				if value := res.Get("title"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "title", "null")
+					} else {
+						body, _ = sjson.Set(body, "title", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "mappings.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchDSCPToCoSMappings) fromBody(ctx context.Context, res meraki.Res) {

@@ -139,6 +139,127 @@ func (data ApplianceSSID) toBody(ctx context.Context, state ApplianceSSID) strin
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceSSID) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("authMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "authMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "authMode", value.String())
+		}
+	}
+	if value := res.Get("defaultVlanId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "defaultVlanId", "null")
+		} else {
+			body, _ = sjson.Set(body, "defaultVlanId", value.Int())
+		}
+	}
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("encryptionMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "encryptionMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "encryptionMode", value.String())
+		}
+	}
+	if value := res.Get("name"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "name", "null")
+		} else {
+			body, _ = sjson.Set(body, "name", value.String())
+		}
+	}
+	if value := res.Get("psk"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "psk", "null")
+		} else {
+			body, _ = sjson.Set(body, "psk", value.String())
+		}
+	}
+	if value := res.Get("visible"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "visible", "null")
+		} else {
+			body, _ = sjson.Set(body, "visible", value.Bool())
+		}
+	}
+	if value := res.Get("wpaEncryptionMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "wpaEncryptionMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "wpaEncryptionMode", value.String())
+		}
+	}
+	if value := res.Get("dhcpEnforcedDeauthentication.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpEnforcedDeauthentication.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpEnforcedDeauthentication.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("dot11w.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dot11w.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "dot11w.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("dot11w.required"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dot11w.required", "null")
+		} else {
+			body, _ = sjson.Set(body, "dot11w.required", value.Bool())
+		}
+	}
+	if value := res.Get("radiusServers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "radiusServers", "null")
+		} else {
+			body, _ = sjson.Set(body, "radiusServers", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("host"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "host", "null")
+					} else {
+						body, _ = sjson.Set(body, "host", value.String())
+					}
+				}
+				if value := res.Get("port"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "port", "null")
+					} else {
+						body, _ = sjson.Set(body, "port", value.Int())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "radiusServers.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceSSID) fromBody(ctx context.Context, res meraki.Res) {

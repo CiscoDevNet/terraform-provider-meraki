@@ -116,6 +116,98 @@ func (data WirelessSSIDSchedules) toBody(ctx context.Context, state WirelessSSID
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessSSIDSchedules) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "enabled", value.Bool())
+		}
+	}
+	if value := res.Get("ranges"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ranges", "null")
+		} else {
+			body, _ = sjson.Set(body, "ranges", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("endDay"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "endDay", "null")
+					} else {
+						body, _ = sjson.Set(body, "endDay", value.String())
+					}
+				}
+				if value := res.Get("endTime"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "endTime", "null")
+					} else {
+						body, _ = sjson.Set(body, "endTime", value.String())
+					}
+				}
+				if value := res.Get("startDay"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "startDay", "null")
+					} else {
+						body, _ = sjson.Set(body, "startDay", value.String())
+					}
+				}
+				if value := res.Get("startTime"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "startTime", "null")
+					} else {
+						body, _ = sjson.Set(body, "startTime", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "ranges.-1", body)
+				return true
+			})
+		}
+	}
+	if value := res.Get("rangesInSeconds"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "rangesInSeconds", "null")
+		} else {
+			body, _ = sjson.Set(body, "rangesInSeconds", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("end"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "end", "null")
+					} else {
+						body, _ = sjson.Set(body, "end", value.Int())
+					}
+				}
+				if value := res.Get("start"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "start", "null")
+					} else {
+						body, _ = sjson.Set(body, "start", value.Int())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "rangesInSeconds.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDSchedules) fromBody(ctx context.Context, res meraki.Res) {

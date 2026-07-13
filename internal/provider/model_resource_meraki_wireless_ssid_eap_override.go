@@ -86,6 +86,65 @@ func (data WirelessSSIDEAPOverride) toBody(ctx context.Context, state WirelessSS
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data WirelessSSIDEAPOverride) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("maxRetries"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "maxRetries", "null")
+		} else {
+			body, _ = sjson.Set(body, "maxRetries", value.Int())
+		}
+	}
+	if value := res.Get("timeout"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "timeout", "null")
+		} else {
+			body, _ = sjson.Set(body, "timeout", value.Int())
+		}
+	}
+	if value := res.Get("eapolKey.retries"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "eapolKey.retries", "null")
+		} else {
+			body, _ = sjson.Set(body, "eapolKey.retries", value.Int())
+		}
+	}
+	if value := res.Get("eapolKey.timeoutInMs"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "eapolKey.timeoutInMs", "null")
+		} else {
+			body, _ = sjson.Set(body, "eapolKey.timeoutInMs", value.Int())
+		}
+	}
+	if value := res.Get("identity.retries"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "identity.retries", "null")
+		} else {
+			body, _ = sjson.Set(body, "identity.retries", value.Int())
+		}
+	}
+	if value := res.Get("identity.timeout"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "identity.timeout", "null")
+		} else {
+			body, _ = sjson.Set(body, "identity.timeout", value.Int())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *WirelessSSIDEAPOverride) fromBody(ctx context.Context, res meraki.Res) {

@@ -122,6 +122,128 @@ func (data NetworkClientSplashAuthorizationStatus) toBody(ctx context.Context, s
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data NetworkClientSplashAuthorizationStatus) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("ssids.0.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:0.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:0.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.1.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:1.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:1.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.10.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:10.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:10.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.11.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:11.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:11.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.12.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:12.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:12.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.13.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:13.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:13.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.14.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:14.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:14.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.2.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:2.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:2.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.3.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:3.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:3.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.4.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:4.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:4.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.5.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:5.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:5.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.6.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:6.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:6.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.7.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:7.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:7.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.8.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:8.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:8.isAuthorized", value.Bool())
+		}
+	}
+	if value := res.Get("ssids.9.isAuthorized"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssids.:9.isAuthorized", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssids.:9.isAuthorized", value.Bool())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkClientSplashAuthorizationStatus) fromBody(ctx context.Context, res meraki.Res) {

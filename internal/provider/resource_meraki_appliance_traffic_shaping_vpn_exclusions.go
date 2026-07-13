@@ -175,8 +175,7 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Create(ctx context.Contex
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve vpn exceptions (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
-		initialState.fromBody(ctx, meraki.Res{Result: gres.Get("items.0")})
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, ApplianceTrafficShapingVPNExclusions{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, meraki.Res{Result: gres.Get("items.0")}), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object
