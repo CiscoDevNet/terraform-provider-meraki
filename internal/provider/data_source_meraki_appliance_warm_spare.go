@@ -102,7 +102,7 @@ func (d *ApplianceWarmSpareDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceWarmSpareDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceWarmSpare
+	var config DataSourceApplianceWarmSpare
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

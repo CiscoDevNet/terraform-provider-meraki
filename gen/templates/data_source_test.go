@@ -148,7 +148,7 @@ variable "{{.}}" {}
 func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
-	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+	{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 	{{- if isNestedListSetMap .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -159,7 +159,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 	config += `  {{.TfName}} = [{` + "\n"
 	{{- end}}
 		{{- range  .Attributes}}
-		{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+		{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 		{{- if isNestedListSetMap .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -170,7 +170,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 	config += `    {{.TfName}} = [{` + "\n"
 		{{- end}}
 			{{- range  .Attributes}}
-			{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+			{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 			{{- if isNestedListSetMap .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -181,7 +181,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 	config += `      {{.TfName}} = [{` + "\n"
 			{{- end}}
 				{{- range  .Attributes}}
-				{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+				{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
@@ -270,7 +270,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 func testAccNamedDataSourceMeraki{{camelCase .Name}}Config() string {
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
-	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+	{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 	{{- if isNestedListSetMap .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -281,7 +281,7 @@ func testAccNamedDataSourceMeraki{{camelCase .Name}}Config() string {
 	config += `  {{.TfName}} = [{` + "\n"
 	{{- end}}
 		{{- range  .Attributes}}
-		{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+		{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 		{{- if isNestedListSetMap .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -292,7 +292,7 @@ func testAccNamedDataSourceMeraki{{camelCase .Name}}Config() string {
 	config += `    {{.TfName}} = [{` + "\n"
 		{{- end}}
 			{{- range  .Attributes}}
-			{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+			{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 			{{- if isNestedListSetMap .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -303,7 +303,7 @@ func testAccNamedDataSourceMeraki{{camelCase .Name}}Config() string {
 	config += `      {{.TfName}} = [{` + "\n"
 			{{- end}}
 				{{- range  .Attributes}}
-				{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+				{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"

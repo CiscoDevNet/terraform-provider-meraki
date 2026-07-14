@@ -101,6 +101,7 @@ type YamlConfigAttribute struct {
 	RequiresReplace    bool                  `yaml:"requires_replace,omitempty"`
 	Mandatory          bool                  `yaml:"mandatory,omitempty"`
 	WriteOnly          bool                  `yaml:"write_only,omitempty"`
+	DataSourceOnly     bool                  `yaml:"data_source_only,omitempty"`
 	WriteChangesOnly   bool                  `yaml:"write_changes_only,omitempty"`
 	Sensitive          bool                  `yaml:"sensitive,omitempty"`
 	WriteEmptyList     bool                  `yaml:"write_empty_list,omitempty"`
@@ -146,6 +147,7 @@ type YamlConfigAttributeP struct {
 	RequiresReplace    *bool                   `yaml:"requires_replace,omitempty"`
 	Mandatory          *bool                   `yaml:"mandatory,omitempty"`
 	WriteOnly          *bool                   `yaml:"write_only,omitempty"`
+	DataSourceOnly     *bool                   `yaml:"data_source_only,omitempty"`
 	WriteChangesOnly   *bool                   `yaml:"write_changes_only,omitempty"`
 	Sensitive          *bool                   `yaml:"sensitive,omitempty"`
 	WriteEmptyList     *bool                   `yaml:"write_empty_list,omitempty"`
@@ -477,14 +479,15 @@ func GetBulkParentAttributes(config YamlConfig) []YamlConfigAttribute {
 	return parentAttributes
 }
 
-// GetBulkItemAttributes returns a list of item attributes that are used in bulk operations
+// GetBulkItemAttributes returns a list of item attributes that are visible to the resource in bulk operations
+// (i.e. excluding data-source-only attributes, which are only ever emitted into the data source's model/schema).
 func GetBulkItemAttributes(config YamlConfig) []YamlConfigAttribute {
 	var itemAttributes []YamlConfigAttribute
 	for _, attr := range config.Attributes {
 		if attr.Reference && attr.Id && config.PutCreate {
 			itemAttributes = append(itemAttributes, attr)
 			continue
-		} else if attr.Reference {
+		} else if attr.Reference || attr.DataSourceOnly {
 			continue
 		}
 		itemAttributes = append(itemAttributes, attr)
@@ -631,7 +634,7 @@ func CamelToSnake(str string) string {
 	return strings.ToLower(snake)
 }
 
-func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName string) error {
+func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName string, parentDataSourceOnly bool) error {
 	// Augument
 	if attr.TfName == "" {
 		fullString := ""
@@ -646,6 +649,9 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 
 	attr.GoTypeName = parentGoTypeName + ToGoName(attr.TfName)
 	attr.GoTypeBulkName = parentGoTypeBulkName + ToGoName(attr.TfName)
+
+	// A data-source-only container cascades the flag onto every descendant attribute.
+	attr.DataSourceOnly = attr.DataSourceOnly || parentDataSourceOnly
 
 	// Validate
 	if len(attr.Attributes) > 0 && attr.Type != "List" && attr.Type != "Map" && attr.Type != "Set" {
@@ -677,9 +683,30 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 			attr.TfName)
 	}
 
+	if attr.DataSourceOnly {
+		if attr.Mandatory {
+			return fmt.Errorf("%q: `data_source_only` cannot be combined with `mandatory`, since data-source-only attributes are never part of the resource's writable input", attr.TfName)
+		}
+		if attr.RequiresReplace {
+			return fmt.Errorf("%q: `data_source_only` cannot be combined with `requires_replace`, since that only applies to resource plan diffs", attr.TfName)
+		}
+		if attr.WriteChangesOnly {
+			return fmt.Errorf("%q: `data_source_only` cannot be combined with `write_changes_only`, since that only applies to the resource's PUT body diffing", attr.TfName)
+		}
+		if attr.WriteOnly {
+			return fmt.Errorf("%q: `data_source_only` cannot be combined with `write_only`, they are opposites (write-only means unreadable, data-source-only means unwritable)", attr.TfName)
+		}
+		if attr.Reference || attr.Id {
+			return fmt.Errorf("%q: `data_source_only` cannot be combined with `reference`/`id`, since those drive the resource's REST path/import key", attr.TfName)
+		}
+		if attr.BulkId {
+			return fmt.Errorf("%q: `data_source_only` cannot be combined with `bulk_id`, since that drives the resource's per-item composite key", attr.TfName)
+		}
+	}
+
 	// Recurse
 	for i := range attr.Attributes {
-		if err := attr.Attributes[i].Init(attr.GoTypeName, attr.GoTypeBulkName); err != nil {
+		if err := attr.Attributes[i].Init(attr.GoTypeName, attr.GoTypeBulkName, attr.DataSourceOnly); err != nil {
 			return err
 		}
 	}
@@ -703,7 +730,7 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 	}
 
 	for i := range config.Attributes {
-		if err := config.Attributes[i].Init(CamelCase(config.Name), CamelCase(config.BulkName)); err != nil {
+		if err := config.Attributes[i].Init(CamelCase(config.Name), CamelCase(config.BulkName), false); err != nil {
 			return YamlConfig{}, err
 		}
 	}
@@ -937,6 +964,9 @@ func MergeYamlConfigAttribute(existing *YamlConfigAttributeP, new *YamlConfigAtt
 	}
 	if existing.WriteOnly != nil {
 		new.WriteOnly = existing.WriteOnly
+	}
+	if existing.DataSourceOnly != nil {
+		new.DataSourceOnly = existing.DataSourceOnly
 	}
 	if existing.WriteChangesOnly != nil {
 		new.WriteChangesOnly = existing.WriteChangesOnly

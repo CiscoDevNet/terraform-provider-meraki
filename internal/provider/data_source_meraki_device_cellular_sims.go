@@ -154,7 +154,7 @@ func (d *DeviceCellularSIMsDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *DeviceCellularSIMsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config DeviceCellularSIMs
+	var config DataSourceDeviceCellularSIMs
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

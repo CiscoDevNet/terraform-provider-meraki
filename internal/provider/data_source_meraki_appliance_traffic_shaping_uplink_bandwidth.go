@@ -106,7 +106,7 @@ func (d *ApplianceTrafficShapingUplinkBandwidthDataSource) Configure(_ context.C
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceTrafficShapingUplinkBandwidthDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceTrafficShapingUplinkBandwidth
+	var config DataSourceApplianceTrafficShapingUplinkBandwidth
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

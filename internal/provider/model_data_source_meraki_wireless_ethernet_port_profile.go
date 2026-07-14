@@ -1,0 +1,137 @@
+// Copyright © 2024 Cisco Systems, Inc. and its affiliates.
+// All rights reserved.
+//
+// Licensed under the Mozilla Public License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://mozilla.org/MPL/2.0/
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// SPDX-License-Identifier: MPL-2.0
+
+package provider
+
+// This template renders for every definition with a data source (gated only by NoDataSource in gen/generator.go).
+// It emits a separate model - DataSourceWirelessEthernetPortProfile - used only by the data source, always including every
+// attribute (unlike model_resource.go's resource-side struct, which excludes `data_source_only` attributes), since
+// terraform-plugin-framework requires a model struct's tfsdk-tagged fields to exactly match the schema it's decoded
+// against. Keep this file's shape in sync with model_resource.go's `types`/`getPath`/`fromBody` sections - the only
+// differences are that nothing is skipped for `.DataSourceOnly` here, and every type is prefixed with `DataSource`
+// to avoid colliding with model_resource.go's resource-side type names.
+
+// Section below is generated&owned by "gen/generator.go". //template:begin imports
+import (
+	"context"
+	"fmt"
+	"net/url"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
+)
+
+// End of section. //template:end imports
+
+// Section below is generated&owned by "gen/generator.go". //template:begin types
+
+type DataSourceWirelessEthernetPortProfile struct {
+	Id        types.String                                    `tfsdk:"id"`
+	NetworkId types.String                                    `tfsdk:"network_id"`
+	Name      types.String                                    `tfsdk:"name"`
+	Ports     []DataSourceWirelessEthernetPortProfilePorts    `tfsdk:"ports"`
+	UsbPorts  []DataSourceWirelessEthernetPortProfileUsbPorts `tfsdk:"usb_ports"`
+}
+
+type DataSourceWirelessEthernetPortProfilePorts struct {
+	Enabled    types.Bool   `tfsdk:"enabled"`
+	Name       types.String `tfsdk:"name"`
+	PskGroupId types.String `tfsdk:"psk_group_id"`
+	Ssid       types.Int64  `tfsdk:"ssid"`
+}
+
+type DataSourceWirelessEthernetPortProfileUsbPorts struct {
+	Enabled types.Bool   `tfsdk:"enabled"`
+	Name    types.String `tfsdk:"name"`
+	Ssid    types.Int64  `tfsdk:"ssid"`
+}
+
+// End of section. //template:end types
+
+// Section below is generated&owned by "gen/generator.go". //template:begin getPath
+
+func (data DataSourceWirelessEthernetPortProfile) getPath() string {
+	return fmt.Sprintf("/networks/%v/wireless/ethernet/ports/profiles", url.QueryEscape(data.NetworkId.ValueString()))
+}
+
+// End of section. //template:end getPath
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
+
+func (data *DataSourceWirelessEthernetPortProfile) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("name"); value.Exists() && value.Value() != nil {
+		data.Name = types.StringValue(value.String())
+	} else {
+		data.Name = types.StringNull()
+	}
+	if value := res.Get("ports"); value.Exists() && value.Value() != nil {
+		data.Ports = make([]DataSourceWirelessEthernetPortProfilePorts, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := DataSourceWirelessEthernetPortProfilePorts{}
+			if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
+				data.Enabled = types.BoolValue(value.Bool())
+			} else {
+				data.Enabled = types.BoolNull()
+			}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("pskGroupId"); value.Exists() && value.Value() != nil {
+				data.PskGroupId = types.StringValue(value.String())
+			} else {
+				data.PskGroupId = types.StringNull()
+			}
+			if value := res.Get("ssid"); value.Exists() && value.Value() != nil {
+				data.Ssid = types.Int64Value(value.Int())
+			} else {
+				data.Ssid = types.Int64Null()
+			}
+			(*parent).Ports = append((*parent).Ports, data)
+			return true
+		})
+	}
+	if value := res.Get("usbPorts"); value.Exists() && value.Value() != nil {
+		data.UsbPorts = make([]DataSourceWirelessEthernetPortProfileUsbPorts, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := DataSourceWirelessEthernetPortProfileUsbPorts{}
+			if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
+				data.Enabled = types.BoolValue(value.Bool())
+			} else {
+				data.Enabled = types.BoolNull()
+			}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("ssid"); value.Exists() && value.Value() != nil {
+				data.Ssid = types.Int64Value(value.Int())
+			} else {
+				data.Ssid = types.Int64Null()
+			}
+			(*parent).UsbPorts = append((*parent).UsbPorts, data)
+			return true
+		})
+	}
+}
+
+// End of section. //template:end fromBody

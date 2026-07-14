@@ -166,7 +166,7 @@ func (d *WirelessMQTTSettingsDataSource) Configure(_ context.Context, req dataso
 // End of section. //template:end model
 
 func (d *WirelessMQTTSettingsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessMQTTSettings
+	var config DataSourceWirelessMQTTSettings
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

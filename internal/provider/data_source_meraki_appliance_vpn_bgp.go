@@ -169,7 +169,7 @@ func (d *ApplianceVPNBGPDataSource) Configure(_ context.Context, req datasource.
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceVPNBGPDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceVPNBGP
+	var config DataSourceApplianceVPNBGP
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
