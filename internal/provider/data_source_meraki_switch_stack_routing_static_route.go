@@ -130,7 +130,7 @@ func (d *SwitchStackRoutingStaticRouteDataSource) Configure(_ context.Context, r
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchStackRoutingStaticRouteDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchStackRoutingStaticRoute
+	var config DataSourceSwitchStackRoutingStaticRoute
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

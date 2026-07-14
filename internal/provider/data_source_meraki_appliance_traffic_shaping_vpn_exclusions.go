@@ -117,7 +117,7 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Configure(_ context.Con
 // End of section. //template:end model
 
 func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceTrafficShapingVPNExclusions
+	var config DataSourceApplianceTrafficShapingVPNExclusions
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

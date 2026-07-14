@@ -146,7 +146,7 @@ func (d *NetworkMerakiAuthUserDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkMerakiAuthUserDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkMerakiAuthUser
+	var config DataSourceNetworkMerakiAuthUser
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

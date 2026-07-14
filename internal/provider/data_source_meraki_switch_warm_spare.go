@@ -90,7 +90,7 @@ func (d *SwitchWarmSpareDataSource) Configure(_ context.Context, req datasource.
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchWarmSpareDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchWarmSpare
+	var config DataSourceSwitchWarmSpare
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

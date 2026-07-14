@@ -105,7 +105,7 @@ func (d *SwitchDHCPServerPolicyDataSource) Configure(_ context.Context, req data
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchDHCPServerPolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchDHCPServerPolicy
+	var config DataSourceSwitchDHCPServerPolicy
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

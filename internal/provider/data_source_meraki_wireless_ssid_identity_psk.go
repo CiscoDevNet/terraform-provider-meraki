@@ -126,7 +126,7 @@ func (d *WirelessSSIDIdentityPSKDataSource) Configure(_ context.Context, req dat
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDIdentityPSKDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDIdentityPSK
+	var config DataSourceWirelessSSIDIdentityPSK
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

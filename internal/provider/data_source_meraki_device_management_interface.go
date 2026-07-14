@@ -149,7 +149,7 @@ func (d *DeviceManagementInterfaceDataSource) Configure(_ context.Context, req d
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *DeviceManagementInterfaceDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config DeviceManagementInterface
+	var config DataSourceDeviceManagementInterface
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

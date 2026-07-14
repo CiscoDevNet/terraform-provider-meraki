@@ -127,7 +127,7 @@ func (d *NetworkWebhookHTTPServerDataSource) Configure(_ context.Context, req da
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkWebhookHTTPServerDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkWebhookHTTPServer
+	var config DataSourceNetworkWebhookHTTPServer
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
