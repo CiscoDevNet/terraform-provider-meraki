@@ -601,7 +601,6 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewNetworkClientSplashAuthorizationStatusDataSource,
 		NewNetworkDevicesDataSource,
 		NewNetworkFirmwareUpgradesDataSource,
-		NewNetworkFirmwareUpgradesDataDataSource,
 		NewNetworkFloorPlanDataSource,
 		NewNetworkFloorPlansDataSource,
 		NewNetworkGroupPolicyDataSource,
