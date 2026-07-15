@@ -34,6 +34,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiNetworkFirmwareUpgradesRollback(t *testing.T) {
+	if os.Getenv("NETWORK_FIRMWARE_UPGRADES_ROLLBACK") == "" {
+		t.Skip("skipping test, set environment variable NETWORK_FIRMWARE_UPGRADES_ROLLBACK")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
