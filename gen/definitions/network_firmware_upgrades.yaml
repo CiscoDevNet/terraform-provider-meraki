@@ -1,7 +1,3 @@
-# Customize fromBodyPartial() to ensure upgradeWindow.dayOfWeek is idempotent.
-# The API converts the enum to capitalized form ("Mon" instead of "mon")
-# while accepting both lowercase and capitalized forms.
-# The OpenAPI spec has the lowercase form.
 name: Network Firmware Upgrades
 spec_endpoint: /networks/{networkId}/firmwareUpgrades
 rest_endpoint: /networks/%v/firmwareUpgrades
@@ -1340,7 +1336,7 @@ attributes:
     data_path: [upgradeWindow]
     description: Day of the week
     example: Sun
-    enum_values: [Fri, Friday, Mon, Monday, Sat, Saturday, Sun, Sunday, Thu, Thursday, Tue, Tuesday, Wed, Wednesday, fri, friday, mon, monday, sat, saturday, sun, sunday, thu, thursday, tue, tuesday, wed, wednesday]
+    enum_values: [Fri, Friday, Mon, Monday, Sat, Saturday, Sun, Sunday, Thu, Thursday, Tue, Tuesday, Wed, Wednesday]
   - model_name: hourOfDay
     type: String
     data_path: [upgradeWindow]
