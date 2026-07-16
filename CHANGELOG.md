@@ -9,12 +9,10 @@
 
 - Fix "Missing Resource Identity After Read" provider error when a resource was first created with Terraform < 1.12 and has since been deleted out-of-band
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
-- Update wireless SSID hotspot realm to "Realm 1" in configuration and tests; adjust OpenAPI model URLs to v1.66.0.
-- Add `eox` attributes (`end_of_sale_at`, `end_of_support_at`, `status`) to `meraki_organization_inventory_devices` data source
+- Add `eox` attributes (`eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status`) to `meraki_organization_inventory_devices` data source
 - Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
 - Update OpenAPI model URLs to v1.67.0
 - Add `meraki_network_wireless_radio_rrm` resource to manage AI-RRM, busy hour, channel avoidance, and FRA settings for wireless networks
-- Add `meraki_organization_wireless_radio_rrm_by_network` and `meraki_organization_wireless_radio_rrm_by_networks` data sources to list AutoRF settings per network across an organization
 - Fix idempotency issue with `vpn_traffic_uplink_preferences[].traffic_filters`, `wan_traffic_uplink_preferences[].traffic_filters` attributes of `meraki_appliance_traffic_shaping_uplink_selection` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/235)
 
 ## 1.12.1
