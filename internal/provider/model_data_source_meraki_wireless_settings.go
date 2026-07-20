@@ -47,6 +47,7 @@ type DataSourceWirelessSettings struct {
 	LocationAnalyticsEnabled             types.Bool   `tfsdk:"location_analytics_enabled"`
 	MeshingEnabled                       types.Bool   `tfsdk:"meshing_enabled"`
 	UpgradeStrategy                      types.String `tfsdk:"upgrade_strategy"`
+	MulticastToUnicastConversionEnabled  types.Bool   `tfsdk:"multicast_to_unicast_conversion_enabled"`
 	NamedVlansPoolDhcpMonitoringDuration types.Int64  `tfsdk:"named_vlans_pool_dhcp_monitoring_duration"`
 	NamedVlansPoolDhcpMonitoringEnabled  types.Bool   `tfsdk:"named_vlans_pool_dhcp_monitoring_enabled"`
 }
@@ -88,6 +89,11 @@ func (data *DataSourceWirelessSettings) fromBody(ctx context.Context, res meraki
 		data.UpgradeStrategy = types.StringValue(value.String())
 	} else {
 		data.UpgradeStrategy = types.StringNull()
+	}
+	if value := res.Get("multicastToUnicastConversion.enabled"); value.Exists() && value.Value() != nil {
+		data.MulticastToUnicastConversionEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.MulticastToUnicastConversionEnabled = types.BoolNull()
 	}
 	if value := res.Get("namedVlans.poolDhcpMonitoring.duration"); value.Exists() && value.Value() != nil {
 		data.NamedVlansPoolDhcpMonitoringDuration = types.Int64Value(value.Int())
