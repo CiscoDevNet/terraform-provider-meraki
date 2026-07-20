@@ -110,7 +110,7 @@ func (d *CameraQualityRetentionDataSource) Configure(_ context.Context, req data
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CameraQualityRetentionDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CameraQualityRetention
+	var config DataSourceCameraQualityRetention
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

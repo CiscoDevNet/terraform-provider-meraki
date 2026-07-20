@@ -165,7 +165,7 @@ func (d *SwitchOrganizationPortsProfilesAutomationDataSource) Configure(_ contex
 // End of section. //template:end model
 
 func (d *SwitchOrganizationPortsProfilesAutomationDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchOrganizationPortsProfilesAutomation
+	var config DataSourceSwitchOrganizationPortsProfilesAutomation
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

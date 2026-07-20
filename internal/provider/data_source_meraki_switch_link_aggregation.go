@@ -115,7 +115,7 @@ func (d *SwitchLinkAggregationDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchLinkAggregationDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchLinkAggregation
+	var config DataSourceSwitchLinkAggregation
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

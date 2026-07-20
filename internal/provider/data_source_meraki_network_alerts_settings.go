@@ -225,7 +225,7 @@ func (d *NetworkAlertsSettingsDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkAlertsSettingsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkAlertsSettings
+	var config DataSourceNetworkAlertsSettings
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

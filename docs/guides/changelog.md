@@ -9,6 +9,9 @@ description: |-
 
 ## Unreleased
 
+- Add `meraki_network_firmware_upgrades_rollback` resource
+- Add `is_upgrade_available`, `current_version`, `last_upgrade`, extra `next_upgrade.to_version`, and `available_versions` attributes to `meraki_network_firmware_upgrades` data source
+- Only send `products.*.next_upgrade.*` attributes to the API when changed for a given product in `meraki_network_firmware_upgrades` resource, so other products' previously-scheduled upgrades are preserved in the config
 - Preserve attributes that the API explicitly returned as `null` in the saved initial state used by `restore_original_state_on_destroy`, so they are restored on destroy instead of being silently dropped
 - Fix write-only attributes (`_wo`) requiring the base sensitive attribute to also be set in `meraki_network_snmp` (`users[*].passphrase`), `meraki_appliance_third_party_vpn_peers` (`peers[*].secret`), `meraki_network_meraki_auth_user` (`password`), `meraki_organization_auth_radius_server` (`secret`), and `meraki_wireless_location_scanning_receiver` (`shared_secret`), [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/243)
 - Fix "Missing Resource Identity After Read" provider error for resources with custom read implementations (`meraki_appliance_firewall_multicast_forwarding`, `meraki_appliance_traffic_shaping_vpn_exclusions`, `meraki_wireless_air_marshal_rule`, `meraki_wireless_air_marshal_settings`, `meraki_wireless_location_scanning`, `meraki_wireless_ssid_open_roaming`, `meraki_wireless_zigbee`, and others) when deleted out-of-band

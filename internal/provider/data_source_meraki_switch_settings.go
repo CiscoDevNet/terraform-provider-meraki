@@ -122,7 +122,7 @@ func (d *SwitchSettingsDataSource) Configure(_ context.Context, req datasource.C
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchSettingsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchSettings
+	var config DataSourceSwitchSettings
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

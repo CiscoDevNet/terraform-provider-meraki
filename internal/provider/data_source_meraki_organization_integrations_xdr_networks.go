@@ -99,7 +99,7 @@ func (d *OrganizationIntegrationsXDRNetworksDataSource) Configure(_ context.Cont
 // End of section. //template:end model
 
 func (d *OrganizationIntegrationsXDRNetworksDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationIntegrationsXDRNetworks
+	var config DataSourceOrganizationIntegrationsXDRNetworks
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

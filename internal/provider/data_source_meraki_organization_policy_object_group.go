@@ -110,7 +110,7 @@ func (d *OrganizationPolicyObjectGroupDataSource) Configure(_ context.Context, r
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationPolicyObjectGroupDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationPolicyObjectGroup
+	var config DataSourceOrganizationPolicyObjectGroup
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
