@@ -1,0 +1,43 @@
+name: Blink Device Leds
+spec_endpoint: /devices/{serial}/liveTools/leds/blink
+rest_endpoint: /devices/%v/liveTools/leds/blink
+action: true
+no_data_source: true
+no_update: true
+no_delete: true
+no_import: true
+no_read: true
+doc_category: Devices
+test_tags: [BLINK_DEVICE_LEDS]
+test_variables: [test_org, test_network, test_switch_1_serial]
+ignore_attributes:
+  - callback.sharedSecret
+  - callback.url
+  - callback.httpServer.id
+  - callback.payloadTemplate.id
+attributes:
+  - tf_name: serial
+    type: String
+    id: true
+    reference: true
+    description: Device serial
+    example: 1234-ABCD-1234
+    test_value: tolist(meraki_network_device_claim.test.serials)[0]
+  - model_name: duration
+    type: Int64
+    mandatory: true
+    description: The duration in seconds to blink LEDs.
+    example: "30"
+test_prerequisites: |2
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_switch_1_serial]
+  }

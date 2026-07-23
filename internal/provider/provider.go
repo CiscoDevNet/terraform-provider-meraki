@@ -27,6 +27,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -36,6 +37,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
+
+// Ensure provider defined types fully satisfy framework interfaces
+var _ provider.ProviderWithActions = &MerakiProvider{}
 
 // MerakiProvider defines the provider implementation.
 type MerakiProvider struct {
@@ -306,6 +310,7 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	data := MerakiProviderData{Client: &c, RestoreOriginalStateOnDestroy: restoreOriginalStateOnDestroy}
 	resp.DataSourceData = &data
 	resp.ResourceData = &data
+	resp.ActionData = &data
 }
 
 func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resource {
@@ -756,6 +761,14 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewWirelessZigbeeDataSource,
 		NewWirelessZigbeeDeviceDataSource,
 		NewWirelessZigbeeDoorLockDataSource,
+	}
+}
+
+func (p *MerakiProvider) Actions(ctx context.Context) []func() action.Action {
+	return []func() action.Action{
+		NewBlinkDeviceLedsAction,
+		NewGenerateApplianceVMXAuthenticationTokenAction,
+		NewRebootDeviceAction,
 	}
 }
 

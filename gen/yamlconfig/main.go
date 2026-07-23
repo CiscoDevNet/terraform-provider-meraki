@@ -21,6 +21,7 @@ type YamlConfig struct {
 	RestEndpoint        string                `yaml:"rest_endpoint,omitempty"`
 	NoDataSource        bool                  `yaml:"no_data_source,omitempty"`
 	NoResource          bool                  `yaml:"no_resource,omitempty"`
+	Action              bool                  `yaml:"action,omitempty"`
 	BulkDataSource      bool                  `yaml:"bulk_data_source,omitempty"`
 	BulkResource        bool                  `yaml:"bulk_resource,omitempty"`
 	PutCreate           bool                  `yaml:"put_create,omitempty"`
@@ -59,6 +60,7 @@ type YamlConfigP struct {
 	RestEndpoint        *string                 `yaml:"rest_endpoint,omitempty"`
 	NoDataSource        *bool                   `yaml:"no_data_source,omitempty"`
 	NoResource          *bool                   `yaml:"no_resource,omitempty"`
+	Action              *bool                   `yaml:"action,omitempty"`
 	BulkDataSource      *bool                   `yaml:"bulk_data_source,omitempty"`
 	BulkResource        *bool                   `yaml:"bulk_resource,omitempty"`
 	PutCreate           *bool                   `yaml:"put_create,omitempty"`
@@ -738,7 +740,11 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 		config.DsDescription = fmt.Sprintf("This data source can read the `%s` configuration.", config.Name)
 	}
 	if config.ResDescription == "" {
-		config.ResDescription = fmt.Sprintf("This resource can manage the `%s` configuration.", config.Name)
+		if config.Action {
+			config.ResDescription = fmt.Sprintf("This action can invoke the `%s` operation.", config.Name)
+		} else {
+			config.ResDescription = fmt.Sprintf("This resource can manage the `%s` configuration.", config.Name)
+		}
 	}
 	if config.DsBulkDescription == "" {
 		config.DsBulkDescription = fmt.Sprintf("This data source can read the `%s` configuration in bulk.", config.Name)
@@ -778,6 +784,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.NoResource != nil {
 		new.NoResource = existing.NoResource
+	}
+	if existing.Action != nil {
+		new.Action = existing.Action
 	}
 	if existing.BulkDataSource != nil {
 		new.BulkDataSource = existing.BulkDataSource
