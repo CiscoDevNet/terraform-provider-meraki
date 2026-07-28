@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
@@ -123,8 +124,6 @@ func (r *ApplianceWarmSpareResource) Configure(_ context.Context, req resource.C
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceWarmSpare
 	var identity ApplianceWarmSpareIdentity
@@ -147,6 +146,11 @@ func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.Cr
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
+	diags = r.ensureSpareIsNotPrimary(plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
 	// Create object
 	body := plan.toBody(ctx, ApplianceWarmSpare{})
 	res, err := r.client.Put(plan.getPath(), body)
@@ -158,6 +162,11 @@ func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.Cr
 	plan.fromBodyUnknowns(ctx, res)
 	identity.toIdentity(ctx, &plan)
 
+	diags = r.ensureSpareIsNotPrimary(plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -167,8 +176,6 @@ func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.Cr
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end create
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
@@ -229,8 +236,6 @@ func (r *ApplianceWarmSpareResource) Read(ctx context.Context, req resource.Read
 
 // End of section. //template:end read
 
-// Section below is generated&owned by "gen/generator.go". //template:begin update
-
 func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceWarmSpare
 	var identity ApplianceWarmSpareIdentity
@@ -249,10 +254,20 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
+	diags = r.ensureSpareIsNotPrimary(plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	diags = r.ensureSpareIsNotPrimary(plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
 
@@ -265,7 +280,46 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 	resp.Diagnostics.Append(diags...)
 }
 
-// End of section. //template:end update
+// ensureSpareIsNotPrimary swaps primary/spare serials using a separate endpoint if the intended spare appliance is set as the primary.
+// This works around:
+//   - the API returning an error when it had already designated the device intended to be the spare as the primary during device claim.
+//     To be called before the regular PUT.
+//   - the API ignoring spareSerial attribute when enabling warm spare initially and using the device it had already designated during device claim.
+//     To be called after the regular PUT.
+func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(plan ApplianceWarmSpare) (diagnostics diag.Diagnostics) {
+	if !plan.Enabled.ValueBool() || plan.SpareSerial.IsNull() {
+		// Either warm spare is / will be disabled (spare_serial does not matter)
+		// or spare_serial is / will not be configured (so we don't care about it),
+		// so no need to work around the API.
+		return
+	}
+
+	// TODO Get primary value from an argument instead to allow using the PUT response / a private state attribute.
+	res, err := r.client.Get(plan.getPath())
+	if err != nil {
+		diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	primarySerial := plan.getPrimarySerialFromBody(res)
+
+	if primarySerial != plan.SpareSerial {
+		// Primary is not set to the spare,
+		// so the API will not return an error for spareSerial config.
+		return
+	}
+
+	body := "{}"
+	res, err = r.client.Post(plan.getSwapPath(), body)
+	if err != nil {
+		diagnostics.AddError("Client Error", fmt.Sprintf("Failed to swap appliance primary and spare serials (POST), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	return
+}
+
+// TODO Use ensureSpareIsNotPrimary in restoreOriginalStateOnDestroy?
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 

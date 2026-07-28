@@ -1,4 +1,6 @@
 # Customize fromBody(), fromBodyPartial() to work around GET returning wan{1,2}.ip instead of virtualIp{1,2}.
+# Customize Create(), Update() to work around the API ignoring spareSerial / returning an error
+# if it has already been designated as the primary at device claim time.
 name: Appliance Warm Spare
 spec_endpoint: /networks/{networkId}/appliance/warmSpare
 rest_endpoint: /networks/%v/appliance/warmSpare
