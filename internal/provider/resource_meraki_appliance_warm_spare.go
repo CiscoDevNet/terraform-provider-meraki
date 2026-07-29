@@ -146,7 +146,7 @@ func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.Cr
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
-	diags = r.ensureSpareIsNotPrimary(plan)
+	diags = r.ensureSpareIsNotPrimary(ctx, plan)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
@@ -162,7 +162,7 @@ func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.Cr
 	plan.fromBodyUnknowns(ctx, res)
 	identity.toIdentity(ctx, &plan)
 
-	diags = r.ensureSpareIsNotPrimary(plan)
+	diags = r.ensureSpareIsNotPrimary(ctx, plan)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
@@ -254,7 +254,7 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
-	diags = r.ensureSpareIsNotPrimary(plan)
+	diags = r.ensureSpareIsNotPrimary(ctx, plan)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
@@ -266,7 +266,7 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	diags = r.ensureSpareIsNotPrimary(plan)
+	diags = r.ensureSpareIsNotPrimary(ctx, plan)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
@@ -286,7 +286,7 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 //     To be called before the regular PUT.
 //   - the API ignoring spareSerial attribute when enabling warm spare initially and using the device it had already designated during device claim.
 //     To be called after the regular PUT.
-func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(plan ApplianceWarmSpare) (diagnostics diag.Diagnostics) {
+func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(ctx context.Context, plan ApplianceWarmSpare) (diagnostics diag.Diagnostics) {
 	if !plan.Enabled.ValueBool() || plan.SpareSerial.IsNull() {
 		// Either warm spare is / will be disabled (spare_serial does not matter)
 		// or spare_serial is / will not be configured (so we don't care about it),
@@ -301,11 +301,20 @@ func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(plan ApplianceWarmS
 		return
 	}
 
+	var tempState ApplianceWarmSpare
+	tempState.fromBody(ctx, res)
+
 	primarySerial := plan.getPrimarySerialFromBody(res)
 
 	if primarySerial != plan.SpareSerial {
 		// Primary is not set to the spare,
 		// so the API will not return an error for spareSerial config.
+		return
+	}
+
+	if tempState.SpareSerial.IsNull() {
+		// No spare is configured yet,
+		// so don't do the swap as it would fail.
 		return
 	}
 
