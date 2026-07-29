@@ -82,6 +82,13 @@ func (r *ApplianceWarmSpareResource) Schema(ctx context.Context, req resource.Sc
 				MarkdownDescription: helpers.NewAttributeDescription("Enable warm spare").String,
 				Required:            true,
 			},
+			"primary_serial": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Serial number of the primary appliance").String,
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 			"spare_serial": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Serial number of the warm spare appliance").String,
 				Optional:            true,
@@ -291,9 +298,7 @@ func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(ctx context.Context
 	var tempState ApplianceWarmSpare
 	tempState.fromBody(ctx, res)
 
-	primarySerial := plan.getPrimarySerialFromBody(res)
-
-	if primarySerial != plan.SpareSerial {
+	if tempState.PrimarySerial != plan.SpareSerial {
 		// Primary is not set to the spare,
 		// so the API will not return an error for spareSerial config.
 		return
