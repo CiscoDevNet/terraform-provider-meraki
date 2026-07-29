@@ -162,11 +162,6 @@ func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.Cr
 	plan.fromBodyUnknowns(ctx, res)
 	identity.toIdentity(ctx, &plan)
 
-	diags = r.ensureSpareIsNotPrimary(ctx, plan)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
-	}
-
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -266,11 +261,6 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	diags = r.ensureSpareIsNotPrimary(ctx, plan)
-	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-		return
-	}
-
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -281,20 +271,17 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 }
 
 // ensureSpareIsNotPrimary swaps primary/spare serials using a separate endpoint if the intended spare appliance is set as the primary.
-// This works around:
-//   - the API returning an error when it had already designated the device intended to be the spare as the primary during device claim.
-//     To be called before the regular PUT.
-//   - the API ignoring spareSerial attribute when enabling warm spare initially and using the device it had already designated during device claim.
-//     To be called after the regular PUT.
+// This works around the API returning "Serial for warm spare shouldn't be the same as primary serial."
+// when it had already designated the device intended to be the spare as the primary during device claim.
 func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(ctx context.Context, plan ApplianceWarmSpare) (diagnostics diag.Diagnostics) {
 	if !plan.Enabled.ValueBool() || plan.SpareSerial.IsNull() {
-		// Either warm spare is / will be disabled (spare_serial does not matter)
-		// or spare_serial is / will not be configured (so we don't care about it),
+		// Either warm spare will be disabled (spare_serial does not matter)
+		// or spare_serial will not be configured (so we don't care about it),
 		// so no need to work around the API.
 		return
 	}
 
-	// TODO Get primary value from an argument instead to allow using the PUT response / a private state attribute.
+	// TODO Get primary value from an argument instead to allow using a private state attribute.
 	res, err := r.client.Get(plan.getPath())
 	if err != nil {
 		diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
