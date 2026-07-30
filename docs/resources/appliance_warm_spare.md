@@ -41,7 +41,6 @@ resource "meraki_appliance_warm_spare" "example" {
 ### Read-Only
 
 - `id` (String) The id of the object
-- `primary_serial` (String) Serial number of the primary appliance
 
 ## Import
 

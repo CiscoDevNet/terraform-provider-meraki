@@ -69,10 +69,6 @@ func (d *ApplianceWarmSpareDataSource) Schema(ctx context.Context, req datasourc
 				MarkdownDescription: "Enable warm spare",
 				Computed:            true,
 			},
-			"primary_serial": schema.StringAttribute{
-				MarkdownDescription: "Serial number of the primary appliance",
-				Computed:            true,
-			},
 			"spare_serial": schema.StringAttribute{
 				MarkdownDescription: "Serial number of the warm spare appliance",
 				Computed:            true,

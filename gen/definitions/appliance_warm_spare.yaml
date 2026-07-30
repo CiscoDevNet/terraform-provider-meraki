@@ -22,10 +22,6 @@ attributes:
     description: Enable warm spare
     example: "true"
     minimum_test_value: "false"
-  - model_name: primarySerial
-    type: String
-    description: Serial number of the primary appliance
-    computed: true
   - model_name: spareSerial
     type: String
     description: Serial number of the warm spare appliance

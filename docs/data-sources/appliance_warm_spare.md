@@ -29,7 +29,6 @@ data "meraki_appliance_warm_spare" "example" {
 
 - `enabled` (Boolean) Enable warm spare
 - `id` (String) The id of the object
-- `primary_serial` (String) Serial number of the primary appliance
 - `spare_serial` (String) Serial number of the warm spare appliance
 - `uplink_mode` (String) Uplink mode, either virtual or public
 - `virtual_ip1` (String) The WAN 1 shared IP

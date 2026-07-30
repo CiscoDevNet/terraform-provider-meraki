@@ -40,14 +40,13 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DataSourceApplianceWarmSpare struct {
-	Id            types.String `tfsdk:"id"`
-	NetworkId     types.String `tfsdk:"network_id"`
-	Enabled       types.Bool   `tfsdk:"enabled"`
-	PrimarySerial types.String `tfsdk:"primary_serial"`
-	SpareSerial   types.String `tfsdk:"spare_serial"`
-	UplinkMode    types.String `tfsdk:"uplink_mode"`
-	VirtualIp1    types.String `tfsdk:"virtual_ip1"`
-	VirtualIp2    types.String `tfsdk:"virtual_ip2"`
+	Id          types.String `tfsdk:"id"`
+	NetworkId   types.String `tfsdk:"network_id"`
+	Enabled     types.Bool   `tfsdk:"enabled"`
+	SpareSerial types.String `tfsdk:"spare_serial"`
+	UplinkMode  types.String `tfsdk:"uplink_mode"`
+	VirtualIp1  types.String `tfsdk:"virtual_ip1"`
+	VirtualIp2  types.String `tfsdk:"virtual_ip2"`
 }
 
 // End of section. //template:end types
@@ -67,11 +66,6 @@ func (data *DataSourceApplianceWarmSpare) fromBody(ctx context.Context, res mera
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
-	}
-	if value := res.Get("primarySerial"); value.Exists() && value.Value() != nil {
-		data.PrimarySerial = types.StringValue(value.String())
-	} else {
-		data.PrimarySerial = types.StringNull()
 	}
 	if value := res.Get("spareSerial"); value.Exists() && value.Value() != nil {
 		data.SpareSerial = types.StringValue(value.String())

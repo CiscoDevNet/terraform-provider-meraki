@@ -24,6 +24,7 @@ import (
 	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
@@ -33,14 +34,13 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type ApplianceWarmSpare struct {
-	Id            types.String `tfsdk:"id"`
-	NetworkId     types.String `tfsdk:"network_id"`
-	Enabled       types.Bool   `tfsdk:"enabled"`
-	PrimarySerial types.String `tfsdk:"primary_serial"`
-	SpareSerial   types.String `tfsdk:"spare_serial"`
-	UplinkMode    types.String `tfsdk:"uplink_mode"`
-	VirtualIp1    types.String `tfsdk:"virtual_ip1"`
-	VirtualIp2    types.String `tfsdk:"virtual_ip2"`
+	Id          types.String `tfsdk:"id"`
+	NetworkId   types.String `tfsdk:"network_id"`
+	Enabled     types.Bool   `tfsdk:"enabled"`
+	SpareSerial types.String `tfsdk:"spare_serial"`
+	UplinkMode  types.String `tfsdk:"uplink_mode"`
+	VirtualIp1  types.String `tfsdk:"virtual_ip1"`
+	VirtualIp2  types.String `tfsdk:"virtual_ip2"`
 }
 
 type ApplianceWarmSpareIdentity struct {
@@ -143,11 +143,6 @@ func (data *ApplianceWarmSpare) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("primarySerial"); value.Exists() && value.Value() != nil {
-		data.PrimarySerial = types.StringValue(value.String())
-	} else {
-		data.PrimarySerial = types.StringNull()
-	}
 	if value := res.Get("spareSerial"); value.Exists() && value.Value() != nil {
 		data.SpareSerial = types.StringValue(value.String())
 	} else {
@@ -170,6 +165,14 @@ func (data *ApplianceWarmSpare) fromBody(ctx context.Context, res meraki.Res) {
 	}
 }
 
+func (_ ApplianceWarmSpare) getPrimarySerialFromBody(res meraki.Res) basetypes.StringValue {
+	if value := res.Get("primarySerial"); value.Exists() && value.Value() != nil {
+		return types.StringValue(value.String())
+	} else {
+		return types.StringNull()
+	}
+}
+
 // fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
@@ -179,11 +182,6 @@ func (data *ApplianceWarmSpare) fromBodyPartial(ctx context.Context, res meraki.
 		data.Enabled = types.BoolValue(value.Bool())
 	} else {
 		data.Enabled = types.BoolNull()
-	}
-	if value := res.Get("primarySerial"); value.Exists() && !data.PrimarySerial.IsNull() {
-		data.PrimarySerial = types.StringValue(value.String())
-	} else {
-		data.PrimarySerial = types.StringNull()
 	}
 	if value := res.Get("spareSerial"); value.Exists() && !data.SpareSerial.IsNull() {
 		data.SpareSerial = types.StringValue(value.String())
@@ -212,13 +210,6 @@ func (data *ApplianceWarmSpare) fromBodyPartial(ctx context.Context, res meraki.
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
 func (data *ApplianceWarmSpare) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
-	if data.PrimarySerial.IsUnknown() {
-		if value := res.Get("primarySerial"); value.Exists() && !data.PrimarySerial.IsNull() {
-			data.PrimarySerial = types.StringValue(value.String())
-		} else {
-			data.PrimarySerial = types.StringNull()
-		}
-	}
 }
 
 // End of section. //template:end fromBodyUnknowns
