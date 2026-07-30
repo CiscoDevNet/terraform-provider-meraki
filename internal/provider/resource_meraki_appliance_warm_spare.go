@@ -37,6 +37,8 @@ import (
 
 // End of section. //template:end imports
 
+// Section below is generated&owned by "gen/generator.go". //template:begin model
+
 // Ensure provider defined types fully satisfy framework interfaces
 var (
 	_ resource.ResourceWithIdentity    = &ApplianceWarmSpareResource{}
@@ -83,8 +85,9 @@ func (r *ApplianceWarmSpareResource) Schema(ctx context.Context, req resource.Sc
 			"primary_serial": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Serial number of the primary appliance").String,
 				Computed:            true,
-				// Do not use UseStateForUnknown plan modifier,
-				// as that implies the value will remain unchanched after an update.
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"spare_serial": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Serial number of the warm spare appliance").String,
@@ -125,6 +128,8 @@ func (r *ApplianceWarmSpareResource) Configure(_ context.Context, req resource.C
 	r.client = req.ProviderData.(*MerakiProviderData).Client
 	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
+
+// End of section. //template:end model
 
 func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceWarmSpare
@@ -273,8 +278,6 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 		return
 	}
-
-	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
