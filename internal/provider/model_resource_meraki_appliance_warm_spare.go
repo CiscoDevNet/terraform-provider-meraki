@@ -180,12 +180,15 @@ func (data *ApplianceWarmSpare) fromBodyPartial(ctx context.Context, res meraki.
 	} else {
 		data.Enabled = types.BoolNull()
 	}
-	if value := res.Get("primarySerial"); value.Exists() && !data.PrimarySerial.IsNull() {
+	// Always set PrimarySerial, even if it was not set before -
+	// this is a computed attribute and up-to-date data is needed
+	// even if it was recorded as null on creation.
+	if value := res.Get("primarySerial"); value.Exists() {
 		data.PrimarySerial = types.StringValue(value.String())
 	} else {
 		data.PrimarySerial = types.StringNull()
 	}
-	if value := res.Get("spareSerial"); value.Exists() && !data.SpareSerial.IsNull() {
+	if value := res.Get("spareSerial"); value.Exists() {
 		data.SpareSerial = types.StringValue(value.String())
 	} else {
 		data.SpareSerial = types.StringNull()
@@ -207,21 +210,16 @@ func (data *ApplianceWarmSpare) fromBodyPartial(ctx context.Context, res meraki.
 	}
 }
 
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
-
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
-// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
 func (data *ApplianceWarmSpare) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 	if data.PrimarySerial.IsUnknown() {
-		if value := res.Get("primarySerial"); value.Exists() && !data.PrimarySerial.IsNull() {
+		if value := res.Get("primarySerial"); value.Exists() {
 			data.PrimarySerial = types.StringValue(value.String())
 		} else {
 			data.PrimarySerial = types.StringNull()
 		}
 	}
 }
-
-// End of section. //template:end fromBodyUnknowns
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
 
