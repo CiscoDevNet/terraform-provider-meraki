@@ -281,7 +281,6 @@ func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(ctx context.Context
 		return
 	}
 
-	// TODO Get primary value from an argument instead to allow using a private state attribute.
 	res, err := r.client.Get(plan.getPath())
 	if err != nil {
 		diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
@@ -300,8 +299,14 @@ func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(ctx context.Context
 	}
 
 	if tempState.SpareSerial.IsNull() {
-		// No spare is configured yet,
-		// so don't do the swap as it would fail.
+		// No spare is configured yet, so the swap would fail.
+		// Don't do it and let the main PUT fail -
+		// this would only happen if only one appliance device is claimed into the network
+		// and the user tries to configure it as the spare, which does not make sense.
+		//
+		// In proper usage - when 2 appliance devices are claimed -
+		// the API enables warm spare with the 2 serials,
+		// so spareSerial would already be set by the time warmSpare endpoint is used.
 		return
 	}
 
