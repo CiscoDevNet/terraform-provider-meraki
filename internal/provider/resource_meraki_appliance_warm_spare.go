@@ -153,20 +153,9 @@ func (r *ApplianceWarmSpareResource) Create(ctx context.Context, req resource.Cr
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
-	if plan.Enabled.ValueBool() && !plan.SpareSerial.IsNull() {
-		var previousState ApplianceWarmSpare
-		res, err := r.client.Get(plan.getPath())
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
-			return
-		}
-
-		previousState.fromBody(ctx, res)
-
-		diags = r.ensureSpareIsNotPrimary(previousState, plan)
-		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
-			return
-		}
+	diags = r.ensureSpareIsNotPrimary(ctx, plan)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
 	}
 
 	// Create object
@@ -267,7 +256,7 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
-	diags = r.ensureSpareIsNotPrimary(state, plan)
+	diags = r.ensureSpareIsNotPrimary(ctx, plan)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
@@ -291,34 +280,38 @@ func (r *ApplianceWarmSpareResource) Update(ctx context.Context, req resource.Up
 // ensureSpareIsNotPrimary swaps primary/spare serials using a separate endpoint if the intended spare appliance is set as the primary.
 // This works around the API returning "Serial for warm spare shouldn't be the same as primary serial."
 // when it had already designated the device intended to be the spare as the primary during device claim.
-func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(state, plan ApplianceWarmSpare) (diagnostics diag.Diagnostics) {
+func (r *ApplianceWarmSpareResource) ensureSpareIsNotPrimary(ctx context.Context, plan ApplianceWarmSpare) (diagnostics diag.Diagnostics) {
 	if !plan.Enabled.ValueBool() || plan.SpareSerial.IsNull() {
-		// Either warm spare will be disabled (spareSerial will be ignored by the API)
+		// Either warm spare will be disabled (spare_serial does not matter)
 		// or spare_serial will not be configured (so we don't care about it),
 		// so no need to work around the API.
 		return
 	}
 
-	if state.PrimarySerial != plan.SpareSerial {
+	// TODO Get primary value from an argument instead to allow using a private state attribute.
+	res, err := r.client.Get(plan.getPath())
+	if err != nil {
+		diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	var tempState ApplianceWarmSpare
+	tempState.fromBody(ctx, res)
+
+	if tempState.PrimarySerial != plan.SpareSerial {
 		// Primary is not set to the spare,
 		// so the API will not return an error for spareSerial config.
 		return
 	}
 
-	if state.SpareSerial.IsNull() {
-		// No spare is configured yet, so the swap would fail.
-		// Don't do it and let the main PUT fail -
-		// this would only happen if only one appliance device is claimed into the network
-		// and the user tries to configure it as the spare, which does not make sense.
-		//
-		// In proper usage - when 2 appliance devices are claimed -
-		// the API enables warm spare with the 2 serials,
-		// so spareSerial would already be set by the time warmSpare endpoint is used.
+	if tempState.SpareSerial.IsNull() {
+		// No spare is configured yet,
+		// so don't do the swap as it would fail.
 		return
 	}
 
 	body := "{}"
-	res, err := r.client.Post(plan.getSwapPath(), body)
+	res, err = r.client.Post(plan.getSwapPath(), body)
 	if err != nil {
 		diagnostics.AddError("Client Error", fmt.Sprintf("Failed to swap appliance primary and spare serials (POST), got error: %s, %s", err, res.String()))
 		return
