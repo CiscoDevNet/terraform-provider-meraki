@@ -112,6 +112,21 @@ for file in $PROVIDER_FILES; do
       test_file="${action_name%.go}_test.go"
       TEST_FILES_MAP["internal/provider/$test_file"]=1
       ;;
+    provider.go)
+      # provider.go is fully generated: it only ever gains/loses a `New<Name>(Resource|DataSource|Action),`
+      # registration line whenever a definition is added/removed or has its no_resource/no_data_source/
+      # action flag flipped. That carries no test-targeting signal beyond whatever specific
+      # resource/data-source/action file changed alongside it, already handled by the cases above -
+      # so only fall back to running everything if the diff touches anything else in the file.
+      PROVIDER_DIFF=$(git diff -U0 "$DIFF_BASE" HEAD -- internal/provider/provider.go 2>/dev/null || git diff -U0 HEAD~1 HEAD -- internal/provider/provider.go 2>/dev/null || echo "")
+      OTHER_LINES=$(echo "$PROVIDER_DIFF" | grep -E '^[+-]' | grep -vE '^(\+\+\+|---)' | grep -vE '^[+-]\s*New[A-Za-z0-9]+(Resource|DataSource|Action),\s*$' || true)
+      if [[ -n "$OTHER_LINES" ]]; then
+        echo "provider.go changed beyond resource/data-source/action registration — running all tests"
+        run_all
+      else
+        echo "Skipping provider.go (only registration list changed, covered by other changed file(s))"
+      fi
+      ;;
     provider_test.go)
       echo "Skipping provider_test.go (test helpers only)"
       ;;
