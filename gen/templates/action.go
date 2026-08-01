@@ -65,7 +65,7 @@ func (a *{{camelCase .Name}}Action) Metadata(ctx context.Context, req action.Met
 func (a *{{camelCase .Name}}Action) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("{{.ResDescription}}"){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
+		MarkdownDescription: helpers.NewAttributeDescription("{{.ActionDescription}}"){{if .EarlyAccess}}.AddEarlyAccessDescription(){{end}}.String,
 
 		Attributes: map[string]schema.Attribute{
 			{{- range .Attributes}}

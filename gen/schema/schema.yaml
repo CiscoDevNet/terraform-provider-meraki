@@ -21,6 +21,7 @@ ds_description: str(required=False) # Define a data source description
 res_description: str(required=False) # Define a resource description
 ds_bulk_description: str(required=False) # Define a bulk data source description
 res_bulk_description: str(required=False) # Define a bulk resource description
+action_description: str(required=False) # Define an action description
 doc_category: str(required=False) # Define a documentation category
 skip_minimum_test: bool(required=False) # Do not perform a "minimum" (only mandatory attributes) test
 skip_bulk_resource_test: bool(required=False) # Do not generate bulk resource acceptance test
