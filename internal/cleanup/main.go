@@ -71,6 +71,7 @@ var phase2Resources = []resource{
 	{name: "Wireless SSID Firewall Isolation Allowlist Entry", path: "/wireless/ssids/firewall/isolation/allowlist/entries", idField: "entryId"},
 	{name: "DNS Local Profile", path: "/appliance/dns/local/profiles", idField: "profileId"},
 	{name: "DNS Split Profile", path: "/appliance/dns/split/profiles", idField: "profileId"},
+	{name: "Early Access Feature Opt-In", path: "/earlyAccess/features/optIns", idField: "id"},
 }
 
 func main() {
