@@ -1,3 +1,9 @@
+## Unreleased
+
+- Add `meraki_generate_appliance_vmx_authentication_token` action
+- Add `meraki_reboot_device` action
+- Add `meraki_blink_device_leds` action
+
 ## 1.13.0
 
 - Add `meraki_network_firmware_upgrades_rollback` resource
