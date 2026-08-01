@@ -1,8 +1,9 @@
+# Customize Invoke() to check the response's `success` field and report an error if false
 name: Reboot Device
 spec_endpoint: /devices/{serial}/reboot
 rest_endpoint: /devices/%v/reboot
-action: true
 no_data_source: true
+action: true
 no_update: true
 no_delete: true
 no_import: true
@@ -18,7 +19,7 @@ attributes:
     description: Device serial
     example: 1234-ABCD-1234
     test_value: tolist(meraki_network_device_claim.test.serials)[0]
-test_prerequisites: |2
+test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
   }

@@ -83,19 +83,11 @@ func (a *BlinkDeviceLedsAction) Configure(_ context.Context, req action.Configur
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin invoke
-
-// Invoke is a generic default: build the request body from Config, issue the request, and
-// report any error. It has no way to write outputs back to Terraform (action.InvokeResponse
-// carries only Diagnostics and SendProgress) and assumes the operation completes synchronously.
-// Actions whose endpoint is asynchronous (returns a job id that must be polled for completion)
-// need custom polling logic added by hand, outside of this marked section, since regeneration
-// would otherwise overwrite it.
-//
-// This action's endpoint (createDeviceLiveToolsLedsBlink) is asynchronous: it only enqueues a
-// job. The call to pollBlinkLedsJob below (defined after the last marked section, so it survives
-// regeneration) waits for the job to actually finish. If this `invoke` section is ever
-// regenerated (e.g. because the action's attributes changed), that call must be re-added by hand.
+// Invoke is hand-maintained (the //template:begin/end markers were deliberately removed so
+// "make gen" never regenerates this section): this action's endpoint (createDeviceLiveToolsLedsBlink)
+// is asynchronous, it only enqueues a job, so a call to pollBlinkLedsJob (defined below) was added
+// on top of the generic default to wait for the job to actually finish. If the action's attributes
+// ever change, this function needs to be updated by hand to match.
 func (a *BlinkDeviceLedsAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {
 	var config ActionBlinkDeviceLeds
 
@@ -122,12 +114,9 @@ func (a *BlinkDeviceLedsAction) Invoke(ctx context.Context, req action.InvokeReq
 	tflog.Debug(ctx, "Invoke finished successfully")
 }
 
-// End of section. //template:end invoke
-
 // pollBlinkLedsJob polls GET /devices/{serial}/liveTools/leds/blink/{ledsBlinkId} until the job
-// reaches a terminal status ("complete" or "failed") or the timeout elapses. This function lives
-// outside the generated `invoke` marker above and is therefore preserved across `make gen`
-// regenerations of this file.
+// reaches a terminal status ("complete" or "failed") or the timeout elapses. Like Invoke above,
+// this function is hand-maintained and not subject to template regeneration.
 func (a *BlinkDeviceLedsAction) pollBlinkLedsJob(ctx context.Context, serial, ledsBlinkId string, resp *action.InvokeResponse) {
 	if ledsBlinkId == "" {
 		resp.Diagnostics.AddError("Client Error", "Blink LEDs job did not return a ledsBlinkId to poll")

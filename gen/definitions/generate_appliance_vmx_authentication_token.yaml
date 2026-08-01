@@ -1,8 +1,8 @@
 name: Generate Appliance vMX Authentication Token
 spec_endpoint: /devices/{serial}/appliance/vmx/authenticationToken
 rest_endpoint: /devices/%v/appliance/vmx/authenticationToken
-action: true
 no_data_source: true
+action: true
 no_update: true
 no_delete: true
 no_import: true
@@ -18,7 +18,7 @@ attributes:
     description: Device serial
     example: 1234-ABCD-1234
     test_value: tolist(meraki_network_device_claim.test.serials)[0]
-test_prerequisites: |2
+test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
   }

@@ -78,14 +78,11 @@ func (a *RebootDeviceAction) Configure(_ context.Context, req action.ConfigureRe
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin invoke
-
-// Invoke is a generic default: build the request body from Config, issue the request, and
-// report any error. It has no way to write outputs back to Terraform (action.InvokeResponse
-// carries only Diagnostics and SendProgress) and assumes the operation completes synchronously.
-// Actions whose endpoint is asynchronous (returns a job id that must be polled for completion)
-// need custom polling logic added by hand, outside of this marked section, since regeneration
-// would otherwise overwrite it.
+// Invoke is hand-maintained (the //template:begin/end markers were deliberately removed so
+// "make gen" never regenerates this section): it started from the generic default and had a
+// `success == false` check added on top, since a 2xx HTTP status alone doesn't guarantee the
+// device actually rebooted (e.g. if it's offline/unreachable). If the action's attributes ever
+// change, this function needs to be updated by hand to match.
 func (a *RebootDeviceAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {
 	var config ActionRebootDevice
 
@@ -98,13 +95,15 @@ func (a *RebootDeviceAction) Invoke(ctx context.Context, req action.InvokeReques
 	tflog.Debug(ctx, "Beginning Invoke")
 
 	body := config.toBody(ctx)
-	_, err := a.client.Post(config.getPath(), body)
+	res, err := a.client.Post(config.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to invoke action, got error: %s", err))
+		return
+	}
+	if value := res.Get("success"); value.Exists() && !value.Bool() {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Reboot did not succeed, got response: %s", res.String()))
 		return
 	}
 
 	tflog.Debug(ctx, "Invoke finished successfully")
 }
-
-// End of section. //template:end invoke
