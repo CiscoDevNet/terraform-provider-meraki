@@ -100,6 +100,18 @@ for file in $PROVIDER_FILES; do
       TEST_FILES_MAP["internal/provider/$res_test"]=1
       TEST_FILES_MAP["internal/provider/$ds_test"]=1
       ;;
+    action_meraki_*_test.go)
+      TEST_FILES_MAP["internal/provider/$basename"]=1
+      ;;
+    action_meraki_*.go)
+      test_file="${basename%.go}_test.go"
+      TEST_FILES_MAP["internal/provider/$test_file"]=1
+      ;;
+    model_action_meraki_*.go)
+      action_name="${basename#model_}"
+      test_file="${action_name%.go}_test.go"
+      TEST_FILES_MAP["internal/provider/$test_file"]=1
+      ;;
     provider_test.go)
       echo "Skipping provider_test.go (test helpers only)"
       ;;
