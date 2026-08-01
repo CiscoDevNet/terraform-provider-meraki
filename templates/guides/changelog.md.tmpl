@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## Unreleased
+## 1.13.0
 
 - Add `meraki_network_firmware_upgrades_rollback` resource
 - Add `is_upgrade_available`, `current_version`, `last_upgrade`, extra `next_upgrade.to_version`, and `available_versions` attributes to `meraki_network_firmware_upgrades` data source
