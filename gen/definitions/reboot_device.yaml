@@ -2,12 +2,7 @@
 name: Reboot Device
 spec_endpoint: /devices/{serial}/reboot
 rest_endpoint: /devices/%v/reboot
-no_data_source: true
 action: true
-no_update: true
-no_delete: true
-no_import: true
-no_read: true
 doc_category: Devices
 test_tags: [REBOOT_DEVICE]
 test_variables: [test_org, test_network, test_switch_1_serial]

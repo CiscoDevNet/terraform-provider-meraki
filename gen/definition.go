@@ -275,6 +275,26 @@ func generateDefinition(endpointPath, resourceName string, earlyAccess bool) {
 		removeIgnoredAttributes(config.Attributes, *existingConfig.IgnoreAttributes)
 	}
 
+	// Action definitions never render resource/data-source/import templates regardless of
+	// these flags (see the `Action` checks in gen/generator.go), so they're meaningless noise
+	// for an action. Drop them from both the freshly-inferred and the existing config (instead
+	// of letting them be re-inferred from the spec, or carried forward from a stale file) so
+	// re-running this on an existing action definition self-cleans it.
+	if existingConfig.Action != nil && *existingConfig.Action {
+		config.NoDataSource = nil
+		config.NoResource = nil
+		config.NoUpdate = nil
+		config.NoDelete = nil
+		config.NoImport = nil
+		config.NoRead = nil
+		existingConfig.NoDataSource = nil
+		existingConfig.NoResource = nil
+		existingConfig.NoUpdate = nil
+		existingConfig.NoDelete = nil
+		existingConfig.NoImport = nil
+		existingConfig.NoRead = nil
+	}
+
 	newConfig := yamlconfig.MergeYamlConfig(&existingConfig, &config)
 
 	var yamlBytes bytes.Buffer

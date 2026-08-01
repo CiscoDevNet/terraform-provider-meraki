@@ -1,12 +1,7 @@
 name: Generate Appliance vMX Authentication Token
 spec_endpoint: /devices/{serial}/appliance/vmx/authenticationToken
 rest_endpoint: /devices/%v/appliance/vmx/authenticationToken
-no_data_source: true
 action: true
-no_update: true
-no_delete: true
-no_import: true
-no_read: true
 doc_category: Appliances
 test_tags: [GENERATE_APPLIANCE_VMX_AUTHENTICATION_TOKEN]
 test_variables: [test_org, test_network, test_appliance_1_serial]
