@@ -1,11 +1,12 @@
+# Customize Read() and Create() to support org level endpoint
 name: Network Wireless Radio RRM
 spec_endpoint: /networks/{networkId}/wireless/radio/rrm
 rest_endpoint: /networks/%v/wireless/radio/rrm
-no_data_source: true
+no_data_source: false
 put_create: true
 no_delete: true
-no_import: true
-no_read: true
+no_import: false
+no_read: false
 doc_category: Wireless
 test_variables: [test_org, test_network]
 attributes:

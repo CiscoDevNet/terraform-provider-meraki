@@ -88,6 +88,72 @@ func (data NetworkWirelessRadioRRM) toBody(ctx context.Context, state NetworkWir
 
 // End of section. //template:end toBody
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data NetworkWirelessRadioRRM) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("ai.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ai.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "ai.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("busyHour.minimizeChanges.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "busyHour.minimizeChanges.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "busyHour.minimizeChanges.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("busyHour.schedule.mode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "busyHour.schedule.mode", "null")
+		} else {
+			body, _ = sjson.Set(body, "busyHour.schedule.mode", value.String())
+		}
+	}
+	if value := res.Get("busyHour.schedule.manual.end"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "busyHour.schedule.manual.end", "null")
+		} else {
+			body, _ = sjson.Set(body, "busyHour.schedule.manual.end", value.String())
+		}
+	}
+	if value := res.Get("busyHour.schedule.manual.start"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "busyHour.schedule.manual.start", "null")
+		} else {
+			body, _ = sjson.Set(body, "busyHour.schedule.manual.start", value.String())
+		}
+	}
+	if value := res.Get("channel.avoidance.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "channel.avoidance.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "channel.avoidance.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("fra.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "fra.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "fra.enabled", value.Bool())
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkWirelessRadioRRM) fromBody(ctx context.Context, res meraki.Res) {

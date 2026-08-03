@@ -624,6 +624,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewNetworkWebhookHTTPServersDataSource,
 		NewNetworkWebhookPayloadTemplateDataSource,
 		NewNetworkWebhookPayloadTemplatesDataSource,
+		NewNetworkWirelessRadioRRMDataSource,
 		NewOrganizationDataSource,
 		NewOrganizationsDataSource,
 		NewOrganizationAdaptivePolicyDataSource,

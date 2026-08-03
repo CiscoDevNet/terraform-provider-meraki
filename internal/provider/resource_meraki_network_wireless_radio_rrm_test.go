@@ -57,6 +57,14 @@ func TestAccMerakiNetworkWirelessRadioRRM(t *testing.T) {
 		Config: testAccMerakiNetworkWirelessRadioRRMPrerequisitesConfig + testAccMerakiNetworkWirelessRadioRRMConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_network_wireless_radio_rrm.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiNetworkWirelessRadioRRMImportStateIdFunc("meraki_network_wireless_radio_rrm.test"),
+		ImportStateVerifyIgnore: []string{},
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
