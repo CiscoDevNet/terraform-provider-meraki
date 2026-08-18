@@ -12,16 +12,21 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
+  - model_name: enabled
+    type: Bool
+    description: Enable/disable the static route
+    example: "true"
   - model_name: gatewayIp
     type: String
     mandatory: true
     description: Gateway IP address (next hop)
     example: 192.168.128.254
   - model_name: gatewayVlanId
-    type: String
-    exclude_test: true
+    type: Int64
     description: Gateway VLAN ID
     example: "100"
+    min_int: 0
+    max_int: 4094
   - model_name: name
     type: String
     mandatory: true

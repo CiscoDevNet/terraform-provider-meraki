@@ -35,8 +35,9 @@ import (
 type ApplianceStaticRoute struct {
 	Id            types.String `tfsdk:"id"`
 	NetworkId     types.String `tfsdk:"network_id"`
+	Enabled       types.Bool   `tfsdk:"enabled"`
 	GatewayIp     types.String `tfsdk:"gateway_ip"`
-	GatewayVlanId types.String `tfsdk:"gateway_vlan_id"`
+	GatewayVlanId types.Int64  `tfsdk:"gateway_vlan_id"`
 	Name          types.String `tfsdk:"name"`
 	Subnet        types.String `tfsdk:"subnet"`
 }
@@ -60,11 +61,14 @@ func (data ApplianceStaticRoute) getPath() string {
 
 func (data ApplianceStaticRoute) toBody(ctx context.Context, state ApplianceStaticRoute) string {
 	body := ""
+	if !data.Enabled.IsNull() {
+		body, _ = sjson.Set(body, "enabled", data.Enabled.ValueBool())
+	}
 	if !data.GatewayIp.IsNull() {
 		body, _ = sjson.Set(body, "gatewayIp", data.GatewayIp.ValueString())
 	}
 	if !data.GatewayVlanId.IsNull() {
-		body, _ = sjson.Set(body, "gatewayVlanId", data.GatewayVlanId.ValueString())
+		body, _ = sjson.Set(body, "gatewayVlanId", data.GatewayVlanId.ValueInt64())
 	}
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
@@ -80,15 +84,20 @@ func (data ApplianceStaticRoute) toBody(ctx context.Context, state ApplianceStat
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceStaticRoute) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
+		data.Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Enabled = types.BoolNull()
+	}
 	if value := res.Get("gatewayIp"); value.Exists() && value.Value() != nil {
 		data.GatewayIp = types.StringValue(value.String())
 	} else {
 		data.GatewayIp = types.StringNull()
 	}
 	if value := res.Get("gatewayVlanId"); value.Exists() && value.Value() != nil {
-		data.GatewayVlanId = types.StringValue(value.String())
+		data.GatewayVlanId = types.Int64Value(value.Int())
 	} else {
-		data.GatewayVlanId = types.StringNull()
+		data.GatewayVlanId = types.Int64Null()
 	}
 	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
@@ -111,15 +120,20 @@ func (data *ApplianceStaticRoute) fromBody(ctx context.Context, res meraki.Res) 
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceStaticRoute) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("enabled"); value.Exists() && !data.Enabled.IsNull() {
+		data.Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Enabled = types.BoolNull()
+	}
 	if value := res.Get("gatewayIp"); value.Exists() && !data.GatewayIp.IsNull() {
 		data.GatewayIp = types.StringValue(value.String())
 	} else {
 		data.GatewayIp = types.StringNull()
 	}
 	if value := res.Get("gatewayVlanId"); value.Exists() && !data.GatewayVlanId.IsNull() {
-		data.GatewayVlanId = types.StringValue(value.String())
+		data.GatewayVlanId = types.Int64Value(value.Int())
 	} else {
-		data.GatewayVlanId = types.StringNull()
+		data.GatewayVlanId = types.Int64Null()
 	}
 	if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
 		data.Name = types.StringValue(value.String())

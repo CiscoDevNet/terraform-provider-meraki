@@ -34,8 +34,9 @@ data "meraki_appliance_static_routes" "example" {
 
 Read-Only:
 
+- `enabled` (Boolean) Enable/disable the static route
 - `gateway_ip` (String) Gateway IP address (next hop)
-- `gateway_vlan_id` (String) Gateway VLAN ID
+- `gateway_vlan_id` (Number) Gateway VLAN ID
 - `id` (String) The id of the object
 - `name` (String) Name of the route
 - `subnet` (String) Subnet of the route
