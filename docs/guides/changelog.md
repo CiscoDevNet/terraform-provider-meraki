@@ -13,6 +13,7 @@ description: |-
 - Add `meraki_reboot_device` action
 - Add `meraki_blink_device_leds` action
 - Fix issue with `spare_serial` attribute of `meraki_appliance_warm_spare` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/256)
+- Add `enabled` attribute to `meraki_appliance_static_route` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/269)
 
 ## 1.13.0
 
