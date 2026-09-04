@@ -37,6 +37,9 @@ Read-Only:
 - `claimed_at` (String) Claimed time of the device
 - `country_code` (String) Country/region code from device, network, or store order
 - `details` (Attributes List) Additional device information (see [below for nested schema](#nestedatt--items--details))
+- `eox_end_of_sale_at` (String) End of sale date for the device product
+- `eox_end_of_support_at` (String) End of support date for the device product
+- `eox_status` (String) End of sale and support status of the device
 - `id` (String) The id of the object
 - `license_expiration_date` (String) License expiration date of the device
 - `mac` (String) MAC address of the device

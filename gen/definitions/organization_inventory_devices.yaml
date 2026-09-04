@@ -58,6 +58,22 @@ attributes:
     type: String
     description: Serial number of the device
     example: Q234-ABCD-5678
+  - model_name: endOfSaleAt
+    type: String
+    data_path: [eox]
+    description: End of sale date for the device product
+    example: "2031-07-29T02:00:00Z"
+  - model_name: endOfSupportAt
+    type: String
+    data_path: [eox]
+    description: End of support date for the device product
+    example: "2032-07-29T02:00:00Z"
+  - model_name: status
+    type: String
+    data_path: [eox]
+    description: End of sale and support status of the device
+    example: endOfSale
+    enum_values: [endOfSale, endOfSupport, nearEndOfSupport]
   - model_name: details
     type: List
     description: Additional device information
