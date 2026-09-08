@@ -14,79 +14,83 @@ import (
 const EndpointToken = "@endpoint:"
 
 type YamlConfig struct {
-	Name                string                `yaml:"name,omitempty"`
-	TfName              string                `yaml:"tf_name,omitempty"`
-	BulkName            string                `yaml:"bulk_name,omitempty"`
-	SpecEndpoint        string                `yaml:"spec_endpoint,omitempty"`
-	RestEndpoint        string                `yaml:"rest_endpoint,omitempty"`
-	NoDataSource        bool                  `yaml:"no_data_source,omitempty"`
-	NoResource          bool                  `yaml:"no_resource,omitempty"`
-	BulkDataSource      bool                  `yaml:"bulk_data_source,omitempty"`
-	BulkResource        bool                  `yaml:"bulk_resource,omitempty"`
-	PutCreate           bool                  `yaml:"put_create,omitempty"`
-	GetFromAll          bool                  `yaml:"get_from_all,omitempty"`
-	NoUpdate            bool                  `yaml:"no_update,omitempty"`
-	NoDelete            bool                  `yaml:"no_delete,omitempty"`
-	NoImport            bool                  `yaml:"no_import,omitempty"`
-	NoRead              bool                  `yaml:"no_read,omitempty"`
-	PostAndPut          bool                  `yaml:"post_and_put,omitempty"`
-	IdName              string                `yaml:"id_name,omitempty"`
-	EarlyAccess         bool                  `yaml:"early_access,omitempty"`
-	DataSourceNameQuery bool                  `yaml:"data_source_name_query,omitempty"`
-	MinimumVersion      string                `yaml:"minimum_version,omitempty"`
-	DsDescription       string                `yaml:"ds_description,omitempty"`
-	ResDescription      string                `yaml:"res_description,omitempty"`
-	DsBulkDescription   string                `yaml:"ds_bulk_description,omitempty"`
-	ResBulkDescription  string                `yaml:"res_bulk_description,omitempty"`
-	DocCategory         string                `yaml:"doc_category,omitempty"`
-	ExcludeTest         bool                  `yaml:"exclude_test,omitempty"`
+	Name                   string                `yaml:"name,omitempty"`
+	TfName                 string                `yaml:"tf_name,omitempty"`
+	BulkName               string                `yaml:"bulk_name,omitempty"`
+	SpecEndpoint           string                `yaml:"spec_endpoint,omitempty"`
+	RestEndpoint           string                `yaml:"rest_endpoint,omitempty"`
+	NoDataSource           bool                  `yaml:"no_data_source,omitempty"`
+	NoResource             bool                  `yaml:"no_resource,omitempty"`
+	Action                 bool                  `yaml:"action,omitempty"`
+	BulkDataSource         bool                  `yaml:"bulk_data_source,omitempty"`
+	BulkResource           bool                  `yaml:"bulk_resource,omitempty"`
+	PutCreate              bool                  `yaml:"put_create,omitempty"`
+	GetFromAll             bool                  `yaml:"get_from_all,omitempty"`
+	NoUpdate               bool                  `yaml:"no_update,omitempty"`
+	NoDelete               bool                  `yaml:"no_delete,omitempty"`
+	NoImport               bool                  `yaml:"no_import,omitempty"`
+	NoRead                 bool                  `yaml:"no_read,omitempty"`
+	PostAndPut             bool                  `yaml:"post_and_put,omitempty"`
+	IdName                 string                `yaml:"id_name,omitempty"`
+	EarlyAccess            bool                  `yaml:"early_access,omitempty"`
+	DataSourceNameQuery    bool                  `yaml:"data_source_name_query,omitempty"`
+	MinimumVersion         string                `yaml:"minimum_version,omitempty"`
+	DsDescription          string                `yaml:"ds_description,omitempty"`
+	ResDescription         string                `yaml:"res_description,omitempty"`
+	DsBulkDescription      string                `yaml:"ds_bulk_description,omitempty"`
+	ResBulkDescription     string                `yaml:"res_bulk_description,omitempty"`
+	ActionDescription      string                `yaml:"action_description,omitempty"`
+	DocCategory            string                `yaml:"doc_category,omitempty"`
+	ExcludeTest            bool                  `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest        bool                  `yaml:"skip_minimum_test,omitempty"`
 	SkipBulkResourceTest   bool                  `yaml:"skip_bulk_resource_test,omitempty"`
 	SkipBulkDataSourceTest bool                  `yaml:"skip_bulk_data_source_test,omitempty"`
 	TestTags               []string              `yaml:"test_tags,omitempty,flow"`
-	TestVariables       []string              `yaml:"test_variables,omitempty,flow"`
-	IgnoreAttributes    []string              `yaml:"ignore_attributes,omitempty,flow"`
-	Attributes          []YamlConfigAttribute `yaml:"attributes,omitempty"`
-	TestPrerequisites   string                `yaml:"test_prerequisites,omitempty"`
-	AdditionalTests     []string              `yaml:"additional_tests,omitempty"`
+	TestVariables          []string              `yaml:"test_variables,omitempty,flow"`
+	IgnoreAttributes       []string              `yaml:"ignore_attributes,omitempty,flow"`
+	Attributes             []YamlConfigAttribute `yaml:"attributes,omitempty"`
+	TestPrerequisites      string                `yaml:"test_prerequisites,omitempty"`
+	AdditionalTests        []string              `yaml:"additional_tests,omitempty"`
 }
 
 type YamlConfigP struct {
-	Name                *string                 `yaml:"name,omitempty"`
-	TfName              *string                 `yaml:"tf_name,omitempty"`
-	BulkName            *string                 `yaml:"bulk_name,omitempty"`
-	SpecEndpoint        *string                 `yaml:"spec_endpoint,omitempty"`
-	RestEndpoint        *string                 `yaml:"rest_endpoint,omitempty"`
-	NoDataSource        *bool                   `yaml:"no_data_source,omitempty"`
-	NoResource          *bool                   `yaml:"no_resource,omitempty"`
-	BulkDataSource      *bool                   `yaml:"bulk_data_source,omitempty"`
-	BulkResource        *bool                   `yaml:"bulk_resource,omitempty"`
-	PutCreate           *bool                   `yaml:"put_create,omitempty"`
-	GetFromAll          *bool                   `yaml:"get_from_all,omitempty"`
-	NoUpdate            *bool                   `yaml:"no_update,omitempty"`
-	NoDelete            *bool                   `yaml:"no_delete,omitempty"`
-	NoImport            *bool                   `yaml:"no_import,omitempty"`
-	NoRead              *bool                   `yaml:"no_read,omitempty"`
-	PostAndPut          *bool                   `yaml:"post_and_put,omitempty"`
-	IdName              *string                 `yaml:"id_name,omitempty"`
-	EarlyAccess         *bool                   `yaml:"early_access,omitempty"`
-	DataSourceNameQuery *bool                   `yaml:"data_source_name_query,omitempty"`
-	MinimumVersion      *string                 `yaml:"minimum_version,omitempty"`
-	DsDescription       *string                 `yaml:"ds_description,omitempty"`
-	ResDescription      *string                 `yaml:"res_description,omitempty"`
-	DsBulkDescription   *string                 `yaml:"ds_bulk_description,omitempty"`
-	ResBulkDescription  *string                 `yaml:"res_bulk_description,omitempty"`
-	DocCategory         *string                 `yaml:"doc_category,omitempty"`
-	ExcludeTest         *bool                   `yaml:"exclude_test,omitempty"`
+	Name                   *string                 `yaml:"name,omitempty"`
+	TfName                 *string                 `yaml:"tf_name,omitempty"`
+	BulkName               *string                 `yaml:"bulk_name,omitempty"`
+	SpecEndpoint           *string                 `yaml:"spec_endpoint,omitempty"`
+	RestEndpoint           *string                 `yaml:"rest_endpoint,omitempty"`
+	NoDataSource           *bool                   `yaml:"no_data_source,omitempty"`
+	NoResource             *bool                   `yaml:"no_resource,omitempty"`
+	Action                 *bool                   `yaml:"action,omitempty"`
+	BulkDataSource         *bool                   `yaml:"bulk_data_source,omitempty"`
+	BulkResource           *bool                   `yaml:"bulk_resource,omitempty"`
+	PutCreate              *bool                   `yaml:"put_create,omitempty"`
+	GetFromAll             *bool                   `yaml:"get_from_all,omitempty"`
+	NoUpdate               *bool                   `yaml:"no_update,omitempty"`
+	NoDelete               *bool                   `yaml:"no_delete,omitempty"`
+	NoImport               *bool                   `yaml:"no_import,omitempty"`
+	NoRead                 *bool                   `yaml:"no_read,omitempty"`
+	PostAndPut             *bool                   `yaml:"post_and_put,omitempty"`
+	IdName                 *string                 `yaml:"id_name,omitempty"`
+	EarlyAccess            *bool                   `yaml:"early_access,omitempty"`
+	DataSourceNameQuery    *bool                   `yaml:"data_source_name_query,omitempty"`
+	MinimumVersion         *string                 `yaml:"minimum_version,omitempty"`
+	DsDescription          *string                 `yaml:"ds_description,omitempty"`
+	ResDescription         *string                 `yaml:"res_description,omitempty"`
+	DsBulkDescription      *string                 `yaml:"ds_bulk_description,omitempty"`
+	ResBulkDescription     *string                 `yaml:"res_bulk_description,omitempty"`
+	ActionDescription      *string                 `yaml:"action_description,omitempty"`
+	DocCategory            *string                 `yaml:"doc_category,omitempty"`
+	ExcludeTest            *bool                   `yaml:"exclude_test,omitempty"`
 	SkipMinimumTest        *bool                   `yaml:"skip_minimum_test,omitempty"`
 	SkipBulkResourceTest   *bool                   `yaml:"skip_bulk_resource_test,omitempty"`
 	SkipBulkDataSourceTest *bool                   `yaml:"skip_bulk_data_source_test,omitempty"`
 	TestTags               *[]string               `yaml:"test_tags,omitempty,flow"`
-	TestVariables       *[]string               `yaml:"test_variables,omitempty,flow"`
-	IgnoreAttributes    *[]string               `yaml:"ignore_attributes,omitempty,flow"`
-	Attributes          *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
-	TestPrerequisites   *string                 `yaml:"test_prerequisites,omitempty"`
-	AdditionalTests     *[]string               `yaml:"additional_tests,omitempty"`
+	TestVariables          *[]string               `yaml:"test_variables,omitempty,flow"`
+	IgnoreAttributes       *[]string               `yaml:"ignore_attributes,omitempty,flow"`
+	Attributes             *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
+	TestPrerequisites      *string                 `yaml:"test_prerequisites,omitempty"`
+	AdditionalTests        *[]string               `yaml:"additional_tests,omitempty"`
 }
 
 type YamlConfigAttribute struct {
@@ -584,45 +588,45 @@ func HasWriteOnly(attrs []YamlConfigAttribute) bool {
 
 // Map of templating functions
 var Functions = template.FuncMap{
-	"toGoName":                ToGoName,
-	"camelCase":               CamelCase,
-	"snakeCase":               SnakeCase,
-	"sprintf":                 fmt.Sprintf,
-	"errorf":                  Errorf,
-	"toLower":                 strings.ToLower,
-	"path":                    BuildPath,
-	"hasId":                   HasId,
-	"getId":                   GetId,
-	"hasReference":            HasReference,
-	"isListSet":               IsListSet,
-	"isList":                  IsList,
-	"isSet":                   IsSet,
-	"isStringListSet":         IsStringListSet,
-	"isInt64ListSet":          IsInt64ListSet,
-	"isNestedListSet":         IsNestedListSet,
-	"isNestedListSetMap":      IsNestedListSetMap,
-	"isNestedList":            IsNestedList,
-	"isNestedSet":             IsNestedSet,
-	"isNestedMap":             IsNestedMap,
-	"importAttributes":        ImportAttributes,
-	"subtract":                Subtract,
-	"iterate":                 Iterate,
-	"getImportExcludes":       GetImportExcludes,
-	"getFullModelName":        GetFullModelName,
-	"hasComputedAttributes":   HasComputedAttributes,
-	"buildTestPath":           BuildTestPath,
-	"hasDestroyValues":        HasDestroyValues,
-	"getBulkPath":             GetBulkPath,
-	"getBulkParentAttributes": GetBulkParentAttributes,
-	"getBulkItemAttributes":   GetBulkItemAttributes,
-	"getBulkImportAttributes": GetBulkImportAttributes,
-	"hasOrganizationId":       HasOrganizationId,
-	"getBulkItemId":           GetBulkItemId,
-	"getBulkItemIdTfName":     GetBulkItemIdTfName,
-	"isSingleton":             IsSingleton,
-	"hasSensitiveAttr":           HasSensitiveAttr,
-	"hasSensitiveAttrRecursive":  HasSensitiveAttrRecursive,
-	"hasWriteOnly":               HasWriteOnly,
+	"toGoName":                  ToGoName,
+	"camelCase":                 CamelCase,
+	"snakeCase":                 SnakeCase,
+	"sprintf":                   fmt.Sprintf,
+	"errorf":                    Errorf,
+	"toLower":                   strings.ToLower,
+	"path":                      BuildPath,
+	"hasId":                     HasId,
+	"getId":                     GetId,
+	"hasReference":              HasReference,
+	"isListSet":                 IsListSet,
+	"isList":                    IsList,
+	"isSet":                     IsSet,
+	"isStringListSet":           IsStringListSet,
+	"isInt64ListSet":            IsInt64ListSet,
+	"isNestedListSet":           IsNestedListSet,
+	"isNestedListSetMap":        IsNestedListSetMap,
+	"isNestedList":              IsNestedList,
+	"isNestedSet":               IsNestedSet,
+	"isNestedMap":               IsNestedMap,
+	"importAttributes":          ImportAttributes,
+	"subtract":                  Subtract,
+	"iterate":                   Iterate,
+	"getImportExcludes":         GetImportExcludes,
+	"getFullModelName":          GetFullModelName,
+	"hasComputedAttributes":     HasComputedAttributes,
+	"buildTestPath":             BuildTestPath,
+	"hasDestroyValues":          HasDestroyValues,
+	"getBulkPath":               GetBulkPath,
+	"getBulkParentAttributes":   GetBulkParentAttributes,
+	"getBulkItemAttributes":     GetBulkItemAttributes,
+	"getBulkImportAttributes":   GetBulkImportAttributes,
+	"hasOrganizationId":         HasOrganizationId,
+	"getBulkItemId":             GetBulkItemId,
+	"getBulkItemIdTfName":       GetBulkItemIdTfName,
+	"isSingleton":               IsSingleton,
+	"hasSensitiveAttr":          HasSensitiveAttr,
+	"hasSensitiveAttrRecursive": HasSensitiveAttrRecursive,
+	"hasWriteOnly":              HasWriteOnly,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
@@ -746,6 +750,9 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 	if config.ResBulkDescription == "" {
 		config.ResBulkDescription = fmt.Sprintf("This resource can manage the `%s` configuration in bulk.", config.Name)
 	}
+	if config.ActionDescription == "" {
+		config.ActionDescription = fmt.Sprintf("This action can invoke the `%s` operation.", config.Name)
+	}
 	if config.TfName == "" {
 		config.TfName = strings.Replace(config.Name, " ", "_", -1)
 	}
@@ -778,6 +785,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.NoResource != nil {
 		new.NoResource = existing.NoResource
+	}
+	if existing.Action != nil {
+		new.Action = existing.Action
 	}
 	if existing.BulkDataSource != nil {
 		new.BulkDataSource = existing.BulkDataSource
@@ -826,6 +836,9 @@ func MergeYamlConfig(existing *YamlConfigP, new *YamlConfigP) *YamlConfigP {
 	}
 	if existing.ResBulkDescription != nil {
 		new.ResBulkDescription = existing.ResBulkDescription
+	}
+	if existing.ActionDescription != nil {
+		new.ActionDescription = existing.ActionDescription
 	}
 	if existing.DocCategory != nil {
 		new.DocCategory = existing.DocCategory

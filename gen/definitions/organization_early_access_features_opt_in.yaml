@@ -15,7 +15,7 @@ attributes:
     type: String
     mandatory: true
     description: Short name of the early access feature
-    example: has_vlan_db
+    example: has_camera_anchor
   - model_name: limitScopeToNetworks
     type: List
     element_type: String

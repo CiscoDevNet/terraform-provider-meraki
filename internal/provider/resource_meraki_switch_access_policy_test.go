@@ -78,7 +78,7 @@ func TestAccMerakiSwitchAccessPolicy(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchAccessPolicyImportStateIdFunc("meraki_switch_access_policy.test"),
-		ImportStateVerifyIgnore: []string{"radius_cache_enabled", "radius_cache_timeout", "radius_accounting_servers.0.secret", "radius_servers.0.secret"},
+		ImportStateVerifyIgnore: []string{"guest_group_policy_id", "radius_failed_auth_group_policy_id", "radius_pre_authentication_group_policy_id", "radius_authentication_mode", "radius_cache_enabled", "radius_cache_timeout", "radius_critical_auth_data_group_policy_id", "radius_critical_auth_voice_group_policy_id", "radius_accounting_servers.0.secret", "radius_servers.0.secret"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

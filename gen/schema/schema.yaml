@@ -3,6 +3,7 @@ name: str() # Name of the resource
 bulk_name: str(required=False) # Name of the bulk resource
 no_data_source: bool(required=False) # Set to true if no data source should be created
 no_resource: bool(required=False) # Set to true if no resource should be created
+action: bool(required=False) # Set to true if this definition generates a Terraform Plugin Framework Action (imperative, stateless invocation) instead of a resource/data source. Implies no resource/data source/import templates are rendered.
 bulk_data_source: bool(required=False) # Set to true if a bulk GET operation is supported and a corresponding data source should be added
 bulk_resource: bool(required=False) # Set to true if a bulk operations are supported and a corresponding resource should be added
 rest_endpoint: str(required=False) # REST endpoint path
@@ -20,6 +21,7 @@ ds_description: str(required=False) # Define a data source description
 res_description: str(required=False) # Define a resource description
 ds_bulk_description: str(required=False) # Define a bulk data source description
 res_bulk_description: str(required=False) # Define a bulk resource description
+action_description: str(required=False) # Define an action description
 doc_category: str(required=False) # Define a documentation category
 skip_minimum_test: bool(required=False) # Do not perform a "minimum" (only mandatory attributes) test
 skip_bulk_resource_test: bool(required=False) # Do not generate bulk resource acceptance test
