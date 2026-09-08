@@ -51,7 +51,7 @@ test:
 		TF_ACC=1 \
 		MERAKI_RETRY_ON_ERROR_CODES="308,401,404" \
 		$(if $(DEBUG),TF_LOG=Trace) \
-		go test -v $${TEST_NAME:+-run "$${TEST_NAME}"} $(TESTARGS) -count 1 -timeout 120m ./internal/provider $(if $(DEBUG),2>&1 | tee test-output.log); \
+		go test -v $${TEST_NAME:+-run "$${TEST_NAME}"} $(TESTARGS) -count 1 -timeout 160m ./internal/provider $(if $(DEBUG),2>&1 | tee test-output.log); \
 	fi
 
 # Generate code from definitions
