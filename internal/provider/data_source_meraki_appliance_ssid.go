@@ -94,6 +94,14 @@ func (d *ApplianceSSIDDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"psk_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"psk_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of psk_wo.",
+				Computed:            true,
+			},
 			"visible": schema.BoolAttribute{
 				MarkdownDescription: "Boolean indicating whether the MX should advertise or hide this SSID.",
 				Computed:            true,
@@ -132,6 +140,14 @@ func (d *ApplianceSSIDDataSource) Schema(ctx context.Context, req datasource.Sch
 							Computed:            true,
 							Sensitive:           true,
 						},
+						"secret_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"secret_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of secret_wo.",
+							Computed:            true,
+						},
 					},
 				},
 			},
@@ -152,7 +168,7 @@ func (d *ApplianceSSIDDataSource) Configure(_ context.Context, req datasource.Co
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceSSIDDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceSSID
+	var config DataSourceApplianceSSID
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

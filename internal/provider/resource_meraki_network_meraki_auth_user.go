@@ -28,6 +28,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -43,7 +44,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &NetworkMerakiAuthUserResource{}
+	_ resource.ResourceWithIdentity    = &NetworkMerakiAuthUserResource{}
 	_ resource.ResourceWithImportState = &NetworkMerakiAuthUserResource{}
 )
 
@@ -104,8 +105,17 @@ func (r *NetworkMerakiAuthUserResource) Schema(ctx context.Context, req resource
 			},
 			"password": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The password for this user account. Only required If the user is not a Dashboard administrator.").String,
-				Required:            true,
+				Optional:            true,
 				Sensitive:           true,
+			},
+			"password_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of password_wo.").String,
+				Optional:            true,
 			},
 			"authorizations": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Authorization zones and expiration dates for the user.").String,
@@ -127,6 +137,21 @@ func (r *NetworkMerakiAuthUserResource) Schema(ctx context.Context, req resource
 	}
 }
 
+func (r *NetworkMerakiAuthUserResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+			"id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *NetworkMerakiAuthUserResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -141,6 +166,7 @@ func (r *NetworkMerakiAuthUserResource) Configure(_ context.Context, req resourc
 
 func (r *NetworkMerakiAuthUserResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan NetworkMerakiAuthUser
+	var identity NetworkMerakiAuthUserIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -159,10 +185,13 @@ func (r *NetworkMerakiAuthUserResource) Create(ctx context.Context, req resource
 	}
 	plan.Id = types.StringValue(res.Get("id").String())
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -174,6 +203,7 @@ func (r *NetworkMerakiAuthUserResource) Create(ctx context.Context, req resource
 
 func (r *NetworkMerakiAuthUserResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state NetworkMerakiAuthUser
+	var identity NetworkMerakiAuthUserIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -181,9 +211,21 @@ func (r *NetworkMerakiAuthUserResource) Read(ctx context.Context, req resource.R
 		return
 	}
 
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -202,10 +244,13 @@ func (r *NetworkMerakiAuthUserResource) Read(ctx context.Context, req resource.R
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -217,6 +262,7 @@ func (r *NetworkMerakiAuthUserResource) Read(ctx context.Context, req resource.R
 
 func (r *NetworkMerakiAuthUserResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state NetworkMerakiAuthUser
+	var identity NetworkMerakiAuthUserIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -242,6 +288,9 @@ func (r *NetworkMerakiAuthUserResource) Update(ctx context.Context, req resource
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 
@@ -274,17 +323,29 @@ func (r *NetworkMerakiAuthUserResource) Delete(ctx context.Context, req resource
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *NetworkMerakiAuthUserResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <network_id>,<id>. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: <network_id>,<id>. Got: %q", req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("id"), idParts[1])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
+	} else {
+		var identity NetworkMerakiAuthUserIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), identity.NetworkId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.Id.ValueString())...)
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

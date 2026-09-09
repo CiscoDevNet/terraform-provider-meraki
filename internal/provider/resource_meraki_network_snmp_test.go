@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -41,13 +43,15 @@ func TestAccMerakiNetworkSNMP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.username", "AzureDiamond"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkSNMPPrerequisitesConfig + testAccMerakiNetworkSNMPConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkSNMPPrerequisitesConfig + testAccMerakiNetworkSNMPConfig_all(),
+		Config: testAccMerakiNetworkSNMPPrerequisitesConfig + testAccMerakiNetworkSNMPConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -62,7 +66,10 @@ func TestAccMerakiNetworkSNMP(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -113,13 +120,18 @@ func testAccMerakiNetworkSNMPConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiNetworkSNMPConfig_all() string {
+func testAccMerakiNetworkSNMPConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_network_snmp" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  access = "users"` + "\n"
 	config += `  users = [{` + "\n"
-	config += `    passphrase = "hunter2"` + "\n"
+	if includeWriteOnly {
+		config += `    passphrase = "hunter2"` + "\n"
+		config += `    passphrase_wo = "hunter2"` + "\n"
+		config += `    passphrase_wo_version = 1` + "\n"
+	} else {
+		config += `    passphrase = "hunter2"` + "\n"
+	}
 	config += `    username = "AzureDiamond"` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"

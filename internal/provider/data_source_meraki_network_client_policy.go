@@ -94,7 +94,7 @@ func (d *NetworkClientPolicyDataSource) Configure(_ context.Context, req datasou
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkClientPolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkClientPolicy
+	var config DataSourceNetworkClientPolicy
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

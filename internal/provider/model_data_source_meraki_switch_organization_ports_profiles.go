@@ -44,6 +44,7 @@ type DataSourceSwitchOrganizationPortsProfilesItems struct {
 	IsOrganizationWide             types.Bool                                                `tfsdk:"is_organization_wide"`
 	Name                           types.String                                              `tfsdk:"name"`
 	NetworkId                      types.String                                              `tfsdk:"network_id"`
+	AuthenticationHostMode         types.String                                              `tfsdk:"authentication_host_mode"`
 	NetworksType                   types.String                                              `tfsdk:"networks_type"`
 	NetworksValues                 []DataSourceSwitchOrganizationPortsProfilesNetworksValues `tfsdk:"networks_values"`
 	PortAccessPolicyNumber         types.Int64                                               `tfsdk:"port_access_policy_number"`
@@ -110,6 +111,11 @@ func (data *DataSourceSwitchOrganizationPortsProfiles) fromBody(ctx context.Cont
 			data.NetworkId = types.StringValue(value.String())
 		} else {
 			data.NetworkId = types.StringNull()
+		}
+		if value := res.Get("authentication.host.mode"); value.Exists() && value.Value() != nil {
+			data.AuthenticationHostMode = types.StringValue(value.String())
+		} else {
+			data.AuthenticationHostMode = types.StringNull()
 		}
 		if value := res.Get("networks.type"); value.Exists() && value.Value() != nil {
 			data.NetworksType = types.StringValue(value.String())

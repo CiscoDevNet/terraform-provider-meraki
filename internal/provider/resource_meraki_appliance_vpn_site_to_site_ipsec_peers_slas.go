@@ -26,6 +26,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -39,7 +40,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &ApplianceVPNSiteToSiteIPsecPeersSLAsResource{}
+	_ resource.ResourceWithIdentity    = &ApplianceVPNSiteToSiteIPsecPeersSLAsResource{}
 	_ resource.ResourceWithImportState = &ApplianceVPNSiteToSiteIPsecPeersSLAsResource{}
 )
 
@@ -48,7 +49,8 @@ func NewApplianceVPNSiteToSiteIPsecPeersSLAsResource() resource.Resource {
 }
 
 type ApplianceVPNSiteToSiteIPsecPeersSLAsResource struct {
-	client *meraki.Client
+	client                        *meraki.Client
+	restoreOriginalStateOnDestroy bool
 }
 
 func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -80,6 +82,13 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Schema(ctx context.Contex
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("SLA policy ID").String,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("SLA policy name").String,
 							Required:            true,
@@ -95,12 +104,24 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Schema(ctx context.Contex
 	}
 }
 
+func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"organization_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Organization ID").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
 
 // End of section. //template:end model
@@ -109,6 +130,7 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Configure(_ context.Conte
 
 func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceVPNSiteToSiteIPsecPeersSLAs
+	var identity ApplianceVPNSiteToSiteIPsecPeersSLAsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -117,6 +139,16 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Create(ctx context.Contex
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	// If the resource is a singleton, we need to read and save the initial state
+	if r.restoreOriginalStateOnDestroy {
+		var initialState ApplianceVPNSiteToSiteIPsecPeersSLAs
+		gres, err := r.client.Get(plan.getPath())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
+	}
 
 	// Create object
 	body := plan.toBody(ctx, ApplianceVPNSiteToSiteIPsecPeersSLAs{})
@@ -127,10 +159,13 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Create(ctx context.Contex
 	}
 	plan.Id = plan.OrganizationId
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -142,6 +177,7 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Create(ctx context.Contex
 
 func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceVPNSiteToSiteIPsecPeersSLAs
+	var identity ApplianceVPNSiteToSiteIPsecPeersSLAsIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -149,9 +185,21 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Read(ctx context.Context,
 		return
 	}
 
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -170,10 +218,13 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Read(ctx context.Context,
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -185,6 +236,7 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Read(ctx context.Context,
 
 func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceVPNSiteToSiteIPsecPeersSLAs
+	var identity ApplianceVPNSiteToSiteIPsecPeersSLAsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -211,6 +263,9 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Update(ctx context.Contex
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update
@@ -227,11 +282,25 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Delete(ctx context.Contex
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	body := state.toDestroyBody(ctx)
-	res, err := r.client.Put(state.getPath(), body)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
-		return
+	if r.restoreOriginalStateOnDestroy {
+		// Restore the saved initial state on destroy
+		jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		res, err := r.client.Put(state.getPath(), jsonInitialState)
+		if err != nil {
+			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
+	} else {
+		body := state.toDestroyBody(ctx)
+		res, err := r.client.Put(state.getPath(), body)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
@@ -243,17 +312,28 @@ func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) Delete(ctx context.Contex
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *ApplianceVPNSiteToSiteIPsecPeersSLAsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 1 || idParts[0] == "" {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <organization_id>. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != 1 || idParts[0] == "" {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: <organization_id>. Got: %q", req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
+	} else {
+		var identity ApplianceVPNSiteToSiteIPsecPeersSLAsIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), identity.OrganizationId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.OrganizationId.ValueString())...)
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

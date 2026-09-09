@@ -32,6 +32,10 @@ data "meraki_organization_snmp" "example" {
 - `v2c_enabled` (Boolean) Boolean indicating whether SNMP version 2c is enabled for the organization.
 - `v3_auth_mode` (String) The SNMP version 3 authentication mode. Can be either `MD5` or `SHA`.
 - `v3_auth_pass` (String, Sensitive) The SNMP version 3 authentication password. Must be at least 8 characters if specified.
+- `v3_auth_pass_wo` (String) Write-only attribute.
+- `v3_auth_pass_wo_version` (Number) Version of v3_auth_pass_wo.
 - `v3_enabled` (Boolean) Boolean indicating whether SNMP version 3 is enabled for the organization.
 - `v3_priv_mode` (String) The SNMP version 3 privacy mode. Can be either `DES` or `AES128`.
 - `v3_priv_pass` (String, Sensitive) The SNMP version 3 privacy password. Must be at least 8 characters if specified.
+- `v3_priv_pass_wo` (String) Write-only attribute.
+- `v3_priv_pass_wo_version` (Number) Version of v3_priv_pass_wo.

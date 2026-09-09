@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -43,6 +45,7 @@ func TestAccMerakiOrganizationLicense(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_license.test", "device_serial", "Q234-ABCD-5678"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiOrganizationLicensePrerequisitesConfig + testAccMerakiOrganizationLicenseConfig_minimum(),
@@ -64,7 +67,10 @@ func TestAccMerakiOrganizationLicense(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -109,7 +115,6 @@ func testAccMerakiOrganizationLicenseConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiOrganizationLicenseConfig_all() string {
 	config := `resource "meraki_organization_license" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"

@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -53,13 +55,15 @@ func TestAccMerakiSwitchRoutingOSPF(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "areas.0.area_type", "normal"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiSwitchRoutingOSPFPrerequisitesConfig + testAccMerakiSwitchRoutingOSPFConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiSwitchRoutingOSPFPrerequisitesConfig + testAccMerakiSwitchRoutingOSPFConfig_all(),
+		Config: testAccMerakiSwitchRoutingOSPFPrerequisitesConfig + testAccMerakiSwitchRoutingOSPFConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -74,7 +78,10 @@ func TestAccMerakiSwitchRoutingOSPF(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -124,8 +131,7 @@ func testAccMerakiSwitchRoutingOSPFConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiSwitchRoutingOSPFConfig_all() string {
+func testAccMerakiSwitchRoutingOSPFConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_switch_routing_ospf" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  dead_timer_in_seconds = 40` + "\n"
@@ -133,7 +139,13 @@ func testAccMerakiSwitchRoutingOSPFConfig_all() string {
 	config += `  hello_timer_in_seconds = 10` + "\n"
 	config += `  md5_authentication_enabled = true` + "\n"
 	config += `  md5_authentication_key_id = 1` + "\n"
-	config += `  md5_authentication_key_passphrase = "abc1234"` + "\n"
+	if includeWriteOnly {
+		config += `  md5_authentication_key_passphrase = "abc1234"` + "\n"
+		config += `  md5_authentication_key_passphrase_wo = "abc1234"` + "\n"
+		config += `  md5_authentication_key_passphrase_wo_version = 1` + "\n"
+	} else {
+		config += `  md5_authentication_key_passphrase = "abc1234"` + "\n"
+	}
 	config += `  v3_dead_timer_in_seconds = 40` + "\n"
 	config += `  v3_enabled = true` + "\n"
 	config += `  v3_hello_timer_in_seconds = 10` + "\n"

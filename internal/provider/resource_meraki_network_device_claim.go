@@ -27,6 +27,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -43,7 +44,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &NetworkDeviceClaimResource{}
+	_ resource.ResourceWithIdentity    = &NetworkDeviceClaimResource{}
 	_ resource.ResourceWithImportState = &NetworkDeviceClaimResource{}
 )
 
@@ -102,6 +103,15 @@ func (r *NetworkDeviceClaimResource) Schema(ctx context.Context, req resource.Sc
 										Optional:            true,
 										Sensitive:           true,
 									},
+									"value_wo": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+										WriteOnly:           true,
+										Optional:            true,
+									},
+									"value_wo_version": schema.Int64Attribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Version of value_wo.").String,
+										Optional:            true,
+									},
 								},
 							},
 						},
@@ -112,6 +122,17 @@ func (r *NetworkDeviceClaimResource) Schema(ctx context.Context, req resource.Sc
 				MarkdownDescription: helpers.NewAttributeDescription("A list of serials of devices to claim").String,
 				ElementType:         types.StringType,
 				Required:            true,
+			},
+		},
+	}
+}
+
+func (r *NetworkDeviceClaimResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
 			},
 		},
 	}
@@ -131,6 +152,7 @@ func (r *NetworkDeviceClaimResource) Configure(_ context.Context, req resource.C
 
 func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan NetworkDeviceClaim
+	var identity NetworkDeviceClaimIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -149,10 +171,13 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	}
 	plan.Id = plan.NetworkId
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -162,6 +187,7 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 
 func (r *NetworkDeviceClaimResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state NetworkDeviceClaim
+	var identity NetworkDeviceClaimIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -169,10 +195,22 @@ func (r *NetworkDeviceClaimResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 
 	res, err := r.client.Get(state.getDevicesPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -209,10 +247,13 @@ func (r *NetworkDeviceClaimResource) Read(ctx context.Context, req resource.Read
 		v[r] = types.StringValue(resultSerials[r])
 	}
 	state.Serials = types.SetValueMust(types.StringType, v)
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -254,7 +295,11 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 					deviceDetailsBody, _ := sjson.Set("", "serial", details.Serial.ValueString())
 					for _, detail := range details.Details {
 						detailsBody, _ := sjson.Set("", "name", detail.Name.ValueString())
-						detailsBody, _ = sjson.Set(detailsBody, "value", detail.Value.ValueString())
+						if !detail.ValueWo.IsNull() {
+							detailsBody, _ = sjson.Set(detailsBody, "value", detail.ValueWo.ValueString())
+						} else {
+							detailsBody, _ = sjson.Set(detailsBody, "value", detail.Value.ValueString())
+						}
 						deviceDetailsBody, _ = sjson.SetRaw(deviceDetailsBody, "details.-1", detailsBody)
 					}
 					claimBody, _ = sjson.SetRaw(claimBody, "detailsByDevice.-1", deviceDetailsBody)
@@ -298,6 +343,10 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	var identity NetworkDeviceClaimIdentity
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 func (r *NetworkDeviceClaimResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -330,17 +379,28 @@ func (r *NetworkDeviceClaimResource) Delete(ctx context.Context, req resource.De
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *NetworkDeviceClaimResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 1 || idParts[0] == "" {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <network_id>. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != 1 || idParts[0] == "" {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: <network_id>. Got: %q", req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
+	} else {
+		var identity NetworkDeviceClaimIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), identity.NetworkId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.NetworkId.ValueString())...)
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

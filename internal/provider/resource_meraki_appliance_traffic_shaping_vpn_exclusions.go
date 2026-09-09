@@ -27,6 +27,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -42,7 +43,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &ApplianceTrafficShapingVPNExclusionsResource{}
+	_ resource.ResourceWithIdentity    = &ApplianceTrafficShapingVPNExclusionsResource{}
 	_ resource.ResourceWithImportState = &ApplianceTrafficShapingVPNExclusionsResource{}
 )
 
@@ -51,7 +52,8 @@ func NewApplianceTrafficShapingVPNExclusionsResource() resource.Resource {
 }
 
 type ApplianceTrafficShapingVPNExclusionsResource struct {
-	client *meraki.Client
+	client                        *meraki.Client
+	restoreOriginalStateOnDestroy bool
 }
 
 func (r *ApplianceTrafficShapingVPNExclusionsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -124,20 +126,31 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 	}
 }
 
+func (r *ApplianceTrafficShapingVPNExclusionsResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *ApplianceTrafficShapingVPNExclusionsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
 }
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *ApplianceTrafficShapingVPNExclusionsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceTrafficShapingVPNExclusions
+	var identity ApplianceTrafficShapingVPNExclusionsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -146,6 +159,24 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Create(ctx context.Contex
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+	// If the resource is a singleton, we need to read and save the initial state
+	if r.restoreOriginalStateOnDestroy {
+		var initialState ApplianceTrafficShapingVPNExclusions
+		networkPath := fmt.Sprintf("/networks/%v", plan.NetworkId.ValueString())
+		nres, err := r.client.Get(networkPath)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, nres.String()))
+			return
+		}
+		orgId := nres.Get("organizationId").String()
+		getPath := fmt.Sprintf("/organizations/%v/appliance/trafficShaping/vpnExclusions/byNetwork?networkIds[]=%v", orgId, plan.NetworkId.ValueString())
+		gres, err := r.client.Get(getPath)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve vpn exceptions (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, meraki.Res{Result: gres.Get("items.0")}), resp.Private, &resp.Diagnostics)
+	}
 
 	// Create object
 	body := plan.toBody(ctx, ApplianceTrafficShapingVPNExclusions{})
@@ -156,24 +187,34 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Create(ctx context.Contex
 	}
 	plan.Id = plan.NetworkId
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// End of section. //template:end create
-
 func (r *ApplianceTrafficShapingVPNExclusionsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceTrafficShapingVPNExclusions
+	var identity ApplianceTrafficShapingVPNExclusionsIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
+	}
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
@@ -181,6 +222,9 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Read(ctx context.Context,
 	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
 	res, err := r.client.Get(networkPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -192,6 +236,9 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Read(ctx context.Context,
 	getPath := fmt.Sprintf("/organizations/%v/appliance/trafficShaping/vpnExclusions/byNetwork", orgId)
 	res, err = r.client.Get(getPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -220,10 +267,13 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Read(ctx context.Context,
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -233,6 +283,7 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Read(ctx context.Context,
 
 func (r *ApplianceTrafficShapingVPNExclusionsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ApplianceTrafficShapingVPNExclusions
+	var identity ApplianceTrafficShapingVPNExclusionsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -259,6 +310,9 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Update(ctx context.Contex
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update
@@ -275,11 +329,25 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Delete(ctx context.Contex
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
-	body := state.toDestroyBody(ctx)
-	res, err := r.client.Put(state.getPath(), body)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
-		return
+	if r.restoreOriginalStateOnDestroy {
+		// Restore the saved initial state on destroy
+		jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		res, err := r.client.Put(state.getPath(), jsonInitialState)
+		if err != nil {
+			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
+	} else {
+		body := state.toDestroyBody(ctx)
+		res, err := r.client.Put(state.getPath(), body)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
@@ -291,17 +359,28 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Delete(ctx context.Contex
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *ApplianceTrafficShapingVPNExclusionsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 1 || idParts[0] == "" {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <network_id>. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != 1 || idParts[0] == "" {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: <network_id>. Got: %q", req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
+	} else {
+		var identity ApplianceTrafficShapingVPNExclusionsIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), identity.NetworkId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.NetworkId.ValueString())...)
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

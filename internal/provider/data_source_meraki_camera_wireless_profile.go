@@ -81,6 +81,14 @@ func (d *CameraWirelessProfileDataSource) Schema(ctx context.Context, req dataso
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"identity_password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"identity_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of identity_password_wo.",
+				Computed:            true,
+			},
 			"identity_username": schema.StringAttribute{
 				MarkdownDescription: "The username of the identity.",
 				Computed:            true,
@@ -102,6 +110,14 @@ func (d *CameraWirelessProfileDataSource) Schema(ctx context.Context, req dataso
 				MarkdownDescription: "The pre-shared key of the SSID.",
 				Computed:            true,
 				Sensitive:           true,
+			},
+			"ssid_psk_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"ssid_psk_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of ssid_psk_wo.",
+				Computed:            true,
 			},
 		},
 	}
@@ -128,7 +144,7 @@ func (d *CameraWirelessProfileDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CameraWirelessProfileDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CameraWirelessProfile
+	var config DataSourceCameraWirelessProfile
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -7,7 +7,7 @@ resource "meraki_{{snakeCase .BulkName}}" "example" {
 {{- end}}
   items = [{
   {{- range getBulkItemAttributes .}}
-  {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed)}}
+  {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
   {{- if isNestedListSetMap .}}
     {{- if isNestedMap .}}
     {{.TfName}} = {
@@ -17,7 +17,7 @@ resource "meraki_{{snakeCase .BulkName}}" "example" {
       {
     {{- end}}
         {{- range  .Attributes}}
-        {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed)}}
+        {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
         {{- if isNestedListSetMap .}}
           {{- if isNestedMap .}}
           {{.TfName}} = {
@@ -27,7 +27,7 @@ resource "meraki_{{snakeCase .BulkName}}" "example" {
             {
           {{- end}}
             {{- range  .Attributes}}
-            {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed)}}
+            {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
             {{- if isNestedListSetMap .}}
               {{- if isNestedMap .}}
               {{.TfName}} = {
@@ -37,7 +37,7 @@ resource "meraki_{{snakeCase .BulkName}}" "example" {
                 {
               {{- end}}
                   {{- range  .Attributes}}
-                  {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed)}}
+                  {{- if and (not .ExcludeExample) (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
                   {{.TfName}} = {{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}
                   {{- end}}
                   {{- end}}

@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -44,13 +46,15 @@ func TestAccMerakiNetworkSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "secure_port_enabled", "false"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_all(),
+		Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -65,7 +69,10 @@ func TestAccMerakiNetworkSettings(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -115,14 +122,19 @@ func testAccMerakiNetworkSettingsConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiNetworkSettingsConfig_all() string {
+func testAccMerakiNetworkSettingsConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_network_settings" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  local_status_page_enabled = true` + "\n"
 	config += `  remote_status_page_enabled = true` + "\n"
 	config += `  local_status_page_authentication_enabled = false` + "\n"
-	config += `  local_status_page_authentication_password = "MilesMiles123!"` + "\n"
+	if includeWriteOnly {
+		config += `  local_status_page_authentication_password = "MilesMiles123!"` + "\n"
+		config += `  local_status_page_authentication_password_wo = "MilesMiles123!"` + "\n"
+		config += `  local_status_page_authentication_password_wo_version = 1` + "\n"
+	} else {
+		config += `  local_status_page_authentication_password = "MilesMiles123!"` + "\n"
+	}
 	config += `  local_status_page_authentication_username = "admin"` + "\n"
 	config += `  named_vlans_enabled = true` + "\n"
 	config += `  secure_port_enabled = false` + "\n"

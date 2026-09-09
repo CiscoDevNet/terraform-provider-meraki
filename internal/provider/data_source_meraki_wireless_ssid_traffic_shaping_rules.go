@@ -138,7 +138,7 @@ func (d *WirelessSSIDTrafficShapingRulesDataSource) Configure(_ context.Context,
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDTrafficShapingRulesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDTrafficShapingRules
+	var config DataSourceWirelessSSIDTrafficShapingRules
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

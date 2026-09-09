@@ -90,6 +90,14 @@ func (d *WirelessZigbeeDataSource) Schema(ctx context.Context, req datasource.Sc
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"lock_management_password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"lock_management_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of lock_management_password_wo.",
+				Computed:            true,
+			},
 			"lock_management_username": schema.StringAttribute{
 				MarkdownDescription: "Username",
 				Computed:            true,
@@ -109,7 +117,7 @@ func (d *WirelessZigbeeDataSource) Configure(_ context.Context, req datasource.C
 // End of section. //template:end model
 
 func (d *WirelessZigbeeDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessZigbee
+	var config DataSourceWirelessZigbee
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

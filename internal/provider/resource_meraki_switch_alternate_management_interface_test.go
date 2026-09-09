@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -32,8 +34,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiSwitchAlternateManagementInterface(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_3_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_3_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_alternate_management_interface.test", "enabled", "true"))
@@ -42,6 +44,7 @@ func TestAccMerakiSwitchAlternateManagementInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_alternate_management_interface.test", "switches.0.subnet_mask", "255.255.255.0"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiSwitchAlternateManagementInterfacePrerequisitesConfig + testAccMerakiSwitchAlternateManagementInterfaceConfig_minimum(),
@@ -63,7 +66,10 @@ func TestAccMerakiSwitchAlternateManagementInterface(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -87,7 +93,7 @@ func merakiSwitchAlternateManagementInterfaceImportStateIdFunc(resourceName stri
 const testAccMerakiSwitchAlternateManagementInterfacePrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
-variable "test_switch_1_serial" {}
+variable "test_switch_3_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
@@ -98,7 +104,7 @@ resource "meraki_network" "test" {
 }
 resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
-  serials    = [var.test_switch_1_serial]
+  serials    = [var.test_switch_3_serial]
 }
 
 `
@@ -120,7 +126,6 @@ func testAccMerakiSwitchAlternateManagementInterfaceConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiSwitchAlternateManagementInterfaceConfig_all() string {
 	config := `resource "meraki_switch_alternate_management_interface" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"

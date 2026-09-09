@@ -75,6 +75,8 @@ Read-Only:
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS Accounting server listens on for access requests
 - `secret` (String, Sensitive) RADIUS client shared secret
+- `secret_wo` (String) Write-only attribute.
+- `secret_wo_version` (Number) Version of secret_wo.
 
 
 <a id="nestedatt--radius_servers"></a>
@@ -86,3 +88,5 @@ Read-Only:
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS server listens on for access requests
 - `secret` (String, Sensitive) RADIUS client shared secret
+- `secret_wo` (String) Write-only attribute.
+- `secret_wo_version` (Number) Version of secret_wo.

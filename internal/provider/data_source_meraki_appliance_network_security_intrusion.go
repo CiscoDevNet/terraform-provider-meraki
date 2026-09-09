@@ -105,7 +105,7 @@ func (d *ApplianceNetworkSecurityIntrusionDataSource) Configure(_ context.Contex
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceNetworkSecurityIntrusionDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceNetworkSecurityIntrusion
+	var config DataSourceApplianceNetworkSecurityIntrusion
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

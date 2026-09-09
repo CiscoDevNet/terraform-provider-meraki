@@ -35,5 +35,6 @@ data "meraki_appliance_vpn_site_to_site_ipsec_peers_slas" "example" {
 
 Read-Only:
 
+- `id` (String) SLA policy ID
 - `name` (String) SLA policy name
 - `uri` (String) Endpoint for testing SLA

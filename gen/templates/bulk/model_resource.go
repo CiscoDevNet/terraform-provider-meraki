@@ -23,11 +23,13 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"slices"
 	"strconv"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
@@ -54,7 +56,7 @@ type Resource{{camelCase .BulkName}}Items struct {
 	Id types.String `tfsdk:"id"`
 {{- end}}
 {{- range getBulkItemAttributes .}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []Resource{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}
@@ -67,11 +69,11 @@ type Resource{{camelCase .BulkName}}Items struct {
 }
 
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 type Resource{{.GoTypeBulkName}} struct {
 {{- range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []Resource{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}
@@ -87,14 +89,14 @@ type Resource{{.GoTypeBulkName}} struct {
 {{end}}
 
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 type Resource{{.GoTypeBulkName}} struct {
 {{- range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSet .}}
 	{{toGoName .TfName}} []Resource{{.GoTypeBulkName}} `tfsdk:"{{.TfName}}"`
 {{- else if isNestedMap .}}
@@ -113,17 +115,17 @@ type Resource{{.GoTypeBulkName}} struct {
 {{end}}
 
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 {{range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 {{- if isNestedListSetMap .}}
 type Resource{{.GoTypeBulkName}} struct {
 {{- range .Attributes}}
-{{- if not .Value}}
+{{- if and (not .Value) (not .DataSourceOnly)}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
 {{- end}}
@@ -137,6 +139,13 @@ type Resource{{.GoTypeBulkName}} struct {
 {{- end}}
 {{- end}}
 {{end}}
+
+type Resource{{camelCase .BulkName}}Identity struct {
+{{- range (getBulkImportAttributes .)}}
+	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
+{{- end}}
+    ItemIds types.List `tfsdk:"item_ids"`
+}
 
 // End of section. //template:end types
 
@@ -168,7 +177,7 @@ func (data Resource{{camelCase .BulkName}}) getItemPath(id string) string {
 func (data Resource{{camelCase .BulkName}}Items) toBody(ctx context.Context, state Resource{{camelCase .BulkName}}Items) string {
 	body := ""
 	{{- range getBulkItemAttributes .}}
-	{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+	{{- if or .Computed .DataSourceOnly (not .ModelName)}}{{- continue}}{{- end}}
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if not .Reference}}
@@ -193,7 +202,7 @@ func (data Resource{{camelCase .BulkName}}Items) toBody(ctx context.Context, sta
 		{{- end}}
 			itemBody := ""
 			{{- range .Attributes}}
-			{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+			{{- if or .Computed .DataSourceOnly (not .ModelName)}}{{- continue}}{{- end}}
 			{{- if .Value}}
 			itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 			{{- else if not .Reference}}
@@ -218,7 +227,7 @@ func (data Resource{{camelCase .BulkName}}Items) toBody(ctx context.Context, sta
 				{{- end}}
 					itemChildBody := ""
 					{{- range .Attributes}}
-					{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+					{{- if or .Computed .DataSourceOnly (not .ModelName)}}{{- continue}}{{- end}}
 					{{- if .Value}}
 					itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 					{{- else if not .Reference}}
@@ -243,7 +252,7 @@ func (data Resource{{camelCase .BulkName}}Items) toBody(ctx context.Context, sta
 						{{- end}}
 							itemChildChildBody := ""
 							{{- range .Attributes}}
-							{{- if or .Computed (not .ModelName)}}{{- continue}}{{- end}}
+							{{- if or .Computed .DataSourceOnly (not .ModelName)}}{{- continue}}{{- end}}
 							{{- if .Value}}
 							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 							{{- else if not .Reference}}
@@ -308,7 +317,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBody(ctx context.Context, res m
 		data := Resource{{camelCase .BulkName}}Items{}
 		{{- define "fromBodyTemplate"}}
 			{{- range .Attributes}}
-			{{- if and (not .Value) (not .WriteOnly) .ModelName}}
+			{{- if and (not .Value) (not .WriteOnly) (not .DataSourceOnly) .ModelName}}
 			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 			if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && value.Value() != nil {
 				data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
@@ -399,7 +408,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context
 		}
 	{{- define "fromBodyPartialTemplate"}}
 		{{- range .Attributes}}
-		{{- if and (not .Value) (not .WriteOnly) (not .Reference) .ModelName}}
+		{{- if and (not .Value) (not .WriteOnly) (not .Reference) (not .DataSourceOnly) .ModelName}}
 		{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 		if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
 			data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
@@ -435,8 +444,8 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyPartial(ctx context.Context
 			res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%s", i))
 		{{- else }}
 		for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
-			keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
-			keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
+			keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly) (not .DataSourceOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
+			keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly) (not .DataSourceOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
 
 			parent := &data
 			data := (*parent).{{toGoName .TfName}}[i]
@@ -517,6 +526,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyUnknowns(ctx context.Contex
 	{{- end}}
 	{{- define "fromBodyUnknownsTemplate"}}
 		{{- range .Attributes}}
+		{{- if .DataSourceOnly}}{{- continue}}{{- end}}
 		{{- if and (or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")) .Computed}}
 		if data.{{toGoName .TfName}}.IsUnknown() {
 			if value := res.Get("{{getFullModelName . false}}"); value.Exists() && !data.{{toGoName .TfName}}.IsNull() {
@@ -556,8 +566,8 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyUnknowns(ctx context.Contex
 			res := parentRes.Get(fmt.Sprintf("{{getFullModelName . false}}.%s", i))
 		{{- else }}
 		for i := 0; i < len(data.{{toGoName .TfName}}); i++ {
-			keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
-			keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
+			keys := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly) (not .DataSourceOnly))}}{{if or (eq .Type "Int64") (eq .Type "Bool") (eq .Type "String")}}"{{getFullModelName . false}}", {{end}}{{end}}{{end}} }
+			keyValues := [...]string{ {{$noId := not (hasId .Attributes)}}{{range .Attributes}}{{if or .Id (and $noId (not .Value) (not .WriteOnly) (not .DataSourceOnly))}}{{if eq .Type "Int64"}}strconv.FormatInt(data.{{$list}}[i].{{toGoName .TfName}}.ValueInt64(), 10), {{else if eq .Type "Bool"}}strconv.FormatBool(data.{{$list}}[i].{{toGoName .TfName}}.ValueBool()), {{else if eq .Type "String"}}data.{{$list}}[i].{{toGoName .TfName}}.Value{{.Type}}(), {{end}}{{end}}{{end}} }
 
 			parent := &data
 			data := (*parent).{{toGoName .TfName}}[i]
@@ -637,7 +647,7 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyImport(ctx context.Context,
 		}
 		{{- define "fromBodyImportTemplate"}}
 			{{- range .Attributes}}
-			{{- if and (not .Value) (not .WriteOnly) .ModelName}}
+			{{- if and (not .Value) (not .WriteOnly) (not .DataSourceOnly) .ModelName}}
 			{{- if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 			if value := res.Get("{{range .DataPath}}{{.}}.{{end}}{{.ModelName}}"); value.Exists() && value.Value() != nil {
 				data.{{toGoName .TfName}} = types.{{.Type}}Value(value.{{if eq .Type "Int64"}}Int{{else if eq .Type "Float64"}}Float{{else}}{{.Type}}{{end}}())
@@ -688,6 +698,29 @@ func (data *Resource{{camelCase .BulkName}}) fromBodyImport(ctx context.Context,
 
 // End of section. //template:end fromBodyImport
 
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *Resource{{camelCase .BulkName}}Identity) toIdentity(ctx context.Context, plan *Resource{{camelCase .BulkName}}) {
+	{{- range (getBulkImportAttributes .)}}
+	data.{{toGoName .TfName}} = plan.{{toGoName .TfName}}
+	{{- end}}
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+	
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *Resource{{camelCase .BulkName}}) fromIdentity(ctx context.Context, identity *Resource{{camelCase .BulkName}}Identity) {
+	{{- range (getBulkImportAttributes .)}}
+	data.{{toGoName .TfName}} = identity.{{toGoName .TfName}}
+	{{- end}}
+}
+	
+// End of section. //template:end fromIdentity
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
 func (data Resource{{camelCase .BulkName}}) toDestroyBody(ctx context.Context) string {
@@ -723,7 +756,7 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 	}
 	{{- range .Attributes}}
 	{{- $name := toGoName .TfName}}
-	{{- if and (not .Value) .ModelName}}
+	{{- if and (not .Value) (not .DataSourceOnly) .ModelName}}
 	{{- if isNestedMap .}}
 	if !maps.Equal(item.{{toGoName .TfName}}, stateItem.{{toGoName .TfName}}) {
 		hasChanges = true
@@ -739,7 +772,7 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 		for i := range item.{{toGoName .TfName}} {
 			{{- range .Attributes}}
 			{{- $cname := toGoName .TfName}}
-			{{- if and (not .Value) .ModelName}}
+			{{- if and (not .Value) (not .DataSourceOnly) .ModelName}}
 			{{- if isNestedMap .}}
 			if !maps.Equal(item.{{$name}}[i].{{toGoName .TfName}}, stateItem.{{$name}}[i].{{toGoName .TfName}}) {
 				hasChanges = true
@@ -755,7 +788,7 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 				for ii := range item.{{$name}}[i].{{toGoName .TfName}} {
 					{{- range .Attributes}}
 					{{- $ccname := toGoName .TfName}}
-					{{- if and (not .Value) .ModelName}}
+					{{- if and (not .Value) (not .DataSourceOnly) .ModelName}}
 					{{- if isNestedMap .}}
 					if !maps.Equal(item.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}, stateItem.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}}) {
 						hasChanges = true
@@ -770,7 +803,7 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 					} else {
 						for iii := range item.{{$name}}[i].{{$cname}}[ii].{{toGoName .TfName}} {
 							{{- range .Attributes}}
-							{{- if and (not .Value) .ModelName}}
+							{{- if and (not .Value) (not .DataSourceOnly) .ModelName}}
 							{{- if isNestedMap .}}
 							if !maps.Equal(item.{{$name}}[i].{{$cname}}[ii].{{$ccname}}[iii].{{toGoName .TfName}}, stateItem.{{$name}}[i].{{$cname}}[ii].{{$ccname}}[iii].{{toGoName .TfName}}) {
 								hasChanges = true
@@ -804,19 +837,8 @@ func (data *Resource{{camelCase .BulkName}}) hasChanges(ctx context.Context, sta
 
 {{- range .Attributes}}
 	{{- range .Attributes}}
-		{{- if .OrderedList }}
-			{{- errorf "ordered_list not yet implemented at this depth"}}
-		{{- end}}
-
 		{{- range .Attributes}}
-			{{- if .OrderedList }}
-				{{- errorf "ordered_list not yet implemented at this depth"}}
-			{{- end}}
-
 			{{- range .Attributes}}
-				{{- if .OrderedList }}
-					{{- errorf "ordered_list not yet implemented at this depth"}}
-				{{- end}}
 				{{- range .Attributes}}
 					{{- errorf "attributes not yet implemented at this depth"}}
 				{{- end}}

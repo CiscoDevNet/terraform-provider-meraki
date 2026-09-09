@@ -141,7 +141,7 @@ func (d *NetworkVLANProfileDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkVLANProfileDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkVLANProfile
+	var config DataSourceNetworkVLANProfile
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

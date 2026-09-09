@@ -103,7 +103,7 @@ func (d *ApplianceFirewallMulticastForwardingDataSource) Configure(_ context.Con
 // End of section. //template:end model
 
 func (d *ApplianceFirewallMulticastForwardingDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceFirewallMulticastForwarding
+	var config DataSourceApplianceFirewallMulticastForwarding
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

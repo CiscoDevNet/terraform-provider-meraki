@@ -25,6 +25,13 @@ resource "meraki_appliance_vmx_authentication_token" "example" {
 
 - `serial` (String) Device serial
 
+### Optional
+
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
+- `token_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
+- `token_wo_version` (Number) Version of token_wo.
+
 ### Read-Only
 
 - `expires_at` (String) The expiration time for the token, in ISO 8601 format

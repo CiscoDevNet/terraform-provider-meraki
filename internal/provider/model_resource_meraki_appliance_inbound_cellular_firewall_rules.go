@@ -1,0 +1,351 @@
+// Copyright © 2024 Cisco Systems, Inc. and its affiliates.
+// All rights reserved.
+//
+// Licensed under the Mozilla Public License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://mozilla.org/MPL/2.0/
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// SPDX-License-Identifier: MPL-2.0
+
+package provider
+
+// Section below is generated&owned by "gen/generator.go". //template:begin imports
+import (
+	"context"
+	"fmt"
+	"net/url"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
+	"github.com/tidwall/sjson"
+)
+
+// End of section. //template:end imports
+
+// Section below is generated&owned by "gen/generator.go". //template:begin types
+
+type ApplianceInboundCellularFirewallRules struct {
+	Id        types.String                                 `tfsdk:"id"`
+	NetworkId types.String                                 `tfsdk:"network_id"`
+	Rules     []ApplianceInboundCellularFirewallRulesRules `tfsdk:"rules"`
+}
+
+type ApplianceInboundCellularFirewallRulesRules struct {
+	Comment       types.String `tfsdk:"comment"`
+	DestCidr      types.String `tfsdk:"dest_cidr"`
+	DestPort      types.String `tfsdk:"dest_port"`
+	Policy        types.String `tfsdk:"policy"`
+	Protocol      types.String `tfsdk:"protocol"`
+	SrcCidr       types.String `tfsdk:"src_cidr"`
+	SrcPort       types.String `tfsdk:"src_port"`
+	SyslogEnabled types.Bool   `tfsdk:"syslog_enabled"`
+}
+
+type ApplianceInboundCellularFirewallRulesIdentity struct {
+	NetworkId types.String `tfsdk:"network_id"`
+}
+
+// End of section. //template:end types
+
+// Section below is generated&owned by "gen/generator.go". //template:begin getPath
+
+func (data ApplianceInboundCellularFirewallRules) getPath() string {
+	return fmt.Sprintf("/networks/%v/appliance/firewall/inboundCellularFirewallRules", url.QueryEscape(data.NetworkId.ValueString()))
+}
+
+// End of section. //template:end getPath
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBody
+
+func (data ApplianceInboundCellularFirewallRules) toBody(ctx context.Context, state ApplianceInboundCellularFirewallRules) string {
+	body := ""
+	{
+		body, _ = sjson.Set(body, "rules", []interface{}{})
+		for _, item := range data.Rules {
+			itemBody := ""
+			if !item.Comment.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "comment", item.Comment.ValueString())
+			}
+			if !item.DestCidr.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "destCidr", item.DestCidr.ValueString())
+			}
+			if !item.DestPort.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "destPort", item.DestPort.ValueString())
+			}
+			if !item.Policy.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "policy", item.Policy.ValueString())
+			}
+			if !item.Protocol.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "protocol", item.Protocol.ValueString())
+			}
+			if !item.SrcCidr.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "srcCidr", item.SrcCidr.ValueString())
+			}
+			if !item.SrcPort.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "srcPort", item.SrcPort.ValueString())
+			}
+			if !item.SyslogEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "syslogEnabled", item.SyslogEnabled.ValueBool())
+			}
+			body, _ = sjson.SetRaw(body, "rules.-1", itemBody)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data ApplianceInboundCellularFirewallRules) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("rules"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "rules", "null")
+		} else {
+			body, _ = sjson.Set(body, "rules", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("comment"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "comment", "null")
+					} else {
+						body, _ = sjson.Set(body, "comment", value.String())
+					}
+				}
+				if value := res.Get("destCidr"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "destCidr", "null")
+					} else {
+						body, _ = sjson.Set(body, "destCidr", value.String())
+					}
+				}
+				if value := res.Get("destPort"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "destPort", "null")
+					} else {
+						body, _ = sjson.Set(body, "destPort", value.String())
+					}
+				}
+				if value := res.Get("policy"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "policy", "null")
+					} else {
+						body, _ = sjson.Set(body, "policy", value.String())
+					}
+				}
+				if value := res.Get("protocol"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "protocol", "null")
+					} else {
+						body, _ = sjson.Set(body, "protocol", value.String())
+					}
+				}
+				if value := res.Get("srcCidr"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "srcCidr", "null")
+					} else {
+						body, _ = sjson.Set(body, "srcCidr", value.String())
+					}
+				}
+				if value := res.Get("srcPort"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "srcPort", "null")
+					} else {
+						body, _ = sjson.Set(body, "srcPort", value.String())
+					}
+				}
+				if value := res.Get("syslogEnabled"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "syslogEnabled", "null")
+					} else {
+						body, _ = sjson.Set(body, "syslogEnabled", value.Bool())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "rules.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
+
+func (data *ApplianceInboundCellularFirewallRules) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("rules"); value.Exists() && value.Value() != nil {
+		data.Rules = make([]ApplianceInboundCellularFirewallRulesRules, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			if value := res.Get("comment"); value.String() == "Default rule" {
+				return true
+			}
+			parent := &data
+			data := ApplianceInboundCellularFirewallRulesRules{}
+			if value := res.Get("comment"); value.Exists() && value.Value() != nil {
+				data.Comment = types.StringValue(value.String())
+			} else {
+				data.Comment = types.StringNull()
+			}
+			if value := res.Get("destCidr"); value.Exists() && value.Value() != nil {
+				data.DestCidr = types.StringValue(value.String())
+			} else {
+				data.DestCidr = types.StringNull()
+			}
+			if value := res.Get("destPort"); value.Exists() && value.Value() != nil {
+				data.DestPort = types.StringValue(value.String())
+			} else {
+				data.DestPort = types.StringNull()
+			}
+			if value := res.Get("policy"); value.Exists() && value.Value() != nil {
+				data.Policy = types.StringValue(value.String())
+			} else {
+				data.Policy = types.StringNull()
+			}
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
+				data.Protocol = types.StringValue(value.String())
+			} else {
+				data.Protocol = types.StringNull()
+			}
+			if value := res.Get("srcCidr"); value.Exists() && value.Value() != nil {
+				data.SrcCidr = types.StringValue(value.String())
+			} else {
+				data.SrcCidr = types.StringNull()
+			}
+			if value := res.Get("srcPort"); value.Exists() && value.Value() != nil {
+				data.SrcPort = types.StringValue(value.String())
+			} else {
+				data.SrcPort = types.StringNull()
+			}
+			if value := res.Get("syslogEnabled"); value.Exists() && value.Value() != nil {
+				data.SyslogEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.SyslogEnabled = types.BoolNull()
+			}
+			(*parent).Rules = append((*parent).Rules, data)
+			return true
+		})
+	}
+}
+
+// End of section. //template:end fromBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
+
+// fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
+// uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
+// easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
+// "managed" elements, instead of all elements.
+func (data *ApplianceInboundCellularFirewallRules) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	{
+		l := len(res.Get("rules").Array())
+		tflog.Debug(ctx, fmt.Sprintf("rules array resizing from %d to %d", len(data.Rules), l))
+		if len(data.Rules) > l {
+			data.Rules = data.Rules[:l]
+		}
+	}
+	for i := range data.Rules {
+		parent := &data
+		data := (*parent).Rules[i]
+		parentRes := &res
+		res := parentRes.Get(fmt.Sprintf("rules.%d", i))
+		if value := res.Get("comment"); value.Exists() && !data.Comment.IsNull() {
+			data.Comment = types.StringValue(value.String())
+		} else {
+			data.Comment = types.StringNull()
+		}
+		if value := res.Get("destCidr"); value.Exists() && !data.DestCidr.IsNull() {
+			data.DestCidr = types.StringValue(value.String())
+		} else {
+			data.DestCidr = types.StringNull()
+		}
+		if value := res.Get("destPort"); value.Exists() && !data.DestPort.IsNull() {
+			data.DestPort = types.StringValue(value.String())
+		} else {
+			data.DestPort = types.StringNull()
+		}
+		if value := res.Get("policy"); value.Exists() && !data.Policy.IsNull() {
+			data.Policy = types.StringValue(value.String())
+		} else {
+			data.Policy = types.StringNull()
+		}
+		if value := res.Get("protocol"); value.Exists() && !data.Protocol.IsNull() {
+			data.Protocol = types.StringValue(value.String())
+		} else {
+			data.Protocol = types.StringNull()
+		}
+		if value := res.Get("srcCidr"); value.Exists() && !data.SrcCidr.IsNull() {
+			data.SrcCidr = types.StringValue(value.String())
+		} else {
+			data.SrcCidr = types.StringNull()
+		}
+		if value := res.Get("srcPort"); value.Exists() && !data.SrcPort.IsNull() {
+			data.SrcPort = types.StringValue(value.String())
+		} else {
+			data.SrcPort = types.StringNull()
+		}
+		if value := res.Get("syslogEnabled"); value.Exists() && !data.SyslogEnabled.IsNull() {
+			data.SyslogEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.SyslogEnabled = types.BoolNull()
+		}
+		(*parent).Rules[i] = data
+	}
+}
+
+// End of section. //template:end fromBodyPartial
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
+
+// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
+// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
+func (data *ApplianceInboundCellularFirewallRules) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+}
+
+// End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceInboundCellularFirewallRulesIdentity) toIdentity(ctx context.Context, plan *ApplianceInboundCellularFirewallRules) {
+	data.NetworkId = plan.NetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceInboundCellularFirewallRules) fromIdentity(ctx context.Context, identity *ApplianceInboundCellularFirewallRulesIdentity) {
+	data.NetworkId = identity.NetworkId
+}
+
+// End of section. //template:end fromIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ApplianceInboundCellularFirewallRules) toDestroyBody(ctx context.Context) string {
+	body := ""
+	body, _ = sjson.Set(body, "rules", []interface{}{})
+	return body
+}
+
+// End of section. //template:end toDestroyBody

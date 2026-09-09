@@ -89,6 +89,14 @@ func (d *NetworkMQTTBrokerDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"authentication_password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"authentication_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of authentication_password_wo.",
+				Computed:            true,
+			},
 			"authentication_username": schema.StringAttribute{
 				MarkdownDescription: "Username for the MQTT broker.",
 				Computed:            true,
@@ -130,7 +138,7 @@ func (d *NetworkMQTTBrokerDataSource) Configure(_ context.Context, req datasourc
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkMQTTBrokerDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkMQTTBroker
+	var config DataSourceNetworkMQTTBroker
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

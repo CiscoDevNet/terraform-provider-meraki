@@ -32,7 +32,7 @@ const (
 	definitionsPath = "./gen/definitions/"
 )
 
-var docPaths = []string{"./docs/data-sources/", "./docs/resources/"}
+var docPaths = []string{"./docs/data-sources/", "./docs/resources/", "./docs/actions/"}
 
 var extraDocs = map[string]string{}
 
@@ -57,8 +57,9 @@ func main() {
 	// Update doc category
 	for i := range configs {
 		for _, path := range docPaths {
-			if (!configs[i].NoDataSource && path == "./docs/data-sources/") ||
-				(!configs[i].NoResource && path == "./docs/resources/") {
+			if (!configs[i].Action && !configs[i].NoDataSource && path == "./docs/data-sources/") ||
+				(!configs[i].Action && !configs[i].NoResource && path == "./docs/resources/") ||
+				(configs[i].Action && path == "./docs/actions/") {
 				filename := path + yamlconfig.SnakeCase(configs[i].Name) + ".md"
 				content, err := os.ReadFile(filename)
 				if err != nil {

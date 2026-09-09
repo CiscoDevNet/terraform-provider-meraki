@@ -181,7 +181,7 @@ func (d *WirelessSSIDHotspot20DataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDHotspot20DataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDHotspot20
+	var config DataSourceWirelessSSIDHotspot20
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -53,8 +53,13 @@ type t struct {
 
 var templates = []t{
 	{
-		path:   "./gen/templates/model.go",
-		prefix: "./internal/provider/model_meraki_",
+		path:   "./gen/templates/model_resource.go",
+		prefix: "./internal/provider/model_resource_meraki_",
+		suffix: ".go",
+	},
+	{
+		path:   "./gen/templates/model_data_source.go",
+		prefix: "./internal/provider/model_data_source_meraki_",
 		suffix: ".go",
 	},
 	{
@@ -91,6 +96,36 @@ var templates = []t{
 		path:   "./gen/templates/import.sh",
 		prefix: "./examples/resources/meraki_",
 		suffix: "/import.sh",
+	},
+	{
+		path:   "./gen/templates/import-by-string-id.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/import-by-string-id.tf",
+	},
+	{
+		path:   "./gen/templates/import-by-identity.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/import-by-identity.tf",
+	},
+	{
+		path:   "./gen/templates/model_action.go",
+		prefix: "./internal/provider/model_action_meraki_",
+		suffix: ".go",
+	},
+	{
+		path:   "./gen/templates/action.go",
+		prefix: "./internal/provider/action_meraki_",
+		suffix: ".go",
+	},
+	{
+		path:   "./gen/templates/action_test.go",
+		prefix: "./internal/provider/action_meraki_",
+		suffix: "_test.go",
+	},
+	{
+		path:   "./gen/templates/action.tf",
+		prefix: "./examples/actions/meraki_",
+		suffix: "/action.tf",
 	},
 	{
 		path:   "./gen/templates/bulk/model_data_source.go",
@@ -136,6 +171,16 @@ var templates = []t{
 		path:   "./gen/templates/bulk/import.sh",
 		prefix: "./examples/resources/meraki_",
 		suffix: "/import.sh",
+	},
+	{
+		path:   "./gen/templates/bulk/import-by-string-id.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/import-by-string-id.tf",
+	},
+	{
+		path:   "./gen/templates/bulk/import-by-identity.tf",
+		prefix: "./examples/resources/meraki_",
+		suffix: "/import-by-identity.tf",
 	},
 }
 
@@ -249,7 +294,11 @@ func updateDefinitions() {
 			continue
 		}
 
-		cmd := exec.Command("go", "run", "gen/definition.go", config.SpecEndpoint, config.Name)
+		args := []string{"run", "gen/definition.go", config.SpecEndpoint, config.Name}
+		if config.EarlyAccess {
+			args = append(args, "--early-access")
+		}
+		cmd := exec.Command("go", args...)
 		if out, err := cmd.CombinedOutput(); err != nil {
 			log.Fatalf("Error creating definition '%s' for endpoint '%s': %s, %+v", config.SpecEndpoint, config.Name, out, err)
 		}
@@ -297,6 +346,10 @@ func main() {
 		// Iterate over templates and render files
 		for _, t := range templates {
 			if (configs[i].NoImport && t.path == "./gen/templates/import.sh") ||
+				(configs[i].NoImport && t.path == "./gen/templates/import-by-string-id.tf") ||
+				(configs[i].NoImport && t.path == "./gen/templates/import-by-identity.tf") ||
+				(configs[i].NoImport && t.path == "./gen/templates/bulk/import-by-string-id.tf") ||
+				(configs[i].NoImport && t.path == "./gen/templates/bulk/import-by-identity.tf") ||
 				(configs[i].NoDataSource && t.path == "./gen/templates/data_source.go") ||
 				(configs[i].NoDataSource && t.path == "./gen/templates/data_source_test.go") ||
 				(configs[i].NoDataSource && t.path == "./gen/templates/data-source.tf") ||
@@ -304,16 +357,38 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/resource_test.go") ||
 				(configs[i].NoResource && t.path == "./gen/templates/resource.tf") ||
 				(configs[i].NoResource && t.path == "./gen/templates/import.sh") ||
-				(configs[i].NoResource && configs[i].NoDataSource && t.path == "./gen/templates/model.go") ||
+				(configs[i].NoResource && t.path == "./gen/templates/import-by-string-id.tf") ||
+				(configs[i].NoResource && t.path == "./gen/templates/import-by-identity.tf") ||
+				(configs[i].NoResource && configs[i].NoDataSource && t.path == "./gen/templates/model_resource.go") ||
+				(configs[i].NoDataSource && t.path == "./gen/templates/model_data_source.go") ||
+				(configs[i].Action && t.path == "./gen/templates/resource.go") ||
+				(configs[i].Action && t.path == "./gen/templates/resource_test.go") ||
+				(configs[i].Action && t.path == "./gen/templates/resource.tf") ||
+				(configs[i].Action && t.path == "./gen/templates/import.sh") ||
+				(configs[i].Action && t.path == "./gen/templates/import-by-string-id.tf") ||
+				(configs[i].Action && t.path == "./gen/templates/import-by-identity.tf") ||
+				(configs[i].Action && t.path == "./gen/templates/model_resource.go") ||
+				(configs[i].Action && t.path == "./gen/templates/data_source.go") ||
+				(configs[i].Action && t.path == "./gen/templates/data_source_test.go") ||
+				(configs[i].Action && t.path == "./gen/templates/data-source.tf") ||
+				(configs[i].Action && t.path == "./gen/templates/model_data_source.go") ||
+				(!configs[i].Action && t.path == "./gen/templates/model_action.go") ||
+				(!configs[i].Action && t.path == "./gen/templates/action.go") ||
+				(!configs[i].Action && t.path == "./gen/templates/action_test.go") ||
+				(!configs[i].Action && t.path == "./gen/templates/action.tf") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model_data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||
+				(configs[i].SkipBulkDataSourceTest && t.path == "./gen/templates/bulk/data_source_test.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data-source.tf") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/model_resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource_test.go") ||
+				(configs[i].SkipBulkResourceTest && t.path == "./gen/templates/bulk/resource_test.go") ||
 				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/resource.tf") ||
-				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import.sh") {
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import.sh") ||
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import-by-string-id.tf") ||
+				(!configs[i].BulkResource && t.path == "./gen/templates/bulk/import-by-identity.tf") {
 				continue
 			}
 			if strings.Contains(t.path, "/bulk/") {

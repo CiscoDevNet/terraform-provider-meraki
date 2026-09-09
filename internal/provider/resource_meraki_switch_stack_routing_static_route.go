@@ -27,6 +27,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -41,7 +42,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &SwitchStackRoutingStaticRouteResource{}
+	_ resource.ResourceWithIdentity    = &SwitchStackRoutingStaticRouteResource{}
 	_ resource.ResourceWithImportState = &SwitchStackRoutingStaticRouteResource{}
 )
 
@@ -116,6 +117,25 @@ func (r *SwitchStackRoutingStaticRouteResource) Schema(ctx context.Context, req 
 	}
 }
 
+func (r *SwitchStackRoutingStaticRouteResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"network_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Network ID").String,
+				RequiredForImport: true,
+			},
+			"switch_stack_id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Switch stack ID").String,
+				RequiredForImport: true,
+			},
+			"id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *SwitchStackRoutingStaticRouteResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -130,6 +150,7 @@ func (r *SwitchStackRoutingStaticRouteResource) Configure(_ context.Context, req
 
 func (r *SwitchStackRoutingStaticRouteResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan SwitchStackRoutingStaticRoute
+	var identity SwitchStackRoutingStaticRouteIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -148,10 +169,13 @@ func (r *SwitchStackRoutingStaticRouteResource) Create(ctx context.Context, req 
 	}
 	plan.Id = types.StringValue(res.Get("staticRouteId").String())
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -163,6 +187,7 @@ func (r *SwitchStackRoutingStaticRouteResource) Create(ctx context.Context, req 
 
 func (r *SwitchStackRoutingStaticRouteResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state SwitchStackRoutingStaticRoute
+	var identity SwitchStackRoutingStaticRouteIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -170,9 +195,21 @@ func (r *SwitchStackRoutingStaticRouteResource) Read(ctx context.Context, req re
 		return
 	}
 
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -191,10 +228,13 @@ func (r *SwitchStackRoutingStaticRouteResource) Read(ctx context.Context, req re
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -206,6 +246,7 @@ func (r *SwitchStackRoutingStaticRouteResource) Read(ctx context.Context, req re
 
 func (r *SwitchStackRoutingStaticRouteResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state SwitchStackRoutingStaticRoute
+	var identity SwitchStackRoutingStaticRouteIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -231,6 +272,9 @@ func (r *SwitchStackRoutingStaticRouteResource) Update(ctx context.Context, req 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 
@@ -263,18 +307,32 @@ func (r *SwitchStackRoutingStaticRouteResource) Delete(ctx context.Context, req 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *SwitchStackRoutingStaticRouteResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 3 || idParts[0] == "" || idParts[1] == "" || idParts[2] == "" {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <network_id>,<switch_stack_id>,<id>. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != 3 || idParts[0] == "" || idParts[1] == "" || idParts[2] == "" {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: <network_id>,<switch_stack_id>,<id>. Got: %q", req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("switch_stack_id"), idParts[1])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("switch_stack_id"), idParts[1])...)
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("id"), idParts[2])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[2])...)
+	} else {
+		var identity SwitchStackRoutingStaticRouteIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), identity.NetworkId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("switch_stack_id"), identity.SwitchStackId.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.Id.ValueString())...)
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("switch_stack_id"), idParts[1])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[2])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

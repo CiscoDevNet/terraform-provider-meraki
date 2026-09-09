@@ -32,6 +32,12 @@ attributes:
     exclude_test: true
     description: The network identifier
     example: N_24329156
+  - model_name: mode
+    type: String
+    data_path: [authentication, host]
+    exclude_test: true
+    description: The host mode override for RADIUS-based port profile application. Supported values are `single-host` and `multi-host`.
+    example: single-host
   - model_name: type
     type: String
     data_path: [networks]

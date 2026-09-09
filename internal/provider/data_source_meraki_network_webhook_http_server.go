@@ -81,6 +81,14 @@ func (d *NetworkWebhookHTTPServerDataSource) Schema(ctx context.Context, req dat
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"shared_secret_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"shared_secret_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of shared_secret_wo.",
+				Computed:            true,
+			},
 			"url": schema.StringAttribute{
 				MarkdownDescription: "The URL of the HTTP server. Once set, cannot be updated.",
 				Computed:            true,
@@ -119,7 +127,7 @@ func (d *NetworkWebhookHTTPServerDataSource) Configure(_ context.Context, req da
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkWebhookHTTPServerDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkWebhookHTTPServer
+	var config DataSourceNetworkWebhookHTTPServer
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

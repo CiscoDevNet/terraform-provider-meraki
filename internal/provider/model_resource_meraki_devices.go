@@ -54,6 +54,11 @@ type ResourceDevicesItems struct {
 	Tags            types.Set     `tfsdk:"tags"`
 }
 
+type ResourceDevicesIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+	ItemIds        types.List   `tfsdk:"item_ids"`
+}
+
 // End of section. //template:end types
 
 func (data ResourceDevices) getPath() string {
@@ -298,6 +303,25 @@ func (data *ResourceDevices) fromBodyImport(ctx context.Context, res meraki.Res)
 }
 
 // End of section. //template:end fromBodyImport
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ResourceDevicesIdentity) toIdentity(ctx context.Context, plan *ResourceDevices) {
+	data.OrganizationId = plan.OrganizationId
+	if len(data.ItemIds.Elements()) == 0 {
+		data.ItemIds = types.ListNull(types.StringType)
+	}
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ResourceDevices) fromIdentity(ctx context.Context, identity *ResourceDevicesIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 

@@ -82,6 +82,14 @@ func (d *NetworkSettingsDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"local_status_page_authentication_password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"local_status_page_authentication_password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of local_status_page_authentication_password_wo.",
+				Computed:            true,
+			},
 			"local_status_page_authentication_username": schema.StringAttribute{
 				MarkdownDescription: "The username used for Local Status Page(s).",
 				Computed:            true,
@@ -111,7 +119,7 @@ func (d *NetworkSettingsDataSource) Configure(_ context.Context, req datasource.
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkSettingsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkSettings
+	var config DataSourceNetworkSettings
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

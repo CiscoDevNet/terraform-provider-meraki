@@ -28,6 +28,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -43,7 +44,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &SwitchRoutingInterfaceResource{}
+	_ resource.ResourceWithIdentity    = &SwitchRoutingInterfaceResource{}
 	_ resource.ResourceWithImportState = &SwitchRoutingInterfaceResource{}
 )
 
@@ -62,7 +63,7 @@ func (r *SwitchRoutingInterfaceResource) Metadata(ctx context.Context, req resou
 func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Routing Interface` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Switch Routing Interface` configuration.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -79,12 +80,20 @@ func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resourc
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"candidate_uplink_v4": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("When true, this interface is a UAC candidate for IPv4 Uplink.").String,
+				Optional:            true,
+			},
 			"default_gateway": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The next hop for any traffic that isn`t going to a directly connected subnet or over a static route. This IP address must exist in a subnet with a routed interface. Required if this is the first IPv4 interface.").String,
 				Optional:            true,
 			},
 			"interface_ip": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The IP address this switch will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.").String,
+				Optional:            true,
+			},
+			"is_switch_default_gateway": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("When true, the switch uses the IPv4 uplink gateway as its IPv4 default gateway. This can only be set if the interface is designated as the IPv4 uplink.").String,
 				Optional:            true,
 			},
 			"mode": schema.StringAttribute{
@@ -105,12 +114,28 @@ func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: helpers.NewAttributeDescription("A friendly name or description for the interface or VLAN.").String,
 				Required:            true,
 			},
+			"static_v4_dns1": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Primary IPv4 DNS server address").String,
+				Optional:            true,
+			},
+			"static_v4_dns2": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Secondary IPv4 DNS server address").String,
+				Optional:            true,
+			},
 			"subnet": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The network that this routed interface is on, in CIDR notation (ex. 10.1.1.0/24).").String,
 				Optional:            true,
 			},
 			"switch_port_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Switch Port ID when in Routed mode (CS 17.18 or higher required)").String,
+				Optional:            true,
+			},
+			"uplink_v4": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("When true, this interface is used as static IPv4 uplink.").String,
+				Optional:            true,
+			},
+			"uplink_v6": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("When true, this interface is used as static IPv6 uplink.").String,
 				Optional:            true,
 			},
 			"vlan_id": schema.Int64Attribute{
@@ -125,12 +150,28 @@ func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: helpers.NewAttributeDescription("The IPv6 assignment mode for the interface. Can be either `eui-64` or `static`.").String,
 				Optional:            true,
 			},
+			"ipv6_candidate_uplink": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("When true, this interface is a UAC candidate for IPv6 Uplink.").String,
+				Optional:            true,
+			},
 			"ipv6_gateway": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The IPv6 default gateway of the interface. Required if prefix is defined and this is the first interface with IPv6 configured for the switch.").String,
 				Optional:            true,
 			},
+			"ipv6_is_switch_default_gateway": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("When true, the switch uses the IPv6 uplink gateway as its IPv6 default gateway. This can only be set if the interface is designated as the IPv6 uplink.").String,
+				Optional:            true,
+			},
 			"ipv6_prefix": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The IPv6 prefix of the interface. Required if IPv6 object is included.").String,
+				Optional:            true,
+			},
+			"ipv6_static_v6_dns1": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Primary IPv6 DNS server address").String,
+				Optional:            true,
+			},
+			"ipv6_static_v6_dns2": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Secondary IPv6 DNS server address").String,
 				Optional:            true,
 			},
 			"ospf_settings_area": schema.StringAttribute{
@@ -160,6 +201,21 @@ func (r *SwitchRoutingInterfaceResource) Schema(ctx context.Context, req resourc
 	}
 }
 
+func (r *SwitchRoutingInterfaceResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			"serial": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("Switch serial").String,
+				RequiredForImport: true,
+			},
+			"id": identityschema.StringAttribute{
+				Description:       helpers.NewAttributeDescription("").String,
+				RequiredForImport: true,
+			},
+		},
+	}
+}
+
 func (r *SwitchRoutingInterfaceResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -174,6 +230,7 @@ func (r *SwitchRoutingInterfaceResource) Configure(_ context.Context, req resour
 
 func (r *SwitchRoutingInterfaceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan SwitchRoutingInterface
+	var identity SwitchRoutingInterfaceIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -192,10 +249,13 @@ func (r *SwitchRoutingInterfaceResource) Create(ctx context.Context, req resourc
 	}
 	plan.Id = types.StringValue(res.Get("interfaceId").String())
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -207,6 +267,7 @@ func (r *SwitchRoutingInterfaceResource) Create(ctx context.Context, req resourc
 
 func (r *SwitchRoutingInterfaceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state SwitchRoutingInterface
+	var identity SwitchRoutingInterfaceIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -214,9 +275,21 @@ func (r *SwitchRoutingInterfaceResource) Read(ctx context.Context, req resource.
 		return
 	}
 
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -235,10 +308,13 @@ func (r *SwitchRoutingInterfaceResource) Read(ctx context.Context, req resource.
 	} else {
 		state.fromBodyPartial(ctx, res)
 	}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -250,6 +326,7 @@ func (r *SwitchRoutingInterfaceResource) Read(ctx context.Context, req resource.
 
 func (r *SwitchRoutingInterfaceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state SwitchRoutingInterface
+	var identity SwitchRoutingInterfaceIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -275,6 +352,9 @@ func (r *SwitchRoutingInterfaceResource) Update(ctx context.Context, req resourc
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 
@@ -307,17 +387,29 @@ func (r *SwitchRoutingInterfaceResource) Delete(ctx context.Context, req resourc
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 func (r *SwitchRoutingInterfaceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: <serial>,<id>. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: <serial>,<id>. Got: %q", req.ID),
+			)
+			return
+		}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("serial"), idParts[0])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[0])...)
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("id"), idParts[1])...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
+	} else {
+		var identity SwitchRoutingInterfaceIdentity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), identity.Serial.ValueString())...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.Id.ValueString())...)
 	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("serial"), idParts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

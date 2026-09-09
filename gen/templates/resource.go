@@ -31,6 +31,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -49,7 +50,7 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.Resource                = &{{camelCase .Name}}Resource{}
+	_ resource.ResourceWithIdentity    = &{{camelCase .Name}}Resource{}
 	{{- if not .NoImport}}
 	_ resource.ResourceWithImportState = &{{camelCase .Name}}Resource{}
 	{{- end}}
@@ -61,6 +62,9 @@ func New{{camelCase .Name}}Resource() resource.Resource {
 
 type {{camelCase .Name}}Resource struct {
 	client *meraki.Client
+	{{- if isSingleton .}}
+	restoreOriginalStateOnDestroy bool
+	{{- end}}
 }
 
 func (r *{{camelCase .Name}}Resource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -81,7 +85,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			{{- range  .Attributes}}
-			{{- if not .Value}}
+			{{- if and (not .Value) (not .DataSourceOnly)}}
 			"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 					{{- if len .EnumValues -}}
@@ -100,7 +104,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- if isListSet .}}
 				ElementType:         types.{{.ElementType}}Type,
 				{{- end}}
-				{{- if or .Reference .Mandatory}}
+				{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 				Required:            true,
 				{{- else if not .Computed}}
 				Optional:            true,
@@ -154,7 +158,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						{{- range  .Attributes}}
-						{{- if not .Value}}
+						{{- if and (not .Value) (not .DataSourceOnly)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 								{{- if len .EnumValues -}}
@@ -173,7 +177,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- if isListSet .}}
 							ElementType:         types.{{.ElementType}}Type,
 							{{- end}}
-							{{- if or .Reference .Mandatory}}
+							{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 							Required:            true,
 							{{- else if not .Computed}}
 							Optional:            true,
@@ -222,7 +226,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									{{- range  .Attributes}}
-									{{- if not .Value}}
+									{{- if and (not .Value) (not .DataSourceOnly)}}
 									"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 										MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 											{{- if len .EnumValues -}}
@@ -241,7 +245,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- if isListSet .}}
 										ElementType:         types.{{.ElementType}}Type,
 										{{- end}}
-										{{- if or .Reference .Mandatory}}
+										{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 										Required:            true,
 										{{- else if not .Computed}}
 										Optional:            true,
@@ -290,7 +294,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												{{- range  .Attributes}}
-												{{- if not .Value}}
+												{{- if and (not .Value) (not .DataSourceOnly)}}
 												"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 													MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 														{{- if len .EnumValues -}}
@@ -309,7 +313,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													{{- if isListSet .}}
 													ElementType:         types.{{.ElementType}}Type,
 													{{- end}}
-													{{- if or .Reference .Mandatory}}
+													{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 													Required:            true,
 													{{- else if not .Computed}}
 													Optional:            true,
@@ -355,6 +359,17 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													},
 													{{- end}}
 												},
+												{{- if and .Sensitive (eq .Type "String")}}
+												"{{.TfName}}_wo": schema.StringAttribute{
+													MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+													WriteOnly:           true,
+													Optional:            true,
+												},
+												"{{.TfName}}_wo_version": schema.Int64Attribute{
+													MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+													Optional:            true,
+												},
+												{{- end}}
 												{{- end}}
 												{{- end}}
 											},
@@ -371,6 +386,17 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- end}}
 										{{- end}}
 									},
+									{{- if and .Sensitive (eq .Type "String")}}
+									"{{.TfName}}_wo": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+										WriteOnly:           true,
+										Optional:            true,
+									},
+									"{{.TfName}}_wo_version": schema.Int64Attribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+										Optional:            true,
+									},
+									{{- end}}
 									{{- end}}
 									{{- end}}
 								},
@@ -387,6 +413,17 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- end}}
 							{{- end}}
 						},
+						{{- if and .Sensitive (eq .Type "String")}}
+						"{{.TfName}}_wo": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							WriteOnly:           true,
+							Optional:            true,
+						},
+						"{{.TfName}}_wo_version": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+							Optional:            true,
+						},
+						{{- end}}
 						{{- end}}
 						{{- end}}
 					},
@@ -403,7 +440,31 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- end}}
 				{{- end}}
 			},
+			{{- if and .Sensitive (eq .Type "String")}}
+			"{{.TfName}}_wo": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				WriteOnly:           true,
+				Optional:            true,
+			},
+			"{{.TfName}}_wo_version": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+				Optional:            true,
+			},
 			{{- end}}
+			{{- end}}
+			{{- end}}
+		},
+	}
+}
+
+func (r *{{camelCase .Name}}Resource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+	resp.IdentitySchema = identityschema.Schema{
+		Attributes: map[string]identityschema.Attribute{
+			{{- range (importAttributes .)}}
+			"{{.TfName}}": identityschema.{{.Type}}Attribute{
+				Description: helpers.NewAttributeDescription("{{.Description}}").String,
+				RequiredForImport: true,
+			},
 			{{- end}}
 		},
 	}
@@ -415,6 +476,9 @@ func (r *{{camelCase .Name}}Resource) Configure(_ context.Context, req resource.
 	}
 
 	r.client = req.ProviderData.(*MerakiProviderData).Client
+	{{- if isSingleton .}}
+	r.restoreOriginalStateOnDestroy = req.ProviderData.(*MerakiProviderData).RestoreOriginalStateOnDestroy
+	{{- end}}
 }
 
 // End of section. //template:end model
@@ -423,6 +487,7 @@ func (r *{{camelCase .Name}}Resource) Configure(_ context.Context, req resource.
 
 func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan {{camelCase .Name}}
+	var identity {{camelCase .Name}}Identity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -431,6 +496,19 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+
+	{{- if isSingleton .}}
+	// If the resource is a singleton, we need to read and save the initial state
+	if r.restoreOriginalStateOnDestroy {
+		var initialState {{camelCase .Name}}
+		gres, err := r.client.Get(plan.getPath())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
+	}
+	{{- end}}
 
 	// Create object
 	body := plan.toBody(ctx, {{camelCase .Name}}{})
@@ -450,6 +528,7 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 	plan.Id = types.StringValue(res.Get("{{.IdName}}").String())
 	{{- end}}
 	plan.fromBodyUnknowns(ctx, res)
+	identity.toIdentity(ctx, &plan)
 
 	{{- if .PostAndPut}}
 	res, err = r.client.Put(plan.getPath() + "/" + url.QueryEscape(plan.Id.ValueString()), body)
@@ -463,6 +542,8 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
@@ -473,11 +554,21 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 
 func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state {{camelCase .Name}}
+	var identity {{camelCase .Name}}Identity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
+	}
+
+	// Read identity if available (requires Terraform >= 1.12.0)
+	if req.Identity != nil && !req.Identity.Raw.IsNull() {
+		diags = req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+		state.fromIdentity(ctx, &identity)
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
@@ -489,6 +580,9 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	{{- end}}
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -523,10 +617,13 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	}
 
 	{{- end}}
+	identity.toIdentity(ctx, &state)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", state.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
@@ -538,6 +635,7 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 
 func (r *{{camelCase .Name}}Resource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state {{camelCase .Name}}
+	var identity {{camelCase .Name}}Identity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -571,6 +669,9 @@ func (r *{{camelCase .Name}}Resource) Update(ctx context.Context, req resource.U
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
+	identity.toIdentity(ctx, &plan)
+	diags = resp.Identity.Set(ctx, &identity)
+	resp.Diagnostics.Append(diags...)
 }
 
 // End of section. //template:end update
@@ -588,7 +689,30 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 
-	{{- if hasDestroyValues .Attributes}}
+	{{- if isSingleton .}}
+	if r.restoreOriginalStateOnDestroy {
+		// Restore the saved initial state on destroy
+		jsonInitialState, diags := helpers.GetJsonInitialState(ctx, req)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		res, err := r.client.Put(state.getPath(), jsonInitialState)
+		if err != nil {
+			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
+	}
+	{{- if hasDestroyValues .Attributes}} else {
+		body := state.toDestroyBody(ctx)
+		res, err := r.client.Put(state.getPath(), body)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
+	}
+	{{- end}}
+	{{- else if hasDestroyValues .Attributes}}
 	body := state.toDestroyBody(ctx)
 	res, err := r.client.Put(state.getPath(), body)
 	if err != nil {
@@ -613,22 +737,38 @@ func (r *{{camelCase .Name}}Resource) Delete(ctx context.Context, req resource.D
 // Section below is generated&owned by "gen/generator.go". //template:begin import
 {{- if not .NoImport}}
 func (r *{{camelCase .Name}}Resource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	idParts := strings.Split(req.ID, ",")
+	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
+		idParts := strings.Split(req.ID, ",")
 
-	if len(idParts) != {{len (importAttributes .)}}{{range $index, $attr := (importAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
-		resp.Diagnostics.AddError(
-			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: {{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}. Got: %q", req.ID),
-		)
-		return
+		if len(idParts) != {{len (importAttributes .)}}{{range $index, $attr := (importAttributes .)}} || idParts[{{$index}}] == ""{{end}} {
+			resp.Diagnostics.AddError(
+				"Unexpected Import Identifier",
+				fmt.Sprintf("Expected import identifier with format: {{range $i, $e := (importAttributes .)}}{{if $i}},{{end}}<{{.TfName}}>{{end}}. Got: %q", req.ID),
+			)
+			return
+		}
+
+		{{- range $index, $attr := (importAttributes .)}}
+		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
+		{{- if $attr.Id}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
+		{{- end}}
+		{{- end}}
+	} else {
+		var identity {{camelCase .Name}}Identity
+		diags := req.Identity.Get(ctx, &identity)
+		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+			return
+		}
+
+		{{- range (importAttributes .)}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), identity.{{toGoName .TfName}}.Value{{.Type}}())...)
+		{{- if .Id}}
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.{{toGoName .TfName}}.Value{{.Type}}())...)
+		{{- end}}
+		{{- end}}
 	}
-
-	{{- range $index, $attr := (importAttributes .)}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("{{.TfName}}"), {{if eq .Type "Bool"}}helpers.Must(strconv.ParseBool(idParts[{{$index}}])){{else if eq .Type "Int64"}}helpers.Must(strconv.ParseInt(idParts[{{$index}}])){{else if eq .Type "Float64"}}helpers.Must(strconv.ParseFloat(idParts[{{$index}}])){{else}}idParts[{{$index}}]{{end}})...)
-	{{- if $attr.Id}}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[{{$index}}])...)
-	{{- end}}
-	{{- end}}
 
 	helpers.SetFlagImporting(ctx, true, resp.Private, &resp.Diagnostics)
 }

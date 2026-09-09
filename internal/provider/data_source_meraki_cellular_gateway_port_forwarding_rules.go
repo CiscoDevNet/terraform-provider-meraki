@@ -120,7 +120,7 @@ func (d *CellularGatewayPortForwardingRulesDataSource) Configure(_ context.Conte
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CellularGatewayPortForwardingRulesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CellularGatewayPortForwardingRules
+	var config DataSourceCellularGatewayPortForwardingRules
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

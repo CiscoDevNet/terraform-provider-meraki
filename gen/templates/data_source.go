@@ -136,24 +136,64 @@ func (d *{{camelCase .Name}}DataSource) Schema(ctx context.Context, req datasour
 													Sensitive:           true,
 													{{- end}}
 												},
+												{{- if and .Sensitive (eq .Type "String")}}
+												"{{.TfName}}_wo": schema.StringAttribute{
+													MarkdownDescription: "Write-only attribute.",
+													Computed:            true,
+												},
+												"{{.TfName}}_wo_version": schema.Int64Attribute{
+													MarkdownDescription: "Version of {{.TfName}}_wo.",
+													Computed:            true,
+												},
+												{{- end}}
 												{{- end}}
 												{{- end}}
 											},
 										},
 										{{- end}}
 									},
+									{{- if and .Sensitive (eq .Type "String")}}
+									"{{.TfName}}_wo": schema.StringAttribute{
+										MarkdownDescription: "Write-only attribute.",
+										Computed:            true,
+									},
+									"{{.TfName}}_wo_version": schema.Int64Attribute{
+										MarkdownDescription: "Version of {{.TfName}}_wo.",
+										Computed:            true,
+									},
+									{{- end}}
 									{{- end}}
 									{{- end}}
 								},
 							},
 							{{- end}}
 						},
+						{{- if and .Sensitive (eq .Type "String")}}
+						"{{.TfName}}_wo": schema.StringAttribute{
+							MarkdownDescription: "Write-only attribute.",
+							Computed:            true,
+						},
+						"{{.TfName}}_wo_version": schema.Int64Attribute{
+							MarkdownDescription: "Version of {{.TfName}}_wo.",
+							Computed:            true,
+						},
+						{{- end}}
 						{{- end}}
 						{{- end}}
 					},
 				},
 				{{- end}}
 			},
+			{{- if and .Sensitive (eq .Type "String")}}
+			"{{.TfName}}_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"{{.TfName}}_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of {{.TfName}}_wo.",
+				Computed:            true,
+			},
+			{{- end}}
 			{{- end}}
 			{{- end}}
 		},
@@ -184,7 +224,7 @@ func (d *{{camelCase .Name}}DataSource) Configure(_ context.Context, req datasou
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config {{camelCase .Name}}
+	var config DataSource{{camelCase .Name}}
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

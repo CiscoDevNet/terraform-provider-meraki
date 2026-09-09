@@ -143,12 +143,23 @@ test_prerequisites: |
     name      = "A cool stack"
     serials   = meraki_network_device_claim.test.serials
   }
+  resource "meraki_switch_stack_routing_interface" "test_uplink" {
+    network_id = meraki_network.test.id
+    switch_stack_id = meraki_switch_stack.test.id
+    default_gateway = "192.168.2.1"
+    interface_ip = "192.168.2.2"
+    name = "L3 interface Uplink"
+    subnet = "192.168.2.0/24"
+    vlan_id = 101
+    uplink_v4 = true
+    static_v4_dns1 = "8.8.8.8"
+  }
   resource "meraki_switch_stack_routing_interface" "test" {
     network_id = meraki_network.test.id
     switch_stack_id = meraki_switch_stack.test.id
-    default_gateway = "192.168.1.1"
     interface_ip = "192.168.1.2"
     name = "L3 interface"
     subnet = "192.168.1.0/24"
     vlan_id = 100
+    depends_on = [meraki_switch_stack_routing_interface.test_uplink]
   }

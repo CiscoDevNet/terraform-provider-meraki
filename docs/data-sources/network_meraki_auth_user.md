@@ -39,6 +39,8 @@ data "meraki_network_meraki_auth_user" "example" {
 - `email_password_to_user` (Boolean) Whether or not Meraki should email the password to user. Default is false.
 - `is_admin` (Boolean) Whether or not the user is a Dashboard administrator.
 - `password` (String, Sensitive) The password for this user account. Only required If the user is not a Dashboard administrator.
+- `password_wo` (String) Write-only attribute.
+- `password_wo_version` (Number) Version of password_wo.
 
 <a id="nestedatt--authorizations"></a>
 ### Nested Schema for `authorizations`

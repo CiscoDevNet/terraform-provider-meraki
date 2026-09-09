@@ -81,6 +81,7 @@ attributes:
         id: true
         mandatory: true
         description: The name of the realm
+        example: Realm 1
       - model_name: methods
         type: List
         description: An array of EAP methods for the realm.

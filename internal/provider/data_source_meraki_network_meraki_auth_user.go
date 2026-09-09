@@ -97,6 +97,14 @@ func (d *NetworkMerakiAuthUserDataSource) Schema(ctx context.Context, req dataso
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"password_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"password_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of password_wo.",
+				Computed:            true,
+			},
 			"authorizations": schema.ListNestedAttribute{
 				MarkdownDescription: "Authorization zones and expiration dates for the user.",
 				Computed:            true,
@@ -138,7 +146,7 @@ func (d *NetworkMerakiAuthUserDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkMerakiAuthUserDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkMerakiAuthUser
+	var config DataSourceNetworkMerakiAuthUser
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

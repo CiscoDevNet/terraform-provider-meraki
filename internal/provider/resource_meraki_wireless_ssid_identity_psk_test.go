@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -32,22 +34,27 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiWirelessSSIDIdentityPSK(t *testing.T) {
+	if os.Getenv("WIRELESS_SSID_IDENTITY_PSK") == "" {
+		t.Skip("skipping test, set environment variable WIRELESS_SSID_IDENTITY_PSK")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_identity_psk.test", "expires_at", "2018-02-11T00:00:00.090209Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_identity_psk.test", "expires_at", "2030-02-11T00:00:00.090209Z"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_identity_psk.test", "name", "Sample Identity PSK"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_identity_psk.test", "passphrase", "Cisco123"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessSSIDIdentityPSKPrerequisitesConfig + testAccMerakiWirelessSSIDIdentityPSKConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessSSIDIdentityPSKPrerequisitesConfig + testAccMerakiWirelessSSIDIdentityPSKConfig_all(),
+		Config: testAccMerakiWirelessSSIDIdentityPSKPrerequisitesConfig + testAccMerakiWirelessSSIDIdentityPSKConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -62,7 +69,10 @@ func TestAccMerakiWirelessSSIDIdentityPSK(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -125,15 +135,20 @@ func testAccMerakiWirelessSSIDIdentityPSKConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiWirelessSSIDIdentityPSKConfig_all() string {
+func testAccMerakiWirelessSSIDIdentityPSKConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_wireless_ssid_identity_psk" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  number = meraki_wireless_ssid.test.id` + "\n"
-	config += `  expires_at = "2018-02-11T00:00:00.090209Z"` + "\n"
+	config += `  expires_at = "2030-02-11T00:00:00.090209Z"` + "\n"
 	config += `  group_policy_id = meraki_network_group_policy.test.id` + "\n"
 	config += `  name = "Sample Identity PSK"` + "\n"
-	config += `  passphrase = "Cisco123"` + "\n"
+	if includeWriteOnly {
+		config += `  passphrase = "Cisco123"` + "\n"
+		config += `  passphrase_wo = "Cisco123"` + "\n"
+		config += `  passphrase_wo_version = 1` + "\n"
+	} else {
+		config += `  passphrase = "Cisco123"` + "\n"
+	}
 	config += `}` + "\n"
 	return config
 }

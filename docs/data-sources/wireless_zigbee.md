@@ -34,4 +34,6 @@ data "meraki_wireless_zigbee" "example" {
 - `iot_controller_serial` (String) Device Serial number
 - `lock_management_address` (String) Host Address
 - `lock_management_password` (String, Sensitive) Password
+- `lock_management_password_wo` (String) Write-only attribute.
+- `lock_management_password_wo_version` (Number) Version of lock_management_password_wo.
 - `lock_management_username` (String) Username

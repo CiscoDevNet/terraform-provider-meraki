@@ -30,6 +30,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -37,6 +38,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
+
+// Ensure provider defined types fully satisfy framework interfaces
+var _ provider.ProviderWithActions = &MerakiProvider{}
+
 
 // MerakiProvider defines the provider implementation.
 type MerakiProvider struct {
@@ -54,11 +59,13 @@ type MerakiProviderModel struct {
 	Retries    types.Int64  `tfsdk:"retries"`
 	RequestsPerSecond types.Int64 `tfsdk:"requests_per_second"`
 	RetryOnErrorCodes types.Set `tfsdk:"retry_on_error_codes"`
+	RestoreOriginalStateOnDestroy types.Bool `tfsdk:"restore_original_state_on_destroy"`
 }
 
 // MerakiProviderData describes the data maintained by the provider.
 type MerakiProviderData struct {
 	Client      *meraki.Client
+	RestoreOriginalStateOnDestroy bool
 }
 
 // Metadata returns the provider type name.
@@ -100,6 +107,10 @@ func (p *MerakiProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 			"retry_on_error_codes": schema.SetAttribute{
 				MarkdownDescription: "A list of HTTP error codes to retry on. This can also be set as the MERAKI_RETRY_ON_ERROR_CODES environment variable using a comma separated list.",
 				ElementType:         types.Int64Type,
+				Optional:            true,
+			},
+			"restore_original_state_on_destroy": schema.BoolAttribute{
+				MarkdownDescription: "**Experimental.** Whether to restore the original state of singleton resources on destroy. If enabled, the provider will capture the initial state of singleton resources during creation and restore it when the resource is destroyed. This feature is experimental and may change in future releases. This can also be set as the MERAKI_RESTORE_ORIGINAL_STATE_ON_DESTROY environment variable. Defaults to `false`.",
 				Optional:            true,
 			},
 		},
@@ -256,6 +267,22 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		config.RetryOnErrorCodes.ElementsAs(ctx, &retryOnErrorCodes, false)
 	}
 
+	var restoreOriginalStateOnDestroy bool
+	if config.RestoreOriginalStateOnDestroy.IsUnknown() {
+		resp.Diagnostics.AddWarning(
+			"Unable to create client",
+			"Cannot use unknown value as restore_original_state_on_destroy",
+		)
+		return
+	}
+
+	if config.RestoreOriginalStateOnDestroy.IsNull() {
+		restoreOriginalStateOnDestroyStr := os.Getenv("MERAKI_RESTORE_ORIGINAL_STATE_ON_DESTROY")
+		restoreOriginalStateOnDestroy = restoreOriginalStateOnDestroyStr == "true" || restoreOriginalStateOnDestroyStr == "True"
+	} else {
+		restoreOriginalStateOnDestroy = config.RestoreOriginalStateOnDestroy.ValueBool()
+	}
+
 	tflog.Debug(ctx, fmt.Sprint("Creating a new Meraki client",
 		"  base_url=", baseUrl,
 		"  req_timeout=", reqTimeout,
@@ -282,15 +309,16 @@ func (p *MerakiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	}
 
 	c.UserAgent = fmt.Sprintf("MerakiTerraform/%s Cisco", p.version)
-	data := MerakiProviderData{Client: &c}
+	data := MerakiProviderData{Client: &c, RestoreOriginalStateOnDestroy: restoreOriginalStateOnDestroy}
 	resp.DataSourceData = &data
 	resp.ResourceData = &data
+	resp.ActionData = &data
 }
 
 func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		{{- range .}}
-		{{- if not .NoResource}}
+		{{- if and (not .NoResource) (not .Action)}}
 		New{{camelCase .Name}}Resource,
 		{{- end}}
 		{{- if .BulkResource}}
@@ -303,11 +331,21 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		{{- range .}}
-		{{- if not .NoDataSource}}
+		{{- if and (not .NoDataSource) (not .Action)}}
 		New{{camelCase .Name}}DataSource,
 		{{- end}}
 		{{- if .BulkDataSource}}
 		New{{camelCase .BulkName}}DataSource,
+		{{- end}}
+		{{- end}}
+	}
+}
+
+func (p *MerakiProvider) Actions(ctx context.Context) []func() action.Action {
+	return []func() action.Action{
+		{{- range .}}
+		{{- if .Action}}
+		New{{camelCase .Name}}Action,
 		{{- end}}
 		{{- end}}
 	}

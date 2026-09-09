@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -94,6 +96,7 @@ func TestAccMerakiCameraQualityRetentionProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_quality_retention_profile.test", "video_settings_mv93_x_resolution", "1080x1080"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiCameraQualityRetentionProfilePrerequisitesConfig + testAccMerakiCameraQualityRetentionProfileConfig_minimum(),
@@ -115,7 +118,10 @@ func TestAccMerakiCameraQualityRetentionProfile(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -166,7 +172,6 @@ func testAccMerakiCameraQualityRetentionProfileConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiCameraQualityRetentionProfileConfig_all() string {
 	config := `resource "meraki_camera_quality_retention_profile" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"

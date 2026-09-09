@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -54,6 +56,7 @@ func TestAccMerakiApplianceVLAN(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "mandatory_dhcp_enabled", "true"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceVLANPrerequisitesConfig + testAccMerakiApplianceVLANConfig_minimum(),
@@ -75,7 +78,10 @@ func TestAccMerakiApplianceVLAN(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -133,7 +139,6 @@ func testAccMerakiApplianceVLANConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiApplianceVLANConfig_all() string {
 	config := `resource "meraki_appliance_vlan" "test" {` + "\n"
 	config += `  network_id = meraki_appliance_vlans_settings.test.network_id` + "\n"

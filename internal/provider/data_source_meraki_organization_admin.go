@@ -144,7 +144,7 @@ func (d *OrganizationAdminDataSource) Configure(_ context.Context, req datasourc
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationAdminDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationAdmin
+	var config DataSourceOrganizationAdmin
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

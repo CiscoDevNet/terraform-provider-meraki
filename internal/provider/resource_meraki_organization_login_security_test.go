@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -49,6 +51,7 @@ func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "password_expiration_days", "90"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiOrganizationLoginSecurityPrerequisitesConfig + testAccMerakiOrganizationLoginSecurityConfig_minimum(),
@@ -70,7 +73,10 @@ func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -113,7 +119,6 @@ func testAccMerakiOrganizationLoginSecurityConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiOrganizationLoginSecurityConfig_all() string {
 	config := `resource "meraki_organization_login_security" "test" {` + "\n"
 	config += `  organization_id = meraki_organization.test.id` + "\n"

@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -39,6 +41,7 @@ func TestAccMerakiApplianceDNSLocalProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_dns_local_profile.test", "name", "Default profile"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceDNSLocalProfilePrerequisitesConfig + testAccMerakiApplianceDNSLocalProfileConfig_minimum(),
@@ -60,7 +63,10 @@ func TestAccMerakiApplianceDNSLocalProfile(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -105,7 +111,6 @@ func testAccMerakiApplianceDNSLocalProfileConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiApplianceDNSLocalProfileConfig_all() string {
 	config := `resource "meraki_appliance_dns_local_profile" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"

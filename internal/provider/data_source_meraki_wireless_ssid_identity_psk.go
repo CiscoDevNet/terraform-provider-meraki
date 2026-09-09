@@ -93,6 +93,14 @@ func (d *WirelessSSIDIdentityPSKDataSource) Schema(ctx context.Context, req data
 				Computed:            true,
 				Sensitive:           true,
 			},
+			"passphrase_wo": schema.StringAttribute{
+				MarkdownDescription: "Write-only attribute.",
+				Computed:            true,
+			},
+			"passphrase_wo_version": schema.Int64Attribute{
+				MarkdownDescription: "Version of passphrase_wo.",
+				Computed:            true,
+			},
 		},
 	}
 }
@@ -118,7 +126,7 @@ func (d *WirelessSSIDIdentityPSKDataSource) Configure(_ context.Context, req dat
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDIdentityPSKDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDIdentityPSK
+	var config DataSourceWirelessSSIDIdentityPSK
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

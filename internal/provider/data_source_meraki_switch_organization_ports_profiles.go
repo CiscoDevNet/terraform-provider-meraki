@@ -87,6 +87,10 @@ func (d *SwitchOrganizationPortsProfilesDataSource) Schema(ctx context.Context, 
 							MarkdownDescription: "The network identifier",
 							Computed:            true,
 						},
+						"authentication_host_mode": schema.StringAttribute{
+							MarkdownDescription: "The host mode override for RADIUS-based port profile application. Supported values are `single-host` and `multi-host`.",
+							Computed:            true,
+						},
 						"networks_type": schema.StringAttribute{
 							MarkdownDescription: "Flag to identify if the networks networks are excluded or included",
 							Computed:            true,

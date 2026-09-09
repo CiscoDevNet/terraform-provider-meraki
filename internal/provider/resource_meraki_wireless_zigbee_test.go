@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -47,13 +49,15 @@ func TestAccMerakiWirelessZigbee(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_zigbee.test", "lock_management_username", "user"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessZigbeePrerequisitesConfig + testAccMerakiWirelessZigbeeConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessZigbeePrerequisitesConfig + testAccMerakiWirelessZigbeeConfig_all(),
+		Config: testAccMerakiWirelessZigbeePrerequisitesConfig + testAccMerakiWirelessZigbeeConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -68,7 +72,10 @@ func TestAccMerakiWirelessZigbee(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -123,8 +130,7 @@ func testAccMerakiWirelessZigbeeConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiWirelessZigbeeConfig_all() string {
+func testAccMerakiWirelessZigbeeConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_wireless_zigbee" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  enabled = false` + "\n"
@@ -132,7 +138,13 @@ func testAccMerakiWirelessZigbeeConfig_all() string {
 	config += `  defaults_transmit_power_level = 10` + "\n"
 	config += `  iot_controller_serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `  lock_management_address = "10.100.100.200"` + "\n"
-	config += `  lock_management_password = "password"` + "\n"
+	if includeWriteOnly {
+		config += `  lock_management_password = "password"` + "\n"
+		config += `  lock_management_password_wo = "password"` + "\n"
+		config += `  lock_management_password_wo_version = 1` + "\n"
+	} else {
+		config += `  lock_management_password = "password"` + "\n"
+	}
 	config += `  lock_management_username = "user"` + "\n"
 	config += `}` + "\n"
 	return config

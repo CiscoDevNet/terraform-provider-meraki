@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -46,6 +48,7 @@ func TestAccMerakiApplianceL3FirewallRules(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_l3_firewall_rules.test", "rules.0.syslog_enabled", "false"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceL3FirewallRulesPrerequisitesConfig + testAccMerakiApplianceL3FirewallRulesConfig_minimum(),
@@ -66,11 +69,17 @@ func TestAccMerakiApplianceL3FirewallRules(t *testing.T) {
 	steps = append(steps, resource.TestStep{
 		Config: testAccMerakiApplianceL3FirewallRulesPrerequisitesConfig + testAccApplianceL3FirewallRulesConfigAdditional0,
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceL3FirewallRulesPrerequisitesConfig + testAccApplianceL3FirewallRulesConfigAdditional1,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -125,7 +134,6 @@ func testAccMerakiApplianceL3FirewallRulesConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiApplianceL3FirewallRulesConfig_all() string {
 	config := `resource "meraki_appliance_l3_firewall_rules" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
@@ -156,6 +164,35 @@ resource "meraki_appliance_l3_firewall_rules" "test" {
     policy = "allow"
     protocol = "any"
     src_cidr = "Any"
+  }]
+}
+`
+
+const testAccApplianceL3FirewallRulesConfigAdditional1 = `
+resource "meraki_organization_policy_object" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = "test_policy_object"
+  category        = "network"
+  type            = "cidr"
+  cidr            = "10.10.10.1"
+}
+resource "meraki_organization_policy_object_group" "test" {
+  organization_id = data.meraki_organization.test.id
+  name            = "test_policy_group"
+  category        = "NetworkObjectGroup"
+  object_ids      = [meraki_organization_policy_object.test.id]
+}
+resource "meraki_appliance_l3_firewall_rules" "test" {
+  network_id = meraki_network.test.id
+  rules = [{
+    comment        = "Policy object based rule"
+    dest_cidr      = "GRP(${meraki_organization_policy_object_group.test.id}),OBJ(${meraki_organization_policy_object.test.id})"
+    dest_port      = "443"
+    policy         = "allow"
+    protocol       = "tcp"
+    src_cidr       = "Any"
+    src_port       = "Any"
+    syslog_enabled = false
   }]
 }
 `

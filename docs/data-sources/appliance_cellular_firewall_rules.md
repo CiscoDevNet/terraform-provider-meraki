@@ -36,10 +36,10 @@ data "meraki_appliance_cellular_firewall_rules" "example" {
 Read-Only:
 
 - `comment` (String) Description of the rule (optional)
-- `dest_cidr` (String) Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN) or `any`
+- `dest_cidr` (String) Comma-separated list of destination IP address(es) (in IP or CIDR notation), fully-qualified domain names (FQDN), `any`, policy objects using format `OBJ(<policy_object_id>)`, or policy object groups using format `GRP(<policy_object_group_id>)`
 - `dest_port` (String) Comma-separated list of destination port(s) (integer in the range 1-65535), or `any`
 - `policy` (String) `allow` or `deny` traffic specified by this rule
 - `protocol` (String) The type of protocol (must be `tcp`, `udp`, `icmp`, `icmp6` or `any`)
-- `src_cidr` (String) Comma-separated list of source IP address(es) (in IP or CIDR notation), or `any` (note: FQDN not supported for source addresses)
+- `src_cidr` (String) Comma-separated list of source IP address(es) (in IP or CIDR notation), `any` (note: FQDN not supported for source addresses), policy objects using format `OBJ(<policy_object_id>)`, or policy object groups using format `GRP(<policy_object_group_id>)`
 - `src_port` (String) Comma-separated list of source port(s) (integer in the range 1-65535), or `any`
 - `syslog_enabled` (Boolean) Log this rule to syslog (true or false, boolean value) - only applicable if a syslog has been configured (optional)

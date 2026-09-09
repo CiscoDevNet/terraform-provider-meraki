@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -58,13 +60,15 @@ func TestAccMerakiApplianceVPNBGP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.path_prepend.0", "1"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceVPNBGPPrerequisitesConfig + testAccMerakiApplianceVPNBGPConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiApplianceVPNBGPPrerequisitesConfig + testAccMerakiApplianceVPNBGPConfig_all(),
+		Config: testAccMerakiApplianceVPNBGPPrerequisitesConfig + testAccMerakiApplianceVPNBGPConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -79,7 +83,10 @@ func TestAccMerakiApplianceVPNBGP(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -133,8 +140,7 @@ func testAccMerakiApplianceVPNBGPConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiApplianceVPNBGPConfig_all() string {
+func testAccMerakiApplianceVPNBGPConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_appliance_vpn_bgp" "test" {` + "\n"
 	config += `  network_id = meraki_appliance_site_to_site_vpn.test.network_id` + "\n"
 	config += `  as_number = 64515` + "\n"
@@ -151,7 +157,13 @@ func testAccMerakiApplianceVPNBGPConfig_all() string {
 	config += `    remote_as_number = 64343` + "\n"
 	config += `    source_interface = "wan1"` + "\n"
 	config += `    weight = 10` + "\n"
-	config += `    authentication_password = "abc123"` + "\n"
+	if includeWriteOnly {
+		config += `    authentication_password = "abc123"` + "\n"
+		config += `    authentication_password_wo = "abc123"` + "\n"
+		config += `    authentication_password_wo_version = 1` + "\n"
+	} else {
+		config += `    authentication_password = "abc123"` + "\n"
+	}
 	config += `    ipv6_address = "2002::1234:abcd:ffff:c0a8:101"` + "\n"
 	config += `    ttl_security_enabled = false` + "\n"
 	config += `    path_prepend = [1]` + "\n"

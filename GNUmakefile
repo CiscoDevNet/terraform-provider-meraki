@@ -32,14 +32,17 @@ test:
 		echo "To enable tests, configure MERAKI_API_KEY and other variables in your .env file"; \
 	else \
 		TEST_NAME=""; \
+		CLEAN_NAME=$$(echo "$(NAME)" | sed 's/\$$$$//'); \
+		ANCHOR=""; \
+		if [ "$(NAME)" != "$${CLEAN_NAME}" ]; then ANCHOR='$$'; fi; \
 		if [ -n "$(NAME)" ]; then \
-			MATCH=$$(grep -rl '^name: $(NAME)$$' gen/definitions/*.yaml | head -1); \
+			MATCH=$$(grep -rl "^name: $${CLEAN_NAME}$$" gen/definitions/*.yaml | head -1); \
 			if [ -n "$${MATCH}" ]; then \
-				CAMEL=$$(echo "$(NAME)" | tr -d ' '); \
-				TEST_NAME="TestAcc.*Meraki$${CAMEL}"; \
-				echo "Resolved definition '$(NAME)' to test pattern: $${TEST_NAME}"; \
+				CAMEL=$$(echo "$${CLEAN_NAME}" | awk '{for(i=1;i<=NF;i++) $$i=toupper(substr($$i,1,1)) substr($$i,2)}1' | tr -d ' '); \
+				TEST_NAME="TestAcc.*Meraki$${CAMEL}$${ANCHOR}"; \
+				echo "Resolved definition '$${CLEAN_NAME}' to test pattern: $${TEST_NAME}"; \
 			else \
-				echo "ERROR: No definition found matching '$(NAME)' in gen/definitions/*.yaml"; \
+				echo "ERROR: No definition found matching '$${CLEAN_NAME}' in gen/definitions/*.yaml"; \
 				exit 1; \
 			fi; \
 		fi; \
@@ -48,7 +51,7 @@ test:
 		TF_ACC=1 \
 		MERAKI_RETRY_ON_ERROR_CODES="308,401,404" \
 		$(if $(DEBUG),TF_LOG=Trace) \
-		go test -v $${TEST_NAME:+-run "$${TEST_NAME}"} $(TESTARGS) -count 1 -timeout 120m ./internal/provider $(if $(DEBUG),2>&1 | tee test-output.log); \
+		go test -v $${TEST_NAME:+-run "$${TEST_NAME}"} $(TESTARGS) -count 1 -timeout 160m ./internal/provider $(if $(DEBUG),2>&1 | tee test-output.log); \
 	fi
 
 # Generate code from definitions

@@ -7,6 +7,48 @@ description: |-
 
 # Changelog
 
+## Unreleased
+
+- Add `meraki_generate_appliance_vmx_authentication_token` action
+- Add `meraki_reboot_device` action
+- Add `meraki_blink_device_leds` action
+
+## 1.13.0
+
+- Add `meraki_network_firmware_upgrades_rollback` resource
+- Add `is_upgrade_available`, `current_version`, `last_upgrade`, extra `next_upgrade.to_version`, and `available_versions` attributes to `meraki_network_firmware_upgrades` data source
+- Only send `products.*.next_upgrade.*` attributes to the API when changed for a given product in `meraki_network_firmware_upgrades` resource, so other products' previously-scheduled upgrades are preserved in the config
+- Preserve attributes that the API explicitly returned as `null` in the saved initial state used by `restore_original_state_on_destroy`, so they are restored on destroy instead of being silently dropped
+- Fix write-only attributes (`_wo`) requiring the base sensitive attribute to also be set in `meraki_network_snmp` (`users[*].passphrase`), `meraki_appliance_third_party_vpn_peers` (`peers[*].secret`), `meraki_network_meraki_auth_user` (`password`), `meraki_organization_auth_radius_server` (`secret`), and `meraki_wireless_location_scanning_receiver` (`shared_secret`), [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/243)
+- Fix "Missing Resource Identity After Read" provider error for resources with custom read implementations (`meraki_appliance_firewall_multicast_forwarding`, `meraki_appliance_traffic_shaping_vpn_exclusions`, `meraki_wireless_air_marshal_rule`, `meraki_wireless_air_marshal_settings`, `meraki_wireless_location_scanning`, `meraki_wireless_ssid_open_roaming`, `meraki_wireless_zigbee`, and others) when deleted out-of-band
+- Add `wan1_vrf_name` and `wan2_vrf_name` attributes to `meraki_device_management_interface` resource and data source
+
+## 1.12.2
+
+- Fix "Missing Resource Identity After Read" provider error when a resource was first created with Terraform < 1.12 and has since been deleted out-of-band
+- Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
+- Fix idempotency issue with `vpn_traffic_uplink_preferences[].traffic_filters`, `wan_traffic_uplink_preferences[].traffic_filters` attributes of `meraki_appliance_traffic_shaping_uplink_selection` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/235)
+
+## 1.12.1
+
+- Fix "Missing Resource Identity After Update" provider error when updating resources with Terraform versions not supporting resource identity (< 1.12)
+
+## 1.12.0
+
+- EXPERIMENTAL: Add `restore_original_state_on_destroy` provider attribute to opt in to restoring the original API state of singleton resources on destroy. When enabled, the provider captures the initial state during resource creation and restores it when the resource is destroyed. This feature is experimental and may change in future releases. See the [Restore State on Destroy guide](https://registry.terraform.io/providers/CiscoDevNet/meraki/latest/docs/guides/restore_state_on_destroy) for details and limitations.
+- Add resource identity support for Terraform 1.12+ import blocks, with backward compatibility for older Terraform versions
+- Add `meraki_organization_integrations_xdr_networks` resource and data source
+- Add `meraki_network_vlan_profile_assignment` resource and data source
+- Add write-only attribute support (`_wo` / `_wo_version` siblings) for sensitive string attributes, compatible with Terraform 1.11+
+
+## 1.11.0
+
+- Add support for policy objects (`OBJ(<id>)`) and policy object groups (`GRP(<id>)`) in `src_cidr` and `dest_cidr` fields of `meraki_appliance_l3_firewall_rules` and `meraki_appliance_cellular_firewall_rules` resources.[link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/201)
+- Add `candidate_uplink_v4`, `is_switch_default_gateway`, `static_v4_dns1`, `static_v4_dns2`, `uplink_v4`, `uplink_v6`, `ipv6_candidate_uplink`, `ipv6_is_switch_default_gateway`, `ipv6_static_v6_dns1`, `ipv6_static_v6_dns2` attributes to `meraki_switch_routing_interface` resources and data sources
+- Add `candidate_uplink_v4`, `is_switch_default_gateway`, `static_v4_dns1`, `static_v4_dns2`, `uplink_v4`, `uplink_v6`, `ipv6_candidate_uplink`, `ipv6_is_switch_default_gateway`, `ipv6_static_v6_dns1`, `ipv6_static_v6_dns2` attributes to `meraki_switch_stack_routing_interface` resources and data sources
+- Add `authentication_host_mode` attribute to `meraki_switch_organization_ports_profile` resource and data sources
+- Add `items.id` attribute to `meraki_appliance_vpn_site_to_site_ipsec_peers_slas` resource and data source
+
 ## 1.10.0
 
 - Mark sensitive attributes (passwords, secrets, PSKs, passphrases, tokens, SNMP community strings) to prevent exposure in plan output and logs

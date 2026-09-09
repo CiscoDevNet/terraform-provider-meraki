@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -44,10 +46,11 @@ func TestAccMerakiWirelessSSIDHotspot20(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "mcc_mncs.0.mcc", "123"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "mcc_mncs.0.mnc", "456"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.format", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.realm", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.realm", "Realm 1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_hotspot_20.test", "nai_realms.0.methods.0.id", "1"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessSSIDHotspot20PrerequisitesConfig + testAccMerakiWirelessSSIDHotspot20Config_minimum(),
@@ -69,7 +72,10 @@ func TestAccMerakiWirelessSSIDHotspot20(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -126,7 +132,6 @@ func testAccMerakiWirelessSSIDHotspot20Config_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiWirelessSSIDHotspot20Config_all() string {
 	config := `resource "meraki_wireless_ssid_hotspot_20" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
@@ -143,7 +148,7 @@ func testAccMerakiWirelessSSIDHotspot20Config_all() string {
 	config += `  }]` + "\n"
 	config += `  nai_realms = [{` + "\n"
 	config += `    format = "1"` + "\n"
-	config += `    realm = ""` + "\n"
+	config += `    realm = "Realm 1"` + "\n"
 	config += `    methods = [{` + "\n"
 	config += `      id = "1"` + "\n"
 	config += `      authentication_types_non_eap_inner_authentication = ["MSCHAPV2"]` + "\n"

@@ -82,13 +82,22 @@ resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
   serials    = [var.test_switch_1_serial]
 }
+resource "meraki_switch_routing_interface" "test_uplink" {
+  serial = tolist(meraki_network_device_claim.test.serials)[0]
+  default_gateway = "192.168.2.1"
+  interface_ip = "192.168.2.2"
+  name = "L3 interface Uplink"
+  subnet = "192.168.2.0/24"
+  vlan_id = 101
+  uplink_v4 = true
+}
 resource "meraki_switch_routing_interface" "test" {
   serial = tolist(meraki_network_device_claim.test.serials)[0]
-  default_gateway = "192.168.1.1"
   interface_ip = "192.168.1.2"
   name = "L3 interface"
   subnet = "192.168.1.0/24"
   vlan_id = 100
+  depends_on = [meraki_switch_routing_interface.test_uplink]
 }
 
 `

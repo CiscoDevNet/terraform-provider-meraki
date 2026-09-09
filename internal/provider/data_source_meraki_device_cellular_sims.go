@@ -110,6 +110,14 @@ func (d *DeviceCellularSIMsDataSource) Schema(ctx context.Context, req datasourc
 										Computed:            true,
 										Sensitive:           true,
 									},
+									"authentication_password_wo": schema.StringAttribute{
+										MarkdownDescription: "Write-only attribute.",
+										Computed:            true,
+									},
+									"authentication_password_wo_version": schema.Int64Attribute{
+										MarkdownDescription: "Version of authentication_password_wo.",
+										Computed:            true,
+									},
 									"authentication_type": schema.StringAttribute{
 										MarkdownDescription: "APN auth type.",
 										Computed:            true,
@@ -146,7 +154,7 @@ func (d *DeviceCellularSIMsDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *DeviceCellularSIMsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config DeviceCellularSIMs
+	var config DataSourceDeviceCellularSIMs
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

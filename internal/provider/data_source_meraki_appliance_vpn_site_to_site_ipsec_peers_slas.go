@@ -70,6 +70,10 @@ func (d *ApplianceVPNSiteToSiteIPsecPeersSLAsDataSource) Schema(ctx context.Cont
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: "SLA policy ID",
+							Computed:            true,
+						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: "SLA policy name",
 							Computed:            true,
@@ -98,7 +102,7 @@ func (d *ApplianceVPNSiteToSiteIPsecPeersSLAsDataSource) Configure(_ context.Con
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceVPNSiteToSiteIPsecPeersSLAsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceVPNSiteToSiteIPsecPeersSLAs
+	var config DataSourceApplianceVPNSiteToSiteIPsecPeersSLAs
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

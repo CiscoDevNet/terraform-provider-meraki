@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -44,13 +46,15 @@ func TestAccMerakiNetworkMQTTBroker(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_mqtt_broker.test", "security_tls_verify_hostnames", "true"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkMQTTBrokerPrerequisitesConfig + testAccMerakiNetworkMQTTBrokerConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiNetworkMQTTBrokerPrerequisitesConfig + testAccMerakiNetworkMQTTBrokerConfig_all(),
+		Config: testAccMerakiNetworkMQTTBrokerPrerequisitesConfig + testAccMerakiNetworkMQTTBrokerConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -65,7 +69,10 @@ func TestAccMerakiNetworkMQTTBroker(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -118,14 +125,19 @@ func testAccMerakiNetworkMQTTBrokerConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiNetworkMQTTBrokerConfig_all() string {
+func testAccMerakiNetworkMQTTBrokerConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_network_mqtt_broker" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  host = "1.2.3.4"` + "\n"
 	config += `  name = "MQTT_Broker_1"` + "\n"
 	config += `  port = 443` + "\n"
-	config += `  authentication_password = "*****"` + "\n"
+	if includeWriteOnly {
+		config += `  authentication_password = "*****"` + "\n"
+		config += `  authentication_password_wo = "*****"` + "\n"
+		config += `  authentication_password_wo_version = 1` + "\n"
+	} else {
+		config += `  authentication_password = "*****"` + "\n"
+	}
 	config += `  authentication_username = "milesmeraki"` + "\n"
 	config += `  security_mode = "tls"` + "\n"
 	config += `  security_tls_ca_certificate = "*****"` + "\n"

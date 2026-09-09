@@ -22,6 +22,7 @@ attributes:
   - model_name: guestGroupPolicyId
     type: String
     exclude_test: true
+    allow_import_changes: true
     description: Group policy Number for guest group policy
     example: "1234"
   - model_name: guestPortBouncing
@@ -93,6 +94,7 @@ attributes:
     type: String
     data_path: [radius]
     exclude_test: true
+    allow_import_changes: true
     description: Group policy Number for failed authentication group policy
     example: "1234"
   - model_name: failedAuthSgtId
@@ -110,6 +112,7 @@ attributes:
     type: String
     data_path: [radius]
     exclude_test: true
+    allow_import_changes: true
     description: Group policy Number for pre-authentication group policy
     example: "1234"
   - model_name: reAuthenticationInterval
@@ -121,6 +124,7 @@ attributes:
     type: String
     data_path: [radius, authentication]
     exclude_test: true
+    allow_import_changes: true
     description: Authentication mode of the policy ( Open | Closed )
     example: Open
     enum_values: [Closed, Open]
@@ -140,6 +144,7 @@ attributes:
     type: String
     data_path: [radius, criticalAuth]
     exclude_test: true
+    allow_import_changes: true
     description: Group policy Number for data VLAN
     example: "1234"
   - model_name: dataSgtId
@@ -162,6 +167,7 @@ attributes:
     type: String
     data_path: [radius, criticalAuth]
     exclude_test: true
+    allow_import_changes: true
     description: Group policy Number for voice VLAN
     example: "1234"
   - model_name: voiceSgtId

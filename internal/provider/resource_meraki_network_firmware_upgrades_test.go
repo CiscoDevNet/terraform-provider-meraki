@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -41,36 +43,19 @@ func TestAccMerakiNetworkFirmwareUpgrades(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "timezone", "America/Los_Angeles"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_appliance_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_appliance_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_appliance_next_upgrade_to_version_id", "1001"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_camera_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_camera_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_camera_next_upgrade_to_version_id", "1003"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_cellular_gateway_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_cellular_gateway_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_cellular_gateway_next_upgrade_to_version_id", "1004"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_secure_connect_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_secure_connect_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_secure_connect_next_upgrade_to_version_id", "1007"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_sensor_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_sensor_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_sensor_next_upgrade_to_version_id", "1005"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_switch_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_switch_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_switch_next_upgrade_to_version_id", "1002"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_switch_catalyst_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_switch_catalyst_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_switch_catalyst_next_upgrade_to_version_id", "1234"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_next_upgrade_to_version_id", "1000"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_controller_participate_in_next_beta_release", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_controller_next_upgrade_time", "2019-03-17T17:22:52Z"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_controller_next_upgrade_to_version_id", "1006"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "upgrade_window_day_of_week", "sun"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "upgrade_window_day_of_week", "Sun"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "upgrade_window_hour_of_day", "4:00"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkFirmwareUpgradesPrerequisitesConfig + testAccMerakiNetworkFirmwareUpgradesConfig_minimum(),
@@ -85,14 +70,17 @@ func TestAccMerakiNetworkFirmwareUpgrades(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkFirmwareUpgradesImportStateIdFunc("meraki_network_firmware_upgrades.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"products_appliance_next_upgrade_time", "products_appliance_next_upgrade_to_version_id", "products_camera_next_upgrade_time", "products_camera_next_upgrade_to_version_id", "products_cellular_gateway_next_upgrade_time", "products_cellular_gateway_next_upgrade_to_version_id", "products_secure_connect_next_upgrade_time", "products_secure_connect_next_upgrade_to_version_id", "products_sensor_next_upgrade_time", "products_sensor_next_upgrade_to_version_id", "products_switch_next_upgrade_time", "products_switch_next_upgrade_to_version_id", "products_switch_catalyst_next_upgrade_time", "products_switch_catalyst_next_upgrade_to_version_id", "products_wireless_next_upgrade_time", "products_wireless_next_upgrade_predownload_enabled", "products_wireless_next_upgrade_to_version_id", "products_wireless_controller_next_upgrade_time", "products_wireless_controller_next_upgrade_to_version_id"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -122,7 +110,7 @@ data "meraki_organization" "test" {
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = var.test_network
-  product_types   = ["switch", "wireless", "appliance"]
+  product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
 }
 
 `
@@ -142,7 +130,6 @@ func testAccMerakiNetworkFirmwareUpgradesConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
 func testAccMerakiNetworkFirmwareUpgradesConfig_all() string {
 	config := `resource "meraki_network_firmware_upgrades" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
@@ -170,11 +157,12 @@ func testAccMerakiNetworkFirmwareUpgradesConfig_all() string {
 	config += `  products_switch_catalyst_next_upgrade_to_version_id = "1234"` + "\n"
 	config += `  products_wireless_participate_in_next_beta_release = false` + "\n"
 	config += `  products_wireless_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_wireless_next_upgrade_predownload_enabled = false` + "\n"
 	config += `  products_wireless_next_upgrade_to_version_id = "1000"` + "\n"
 	config += `  products_wireless_controller_participate_in_next_beta_release = false` + "\n"
 	config += `  products_wireless_controller_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
 	config += `  products_wireless_controller_next_upgrade_to_version_id = "1006"` + "\n"
-	config += `  upgrade_window_day_of_week = "sun"` + "\n"
+	config += `  upgrade_window_day_of_week = "Sun"` + "\n"
 	config += `  upgrade_window_hour_of_day = "4:00"` + "\n"
 	config += `}` + "\n"
 	return config

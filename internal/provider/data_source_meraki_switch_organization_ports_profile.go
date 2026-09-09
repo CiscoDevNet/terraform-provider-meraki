@@ -88,6 +88,10 @@ func (d *SwitchOrganizationPortsProfileDataSource) Schema(ctx context.Context, r
 				MarkdownDescription: "The network identifier",
 				Computed:            true,
 			},
+			"authentication_host_mode": schema.StringAttribute{
+				MarkdownDescription: "The host mode override for RADIUS-based port profile application. Supported values are `single-host` and `multi-host`.",
+				Computed:            true,
+			},
 			"networks_type": schema.StringAttribute{
 				MarkdownDescription: "Flag to identify if the networks networks are excluded or included",
 				Computed:            true,
@@ -216,7 +220,7 @@ func (d *SwitchOrganizationPortsProfileDataSource) Configure(_ context.Context, 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchOrganizationPortsProfileDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchOrganizationPortsProfile
+	var config DataSourceSwitchOrganizationPortsProfile
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

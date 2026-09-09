@@ -23,8 +23,10 @@ import (
 	"os"
 	"testing"
 
+	goversion "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 )
 
 // End of section. //template:end imports
@@ -41,13 +43,15 @@ func TestAccMerakiWirelessLocationScanningReceiver(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_location_scanning_receiver.test", "radio_type", "Wi-Fi"))
 
 	var steps []resource.TestStep
+	var tfVersion *goversion.Version
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig + testAccMerakiWirelessLocationScanningReceiverConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig + testAccMerakiWirelessLocationScanningReceiverConfig_all(),
+		Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig + testAccMerakiWirelessLocationScanningReceiverConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{
@@ -62,7 +66,10 @@ func TestAccMerakiWirelessLocationScanningReceiver(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps:                    steps,
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			terraformVersionCapture{Version: &tfVersion},
+		},
+		Steps: steps,
 	})
 }
 
@@ -117,11 +124,16 @@ func testAccMerakiWirelessLocationScanningReceiverConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-
-func testAccMerakiWirelessLocationScanningReceiverConfig_all() string {
+func testAccMerakiWirelessLocationScanningReceiverConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_wireless_location_scanning_receiver" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  shared_secret = "mysecretvalue"` + "\n"
+	if includeWriteOnly {
+		config += `  shared_secret = "mysecretvalue"` + "\n"
+		config += `  shared_secret_wo = "mysecretvalue"` + "\n"
+		config += `  shared_secret_wo_version = 1` + "\n"
+	} else {
+		config += `  shared_secret = "mysecretvalue"` + "\n"
+	}
 	config += `  url = "https://www.myreceiver.com"` + "\n"
 	config += `  version = "3"` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"

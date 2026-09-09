@@ -54,7 +54,7 @@ func (d *WirelessSettingsDataSource) Metadata(_ context.Context, req datasource.
 func (d *WirelessSettingsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless settings` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless Settings` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -110,7 +110,7 @@ func (d *WirelessSettingsDataSource) Configure(_ context.Context, req datasource
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSettingsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSettings
+	var config DataSourceWirelessSettings
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
