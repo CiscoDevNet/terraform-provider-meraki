@@ -448,13 +448,10 @@ func (data *NetworkAlertsSettings) fromBodyPartial(ctx context.Context, res mera
 			},
 		)
 		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("removing Alerts[%d] = %+v",
+			tflog.Debug(ctx, fmt.Sprintf("retaining Alerts[%d] absent from API refresh = %+v",
 				i,
 				(*parent).Alerts[i],
 			))
-			(*parent).Alerts = slices.Delete((*parent).Alerts, i, i+1)
-			i--
-
 			continue
 		}
 		if value := res.Get("enabled"); value.Exists() && !data.Enabled.IsNull() {
