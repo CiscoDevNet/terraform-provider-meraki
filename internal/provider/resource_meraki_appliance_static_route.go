@@ -25,12 +25,14 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -78,13 +80,20 @@ func (r *ApplianceStaticRouteResource) Schema(ctx context.Context, req resource.
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Enable/disable the static route").String,
+				Optional:            true,
+			},
 			"gateway_ip": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Gateway IP address (next hop)").String,
 				Required:            true,
 			},
-			"gateway_vlan_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Gateway VLAN ID").String,
+			"gateway_vlan_id": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Gateway VLAN ID").AddIntegerRangeDescription(0, 4094).String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.Between(0, 4094),
+				},
 			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Name of the route").String,

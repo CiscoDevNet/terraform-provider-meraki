@@ -62,6 +62,10 @@ func downloadModel(filepath string, url string) error {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("Failed to download model (%s): HTTP %s", url, resp.Status)
+	}
+
 	out, err := os.Create(filepath)
 	if err != nil {
 		return err

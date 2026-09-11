@@ -34,7 +34,9 @@ func TestAccDataSourceMerakiApplianceStaticRoute(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "gateway_ip", "192.168.128.254"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "gateway_vlan_id", "100"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "name", "My route"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "subnet", "5.5.5.0/24"))
 	resource.Test(t, resource.TestCase{
@@ -74,7 +76,9 @@ resource "meraki_network" "test" {
 func testAccDataSourceMerakiApplianceStaticRouteConfig() string {
 	config := `resource "meraki_appliance_static_route" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  enabled = true` + "\n"
 	config += `  gateway_ip = "192.168.128.254"` + "\n"
+	config += `  gateway_vlan_id = 100` + "\n"
 	config += `  name = "My route"` + "\n"
 	config += `  subnet = "5.5.5.0/24"` + "\n"
 	config += `}` + "\n"
@@ -92,7 +96,9 @@ func testAccDataSourceMerakiApplianceStaticRouteConfig() string {
 func testAccNamedDataSourceMerakiApplianceStaticRouteConfig() string {
 	config := `resource "meraki_appliance_static_route" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  enabled = true` + "\n"
 	config += `  gateway_ip = "192.168.128.254"` + "\n"
+	config += `  gateway_vlan_id = 100` + "\n"
 	config += `  name = "My route"` + "\n"
 	config += `  subnet = "5.5.5.0/24"` + "\n"
 	config += `}` + "\n"
