@@ -12,6 +12,7 @@ description: |-
 - Add `meraki_generate_appliance_vmx_authentication_token` action
 - Add `meraki_reboot_device` action
 - Add `meraki_blink_device_leds` action
+- Fix issue with `spare_serial` attribute of `meraki_appliance_warm_spare` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/256)
 
 ## 1.13.0
 
