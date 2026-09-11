@@ -28,15 +28,15 @@ attributes:
   - model_name: id
     type: String
     data_path: [fallbackProfile]
-    exclude_test: true
     send_null_on_clear: true
+    exclude_test: true
     description: Default port profile Id
     example: "1284392014819"
   - model_name: name
     type: String
     data_path: [fallbackProfile]
-    exclude_test: true
     send_null_on_clear: true
+    exclude_test: true
     description: Default port profile name
     example: Profile 1
   - model_name: assignedSwitchPorts
