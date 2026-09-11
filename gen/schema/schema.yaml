@@ -54,6 +54,7 @@ attribute:
   exclude_test: bool(required=False) # Exclude attribute from example (documentation) and acceptance test
   exclude_example: bool(required=False) # Exclude attribute from acceptance test only (example/documentation is still generated)
   allow_import_changes: bool(required=False) # Allow changes to the attribute during import
+  retain_missing_on_refresh: bool(required=False) # Retain managed nested-list items when absent from a normal API refresh
   description: str(required=False) # Attribute description
   example: any(str(), int(), bool(), required=False) # Example value for documentation, also used for acceptance test
   map_key_example: str(required=False) # Example value of the map key, only relevant if type is "Map"
