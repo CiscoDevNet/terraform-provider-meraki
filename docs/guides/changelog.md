@@ -14,6 +14,10 @@ description: |-
 - Add `meraki_blink_device_leds` action
 - Fix issue with `spare_serial` attribute of `meraki_appliance_warm_spare` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/256)
 - Add `enabled` attribute to `meraki_appliance_static_route` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/269)
+- Add `eox` attributes (`eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status`) to `meraki_organization_inventory_devices` data source
+- Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
+- Update OpenAPI model URLs to v1.67.0
+- Add `meraki_network_wireless_radio_rrm` resource to manage AI-RRM, busy hour, channel avoidance, and FRA settings for wireless networks
 
 ## 1.13.0
 
@@ -29,10 +33,6 @@ description: |-
 
 - Fix "Missing Resource Identity After Read" provider error when a resource was first created with Terraform < 1.12 and has since been deleted out-of-band
 - Fix issue with `stack_ids` attribute of `meraki_network_vlan_profile_assignment` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/224)
-- Add `eox` attributes (`eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status`) to `meraki_organization_inventory_devices` data source
-- Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
-- Update OpenAPI model URLs to v1.67.0
-- Add `meraki_network_wireless_radio_rrm` resource to manage AI-RRM, busy hour, channel avoidance, and FRA settings for wireless networks
 - Fix idempotency issue with `vpn_traffic_uplink_preferences[].traffic_filters`, `wan_traffic_uplink_preferences[].traffic_filters` attributes of `meraki_appliance_traffic_shaping_uplink_selection` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/235)
 
 ## 1.12.1
