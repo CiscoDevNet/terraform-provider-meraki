@@ -14,10 +14,12 @@ This resource can manage the `Appliance Static Route` configuration.
 
 ```terraform
 resource "meraki_appliance_static_route" "example" {
-  network_id = "L_123456"
-  gateway_ip = "192.168.128.254"
-  name       = "My route"
-  subnet     = "5.5.5.0/24"
+  network_id      = "L_123456"
+  enabled         = true
+  gateway_ip      = "192.168.128.254"
+  gateway_vlan_id = 100
+  name            = "My route"
+  subnet          = "5.5.5.0/24"
 }
 ```
 
@@ -33,7 +35,9 @@ resource "meraki_appliance_static_route" "example" {
 
 ### Optional
 
-- `gateway_vlan_id` (String) Gateway VLAN ID
+- `enabled` (Boolean) Enable/disable the static route
+- `gateway_vlan_id` (Number) Gateway VLAN ID
+  - Range: `0`-`4094`
 
 ### Read-Only
 

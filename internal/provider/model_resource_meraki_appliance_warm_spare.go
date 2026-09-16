@@ -24,6 +24,7 @@ import (
 	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/netascode/go-meraki"
 	"github.com/tidwall/sjson"
 )
@@ -55,6 +56,10 @@ func (data ApplianceWarmSpare) getPath() string {
 }
 
 // End of section. //template:end getPath
+
+func (data ApplianceWarmSpare) getSwapPath() string {
+	return fmt.Sprintf("/networks/%v/appliance/warmSpare/swap", url.QueryEscape(data.NetworkId.ValueString()))
+}
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
@@ -157,6 +162,14 @@ func (data *ApplianceWarmSpare) fromBody(ctx context.Context, res meraki.Res) {
 		data.VirtualIp2 = types.StringValue(value.String())
 	} else {
 		data.VirtualIp2 = types.StringNull()
+	}
+}
+
+func (_ ApplianceWarmSpare) getPrimarySerialFromBody(res meraki.Res) basetypes.StringValue {
+	if value := res.Get("primarySerial"); value.Exists() && value.Value() != nil {
+		return types.StringValue(value.String())
+	} else {
+		return types.StringNull()
 	}
 }
 

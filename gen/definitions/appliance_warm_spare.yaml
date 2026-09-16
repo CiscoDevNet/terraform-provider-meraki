@@ -1,3 +1,6 @@
+# Customize fromBody(), fromBodyPartial() to work around GET returning wan{1,2}.ip instead of virtualIp{1,2}.
+# Customize Create(), Update() to work around the API returning an error
+# if the intended spare has already been designated as the primary at device claim time.
 name: Appliance Warm Spare
 spec_endpoint: /networks/{networkId}/appliance/warmSpare
 rest_endpoint: /networks/%v/appliance/warmSpare
@@ -49,3 +52,13 @@ test_prerequisites: |
     network_id = meraki_network.test.id
     serials    = [var.test_appliance_1_serial]
   }
+additional_tests:
+  - |-
+    resource "meraki_appliance_warm_spare" "test" {
+      network_id   = meraki_network.test.id
+      enabled      = true
+      spare_serial = var.test_appliance_1_serial
+      uplink_mode  = "virtual"
+      virtual_ip1  = "1.2.3.4"
+      virtual_ip2  = "2.3.4.5"
+    }

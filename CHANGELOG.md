@@ -1,9 +1,10 @@
 ## Unreleased
 
-- Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
-- Update OpenAPI model URLs to v1.67.0
-- Add `meraki_network_wireless_radio_rrm` resource to manage AI-RRM, busy hour, channel avoidance, and FRA settings for wireless networks
-- Add read, import, and data source support to `meraki_network_wireless_radio_rrm` via the org-level `byNetwork` endpoint
+- Add `meraki_generate_appliance_vmx_authentication_token` action
+- Add `meraki_reboot_device` action
+- Add `meraki_blink_device_leds` action
+- Fix issue with `spare_serial` attribute of `meraki_appliance_warm_spare` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/256)
+- Add `enabled` attribute to `meraki_appliance_static_route` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/269)
 
 ## 1.13.0
 

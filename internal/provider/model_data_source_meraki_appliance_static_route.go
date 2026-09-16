@@ -42,8 +42,9 @@ import (
 type DataSourceApplianceStaticRoute struct {
 	Id            types.String `tfsdk:"id"`
 	NetworkId     types.String `tfsdk:"network_id"`
+	Enabled       types.Bool   `tfsdk:"enabled"`
 	GatewayIp     types.String `tfsdk:"gateway_ip"`
-	GatewayVlanId types.String `tfsdk:"gateway_vlan_id"`
+	GatewayVlanId types.Int64  `tfsdk:"gateway_vlan_id"`
 	Name          types.String `tfsdk:"name"`
 	Subnet        types.String `tfsdk:"subnet"`
 }
@@ -61,15 +62,20 @@ func (data DataSourceApplianceStaticRoute) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DataSourceApplianceStaticRoute) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("enabled"); value.Exists() && value.Value() != nil {
+		data.Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Enabled = types.BoolNull()
+	}
 	if value := res.Get("gatewayIp"); value.Exists() && value.Value() != nil {
 		data.GatewayIp = types.StringValue(value.String())
 	} else {
 		data.GatewayIp = types.StringNull()
 	}
 	if value := res.Get("gatewayVlanId"); value.Exists() && value.Value() != nil {
-		data.GatewayVlanId = types.StringValue(value.String())
+		data.GatewayVlanId = types.Int64Value(value.Int())
 	} else {
-		data.GatewayVlanId = types.StringNull()
+		data.GatewayVlanId = types.Int64Null()
 	}
 	if value := res.Get("name"); value.Exists() && value.Value() != nil {
 		data.Name = types.StringValue(value.String())
