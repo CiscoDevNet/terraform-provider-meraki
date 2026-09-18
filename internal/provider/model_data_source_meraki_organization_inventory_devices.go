@@ -50,6 +50,9 @@ type DataSourceOrganizationInventoryDevicesItems struct {
 	OrderNumber           types.String                                    `tfsdk:"order_number"`
 	ProductType           types.String                                    `tfsdk:"product_type"`
 	Serial                types.String                                    `tfsdk:"serial"`
+	EoxEndOfSaleAt        types.String                                    `tfsdk:"eox_end_of_sale_at"`
+	EoxEndOfSupportAt     types.String                                    `tfsdk:"eox_end_of_support_at"`
+	EoxStatus             types.String                                    `tfsdk:"eox_status"`
 	Details               []DataSourceOrganizationInventoryDevicesDetails `tfsdk:"details"`
 	Tags                  types.List                                      `tfsdk:"tags"`
 }
@@ -126,6 +129,21 @@ func (data *DataSourceOrganizationInventoryDevices) fromBody(ctx context.Context
 			data.Serial = types.StringValue(value.String())
 		} else {
 			data.Serial = types.StringNull()
+		}
+		if value := res.Get("eox.endOfSaleAt"); value.Exists() && value.Value() != nil {
+			data.EoxEndOfSaleAt = types.StringValue(value.String())
+		} else {
+			data.EoxEndOfSaleAt = types.StringNull()
+		}
+		if value := res.Get("eox.endOfSupportAt"); value.Exists() && value.Value() != nil {
+			data.EoxEndOfSupportAt = types.StringValue(value.String())
+		} else {
+			data.EoxEndOfSupportAt = types.StringNull()
+		}
+		if value := res.Get("eox.status"); value.Exists() && value.Value() != nil {
+			data.EoxStatus = types.StringValue(value.String())
+		} else {
+			data.EoxStatus = types.StringNull()
 		}
 		if value := res.Get("details"); value.Exists() && value.Value() != nil {
 			data.Details = make([]DataSourceOrganizationInventoryDevicesDetails, 0)

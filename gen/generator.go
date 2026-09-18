@@ -108,6 +108,26 @@ var templates = []t{
 		suffix: "/import-by-identity.tf",
 	},
 	{
+		path:   "./gen/templates/model_action.go",
+		prefix: "./internal/provider/model_action_meraki_",
+		suffix: ".go",
+	},
+	{
+		path:   "./gen/templates/action.go",
+		prefix: "./internal/provider/action_meraki_",
+		suffix: ".go",
+	},
+	{
+		path:   "./gen/templates/action_test.go",
+		prefix: "./internal/provider/action_meraki_",
+		suffix: "_test.go",
+	},
+	{
+		path:   "./gen/templates/action.tf",
+		prefix: "./examples/actions/meraki_",
+		suffix: "/action.tf",
+	},
+	{
 		path:   "./gen/templates/bulk/model_data_source.go",
 		prefix: "./internal/provider/model_data_source_meraki_",
 		suffix: ".go",
@@ -341,6 +361,21 @@ func main() {
 				(configs[i].NoResource && t.path == "./gen/templates/import-by-identity.tf") ||
 				(configs[i].NoResource && configs[i].NoDataSource && t.path == "./gen/templates/model_resource.go") ||
 				(configs[i].NoDataSource && t.path == "./gen/templates/model_data_source.go") ||
+				(configs[i].Action && t.path == "./gen/templates/resource.go") ||
+				(configs[i].Action && t.path == "./gen/templates/resource_test.go") ||
+				(configs[i].Action && t.path == "./gen/templates/resource.tf") ||
+				(configs[i].Action && t.path == "./gen/templates/import.sh") ||
+				(configs[i].Action && t.path == "./gen/templates/import-by-string-id.tf") ||
+				(configs[i].Action && t.path == "./gen/templates/import-by-identity.tf") ||
+				(configs[i].Action && t.path == "./gen/templates/model_resource.go") ||
+				(configs[i].Action && t.path == "./gen/templates/data_source.go") ||
+				(configs[i].Action && t.path == "./gen/templates/data_source_test.go") ||
+				(configs[i].Action && t.path == "./gen/templates/data-source.tf") ||
+				(configs[i].Action && t.path == "./gen/templates/model_data_source.go") ||
+				(!configs[i].Action && t.path == "./gen/templates/model_action.go") ||
+				(!configs[i].Action && t.path == "./gen/templates/action.go") ||
+				(!configs[i].Action && t.path == "./gen/templates/action_test.go") ||
+				(!configs[i].Action && t.path == "./gen/templates/action.tf") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/model_data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source.go") ||
 				(!configs[i].BulkDataSource && t.path == "./gen/templates/bulk/data_source_test.go") ||

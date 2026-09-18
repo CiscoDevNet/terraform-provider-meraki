@@ -1,3 +1,14 @@
+## Unreleased
+
+- Add `meraki_generate_appliance_vmx_authentication_token` action
+- Add `meraki_reboot_device` action
+- Add `meraki_blink_device_leds` action
+- Fix issue with `spare_serial` attribute of `meraki_appliance_warm_spare` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/256)
+- Add `enabled` attribute to `meraki_appliance_static_route` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/269)
+- Add `eox` attributes (`eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status`) to `meraki_organization_inventory_devices` data source
+- Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
+- Add `meraki_network_wireless_radio_rrm` resource and data source
+
 ## 1.13.0
 
 - Add `meraki_network_firmware_upgrades_rollback` resource

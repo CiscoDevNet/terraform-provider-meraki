@@ -71,11 +71,15 @@ func (d *ApplianceStaticRouteDataSource) Schema(ctx context.Context, req datasou
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
+			"enabled": schema.BoolAttribute{
+				MarkdownDescription: "Enable/disable the static route",
+				Computed:            true,
+			},
 			"gateway_ip": schema.StringAttribute{
 				MarkdownDescription: "Gateway IP address (next hop)",
 				Computed:            true,
 			},
-			"gateway_vlan_id": schema.StringAttribute{
+			"gateway_vlan_id": schema.Int64Attribute{
 				MarkdownDescription: "Gateway VLAN ID",
 				Computed:            true,
 			},

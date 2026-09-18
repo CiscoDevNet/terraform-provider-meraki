@@ -62,6 +62,9 @@ func TestAccMerakiApplianceWarmSpare(t *testing.T) {
 		ImportStateVerifyIgnore: []string{},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceWarmSparePrerequisitesConfig + testAccApplianceWarmSpareConfigAdditional0,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -140,5 +143,16 @@ func testAccMerakiApplianceWarmSpareConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccApplianceWarmSpareConfigAdditional0 = `
+resource "meraki_appliance_warm_spare" "test" {
+  network_id   = meraki_network.test.id
+  enabled      = true
+  spare_serial = var.test_appliance_1_serial
+  uplink_mode  = "virtual"
+  virtual_ip1  = "1.2.3.4"
+  virtual_ip2  = "2.3.4.5"
+}
+`
 
 // End of section. //template:end testAccConfigAdditional

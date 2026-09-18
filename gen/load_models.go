@@ -29,7 +29,7 @@ import (
 )
 
 var models = []string{
-	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.66.0/openapi/spec3.json",
+	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.67.0/openapi/spec3.json",
 	"https://raw.githubusercontent.com/meraki/openapi/refs/tags/v1.69.0-beta.2/openapi/spec3.json",
 }
 
@@ -61,6 +61,10 @@ func downloadModel(filepath string, url string) error {
 		return err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("Failed to download model (%s): HTTP %s", url, resp.Status)
+	}
 
 	out, err := os.Create(filepath)
 	if err != nil {
