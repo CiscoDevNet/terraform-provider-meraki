@@ -29,25 +29,24 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiWirelessSettings(t *testing.T) {
+func TestAccDataSourceMerakiNetworkWirelessRadioRRM(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "ipv6_bridge_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "led_lights_on", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "location_analytics_enabled", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "meshing_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "upgrade_strategy", "minimizeUpgradeTime"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "multicast_to_unicast_conversion_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "named_vlans_pool_dhcp_monitoring_duration", "5"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_settings.test", "named_vlans_pool_dhcp_monitoring_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_wireless_radio_rrm.test", "ai_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_wireless_radio_rrm.test", "busy_hour_minimize_changes_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_wireless_radio_rrm.test", "busy_hour_schedule_mode", "automatic"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_wireless_radio_rrm.test", "busy_hour_schedule_manual_end", "15:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_wireless_radio_rrm.test", "busy_hour_schedule_manual_start", "10:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_wireless_radio_rrm.test", "channel_avoidance_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_wireless_radio_rrm.test", "fra_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiWirelessSettingsPrerequisitesConfig + testAccDataSourceMerakiWirelessSettingsConfig(),
+				Config: testAccDataSourceMerakiNetworkWirelessRadioRRMPrerequisitesConfig + testAccDataSourceMerakiNetworkWirelessRadioRRMConfig(),
 				Check:  resource.ComposeTestCheckFunc(checks...),
 			},
 		},
@@ -58,7 +57,7 @@ func TestAccDataSourceMerakiWirelessSettings(t *testing.T) {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiWirelessSettingsPrerequisitesConfig = `
+const testAccDataSourceMerakiNetworkWirelessRadioRRMPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 data "meraki_organization" "test" {
@@ -67,32 +66,30 @@ data "meraki_organization" "test" {
 resource "meraki_network" "test" {
   organization_id = data.meraki_organization.test.id
   name            = var.test_network
-  product_types   = ["switch", "wireless"]
+  product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
 }
-
 `
 
 // End of section. //template:end testPrerequisites
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiWirelessSettingsConfig() string {
-	config := `resource "meraki_wireless_settings" "test" {` + "\n"
+func testAccDataSourceMerakiNetworkWirelessRadioRRMConfig() string {
+	config := `resource "meraki_network_wireless_radio_rrm" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  ipv6_bridge_enabled = true` + "\n"
-	config += `  led_lights_on = true` + "\n"
-	config += `  location_analytics_enabled = false` + "\n"
-	config += `  meshing_enabled = true` + "\n"
-	config += `  upgrade_strategy = "minimizeUpgradeTime"` + "\n"
-	config += `  multicast_to_unicast_conversion_enabled = true` + "\n"
-	config += `  named_vlans_pool_dhcp_monitoring_duration = 5` + "\n"
-	config += `  named_vlans_pool_dhcp_monitoring_enabled = false` + "\n"
+	config += `  ai_enabled = true` + "\n"
+	config += `  busy_hour_minimize_changes_enabled = true` + "\n"
+	config += `  busy_hour_schedule_mode = "automatic"` + "\n"
+	config += `  busy_hour_schedule_manual_end = "15:00"` + "\n"
+	config += `  busy_hour_schedule_manual_start = "10:00"` + "\n"
+	config += `  channel_avoidance_enabled = true` + "\n"
+	config += `  fra_enabled = false` + "\n"
 	config += `}` + "\n"
 
 	config += `
-		data "meraki_wireless_settings" "test" {
+		data "meraki_network_wireless_radio_rrm" "test" {
 			network_id = meraki_network.test.id
-			depends_on = [meraki_wireless_settings.test]
+			depends_on = [meraki_network_wireless_radio_rrm.test]
 		}
 	`
 	return config

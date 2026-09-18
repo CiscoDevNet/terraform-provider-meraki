@@ -42,27 +42,27 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.ResourceWithIdentity    = &WirelessSettingsResource{}
-	_ resource.ResourceWithImportState = &WirelessSettingsResource{}
+	_ resource.ResourceWithIdentity    = &NetworkWirelessRadioRRMResource{}
+	_ resource.ResourceWithImportState = &NetworkWirelessRadioRRMResource{}
 )
 
-func NewWirelessSettingsResource() resource.Resource {
-	return &WirelessSettingsResource{}
+func NewNetworkWirelessRadioRRMResource() resource.Resource {
+	return &NetworkWirelessRadioRRMResource{}
 }
 
-type WirelessSettingsResource struct {
+type NetworkWirelessRadioRRMResource struct {
 	client                        *meraki.Client
 	restoreOriginalStateOnDestroy bool
 }
 
-func (r *WirelessSettingsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_wireless_settings"
+func (r *NetworkWirelessRadioRRMResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_network_wireless_radio_rrm"
 }
 
-func (r *WirelessSettingsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *NetworkWirelessRadioRRMResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless Settings` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Network Wireless Radio RRM` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -79,46 +79,42 @@ func (r *WirelessSettingsResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"ipv6_bridge_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling IPv6 bridging in a network (Note: if enabled, SSIDs must also be configured to use bridge mode)").String,
+			"ai_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling AI in a network").String,
 				Optional:            true,
 			},
-			"led_lights_on": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling LED lights on all APs in the network (making them run dark)").String,
+			"busy_hour_minimize_changes_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling Busy Hour in a network").String,
 				Optional:            true,
 			},
-			"location_analytics_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling location analytics for your network").String,
-				Optional:            true,
-			},
-			"meshing_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling meshing in a network").String,
-				Optional:            true,
-			},
-			"upgrade_strategy": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The default strategy that network devices will use to perform an upgrade. Requires firmware version MR 26.8 or higher.").AddStringEnumDescription("minimizeClientDowntime", "minimizeUpgradeTime").String,
+			"busy_hour_schedule_mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The Busy Hour mode applied to the network when minimizeChanges is enabled. Must be one of `automatic` or `manual`. Automatic busy hour is only available on firmware versions >= MR 27.0").AddStringEnumDescription("automatic", "manual").String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("minimizeClientDowntime", "minimizeUpgradeTime"),
+					stringvalidator.OneOf("automatic", "manual"),
 				},
 			},
-			"multicast_to_unicast_conversion_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling multicast-to-unicast conversion across the network").String,
+			"busy_hour_schedule_manual_end": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The hour that Manual Busy Hour ends each day, in the network time zone").String,
 				Optional:            true,
 			},
-			"named_vlans_pool_dhcp_monitoring_duration": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The duration in minutes that devices will refrain from using dirty VLANs before adding them back to the pool.").String,
+			"busy_hour_schedule_manual_start": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The hour that Manual Busy Hour starts each day, in the network time zone").String,
 				Optional:            true,
 			},
-			"named_vlans_pool_dhcp_monitoring_enabled": schema.BoolAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Whether or not devices using named VLAN pools should remove dirty VLANs from the pool, thereby preventing clients from being assigned to VLANs where they would be unable to obtain an IP address via DHCP.").String,
+			"channel_avoidance_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling channel avoidance in a network").String,
+				Optional:            true,
+			},
+			"fra_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Toggle to activate or deactivate FRA in a network, contingent on AI-RRM being enabled.").String,
 				Optional:            true,
 			},
 		},
 	}
 }
 
-func (r *WirelessSettingsResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+func (r *NetworkWirelessRadioRRMResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
 	resp.IdentitySchema = identityschema.Schema{
 		Attributes: map[string]identityschema.Attribute{
 			"network_id": identityschema.StringAttribute{
@@ -129,7 +125,7 @@ func (r *WirelessSettingsResource) IdentitySchema(ctx context.Context, req resou
 	}
 }
 
-func (r *WirelessSettingsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *NetworkWirelessRadioRRMResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -140,11 +136,9 @@ func (r *WirelessSettingsResource) Configure(_ context.Context, req resource.Con
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
-func (r *WirelessSettingsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan WirelessSettings
-	var identity WirelessSettingsIdentity
+func (r *NetworkWirelessRadioRRMResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan NetworkWirelessRadioRRM
+	var identity NetworkWirelessRadioRRMIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -155,17 +149,25 @@ func (r *WirelessSettingsResource) Create(ctx context.Context, req resource.Crea
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 	// If the resource is a singleton, we need to read and save the initial state
 	if r.restoreOriginalStateOnDestroy {
-		var initialState WirelessSettings
-		gres, err := r.client.Get(plan.getPath())
+		var initialState NetworkWirelessRadioRRM
+		networkPath := fmt.Sprintf("/networks/%v", plan.NetworkId.ValueString())
+		nres, err := r.client.Get(networkPath)
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, nres.String()))
 			return
 		}
-		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
+		orgId := nres.Get("organizationId").String()
+		settingsPath := fmt.Sprintf("/organizations/%v/wireless/radio/rrm/byNetwork?networkIds[]=%v", orgId, plan.NetworkId.ValueString())
+		gres, err := r.client.Get(settingsPath)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve RRM settings (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, meraki.Res{Result: gres.Get("items.0")}), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object
-	body := plan.toBody(ctx, WirelessSettings{})
+	body := plan.toBody(ctx, NetworkWirelessRadioRRM{})
 	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
@@ -185,13 +187,9 @@ func (r *WirelessSettingsResource) Create(ctx context.Context, req resource.Crea
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// End of section. //template:end create
-
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
-func (r *WirelessSettingsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state WirelessSettings
-	var identity WirelessSettingsIdentity
+func (r *NetworkWirelessRadioRRMResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state NetworkWirelessRadioRRM
+	var identity NetworkWirelessRadioRRMIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -209,7 +207,9 @@ func (r *WirelessSettingsResource) Read(ctx context.Context, req resource.ReadRe
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath())
+
+	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
+	res, err := r.client.Get(networkPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		identity.toIdentity(ctx, &state)
 		diags = resp.Identity.Set(ctx, &identity)
@@ -217,9 +217,25 @@ func (r *WirelessSettingsResource) Read(ctx context.Context, req resource.ReadRe
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, res.String()))
 		return
 	}
+	orgId := res.Get("organizationId").String()
+
+	settingsPath := fmt.Sprintf("/organizations/%v/wireless/radio/rrm/byNetwork?networkIds[]=%v", orgId, state.NetworkId.ValueString())
+	res, err = r.client.Get(settingsPath)
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
+		resp.State.RemoveResource(ctx)
+		return
+	} else if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve RRM settings (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	res = meraki.Res{Result: res.Get("items.0")}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
@@ -244,13 +260,11 @@ func (r *WirelessSettingsResource) Read(ctx context.Context, req resource.ReadRe
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// End of section. //template:end read
-
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 
-func (r *WirelessSettingsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state WirelessSettings
-	var identity WirelessSettingsIdentity
+func (r *NetworkWirelessRadioRRMResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state NetworkWirelessRadioRRM
+	var identity NetworkWirelessRadioRRMIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -286,8 +300,8 @@ func (r *WirelessSettingsResource) Update(ctx context.Context, req resource.Upda
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *WirelessSettingsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state WirelessSettings
+func (r *NetworkWirelessRadioRRMResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state NetworkWirelessRadioRRM
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -318,7 +332,7 @@ func (r *WirelessSettingsResource) Delete(ctx context.Context, req resource.Dele
 // End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
-func (r *WirelessSettingsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *NetworkWirelessRadioRRMResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
 		idParts := strings.Split(req.ID, ",")
 
@@ -333,7 +347,7 @@ func (r *WirelessSettingsResource) ImportState(ctx context.Context, req resource
 		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network_id"), idParts[0])...)
 		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[0])...)
 	} else {
-		var identity WirelessSettingsIdentity
+		var identity NetworkWirelessRadioRRMIdentity
 		diags := req.Identity.Get(ctx, &identity)
 		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 			return
