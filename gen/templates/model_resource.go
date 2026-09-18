@@ -179,7 +179,9 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 	{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 	if !data.{{toGoName .TfName}}.IsNull() {{if .WriteChangesOnly}}&& data.{{toGoName .TfName}} != state.{{toGoName .TfName}}{{end}} {
 		body, _ = sjson.Set(body, "{{getFullModelName . true}}", data.{{toGoName .TfName}}.Value{{.Type}}())
-	}
+	}{{if .WriteNull}} else {
+		body, _ = sjson.Set(body, "{{getFullModelName . true}}", nil)
+	}{{end}}
 	{{- else if isListSet .}}
 	if !data.{{toGoName .TfName}}.IsNull() {
 		var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
@@ -212,7 +214,9 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 			{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 			if !item.{{toGoName .TfName}}.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", item.{{toGoName .TfName}}.Value{{.Type}}())
-			}
+			}{{if .WriteNull}} else {
+				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", nil)
+			}{{end}}
 			{{- else if isListSet .}}
 			if !item.{{toGoName .TfName}}.IsNull() {
 				var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
@@ -245,7 +249,9 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 					{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 					if !childItem.{{toGoName .TfName}}.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", childItem.{{toGoName .TfName}}.Value{{.Type}}())
-					}
+					}{{if .WriteNull}} else {
+						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", nil)
+					}{{end}}
 					{{- else if isListSet .}}
 					if !childItem.{{toGoName .TfName}}.IsNull() {
 						var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
@@ -278,7 +284,9 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 							{{- else if or (eq .Type "String") (eq .Type "Int64") (eq .Type "Float64") (eq .Type "Bool")}}
 							if !childChildItem.{{toGoName .TfName}}.IsNull() {
 								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", childChildItem.{{toGoName .TfName}}.Value{{.Type}}())
-							}
+							}{{if .WriteNull}} else {
+								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", nil)
+							}{{end}}
 							{{- else if isListSet .}}
 							if !childChildItem.{{toGoName .TfName}}.IsNull() {
 								var values []{{if isStringListSet .}}string{{else if isInt64ListSet .}}int64{{end}}
