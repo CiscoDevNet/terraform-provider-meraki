@@ -8,6 +8,8 @@
 - Add `eox` attributes (`eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status`) to `meraki_organization_inventory_devices` data source
 - Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
 - Add `meraki_network_wireless_radio_rrm` resource and data source
+- Fix idempotency issue with `port_ids` attribute of `meraki_switch_organization_ports_profiles_automation` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/279)
+- Fix `fallback_profile_id` and `fallback_profile_name` attributes of `meraki_switch_organization_ports_profiles_automation` resource not being cleared via the API when removed from config, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/279)
 
 ## 1.13.0
 
