@@ -7,8 +7,7 @@
 - Add `enabled` attribute to `meraki_appliance_static_route` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/269)
 - Add `eox` attributes (`eox_end_of_sale_at`, `eox_end_of_support_at`, `eox_status`) to `meraki_organization_inventory_devices` data source
 - Add `multicast_to_unicast_conversion_enabled` attribute to `meraki_wireless_settings` resource and data source
-- Update OpenAPI model URLs to v1.67.0
-- Add `meraki_network_wireless_radio_rrm` resource to manage AI-RRM, busy hour, channel avoidance, and FRA settings for wireless networks
+- Add `meraki_network_wireless_radio_rrm` resource and data source
 
 ## 1.13.0
 
