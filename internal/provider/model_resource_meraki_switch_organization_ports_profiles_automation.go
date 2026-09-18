@@ -92,12 +92,12 @@ func (data SwitchOrganizationPortsProfilesAutomation) toBody(ctx context.Context
 	}
 	if !data.FallbackProfileId.IsNull() {
 		body, _ = sjson.Set(body, "fallbackProfile.id", data.FallbackProfileId.ValueString())
-	} else if !state.FallbackProfileId.IsNull() {
+	} else {
 		body, _ = sjson.Set(body, "fallbackProfile.id", nil)
 	}
 	if !data.FallbackProfileName.IsNull() {
 		body, _ = sjson.Set(body, "fallbackProfile.name", data.FallbackProfileName.ValueString())
-	} else if !state.FallbackProfileName.IsNull() {
+	} else {
 		body, _ = sjson.Set(body, "fallbackProfile.name", nil)
 	}
 	if len(data.AssignedSwitchPorts) > 0 {
