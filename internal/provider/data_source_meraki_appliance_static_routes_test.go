@@ -59,6 +59,17 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["switch", "wireless", "appliance"]
 }
+resource "meraki_appliance_vlans_settings" "test" {
+  network_id = meraki_network.test.id
+  vlans_enabled = true
+}
+resource "meraki_appliance_vlan" "test" {
+  network_id = meraki_appliance_vlans_settings.test.network_id
+  appliance_ip = "192.168.1.2"
+  vlan_id = "100"
+  name = "My VLAN"
+  subnet = "192.168.1.0/24"
+}
 
 `
 

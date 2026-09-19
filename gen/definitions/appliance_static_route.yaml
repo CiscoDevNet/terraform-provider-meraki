@@ -25,6 +25,7 @@ attributes:
     type: Int64
     description: Gateway VLAN ID
     example: "100"
+    test_value: tonumber(meraki_appliance_vlan.test.vlan_id)
     min_int: 0
     max_int: 4094
   - model_name: name
@@ -45,4 +46,15 @@ test_prerequisites: |
     organization_id = data.meraki_organization.test.id
     name            = var.test_network
     product_types   = ["switch", "wireless", "appliance"]
+  }
+  resource "meraki_appliance_vlans_settings" "test" {
+    network_id = meraki_network.test.id
+    vlans_enabled = true
+  }
+  resource "meraki_appliance_vlan" "test" {
+    network_id = meraki_appliance_vlans_settings.test.network_id
+    appliance_ip = "192.168.1.2"
+    vlan_id = "100"
+    name = "My VLAN"
+    subnet = "192.168.1.0/24"
   }
