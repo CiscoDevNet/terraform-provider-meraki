@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## Unreleased
+## 1.14.0
 
 - Add `meraki_generate_appliance_vmx_authentication_token` action
 - Add `meraki_reboot_device` action
