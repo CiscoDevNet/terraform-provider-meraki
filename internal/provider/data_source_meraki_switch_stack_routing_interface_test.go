@@ -37,6 +37,7 @@ func TestAccDataSourceMerakiSwitchStackRoutingInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "candidate_uplink_v4", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "default_gateway", "192.168.1.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "interface_ip", "192.168.1.2"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "is_switch_default_gateway", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "mode", "vlan"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "multicast_routing", "disabled"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "name", "L3 interface"))
@@ -50,10 +51,12 @@ func TestAccDataSourceMerakiSwitchStackRoutingInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_assignment_mode", "static"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_candidate_uplink", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_gateway", "1:2:3:4::2"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_is_switch_default_gateway", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_prefix", "1:2:3:4::/64"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_static_v6_dns1", "2001:db8::1234"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ipv6_static_v6_dns2", "2001:db8::8888"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "ospf_settings_area", "ospfDisabled"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface.test", "vrf_name", "Default"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -106,6 +109,7 @@ func testAccDataSourceMerakiSwitchStackRoutingInterfaceConfig() string {
 	config += `  candidate_uplink_v4 = true` + "\n"
 	config += `  default_gateway = "192.168.1.1"` + "\n"
 	config += `  interface_ip = "192.168.1.2"` + "\n"
+	config += `  is_switch_default_gateway = false` + "\n"
 	config += `  mode = "vlan"` + "\n"
 	config += `  multicast_routing = "disabled"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
@@ -119,10 +123,12 @@ func testAccDataSourceMerakiSwitchStackRoutingInterfaceConfig() string {
 	config += `  ipv6_assignment_mode = "static"` + "\n"
 	config += `  ipv6_candidate_uplink = true` + "\n"
 	config += `  ipv6_gateway = "1:2:3:4::2"` + "\n"
+	config += `  ipv6_is_switch_default_gateway = false` + "\n"
 	config += `  ipv6_prefix = "1:2:3:4::/64"` + "\n"
 	config += `  ipv6_static_v6_dns1 = "2001:db8::1234"` + "\n"
 	config += `  ipv6_static_v6_dns2 = "2001:db8::8888"` + "\n"
 	config += `  ospf_settings_area = "ospfDisabled"` + "\n"
+	config += `  vrf_name = "Default"` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -143,6 +149,7 @@ func testAccNamedDataSourceMerakiSwitchStackRoutingInterfaceConfig() string {
 	config += `  candidate_uplink_v4 = true` + "\n"
 	config += `  default_gateway = "192.168.1.1"` + "\n"
 	config += `  interface_ip = "192.168.1.2"` + "\n"
+	config += `  is_switch_default_gateway = false` + "\n"
 	config += `  mode = "vlan"` + "\n"
 	config += `  multicast_routing = "disabled"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
@@ -156,10 +163,12 @@ func testAccNamedDataSourceMerakiSwitchStackRoutingInterfaceConfig() string {
 	config += `  ipv6_assignment_mode = "static"` + "\n"
 	config += `  ipv6_candidate_uplink = true` + "\n"
 	config += `  ipv6_gateway = "1:2:3:4::2"` + "\n"
+	config += `  ipv6_is_switch_default_gateway = false` + "\n"
 	config += `  ipv6_prefix = "1:2:3:4::/64"` + "\n"
 	config += `  ipv6_static_v6_dns1 = "2001:db8::1234"` + "\n"
 	config += `  ipv6_static_v6_dns2 = "2001:db8::8888"` + "\n"
 	config += `  ospf_settings_area = "ospfDisabled"` + "\n"
+	config += `  vrf_name = "Default"` + "\n"
 	config += `}` + "\n"
 
 	config += `

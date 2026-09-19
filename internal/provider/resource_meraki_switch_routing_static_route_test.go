@@ -41,6 +41,7 @@ func TestAccMerakiSwitchRoutingStaticRoute(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_static_route.test", "name", "My route"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_static_route.test", "next_hop_ip", "192.168.1.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_static_route.test", "subnet", "192.168.2.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_static_route.test", "vrf_name", "Default"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -140,6 +141,7 @@ func testAccMerakiSwitchRoutingStaticRouteConfig_all() string {
 	config += `  name = "My route"` + "\n"
 	config += `  next_hop_ip = "192.168.1.1"` + "\n"
 	config += `  subnet = "192.168.2.0/24"` + "\n"
+	config += `  vrf_name = "Default"` + "\n"
 	config += `}` + "\n"
 	return config
 }
