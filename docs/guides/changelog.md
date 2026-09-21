@@ -9,6 +9,7 @@ description: |-
 
 ## 1.14.0
 
+- Add `sgt_enabled` attribute to `meraki_appliance_site_to_site_vpn` resource and data source
 - Add `meraki_generate_appliance_vmx_authentication_token` action
 - Add `meraki_reboot_device` action
 - Add `meraki_blink_device_leds` action

@@ -17,6 +17,7 @@ resource "meraki_appliance_site_to_site_vpn" "example" {
   network_id            = "L_123456"
   mode                  = "hub"
   subnet_nat_is_allowed = false
+  sgt_enabled           = false
   subnets = [
     {
       local_subnet = "192.168.128.0/24"
@@ -38,6 +39,7 @@ resource "meraki_appliance_site_to_site_vpn" "example" {
 ### Optional
 
 - `hubs` (Attributes List) The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required. (see [below for nested schema](#nestedatt--hubs))
+- `sgt_enabled` (Boolean) Whether or not Peer SGT is enabled for traffic to this VPN peer.
 - `subnet_nat_is_allowed` (Boolean) If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
 - `subnets` (Attributes List) The list of subnets and their VPN presence. (see [below for nested schema](#nestedatt--subnets))
 
