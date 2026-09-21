@@ -110,7 +110,7 @@ func (d *WirelessSSIDDeviceTypeGroupPoliciesDataSource) Configure(_ context.Cont
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDDeviceTypeGroupPoliciesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDDeviceTypeGroupPolicies
+	var config DataSourceWirelessSSIDDeviceTypeGroupPolicies
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

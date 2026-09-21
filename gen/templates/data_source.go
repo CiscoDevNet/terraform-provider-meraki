@@ -224,7 +224,7 @@ func (d *{{camelCase .Name}}DataSource) Configure(_ context.Context, req datasou
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *{{camelCase .Name}}DataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config {{camelCase .Name}}
+	var config DataSource{{camelCase .Name}}
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

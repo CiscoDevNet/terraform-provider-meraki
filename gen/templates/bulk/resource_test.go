@@ -111,7 +111,7 @@ func testAccMeraki{{camelCase .BulkName}}Config_minimum() string {
 	{{- end}}
 	config += ` items = [{` + "\n"
 	{{- range getBulkItemAttributes .}}
-	{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
+	{{- if and (not .DataSourceOnly) (or .Id .Reference .Mandatory .MinimumTestValue)}}
 	{{- if isNestedListSetMap .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -122,7 +122,7 @@ func testAccMeraki{{camelCase .BulkName}}Config_minimum() string {
 	config += `  {{.TfName}} = [{` + "\n"
 	{{- end}}
 		{{- range  .Attributes}}
-		{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
+		{{- if and (not .DataSourceOnly) (or .Id .Reference .Mandatory .MinimumTestValue)}}
 		{{- if isNestedListSetMap .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -133,7 +133,7 @@ func testAccMeraki{{camelCase .BulkName}}Config_minimum() string {
 	config += `    {{.TfName}} = [{` + "\n"
 	    {{- end}}
 			{{- range  .Attributes}}
-			{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
+			{{- if and (not .DataSourceOnly) (or .Id .Reference .Mandatory .MinimumTestValue)}}
 			{{- if isNestedListSetMap .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -144,7 +144,7 @@ func testAccMeraki{{camelCase .BulkName}}Config_minimum() string {
 	config += `      {{.TfName}} = [{` + "\n"
 	        {{- end}}
 				{{- range  .Attributes}}
-				{{- if or .Id .Reference .Mandatory .MinimumTestValue}}
+				{{- if and (not .DataSourceOnly) (or .Id .Reference .Mandatory .MinimumTestValue)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		config += `        {{.TfName}} = {{if .MinimumTestValue}}{{.MinimumTestValue}}{{else if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
@@ -230,7 +230,7 @@ func testAccMeraki{{camelCase .BulkName}}Config_all() string {
 	{{- end}}
 	config += ` items = [{` + "\n"
 	{{- range getBulkItemAttributes .}}
-	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+	{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 	{{- if isNestedListSetMap .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -241,7 +241,7 @@ func testAccMeraki{{camelCase .BulkName}}Config_all() string {
 	config += `  {{.TfName}} = [{` + "\n"
 	{{- end}}
 		{{- range  .Attributes}}
-		{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+		{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 		{{- if isNestedListSetMap .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -252,7 +252,7 @@ func testAccMeraki{{camelCase .BulkName}}Config_all() string {
 	config += `    {{.TfName}} = [{` + "\n"
 		{{- end}}
 			{{- range  .Attributes}}
-			{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+			{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 			{{- if isNestedListSetMap .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -263,7 +263,7 @@ func testAccMeraki{{camelCase .BulkName}}Config_all() string {
 	config += `      {{.TfName}} = [{` + "\n"
 			{{- end}}
 				{{- range  .Attributes}}
-				{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+				{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"

@@ -85,7 +85,7 @@ func (d *WirelessEthernetPortProfileDefaultDataSource) Configure(_ context.Conte
 // End of section. //template:end model
 
 func (d *WirelessEthernetPortProfileDefaultDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessEthernetPortProfileDefault
+	var config DataSourceWirelessEthernetPortProfileDefault
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -116,7 +116,7 @@ func (d *WirelessSSIDBonjourForwardingDataSource) Configure(_ context.Context, r
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDBonjourForwardingDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDBonjourForwarding
+	var config DataSourceWirelessSSIDBonjourForwarding
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

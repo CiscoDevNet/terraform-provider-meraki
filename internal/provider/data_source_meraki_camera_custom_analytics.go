@@ -106,7 +106,7 @@ func (d *CameraCustomAnalyticsDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CameraCustomAnalyticsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CameraCustomAnalytics
+	var config DataSourceCameraCustomAnalytics
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

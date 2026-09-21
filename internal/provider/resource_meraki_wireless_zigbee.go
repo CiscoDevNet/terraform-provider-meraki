@@ -173,8 +173,7 @@ func (r *WirelessZigbeeResource) Create(ctx context.Context, req resource.Create
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve zigbee settings (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
-		initialState.fromBody(ctx, meraki.Res{Result: gres.Get("items.0")})
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, WirelessZigbee{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, meraki.Res{Result: gres.Get("items.0")}), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object
@@ -221,6 +220,9 @@ func (r *WirelessZigbeeResource) Read(ctx context.Context, req resource.ReadRequ
 	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
 	res, err := r.client.Get(networkPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -232,6 +234,9 @@ func (r *WirelessZigbeeResource) Read(ctx context.Context, req resource.ReadRequ
 	settingsPath := fmt.Sprintf("/organizations/%v/wireless/zigbee/byNetwork?networkIds[]=%v", orgId, state.NetworkId.ValueString())
 	res, err = r.client.Get(settingsPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

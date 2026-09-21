@@ -90,7 +90,7 @@ func (d *CellularGatewayUplinkDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CellularGatewayUplinkDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CellularGatewayUplink
+	var config DataSourceCellularGatewayUplink
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

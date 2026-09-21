@@ -124,7 +124,7 @@ func (d *NetworkSNMPDataSource) Configure(_ context.Context, req datasource.Conf
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *NetworkSNMPDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkSNMP
+	var config DataSourceNetworkSNMP
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

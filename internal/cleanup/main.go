@@ -40,10 +40,12 @@ import (
 
 // resource defines an organization-level resource to clean up.
 type resource struct {
-	name      string // Human-readable name for logging
-	path      string // API path relative to /organizations/{orgId}
-	idField   string // JSON field name containing the resource ID
-	skipField string // If set, skip items where this boolean JSON field is true (e.g. "isDefaultGroup")
+	name        string // Human-readable name for logging
+	path        string // API path relative to /organizations/{orgId}
+	idField     string // JSON field name containing the resource ID
+	skipField   string // If set, skip items where this boolean JSON field is true (e.g. "isDefaultGroup")
+	filterField string // If set, only delete items where this JSON field equals filterValue
+	filterValue string // Value to match filterField against
 }
 
 // phase1Resources must be deleted before phase2Resources due to dependencies.
@@ -71,6 +73,7 @@ var phase2Resources = []resource{
 	{name: "Wireless SSID Firewall Isolation Allowlist Entry", path: "/wireless/ssids/firewall/isolation/allowlist/entries", idField: "entryId"},
 	{name: "DNS Local Profile", path: "/appliance/dns/local/profiles", idField: "profileId"},
 	{name: "DNS Split Profile", path: "/appliance/dns/split/profiles", idField: "profileId"},
+	{name: "Early Access Feature Opt-In", path: "/earlyAccess/features/optIns", idField: "id", filterField: "shortName", filterValue: "has_camera_anchor"},
 }
 
 func main() {
@@ -183,6 +186,11 @@ func cleanupResource(client meraki.Client, orgId string, r resource) {
 
 		// Skip built-in/default resources that cannot be deleted
 		if r.skipField != "" && v.Get(r.skipField).Bool() {
+			return true
+		}
+
+		// Only delete items matching the configured filter, if any
+		if r.filterField != "" && v.Get(r.filterField).String() != r.filterValue {
 			return true
 		}
 

@@ -117,7 +117,7 @@ func (d *WirelessZigbeeDataSource) Configure(_ context.Context, req datasource.C
 // End of section. //template:end model
 
 func (d *WirelessZigbeeDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessZigbee
+	var config DataSourceWirelessZigbee
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

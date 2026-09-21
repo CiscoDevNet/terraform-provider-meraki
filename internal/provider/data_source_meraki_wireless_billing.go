@@ -110,7 +110,7 @@ func (d *WirelessBillingDataSource) Configure(_ context.Context, req datasource.
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessBillingDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessBilling
+	var config DataSourceWirelessBilling
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

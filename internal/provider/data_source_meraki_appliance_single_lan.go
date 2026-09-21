@@ -132,7 +132,7 @@ func (d *ApplianceSingleLANDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceSingleLANDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceSingleLAN
+	var config DataSourceApplianceSingleLAN
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

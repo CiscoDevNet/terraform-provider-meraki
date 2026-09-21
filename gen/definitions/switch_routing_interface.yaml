@@ -34,7 +34,6 @@ attributes:
     minimum_test_value: '"192.168.1.2"'
   - model_name: isSwitchDefaultGateway
     type: Bool
-    exclude_test: true
     description: When true, the switch uses the IPv4 uplink gateway as its IPv4 default gateway. This can only be set if the interface is designated as the IPv4 uplink.
     example: "false"
   - model_name: mode
@@ -109,7 +108,6 @@ attributes:
   - model_name: isSwitchDefaultGateway
     type: Bool
     data_path: [ipv6]
-    exclude_test: true
     description: When true, the switch uses the IPv6 uplink gateway as its IPv6 default gateway. This can only be set if the interface is designated as the IPv6 uplink.
     example: "false"
   - model_name: prefix
@@ -154,9 +152,8 @@ attributes:
   - model_name: name
     type: String
     data_path: [vrf]
-    exclude_test: true
     description: The name of the VRF this interface belongs to.
-    example: Blue
+    example: Default
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

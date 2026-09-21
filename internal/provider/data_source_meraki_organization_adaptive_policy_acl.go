@@ -141,7 +141,7 @@ func (d *OrganizationAdaptivePolicyACLDataSource) Configure(_ context.Context, r
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *OrganizationAdaptivePolicyACLDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config OrganizationAdaptivePolicyACL
+	var config DataSourceOrganizationAdaptivePolicyACL
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

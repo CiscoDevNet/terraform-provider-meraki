@@ -144,7 +144,7 @@ func (d *CameraWirelessProfileDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CameraWirelessProfileDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CameraWirelessProfile
+	var config DataSourceCameraWirelessProfile
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

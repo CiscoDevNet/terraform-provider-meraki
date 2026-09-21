@@ -89,7 +89,7 @@ func (d *WirelessLocationScanningDataSource) Configure(_ context.Context, req da
 // End of section. //template:end model
 
 func (d *WirelessLocationScanningDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessLocationScanning
+	var config DataSourceWirelessLocationScanning
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -122,7 +122,7 @@ func (d *ApplianceCellularFirewallRulesDataSource) Configure(_ context.Context, 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceCellularFirewallRulesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceCellularFirewallRules
+	var config DataSourceApplianceCellularFirewallRules
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

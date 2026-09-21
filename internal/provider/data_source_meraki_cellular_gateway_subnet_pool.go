@@ -90,7 +90,7 @@ func (d *CellularGatewaySubnetPoolDataSource) Configure(_ context.Context, req d
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CellularGatewaySubnetPoolDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CellularGatewaySubnetPool
+	var config DataSourceCellularGatewaySubnetPool
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

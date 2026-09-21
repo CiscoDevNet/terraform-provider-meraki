@@ -106,7 +106,7 @@ func (r *SwitchOrganizationPortsProfilesAutomationResource) Schema(ctx context.C
 							MarkdownDescription: helpers.NewAttributeDescription("Serial number of the switch").String,
 							Optional:            true,
 						},
-						"port_ids": schema.ListAttribute{
+						"port_ids": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("List of port ids").String,
 							ElementType:         types.StringType,
 							Optional:            true,
@@ -241,6 +241,9 @@ func (r *SwitchOrganizationPortsProfilesAutomationResource) Read(ctx context.Con
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

@@ -90,7 +90,7 @@ func (d *WirelessZigbeeDoorLockDataSource) Configure(_ context.Context, req data
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessZigbeeDoorLockDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessZigbeeDoorLock
+	var config DataSourceWirelessZigbeeDoorLock
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

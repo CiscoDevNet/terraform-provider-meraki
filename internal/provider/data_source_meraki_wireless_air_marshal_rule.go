@@ -93,7 +93,7 @@ func (d *WirelessAirMarshalRuleDataSource) Configure(_ context.Context, req data
 // End of section. //template:end model
 
 func (d *WirelessAirMarshalRuleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessAirMarshalRule
+	var config DataSourceWirelessAirMarshalRule
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

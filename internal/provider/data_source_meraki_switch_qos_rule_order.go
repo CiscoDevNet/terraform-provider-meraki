@@ -88,7 +88,7 @@ func (d *SwitchQoSRuleOrderDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchQoSRuleOrderDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchQoSRuleOrder
+	var config DataSourceSwitchQoSRuleOrder
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

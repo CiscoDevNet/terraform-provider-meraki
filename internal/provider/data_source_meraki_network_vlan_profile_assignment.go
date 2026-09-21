@@ -95,7 +95,7 @@ func (d *NetworkVLANProfileAssignmentDataSource) Configure(_ context.Context, re
 // End of section. //template:end model
 
 func (d *NetworkVLANProfileAssignmentDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config NetworkVLANProfileAssignment
+	var config DataSourceNetworkVLANProfileAssignment
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

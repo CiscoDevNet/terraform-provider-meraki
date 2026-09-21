@@ -51,6 +51,13 @@ attributes:
     data_path: [wan1]
     description: Up to two DNS IPs.
     example: 1.2.3.2
+  - model_name: name
+    tf_name: wan1_vrf_name
+    type: String
+    data_path: [wan1, vrf]
+    exclude_test: true
+    description: The name of the VRF associated with WAN 1. If not provided, the default VRF is used.
+    example: Mgmt-vrf
   - model_name: staticGatewayIp
     type: String
     data_path: [wan2]
@@ -92,6 +99,13 @@ attributes:
     exclude_test: true
     description: Up to two DNS IPs.
     example: 1.2.3.2
+  - model_name: name
+    tf_name: wan2_vrf_name
+    type: String
+    data_path: [wan2, vrf]
+    exclude_test: true
+    description: The name of the VRF associated with WAN 2. If not provided, the default VRF is used.
+    example: Mgmt-vrf
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

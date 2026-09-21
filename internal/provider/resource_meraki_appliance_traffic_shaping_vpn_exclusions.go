@@ -175,8 +175,7 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Create(ctx context.Contex
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve vpn exceptions (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
-		initialState.fromBody(ctx, meraki.Res{Result: gres.Get("items.0")})
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, ApplianceTrafficShapingVPNExclusions{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, meraki.Res{Result: gres.Get("items.0")}), resp.Private, &resp.Diagnostics)
 	}
 
 	// Create object
@@ -223,6 +222,9 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Read(ctx context.Context,
 	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
 	res, err := r.client.Get(networkPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -234,6 +236,9 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Read(ctx context.Context,
 	getPath := fmt.Sprintf("/organizations/%v/appliance/trafficShaping/vpnExclusions/byNetwork", orgId)
 	res, err = r.client.Get(getPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

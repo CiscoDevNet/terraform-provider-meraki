@@ -85,7 +85,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			{{- range  .Attributes}}
-			{{- if not .Value}}
+			{{- if and (not .Value) (not .DataSourceOnly)}}
 			"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 					{{- if len .EnumValues -}}
@@ -104,7 +104,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- if isListSet .}}
 				ElementType:         types.{{.ElementType}}Type,
 				{{- end}}
-				{{- if or .Reference .Mandatory}}
+				{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 				Required:            true,
 				{{- else if not .Computed}}
 				Optional:            true,
@@ -158,7 +158,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						{{- range  .Attributes}}
-						{{- if not .Value}}
+						{{- if and (not .Value) (not .DataSourceOnly)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 								{{- if len .EnumValues -}}
@@ -177,7 +177,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- if isListSet .}}
 							ElementType:         types.{{.ElementType}}Type,
 							{{- end}}
-							{{- if or .Reference .Mandatory}}
+							{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 							Required:            true,
 							{{- else if not .Computed}}
 							Optional:            true,
@@ -226,7 +226,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									{{- range  .Attributes}}
-									{{- if not .Value}}
+									{{- if and (not .Value) (not .DataSourceOnly)}}
 									"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 										MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 											{{- if len .EnumValues -}}
@@ -245,7 +245,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- if isListSet .}}
 										ElementType:         types.{{.ElementType}}Type,
 										{{- end}}
-										{{- if or .Reference .Mandatory}}
+										{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 										Required:            true,
 										{{- else if not .Computed}}
 										Optional:            true,
@@ -294,7 +294,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												{{- range  .Attributes}}
-												{{- if not .Value}}
+												{{- if and (not .Value) (not .DataSourceOnly)}}
 												"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 													MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 														{{- if len .EnumValues -}}
@@ -313,7 +313,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													{{- if isListSet .}}
 													ElementType:         types.{{.ElementType}}Type,
 													{{- end}}
-													{{- if or .Reference .Mandatory}}
+													{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
 													Required:            true,
 													{{- else if not .Computed}}
 													Optional:            true,
@@ -506,8 +506,7 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
-		initialState.fromBody(ctx, gres)
-		helpers.SetJsonInitialState(ctx, initialState.toBody(ctx, {{camelCase .Name}}{}), resp.Private, &resp.Diagnostics)
+		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 	{{- end}}
 
@@ -581,6 +580,9 @@ func (r *{{camelCase .Name}}Resource) Read(ctx context.Context, req resource.Rea
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	{{- end}}
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

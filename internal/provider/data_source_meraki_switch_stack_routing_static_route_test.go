@@ -37,6 +37,7 @@ func TestAccDataSourceMerakiSwitchStackRoutingStaticRoute(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_static_route.test", "name", "My route"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_static_route.test", "next_hop_ip", "192.168.1.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_static_route.test", "subnet", "192.168.2.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_static_route.test", "vrf_name", "Default"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -99,6 +100,7 @@ func testAccDataSourceMerakiSwitchStackRoutingStaticRouteConfig() string {
 	config += `  name = "My route"` + "\n"
 	config += `  next_hop_ip = "192.168.1.1"` + "\n"
 	config += `  subnet = "192.168.2.0/24"` + "\n"
+	config += `  vrf_name = "Default"` + "\n"
 	config += `}` + "\n"
 
 	config += `
@@ -119,6 +121,7 @@ func testAccNamedDataSourceMerakiSwitchStackRoutingStaticRouteConfig() string {
 	config += `  name = "My route"` + "\n"
 	config += `  next_hop_ip = "192.168.1.1"` + "\n"
 	config += `  subnet = "192.168.2.0/24"` + "\n"
+	config += `  vrf_name = "Default"` + "\n"
 	config += `}` + "\n"
 
 	config += `

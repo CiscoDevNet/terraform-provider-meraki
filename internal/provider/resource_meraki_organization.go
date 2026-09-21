@@ -177,6 +177,9 @@ func (r *OrganizationResource) Read(ctx context.Context, req resource.ReadReques
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
 	res, err := r.client.Get(state.getPath() + "/" + url.QueryEscape(state.Id.ValueString()))
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {

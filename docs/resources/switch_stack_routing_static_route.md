@@ -19,6 +19,7 @@ resource "meraki_switch_stack_routing_static_route" "example" {
   name            = "My route"
   next_hop_ip     = "192.168.1.1"
   subnet          = "192.168.2.0/24"
+  vrf_name        = "Default"
 }
 ```
 

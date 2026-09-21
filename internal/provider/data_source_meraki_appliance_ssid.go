@@ -168,7 +168,7 @@ func (d *ApplianceSSIDDataSource) Configure(_ context.Context, req datasource.Co
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceSSIDDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceSSID
+	var config DataSourceApplianceSSID
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

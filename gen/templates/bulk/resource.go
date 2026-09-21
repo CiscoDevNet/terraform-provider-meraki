@@ -168,7 +168,7 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 						},
 						{{- end}}
 						{{- range getBulkItemAttributes .}}
-						{{- if not .Value}}
+						{{- if and (not .Value) (not .DataSourceOnly)}}
 						"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 								{{- if len .EnumValues -}}
@@ -241,7 +241,7 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									{{- range  .Attributes}}
-									{{- if not .Value}}
+									{{- if and (not .Value) (not .DataSourceOnly)}}
 									"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 										MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 											{{- if len .EnumValues -}}
@@ -309,7 +309,7 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												{{- range  .Attributes}}
-												{{- if not .Value}}
+												{{- if and (not .Value) (not .DataSourceOnly)}}
 												"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 													MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 														{{- if len .EnumValues -}}
@@ -377,7 +377,7 @@ func (r *{{camelCase .BulkName}}Resource) Schema(ctx context.Context, req resour
 													NestedObject: schema.NestedAttributeObject{
 														Attributes: map[string]schema.Attribute{
 															{{- range  .Attributes}}
-															{{- if not .Value}}
+															{{- if and (not .Value) (not .DataSourceOnly)}}
 															"{{.TfName}}": schema.{{if isNestedListSetMap .}}{{.Type}}Nested{{else if isList .}}List{{else if isSet .}}Set{{else if eq .Type "Versions"}}List{{else if eq .Type "Version"}}Int64{{else}}{{.Type}}{{end}}Attribute{
 																MarkdownDescription: helpers.NewAttributeDescription("{{.Description}}")
 																	{{- if len .EnumValues -}}
@@ -613,6 +613,9 @@ func (r *{{camelCase .BulkName}}Resource) Read(ctx context.Context, req resource
 	{{- if not .NoRead}}
 	res, err := r.client.Get(state.getPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
@@ -880,7 +883,7 @@ func (r *{{camelCase .BulkName}}Resource) ImportState(ctx context.Context, req r
 				item := Resource{{camelCase .BulkName}}Items{}
 				item.{{getBulkItemId .}} = types.StringValue(itemId)
 				{{- range .Attributes}}
-				{{- if isListSet .}}
+				{{- if and (isListSet .) (not .DataSourceOnly)}}
 				item.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
 				{{- end}}
 				{{- end}}
@@ -910,7 +913,7 @@ func (r *{{camelCase .BulkName}}Resource) ImportState(ctx context.Context, req r
 				item := Resource{{camelCase .BulkName}}Items{}
 				item.{{getBulkItemId .}} = types.StringValue(itemId)
 				{{- range .Attributes}}
-				{{- if isListSet .}}
+				{{- if and (isListSet .) (not .DataSourceOnly)}}
 				item.{{toGoName .TfName}} = types.{{.Type}}Null(types.{{.ElementType}}Type)
 				{{- end}}
 				{{- end}}

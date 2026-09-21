@@ -106,7 +106,7 @@ func (d *WirelessRadioSettingsDataSource) Configure(_ context.Context, req datas
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessRadioSettingsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessRadioSettings
+	var config DataSourceWirelessRadioSettings
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

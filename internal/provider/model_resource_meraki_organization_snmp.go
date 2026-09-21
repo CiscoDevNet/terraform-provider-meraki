@@ -1,0 +1,258 @@
+// Copyright © 2024 Cisco Systems, Inc. and its affiliates.
+// All rights reserved.
+//
+// Licensed under the Mozilla Public License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://mozilla.org/MPL/2.0/
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// SPDX-License-Identifier: MPL-2.0
+
+package provider
+
+// Section below is generated&owned by "gen/generator.go". //template:begin imports
+import (
+	"context"
+	"fmt"
+	"net/url"
+
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/netascode/go-meraki"
+	"github.com/tidwall/sjson"
+)
+
+// End of section. //template:end imports
+
+// Section below is generated&owned by "gen/generator.go". //template:begin types
+
+type OrganizationSNMP struct {
+	Id                  types.String `tfsdk:"id"`
+	OrganizationId      types.String `tfsdk:"organization_id"`
+	V2cEnabled          types.Bool   `tfsdk:"v2c_enabled"`
+	V3AuthMode          types.String `tfsdk:"v3_auth_mode"`
+	V3AuthPass          types.String `tfsdk:"v3_auth_pass"`
+	V3AuthPassWo        types.String `tfsdk:"v3_auth_pass_wo"`
+	V3AuthPassWoVersion types.Int64  `tfsdk:"v3_auth_pass_wo_version"`
+	V3Enabled           types.Bool   `tfsdk:"v3_enabled"`
+	V3PrivMode          types.String `tfsdk:"v3_priv_mode"`
+	V3PrivPass          types.String `tfsdk:"v3_priv_pass"`
+	V3PrivPassWo        types.String `tfsdk:"v3_priv_pass_wo"`
+	V3PrivPassWoVersion types.Int64  `tfsdk:"v3_priv_pass_wo_version"`
+	PeerIps             types.Set    `tfsdk:"peer_ips"`
+}
+
+type OrganizationSNMPIdentity struct {
+	OrganizationId types.String `tfsdk:"organization_id"`
+}
+
+// End of section. //template:end types
+
+// Section below is generated&owned by "gen/generator.go". //template:begin getPath
+
+func (data OrganizationSNMP) getPath() string {
+	return fmt.Sprintf("/organizations/%v/snmp", url.QueryEscape(data.OrganizationId.ValueString()))
+}
+
+// End of section. //template:end getPath
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBody
+
+func (data OrganizationSNMP) toBody(ctx context.Context, state OrganizationSNMP) string {
+	body := ""
+	if !data.V2cEnabled.IsNull() {
+		body, _ = sjson.Set(body, "v2cEnabled", data.V2cEnabled.ValueBool())
+	}
+	if !data.V3AuthMode.IsNull() {
+		body, _ = sjson.Set(body, "v3AuthMode", data.V3AuthMode.ValueString())
+	}
+	if !data.V3AuthPassWo.IsNull() {
+		body, _ = sjson.Set(body, "v3AuthPass", data.V3AuthPassWo.ValueString())
+	} else if !data.V3AuthPass.IsNull() {
+		body, _ = sjson.Set(body, "v3AuthPass", data.V3AuthPass.ValueString())
+	}
+	if !data.V3Enabled.IsNull() {
+		body, _ = sjson.Set(body, "v3Enabled", data.V3Enabled.ValueBool())
+	}
+	if !data.V3PrivMode.IsNull() {
+		body, _ = sjson.Set(body, "v3PrivMode", data.V3PrivMode.ValueString())
+	}
+	if !data.V3PrivPassWo.IsNull() {
+		body, _ = sjson.Set(body, "v3PrivPass", data.V3PrivPassWo.ValueString())
+	} else if !data.V3PrivPass.IsNull() {
+		body, _ = sjson.Set(body, "v3PrivPass", data.V3PrivPass.ValueString())
+	}
+	if !data.PeerIps.IsNull() {
+		var values []string
+		data.PeerIps.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "peerIps", values)
+	}
+	return body
+}
+
+// End of section. //template:end toBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+func (data OrganizationSNMP) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("v2cEnabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v2cEnabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "v2cEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("v3AuthMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3AuthMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3AuthMode", value.String())
+		}
+	}
+	if value := res.Get("v3Enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3Enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3Enabled", value.Bool())
+		}
+	}
+	if value := res.Get("v3PrivMode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "v3PrivMode", "null")
+		} else {
+			body, _ = sjson.Set(body, "v3PrivMode", value.String())
+		}
+	}
+	if value := res.Get("peerIps"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "peerIps", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "peerIps", values)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBodyPreservingNulls
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
+
+func (data *OrganizationSNMP) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("v2cEnabled"); value.Exists() && value.Value() != nil {
+		data.V2cEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.V2cEnabled = types.BoolNull()
+	}
+	if value := res.Get("v3AuthMode"); value.Exists() && value.Value() != nil {
+		data.V3AuthMode = types.StringValue(value.String())
+	} else {
+		data.V3AuthMode = types.StringNull()
+	}
+	if value := res.Get("v3Enabled"); value.Exists() && value.Value() != nil {
+		data.V3Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.V3Enabled = types.BoolNull()
+	}
+	if value := res.Get("v3PrivMode"); value.Exists() && value.Value() != nil {
+		data.V3PrivMode = types.StringValue(value.String())
+	} else {
+		data.V3PrivMode = types.StringNull()
+	}
+	if value := res.Get("peerIps"); value.Exists() && value.Value() != nil {
+		data.PeerIps = helpers.GetStringSet(value.Array())
+	} else {
+		data.PeerIps = types.SetNull(types.StringType)
+	}
+}
+
+// End of section. //template:end fromBody
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
+
+// fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
+// uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
+// easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
+// "managed" elements, instead of all elements.
+func (data *OrganizationSNMP) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("v2cEnabled"); value.Exists() && !data.V2cEnabled.IsNull() {
+		data.V2cEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.V2cEnabled = types.BoolNull()
+	}
+	if value := res.Get("v3AuthMode"); value.Exists() && !data.V3AuthMode.IsNull() {
+		data.V3AuthMode = types.StringValue(value.String())
+	} else {
+		data.V3AuthMode = types.StringNull()
+	}
+	if value := res.Get("v3Enabled"); value.Exists() && !data.V3Enabled.IsNull() {
+		data.V3Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.V3Enabled = types.BoolNull()
+	}
+	if value := res.Get("v3PrivMode"); value.Exists() && !data.V3PrivMode.IsNull() {
+		data.V3PrivMode = types.StringValue(value.String())
+	} else {
+		data.V3PrivMode = types.StringNull()
+	}
+	if value := res.Get("peerIps"); value.Exists() && !data.PeerIps.IsNull() {
+		data.PeerIps = helpers.GetStringSet(value.Array())
+	} else {
+		data.PeerIps = types.SetNull(types.StringType)
+	}
+}
+
+// End of section. //template:end fromBodyPartial
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
+
+// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
+// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
+func (data *OrganizationSNMP) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+}
+
+// End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *OrganizationSNMPIdentity) toIdentity(ctx context.Context, plan *OrganizationSNMP) {
+	data.OrganizationId = plan.OrganizationId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *OrganizationSNMP) fromIdentity(ctx context.Context, identity *OrganizationSNMPIdentity) {
+	data.OrganizationId = identity.OrganizationId
+}
+
+// End of section. //template:end fromIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data OrganizationSNMP) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

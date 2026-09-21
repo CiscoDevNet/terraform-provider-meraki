@@ -58,10 +58,10 @@ attributes:
         type: List
         mandatory: true
         description: Traffic filters
+        ordered_list: true
         attributes:
           - model_name: type
             type: String
-            id: true
             mandatory: true
             description: Traffic filter type. Must be `custom`, `major_application`, `application (NBAR)`, if type is `application`, you can pass either an NBAR App Category or Application
             example: custom

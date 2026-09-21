@@ -145,7 +145,7 @@ func (d *WirelessEthernetPortProfileDataSource) Configure(_ context.Context, req
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessEthernetPortProfileDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessEthernetPortProfile
+	var config DataSourceWirelessEthernetPortProfile
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

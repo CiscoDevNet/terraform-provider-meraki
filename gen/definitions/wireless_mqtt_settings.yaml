@@ -1,4 +1,5 @@
-# Customize Read(), getPath() and toBody() to support org level endpoints
+# Customize Read(), Create(), getPath() and toBody() to support org level endpoints
+# Customize toBodyPreservingNulls() because toBody() is hand-written
 name: Wireless MQTT Settings
 spec_endpoint: /organizations/{organizationId}/wireless/mqtt/settings
 rest_endpoint: /organizations/%v/wireless/mqtt/settings

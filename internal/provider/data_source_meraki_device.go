@@ -120,7 +120,7 @@ func (d *DeviceDataSource) Configure(_ context.Context, req datasource.Configure
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *DeviceDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config Device
+	var config DataSourceDevice
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

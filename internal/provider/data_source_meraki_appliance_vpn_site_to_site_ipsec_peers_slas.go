@@ -102,7 +102,7 @@ func (d *ApplianceVPNSiteToSiteIPsecPeersSLAsDataSource) Configure(_ context.Con
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *ApplianceVPNSiteToSiteIPsecPeersSLAsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config ApplianceVPNSiteToSiteIPsecPeersSLAs
+	var config DataSourceApplianceVPNSiteToSiteIPsecPeersSLAs
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

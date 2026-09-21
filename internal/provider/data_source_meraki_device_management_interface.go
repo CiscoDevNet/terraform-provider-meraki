@@ -95,6 +95,10 @@ func (d *DeviceManagementInterfaceDataSource) Schema(ctx context.Context, req da
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
+			"wan1_vrf_name": schema.StringAttribute{
+				MarkdownDescription: "The name of the VRF associated with WAN 1. If not provided, the default VRF is used.",
+				Computed:            true,
+			},
 			"wan2_static_gateway_ip": schema.StringAttribute{
 				MarkdownDescription: "The IP of the gateway on the WAN.",
 				Computed:            true,
@@ -124,6 +128,10 @@ func (d *DeviceManagementInterfaceDataSource) Schema(ctx context.Context, req da
 				ElementType:         types.StringType,
 				Computed:            true,
 			},
+			"wan2_vrf_name": schema.StringAttribute{
+				MarkdownDescription: "The name of the VRF associated with WAN 2. If not provided, the default VRF is used.",
+				Computed:            true,
+			},
 		},
 	}
 }
@@ -141,7 +149,7 @@ func (d *DeviceManagementInterfaceDataSource) Configure(_ context.Context, req d
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *DeviceManagementInterfaceDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config DeviceManagementInterface
+	var config DataSourceDeviceManagementInterface
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

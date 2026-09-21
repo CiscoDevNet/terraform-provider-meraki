@@ -122,7 +122,7 @@ func (d *WirelessSSIDL3FirewallRulesDataSource) Configure(_ context.Context, req
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *WirelessSSIDL3FirewallRulesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDL3FirewallRules
+	var config DataSourceWirelessSSIDL3FirewallRules
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

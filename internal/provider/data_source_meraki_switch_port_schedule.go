@@ -184,7 +184,7 @@ func (d *SwitchPortScheduleDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchPortScheduleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchPortSchedule
+	var config DataSourceSwitchPortSchedule
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

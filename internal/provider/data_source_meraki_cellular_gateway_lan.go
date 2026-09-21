@@ -122,7 +122,7 @@ func (d *CellularGatewayLANDataSource) Configure(_ context.Context, req datasour
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *CellularGatewayLANDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config CellularGatewayLAN
+	var config DataSourceCellularGatewayLAN
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

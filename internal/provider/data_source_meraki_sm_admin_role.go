@@ -110,7 +110,7 @@ func (d *SMAdminRoleDataSource) Configure(_ context.Context, req datasource.Conf
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SMAdminRoleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SMAdminRole
+	var config DataSourceSMAdminRole
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

@@ -126,7 +126,7 @@ func (d *SwitchAccessControlListsDataSource) Configure(_ context.Context, req da
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
 func (d *SwitchAccessControlListsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config SwitchAccessControlLists
+	var config DataSourceSwitchAccessControlLists
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

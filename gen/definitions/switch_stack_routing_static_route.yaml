@@ -57,9 +57,8 @@ attributes:
   - model_name: name
     type: String
     data_path: [vrf]
-    exclude_test: true
     description: The name of the VRF this static route belongs to
-    example: Blue
+    example: Default
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

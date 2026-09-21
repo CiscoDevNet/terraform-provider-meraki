@@ -93,7 +93,7 @@ func (d *WirelessSSIDOpenRoamingDataSource) Configure(_ context.Context, req dat
 // End of section. //template:end model
 
 func (d *WirelessSSIDOpenRoamingDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config WirelessSSIDOpenRoaming
+	var config DataSourceWirelessSSIDOpenRoaming
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)

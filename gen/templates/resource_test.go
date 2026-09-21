@@ -49,28 +49,28 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	{{- $name := .Name }}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (not .DataSourceOnly)}}
 	{{- if isNestedListSetMap .}}
 	{{- $parent0 := .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (not .DataSourceOnly)}}
 	{{- if isNestedListSetMap .}}
 	{{- $parent1 := .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed)}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (not .DataSourceOnly)}}
 	{{- if isNestedListSetMap .}}
 	{{- $parent2 := .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 	{{- end}}
 	{{- range  .Attributes}}
-	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (not (isSet .))}}
+	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (not .DataSourceOnly) (not (isSet .))}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1 $parent2}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
@@ -323,7 +323,7 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 {{- end}}
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
-	{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+	{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 	{{- if isNestedListSetMap .}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -334,7 +334,7 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 	config += `  {{.TfName}} = [{` + "\n"
 	{{- end}}
 		{{- range  .Attributes}}
-		{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+		{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 		{{- if isNestedListSetMap .}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -345,7 +345,7 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 	config += `    {{.TfName}} = [{` + "\n"
 		{{- end}}
 			{{- range  .Attributes}}
-			{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+			{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 			{{- if isNestedListSetMap .}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
@@ -356,7 +356,7 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 	config += `      {{.TfName}} = [{` + "\n"
 			{{- end}}
 				{{- range  .Attributes}}
-				{{- if and (not .ExcludeTest) (not .Value) (not .Computed)}}
+				{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
 		config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
