@@ -120,7 +120,6 @@ func testAccMerakiApplianceSDWANInternetPoliciesConfig_minimum() string {
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  wan_traffic_uplink_preferences = [{` + "\n"
 	config += `    preferred_uplink = "wan1"` + "\n"
-	config += `    builtin_performance_class_name = "VoIP"` + "\n"
 	config += `    traffic_filters = [{` + "\n"
 	config += `    type = "custom"` + "\n"
 	config += `    protocol = "any"` + "\n"
@@ -189,7 +188,7 @@ resource "meraki_appliance_sdwan_internet_policies" "test" {
       builtin_performance_class_name = "VoIP"
       fail_over_criterion            = "poorPerformance"
       performance_class_type         = "builtin"
-      preferred_uplink               = "wan1"
+      preferred_uplink               = "bestForVoIP"
       traffic_filters                = [
         {
           destination_cidr = "any"
