@@ -31,4 +31,5 @@ data "meraki_camera_sense" "example" {
 - `detection_model_id` (String) The ID of the object detection model
 - `id` (String) The id of the object
 - `mqtt_broker_id` (String) The ID of the MQTT broker to be enabled on the camera. A value of null will disable MQTT on the camera
+- `mqtt_topics` (List of String) MQTT topics the camera publishes to
 - `sense_enabled` (Boolean) Boolean indicating if sense(license) is enabled(true) or disabled(false) on the camera

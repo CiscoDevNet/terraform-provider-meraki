@@ -154,11 +154,27 @@ func generateDefinition(endpointPath, resourceName string, earlyAccess bool) {
 	config := yamlconfig.YamlConfigP{}
 	urlResult := parseUrl(endpointPath, spec, betaSpec, earlyAccess)
 
+	// The example sits either inside the schema or next to it as content.example.
+	// content.example is an array for endpoints returning a bare JSON array (e.g.
+	// /organizations/{organizationId}/licenses) but an object for endpoints that wrap
+	// their payload (e.g. /organizations/{organizationId}/integrations/deployable,
+	// which returns {"items": [...], "meta": {...}}). Both shapes must be accepted:
+	// asserting []interface{} unconditionally panics on the wrapped ones.
 	var example map[string]interface{}
 	if e, ok := urlResult.schema["schema"].(map[string]interface{})["example"]; ok {
-		example = e.(map[string]interface{})
+		example, _ = e.(map[string]interface{})
 	} else {
-		example = urlResult.schema["example"].([]interface{})[0].(map[string]interface{})
+		switch e := urlResult.schema["example"].(type) {
+		case map[string]interface{}:
+			example = e
+		case []interface{}:
+			if len(e) > 0 {
+				example, _ = e[0].(map[string]interface{})
+			}
+		}
+	}
+	if example == nil {
+		example = map[string]interface{}{}
 	}
 	exampleStr, err := json.Marshal(&example)
 	if err != nil {
