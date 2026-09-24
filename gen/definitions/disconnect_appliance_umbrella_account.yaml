@@ -1,0 +1,24 @@
+name: Disconnect Appliance Umbrella Account
+spec_endpoint: /networks/{networkId}/appliance/umbrella/account/disconnect
+rest_endpoint: /networks/%v/appliance/umbrella/account/disconnect
+action: true
+doc_category: Appliances
+test_tags: [DISCONNECT_APPLIANCE_UMBRELLA_ACCOUNT]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: N_24329156
+    test_value: meraki_network.test.id
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["appliance"]
+  }

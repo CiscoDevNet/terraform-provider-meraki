@@ -441,6 +441,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewOrganizationSAMLIdPsResource,
 		NewOrganizationSAMLRoleResource,
 		NewOrganizationSNMPResource,
+		NewOrganizationWirelessDevicesProvisioningDeploymentsResource,
 		NewSensorAlertsProfileResource,
 		NewSensorAlertsProfilesResource,
 		NewSensorMQTTBrokerResource,
@@ -657,6 +658,8 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewOrganizationExtensionsThousandEyesNetworkDataSource,
 		NewOrganizationExtensionsThousandEyesNetworksDataSource,
 		NewOrganizationFirmwareUpgradesDataSource,
+		NewOrganizationIntegrationsDeployableDataSource,
+		NewOrganizationIntegrationsDeployedDataSource,
 		NewOrganizationIntegrationsXDRNetworksDataSource,
 		NewOrganizationInventoryDevicesDataSource,
 		NewOrganizationLicenseDataSource,
@@ -671,7 +674,10 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewOrganizationSAMLIdPsDataSource,
 		NewOrganizationSAMLRoleDataSource,
 		NewOrganizationSAMLRolesDataSource,
+		NewOrganizationSaseNetworksEligibleDataSource,
 		NewOrganizationSNMPDataSource,
+		NewOrganizationWirelessDevicesProvisioningDeploymentsDataSource,
+		NewOrganizationWirelessDevicesProvisioningDeploymentssDataSource,
 		NewSensorAlertsProfileDataSource,
 		NewSensorAlertsProfilesDataSource,
 		NewSensorMQTTBrokerDataSource,
@@ -769,6 +775,8 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 func (p *MerakiProvider) Actions(ctx context.Context) []func() action.Action {
 	return []func() action.Action{
 		NewBlinkDeviceLedsAction,
+		NewConnectApplianceUmbrellaAccountAction,
+		NewDisconnectApplianceUmbrellaAccountAction,
 		NewGenerateApplianceVMXAuthenticationTokenAction,
 		NewRebootDeviceAction,
 	}

@@ -640,7 +640,7 @@ func CamelToSnake(str string) string {
 	return strings.ToLower(snake)
 }
 
-func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName string, parentDataSourceOnly bool) error {
+func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName string, parentDataSourceOnly, parentIsRoot bool) error {
 	// Augument
 	if attr.TfName == "" {
 		fullString := ""
@@ -655,6 +655,13 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 
 	attr.GoTypeName = parentGoTypeName + ToGoName(attr.TfName)
 	attr.GoTypeBulkName = parentGoTypeBulkName + ToGoName(attr.TfName)
+	// The bulk model template always wraps the whole config in a DataSource<BulkName>Items
+	// struct, so a top-level attribute literally named "items" would generate that same name.
+	// Nest it one level deeper instead, mirroring the extra wrapper the template inserts.
+	// Only the root can collide: at deeper levels no <parent>Items wrapper is emitted.
+	if parentIsRoot && attr.GoTypeBulkName == parentGoTypeBulkName+"Items" {
+		attr.GoTypeBulkName = parentGoTypeBulkName + "Items" + ToGoName(attr.TfName)
+	}
 
 	// A data-source-only container cascades the flag onto every descendant attribute.
 	attr.DataSourceOnly = attr.DataSourceOnly || parentDataSourceOnly
@@ -715,7 +722,7 @@ func (attr *YamlConfigAttribute) Init(parentGoTypeName, parentGoTypeBulkName str
 
 	// Recurse
 	for i := range attr.Attributes {
-		if err := attr.Attributes[i].Init(attr.GoTypeName, attr.GoTypeBulkName, attr.DataSourceOnly); err != nil {
+		if err := attr.Attributes[i].Init(attr.GoTypeName, attr.GoTypeBulkName, attr.DataSourceOnly, false); err != nil {
 			return err
 		}
 	}
@@ -739,7 +746,7 @@ func NewYamlConfig(bytes []byte) (YamlConfig, error) {
 	}
 
 	for i := range config.Attributes {
-		if err := config.Attributes[i].Init(CamelCase(config.Name), CamelCase(config.BulkName), false); err != nil {
+		if err := config.Attributes[i].Init(CamelCase(config.Name), CamelCase(config.BulkName), false, true); err != nil {
 			return YamlConfig{}, err
 		}
 	}
