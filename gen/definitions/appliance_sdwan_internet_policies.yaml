@@ -40,6 +40,7 @@ attributes:
         data_path: [performanceClass]
         description: 'Name of builtin performance class. Must be present when performanceClass type is `builtin` and value must be one of: `VoIP`'
         example: VoIP
+        minimum_test_value: '"VoIP"'
         enum_values: [VoIP]
       - model_name: customPerformanceClassId
         tf_name: custom_performance_class_id
@@ -52,6 +53,7 @@ attributes:
         data_path: [performanceClass]
         description: 'Type of this performance class. Must be one of: `builtin` or `custom`'
         example: custom
+        minimum_test_value: '"builtin"'
         enum_values: [builtin, custom]
       - model_name: trafficFilters
         type: List
