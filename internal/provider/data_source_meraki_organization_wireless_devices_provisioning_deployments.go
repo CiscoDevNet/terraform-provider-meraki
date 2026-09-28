@@ -28,7 +28,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -56,118 +55,28 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Metadata(
 func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Wireless Devices Provisioning Deployments` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Wireless Devices Provisioning Deployment` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				MarkdownDescription: "The id of the object",
-				Required:            true,
-			},
 			"organization_id": schema.StringAttribute{
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
-			"meta_counts_items_remaining": schema.Int64Attribute{
-				MarkdownDescription: "The number of items in the dataset that are available on subsequent pages",
-				Computed:            true,
-			},
-			"meta_counts_items_total": schema.Int64Attribute{
-				MarkdownDescription: "The total number of items in the dataset",
-				Computed:            true,
-			},
-			"items": schema.ListNestedAttribute{
-				MarkdownDescription: "List of zero touch deployments to create",
+			"items": schema.SetNestedAttribute{
+				MarkdownDescription: "The list of items",
 				Computed:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"completed_at": schema.StringAttribute{
-							MarkdownDescription: "Timestamp of when the zero touch deployment request was completed",
-							Computed:            true,
-						},
-						"created_at": schema.StringAttribute{
-							MarkdownDescription: "Timestamp of when the zero touch deployment request was created",
-							Computed:            true,
-						},
-						"deployment_id": schema.StringAttribute{
-							MarkdownDescription: "zero touch deployment request identifier",
-							Computed:            true,
-						},
-						"last_updated_at": schema.StringAttribute{
-							MarkdownDescription: "Timestamp of when the zero touch deployment request was last updated",
-							Computed:            true,
-						},
-						"requested_at": schema.StringAttribute{
-							MarkdownDescription: "Timestamp of when the zero touch deployment request was created",
-							Computed:            true,
-						},
-						"status": schema.StringAttribute{
-							MarkdownDescription: "Status of the zero touch deployment request. enum = [ready, in progress, completed, failed]",
+						"id": schema.StringAttribute{
+							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: "Type of the zero touch deployment request. enum = [deploy, replace]",
+							MarkdownDescription: "Type of the zero touch deployment request",
 							Computed:            true,
 						},
-						"devices_new_mac": schema.StringAttribute{
-							MarkdownDescription: "MAC address of the new device",
-							Computed:            true,
-						},
-						"devices_new_model": schema.StringAttribute{
-							MarkdownDescription: "Model of the new device",
-							Computed:            true,
-						},
-						"devices_new_name": schema.StringAttribute{
-							MarkdownDescription: "Name of the new device or serial number if not named",
-							Computed:            true,
-						},
-						"devices_new_serial": schema.StringAttribute{
-							MarkdownDescription: "Serial number of the new device",
-							Computed:            true,
-						},
-						"devices_new_rf_profile_id": schema.StringAttribute{
-							MarkdownDescription: "ID of RfProfile for new device",
-							Computed:            true,
-						},
-						"devices_new_rf_profile_name": schema.StringAttribute{
-							MarkdownDescription: "Name of RfProfile for new device",
-							Computed:            true,
-						},
-						"devices_new_tags": schema.ListAttribute{
-							MarkdownDescription: "Tag(s) of the new device",
-							ElementType:         types.StringType,
-							Computed:            true,
-						},
-						"devices_old_after_action": schema.StringAttribute{
-							MarkdownDescription: "Action to be taken on the old device",
-							Computed:            true,
-						},
-						"devices_old_mac": schema.StringAttribute{
-							MarkdownDescription: "MAC address of the old device",
-							Computed:            true,
-						},
-						"devices_old_model": schema.StringAttribute{
-							MarkdownDescription: "Model of the old device",
-							Computed:            true,
-						},
-						"devices_old_name": schema.StringAttribute{
-							MarkdownDescription: "Name of the old device",
-							Computed:            true,
-						},
-						"devices_old_serial": schema.StringAttribute{
-							MarkdownDescription: "Serial number of the old device",
-							Computed:            true,
-						},
-						"devices_old_rf_profile_id": schema.StringAttribute{
-							MarkdownDescription: "ID of the RF profile",
-							Computed:            true,
-						},
-						"devices_old_rf_profile_name": schema.StringAttribute{
-							MarkdownDescription: "Name of the RF profile",
-							Computed:            true,
-						},
-						"devices_old_tags": schema.ListAttribute{
-							MarkdownDescription: "Tag(s) of the old device",
-							ElementType:         types.StringType,
+						"status": schema.StringAttribute{
+							MarkdownDescription: "Status of the zero touch deployment request",
 							Computed:            true,
 						},
 						"network_id": schema.StringAttribute{
@@ -178,9 +87,82 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Schema(ct
 							MarkdownDescription: "Name of the network the device is being added to",
 							Computed:            true,
 						},
-						"errors": schema.ListAttribute{
-							MarkdownDescription: "Array of error message(s) if any",
+						"devices_new_serial": schema.StringAttribute{
+							MarkdownDescription: "Serial number of the new device",
+							Computed:            true,
+						},
+						"devices_new_name": schema.StringAttribute{
+							MarkdownDescription: "Name of the new device or serial number if not named",
+							Computed:            true,
+						},
+						"devices_new_tags": schema.ListAttribute{
+							MarkdownDescription: "Tag(s) of the new device",
 							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"devices_new_rf_profile_id": schema.StringAttribute{
+							MarkdownDescription: "ID of RfProfile for new device",
+							Computed:            true,
+						},
+						"devices_new_mac": schema.StringAttribute{
+							MarkdownDescription: "MAC address of the new device",
+							Computed:            true,
+						},
+						"devices_new_model": schema.StringAttribute{
+							MarkdownDescription: "Model of the new device",
+							Computed:            true,
+						},
+						"devices_new_rf_profile_name": schema.StringAttribute{
+							MarkdownDescription: "Name of RfProfile for new device",
+							Computed:            true,
+						},
+						"devices_old_serial": schema.StringAttribute{
+							MarkdownDescription: "Serial number of the old device, only for `replace` deployments",
+							Computed:            true,
+						},
+						"devices_old_after_action": schema.StringAttribute{
+							MarkdownDescription: "Action to be taken on the old device, only for `replace` deployments",
+							Computed:            true,
+						},
+						"devices_old_name": schema.StringAttribute{
+							MarkdownDescription: "Name of the old device",
+							Computed:            true,
+						},
+						"devices_old_tags": schema.ListAttribute{
+							MarkdownDescription: "Tag(s) of the old device",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"devices_old_rf_profile_id": schema.StringAttribute{
+							MarkdownDescription: "ID of the RF profile of the old device",
+							Computed:            true,
+						},
+						"devices_old_mac": schema.StringAttribute{
+							MarkdownDescription: "MAC address of the old device",
+							Computed:            true,
+						},
+						"devices_old_model": schema.StringAttribute{
+							MarkdownDescription: "Model of the old device",
+							Computed:            true,
+						},
+						"devices_old_rf_profile_name": schema.StringAttribute{
+							MarkdownDescription: "Name of the RF profile of the old device",
+							Computed:            true,
+						},
+						"created_at": schema.StringAttribute{
+							MarkdownDescription: "Timestamp of when the zero touch deployment request was created",
+							Computed:            true,
+						},
+						"requested_at": schema.StringAttribute{
+							MarkdownDescription: "Timestamp of when the zero touch deployment request was requested",
+							Computed:            true,
+						},
+						"last_updated_at": schema.StringAttribute{
+							MarkdownDescription: "Timestamp of when the zero touch deployment request was last updated",
+							Computed:            true,
+						},
+						"completed_at": schema.StringAttribute{
+							MarkdownDescription: "Timestamp of when the zero touch deployment request was completed",
 							Computed:            true,
 						},
 					},
@@ -212,34 +194,20 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Read(ctx 
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", "OrganizationWirelessDevicesProvisioningDeploymentsDataSource"))
 
-	var res meraki.Res
-	var err error
-
-	if !res.Exists() {
-		res, err = d.client.Get(config.getPath())
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
-			return
-		}
+	res, err := d.client.Get(config.getPath())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
+		return
 	}
+
 	if res.Get("items").Exists() {
 		res = meraki.Res{Result: res.Get("items")}
 	}
-	if len(res.Array()) > 0 {
-		res.ForEach(func(k, v gjson.Result) bool {
-			if config.Id.ValueString() == v.Get("id").String() {
-				res = meraki.Res{Result: v}
-				return false
-			}
-			return true
-		})
-	}
-
 	config.fromBody(ctx, res)
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", config.Id.ValueString()))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", "OrganizationWirelessDevicesProvisioningDeploymentsDataSource"))
 
 	diags = resp.State.Set(ctx, &config)
 	resp.Diagnostics.Append(diags...)

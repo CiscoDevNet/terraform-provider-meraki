@@ -29,8 +29,6 @@ data "meraki_organization_sase_networks_eligible" "example" {
 
 - `id` (String) The id of the object
 - `items` (Attributes List) List of enrollable networks (see [below for nested schema](#nestedatt--items))
-- `meta_counts_items_remaining` (Number) The number of items in the dataset that are available on subsequent pages
-- `meta_counts_items_total` (Number) The total number of items in the dataset
 
 <a id="nestedatt--items"></a>
 ### Nested Schema for `items`

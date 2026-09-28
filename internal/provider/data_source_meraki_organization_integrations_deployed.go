@@ -66,14 +66,6 @@ func (d *OrganizationIntegrationsDeployedDataSource) Schema(ctx context.Context,
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
-			"meta_counts_items_remaining": schema.Int64Attribute{
-				MarkdownDescription: "The number of objects that are available on subsequent pages",
-				Computed:            true,
-			},
-			"meta_counts_items_total": schema.Int64Attribute{
-				MarkdownDescription: "The total number of available objects",
-				Computed:            true,
-			},
 			"items": schema.ListNestedAttribute{
 				MarkdownDescription: "A deployed integration",
 				Computed:            true,

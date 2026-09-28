@@ -38,11 +38,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type OrganizationIntegrationsDeployable struct {
-	Id                       types.String                              `tfsdk:"id"`
-	OrganizationId           types.String                              `tfsdk:"organization_id"`
-	MetaCountsItemsRemaining types.Int64                               `tfsdk:"meta_counts_items_remaining"`
-	MetaCountsItemsTotal     types.Int64                               `tfsdk:"meta_counts_items_total"`
-	Items                    []OrganizationIntegrationsDeployableItems `tfsdk:"items"`
+	Id             types.String                              `tfsdk:"id"`
+	OrganizationId types.String                              `tfsdk:"organization_id"`
+	Items          []OrganizationIntegrationsDeployableItems `tfsdk:"items"`
 }
 
 type OrganizationIntegrationsDeployableItems struct {
@@ -76,12 +74,6 @@ func (data OrganizationIntegrationsDeployable) getPath() string {
 
 func (data OrganizationIntegrationsDeployable) toBody(ctx context.Context, state OrganizationIntegrationsDeployable) string {
 	body := ""
-	if !data.MetaCountsItemsRemaining.IsNull() {
-		body, _ = sjson.Set(body, "meta.counts.items.remaining", data.MetaCountsItemsRemaining.ValueInt64())
-	}
-	if !data.MetaCountsItemsTotal.IsNull() {
-		body, _ = sjson.Set(body, "meta.counts.items.total", data.MetaCountsItemsTotal.ValueInt64())
-	}
 	if len(data.Items) > 0 {
 		body, _ = sjson.Set(body, "items", []interface{}{})
 		for _, item := range data.Items {
@@ -129,16 +121,6 @@ func (data OrganizationIntegrationsDeployable) toBody(ctx context.Context, state
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *OrganizationIntegrationsDeployable) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("meta.counts.items.remaining"); value.Exists() && value.Value() != nil {
-		data.MetaCountsItemsRemaining = types.Int64Value(value.Int())
-	} else {
-		data.MetaCountsItemsRemaining = types.Int64Null()
-	}
-	if value := res.Get("meta.counts.items.total"); value.Exists() && value.Value() != nil {
-		data.MetaCountsItemsTotal = types.Int64Value(value.Int())
-	} else {
-		data.MetaCountsItemsTotal = types.Int64Null()
-	}
 	if value := res.Get("items"); value.Exists() && value.Value() != nil {
 		data.Items = make([]OrganizationIntegrationsDeployableItems, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -209,16 +191,6 @@ func (data *OrganizationIntegrationsDeployable) fromBody(ctx context.Context, re
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *OrganizationIntegrationsDeployable) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	if value := res.Get("meta.counts.items.remaining"); value.Exists() && !data.MetaCountsItemsRemaining.IsNull() {
-		data.MetaCountsItemsRemaining = types.Int64Value(value.Int())
-	} else {
-		data.MetaCountsItemsRemaining = types.Int64Null()
-	}
-	if value := res.Get("meta.counts.items.total"); value.Exists() && !data.MetaCountsItemsTotal.IsNull() {
-		data.MetaCountsItemsTotal = types.Int64Value(value.Int())
-	} else {
-		data.MetaCountsItemsTotal = types.Int64Null()
-	}
 	for i := 0; i < len(data.Items); i++ {
 		keys := [...]string{"isCiscoProduct", "isDeployable", "logoUrl", "name", "provider", "redirectUrl", "releaseType", "shortDescription", "type"}
 		keyValues := [...]string{strconv.FormatBool(data.Items[i].IsCiscoProduct.ValueBool()), strconv.FormatBool(data.Items[i].IsDeployable.ValueBool()), data.Items[i].LogoUrl.ValueString(), data.Items[i].Name.ValueString(), data.Items[i].Provider.ValueString(), data.Items[i].RedirectUrl.ValueString(), data.Items[i].ReleaseType.ValueString(), data.Items[i].ShortDescription.ValueString(), data.Items[i].Type.ValueString()}

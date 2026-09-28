@@ -42,11 +42,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DataSourceOrganizationIntegrationsDeployed struct {
-	Id                       types.String                                      `tfsdk:"id"`
-	OrganizationId           types.String                                      `tfsdk:"organization_id"`
-	MetaCountsItemsRemaining types.Int64                                       `tfsdk:"meta_counts_items_remaining"`
-	MetaCountsItemsTotal     types.Int64                                       `tfsdk:"meta_counts_items_total"`
-	Items                    []DataSourceOrganizationIntegrationsDeployedItems `tfsdk:"items"`
+	Id             types.String                                      `tfsdk:"id"`
+	OrganizationId types.String                                      `tfsdk:"organization_id"`
+	Items          []DataSourceOrganizationIntegrationsDeployedItems `tfsdk:"items"`
 }
 
 type DataSourceOrganizationIntegrationsDeployedItems struct {
@@ -70,16 +68,6 @@ func (data DataSourceOrganizationIntegrationsDeployed) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DataSourceOrganizationIntegrationsDeployed) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("meta.counts.items.remaining"); value.Exists() && value.Value() != nil {
-		data.MetaCountsItemsRemaining = types.Int64Value(value.Int())
-	} else {
-		data.MetaCountsItemsRemaining = types.Int64Null()
-	}
-	if value := res.Get("meta.counts.items.total"); value.Exists() && value.Value() != nil {
-		data.MetaCountsItemsTotal = types.Int64Value(value.Int())
-	} else {
-		data.MetaCountsItemsTotal = types.Int64Null()
-	}
 	if value := res.Get("items"); value.Exists() && value.Value() != nil {
 		data.Items = make([]DataSourceOrganizationIntegrationsDeployedItems, 0)
 		value.ForEach(func(k, res gjson.Result) bool {

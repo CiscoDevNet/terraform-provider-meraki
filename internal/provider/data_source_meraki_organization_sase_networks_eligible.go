@@ -65,14 +65,6 @@ func (d *OrganizationSaseNetworksEligibleDataSource) Schema(ctx context.Context,
 				MarkdownDescription: "Organization ID",
 				Required:            true,
 			},
-			"meta_counts_items_remaining": schema.Int64Attribute{
-				MarkdownDescription: "The number of items in the dataset that are available on subsequent pages",
-				Computed:            true,
-			},
-			"meta_counts_items_total": schema.Int64Attribute{
-				MarkdownDescription: "The total number of items in the dataset",
-				Computed:            true,
-			},
 			"items": schema.ListNestedAttribute{
 				MarkdownDescription: "List of enrollable networks",
 				Computed:            true,
