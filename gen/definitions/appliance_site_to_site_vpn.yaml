@@ -25,6 +25,11 @@ attributes:
     data_path: [subnet, nat]
     description: If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
     example: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [sgt]
+    description: Whether or not Peer SGT is enabled for traffic to this VPN peer.
+    example: "false"
   - model_name: hubs
     type: List
     exclude_test: true

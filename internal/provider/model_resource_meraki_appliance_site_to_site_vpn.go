@@ -40,6 +40,7 @@ type ApplianceSiteToSiteVPN struct {
 	NetworkId          types.String                    `tfsdk:"network_id"`
 	Mode               types.String                    `tfsdk:"mode"`
 	SubnetNatIsAllowed types.Bool                      `tfsdk:"subnet_nat_is_allowed"`
+	SgtEnabled         types.Bool                      `tfsdk:"sgt_enabled"`
 	Hubs               []ApplianceSiteToSiteVPNHubs    `tfsdk:"hubs"`
 	Subnets            []ApplianceSiteToSiteVPNSubnets `tfsdk:"subnets"`
 }
@@ -79,6 +80,9 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 	}
 	if !data.SubnetNatIsAllowed.IsNull() {
 		body, _ = sjson.Set(body, "subnet.nat.isAllowed", data.SubnetNatIsAllowed.ValueBool())
+	}
+	if !data.SgtEnabled.IsNull() {
+		body, _ = sjson.Set(body, "sgt.enabled", data.SgtEnabled.ValueBool())
 	}
 	if len(data.Hubs) > 0 {
 		body, _ = sjson.Set(body, "hubs", []interface{}{})
@@ -141,6 +145,13 @@ func (data ApplianceSiteToSiteVPN) toBodyPreservingNulls(ctx context.Context, re
 			body, _ = sjson.SetRaw(body, "subnet.nat.isAllowed", "null")
 		} else {
 			body, _ = sjson.Set(body, "subnet.nat.isAllowed", value.Bool())
+		}
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "sgt.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "sgt.enabled", value.Bool())
 		}
 	}
 	if value := res.Get("hubs"); value.Exists() {
@@ -229,6 +240,11 @@ func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res
 	} else {
 		data.SubnetNatIsAllowed = types.BoolNull()
 	}
+	if value := res.Get("sgt.enabled"); value.Exists() && value.Value() != nil {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
+	}
 	if value := res.Get("hubs"); value.Exists() && value.Value() != nil {
 		data.Hubs = make([]ApplianceSiteToSiteVPNHubs, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -297,6 +313,11 @@ func (data *ApplianceSiteToSiteVPN) fromBodyPartial(ctx context.Context, res mer
 		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())
 	} else {
 		data.SubnetNatIsAllowed = types.BoolNull()
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() && !data.SgtEnabled.IsNull() {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
 	}
 	for i := 0; i < len(data.Hubs); i++ {
 		keys := [...]string{"hubId"}

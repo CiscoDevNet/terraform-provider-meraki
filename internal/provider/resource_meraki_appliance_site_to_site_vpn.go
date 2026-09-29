@@ -90,6 +90,10 @@ func (r *ApplianceSiteToSiteVPNResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: helpers.NewAttributeDescription("If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.").String,
 				Optional:            true,
 			},
+			"sgt_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not Peer SGT is enabled for traffic to this VPN peer.").String,
+				Optional:            true,
+			},
 			"hubs": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.").String,
 				Optional:            true,
