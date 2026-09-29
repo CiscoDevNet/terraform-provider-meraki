@@ -1,10 +1,12 @@
-# Customize Create() and Update(), the API only accepts batches: POST and PUT take and return
-# `{"items": [...]}` on the collection path, there is no per-deployment GET or PUT.
+# Customize Create() and Update() of the resource, and Create(), Update() and Delete() of the bulk
+# resource: the API only accepts batches. POST and PUT take and return `{"items": [...]}` on the
+# collection path, there is no per-deployment GET or PUT, and no action batch support. The bulk
+# resource matches items by the new device serial.
 name: Organization Wireless Devices Provisioning Deployment
-bulk_name: Organization Wireless Devices Provisioning Deployments
 spec_endpoint: /organizations/{organizationId}/wireless/devices/provisioning/deployments/{deploymentId}
 rest_endpoint: /organizations/%v/wireless/devices/provisioning/deployments
 bulk_data_source: true
+bulk_resource: true
 get_from_all: true
 id_name: deploymentId
 data_source_name_query: false
@@ -47,6 +49,7 @@ attributes:
   - model_name: serial
     type: String
     data_path: [devices, new]
+    bulk_id: true
     mandatory: true
     description: Serial number of the new device
     example: Q234-ABCD-5678

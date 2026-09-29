@@ -146,9 +146,6 @@ variable "{{.}}" {}
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
 func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
-	{{- if .NoResource}}
-	config := ""
-	{{- else}}
 	config := `resource "meraki_{{snakeCase $name}}" "test" {` + "\n"
 	{{- range  .Attributes}}
 	{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
@@ -252,11 +249,10 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 	{{- end}}
 	{{- end}}
 	config += `}` + "\n"
-	{{- end}}
 
 	config += `
 		data "meraki_{{snakeCase .Name}}" "test" {
-			{{- if and (not .PutCreate) (not .NoResource)}}
+			{{- if not .PutCreate}}
 			id = meraki_{{snakeCase $name}}.test.id
 			{{- end}}
 			{{- range  .Attributes}}
@@ -264,9 +260,7 @@ func testAccDataSourceMeraki{{camelCase .Name}}Config() string {
 			{{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}
 			{{- end}}
 			{{- end}}
-			{{- if not .NoResource}}
 			depends_on = [meraki_{{snakeCase $name}}.test]
-			{{- end}}
 		}
 	`
 	return config
