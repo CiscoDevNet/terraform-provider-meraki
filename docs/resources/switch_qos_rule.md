@@ -29,7 +29,6 @@ resource "meraki_switch_qos_rule" "example" {
 ### Required
 
 - `network_id` (String) Network ID
-- `vlan` (Number) The VLAN of the incoming packet. A null value will match any VLAN.
 
 ### Optional
 
@@ -40,6 +39,7 @@ resource "meraki_switch_qos_rule" "example" {
   - Choices: `ANY`, `TCP`, `UDP`
 - `src_port` (Number) The source port of the incoming packet. Applicable only if protocol is TCP or UDP.
 - `src_port_range` (String) The source port range of the incoming packet. Applicable only if protocol is set to TCP or UDP.
+- `vlan` (Number) The VLAN of the incoming packet. A null value will match any VLAN.
 
 ### Read-Only
 

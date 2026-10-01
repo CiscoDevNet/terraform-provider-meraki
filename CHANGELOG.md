@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `meraki_switch_qos_rule.vlan` being schema-Required; it is now Optional and explicitly sent as null to represent "any VLAN", matching documented API behavior, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/263)
+
 ## 1.14.0
 
 - Add `meraki_generate_appliance_vmx_authentication_token` action

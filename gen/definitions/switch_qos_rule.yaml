@@ -40,7 +40,8 @@ attributes:
     example: 70-80
   - model_name: vlan
     type: Int64
-    mandatory: true
+    mandatory: false
+    write_null: true
     description: The VLAN of the incoming packet. A null value will match any VLAN.
     example: "100"
 test_prerequisites: |
