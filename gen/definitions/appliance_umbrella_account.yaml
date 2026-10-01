@@ -1,0 +1,54 @@
+# Customize Update() and Delete(), the API has no PUT or DELETE: disconnecting is a POST to
+# .../umbrella/account/disconnect, and new credentials are applied by reconnecting.
+# There is no GET for the Umbrella connection either, so the resource cannot read or import it.
+name: Appliance Umbrella Account
+spec_endpoint: /networks/{networkId}/appliance/umbrella/account/connect
+rest_endpoint: /networks/%v/appliance/umbrella/account/connect
+no_data_source: true
+no_update: false
+no_delete: false
+no_import: true
+no_read: true
+doc_category: Appliances
+test_tags: [APPLIANCE_UMBRELLA_ACCOUNT]
+test_variables: [test_org, test_network]
+attributes:
+  - tf_name: network_id
+    type: String
+    id: true
+    reference: true
+    description: Network ID
+    example: N_24329156
+    test_value: meraki_network.test.id
+  - model_name: key
+    type: String
+    data_path: [api]
+    requires_replace: true
+    mandatory: true
+    sensitive: true
+    description: API key for the Umbrella account
+    example: 1234567890abcdef1234567890abcdef12345678
+  - model_name: secret
+    type: String
+    data_path: [api]
+    requires_replace: true
+    mandatory: true
+    sensitive: true
+    description: API secret for the Umbrella account
+    example: abcdef1234567890abcdef1234567890abcdef12
+  - model_name: id
+    type: String
+    data_path: [umbrella, organization]
+    exclude_test: true
+    description: Umbrella organization ID returned when the account is connected
+    example: "8769012"
+    computed: true
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["appliance"]
+  }

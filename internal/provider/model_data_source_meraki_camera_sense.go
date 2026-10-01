@@ -31,6 +31,7 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/netascode/go-meraki"
 )
@@ -44,6 +45,7 @@ type DataSourceCameraSense struct {
 	Serial                types.String `tfsdk:"serial"`
 	DetectionModelId      types.String `tfsdk:"detection_model_id"`
 	MqttBrokerId          types.String `tfsdk:"mqtt_broker_id"`
+	MqttTopics            types.List   `tfsdk:"mqtt_topics"`
 	SenseEnabled          types.Bool   `tfsdk:"sense_enabled"`
 	AudioDetectionEnabled types.Bool   `tfsdk:"audio_detection_enabled"`
 }
@@ -70,6 +72,11 @@ func (data *DataSourceCameraSense) fromBody(ctx context.Context, res meraki.Res)
 		data.MqttBrokerId = types.StringValue(value.String())
 	} else {
 		data.MqttBrokerId = types.StringNull()
+	}
+	if value := res.Get("mqttTopics"); value.Exists() && value.Value() != nil {
+		data.MqttTopics = helpers.GetStringList(value.Array())
+	} else {
+		data.MqttTopics = types.ListNull(types.StringType)
 	}
 	if value := res.Get("senseEnabled"); value.Exists() && value.Value() != nil {
 		data.SenseEnabled = types.BoolValue(value.Bool())

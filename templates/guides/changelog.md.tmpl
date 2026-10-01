@@ -7,6 +7,14 @@ description: |-
 
 # Changelog
 
+## Unreleased
+
+- Add `meraki_appliance_umbrella_account` resource
+- Add `meraki_organization_wireless_devices_provisioning_deployment` resource and data source
+- Add `meraki_organization_wireless_devices_provisioning_deployments` resource and data source
+- Add `ecmp_uplink_configs` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
+- Add `mqtt_topics` attribute to `meraki_camera_sense` data source
+
 ## 1.14.0
 
 - Add `meraki_generate_appliance_vmx_authentication_token` action
