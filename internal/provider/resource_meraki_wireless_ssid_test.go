@@ -190,4 +190,81 @@ func testAccMerakiWirelessSSIDConfig_all(includeWriteOnly bool) string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
 
+// Regression test for https://github.com/netascode/terraform-meraki-nac-meraki/issues/204:
+// removing an SSID that has named VLAN tagging enabled used to fail the destroy with a 400
+// from the Meraki API, because the destroy-time PUT reset ip_assignment_mode to "NAT mode"
+// without also disabling use_vlan_tagging and named_vlans_tagging_enabled. The twin bug on
+// named_vlans_radius_guest_vlan_enabled is covered by TestWirelessSSIDToDestroyBody instead,
+// since reproducing it live would additionally require an open-with-radius auth_mode and a
+// configured RADIUS server.
+func TestAccMerakiWirelessSSID_namedVlanTaggingDestroy(t *testing.T) {
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	}
+
+	// Note: the VLAN name "default" is stripped by the provider's network_vlan_profile
+	// ignore_import_values handling on every read, not just import, so it must not be used
+	// here or the first config step below would never converge to a stable plan.
+	config := testAccMerakiWirelessSSIDPrerequisitesConfig + `
+resource "meraki_network_vlan_profile" "named_vlan_test" {
+  network_id = meraki_network.test.id
+  iname      = "Default"
+  name       = "Default Profile"
+  vlan_names = [
+    {
+      name    = "native"
+      vlan_id = "1"
+    },
+    {
+      name    = "guest_66"
+      vlan_id = "66"
+    }
+  ]
+  vlan_groups = [
+    {
+      name     = "named-group-1"
+      vlan_ids = "2,5-7"
+    }
+  ]
+}
+
+resource "meraki_wireless_ssid" "named_vlan_test" {
+  network_id = meraki_network.test.id
+  number = "1"
+  name = "Guest-Open"
+  enabled = true
+  auth_mode = "open"
+  splash_page = "None"
+  ip_assignment_mode = "Bridge mode"
+  use_vlan_tagging = true
+  named_vlans_tagging_enabled = true
+  named_vlans_tagging_default_vlan_name = "guest_66"
+
+  depends_on = [meraki_network_vlan_profile.named_vlan_test]
+}
+`
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				// Create the SSID with named VLAN tagging enabled.
+				Config: config,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("meraki_wireless_ssid.named_vlan_test", "named_vlans_tagging_enabled", "true"),
+					resource.TestCheckResourceAttr("meraki_wireless_ssid.named_vlan_test", "use_vlan_tagging", "true"),
+				),
+			},
+			{
+				// Remove it from config, mirroring NaC decommissioning the SSID. Before the
+				// destroy_value fix this step failed with:
+				//   HTTP Request failed: StatusCode 400, JSON error: ["Named VLAN tagging
+				//   requires Bridge Mode or Layer 3 Roaming IP assignment mode."]
+				Config: testAccMerakiWirelessSSIDPrerequisitesConfig,
+			},
+		},
+	})
+}
+
 // End of section. //template:end testAccConfigAdditional
