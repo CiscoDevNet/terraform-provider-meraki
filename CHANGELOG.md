@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Fix `vlan` attribute of `meraki_switch_qos_rule` resource not accepting `null` (which represents any VLAN) - make it optional and explicitly send as `null` to the API, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/263)
+- Fix idempotency issue with `splash_logo`, `splash_image`, and `splash_prepaid_front` image `contents`/`format` attributes of `meraki_wireless_ssid_splash_settings` resource causing a planned change on every apply, since the Meraki API never echoes those values back on read, [link](https://github.com/netascode/terraform-meraki-nac-meraki/issues/203)
 
 ## 1.14.0
 
