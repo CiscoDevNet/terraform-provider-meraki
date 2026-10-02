@@ -75,3 +75,11 @@ endif
 	terraform fmt -recursive ./examples/
 	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
 	go run gen/doc_category.go
+
+# Regenerate only the changelog guide pages from CHANGELOG.md
+# Usage: make gen-changelog
+# Use after editing CHANGELOG.md when you don't need the full `make gen` run (which
+# also re-generates docs for every resource and data source via tfplugindocs).
+.PHONY: gen-changelog
+gen-changelog:
+	go run ./gen/generator.go -changelog
