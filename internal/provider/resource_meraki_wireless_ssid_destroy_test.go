@@ -66,7 +66,11 @@ func assertDestroyBodyClearsNamedVlanDependencies(t *testing.T, body string) {
 // This acceptance test lives in a hand-maintained file rather than the generated
 // resource_meraki_wireless_ssid_test.go, because that file's testAccConfigAdditional section is
 // rewritten from the additional_tests YAML field on every "make gen" and cannot hold a custom
-// TestCase/Steps function like this one.
+// TestCase/Steps function like this one. It reproduces the exact scenario from the issue
+// (use_vlan_tagging left false, only named_vlans.tagging enabled) rather than combining both
+// VLAN-tagging mechanisms, since the Meraki API rejects that combination outright. The
+// use_vlan_tagging and named_vlans.radius.guestVlan.enabled twin bugs are covered by
+// TestWirelessSSIDToDestroyBody instead.
 func TestAccMerakiWirelessSSID_namedVlanTaggingDestroy(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
@@ -106,7 +110,7 @@ resource "meraki_wireless_ssid" "named_vlan_test" {
   auth_mode = "open"
   splash_page = "None"
   ip_assignment_mode = "Bridge mode"
-  use_vlan_tagging = true
+  use_vlan_tagging = false
   named_vlans_tagging_enabled = true
   named_vlans_tagging_default_vlan_name = "guest_66"
 
@@ -123,7 +127,7 @@ resource "meraki_wireless_ssid" "named_vlan_test" {
 				Config: config,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr("meraki_wireless_ssid.named_vlan_test", "named_vlans_tagging_enabled", "true"),
-					resource.TestCheckResourceAttr("meraki_wireless_ssid.named_vlan_test", "use_vlan_tagging", "true"),
+					resource.TestCheckResourceAttr("meraki_wireless_ssid.named_vlan_test", "use_vlan_tagging", "false"),
 				),
 			},
 			{
