@@ -374,20 +374,6 @@ func (data WirelessSSIDSplashSettings) toBodyPreservingNulls(ctx context.Context
 			body, _ = sjson.Set(body, "splashImage.md5", value.String())
 		}
 	}
-	if value := res.Get("splashImage.image.contents"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "splashImage.image.contents", "null")
-		} else {
-			body, _ = sjson.Set(body, "splashImage.image.contents", value.String())
-		}
-	}
-	if value := res.Get("splashImage.image.format"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "splashImage.image.format", "null")
-		} else {
-			body, _ = sjson.Set(body, "splashImage.image.format", value.String())
-		}
-	}
 	if value := res.Get("splashLogo.extension"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "splashLogo.extension", "null")
@@ -402,20 +388,6 @@ func (data WirelessSSIDSplashSettings) toBodyPreservingNulls(ctx context.Context
 			body, _ = sjson.Set(body, "splashLogo.md5", value.String())
 		}
 	}
-	if value := res.Get("splashLogo.image.contents"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "splashLogo.image.contents", "null")
-		} else {
-			body, _ = sjson.Set(body, "splashLogo.image.contents", value.String())
-		}
-	}
-	if value := res.Get("splashLogo.image.format"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "splashLogo.image.format", "null")
-		} else {
-			body, _ = sjson.Set(body, "splashLogo.image.format", value.String())
-		}
-	}
 	if value := res.Get("splashPrepaidFront.extension"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "splashPrepaidFront.extension", "null")
@@ -428,20 +400,6 @@ func (data WirelessSSIDSplashSettings) toBodyPreservingNulls(ctx context.Context
 			body, _ = sjson.SetRaw(body, "splashPrepaidFront.md5", "null")
 		} else {
 			body, _ = sjson.Set(body, "splashPrepaidFront.md5", value.String())
-		}
-	}
-	if value := res.Get("splashPrepaidFront.image.contents"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "splashPrepaidFront.image.contents", "null")
-		} else {
-			body, _ = sjson.Set(body, "splashPrepaidFront.image.contents", value.String())
-		}
-	}
-	if value := res.Get("splashPrepaidFront.image.format"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "splashPrepaidFront.image.format", "null")
-		} else {
-			body, _ = sjson.Set(body, "splashPrepaidFront.image.format", value.String())
 		}
 	}
 	return body
@@ -567,16 +525,6 @@ func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res meraki
 	} else {
 		data.SplashImageMd5 = types.StringNull()
 	}
-	if value := res.Get("splashImage.image.contents"); value.Exists() && value.Value() != nil {
-		data.SplashImageImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashImageImageContents = types.StringNull()
-	}
-	if value := res.Get("splashImage.image.format"); value.Exists() && value.Value() != nil {
-		data.SplashImageImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashImageImageFormat = types.StringNull()
-	}
 	if value := res.Get("splashLogo.extension"); value.Exists() && value.Value() != nil {
 		data.SplashLogoExtension = types.StringValue(value.String())
 	} else {
@@ -587,16 +535,6 @@ func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res meraki
 	} else {
 		data.SplashLogoMd5 = types.StringNull()
 	}
-	if value := res.Get("splashLogo.image.contents"); value.Exists() && value.Value() != nil {
-		data.SplashLogoImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashLogoImageContents = types.StringNull()
-	}
-	if value := res.Get("splashLogo.image.format"); value.Exists() && value.Value() != nil {
-		data.SplashLogoImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashLogoImageFormat = types.StringNull()
-	}
 	if value := res.Get("splashPrepaidFront.extension"); value.Exists() && value.Value() != nil {
 		data.SplashPrepaidFrontExtension = types.StringValue(value.String())
 	} else {
@@ -606,16 +544,6 @@ func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res meraki
 		data.SplashPrepaidFrontMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontMd5 = types.StringNull()
-	}
-	if value := res.Get("splashPrepaidFront.image.contents"); value.Exists() && value.Value() != nil {
-		data.SplashPrepaidFrontImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashPrepaidFrontImageContents = types.StringNull()
-	}
-	if value := res.Get("splashPrepaidFront.image.format"); value.Exists() && value.Value() != nil {
-		data.SplashPrepaidFrontImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashPrepaidFrontImageFormat = types.StringNull()
 	}
 }
 
@@ -743,16 +671,6 @@ func (data *WirelessSSIDSplashSettings) fromBodyPartial(ctx context.Context, res
 	} else {
 		data.SplashImageMd5 = types.StringNull()
 	}
-	if value := res.Get("splashImage.image.contents"); value.Exists() && !data.SplashImageImageContents.IsNull() {
-		data.SplashImageImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashImageImageContents = types.StringNull()
-	}
-	if value := res.Get("splashImage.image.format"); value.Exists() && !data.SplashImageImageFormat.IsNull() {
-		data.SplashImageImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashImageImageFormat = types.StringNull()
-	}
 	if value := res.Get("splashLogo.extension"); value.Exists() && !data.SplashLogoExtension.IsNull() {
 		data.SplashLogoExtension = types.StringValue(value.String())
 	} else {
@@ -763,16 +681,6 @@ func (data *WirelessSSIDSplashSettings) fromBodyPartial(ctx context.Context, res
 	} else {
 		data.SplashLogoMd5 = types.StringNull()
 	}
-	if value := res.Get("splashLogo.image.contents"); value.Exists() && !data.SplashLogoImageContents.IsNull() {
-		data.SplashLogoImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashLogoImageContents = types.StringNull()
-	}
-	if value := res.Get("splashLogo.image.format"); value.Exists() && !data.SplashLogoImageFormat.IsNull() {
-		data.SplashLogoImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashLogoImageFormat = types.StringNull()
-	}
 	if value := res.Get("splashPrepaidFront.extension"); value.Exists() && !data.SplashPrepaidFrontExtension.IsNull() {
 		data.SplashPrepaidFrontExtension = types.StringValue(value.String())
 	} else {
@@ -782,16 +690,6 @@ func (data *WirelessSSIDSplashSettings) fromBodyPartial(ctx context.Context, res
 		data.SplashPrepaidFrontMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontMd5 = types.StringNull()
-	}
-	if value := res.Get("splashPrepaidFront.image.contents"); value.Exists() && !data.SplashPrepaidFrontImageContents.IsNull() {
-		data.SplashPrepaidFrontImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashPrepaidFrontImageContents = types.StringNull()
-	}
-	if value := res.Get("splashPrepaidFront.image.format"); value.Exists() && !data.SplashPrepaidFrontImageFormat.IsNull() {
-		data.SplashPrepaidFrontImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashPrepaidFrontImageFormat = types.StringNull()
 	}
 }
 

@@ -109,6 +109,12 @@ func testAccDataSourceMerakiWirelessSSIDSplashSettingsConfig() string {
 	config += `  guest_sponsorship_guest_can_request_timeframe = false` + "\n"
 	config += `  self_registration_authorization_type = "admin"` + "\n"
 	config += `  self_registration_enabled = true` + "\n"
+	config += `  splash_image_image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
+	config += `  splash_image_image_format = "gif"` + "\n"
+	config += `  splash_logo_image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
+	config += `  splash_logo_image_format = "gif"` + "\n"
+	config += `  splash_prepaid_front_image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
+	config += `  splash_prepaid_front_image_format = "gif"` + "\n"
 	config += `}` + "\n"
 
 	config += `

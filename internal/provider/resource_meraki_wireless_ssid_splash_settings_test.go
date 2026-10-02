@@ -71,7 +71,7 @@ func TestAccMerakiWirelessSSIDSplashSettings(t *testing.T) {
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDSplashSettingsImportStateIdFunc("meraki_wireless_ssid_splash_settings.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: []string{"splash_image_image_contents", "splash_image_image_format", "splash_logo_image_contents", "splash_logo_image_format", "splash_prepaid_front_image_contents", "splash_prepaid_front_image_format"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -158,6 +158,12 @@ func testAccMerakiWirelessSSIDSplashSettingsConfig_all() string {
 	config += `  guest_sponsorship_guest_can_request_timeframe = false` + "\n"
 	config += `  self_registration_authorization_type = "admin"` + "\n"
 	config += `  self_registration_enabled = true` + "\n"
+	config += `  splash_image_image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
+	config += `  splash_image_image_format = "gif"` + "\n"
+	config += `  splash_logo_image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
+	config += `  splash_logo_image_format = "gif"` + "\n"
+	config += `  splash_prepaid_front_image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
+	config += `  splash_prepaid_front_image_format = "gif"` + "\n"
 	config += `}` + "\n"
 	return config
 }
