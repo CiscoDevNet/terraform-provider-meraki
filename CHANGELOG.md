@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `meraki_switch_qos_rule.vlan` being schema-Required; it is now Optional and explicitly sent as null to represent "any VLAN", matching documented API behavior, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/263)
+- Fix `vlan` attribute of `meraki_switch_qos_rule` resource not accepting `null` (which represents any VLAN) - make it optional and explicitly send as `null` to the API, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/263)
 
 ## 1.14.0
 
