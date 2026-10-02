@@ -37,12 +37,13 @@ import (
 )
 
 const (
-	definitionsPath   = "./gen/definitions/"
-	providerTemplate  = "./gen/templates/provider.go"
-	providerLocation  = "./internal/provider/provider.go"
-	changelogTemplate = "./gen/templates/changelog.md.tmpl"
-	changelogLocation = "./templates/guides/changelog.md.tmpl"
-	changelogOriginal = "./CHANGELOG.md"
+	definitionsPath      = "./gen/definitions/"
+	providerTemplate     = "./gen/templates/provider.go"
+	providerLocation     = "./internal/provider/provider.go"
+	changelogTemplate    = "./gen/templates/changelog.md.tmpl"
+	changelogLocation    = "./templates/guides/changelog.md.tmpl"
+	changelogOriginal    = "./CHANGELOG.md"
+	changelogDocLocation = "./docs/guides/changelog.md"
 )
 
 type t struct {
@@ -275,6 +276,27 @@ func renderTemplate(templatePath, outputPath string, config interface{}) {
 	f.Write(output.Bytes())
 }
 
+// renderChangelog renders CHANGELOG.md into templates/guides/changelog.md.tmpl via the
+// usual renderTemplate path, then copies the result verbatim to docs/guides/changelog.md.
+// That doc is otherwise produced by tfplugindocs, but a guide page is a plain passthrough
+// of its template (no schema-derived content), so the copy is equivalent and much cheaper
+// than running tfplugindocs over every resource and data source just for this one file.
+func renderChangelog() {
+	changelog, err := os.ReadFile(changelogOriginal)
+	if err != nil {
+		log.Fatalf("Error reading %q: %v", changelogOriginal, err)
+	}
+	renderTemplate(changelogTemplate, changelogLocation, string(changelog))
+
+	content, err := os.ReadFile(changelogLocation)
+	if err != nil {
+		log.Fatalf("Error reading %q: %v", changelogLocation, err)
+	}
+	if err := os.WriteFile(changelogDocLocation, content, 0644); err != nil {
+		log.Fatalf("Error writing %q: %v", changelogDocLocation, err)
+	}
+}
+
 func updateDefinitions() {
 	files, _ := os.ReadDir(definitionsPath)
 
@@ -307,11 +329,18 @@ func updateDefinitions() {
 
 func main() {
 	var allFlag bool
+	var changelogFlag bool
 	flag.BoolVar(&allFlag, "a", false, "Update all existing definitions from OpenAPI spec")
+	flag.BoolVar(&changelogFlag, "changelog", false, "Only regenerate the changelog guide pages from CHANGELOG.md")
 	flag.Parse()
 
 	if allFlag {
 		updateDefinitions()
+		return
+	}
+
+	if changelogFlag {
+		renderChangelog()
 		return
 	}
 
@@ -402,9 +431,5 @@ func main() {
 	// render provider.go
 	renderTemplate(providerTemplate, providerLocation, configs)
 
-	changelog, err := os.ReadFile(changelogOriginal)
-	if err != nil {
-		log.Fatalf("Error reading %q: %v", changelogOriginal, err)
-	}
-	renderTemplate(changelogTemplate, changelogLocation, string(changelog))
+	renderChangelog()
 }
