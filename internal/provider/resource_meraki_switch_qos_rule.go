@@ -109,7 +109,7 @@ func (r *SwitchQoSRuleResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"vlan": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The VLAN of the incoming packet. A null value will match any VLAN.").String,
-				Required:            true,
+				Optional:            true,
 			},
 		},
 	}

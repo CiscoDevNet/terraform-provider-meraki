@@ -113,7 +113,6 @@ resource "meraki_network" "test" {
 func testAccMerakiSwitchQoSRuleConfig_minimum() string {
 	config := `resource "meraki_switch_qos_rule" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  vlan = 100` + "\n"
 	config += `}` + "\n"
 	return config
 }

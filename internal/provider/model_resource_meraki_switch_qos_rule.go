@@ -83,6 +83,8 @@ func (data SwitchQoSRule) toBody(ctx context.Context, state SwitchQoSRule) strin
 	}
 	if !data.Vlan.IsNull() {
 		body, _ = sjson.Set(body, "vlan", data.Vlan.ValueInt64())
+	} else {
+		body, _ = sjson.Set(body, "vlan", nil)
 	}
 	return body
 }
