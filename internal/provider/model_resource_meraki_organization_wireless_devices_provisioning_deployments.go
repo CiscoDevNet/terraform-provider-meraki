@@ -49,12 +49,12 @@ type ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems struct {
 	NetworkId             types.String `tfsdk:"network_id"`
 	DevicesNewSerial      types.String `tfsdk:"devices_new_serial"`
 	DevicesNewName        types.String `tfsdk:"devices_new_name"`
-	DevicesNewTags        types.List   `tfsdk:"devices_new_tags"`
+	DevicesNewTags        types.Set    `tfsdk:"devices_new_tags"`
 	DevicesNewRfProfileId types.String `tfsdk:"devices_new_rf_profile_id"`
 	DevicesOldSerial      types.String `tfsdk:"devices_old_serial"`
 	DevicesOldAfterAction types.String `tfsdk:"devices_old_after_action"`
 	DevicesOldName        types.String `tfsdk:"devices_old_name"`
-	DevicesOldTags        types.List   `tfsdk:"devices_old_tags"`
+	DevicesOldTags        types.Set    `tfsdk:"devices_old_tags"`
 	DevicesOldRfProfileId types.String `tfsdk:"devices_old_rf_profile_id"`
 }
 
@@ -158,9 +158,9 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 			data.DevicesNewName = types.StringNull()
 		}
 		if value := res.Get("devices.new.tags"); value.Exists() && value.Value() != nil {
-			data.DevicesNewTags = helpers.GetStringList(value.Array())
+			data.DevicesNewTags = helpers.GetStringSet(value.Array())
 		} else {
-			data.DevicesNewTags = types.ListNull(types.StringType)
+			data.DevicesNewTags = types.SetNull(types.StringType)
 		}
 		if value := res.Get("devices.new.rfProfile.id"); value.Exists() && value.Value() != nil {
 			data.DevicesNewRfProfileId = types.StringValue(value.String())
@@ -183,9 +183,9 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 			data.DevicesOldName = types.StringNull()
 		}
 		if value := res.Get("devices.old.tags"); value.Exists() && value.Value() != nil {
-			data.DevicesOldTags = helpers.GetStringList(value.Array())
+			data.DevicesOldTags = helpers.GetStringSet(value.Array())
 		} else {
-			data.DevicesOldTags = types.ListNull(types.StringType)
+			data.DevicesOldTags = types.SetNull(types.StringType)
 		}
 		if value := res.Get("devices.old.rfProfile.id"); value.Exists() && value.Value() != nil {
 			data.DevicesOldRfProfileId = types.StringValue(value.String())
@@ -264,9 +264,9 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 			data.DevicesNewName = types.StringNull()
 		}
 		if value := res.Get("devices.new.tags"); value.Exists() && !data.DevicesNewTags.IsNull() {
-			data.DevicesNewTags = helpers.GetStringList(value.Array())
+			data.DevicesNewTags = helpers.GetStringSet(value.Array())
 		} else {
-			data.DevicesNewTags = types.ListNull(types.StringType)
+			data.DevicesNewTags = types.SetNull(types.StringType)
 		}
 		if value := res.Get("devices.new.rfProfile.id"); value.Exists() && !data.DevicesNewRfProfileId.IsNull() {
 			data.DevicesNewRfProfileId = types.StringValue(value.String())
@@ -289,9 +289,9 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 			data.DevicesOldName = types.StringNull()
 		}
 		if value := res.Get("devices.old.tags"); value.Exists() && !data.DevicesOldTags.IsNull() {
-			data.DevicesOldTags = helpers.GetStringList(value.Array())
+			data.DevicesOldTags = helpers.GetStringSet(value.Array())
 		} else {
-			data.DevicesOldTags = types.ListNull(types.StringType)
+			data.DevicesOldTags = types.SetNull(types.StringType)
 		}
 		if value := res.Get("devices.old.rfProfile.id"); value.Exists() && !data.DevicesOldRfProfileId.IsNull() {
 			data.DevicesOldRfProfileId = types.StringValue(value.String())
@@ -371,9 +371,9 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 			data.DevicesNewName = types.StringNull()
 		}
 		if value := res.Get("devices.new.tags"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
-			data.DevicesNewTags = helpers.GetStringList(value.Array())
+			data.DevicesNewTags = helpers.GetStringSet(value.Array())
 		} else {
-			data.DevicesNewTags = types.ListNull(types.StringType)
+			data.DevicesNewTags = types.SetNull(types.StringType)
 		}
 		if value := res.Get("devices.new.rfProfile.id"); value.Exists() && value.Value() != nil {
 			data.DevicesNewRfProfileId = types.StringValue(value.String())
@@ -396,9 +396,9 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 			data.DevicesOldName = types.StringNull()
 		}
 		if value := res.Get("devices.old.tags"); value.Exists() && value.Value() != nil && len(value.Array()) > 0 {
-			data.DevicesOldTags = helpers.GetStringList(value.Array())
+			data.DevicesOldTags = helpers.GetStringSet(value.Array())
 		} else {
-			data.DevicesOldTags = types.ListNull(types.StringType)
+			data.DevicesOldTags = types.SetNull(types.StringType)
 		}
 		if value := res.Get("devices.old.rfProfile.id"); value.Exists() && value.Value() != nil {
 			data.DevicesOldRfProfileId = types.StringValue(value.String())

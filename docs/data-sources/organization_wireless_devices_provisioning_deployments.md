@@ -42,7 +42,7 @@ Read-Only:
 - `devices_new_rf_profile_id` (String) ID of RfProfile for new device
 - `devices_new_rf_profile_name` (String) Name of RfProfile for new device
 - `devices_new_serial` (String) Serial number of the new device
-- `devices_new_tags` (List of String) Tag(s) of the new device
+- `devices_new_tags` (Set of String) Tag(s) of the new device
 - `devices_old_after_action` (String) Action to be taken on the old device, only for `replace` deployments
 - `devices_old_mac` (String) MAC address of the old device
 - `devices_old_model` (String) Model of the old device
@@ -50,7 +50,7 @@ Read-Only:
 - `devices_old_rf_profile_id` (String) ID of the RF profile of the old device
 - `devices_old_rf_profile_name` (String) Name of the RF profile of the old device
 - `devices_old_serial` (String) Serial number of the old device, only for `replace` deployments
-- `devices_old_tags` (List of String) Tag(s) of the old device
+- `devices_old_tags` (Set of String) Tag(s) of the old device
 - `id` (String) The id of the object
 - `last_updated_at` (String) Timestamp of when the zero touch deployment request was last updated
 - `network_id` (String) ID of the network the device is being added to

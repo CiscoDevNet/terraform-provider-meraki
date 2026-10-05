@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
@@ -58,7 +57,7 @@ func (r *ApplianceUmbrellaAccountResource) Metadata(ctx context.Context, req res
 func (r *ApplianceUmbrellaAccountResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Umbrella Account` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("Connects a Cisco Umbrella account to a network. The API has no way to read the connection, so changes made outside Terraform are not detected and the resource cannot be imported. Changing the credentials replaces the resource: the account is disconnected and then connected again, and if connecting fails the network is left without an Umbrella account.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -215,17 +214,15 @@ func (r *ApplianceUmbrellaAccountResource) Read(ctx context.Context, req resourc
 // End of section. //template:end read
 
 // umbrellaAccountNotFound reports whether a disconnect failed only because no account is
-// connected, which the API returns as a 405 with "Umbrella account not found." rather than a 404.
+// connected, which the API returns as a 405 with "Umbrella account not found.".
 func umbrellaAccountNotFound(err error) bool {
-	return strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "Umbrella account not found")
+	return strings.Contains(err.Error(), "Umbrella account not found")
 }
 
-// The API has no PUT for the Umbrella connection. Update is only reached when a write-only
-// credential version changes (the plain credentials force a replacement), so it reconnects:
-// disconnect, then connect again with the new credentials. Write-only values are null in the
-// plan, so the body is built from the configuration.
+// Section below is generated&owned by "gen/generator.go". //template:begin update
+
 func (r *ApplianceUmbrellaAccountResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, config ApplianceUmbrellaAccount
+	var plan, state ApplianceUmbrellaAccount
 	var identity ApplianceUmbrellaAccountIdentity
 
 	// Read plan
@@ -234,25 +231,13 @@ func (r *ApplianceUmbrellaAccountResource) Update(ctx context.Context, req resou
 		return
 	}
 
-	// Read config, the only place write-only values are available
-	diags = req.Config.Get(ctx, &config)
+	// Read state
+	diags = req.State.Get(ctx, &state)
 	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 		return
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
-
-	res, err := r.client.Post(fmt.Sprintf("/networks/%v/appliance/umbrella/account/disconnect", url.QueryEscape(plan.NetworkId.ValueString())), "{}")
-	if err != nil && !umbrellaAccountNotFound(err) {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to disconnect Umbrella account (POST), got error: %s, %s", err, res.String()))
-		return
-	}
-	res, err = r.client.Post(plan.getPath(), config.toBody(ctx, ApplianceUmbrellaAccount{}))
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to connect Umbrella account (POST), got error: %s, %s", err, res.String()))
-		return
-	}
-	plan.fromBodyUnknowns(ctx, res)
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Update finished successfully", plan.Id.ValueString()))
 
@@ -263,8 +248,10 @@ func (r *ApplianceUmbrellaAccountResource) Update(ctx context.Context, req resou
 	resp.Diagnostics.Append(diags...)
 }
 
-// The API has no DELETE for the Umbrella connection: destroying the resource disconnects the
-// account with a POST to the sibling `disconnect` endpoint.
+// End of section. //template:end update
+
+// Delete disconnects the Umbrella account. The API has no DELETE for the connection, so this
+// is a POST to the sibling `disconnect` endpoint.
 func (r *ApplianceUmbrellaAccountResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state ApplianceUmbrellaAccount
 
@@ -276,7 +263,7 @@ func (r *ApplianceUmbrellaAccountResource) Delete(ctx context.Context, req resou
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Delete", state.Id.ValueString()))
 
-	res, err := r.client.Post(fmt.Sprintf("/networks/%v/appliance/umbrella/account/disconnect", url.QueryEscape(state.NetworkId.ValueString())), "{}")
+	res, err := r.client.Post(state.getDeletePath(), "{}")
 	if err != nil && !umbrellaAccountNotFound(err) {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to disconnect Umbrella account (POST), got error: %s, %s", err, res.String()))
 		return

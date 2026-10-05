@@ -39,12 +39,12 @@ resource "meraki_organization_wireless_devices_provisioning_deployment" "example
 
 - `devices_new_name` (String) Name of the new device or serial number if not named
 - `devices_new_rf_profile_id` (String) ID of RfProfile for new device
-- `devices_new_tags` (List of String) Tag(s) of the new device
+- `devices_new_tags` (Set of String) Tag(s) of the new device
 - `devices_old_after_action` (String) Action to be taken on the old device, only for `replace` deployments
 - `devices_old_name` (String) Name of the old device
 - `devices_old_rf_profile_id` (String) ID of the RF profile of the old device
 - `devices_old_serial` (String) Serial number of the old device, only for `replace` deployments
-- `devices_old_tags` (List of String) Tag(s) of the old device
+- `devices_old_tags` (Set of String) Tag(s) of the old device
 - `network_id` (String) ID of the network the device is being added to
 
 ### Read-Only

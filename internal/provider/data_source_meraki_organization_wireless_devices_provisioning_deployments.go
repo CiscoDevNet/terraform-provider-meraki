@@ -95,7 +95,7 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Schema(ct
 							MarkdownDescription: "Name of the new device or serial number if not named",
 							Computed:            true,
 						},
-						"devices_new_tags": schema.ListAttribute{
+						"devices_new_tags": schema.SetAttribute{
 							MarkdownDescription: "Tag(s) of the new device",
 							ElementType:         types.StringType,
 							Computed:            true,
@@ -128,7 +128,7 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Schema(ct
 							MarkdownDescription: "Name of the old device",
 							Computed:            true,
 						},
-						"devices_old_tags": schema.ListAttribute{
+						"devices_old_tags": schema.SetAttribute{
 							MarkdownDescription: "Tag(s) of the old device",
 							ElementType:         types.StringType,
 							Computed:            true,

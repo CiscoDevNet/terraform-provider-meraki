@@ -3,12 +3,12 @@
 page_title: "meraki_appliance_umbrella_account Resource - terraform-provider-meraki"
 subcategory: "Appliances"
 description: |-
-  This resource can manage the Appliance Umbrella Account configuration.
+  Connects a Cisco Umbrella account to a network. The API has no way to read the connection, so changes made outside Terraform are not detected and the resource cannot be imported. Changing the credentials replaces the resource: the account is disconnected and then connected again, and if connecting fails the network is left without an Umbrella account.
 ---
 
 # meraki_appliance_umbrella_account (Resource)
 
-This resource can manage the `Appliance Umbrella Account` configuration.
+Connects a Cisco Umbrella account to a network. The API has no way to read the connection, so changes made outside Terraform are not detected and the resource cannot be imported. Changing the credentials replaces the resource: the account is disconnected and then connected again, and if connecting fails the network is left without an Umbrella account.
 
 ## Example Usage
 

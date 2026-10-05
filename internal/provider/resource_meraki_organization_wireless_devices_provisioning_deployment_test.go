@@ -40,7 +40,6 @@ func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployment(t *testing.T
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_wireless_devices_provisioning_deployment.test", "type", "deploy"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_wireless_devices_provisioning_deployment.test", "status", "ready"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_wireless_devices_provisioning_deployment.test", "devices_new_tags.0", "tag1"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version

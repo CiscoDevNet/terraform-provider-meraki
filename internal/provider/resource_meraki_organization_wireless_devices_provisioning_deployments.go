@@ -118,7 +118,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Schema(ctx 
 							MarkdownDescription: helpers.NewAttributeDescription("Name of the new device or serial number if not named").String,
 							Optional:            true,
 						},
-						"devices_new_tags": schema.ListAttribute{
+						"devices_new_tags": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Tag(s) of the new device").String,
 							ElementType:         types.StringType,
 							Optional:            true,
@@ -139,7 +139,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Schema(ctx 
 							MarkdownDescription: helpers.NewAttributeDescription("Name of the old device").String,
 							Optional:            true,
 						},
-						"devices_old_tags": schema.ListAttribute{
+						"devices_old_tags": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Tag(s) of the old device").String,
 							ElementType:         types.StringType,
 							Optional:            true,
@@ -443,8 +443,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ImportState
 			for i, itemId := range itemIdParts {
 				item := ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}
 				item.Id = types.StringValue(itemId)
-				item.DevicesNewTags = types.ListNull(types.StringType)
-				item.DevicesOldTags = types.ListNull(types.StringType)
+				item.DevicesNewTags = types.SetNull(types.StringType)
+				item.DevicesOldTags = types.SetNull(types.StringType)
 				items[i] = item
 			}
 			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
@@ -465,8 +465,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ImportState
 			for i, itemId := range values {
 				item := ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}
 				item.Id = types.StringValue(itemId)
-				item.DevicesNewTags = types.ListNull(types.StringType)
-				item.DevicesOldTags = types.ListNull(types.StringType)
+				item.DevicesNewTags = types.SetNull(types.StringType)
+				item.DevicesOldTags = types.SetNull(types.StringType)
 				items[i] = item
 			}
 			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)

@@ -49,7 +49,7 @@ type DataSourceOrganizationWirelessDevicesProvisioningDeployment struct {
 	NetworkName             types.String `tfsdk:"network_name"`
 	DevicesNewSerial        types.String `tfsdk:"devices_new_serial"`
 	DevicesNewName          types.String `tfsdk:"devices_new_name"`
-	DevicesNewTags          types.List   `tfsdk:"devices_new_tags"`
+	DevicesNewTags          types.Set    `tfsdk:"devices_new_tags"`
 	DevicesNewRfProfileId   types.String `tfsdk:"devices_new_rf_profile_id"`
 	DevicesNewMac           types.String `tfsdk:"devices_new_mac"`
 	DevicesNewModel         types.String `tfsdk:"devices_new_model"`
@@ -57,7 +57,7 @@ type DataSourceOrganizationWirelessDevicesProvisioningDeployment struct {
 	DevicesOldSerial        types.String `tfsdk:"devices_old_serial"`
 	DevicesOldAfterAction   types.String `tfsdk:"devices_old_after_action"`
 	DevicesOldName          types.String `tfsdk:"devices_old_name"`
-	DevicesOldTags          types.List   `tfsdk:"devices_old_tags"`
+	DevicesOldTags          types.Set    `tfsdk:"devices_old_tags"`
 	DevicesOldRfProfileId   types.String `tfsdk:"devices_old_rf_profile_id"`
 	DevicesOldMac           types.String `tfsdk:"devices_old_mac"`
 	DevicesOldModel         types.String `tfsdk:"devices_old_model"`
@@ -112,9 +112,9 @@ func (data *DataSourceOrganizationWirelessDevicesProvisioningDeployment) fromBod
 		data.DevicesNewName = types.StringNull()
 	}
 	if value := res.Get("devices.new.tags"); value.Exists() && value.Value() != nil {
-		data.DevicesNewTags = helpers.GetStringList(value.Array())
+		data.DevicesNewTags = helpers.GetStringSet(value.Array())
 	} else {
-		data.DevicesNewTags = types.ListNull(types.StringType)
+		data.DevicesNewTags = types.SetNull(types.StringType)
 	}
 	if value := res.Get("devices.new.rfProfile.id"); value.Exists() && value.Value() != nil {
 		data.DevicesNewRfProfileId = types.StringValue(value.String())
@@ -152,9 +152,9 @@ func (data *DataSourceOrganizationWirelessDevicesProvisioningDeployment) fromBod
 		data.DevicesOldName = types.StringNull()
 	}
 	if value := res.Get("devices.old.tags"); value.Exists() && value.Value() != nil {
-		data.DevicesOldTags = helpers.GetStringList(value.Array())
+		data.DevicesOldTags = helpers.GetStringSet(value.Array())
 	} else {
-		data.DevicesOldTags = types.ListNull(types.StringType)
+		data.DevicesOldTags = types.SetNull(types.StringType)
 	}
 	if value := res.Get("devices.old.rfProfile.id"); value.Exists() && value.Value() != nil {
 		data.DevicesOldRfProfileId = types.StringValue(value.String())

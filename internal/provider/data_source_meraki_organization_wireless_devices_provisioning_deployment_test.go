@@ -36,7 +36,6 @@ func TestAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeployment(t 
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "type", "deploy"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "status", "ready"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "devices_new_tags.0", "tag1"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

@@ -58,6 +58,10 @@ func (data ApplianceUmbrellaAccount) getPath() string {
 
 // End of section. //template:end getPath
 
+func (data ApplianceUmbrellaAccount) getDeletePath() string {
+	return fmt.Sprintf("/networks/%v/appliance/umbrella/account/disconnect", url.QueryEscape(data.NetworkId.ValueString()))
+}
+
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
 func (data ApplianceUmbrellaAccount) toBody(ctx context.Context, state ApplianceUmbrellaAccount) string {

@@ -108,7 +108,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Schema(ctx c
 				MarkdownDescription: helpers.NewAttributeDescription("Name of the new device or serial number if not named").String,
 				Optional:            true,
 			},
-			"devices_new_tags": schema.ListAttribute{
+			"devices_new_tags": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Tag(s) of the new device").String,
 				ElementType:         types.StringType,
 				Optional:            true,
@@ -129,7 +129,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Schema(ctx c
 				MarkdownDescription: helpers.NewAttributeDescription("Name of the old device").String,
 				Optional:            true,
 			},
-			"devices_old_tags": schema.ListAttribute{
+			"devices_old_tags": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Tag(s) of the old device").String,
 				ElementType:         types.StringType,
 				Optional:            true,
@@ -167,8 +167,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Configure(_ 
 
 // End of section. //template:end model
 
-// The API only accepts batches: the body is wrapped as `{"items": [...]}` and the response
-// carries the created deployment in `items.0`.
+// Create creates the deployment. The API only accepts batches, so the body is wrapped as
+// `{"items": [...]}` and the created deployment is read from `items.0` of the response.
 func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan OrganizationWirelessDevicesProvisioningDeployment
 	var identity OrganizationWirelessDevicesProvisioningDeploymentIdentity
@@ -274,8 +274,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Read(ctx con
 
 // End of section. //template:end read
 
-// There is no per-deployment PUT: the update is a batch on the collection path, with the
-// deployment identified by the `deploymentId` inside its `items` entry.
+// Update updates the deployment. There is no per-deployment PUT, so this is a batch PUT on the
+// collection path, with the deployment identified by the `deploymentId` inside its `items` entry.
 func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state OrganizationWirelessDevicesProvisioningDeployment
 	var identity OrganizationWirelessDevicesProvisioningDeploymentIdentity

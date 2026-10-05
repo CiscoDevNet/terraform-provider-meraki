@@ -61,7 +61,7 @@ attributes:
     description: Name of the new device or serial number if not named
     example: My AP
   - model_name: tags
-    type: List
+    type: Set
     element_type: String
     data_path: [devices, new]
     description: Tag(s) of the new device
@@ -115,7 +115,7 @@ attributes:
     description: Name of the old device
     example: My AP
   - model_name: tags
-    type: List
+    type: Set
     element_type: String
     data_path: [devices, old]
     exclude_test: true
