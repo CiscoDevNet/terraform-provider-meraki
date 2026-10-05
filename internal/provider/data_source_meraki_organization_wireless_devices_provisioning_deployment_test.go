@@ -36,6 +36,7 @@ func TestAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeployment(t 
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "type", "deploy"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "status", "ready"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "devices_new_name", "My AP"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -64,6 +65,11 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["wireless"]
 }
+resource "meraki_wireless_rf_profile" "test" {
+  network_id          = meraki_network.test.id
+  name                = "Terraform Test RF Profile"
+  band_selection_type = "ap"
+}
 
 `
 
@@ -78,7 +84,9 @@ func testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentCon
 	config += `  status = "ready"` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  devices_new_serial = var.test_ap_1_serial` + "\n"
+	config += `  devices_new_name = "My AP"` + "\n"
 	config += `  devices_new_tags = ["tag1"]` + "\n"
+	config += `  devices_new_rf_profile_id = meraki_wireless_rf_profile.test.id` + "\n"
 	config += `}` + "\n"
 
 	config += `

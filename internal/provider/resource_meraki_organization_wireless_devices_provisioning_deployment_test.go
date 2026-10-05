@@ -40,6 +40,7 @@ func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployment(t *testing.T
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_wireless_devices_provisioning_deployment.test", "type", "deploy"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_wireless_devices_provisioning_deployment.test", "status", "ready"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_wireless_devices_provisioning_deployment.test", "devices_new_name", "My AP"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -57,7 +58,7 @@ func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployment(t *testing.T
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationWirelessDevicesProvisioningDeploymentImportStateIdFunc("meraki_organization_wireless_devices_provisioning_deployment.test"),
-		ImportStateVerifyIgnore: []string{"devices_new_rf_profile_id", "devices_old_serial", "devices_old_name", "devices_old_rf_profile_id"},
+		ImportStateVerifyIgnore: []string{"devices_old_serial", "devices_old_name", "devices_old_rf_profile_id"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -101,6 +102,11 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["wireless"]
 }
+resource "meraki_wireless_rf_profile" "test" {
+  network_id          = meraki_network.test.id
+  name                = "Terraform Test RF Profile"
+  band_selection_type = "ap"
+}
 
 `
 
@@ -128,7 +134,9 @@ func testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentConfig_all() 
 	config += `  status = "ready"` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  devices_new_serial = var.test_ap_1_serial` + "\n"
+	config += `  devices_new_name = "My AP"` + "\n"
 	config += `  devices_new_tags = ["tag1"]` + "\n"
+	config += `  devices_new_rf_profile_id = meraki_wireless_rf_profile.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }

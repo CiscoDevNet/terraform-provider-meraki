@@ -57,7 +57,6 @@ attributes:
   - model_name: name
     type: String
     data_path: [devices, new]
-    exclude_test: true
     description: Name of the new device or serial number if not named
     example: My AP
   - model_name: tags
@@ -69,10 +68,9 @@ attributes:
   - model_name: id
     type: String
     data_path: [devices, new, rfProfile]
-    exclude_test: true
-    allow_import_changes: true
     description: ID of RfProfile for new device
     example: "1284392014819"
+    test_value: meraki_wireless_rf_profile.test.id
   - model_name: mac
     type: String
     data_path: [devices, new]
@@ -181,4 +179,9 @@ test_prerequisites: |
     organization_id = data.meraki_organization.test.id
     name            = var.test_network
     product_types   = ["wireless"]
+  }
+  resource "meraki_wireless_rf_profile" "test" {
+    network_id          = meraki_network.test.id
+    name                = "Terraform Test RF Profile"
+    band_selection_type = "ap"
   }

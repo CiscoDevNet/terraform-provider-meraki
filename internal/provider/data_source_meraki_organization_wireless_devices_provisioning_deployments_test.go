@@ -60,6 +60,11 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["wireless"]
 }
+resource "meraki_wireless_rf_profile" "test" {
+  network_id          = meraki_network.test.id
+  name                = "Terraform Test RF Profile"
+  band_selection_type = "ap"
+}
 
 `
 
