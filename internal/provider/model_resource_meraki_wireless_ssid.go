@@ -2620,9 +2620,12 @@ func (data WirelessSSID) toDestroyBody(ctx context.Context) string {
 	body, _ = sjson.Set(body, "perSsidBandwidthLimitDown", 0)
 	body, _ = sjson.Set(body, "perSsidBandwidthLimitUp", 0)
 	body, _ = sjson.Set(body, "splashPage", "None")
+	body, _ = sjson.Set(body, "useVlanTagging", false)
 	body, _ = sjson.Set(body, "visible", true)
 	body, _ = sjson.Set(body, "dnsRewrite.enabled", false)
 	body, _ = sjson.Set(body, "dnsRewrite.dnsCustomNameservers", []interface{}{})
+	body, _ = sjson.Set(body, "namedVlans.radius.guestVlan.enabled", false)
+	body, _ = sjson.Set(body, "namedVlans.tagging.enabled", false)
 	body, _ = sjson.Set(body, "speedBurst.enabled", false)
 	body, _ = sjson.Set(body, "availabilityTags", []interface{}{})
 	return body

@@ -232,6 +232,7 @@ attributes:
     type: Bool
     description: Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
     example: "false"
+    destroy_value: "false"
   - model_name: visible
     type: Bool
     description: Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true
@@ -460,6 +461,7 @@ attributes:
     exclude_test: true
     description: Whether or not RADIUS guest named VLAN is enabled.
     example: "false"
+    destroy_value: "false"
   - model_name: name
     type: String
     data_path: [namedVlans, radius, guestVlan]
@@ -477,6 +479,7 @@ attributes:
     data_path: [namedVlans, tagging]
     description: Whether or not traffic should be directed to use specific VLAN names.
     example: "false"
+    destroy_value: "false"
   - model_name: byApTags
     type: List
     data_path: [namedVlans, tagging]
