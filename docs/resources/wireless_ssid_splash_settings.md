@@ -32,6 +32,12 @@ resource "meraki_wireless_ssid_splash_settings" "example" {
   guest_sponsorship_guest_can_request_timeframe = false
   self_registration_authorization_type          = "admin"
   self_registration_enabled                     = true
+  splash_image_image_contents                   = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="
+  splash_image_image_format                     = "gif"
+  splash_logo_image_contents                    = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="
+  splash_logo_image_format                      = "gif"
+  splash_prepaid_front_image_contents           = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="
+  splash_prepaid_front_image_format             = "gif"
 }
 ```
 
