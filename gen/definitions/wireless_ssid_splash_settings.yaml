@@ -128,12 +128,14 @@ attributes:
     type: String
     data_path: [splashImage]
     exclude_test: true
+    allow_import_changes: true
     description: The extension of the image file.
     example: jpg
   - model_name: md5
     type: String
     data_path: [splashImage]
     exclude_test: true
+    allow_import_changes: true
     description: The MD5 value of the image file. Setting this to null will remove the image from the splash page.
     example: 542cccac8d7dedee0f185311d154d194
   - model_name: contents
@@ -153,12 +155,14 @@ attributes:
     type: String
     data_path: [splashLogo]
     exclude_test: true
+    allow_import_changes: true
     description: The extension of the logo file.
     example: jpg
   - model_name: md5
     type: String
     data_path: [splashLogo]
     exclude_test: true
+    allow_import_changes: true
     description: The MD5 value of the logo file. Setting this to null will remove the logo from the splash page.
     example: abcd1234
   - model_name: contents
@@ -178,12 +182,14 @@ attributes:
     type: String
     data_path: [splashPrepaidFront]
     exclude_test: true
+    allow_import_changes: true
     description: The extension of the prepaid front image file.
     example: jpg
   - model_name: md5
     type: String
     data_path: [splashPrepaidFront]
     exclude_test: true
+    allow_import_changes: true
     description: The MD5 value of the prepaid front image file. Setting this to null will remove the prepaid front from the splash page.
     example: 542cccac8d7dedee0f185311d154d194
   - model_name: contents
