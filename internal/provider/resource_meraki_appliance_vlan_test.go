@@ -74,6 +74,12 @@ func TestAccMerakiApplianceVLAN(t *testing.T) {
 		ImportStateVerifyIgnore: []string{"ipv6_prefix_assignments"},
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceVLANPrerequisitesConfig + testAccApplianceVLANConfigAdditional0,
+	})
+	steps = append(steps, resource.TestStep{
+		Config: testAccMerakiApplianceVLANPrerequisitesConfig + testAccApplianceVLANConfigAdditional1,
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -167,5 +173,34 @@ func testAccMerakiApplianceVLANConfig_all() string {
 // End of section. //template:end testAccConfigAll
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAdditional
+
+const testAccApplianceVLANConfigAdditional0 = `
+resource "meraki_network_group_policy" "test" {
+  network_id = meraki_appliance_vlans_settings.test.network_id
+  name       = "Test Group Policy"
+}
+resource "meraki_appliance_vlan" "test" {
+  network_id      = meraki_appliance_vlans_settings.test.network_id
+  appliance_ip    = "192.168.1.2"
+  vlan_id         = "1234"
+  name            = "My VLAN"
+  subnet          = "192.168.1.0/24"
+  group_policy_id = meraki_network_group_policy.test.id
+}
+`
+
+const testAccApplianceVLANConfigAdditional1 = `
+resource "meraki_network_group_policy" "test" {
+  network_id = meraki_appliance_vlans_settings.test.network_id
+  name       = "Test Group Policy"
+}
+resource "meraki_appliance_vlan" "test" {
+  network_id   = meraki_appliance_vlans_settings.test.network_id
+  appliance_ip = "192.168.1.2"
+  vlan_id      = "1234"
+  name         = "My VLAN"
+  subnet       = "192.168.1.0/24"
+}
+`
 
 // End of section. //template:end testAccConfigAdditional
