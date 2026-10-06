@@ -134,6 +134,8 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	}
 	if !data.GroupPolicyId.IsNull() {
 		body, _ = sjson.Set(body, "groupPolicyId", data.GroupPolicyId.ValueString())
+	} else {
+		body, _ = sjson.Set(body, "groupPolicyId", nil)
 	}
 	if !data.VlanId.IsNull() {
 		body, _ = sjson.Set(body, "id", data.VlanId.ValueString())
