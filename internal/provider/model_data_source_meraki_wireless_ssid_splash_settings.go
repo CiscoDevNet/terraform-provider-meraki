@@ -207,16 +207,6 @@ func (data *DataSourceWirelessSSIDSplashSettings) fromBody(ctx context.Context, 
 	} else {
 		data.SplashImageMd5 = types.StringNull()
 	}
-	if value := res.Get("splashImage.image.contents"); value.Exists() && value.Value() != nil {
-		data.SplashImageImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashImageImageContents = types.StringNull()
-	}
-	if value := res.Get("splashImage.image.format"); value.Exists() && value.Value() != nil {
-		data.SplashImageImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashImageImageFormat = types.StringNull()
-	}
 	if value := res.Get("splashLogo.extension"); value.Exists() && value.Value() != nil {
 		data.SplashLogoExtension = types.StringValue(value.String())
 	} else {
@@ -227,16 +217,6 @@ func (data *DataSourceWirelessSSIDSplashSettings) fromBody(ctx context.Context, 
 	} else {
 		data.SplashLogoMd5 = types.StringNull()
 	}
-	if value := res.Get("splashLogo.image.contents"); value.Exists() && value.Value() != nil {
-		data.SplashLogoImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashLogoImageContents = types.StringNull()
-	}
-	if value := res.Get("splashLogo.image.format"); value.Exists() && value.Value() != nil {
-		data.SplashLogoImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashLogoImageFormat = types.StringNull()
-	}
 	if value := res.Get("splashPrepaidFront.extension"); value.Exists() && value.Value() != nil {
 		data.SplashPrepaidFrontExtension = types.StringValue(value.String())
 	} else {
@@ -246,16 +226,6 @@ func (data *DataSourceWirelessSSIDSplashSettings) fromBody(ctx context.Context, 
 		data.SplashPrepaidFrontMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontMd5 = types.StringNull()
-	}
-	if value := res.Get("splashPrepaidFront.image.contents"); value.Exists() && value.Value() != nil {
-		data.SplashPrepaidFrontImageContents = types.StringValue(value.String())
-	} else {
-		data.SplashPrepaidFrontImageContents = types.StringNull()
-	}
-	if value := res.Get("splashPrepaidFront.image.format"); value.Exists() && value.Value() != nil {
-		data.SplashPrepaidFrontImageFormat = types.StringValue(value.String())
-	} else {
-		data.SplashPrepaidFrontImageFormat = types.StringNull()
 	}
 }
 

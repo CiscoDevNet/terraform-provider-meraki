@@ -6,6 +6,12 @@
 - Add `ecmp_uplink_configs` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
 - Add `mqtt_topics` attribute to `meraki_camera_sense` data source
 
+## 1.14.1
+
+- Fix `vlan` attribute of `meraki_switch_qos_rule` resource not accepting `null` (which represents any VLAN) - make it optional and explicitly send as `null` to the API, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/263)
+- Fix destroying `meraki_wireless_ssid` resources configured with named VLAN tagging failing with a 400 error from the API, because the destroy-time update reset `ip_assignment_mode` to `NAT mode` without also disabling `use_vlan_tagging`, `named_vlans_tagging_enabled`, and `named_vlans_radius_guest_vlan_enabled`, [link](https://github.com/netascode/terraform-meraki-nac-meraki/issues/204)
+- Fix idempotency issue with `splash_logo`, `splash_image`, and `splash_prepaid_front` image `contents`/`format` attributes of `meraki_wireless_ssid_splash_settings` resource, [link](https://github.com/netascode/terraform-meraki-nac-meraki/issues/203)
+
 ## 1.14.0
 
 - Add `meraki_generate_appliance_vmx_authentication_token` action

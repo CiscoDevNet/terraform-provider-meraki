@@ -39,7 +39,7 @@ func TestAccMerakiNetworkSNMP(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "access", "users"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.passphrase", "hunter2"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.passphrase", "N7!qW4#cT3@p"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.username", "AzureDiamond"))
 
 	var steps []resource.TestStep
@@ -126,11 +126,11 @@ func testAccMerakiNetworkSNMPConfig_all(includeWriteOnly bool) string {
 	config += `  access = "users"` + "\n"
 	config += `  users = [{` + "\n"
 	if includeWriteOnly {
-		config += `    passphrase = "hunter2"` + "\n"
-		config += `    passphrase_wo = "hunter2"` + "\n"
+		config += `    passphrase = "N7!qW4#cT3@p"` + "\n"
+		config += `    passphrase_wo = "N7!qW4#cT3@p"` + "\n"
 		config += `    passphrase_wo_version = 1` + "\n"
 	} else {
-		config += `    passphrase = "hunter2"` + "\n"
+		config += `    passphrase = "N7!qW4#cT3@p"` + "\n"
 	}
 	config += `    username = "AzureDiamond"` + "\n"
 	config += `  }]` + "\n"

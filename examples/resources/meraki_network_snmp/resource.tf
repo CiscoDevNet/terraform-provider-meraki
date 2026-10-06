@@ -3,7 +3,7 @@ resource "meraki_network_snmp" "example" {
   access     = "users"
   users = [
     {
-      passphrase = "hunter2"
+      passphrase = "N7!qW4#cT3@p"
       username   = "AzureDiamond"
     }
   ]

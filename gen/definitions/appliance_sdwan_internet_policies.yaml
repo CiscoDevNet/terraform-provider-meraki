@@ -54,6 +54,7 @@ attributes:
         description: 'Type of this performance class. Must be one of: `builtin` or `custom`'
         example: custom
         enum_values: [builtin, custom]
+        minimum_test_value: '"builtin"'
       - model_name: trafficFilters
         type: List
         mandatory: true
@@ -164,7 +165,7 @@ additional_tests:
           builtin_performance_class_name = "VoIP"
           fail_over_criterion            = "poorPerformance"
           performance_class_type         = "builtin"
-          preferred_uplink               = "wan1"
+          preferred_uplink               = "bestForVoIP"
           traffic_filters                = [
             {
               destination_cidr = "any"

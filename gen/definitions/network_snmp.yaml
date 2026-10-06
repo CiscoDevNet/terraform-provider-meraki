@@ -35,7 +35,7 @@ attributes:
         mandatory: true
         sensitive: true
         description: The passphrase for the SNMP user. Required.
-        example: hunter2
+        example: N7!qW4#cT3@p
       - model_name: username
         type: String
         id: true

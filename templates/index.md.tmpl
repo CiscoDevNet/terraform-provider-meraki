@@ -1,10 +1,7 @@
-
 ---
-layout: ""
 page_title: "Provider: Meraki"
 description: |-
   The Meraki provider provides resources to interact with Cisco Meraki Dashboard.
-
 ---
 
 # Meraki Provider
