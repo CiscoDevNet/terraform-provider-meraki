@@ -7,6 +7,10 @@ description: |-
 
 # Changelog
 
+## Unreleased
+
+- Fix `group_policy_id` attribute of `meraki_appliance_vlan` resource not being cleared via the API when removed from config, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/289)
+
 ## 1.14.1
 
 - Fix `vlan` attribute of `meraki_switch_qos_rule` resource not accepting `null` (which represents any VLAN) - make it optional and explicitly send as `null` to the API, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/263)
