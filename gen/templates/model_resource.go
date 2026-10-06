@@ -534,6 +534,13 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki
 			},
 		)
 		if !res.Exists() {
+			{{- if .RetainMissing }}
+			tflog.Debug(ctx, fmt.Sprintf("retaining {{toGoName .TfName}}[%d] absent from API refresh = %+v",
+				i,
+				(*parent).{{toGoName .TfName}}[i],
+			))
+			continue
+			{{- else }}
 			tflog.Debug(ctx, fmt.Sprintf("removing {{toGoName .TfName}}[%d] = %+v",
 				i,
 				(*parent).{{toGoName .TfName}}[i],
@@ -542,6 +549,7 @@ func (data *{{camelCase .Name}}) fromBodyPartial(ctx context.Context, res meraki
 			i--
 
 			continue
+			{{- end }}
 		}
 	{{- end}}
 
