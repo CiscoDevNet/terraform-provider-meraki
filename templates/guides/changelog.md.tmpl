@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## Unreleased
+## 1.14.1
 
 - Fix `vlan` attribute of `meraki_switch_qos_rule` resource not accepting `null` (which represents any VLAN) - make it optional and explicitly send as `null` to the API, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/263)
 - Fix destroying `meraki_wireless_ssid` resources configured with named VLAN tagging failing with a 400 error from the API, because the destroy-time update reset `ip_assignment_mode` to `NAT mode` without also disabling `use_vlan_tagging`, `named_vlans_tagging_enabled`, and `named_vlans_radius_guest_vlan_enabled`, [link](https://github.com/netascode/terraform-meraki-nac-meraki/issues/204)
