@@ -294,8 +294,9 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Update(ctx c
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 
-	item, _ := sjson.Set(plan.toBody(ctx, state), "deploymentId", plan.Id.ValueString())
-	body, _ := sjson.SetRaw("{}", "items.-1", item)
+	itemBody := plan.toBody(ctx, state)
+	itemBody, _ = sjson.Set(itemBody, "deploymentId", plan.Id.ValueString())
+	body, _ := sjson.SetRaw("{}", "items.-1", itemBody)
 	res, err := r.client.Put(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))

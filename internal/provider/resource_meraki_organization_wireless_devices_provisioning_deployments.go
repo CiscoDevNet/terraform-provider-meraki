@@ -351,8 +351,9 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Update(ctx 
 			found = true
 			plan.Items[i].Id = itemState.Id
 			if plan.Items[i].toBody(ctx, ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}) != itemState.toBody(ctx, ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}) {
-				item, _ := sjson.Set(plan.Items[i].toBody(ctx, itemState), "deploymentId", itemState.Id.ValueString())
-				changed = append(changed, item)
+				itemBody := plan.Items[i].toBody(ctx, itemState)
+				itemBody, _ = sjson.Set(itemBody, "deploymentId", itemState.Id.ValueString())
+				changed = append(changed, itemBody)
 			}
 			break
 		}

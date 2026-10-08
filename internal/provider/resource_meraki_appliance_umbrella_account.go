@@ -57,7 +57,7 @@ func (r *ApplianceUmbrellaAccountResource) Metadata(ctx context.Context, req res
 func (r *ApplianceUmbrellaAccountResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("Connects a Cisco Umbrella account to a network. The API has no way to read the connection, so changes made outside Terraform are not detected and the resource cannot be imported. Changing the credentials replaces the resource: the account is disconnected and then connected again, and if connecting fails the network is left without an Umbrella account.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource allows connecting a Cisco Umbrella account to a network. Deleting the resource disconnects the account from the network. Changing the credentials replaces the resource; the account is disconnected and then connected again, and if connecting fails the network is left without an Umbrella account. The API has no way to read the connection, so changes made outside Terraform are not detected and the resource cannot be imported.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
