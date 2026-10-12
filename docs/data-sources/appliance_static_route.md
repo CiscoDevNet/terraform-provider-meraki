@@ -37,3 +37,4 @@ data "meraki_appliance_static_route" "example" {
 - `gateway_ip` (String) Gateway IP address (next hop)
 - `gateway_vlan_id` (Number) Gateway VLAN ID
 - `subnet` (String) Subnet of the route
+- `vrf_id` (String) VRF ID for the static route. Use '0' for the default VRF.
