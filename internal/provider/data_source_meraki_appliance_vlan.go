@@ -189,6 +189,14 @@ func (d *ApplianceVLANDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "Enable Mandatory DHCP on VLAN.",
 				Computed:            true,
 			},
+			"sgt_id": schema.Int64Attribute{
+				MarkdownDescription: "Adaptive policy group ID this VLAN is assigned to.",
+				Computed:            true,
+			},
+			"vrf_id": schema.StringAttribute{
+				MarkdownDescription: "VRF ID. Use '0' for the default VRF.",
+				Computed:            true,
+			},
 			"dhcp_options": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of DHCP options that will be included in DHCP responses. Each object in the list should have 'code', 'type', and 'value' properties.",
 				Computed:            true,
@@ -229,6 +237,22 @@ func (d *ApplianceVLANDataSource) Schema(ctx context.Context, req datasource.Sch
 						},
 						"start": schema.StringAttribute{
 							MarkdownDescription: "The first IP in the reserved range",
+							Computed:            true,
+						},
+					},
+				},
+			},
+			"uplinks": schema.ListNestedAttribute{
+				MarkdownDescription: "Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions.",
+				Computed:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"interface": schema.StringAttribute{
+							MarkdownDescription: "Interface name of the uplink",
+							Computed:            true,
+						},
+						"nat_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether NAT is enabled on the uplink",
 							Computed:            true,
 						},
 					},

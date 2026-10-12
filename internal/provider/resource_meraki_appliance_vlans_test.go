@@ -139,6 +139,12 @@ func testAccMerakiApplianceVLANsConfig_all() string {
 	config += `    origin_interfaces = ["wan1"]` + "\n"
 	config += `  }]` + "\n"
 	config += `  mandatory_dhcp_enabled = true` + "\n"
+	config += `  sgt_id = 1234` + "\n"
+	config += `  vrf_id = "1000"` + "\n"
+	config += `  uplinks = [{` + "\n"
+	config += `    interface = "wan1"` + "\n"
+	config += `    nat_enabled = true` + "\n"
+	config += `  }]` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config
