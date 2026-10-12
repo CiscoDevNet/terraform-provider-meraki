@@ -368,6 +368,7 @@ func (p *MerakiProvider) Resources(ctx context.Context) []func() resource.Resour
 		NewApplianceVMXAuthenticationTokenResource,
 		NewApplianceVPNBGPResource,
 		NewApplianceVPNFirewallRulesResource,
+		NewApplianceVPNSiteToSiteHubVRFsResource,
 		NewApplianceVPNSiteToSiteIPsecPeersSLAsResource,
 		NewApplianceWarmSpareResource,
 		NewCameraCustomAnalyticsResource,
