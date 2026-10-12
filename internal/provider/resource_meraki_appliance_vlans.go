@@ -224,6 +224,14 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 							MarkdownDescription: helpers.NewAttributeDescription("Enable Mandatory DHCP on VLAN.").String,
 							Optional:            true,
 						},
+						"sgt_id": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Adaptive policy group ID this VLAN is assigned to.").String,
+							Optional:            true,
+						},
+						"vrf_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("VRF ID. Use '0' for the default VRF.").String,
+							Optional:            true,
+						},
 						"dhcp_options": schema.ListNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The list of DHCP options that will be included in DHCP responses. Each object in the list should have 'code', 'type', and 'value' properties.").String,
 							Optional:            true,
@@ -268,6 +276,22 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 									"start": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("The first IP in the reserved range").String,
 										Required:            true,
+									},
+								},
+							},
+						},
+						"uplinks": schema.ListNestedAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions.").String,
+							Optional:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"interface": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Interface name of the uplink").String,
+										Required:            true,
+									},
+									"nat_enabled": schema.BoolAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Whether NAT is enabled on the uplink").String,
+										Optional:            true,
 									},
 								},
 							},

@@ -22,5 +22,13 @@ resource "meraki_appliance_vlans" "example" {
       }
     ]
     mandatory_dhcp_enabled = true
+    sgt_id                 = 1234
+    vrf_id                 = "1000"
+    uplinks = [
+      {
+        interface   = "wan1"
+        nat_enabled = true
+      }
+    ]
   }]
 }
