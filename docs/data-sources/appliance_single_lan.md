@@ -33,6 +33,7 @@ data "meraki_appliance_single_lan" "example" {
 - `ipv6_prefix_assignments` (Attributes List) Prefix assignments on the VLAN (see [below for nested schema](#nestedatt--ipv6_prefix_assignments))
 - `mandatory_dhcp_enabled` (Boolean) Enable Mandatory DHCP on LAN.
 - `subnet` (String) The subnet of the single LAN configuration
+- `vrf_id` (String) VRF ID. Use 0 for the default VRF.
 
 <a id="nestedatt--ipv6_prefix_assignments"></a>
 ### Nested Schema for `ipv6_prefix_assignments`

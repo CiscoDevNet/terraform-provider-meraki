@@ -38,6 +38,7 @@ func TestAccDataSourceMerakiApplianceSingleLAN(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_single_lan.test", "subnet", "192.168.128.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_single_lan.test", "ipv6_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_single_lan.test", "mandatory_dhcp_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_single_lan.test", "vrf_id", "1000"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -79,6 +80,7 @@ func testAccDataSourceMerakiApplianceSingleLANConfig() string {
 	config += `  subnet = "192.168.128.0/24"` + "\n"
 	config += `  ipv6_enabled = true` + "\n"
 	config += `  mandatory_dhcp_enabled = false` + "\n"
+	config += `  vrf_id = "1000"` + "\n"
 	config += `}` + "\n"
 
 	config += `

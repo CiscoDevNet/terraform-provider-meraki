@@ -132,6 +132,10 @@ func (r *ApplianceSingleLANResource) Schema(ctx context.Context, req resource.Sc
 				MarkdownDescription: helpers.NewAttributeDescription("Enable Mandatory DHCP on LAN.").String,
 				Optional:            true,
 			},
+			"vrf_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("VRF ID. Use 0 for the default VRF.").String,
+				Optional:            true,
+			},
 		},
 	}
 }
