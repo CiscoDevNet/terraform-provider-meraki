@@ -49,6 +49,7 @@ type DataSourceApplianceSingleLAN struct {
 	Ipv6Enabled           types.Bool                                          `tfsdk:"ipv6_enabled"`
 	Ipv6PrefixAssignments []DataSourceApplianceSingleLANIpv6PrefixAssignments `tfsdk:"ipv6_prefix_assignments"`
 	MandatoryDhcpEnabled  types.Bool                                          `tfsdk:"mandatory_dhcp_enabled"`
+	VrfId                 types.String                                        `tfsdk:"vrf_id"`
 }
 
 type DataSourceApplianceSingleLANIpv6PrefixAssignments struct {
@@ -131,6 +132,11 @@ func (data *DataSourceApplianceSingleLAN) fromBody(ctx context.Context, res mera
 		data.MandatoryDhcpEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.MandatoryDhcpEnabled = types.BoolNull()
+	}
+	if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+		data.VrfId = types.StringValue(value.String())
+	} else {
+		data.VrfId = types.StringNull()
 	}
 }
 
