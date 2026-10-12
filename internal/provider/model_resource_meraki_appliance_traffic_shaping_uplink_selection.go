@@ -51,11 +51,13 @@ type ApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferences struct {
 	BuiltinPerformanceClassName types.String                                                                      `tfsdk:"builtin_performance_class_name"`
 	CustomPerformanceClassId    types.String                                                                      `tfsdk:"custom_performance_class_id"`
 	PerformanceClassType        types.String                                                                      `tfsdk:"performance_class_type"`
+	VrfId                       types.String                                                                      `tfsdk:"vrf_id"`
 	TrafficFilters              []ApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesTrafficFilters `tfsdk:"traffic_filters"`
 }
 
 type ApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferences struct {
 	PreferredUplink types.String                                                                      `tfsdk:"preferred_uplink"`
+	VrfId           types.String                                                                      `tfsdk:"vrf_id"`
 	TrafficFilters  []ApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesTrafficFilters `tfsdk:"traffic_filters"`
 }
 
@@ -136,6 +138,9 @@ func (data ApplianceTrafficShapingUplinkSelection) toBody(ctx context.Context, s
 			if !item.PerformanceClassType.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "performanceClass.type", item.PerformanceClassType.ValueString())
 			}
+			if !item.VrfId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "vrf.id", item.VrfId.ValueString())
+			}
 			{
 				itemBody, _ = sjson.Set(itemBody, "trafficFilters", []interface{}{})
 				for _, childItem := range item.TrafficFilters {
@@ -194,6 +199,9 @@ func (data ApplianceTrafficShapingUplinkSelection) toBody(ctx context.Context, s
 			itemBody := ""
 			if !item.PreferredUplink.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "preferredUplink", item.PreferredUplink.ValueString())
+			}
+			if !item.VrfId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "vrf.id", item.VrfId.ValueString())
 			}
 			{
 				itemBody, _ = sjson.Set(itemBody, "trafficFilters", []interface{}{})
@@ -315,6 +323,13 @@ func (data ApplianceTrafficShapingUplinkSelection) toBodyPreservingNulls(ctx con
 						body, _ = sjson.SetRaw(body, "performanceClass.type", "null")
 					} else {
 						body, _ = sjson.Set(body, "performanceClass.type", value.String())
+					}
+				}
+				if value := res.Get("vrf.id"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "vrf.id", "null")
+					} else {
+						body, _ = sjson.Set(body, "vrf.id", value.String())
 					}
 				}
 				if value := res.Get("trafficFilters"); value.Exists() {
@@ -446,6 +461,13 @@ func (data ApplianceTrafficShapingUplinkSelection) toBodyPreservingNulls(ctx con
 						body, _ = sjson.SetRaw(body, "preferredUplink", "null")
 					} else {
 						body, _ = sjson.Set(body, "preferredUplink", value.String())
+					}
+				}
+				if value := res.Get("vrf.id"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "vrf.id", "null")
+					} else {
+						body, _ = sjson.Set(body, "vrf.id", value.String())
 					}
 				}
 				if value := res.Get("trafficFilters"); value.Exists() {
@@ -580,6 +602,11 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBody(ctx context.Context
 			} else {
 				data.PerformanceClassType = types.StringNull()
 			}
+			if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+				data.VrfId = types.StringValue(value.String())
+			} else {
+				data.VrfId = types.StringNull()
+			}
 			if value := res.Get("trafficFilters"); value.Exists() && value.Value() != nil {
 				data.TrafficFilters = make([]ApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesTrafficFilters, 0)
 				value.ForEach(func(k, res gjson.Result) bool {
@@ -672,6 +699,11 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBody(ctx context.Context
 				data.PreferredUplink = types.StringValue(value.String())
 			} else {
 				data.PreferredUplink = types.StringNull()
+			}
+			if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+				data.VrfId = types.StringValue(value.String())
+			} else {
+				data.VrfId = types.StringNull()
 			}
 			if value := res.Get("trafficFilters"); value.Exists() && value.Value() != nil {
 				data.TrafficFilters = make([]ApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesTrafficFilters, 0)
@@ -794,6 +826,11 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyPartial(ctx context.
 		} else {
 			data.PerformanceClassType = types.StringNull()
 		}
+		if value := res.Get("vrf.id"); value.Exists() && !data.VrfId.IsNull() {
+			data.VrfId = types.StringValue(value.String())
+		} else {
+			data.VrfId = types.StringNull()
+		}
 		{
 			l := len(res.Get("trafficFilters").Array())
 			tflog.Debug(ctx, fmt.Sprintf("trafficFilters array resizing from %d to %d", len(data.TrafficFilters), l))
@@ -896,6 +933,11 @@ func (data *ApplianceTrafficShapingUplinkSelection) fromBodyPartial(ctx context.
 			data.PreferredUplink = types.StringValue(value.String())
 		} else {
 			data.PreferredUplink = types.StringNull()
+		}
+		if value := res.Get("vrf.id"); value.Exists() && !data.VrfId.IsNull() {
+			data.VrfId = types.StringValue(value.String())
+		} else {
+			data.VrfId = types.StringNull()
 		}
 		{
 			l := len(res.Get("trafficFilters").Array())
