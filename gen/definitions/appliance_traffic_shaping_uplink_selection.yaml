@@ -70,6 +70,11 @@ attributes:
         description: 'Type of this performance class. Must be one of: `builtin` or `custom`'
         example: builtin
         enum_values: [builtin, custom]
+      - model_name: id
+        type: String
+        data_path: [vrf]
+        description: VRF ID for this uplink preference rule. Use 0 for the default VRF.
+        example: "12345"
       - model_name: trafficFilters
         type: List
         mandatory: true
@@ -177,6 +182,11 @@ attributes:
         mandatory: true
         description: 'Preferred uplink for uplink preference rule. Must be one of: `wan1` or `wan2`, or any other valid uplink(`wanX`) if it applies to the network'
         example: wan1
+      - model_name: id
+        type: String
+        data_path: [vrf]
+        description: VRF ID for this uplink preference rule. Use 0 for the default VRF.
+        example: "12345"
       - model_name: trafficFilters
         type: List
         mandatory: true
