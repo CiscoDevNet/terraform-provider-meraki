@@ -1,0 +1,187 @@
+# Customize Create() and Update() of the resource, and Create(), Update() and Delete() of the bulk
+# resource: the API only accepts batches. POST and PUT take and return `{"items": [...]}` on the
+# collection path, there is no per-deployment GET or PUT, and no action batch support. The bulk
+# resource matches items by the new device serial.
+name: Organization Wireless Devices Provisioning Deployment
+spec_endpoint: /organizations/{organizationId}/wireless/devices/provisioning/deployments/{deploymentId}
+rest_endpoint: /organizations/%v/wireless/devices/provisioning/deployments
+bulk_data_source: true
+bulk_resource: true
+get_from_all: true
+id_name: deploymentId
+data_source_name_query: false
+doc_category: Wireless
+test_variables: [test_org, test_network, test_ap_1_serial]
+ignore_attributes: [items, meta.counts.items.remaining, meta.counts.items.total]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: false
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: type
+    type: String
+    mandatory: true
+    description: Type of the zero touch deployment request
+    example: deploy
+    enum_values: [deploy, replace]
+  - model_name: status
+    type: String
+    mandatory: true
+    description: Status of the zero touch deployment request
+    example: ready
+    enum_values: [completed, failed, in progress, ready]
+  - model_name: id
+    type: String
+    data_path: [network]
+    description: ID of the network the device is being added to
+    example: N_24329156
+    test_value: meraki_network.test.id
+  - model_name: name
+    type: String
+    data_path: [network]
+    data_source_only: true
+    exclude_test: true
+    description: Name of the network the device is being added to
+    example: Main Office
+  - model_name: serial
+    type: String
+    data_path: [devices, new]
+    bulk_id: true
+    mandatory: true
+    description: Serial number of the new device
+    example: Q234-ABCD-5678
+    test_value: var.test_ap_1_serial
+  - model_name: name
+    type: String
+    data_path: [devices, new]
+    description: Name of the new device or serial number if not named
+    example: My AP
+  - model_name: tags
+    type: Set
+    element_type: String
+    data_path: [devices, new]
+    description: Tag(s) of the new device
+    example: tag1
+  - model_name: id
+    type: String
+    data_path: [devices, new, rfProfile]
+    description: ID of RfProfile for new device
+    example: "1284392014819"
+    test_value: meraki_wireless_rf_profile.test.id
+  - model_name: mac
+    type: String
+    data_path: [devices, new]
+    data_source_only: true
+    exclude_test: true
+    description: MAC address of the new device
+    example: "00:11:22:33:44:55"
+  - model_name: model
+    type: String
+    data_path: [devices, new]
+    data_source_only: true
+    exclude_test: true
+    description: Model of the new device
+    example: CW9166I
+  - model_name: name
+    type: String
+    data_path: [devices, new, rfProfile]
+    data_source_only: true
+    exclude_test: true
+    description: Name of RfProfile for new device
+    example: RF Profile Name
+  - model_name: serial
+    type: String
+    data_path: [devices, old]
+    exclude_test: true
+    allow_import_changes: true
+    description: Serial number of the old device, only for `replace` deployments
+    example: Q234-ABCD-5678
+  - model_name: afterAction
+    type: String
+    data_path: [devices, old]
+    exclude_test: true
+    description: Action to be taken on the old device, only for `replace` deployments
+    example: unclaim
+  - model_name: name
+    type: String
+    data_path: [devices, old]
+    exclude_test: true
+    allow_import_changes: true
+    description: Name of the old device
+    example: My AP
+  - model_name: tags
+    type: Set
+    element_type: String
+    data_path: [devices, old]
+    exclude_test: true
+    description: Tag(s) of the old device
+    example: tag1
+  - model_name: id
+    type: String
+    data_path: [devices, old, rfProfile]
+    exclude_test: true
+    allow_import_changes: true
+    description: ID of the RF profile of the old device
+    example: "1284392014819"
+  - model_name: mac
+    type: String
+    data_path: [devices, old]
+    data_source_only: true
+    exclude_test: true
+    description: MAC address of the old device
+    example: "00:11:22:33:44:55"
+  - model_name: model
+    type: String
+    data_path: [devices, old]
+    data_source_only: true
+    exclude_test: true
+    description: Model of the old device
+    example: MR34
+  - model_name: name
+    type: String
+    data_path: [devices, old, rfProfile]
+    data_source_only: true
+    exclude_test: true
+    description: Name of the RF profile of the old device
+    example: RF Profile Name
+  - model_name: createdAt
+    type: String
+    data_source_only: true
+    exclude_test: true
+    description: Timestamp of when the zero touch deployment request was created
+    example: "2018-02-11T00:00:00.090210Z"
+  - model_name: requestedAt
+    type: String
+    data_source_only: true
+    exclude_test: true
+    description: Timestamp of when the zero touch deployment request was requested
+    example: "2018-02-11T00:00:00.090210Z"
+  - model_name: lastUpdatedAt
+    type: String
+    data_source_only: true
+    exclude_test: true
+    description: Timestamp of when the zero touch deployment request was last updated
+    example: "2018-02-11T00:00:00.090210Z"
+  - model_name: completedAt
+    type: String
+    data_source_only: true
+    exclude_test: true
+    description: Timestamp of when the zero touch deployment request was completed
+    example: "2018-02-11T00:00:00.090210Z"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["wireless"]
+  }
+  resource "meraki_wireless_rf_profile" "test" {
+    network_id          = meraki_network.test.id
+    name                = "Terraform Test RF Profile"
+    band_selection_type = "ap"
+  }

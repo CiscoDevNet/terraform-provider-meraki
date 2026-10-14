@@ -25,6 +25,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -71,6 +72,11 @@ func (d *CameraSenseDataSource) Schema(ctx context.Context, req datasource.Schem
 			},
 			"mqtt_broker_id": schema.StringAttribute{
 				MarkdownDescription: "The ID of the MQTT broker to be enabled on the camera. A value of null will disable MQTT on the camera",
+				Computed:            true,
+			},
+			"mqtt_topics": schema.ListAttribute{
+				MarkdownDescription: "MQTT topics the camera publishes to",
+				ElementType:         types.StringType,
 				Computed:            true,
 			},
 			"sense_enabled": schema.BoolAttribute{
