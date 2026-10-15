@@ -463,19 +463,21 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Delete(ctx context.Cont
 		}
 	}
 
-	// Clear the shared wanTrafficUplinkPreferences
-	// by PUTting "wanTrafficUplinkPreferences": []
-	// to appliance/sdwan/internetPolicies endpoint,
-	// as PUTting "wanTrafficUplinkPreferences": []
-	// to appliance/trafficShaping/uplinkSelection endpoint does nothing.
-	sdwanInternetPolicies := ApplianceSDWANInternetPolicies{
-		NetworkId: state.NetworkId,
-	}
-	body, _ := sjson.Set("", "wanTrafficUplinkPreferences", []interface{}{})
-	res, err := r.client.Put(sdwanInternetPolicies.getPath(), body)
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to clear Appliance Traffic Shaping Uplink Preferences wan_traffic_uplink_preferences via Appliance SDWAN Internet Policies endpoint (PUT), got error: %s, %s", err, res.String()))
-		return
+	if len(state.WanTrafficUplinkPreferences) > 0 {
+		// Clear the shared wanTrafficUplinkPreferences
+		// by PUTting "wanTrafficUplinkPreferences": []
+		// to appliance/sdwan/internetPolicies endpoint,
+		// as PUTting "wanTrafficUplinkPreferences": []
+		// to appliance/trafficShaping/uplinkSelection endpoint does nothing.
+		sdwanInternetPolicies := ApplianceSDWANInternetPolicies{
+			NetworkId: state.NetworkId,
+		}
+		body, _ := sjson.Set("", "wanTrafficUplinkPreferences", []interface{}{})
+		res, err := r.client.Put(sdwanInternetPolicies.getPath(), body)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to clear Appliance Traffic Shaping Uplink Preferences wan_traffic_uplink_preferences via Appliance SDWAN Internet Policies endpoint (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Delete finished successfully", state.Id.ValueString()))
