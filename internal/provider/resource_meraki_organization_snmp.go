@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -97,13 +98,20 @@ func (r *OrganizationSNMPResource) Schema(ctx context.Context, req resource.Sche
 				Sensitive:           true,
 			},
 			"v3_auth_pass_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `v3_auth_pass`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `v3_auth_pass`. Must be used together with `v3_auth_pass_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("v3_auth_pass")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("v3_auth_pass_wo_version")),
+				},
 			},
 			"v3_auth_pass_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of v3_auth_pass_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `v3_auth_pass_wo`. As changes to write-only values are not detected, increment this value to update `v3_auth_pass_wo`. Must be used together with `v3_auth_pass_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("v3_auth_pass_wo")),
+				},
 			},
 			"v3_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether SNMP version 3 is enabled for the organization.").String,
@@ -122,13 +130,20 @@ func (r *OrganizationSNMPResource) Schema(ctx context.Context, req resource.Sche
 				Sensitive:           true,
 			},
 			"v3_priv_pass_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `v3_priv_pass`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `v3_priv_pass`. Must be used together with `v3_priv_pass_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("v3_priv_pass")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("v3_priv_pass_wo_version")),
+				},
 			},
 			"v3_priv_pass_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of v3_priv_pass_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `v3_priv_pass_wo`. As changes to write-only values are not detected, increment this value to update `v3_priv_pass_wo`. Must be used together with `v3_priv_pass_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("v3_priv_pass_wo")),
+				},
 			},
 			"peer_ips": schema.SetAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of IPv4 addresses that are allowed to access the SNMP server.").String,
@@ -184,6 +199,14 @@ func (r *OrganizationSNMPResource) Create(ctx context.Context, req resource.Crea
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
+
+	// Read write-only values from config
+	var config OrganizationSNMP
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, OrganizationSNMP{})
@@ -286,6 +309,14 @@ func (r *OrganizationSNMPResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config OrganizationSNMP
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)

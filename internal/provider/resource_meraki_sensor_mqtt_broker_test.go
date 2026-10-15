@@ -51,12 +51,13 @@ func TestAccMerakiSensorMQTTBroker(t *testing.T) {
 		Config: testAccMerakiSensorMQTTBrokerPrerequisitesConfig + testAccMerakiSensorMQTTBrokerConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_sensor_mqtt_broker.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSensorMQTTBrokerImportStateIdFunc("meraki_sensor_mqtt_broker.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

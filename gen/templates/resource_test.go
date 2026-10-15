@@ -46,6 +46,9 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
         t.Skip("skipping test, set environment variable {{range $i, $e := .TestVariables}}{{if $i}} and {{end}}TF_VAR_{{$e}}{{end}}")
 	}
 	{{- end}}
+	{{- if hasWoRecursive .Attributes}}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
+	{{- end}}
 	var checks []resource.TestCheckFunc
 	{{- $name := .Name }}
 	{{- range  .Attributes}}
@@ -73,10 +76,22 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- if and (not .WriteOnly) (not .ExcludeTest) (not .Value) (not .TestValue) (not .Computed) (not .DataSourceOnly) (not (isSet .))}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
+		{{- if hasWo .}}
+		if !includeWriteOnly {
+			checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1 $parent2}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		}
+		{{- else}}
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1 $parent2}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		{{- end}}
+	}
+	{{- else}}
+	{{- if hasWo .}}
+	if !includeWriteOnly {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1 $parent2}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	}
 	{{- else}}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1 $parent2}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+	{{- end}}
 	{{- end}}
 	{{- end}}
 	{{- end}}
@@ -86,6 +101,17 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- else if not (isSet .)}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
+		{{- if hasWo .}}
+		if !includeWriteOnly {
+			checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		}
+		{{- else}}
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		{{- end}}
+	}
+	{{- else}}
+	{{- if hasWo .}}
+	if !includeWriteOnly {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0 $parent1}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	}
 	{{- else}}
@@ -94,12 +120,24 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- end}}
 	{{- end}}
 	{{- end}}
+	{{- end}}
 	{{- if len .TestTags}}
 	}
 	{{- end}}
 	{{- else if not (isSet .)}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
+		{{- if hasWo .}}
+		if !includeWriteOnly {
+			checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		}
+		{{- else}}
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		{{- end}}
+	}
+	{{- else}}
+	{{- if hasWo .}}
+	if !includeWriteOnly {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{buildTestPath $parent0}}{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	}
 	{{- else}}
@@ -108,12 +146,24 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- end}}
 	{{- end}}
 	{{- end}}
+	{{- end}}
 	{{- if len .TestTags}}
 	}
 	{{- end}}
 	{{- else if not (isSet .)}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
+		{{- if hasWo .}}
+		if !includeWriteOnly {
+			checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		}
+		{{- else}}
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
+		{{- end}}
+	}
+	{{- else}}
+	{{- if hasWo .}}
+	if !includeWriteOnly {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_{{snakeCase $name}}.test", "{{.TfName}}{{if isList .}}.0{{end}}", "{{.Example}}"))
 	}
 	{{- else}}
@@ -122,12 +172,10 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	{{- end}}
 	{{- end}}
 	{{- end}}
+	{{- end}}
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	{{- if hasSensitiveAttrRecursive .Attributes}}
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
-	{{- end}}
 	{{- if not .SkipMinimumTest}}
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
@@ -136,7 +184,7 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 	}
 	{{- end}}
 	steps = append(steps, resource.TestStep{
-		{{- if hasSensitiveAttrRecursive .Attributes}}
+		{{- if hasWoRecursive .Attributes}}
 		Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccMeraki{{camelCase .Name}}Config_all(includeWriteOnly),
 		{{- else}}
 		Config: {{if or .TestPrerequisites (len .TestVariables)}}testAccMeraki{{camelCase .Name}}PrerequisitesConfig+{{end}}testAccMeraki{{camelCase .Name}}Config_all(),
@@ -144,12 +192,18 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
 		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	{{- if not .NoImport}}
+	importStateVerifyIgnore := []string{ {{range getImportExcludes .Attributes}}"{{.}}",{{end}} }
+	{{- if hasWoRecursive .Attributes}}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, {{range getWoImportExcludes .Attributes}}"{{.}}",{{end}})
+	}
+	{{- end}}
 	steps = append(steps, resource.TestStep{
 		ResourceName: "meraki_{{snakeCase $name}}.test",
 		ImportState: true,
 		ImportStateVerify: true,
 		ImportStateIdFunc: meraki{{camelCase .Name}}ImportStateIdFunc("meraki_{{snakeCase $name}}.test"),
-		ImportStateVerifyIgnore: []string{ {{range getImportExcludes .Attributes}}"{{.}}",{{end}} },
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check: resource.ComposeTestCheckFunc(checks...),
 	})
 	{{- end}}
@@ -316,7 +370,7 @@ func testAccMeraki{{camelCase .Name}}Config_minimum() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-{{- if hasSensitiveAttrRecursive .Attributes}}
+{{- if hasWoRecursive .Attributes}}
 func testAccMeraki{{camelCase .Name}}Config_all(includeWriteOnly bool) string {
 {{- else}}
 func testAccMeraki{{camelCase .Name}}Config_all() string {
@@ -359,18 +413,20 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 				{{- if and (not .ExcludeTest) (not .Value) (not .Computed) (not .DataSourceOnly)}}
 				{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
-		{{- if and .Sensitive (eq .Type "String")}}
+		{{- if hasWo .}}
 		if includeWriteOnly {
 			config += `        {{.TfName}}_wo = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 			config += `        {{.TfName}}_wo_version = 1` + "\n"
+		} else {
+			config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		}
+		{{- else}}
+		config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 		{{- end}}
 	}
 				{{- else}}
-		{{- if and .Sensitive (eq .Type "String")}}
+		{{- if hasWo .}}
 	if includeWriteOnly {
-		config += `        {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		config += `        {{.TfName}}_wo = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		config += `        {{.TfName}}_wo_version = 1` + "\n"
 	} else {
@@ -393,18 +449,20 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 			{{- else}}
 			{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `      {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
-		{{- if and .Sensitive (eq .Type "String")}}
+		{{- if hasWo .}}
 		if includeWriteOnly {
 			config += `      {{.TfName}}_wo = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 			config += `      {{.TfName}}_wo_version = 1` + "\n"
+		} else {
+			config += `      {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		}
+		{{- else}}
+		config += `      {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 		{{- end}}
 	}
 			{{- else}}
-		{{- if and .Sensitive (eq .Type "String")}}
+		{{- if hasWo .}}
 	if includeWriteOnly {
-		config += `      {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		config += `      {{.TfName}}_wo = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		config += `      {{.TfName}}_wo_version = 1` + "\n"
 	} else {
@@ -428,18 +486,20 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 		{{- else}}
 		{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `    {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
-		{{- if and .Sensitive (eq .Type "String")}}
+		{{- if hasWo .}}
 		if includeWriteOnly {
 			config += `    {{.TfName}}_wo = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 			config += `    {{.TfName}}_wo_version = 1` + "\n"
+		} else {
+			config += `    {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		}
+		{{- else}}
+		config += `    {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 		{{- end}}
 	}
 			{{- else}}
-		{{- if and .Sensitive (eq .Type "String")}}
+		{{- if hasWo .}}
 	if includeWriteOnly {
-		config += `    {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		config += `    {{.TfName}}_wo = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		config += `    {{.TfName}}_wo_version = 1` + "\n"
 	} else {
@@ -463,18 +523,20 @@ func testAccMeraki{{camelCase .Name}}Config_all() string {
 	{{- else}}
 	{{- if len .TestTags}}
 	if {{range $i, $e := .TestTags}}{{if $i}} || {{end}}os.Getenv("{{$e}}") != ""{{end}} {
-		config += `  {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
-		{{- if and .Sensitive (eq .Type "String")}}
+		{{- if hasWo .}}
 		if includeWriteOnly {
 			config += `  {{.TfName}}_wo = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 			config += `  {{.TfName}}_wo_version = 1` + "\n"
+		} else {
+			config += `  {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		}
+		{{- else}}
+		config += `  {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}{{if eq .Type "String"}}"{{.Example}}"{{else if isStringListSet .}}["{{.Example}}"]{{else if isInt64ListSet .}}[{{.Example}}]{{else}}{{.Example}}{{end}}{{end}}` + "\n"
 		{{- end}}
 	}
 	{{- else}}
-	{{- if and .Sensitive (eq .Type "String")}}
+	{{- if hasWo .}}
 	if includeWriteOnly {
-		config += `  {{.TfName}} = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		config += `  {{.TfName}}_wo = {{if .TestValue}}{{.TestValue}}{{else}}"{{.Example}}"{{end}}` + "\n"
 		config += `  {{.TfName}}_wo_version = 1` + "\n"
 	} else {

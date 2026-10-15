@@ -56,12 +56,13 @@ func TestAccMerakiNetworkNetflow(t *testing.T) {
 		Config: testAccMerakiNetworkNetflowPrerequisitesConfig + testAccMerakiNetworkNetflowConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_netflow.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkNetflowImportStateIdFunc("meraki_network_netflow.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

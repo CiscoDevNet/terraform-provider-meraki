@@ -56,12 +56,13 @@ func TestAccMerakiApplianceTrafficShapingUplinkBandwidth(t *testing.T) {
 		Config: testAccMerakiApplianceTrafficShapingUplinkBandwidthPrerequisitesConfig + testAccMerakiApplianceTrafficShapingUplinkBandwidthConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_traffic_shaping_uplink_bandwidth.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceTrafficShapingUplinkBandwidthImportStateIdFunc("meraki_appliance_traffic_shaping_uplink_bandwidth.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

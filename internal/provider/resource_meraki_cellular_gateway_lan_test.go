@@ -56,12 +56,13 @@ func TestAccMerakiCellularGatewayLAN(t *testing.T) {
 		Config: testAccMerakiCellularGatewayLANPrerequisitesConfig + testAccMerakiCellularGatewayLANConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_cellular_gateway_lan.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiCellularGatewayLANImportStateIdFunc("meraki_cellular_gateway_lan.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

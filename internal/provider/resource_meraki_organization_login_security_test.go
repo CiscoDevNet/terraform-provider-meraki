@@ -61,12 +61,13 @@ func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
 		Config: testAccMerakiOrganizationLoginSecurityPrerequisitesConfig + testAccMerakiOrganizationLoginSecurityConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"enforce_login_ip_ranges", "api_authentication_ip_restrictions_for_keys_enabled"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_login_security.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationLoginSecurityImportStateIdFunc("meraki_organization_login_security.test"),
-		ImportStateVerifyIgnore: []string{"enforce_login_ip_ranges", "api_authentication_ip_restrictions_for_keys_enabled"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

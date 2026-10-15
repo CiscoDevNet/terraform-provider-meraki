@@ -54,8 +54,8 @@ resource "meraki_appliance_ssid" "example" {
   - Choices: `wep`, `wpa`
 - `name` (String) The name of the SSID.
 - `psk` (String, Sensitive) The passkey for the SSID. This param is only valid if the authMode is `psk`.
-- `psk_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `psk_wo_version` (Number) Version of psk_wo.
+- `psk_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `psk`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `psk`. Must be used together with `psk_wo_version`.
+- `psk_wo_version` (Number) Version of `psk_wo`. As changes to write-only values are not detected, increment this value to update `psk_wo`. Must be used together with `psk_wo`.
 - `radius_servers` (Attributes List) The RADIUS 802.1x servers to be used for authentication. This param is only valid if the authMode is `8021x-radius`. (see [below for nested schema](#nestedatt--radius_servers))
 - `visible` (Boolean) Boolean indicating whether the MX should advertise or hide this SSID.
 - `wpa_encryption_mode` (String) The types of WPA encryption. (`WPA1 and WPA2`, `WPA2 only`, `WPA3 Transition Mode` or `WPA3 only`). This param is only valid if (1) the authMode is `psk` & the encryptionMode is `wpa` OR (2) the authMode is `8021x-meraki` OR (3) the authMode is `8021x-radius`
@@ -73,8 +73,8 @@ Optional:
 - `host` (String) The IP address of your RADIUS server.
 - `port` (Number) The UDP port your RADIUS servers listens on for Access-requests.
 - `secret` (String, Sensitive) The RADIUS client shared secret.
-- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `secret_wo_version` (Number) Version of secret_wo.
+- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `secret`. Must be used together with `secret_wo_version`.
+- `secret_wo_version` (Number) Version of `secret_wo`. As changes to write-only values are not detected, increment this value to update `secret_wo`. Must be used together with `secret_wo`.
 
 ## Import
 

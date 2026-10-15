@@ -52,12 +52,13 @@ func TestAccMerakiApplianceTrafficShaping(t *testing.T) {
 		Config: testAccMerakiApplianceTrafficShapingPrerequisitesConfig + testAccMerakiApplianceTrafficShapingConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_traffic_shaping.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceTrafficShapingImportStateIdFunc("meraki_appliance_traffic_shaping.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

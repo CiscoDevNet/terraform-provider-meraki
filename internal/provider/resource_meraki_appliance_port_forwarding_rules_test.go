@@ -57,12 +57,13 @@ func TestAccMerakiAppliancePortForwardingRules(t *testing.T) {
 		Config: testAccMerakiAppliancePortForwardingRulesPrerequisitesConfig + testAccMerakiAppliancePortForwardingRulesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_port_forwarding_rules.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiAppliancePortForwardingRulesImportStateIdFunc("meraki_appliance_port_forwarding_rules.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

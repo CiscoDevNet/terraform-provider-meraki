@@ -39,8 +39,8 @@ resource "meraki_network_snmp" "example" {
 - `access` (String) The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).
   - Choices: `community`, `none`, `users`
 - `community_string` (String, Sensitive) The SNMP community string. Only relevant if `access` is set to `community`.
-- `community_string_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `community_string_wo_version` (Number) Version of community_string_wo.
+- `community_string_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `community_string`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `community_string`. Must be used together with `community_string_wo_version`.
+- `community_string_wo_version` (Number) Version of `community_string_wo`. As changes to write-only values are not detected, increment this value to update `community_string_wo`. Must be used together with `community_string_wo`.
 - `users` (Attributes List) The list of SNMP users. Only relevant if `access` is set to `users`. (see [below for nested schema](#nestedatt--users))
 
 ### Read-Only
@@ -57,8 +57,8 @@ Required:
 Optional:
 
 - `passphrase` (String, Sensitive) The passphrase for the SNMP user. Required.
-- `passphrase_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `passphrase_wo_version` (Number) Version of passphrase_wo.
+- `passphrase_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `passphrase`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `passphrase` or `passphrase_wo` must be configured. Must be used together with `passphrase_wo_version`.
+- `passphrase_wo_version` (Number) Version of `passphrase_wo`. As changes to write-only values are not detected, increment this value to update `passphrase_wo`. Must be used together with `passphrase_wo`.
 
 ## Import
 

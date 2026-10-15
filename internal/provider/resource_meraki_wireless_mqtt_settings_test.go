@@ -65,12 +65,13 @@ func TestAccMerakiWirelessMQTTSettings(t *testing.T) {
 		Config: testAccMerakiWirelessMQTTSettingsPrerequisitesConfig + testAccMerakiWirelessMQTTSettingsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"ble_allow_lists_macs", "ble_allow_lists_uuids", "wifi_allow_lists_macs"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_mqtt_settings.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessMQTTSettingsImportStateIdFunc("meraki_wireless_mqtt_settings.test"),
-		ImportStateVerifyIgnore: []string{"ble_allow_lists_macs", "ble_allow_lists_uuids", "wifi_allow_lists_macs"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

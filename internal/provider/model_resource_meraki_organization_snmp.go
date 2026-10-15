@@ -97,6 +97,12 @@ func (data OrganizationSNMP) toBody(ctx context.Context, state OrganizationSNMP)
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *OrganizationSNMP) setWoValues(config OrganizationSNMP) {
+	data.V3AuthPassWo = config.V3AuthPassWo
+	data.V3PrivPassWo = config.V3PrivPassWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

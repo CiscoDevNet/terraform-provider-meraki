@@ -44,14 +44,13 @@ func TestAccMerakiApplianceVMXAuthenticationToken(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceVMXAuthenticationTokenPrerequisitesConfig + testAccMerakiApplianceVMXAuthenticationTokenConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiApplianceVMXAuthenticationTokenPrerequisitesConfig + testAccMerakiApplianceVMXAuthenticationTokenConfig_all(includeWriteOnly),
+		Config: testAccMerakiApplianceVMXAuthenticationTokenPrerequisitesConfig + testAccMerakiApplianceVMXAuthenticationTokenConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -115,7 +114,7 @@ func testAccMerakiApplianceVMXAuthenticationTokenConfig_minimum() string {
 // End of section. //template:end testAccConfigMinimal
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
-func testAccMerakiApplianceVMXAuthenticationTokenConfig_all(includeWriteOnly bool) string {
+func testAccMerakiApplianceVMXAuthenticationTokenConfig_all() string {
 	config := `resource "meraki_appliance_vmx_authentication_token" "test" {` + "\n"
 	config += `  serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `}` + "\n"

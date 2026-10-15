@@ -53,12 +53,13 @@ func TestAccMerakiSMAdminRole(t *testing.T) {
 		Config: testAccMerakiSMAdminRolePrerequisitesConfig + testAccMerakiSMAdminRoleConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_sm_admin_role.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSMAdminRoleImportStateIdFunc("meraki_sm_admin_role.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

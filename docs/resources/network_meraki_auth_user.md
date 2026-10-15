@@ -49,8 +49,8 @@ resource "meraki_network_meraki_auth_user" "example" {
 - `email_password_to_user` (Boolean) Whether or not Meraki should email the password to user. Default is false.
 - `is_admin` (Boolean) Whether or not the user is a Dashboard administrator.
 - `password` (String, Sensitive) The password for this user account. Only required If the user is not a Dashboard administrator.
-- `password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `password_wo_version` (Number) Version of password_wo.
+- `password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `password` or `password_wo` must be configured. Must be used together with `password_wo_version`.
+- `password_wo_version` (Number) Version of `password_wo`. As changes to write-only values are not detected, increment this value to update `password_wo`. Must be used together with `password_wo`.
 
 ### Read-Only
 

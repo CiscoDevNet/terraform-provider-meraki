@@ -55,12 +55,13 @@ func TestAccMerakiNetworkClientSplashAuthorizationStatus(t *testing.T) {
 		Config: testAccMerakiNetworkClientSplashAuthorizationStatusPrerequisitesConfig + testAccMerakiNetworkClientSplashAuthorizationStatusConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_client_splash_authorization_status.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkClientSplashAuthorizationStatusImportStateIdFunc("meraki_network_client_splash_authorization_status.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

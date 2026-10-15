@@ -52,12 +52,13 @@ func TestAccMerakiOrganizationConfigTemplate(t *testing.T) {
 		Config: testAccMerakiOrganizationConfigTemplatePrerequisitesConfig + testAccMerakiOrganizationConfigTemplateConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"copy_from_network_id"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_config_template.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationConfigTemplateImportStateIdFunc("meraki_organization_config_template.test"),
-		ImportStateVerifyIgnore: []string{"copy_from_network_id"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

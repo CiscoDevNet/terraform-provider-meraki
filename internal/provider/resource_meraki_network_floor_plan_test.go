@@ -52,12 +52,13 @@ func TestAccMerakiNetworkFloorPlan(t *testing.T) {
 		Config: testAccMerakiNetworkFloorPlanPrerequisitesConfig + testAccMerakiNetworkFloorPlanConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"floor_number", "image_contents", "bottom_left_corner_lat", "bottom_left_corner_lng", "bottom_right_corner_lat", "bottom_right_corner_lng", "center_lat", "center_lng", "top_left_corner_lat", "top_left_corner_lng", "top_right_corner_lat", "top_right_corner_lng"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_floor_plan.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkFloorPlanImportStateIdFunc("meraki_network_floor_plan.test"),
-		ImportStateVerifyIgnore: []string{"floor_number", "image_contents", "bottom_left_corner_lat", "bottom_left_corner_lng", "bottom_right_corner_lat", "bottom_right_corner_lng", "center_lat", "center_lng", "top_left_corner_lat", "top_left_corner_lng", "top_right_corner_lat", "top_right_corner_lng"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

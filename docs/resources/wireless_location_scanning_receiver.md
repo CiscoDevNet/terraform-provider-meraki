@@ -39,8 +39,8 @@ resource "meraki_wireless_location_scanning_receiver" "example" {
 > **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
 
 - `shared_secret` (String, Sensitive) Secret Value for Receiver
-- `shared_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `shared_secret_wo_version` (Number) Version of shared_secret_wo.
+- `shared_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `shared_secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `shared_secret` or `shared_secret_wo` must be configured. Must be used together with `shared_secret_wo_version`.
+- `shared_secret_wo_version` (Number) Version of `shared_secret_wo`. As changes to write-only values are not detected, increment this value to update `shared_secret_wo`. Must be used together with `shared_secret_wo`.
 
 ### Read-Only
 

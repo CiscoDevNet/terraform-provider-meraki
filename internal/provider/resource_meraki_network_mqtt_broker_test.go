@@ -37,6 +37,7 @@ func TestAccMerakiNetworkMQTTBroker(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_mqtt_broker.test", "host", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_mqtt_broker.test", "name", "MQTT_Broker_1"))
@@ -47,7 +48,6 @@ func TestAccMerakiNetworkMQTTBroker(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkMQTTBrokerPrerequisitesConfig + testAccMerakiNetworkMQTTBrokerConfig_minimum(),
@@ -57,12 +57,16 @@ func TestAccMerakiNetworkMQTTBroker(t *testing.T) {
 		Config: testAccMerakiNetworkMQTTBrokerPrerequisitesConfig + testAccMerakiNetworkMQTTBrokerConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"authentication_password", "security_tls_ca_certificate"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "authentication_password", "authentication_password_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_mqtt_broker.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkMQTTBrokerImportStateIdFunc("meraki_network_mqtt_broker.test"),
-		ImportStateVerifyIgnore: []string{"authentication_password", "security_tls_ca_certificate"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -132,7 +136,6 @@ func testAccMerakiNetworkMQTTBrokerConfig_all(includeWriteOnly bool) string {
 	config += `  name = "MQTT_Broker_1"` + "\n"
 	config += `  port = 443` + "\n"
 	if includeWriteOnly {
-		config += `  authentication_password = "*****"` + "\n"
 		config += `  authentication_password_wo = "*****"` + "\n"
 		config += `  authentication_password_wo_version = 1` + "\n"
 	} else {

@@ -43,8 +43,8 @@ resource "meraki_wireless_zigbee" "example" {
 - `iot_controller_serial` (String) Device Serial number
 - `lock_management_address` (String) Host Address
 - `lock_management_password` (String, Sensitive) Password
-- `lock_management_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `lock_management_password_wo_version` (Number) Version of lock_management_password_wo.
+- `lock_management_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `lock_management_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `lock_management_password`. Must be used together with `lock_management_password_wo_version`.
+- `lock_management_password_wo_version` (Number) Version of `lock_management_password_wo`. As changes to write-only values are not detected, increment this value to update `lock_management_password_wo`. Must be used together with `lock_management_password_wo`.
 - `lock_management_username` (String) Username
 
 ### Read-Only

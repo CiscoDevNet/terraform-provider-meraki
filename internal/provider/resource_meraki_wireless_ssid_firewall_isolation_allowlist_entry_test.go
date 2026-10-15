@@ -53,12 +53,13 @@ func TestAccMerakiWirelessSSIDFirewallIsolationAllowlistEntry(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDFirewallIsolationAllowlistEntryPrerequisitesConfig + testAccMerakiWirelessSSIDFirewallIsolationAllowlistEntryConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_firewall_isolation_allowlist_entry.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDFirewallIsolationAllowlistEntryImportStateIdFunc("meraki_wireless_ssid_firewall_isolation_allowlist_entry.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

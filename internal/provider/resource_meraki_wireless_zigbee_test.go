@@ -40,17 +40,19 @@ func TestAccMerakiWirelessZigbee(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_ap_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_zigbee.test", "enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_zigbee.test", "defaults_channel", "25"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_zigbee.test", "defaults_transmit_power_level", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_zigbee.test", "lock_management_address", "10.100.100.200"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_zigbee.test", "lock_management_password", "password"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_zigbee.test", "lock_management_password", "password"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_zigbee.test", "lock_management_username", "user"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessZigbeePrerequisitesConfig + testAccMerakiWirelessZigbeeConfig_minimum(),
@@ -60,12 +62,16 @@ func TestAccMerakiWirelessZigbee(t *testing.T) {
 		Config: testAccMerakiWirelessZigbeePrerequisitesConfig + testAccMerakiWirelessZigbeeConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "lock_management_password", "lock_management_password_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_zigbee.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessZigbeeImportStateIdFunc("meraki_wireless_zigbee.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -139,7 +145,6 @@ func testAccMerakiWirelessZigbeeConfig_all(includeWriteOnly bool) string {
 	config += `  iot_controller_serial = tolist(meraki_network_device_claim.test.serials)[0]` + "\n"
 	config += `  lock_management_address = "10.100.100.200"` + "\n"
 	if includeWriteOnly {
-		config += `  lock_management_password = "password"` + "\n"
 		config += `  lock_management_password_wo = "password"` + "\n"
 		config += `  lock_management_password_wo_version = 1` + "\n"
 	} else {

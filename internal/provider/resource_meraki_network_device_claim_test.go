@@ -37,13 +37,15 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_claim_serial_1") == "" || os.Getenv("TF_VAR_test_claim_serial_2") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_claim_serial_1 and TF_VAR_test_claim_serial_2")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim.test", "details_by_device.0.details.0.name", "username"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim.test", "details_by_device.0.details.0.value", "milesmeraki"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim.test", "details_by_device.0.details.0.value", "milesmeraki"))
+	}
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkDeviceClaimPrerequisitesConfig + testAccMerakiNetworkDeviceClaimConfig_minimum(),
@@ -53,12 +55,16 @@ func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
 		Config: testAccMerakiNetworkDeviceClaimPrerequisitesConfig + testAccMerakiNetworkDeviceClaimConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"details_by_device"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "details_by_device.0.details.0.value", "details_by_device.0.details.0.value_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_device_claim.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkDeviceClaimImportStateIdFunc("meraki_network_device_claim.test"),
-		ImportStateVerifyIgnore: []string{"details_by_device"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

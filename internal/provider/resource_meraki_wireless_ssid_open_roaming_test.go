@@ -52,12 +52,13 @@ func TestAccMerakiWirelessSSIDOpenRoaming(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDOpenRoamingPrerequisitesConfig + testAccMerakiWirelessSSIDOpenRoamingConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_open_roaming.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDOpenRoamingImportStateIdFunc("meraki_wireless_ssid_open_roaming.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -37,6 +37,7 @@ func TestAccMerakiApplianceSSID(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_ssid.test", "number", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_ssid.test", "auth_mode", "8021x-radius"))
@@ -49,7 +50,6 @@ func TestAccMerakiApplianceSSID(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceSSIDPrerequisitesConfig + testAccMerakiApplianceSSIDConfig_minimum(),
@@ -59,12 +59,16 @@ func TestAccMerakiApplianceSSID(t *testing.T) {
 		Config: testAccMerakiApplianceSSIDPrerequisitesConfig + testAccMerakiApplianceSSIDConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"radius_servers.0.secret"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "radius_servers.0.secret", "radius_servers.0.secret_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_ssid.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceSSIDImportStateIdFunc("meraki_appliance_ssid.test"),
-		ImportStateVerifyIgnore: []string{"radius_servers.0.secret"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -144,7 +148,6 @@ func testAccMerakiApplianceSSIDConfig_all(includeWriteOnly bool) string {
 	config += `    host = "0.0.0.0"` + "\n"
 	config += `    port = 1000` + "\n"
 	if includeWriteOnly {
-		config += `    secret = "secret"` + "\n"
 		config += `    secret_wo = "secret"` + "\n"
 		config += `    secret_wo_version = 1` + "\n"
 	} else {

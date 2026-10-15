@@ -37,13 +37,16 @@ func TestAccMerakiSwitchRoutingOSPF(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "dead_timer_in_seconds", "40"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "hello_timer_in_seconds", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "md5_authentication_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "md5_authentication_key_id", "1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "md5_authentication_key_passphrase", "abc1234"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "md5_authentication_key_passphrase", "abc1234"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "v3_dead_timer_in_seconds", "40"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "v3_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_routing_ospf.test", "v3_hello_timer_in_seconds", "10"))
@@ -56,7 +59,6 @@ func TestAccMerakiSwitchRoutingOSPF(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiSwitchRoutingOSPFPrerequisitesConfig + testAccMerakiSwitchRoutingOSPFConfig_minimum(),
@@ -66,12 +68,16 @@ func TestAccMerakiSwitchRoutingOSPF(t *testing.T) {
 		Config: testAccMerakiSwitchRoutingOSPFPrerequisitesConfig + testAccMerakiSwitchRoutingOSPFConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "md5_authentication_key_passphrase", "md5_authentication_key_passphrase_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_routing_ospf.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchRoutingOSPFImportStateIdFunc("meraki_switch_routing_ospf.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -140,7 +146,6 @@ func testAccMerakiSwitchRoutingOSPFConfig_all(includeWriteOnly bool) string {
 	config += `  md5_authentication_enabled = true` + "\n"
 	config += `  md5_authentication_key_id = 1` + "\n"
 	if includeWriteOnly {
-		config += `  md5_authentication_key_passphrase = "abc1234"` + "\n"
 		config += `  md5_authentication_key_passphrase_wo = "abc1234"` + "\n"
 		config += `  md5_authentication_key_passphrase_wo_version = 1` + "\n"
 	} else {

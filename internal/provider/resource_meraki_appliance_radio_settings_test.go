@@ -55,12 +55,13 @@ func TestAccMerakiApplianceRadioSettings(t *testing.T) {
 		Config: testAccMerakiApplianceRadioSettingsPrerequisitesConfig + testAccMerakiApplianceRadioSettingsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_radio_settings.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceRadioSettingsImportStateIdFunc("meraki_appliance_radio_settings.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

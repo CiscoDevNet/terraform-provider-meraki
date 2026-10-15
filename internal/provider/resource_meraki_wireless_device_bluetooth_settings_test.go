@@ -53,12 +53,13 @@ func TestAccMerakiWirelessDeviceBluetoothSettings(t *testing.T) {
 		Config: testAccMerakiWirelessDeviceBluetoothSettingsPrerequisitesConfig + testAccMerakiWirelessDeviceBluetoothSettingsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_device_bluetooth_settings.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessDeviceBluetoothSettingsImportStateIdFunc("meraki_wireless_device_bluetooth_settings.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

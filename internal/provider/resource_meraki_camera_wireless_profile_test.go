@@ -37,9 +37,12 @@ func TestAccMerakiCameraWirelessProfile(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_wireless_profile.test", "name", "wireless profile A"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_wireless_profile.test", "identity_password", "password123"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_wireless_profile.test", "identity_password", "password123"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_wireless_profile.test", "identity_username", "identityname"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_wireless_profile.test", "ssid_auth_mode", "8021x-radius"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_camera_wireless_profile.test", "ssid_encryption_mode", "wpa-eap"))
@@ -47,7 +50,6 @@ func TestAccMerakiCameraWirelessProfile(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiCameraWirelessProfilePrerequisitesConfig + testAccMerakiCameraWirelessProfileConfig_minimum(),
@@ -57,12 +59,16 @@ func TestAccMerakiCameraWirelessProfile(t *testing.T) {
 		Config: testAccMerakiCameraWirelessProfilePrerequisitesConfig + testAccMerakiCameraWirelessProfileConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "identity_password", "identity_password_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_camera_wireless_profile.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiCameraWirelessProfileImportStateIdFunc("meraki_camera_wireless_profile.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -131,7 +137,6 @@ func testAccMerakiCameraWirelessProfileConfig_all(includeWriteOnly bool) string 
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  name = "wireless profile A"` + "\n"
 	if includeWriteOnly {
-		config += `  identity_password = "password123"` + "\n"
 		config += `  identity_password_wo = "password123"` + "\n"
 		config += `  identity_password_wo_version = 1` + "\n"
 	} else {

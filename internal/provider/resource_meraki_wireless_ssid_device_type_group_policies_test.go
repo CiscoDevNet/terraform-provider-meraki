@@ -53,12 +53,13 @@ func TestAccMerakiWirelessSSIDDeviceTypeGroupPolicies(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDDeviceTypeGroupPoliciesPrerequisitesConfig + testAccMerakiWirelessSSIDDeviceTypeGroupPoliciesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_device_type_group_policies.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDDeviceTypeGroupPoliciesImportStateIdFunc("meraki_wireless_ssid_device_type_group_policies.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -52,12 +52,13 @@ func TestAccMerakiSwitchMTU(t *testing.T) {
 		Config: testAccMerakiSwitchMTUPrerequisitesConfig + testAccMerakiSwitchMTUConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_mtu.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchMTUImportStateIdFunc("meraki_switch_mtu.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

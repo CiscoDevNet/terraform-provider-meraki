@@ -579,6 +579,89 @@ func HasSensitiveAttrRecursive(attrs []YamlConfigAttribute) bool {
 	return false
 }
 
+// HasWo returns true if a write-only "<attr>_wo" variant is generated for the attribute
+func HasWo(attr YamlConfigAttribute) bool {
+	return attr.Sensitive && attr.Type == "String" && !attr.Computed
+}
+
+// HasWoRecursive returns true if any attribute (including nested ones) has a write-only "<attr>_wo" variant
+func HasWoRecursive(attrs []YamlConfigAttribute) bool {
+	for _, attr := range attrs {
+		if attr.Value != "" || attr.DataSourceOnly {
+			continue
+		}
+		if HasWo(attr) || HasWoRecursive(attr.Attributes) {
+			return true
+		}
+	}
+	return false
+}
+
+// GetWoImportExcludes returns the attributes to ignore during import verification when the "<attr>_wo" variants are
+// configured instead of the regular attributes
+func GetWoImportExcludes(attributes []YamlConfigAttribute) []string {
+	var excludes []string
+	for _, attr := range attributes {
+		if attr.Value != "" || attr.DataSourceOnly || attr.ExcludeTest {
+			continue
+		}
+		if HasWo(attr) {
+			excludes = append(excludes, attr.TfName, attr.TfName+"_wo_version")
+		}
+		if len(attr.Attributes) > 0 {
+			for _, c := range GetWoImportExcludes(attr.Attributes) {
+				excludes = append(excludes, attr.TfName+".0."+c)
+			}
+		}
+	}
+	return excludes
+}
+
+// SetWoValues renders Go code copying the "<attr>_wo" values from the configuration (src) to the plan (dst), as
+// write-only values are always null in the plan
+func SetWoValues(attrs []YamlConfigAttribute, dst, src string, depth int) (string, error) {
+	code := ""
+	indent := strings.Repeat("\t", depth+1)
+	for _, attr := range attrs {
+		if attr.Value != "" || attr.DataSourceOnly {
+			continue
+		}
+		name := ToGoName(attr.TfName)
+		if HasWo(attr) {
+			code += fmt.Sprintf("%s%s.%sWo = %s.%sWo\n", indent, dst, name, src, name)
+		}
+		if !IsNestedListSetMap(attr) || !HasWoRecursive(attr.Attributes) {
+			continue
+		}
+		if IsNestedSet(attr) {
+			return "", fmt.Errorf("write-only attributes are not supported within sets: %s", attr.TfName)
+		}
+		i := fmt.Sprintf("i%d", depth/2)
+		if IsNestedMap(attr) {
+			item, srcItem := fmt.Sprintf("item%d", depth/2), fmt.Sprintf("srcItem%d", depth/2)
+			inner, err := SetWoValues(attr.Attributes, item, srcItem, depth+2)
+			if err != nil {
+				return "", err
+			}
+			code += fmt.Sprintf("%sfor %s, %s := range %s.%s {\n", indent, i, item, dst, name)
+			code += fmt.Sprintf("%s\tif %s, ok := %s.%s[%s]; ok {\n", indent, srcItem, src, name, i)
+			code += inner
+			code += fmt.Sprintf("%s\t\t%s.%s[%s] = %s\n", indent, dst, name, i, item)
+			code += fmt.Sprintf("%s\t}\n%s}\n", indent, indent)
+		} else {
+			inner, err := SetWoValues(attr.Attributes, fmt.Sprintf("%s.%s[%s]", dst, name, i), fmt.Sprintf("%s.%s[%s]", src, name, i), depth+2)
+			if err != nil {
+				return "", err
+			}
+			code += fmt.Sprintf("%sfor %s := range %s.%s {\n", indent, i, dst, name)
+			code += fmt.Sprintf("%s\tif %s < len(%s.%s) {\n", indent, i, src, name)
+			code += inner
+			code += fmt.Sprintf("%s\t}\n%s}\n", indent, indent)
+		}
+	}
+	return code, nil
+}
+
 func HasWriteOnly(attrs []YamlConfigAttribute) bool {
 	for _, attr := range attrs {
 		if attr.WriteOnly && !attr.ExcludeTest {
@@ -629,6 +712,10 @@ var Functions = template.FuncMap{
 	"hasSensitiveAttr":          HasSensitiveAttr,
 	"hasSensitiveAttrRecursive": HasSensitiveAttrRecursive,
 	"hasWriteOnly":              HasWriteOnly,
+	"hasWo":                     HasWo,
+	"hasWoRecursive":            HasWoRecursive,
+	"getWoImportExcludes":       GetWoImportExcludes,
+	"setWoValues":               SetWoValues,
 }
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")

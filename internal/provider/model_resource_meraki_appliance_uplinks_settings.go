@@ -195,6 +195,12 @@ func (data ApplianceUplinksSettings) toBody(ctx context.Context, state Appliance
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *ApplianceUplinksSettings) setWoValues(config ApplianceUplinksSettings) {
+	data.InterfacesWan1PppoeAuthenticationPasswordWo = config.InterfacesWan1PppoeAuthenticationPasswordWo
+	data.InterfacesWan2PppoeAuthenticationPasswordWo = config.InterfacesWan2PppoeAuthenticationPasswordWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

@@ -247,6 +247,15 @@ func (data ApplianceThirdPartyVPNPeers) toBody(ctx context.Context, state Applia
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *ApplianceThirdPartyVPNPeers) setWoValues(config ApplianceThirdPartyVPNPeers) {
+	for i0 := range data.Peers {
+		if i0 < len(config.Peers) {
+			data.Peers[i0].SecretWo = config.Peers[i0].SecretWo
+		}
+	}
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

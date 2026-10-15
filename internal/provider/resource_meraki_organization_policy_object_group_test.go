@@ -55,12 +55,13 @@ func TestAccMerakiOrganizationPolicyObjectGroup(t *testing.T) {
 		Config: testAccMerakiOrganizationPolicyObjectGroupPrerequisitesConfig + testAccMerakiOrganizationPolicyObjectGroupConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_policy_object_group.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationPolicyObjectGroupImportStateIdFunc("meraki_organization_policy_object_group.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

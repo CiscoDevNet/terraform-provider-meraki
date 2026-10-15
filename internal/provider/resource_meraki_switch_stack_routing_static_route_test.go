@@ -54,12 +54,13 @@ func TestAccMerakiSwitchStackRoutingStaticRoute(t *testing.T) {
 		Config: testAccMerakiSwitchStackRoutingStaticRoutePrerequisitesConfig + testAccMerakiSwitchStackRoutingStaticRouteConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"advertise_via_ospf_enabled", "prefer_over_ospf_routes_enabled"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_stack_routing_static_route.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchStackRoutingStaticRouteImportStateIdFunc("meraki_switch_stack_routing_static_route.test"),
-		ImportStateVerifyIgnore: []string{"advertise_via_ospf_enabled", "prefer_over_ospf_routes_enabled"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

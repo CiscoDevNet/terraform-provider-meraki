@@ -54,12 +54,13 @@ func TestAccMerakiNetworkTrafficAnalysis(t *testing.T) {
 		Config: testAccMerakiNetworkTrafficAnalysisPrerequisitesConfig + testAccMerakiNetworkTrafficAnalysisConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_traffic_analysis.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkTrafficAnalysisImportStateIdFunc("meraki_network_traffic_analysis.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

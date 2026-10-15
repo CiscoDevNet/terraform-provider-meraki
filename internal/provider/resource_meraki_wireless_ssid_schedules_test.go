@@ -55,12 +55,13 @@ func TestAccMerakiWirelessSSIDSchedules(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDSchedulesPrerequisitesConfig + testAccMerakiWirelessSSIDSchedulesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"ranges", "ranges_in_seconds"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_schedules.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDSchedulesImportStateIdFunc("meraki_wireless_ssid_schedules.test"),
-		ImportStateVerifyIgnore: []string{"ranges", "ranges_in_seconds"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

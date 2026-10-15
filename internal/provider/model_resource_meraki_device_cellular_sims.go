@@ -136,6 +136,19 @@ func (data DeviceCellularSIMs) toBody(ctx context.Context, state DeviceCellularS
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *DeviceCellularSIMs) setWoValues(config DeviceCellularSIMs) {
+	for i0 := range data.Sims {
+		if i0 < len(config.Sims) {
+			for i1 := range data.Sims[i0].Apns {
+				if i1 < len(config.Sims[i0].Apns) {
+					data.Sims[i0].Apns[i1].AuthenticationPasswordWo = config.Sims[i0].Apns[i1].AuthenticationPasswordWo
+				}
+			}
+		}
+	}
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

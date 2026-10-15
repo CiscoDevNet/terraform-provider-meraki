@@ -52,12 +52,13 @@ func TestAccMerakiNetworkSyslogServers(t *testing.T) {
 		Config: testAccMerakiNetworkSyslogServersPrerequisitesConfig + testAccMerakiNetworkSyslogServersConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_syslog_servers.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkSyslogServersImportStateIdFunc("meraki_network_syslog_servers.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

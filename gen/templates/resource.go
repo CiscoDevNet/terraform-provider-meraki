@@ -104,7 +104,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- if isListSet .}}
 				ElementType:         types.{{.ElementType}}Type,
 				{{- end}}
-				{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
+				{{- if or .Reference (and .Mandatory (not (hasWo .)))}}
 				Required:            true,
 				{{- else if not .Computed}}
 				Optional:            true,
@@ -177,7 +177,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- if isListSet .}}
 							ElementType:         types.{{.ElementType}}Type,
 							{{- end}}
-							{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
+							{{- if or .Reference (and .Mandatory (not (hasWo .)))}}
 							Required:            true,
 							{{- else if not .Computed}}
 							Optional:            true,
@@ -245,7 +245,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- if isListSet .}}
 										ElementType:         types.{{.ElementType}}Type,
 										{{- end}}
-										{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
+										{{- if or .Reference (and .Mandatory (not (hasWo .)))}}
 										Required:            true,
 										{{- else if not .Computed}}
 										Optional:            true,
@@ -313,7 +313,7 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													{{- if isListSet .}}
 													ElementType:         types.{{.ElementType}}Type,
 													{{- end}}
-													{{- if or .Reference (and .Mandatory (not (and .Sensitive (eq .Type "String"))))}}
+													{{- if or .Reference (and .Mandatory (not (hasWo .)))}}
 													Required:            true,
 													{{- else if not .Computed}}
 													Optional:            true,
@@ -359,15 +359,26 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 													},
 													{{- end}}
 												},
-												{{- if and .Sensitive (eq .Type "String")}}
+												{{- if hasWo .}}
 												"{{.TfName}}_wo": schema.StringAttribute{
-													MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+													MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `{{.TfName}}`, which is never stored in the plan or state. Requires Terraform 1.11 or later. {{if .Mandatory}}Exactly one of `{{.TfName}}` or `{{.TfName}}_wo` must be configured{{else}}Conflicts with `{{.TfName}}`{{end}}. Must be used together with `{{.TfName}}_wo_version`.").String,
 													WriteOnly:           true,
 													Optional:            true,
+													Validators: []validator.String{
+														{{- if .Mandatory}}
+														stringvalidator.ExactlyOneOf(path.MatchRelative().AtParent().AtName("{{.TfName}}")),
+														{{- else}}
+														stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("{{.TfName}}")),
+														{{- end}}
+														stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo_version")),
+													},
 												},
 												"{{.TfName}}_wo_version": schema.Int64Attribute{
-													MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+													MarkdownDescription: helpers.NewAttributeDescription("Version of `{{.TfName}}_wo`. As changes to write-only values are not detected, increment this value to update `{{.TfName}}_wo`. Must be used together with `{{.TfName}}_wo`.").String,
 													Optional:            true,
+													Validators: []validator.Int64{
+														int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo")),
+													},
 												},
 												{{- end}}
 												{{- end}}
@@ -386,15 +397,26 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 										{{- end}}
 										{{- end}}
 									},
-									{{- if and .Sensitive (eq .Type "String")}}
+									{{- if hasWo .}}
 									"{{.TfName}}_wo": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `{{.TfName}}`, which is never stored in the plan or state. Requires Terraform 1.11 or later. {{if .Mandatory}}Exactly one of `{{.TfName}}` or `{{.TfName}}_wo` must be configured{{else}}Conflicts with `{{.TfName}}`{{end}}. Must be used together with `{{.TfName}}_wo_version`.").String,
 										WriteOnly:           true,
 										Optional:            true,
+										Validators: []validator.String{
+											{{- if .Mandatory}}
+											stringvalidator.ExactlyOneOf(path.MatchRelative().AtParent().AtName("{{.TfName}}")),
+											{{- else}}
+											stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("{{.TfName}}")),
+											{{- end}}
+											stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo_version")),
+										},
 									},
 									"{{.TfName}}_wo_version": schema.Int64Attribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Version of `{{.TfName}}_wo`. As changes to write-only values are not detected, increment this value to update `{{.TfName}}_wo`. Must be used together with `{{.TfName}}_wo`.").String,
 										Optional:            true,
+										Validators: []validator.Int64{
+											int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo")),
+										},
 									},
 									{{- end}}
 									{{- end}}
@@ -413,15 +435,26 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 							{{- end}}
 							{{- end}}
 						},
-						{{- if and .Sensitive (eq .Type "String")}}
+						{{- if hasWo .}}
 						"{{.TfName}}_wo": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `{{.TfName}}`, which is never stored in the plan or state. Requires Terraform 1.11 or later. {{if .Mandatory}}Exactly one of `{{.TfName}}` or `{{.TfName}}_wo` must be configured{{else}}Conflicts with `{{.TfName}}`{{end}}. Must be used together with `{{.TfName}}_wo_version`.").String,
 							WriteOnly:           true,
 							Optional:            true,
+							Validators: []validator.String{
+								{{- if .Mandatory}}
+								stringvalidator.ExactlyOneOf(path.MatchRelative().AtParent().AtName("{{.TfName}}")),
+								{{- else}}
+								stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("{{.TfName}}")),
+								{{- end}}
+								stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo_version")),
+							},
 						},
 						"{{.TfName}}_wo_version": schema.Int64Attribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Version of `{{.TfName}}_wo`. As changes to write-only values are not detected, increment this value to update `{{.TfName}}_wo`. Must be used together with `{{.TfName}}_wo`.").String,
 							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo")),
+							},
 						},
 						{{- end}}
 						{{- end}}
@@ -440,15 +473,26 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				{{- end}}
 				{{- end}}
 			},
-			{{- if and .Sensitive (eq .Type "String")}}
+			{{- if hasWo .}}
 			"{{.TfName}}_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `{{.TfName}}`, which is never stored in the plan or state. Requires Terraform 1.11 or later. {{if .Mandatory}}Exactly one of `{{.TfName}}` or `{{.TfName}}_wo` must be configured{{else}}Conflicts with `{{.TfName}}`{{end}}. Must be used together with `{{.TfName}}_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					{{- if .Mandatory}}
+					stringvalidator.ExactlyOneOf(path.MatchRelative().AtParent().AtName("{{.TfName}}")),
+					{{- else}}
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("{{.TfName}}")),
+					{{- end}}
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo_version")),
+				},
 			},
 			"{{.TfName}}_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of {{.TfName}}_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `{{.TfName}}_wo`. As changes to write-only values are not detected, increment this value to update `{{.TfName}}_wo`. Must be used together with `{{.TfName}}_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo")),
+				},
 			},
 			{{- end}}
 			{{- end}}
@@ -508,6 +552,17 @@ func (r *{{camelCase .Name}}Resource) Create(ctx context.Context, req resource.C
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
+	{{- end}}
+
+	{{- if hasWoRecursive .Attributes}}
+
+	// Read write-only values from config
+	var config {{camelCase .Name}}
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 	{{- end}}
 
 	// Create object
@@ -651,6 +706,16 @@ func (r *{{camelCase .Name}}Resource) Update(ctx context.Context, req resource.U
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
 	{{- if not .NoUpdate}}
+	{{- if hasWoRecursive .Attributes}}
+
+	// Read write-only values from config
+	var config {{camelCase .Name}}
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
+	{{- end}}
 
 	body := plan.toBody(ctx, state)
 	{{- if .PutCreate}}

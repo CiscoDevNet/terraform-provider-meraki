@@ -57,12 +57,13 @@ func TestAccMerakiSensorAlertsProfile(t *testing.T) {
 		Config: testAccMerakiSensorAlertsProfilePrerequisitesConfig + testAccMerakiSensorAlertsProfileConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_sensor_alerts_profile.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSensorAlertsProfileImportStateIdFunc("meraki_sensor_alerts_profile.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

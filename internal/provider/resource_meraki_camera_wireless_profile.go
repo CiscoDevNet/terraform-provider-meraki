@@ -25,6 +25,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -90,13 +91,20 @@ func (r *CameraWirelessProfileResource) Schema(ctx context.Context, req resource
 				Sensitive:           true,
 			},
 			"identity_password_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `identity_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `identity_password`. Must be used together with `identity_password_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("identity_password")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("identity_password_wo_version")),
+				},
 			},
 			"identity_password_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of identity_password_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `identity_password_wo`. As changes to write-only values are not detected, increment this value to update `identity_password_wo`. Must be used together with `identity_password_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("identity_password_wo")),
+				},
 			},
 			"identity_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The username of the identity.").String,
@@ -123,13 +131,20 @@ func (r *CameraWirelessProfileResource) Schema(ctx context.Context, req resource
 				Sensitive:           true,
 			},
 			"ssid_psk_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `ssid_psk`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `ssid_psk`. Must be used together with `ssid_psk_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("ssid_psk")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("ssid_psk_wo_version")),
+				},
 			},
 			"ssid_psk_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of ssid_psk_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `ssid_psk_wo`. As changes to write-only values are not detected, increment this value to update `ssid_psk_wo`. Must be used together with `ssid_psk_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("ssid_psk_wo")),
+				},
 			},
 		},
 	}
@@ -173,6 +188,14 @@ func (r *CameraWirelessProfileResource) Create(ctx context.Context, req resource
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config CameraWirelessProfile
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, CameraWirelessProfile{})
@@ -275,6 +298,14 @@ func (r *CameraWirelessProfileResource) Update(ctx context.Context, req resource
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config CameraWirelessProfile
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)

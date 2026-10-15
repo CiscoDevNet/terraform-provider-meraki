@@ -37,14 +37,16 @@ func TestAccMerakiNetworkSNMP(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "access", "users"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.passphrase", "N7!qW4#cT3@p"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.passphrase", "N7!qW4#cT3@p"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.username", "AzureDiamond"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkSNMPPrerequisitesConfig + testAccMerakiNetworkSNMPConfig_minimum(),
@@ -54,12 +56,16 @@ func TestAccMerakiNetworkSNMP(t *testing.T) {
 		Config: testAccMerakiNetworkSNMPPrerequisitesConfig + testAccMerakiNetworkSNMPConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "users.0.passphrase", "users.0.passphrase_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_snmp.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkSNMPImportStateIdFunc("meraki_network_snmp.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -126,7 +132,6 @@ func testAccMerakiNetworkSNMPConfig_all(includeWriteOnly bool) string {
 	config += `  access = "users"` + "\n"
 	config += `  users = [{` + "\n"
 	if includeWriteOnly {
-		config += `    passphrase = "N7!qW4#cT3@p"` + "\n"
 		config += `    passphrase_wo = "N7!qW4#cT3@p"` + "\n"
 		config += `    passphrase_wo_version = 1` + "\n"
 	} else {

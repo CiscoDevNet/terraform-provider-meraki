@@ -66,12 +66,13 @@ func TestAccMerakiSwitchRoutingInterfaceDHCP(t *testing.T) {
 		Config: testAccMerakiSwitchRoutingInterfaceDHCPPrerequisitesConfig + testAccMerakiSwitchRoutingInterfaceDHCPConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_routing_interface_dhcp.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchRoutingInterfaceDHCPImportStateIdFunc("meraki_switch_routing_interface_dhcp.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -58,12 +58,13 @@ func TestAccMerakiApplianceVPNFirewallRules(t *testing.T) {
 		Config: testAccMerakiApplianceVPNFirewallRulesPrerequisitesConfig + testAccMerakiApplianceVPNFirewallRulesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"syslog_default_rule"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_vpn_firewall_rules.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceVPNFirewallRulesImportStateIdFunc("meraki_appliance_vpn_firewall_rules.test"),
-		ImportStateVerifyIgnore: []string{"syslog_default_rule"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

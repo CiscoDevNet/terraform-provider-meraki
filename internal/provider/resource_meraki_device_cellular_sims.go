@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -125,13 +126,20 @@ func (r *DeviceCellularSIMsResource) Schema(ctx context.Context, req resource.Sc
 										Sensitive:           true,
 									},
 									"authentication_password_wo": schema.StringAttribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `authentication_password`. Must be used together with `authentication_password_wo_version`.").String,
 										WriteOnly:           true,
 										Optional:            true,
+										Validators: []validator.String{
+											stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("authentication_password")),
+											stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("authentication_password_wo_version")),
+										},
 									},
 									"authentication_password_wo_version": schema.Int64Attribute{
-										MarkdownDescription: helpers.NewAttributeDescription("Version of authentication_password_wo.").String,
+										MarkdownDescription: helpers.NewAttributeDescription("Version of `authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `authentication_password_wo`. Must be used together with `authentication_password_wo`.").String,
 										Optional:            true,
+										Validators: []validator.Int64{
+											int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("authentication_password_wo")),
+										},
 									},
 									"authentication_type": schema.StringAttribute{
 										MarkdownDescription: helpers.NewAttributeDescription("APN auth type.").AddStringEnumDescription("chap", "none", "pap").String,
@@ -204,6 +212,14 @@ func (r *DeviceCellularSIMsResource) Create(ctx context.Context, req resource.Cr
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
+
+	// Read write-only values from config
+	var config DeviceCellularSIMs
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, DeviceCellularSIMs{})
@@ -306,6 +322,14 @@ func (r *DeviceCellularSIMsResource) Update(ctx context.Context, req resource.Up
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config DeviceCellularSIMs
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)

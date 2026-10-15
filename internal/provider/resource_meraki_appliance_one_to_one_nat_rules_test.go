@@ -57,12 +57,13 @@ func TestAccMerakiApplianceOneToOneNATRules(t *testing.T) {
 		Config: testAccMerakiApplianceOneToOneNATRulesPrerequisitesConfig + testAccMerakiApplianceOneToOneNATRulesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_one_to_one_nat_rules.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceOneToOneNATRulesImportStateIdFunc("meraki_appliance_one_to_one_nat_rules.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -40,14 +40,16 @@ func TestAccMerakiWirelessSSIDIdentityPSK(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_identity_psk.test", "expires_at", "2030-02-11T00:00:00.090209Z"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_identity_psk.test", "name", "Sample Identity PSK"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_identity_psk.test", "passphrase", "Cisco123"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_identity_psk.test", "passphrase", "Cisco123"))
+	}
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessSSIDIdentityPSKPrerequisitesConfig + testAccMerakiWirelessSSIDIdentityPSKConfig_minimum(),
@@ -57,12 +59,16 @@ func TestAccMerakiWirelessSSIDIdentityPSK(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDIdentityPSKPrerequisitesConfig + testAccMerakiWirelessSSIDIdentityPSKConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "passphrase", "passphrase_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_identity_psk.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDIdentityPSKImportStateIdFunc("meraki_wireless_ssid_identity_psk.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -143,7 +149,6 @@ func testAccMerakiWirelessSSIDIdentityPSKConfig_all(includeWriteOnly bool) strin
 	config += `  group_policy_id = meraki_network_group_policy.test.id` + "\n"
 	config += `  name = "Sample Identity PSK"` + "\n"
 	if includeWriteOnly {
-		config += `  passphrase = "Cisco123"` + "\n"
 		config += `  passphrase_wo = "Cisco123"` + "\n"
 		config += `  passphrase_wo_version = 1` + "\n"
 	} else {
