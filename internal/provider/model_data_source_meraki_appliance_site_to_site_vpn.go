@@ -45,6 +45,7 @@ type DataSourceApplianceSiteToSiteVPN struct {
 	NetworkId          types.String                              `tfsdk:"network_id"`
 	Mode               types.String                              `tfsdk:"mode"`
 	SubnetNatIsAllowed types.Bool                                `tfsdk:"subnet_nat_is_allowed"`
+	SgtEnabled         types.Bool                                `tfsdk:"sgt_enabled"`
 	Hubs               []DataSourceApplianceSiteToSiteVPNHubs    `tfsdk:"hubs"`
 	Subnets            []DataSourceApplianceSiteToSiteVPNSubnets `tfsdk:"subnets"`
 }
@@ -83,6 +84,11 @@ func (data *DataSourceApplianceSiteToSiteVPN) fromBody(ctx context.Context, res 
 		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())
 	} else {
 		data.SubnetNatIsAllowed = types.BoolNull()
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() && value.Value() != nil {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
 	}
 	if value := res.Get("hubs"); value.Exists() && value.Value() != nil {
 		data.Hubs = make([]DataSourceApplianceSiteToSiteVPNHubs, 0)
