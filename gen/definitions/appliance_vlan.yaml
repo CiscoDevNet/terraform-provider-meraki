@@ -54,6 +54,7 @@ attributes:
   - model_name: groupPolicyId
     type: String
     exclude_test: true
+    write_null: true
     description: The id of the desired group policy to apply to the VLAN
     example: "101"
   - model_name: id
@@ -217,3 +218,29 @@ test_prerequisites: |
     network_id = meraki_network.test.id
     vlans_enabled = true
   }
+additional_tests:
+  - |-
+    resource "meraki_network_group_policy" "test" {
+      network_id = meraki_appliance_vlans_settings.test.network_id
+      name       = "Test Group Policy"
+    }
+    resource "meraki_appliance_vlan" "test" {
+      network_id      = meraki_appliance_vlans_settings.test.network_id
+      appliance_ip    = "192.168.1.2"
+      vlan_id         = "1234"
+      name            = "My VLAN"
+      subnet          = "192.168.1.0/24"
+      group_policy_id = meraki_network_group_policy.test.id
+    }
+  - |-
+    resource "meraki_network_group_policy" "test" {
+      network_id = meraki_appliance_vlans_settings.test.network_id
+      name       = "Test Group Policy"
+    }
+    resource "meraki_appliance_vlan" "test" {
+      network_id   = meraki_appliance_vlans_settings.test.network_id
+      appliance_ip = "192.168.1.2"
+      vlan_id      = "1234"
+      name         = "My VLAN"
+      subnet       = "192.168.1.0/24"
+    }
