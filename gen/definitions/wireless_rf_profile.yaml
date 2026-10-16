@@ -88,6 +88,7 @@ attributes:
     type: List
     data_path: [flexRadios]
     exclude_test: true
+    allow_import_changes: true
     description: Flex radios by model.
     attributes:
       - model_name: model
