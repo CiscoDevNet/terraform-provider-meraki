@@ -38,6 +38,7 @@ func TestAccDataSourceMerakiApplianceTrafficShapingUplinkSelection(t *testing.T)
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_uplink_selection.test", "load_balancing_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_uplink_selection.test", "failover_and_failback_immediate_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.preferred_uplink", "wan1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.vrf_id", "12345"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.type", "custom"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.protocol", "tcp"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.destination_cidr", "any"))
@@ -91,6 +92,7 @@ func testAccDataSourceMerakiApplianceTrafficShapingUplinkSelectionConfig() strin
 	config += `  failover_and_failback_immediate_enabled = true` + "\n"
 	config += `  wan_traffic_uplink_preferences = [{` + "\n"
 	config += `    preferred_uplink = "wan1"` + "\n"
+	config += `    vrf_id = "12345"` + "\n"
 	config += `    traffic_filters = [{` + "\n"
 	config += `      type = "custom"` + "\n"
 	config += `      protocol = "tcp"` + "\n"

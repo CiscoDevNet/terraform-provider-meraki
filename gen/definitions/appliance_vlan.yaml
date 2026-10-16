@@ -151,6 +151,16 @@ attributes:
     data_path: [mandatoryDhcp]
     description: Enable Mandatory DHCP on VLAN.
     example: "true"
+  - model_name: id
+    type: Int64
+    data_path: [sgt]
+    description: Adaptive policy group ID this VLAN is assigned to.
+    example: "1234"
+  - model_name: id
+    type: String
+    data_path: [vrf]
+    description: VRF ID. Use '0' for the default VRF.
+    example: "1000"
   - model_name: dhcpOptions
     type: List
     exclude_test: true
@@ -204,6 +214,20 @@ attributes:
         mandatory: true
         description: The first IP in the reserved range
         example: 192.168.1.0
+  - model_name: uplinks
+    type: List
+    description: Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions.
+    attributes:
+      - model_name: interface
+        type: String
+        mandatory: true
+        description: Interface name of the uplink
+        example: wan1
+      - model_name: enabled
+        type: Bool
+        data_path: [nat]
+        description: Whether NAT is enabled on the uplink
+        example: "true"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

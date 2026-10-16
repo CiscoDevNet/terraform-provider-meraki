@@ -19,6 +19,7 @@ resource "meraki_appliance_single_lan" "example" {
   subnet                 = "192.168.128.0/24"
   ipv6_enabled           = true
   mandatory_dhcp_enabled = false
+  vrf_id                 = "1000"
 }
 ```
 
@@ -36,6 +37,7 @@ resource "meraki_appliance_single_lan" "example" {
 - `ipv6_prefix_assignments` (Attributes List) Prefix assignments on the VLAN (see [below for nested schema](#nestedatt--ipv6_prefix_assignments))
 - `mandatory_dhcp_enabled` (Boolean) Enable Mandatory DHCP on LAN.
 - `subnet` (String) The subnet of the single LAN configuration
+- `vrf_id` (String) VRF ID. Use 0 for the default VRF.
 
 ### Read-Only
 

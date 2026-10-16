@@ -59,9 +59,12 @@ type DataSourceApplianceVLANsItems struct {
 	Ipv6Enabled            types.Bool                                            `tfsdk:"ipv6_enabled"`
 	Ipv6PrefixAssignments  []DataSourceApplianceVLANsIpv6PrefixAssignments       `tfsdk:"ipv6_prefix_assignments"`
 	MandatoryDhcpEnabled   types.Bool                                            `tfsdk:"mandatory_dhcp_enabled"`
+	SgtId                  types.Int64                                           `tfsdk:"sgt_id"`
+	VrfId                  types.String                                          `tfsdk:"vrf_id"`
 	DhcpOptions            []DataSourceApplianceVLANsDhcpOptions                 `tfsdk:"dhcp_options"`
 	DhcpRelayServerIps     types.List                                            `tfsdk:"dhcp_relay_server_ips"`
 	ReservedIpRanges       []DataSourceApplianceVLANsReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
+	Uplinks                []DataSourceApplianceVLANsUplinks                     `tfsdk:"uplinks"`
 }
 
 type DataSourceApplianceVLANsFixedIpAssignments struct {
@@ -88,6 +91,11 @@ type DataSourceApplianceVLANsReservedIpRanges struct {
 	Comment types.String `tfsdk:"comment"`
 	End     types.String `tfsdk:"end"`
 	Start   types.String `tfsdk:"start"`
+}
+
+type DataSourceApplianceVLANsUplinks struct {
+	Interface  types.String `tfsdk:"interface"`
+	NatEnabled types.Bool   `tfsdk:"nat_enabled"`
 }
 
 // End of section. //template:end types
@@ -251,6 +259,16 @@ func (data *DataSourceApplianceVLANs) fromBody(ctx context.Context, res meraki.R
 		} else {
 			data.MandatoryDhcpEnabled = types.BoolNull()
 		}
+		if value := res.Get("sgt.id"); value.Exists() && value.Value() != nil {
+			data.SgtId = types.Int64Value(value.Int())
+		} else {
+			data.SgtId = types.Int64Null()
+		}
+		if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+			data.VrfId = types.StringValue(value.String())
+		} else {
+			data.VrfId = types.StringNull()
+		}
 		if value := res.Get("dhcpOptions"); value.Exists() && value.Value() != nil {
 			data.DhcpOptions = make([]DataSourceApplianceVLANsDhcpOptions, 0)
 			value.ForEach(func(k, res gjson.Result) bool {
@@ -301,6 +319,25 @@ func (data *DataSourceApplianceVLANs) fromBody(ctx context.Context, res meraki.R
 					data.Start = types.StringNull()
 				}
 				(*parent).ReservedIpRanges = append((*parent).ReservedIpRanges, data)
+				return true
+			})
+		}
+		if value := res.Get("uplinks"); value.Exists() && value.Value() != nil {
+			data.Uplinks = make([]DataSourceApplianceVLANsUplinks, 0)
+			value.ForEach(func(k, res gjson.Result) bool {
+				parent := &data
+				data := DataSourceApplianceVLANsUplinks{}
+				if value := res.Get("interface"); value.Exists() && value.Value() != nil {
+					data.Interface = types.StringValue(value.String())
+				} else {
+					data.Interface = types.StringNull()
+				}
+				if value := res.Get("nat.enabled"); value.Exists() && value.Value() != nil {
+					data.NatEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.NatEnabled = types.BoolNull()
+				}
+				(*parent).Uplinks = append((*parent).Uplinks, data)
 				return true
 			})
 		}

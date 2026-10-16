@@ -6,6 +6,7 @@ resource "meraki_appliance_traffic_shaping_uplink_selection" "example" {
   wan_traffic_uplink_preferences = [
     {
       preferred_uplink = "wan1"
+      vrf_id           = "12345"
       traffic_filters = [
         {
           type             = "custom"
