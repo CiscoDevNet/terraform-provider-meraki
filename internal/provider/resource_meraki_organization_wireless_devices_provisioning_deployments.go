@@ -242,8 +242,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Create(ctx 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
+// Read refreshes the deployments from the organization-wide list. On a regular refresh the
+// configured `status` of each deployment is kept, while import reads the current ones.
 func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ResourceOrganizationWirelessDevicesProvisioningDeployments
 	var identity ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity
@@ -289,7 +289,18 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Read(ctx co
 			state.fromBody(ctx, res)
 		}
 	} else {
+		// Keep the configured status of each deployment: the API moves it on its own (for
+		// example from "in progress" to "completed"), which would otherwise show up as drift.
+		statuses := make(map[string]types.String, len(state.Items))
+		for _, item := range state.Items {
+			statuses[item.Id.ValueString()] = item.Status
+		}
 		state.fromBodyPartial(ctx, res)
+		for i := range state.Items {
+			if status, ok := statuses[state.Items[i].Id.ValueString()]; ok {
+				state.Items[i].Status = status
+			}
+		}
 	}
 	identity.toIdentity(ctx, &state)
 
@@ -302,8 +313,6 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Read(ctx co
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end read
 
 func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan, state ResourceOrganizationWirelessDevicesProvisioningDeployments

@@ -203,8 +203,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Create(ctx c
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
+// Read refreshes the deployment from the organization-wide list. On a regular refresh the
+// configured `status` is kept, while import reads the current one.
 func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state OrganizationWirelessDevicesProvisioningDeployment
 	var identity OrganizationWirelessDevicesProvisioningDeploymentIdentity
@@ -258,7 +258,11 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Read(ctx con
 	if imp {
 		state.fromBody(ctx, res)
 	} else {
+		// Keep the configured status: the API moves it on its own (for example from
+		// "in progress" to "completed"), which would otherwise show up as drift.
+		status := state.Status
 		state.fromBodyPartial(ctx, res)
+		state.Status = status
 	}
 	identity.toIdentity(ctx, &state)
 
@@ -271,8 +275,6 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Read(ctx con
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end read
 
 // Update updates the deployment. There is no per-deployment PUT, so this is a batch PUT on the
 // collection path, with the deployment identified by the `deploymentId` inside its `items` entry.
