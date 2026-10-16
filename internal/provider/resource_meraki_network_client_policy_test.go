@@ -55,12 +55,13 @@ func TestAccMerakiNetworkClientPolicy(t *testing.T) {
 		Config: testAccMerakiNetworkClientPolicyPrerequisitesConfig + testAccMerakiNetworkClientPolicyConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_client_policy.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkClientPolicyImportStateIdFunc("meraki_network_client_policy.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

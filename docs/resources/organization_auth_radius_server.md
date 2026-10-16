@@ -45,8 +45,8 @@ resource "meraki_organization_auth_radius_server" "example" {
 
 - `name` (String) The name of the RADIUS server
 - `secret` (String, Sensitive) Shared secret of the RADIUS server
-- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `secret_wo_version` (Number) Version of secret_wo.
+- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `secret` or `secret_wo` must be configured. Must be used together with `secret_wo_version`.
+- `secret_wo_version` (Number) Version of `secret_wo`. As changes to write-only values are not detected, increment this value to update `secret_wo`. Must be used together with `secret_wo`.
 
 ### Read-Only
 

@@ -75,12 +75,13 @@ func TestAccMerakiOrganizationBrandingPolicy(t *testing.T) {
 		Config: testAccMerakiOrganizationBrandingPolicyPrerequisitesConfig + testAccMerakiOrganizationBrandingPolicyConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_branding_policy.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationBrandingPolicyImportStateIdFunc("meraki_organization_branding_policy.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

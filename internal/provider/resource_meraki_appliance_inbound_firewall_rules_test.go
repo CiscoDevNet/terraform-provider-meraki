@@ -58,12 +58,13 @@ func TestAccMerakiApplianceInboundFirewallRules(t *testing.T) {
 		Config: testAccMerakiApplianceInboundFirewallRulesPrerequisitesConfig + testAccMerakiApplianceInboundFirewallRulesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"syslog_default_rule"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_inbound_firewall_rules.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceInboundFirewallRulesImportStateIdFunc("meraki_appliance_inbound_firewall_rules.test"),
-		ImportStateVerifyIgnore: []string{"syslog_default_rule"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

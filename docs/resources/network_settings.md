@@ -38,8 +38,8 @@ resource "meraki_network_settings" "example" {
 
 - `local_status_page_authentication_enabled` (Boolean) Enables / disables the authentication on Local Status page(s).
 - `local_status_page_authentication_password` (String, Sensitive) The password used for Local Status Page(s). Set this to null to clear the password.
-- `local_status_page_authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `local_status_page_authentication_password_wo_version` (Number) Version of local_status_page_authentication_password_wo.
+- `local_status_page_authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `local_status_page_authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `local_status_page_authentication_password`. Must be used together with `local_status_page_authentication_password_wo_version`.
+- `local_status_page_authentication_password_wo_version` (Number) Version of `local_status_page_authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `local_status_page_authentication_password_wo`. Must be used together with `local_status_page_authentication_password_wo`.
 - `local_status_page_authentication_username` (String) The username used for Local Status Page(s).
 - `local_status_page_enabled` (Boolean) Enables / disables the local device status pages (my.meraki.com, ap.meraki.com, switch.meraki.com, wired.meraki.com). Optional (defaults to false)
 - `named_vlans_enabled` (Boolean) Enables / disables Named VLANs on the Network.

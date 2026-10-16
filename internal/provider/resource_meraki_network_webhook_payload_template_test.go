@@ -54,12 +54,13 @@ func TestAccMerakiNetworkWebhookPayloadTemplate(t *testing.T) {
 		Config: testAccMerakiNetworkWebhookPayloadTemplatePrerequisitesConfig + testAccMerakiNetworkWebhookPayloadTemplateConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_webhook_payload_template.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkWebhookPayloadTemplateImportStateIdFunc("meraki_network_webhook_payload_template.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

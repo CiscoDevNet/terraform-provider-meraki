@@ -51,12 +51,13 @@ func TestAccMerakiOrganizationEarlyAccessFeaturesOptIn(t *testing.T) {
 		Config: testAccMerakiOrganizationEarlyAccessFeaturesOptInPrerequisitesConfig + testAccMerakiOrganizationEarlyAccessFeaturesOptInConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_early_access_features_opt_in.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationEarlyAccessFeaturesOptInImportStateIdFunc("meraki_organization_early_access_features_opt_in.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -54,12 +54,13 @@ func TestAccMerakiWirelessSSIDBonjourForwarding(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDBonjourForwardingPrerequisitesConfig + testAccMerakiWirelessSSIDBonjourForwardingConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_bonjour_forwarding.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDBonjourForwardingImportStateIdFunc("meraki_wireless_ssid_bonjour_forwarding.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

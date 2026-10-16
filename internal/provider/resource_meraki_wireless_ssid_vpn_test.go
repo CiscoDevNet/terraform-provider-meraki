@@ -58,12 +58,13 @@ func TestAccMerakiWirelessSSIDVPN(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDVPNPrerequisitesConfig + testAccMerakiWirelessSSIDVPNConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_vpn.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDVPNImportStateIdFunc("meraki_wireless_ssid_vpn.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

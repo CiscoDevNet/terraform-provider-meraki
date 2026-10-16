@@ -50,12 +50,13 @@ func TestAccMerakiApplianceContentFiltering(t *testing.T) {
 		Config: testAccMerakiApplianceContentFilteringPrerequisitesConfig + testAccMerakiApplianceContentFilteringConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"url_category_list_size", "blocked_url_categories"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_content_filtering.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceContentFilteringImportStateIdFunc("meraki_appliance_content_filtering.test"),
-		ImportStateVerifyIgnore: []string{"url_category_list_size", "blocked_url_categories"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

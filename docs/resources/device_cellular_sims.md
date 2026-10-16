@@ -79,8 +79,8 @@ Required:
 Optional:
 
 - `authentication_password` (String, Sensitive) APN password, if type is set (if APN password is not supplied, the password is left unchanged).
-- `authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `authentication_password_wo_version` (Number) Version of authentication_password_wo.
+- `authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `authentication_password`. Must be used together with `authentication_password_wo_version`.
+- `authentication_password_wo_version` (Number) Version of `authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `authentication_password_wo`. Must be used together with `authentication_password_wo`.
 - `authentication_type` (String) APN auth type.
   - Choices: `chap`, `none`, `pap`
 - `authentication_username` (String) APN username, if type is set.

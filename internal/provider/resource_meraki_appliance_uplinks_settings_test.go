@@ -37,6 +37,7 @@ func TestAccMerakiApplianceUplinksSettings(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_pppoe_enabled", "true"))
@@ -61,7 +62,6 @@ func TestAccMerakiApplianceUplinksSettings(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceUplinksSettingsPrerequisitesConfig + testAccMerakiApplianceUplinksSettingsConfig_minimum(),
@@ -71,12 +71,16 @@ func TestAccMerakiApplianceUplinksSettings(t *testing.T) {
 		Config: testAccMerakiApplianceUplinksSettingsPrerequisitesConfig + testAccMerakiApplianceUplinksSettingsConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"interfaces_wan1_pppoe_authentication_password", "interfaces_wan2_pppoe_authentication_password"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "interfaces_wan1_pppoe_authentication_password", "interfaces_wan1_pppoe_authentication_password_wo_version", "interfaces_wan2_pppoe_authentication_password", "interfaces_wan2_pppoe_authentication_password_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_uplinks_settings.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceUplinksSettingsImportStateIdFunc("meraki_appliance_uplinks_settings.test"),
-		ImportStateVerifyIgnore: []string{"interfaces_wan1_pppoe_authentication_password", "interfaces_wan2_pppoe_authentication_password"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -148,7 +152,6 @@ func testAccMerakiApplianceUplinksSettingsConfig_all(includeWriteOnly bool) stri
 	config += `  interfaces_wan1_pppoe_enabled = true` + "\n"
 	config += `  interfaces_wan1_pppoe_authentication_enabled = true` + "\n"
 	if includeWriteOnly {
-		config += `  interfaces_wan1_pppoe_authentication_password = "password"` + "\n"
 		config += `  interfaces_wan1_pppoe_authentication_password_wo = "password"` + "\n"
 		config += `  interfaces_wan1_pppoe_authentication_password_wo_version = 1` + "\n"
 	} else {
@@ -165,7 +168,6 @@ func testAccMerakiApplianceUplinksSettingsConfig_all(includeWriteOnly bool) stri
 	config += `  interfaces_wan2_pppoe_enabled = true` + "\n"
 	config += `  interfaces_wan2_pppoe_authentication_enabled = true` + "\n"
 	if includeWriteOnly {
-		config += `  interfaces_wan2_pppoe_authentication_password = "password"` + "\n"
 		config += `  interfaces_wan2_pppoe_authentication_password_wo = "password"` + "\n"
 		config += `  interfaces_wan2_pppoe_authentication_password_wo_version = 1` + "\n"
 	} else {

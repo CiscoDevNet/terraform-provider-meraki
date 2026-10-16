@@ -55,12 +55,13 @@ func TestAccMerakiDevice(t *testing.T) {
 		Config: testAccMerakiDevicePrerequisitesConfig + testAccMerakiDeviceConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"floor_plan_id", "move_map_marker", "switch_profile_id"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_device.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiDeviceImportStateIdFunc("meraki_device.test"),
-		ImportStateVerifyIgnore: []string{"floor_plan_id", "move_map_marker", "switch_profile_id"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

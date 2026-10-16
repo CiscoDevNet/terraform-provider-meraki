@@ -56,12 +56,13 @@ func TestAccMerakiWirelessSSIDL3FirewallRules(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDL3FirewallRulesPrerequisitesConfig + testAccMerakiWirelessSSIDL3FirewallRulesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"allow_lan_access"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_l3_firewall_rules.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDL3FirewallRulesImportStateIdFunc("meraki_wireless_ssid_l3_firewall_rules.test"),
-		ImportStateVerifyIgnore: []string{"allow_lan_access"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

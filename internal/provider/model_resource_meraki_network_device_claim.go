@@ -114,6 +114,19 @@ func (data NetworkDeviceClaim) toBody(ctx context.Context, state NetworkDeviceCl
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *NetworkDeviceClaim) setWoValues(config NetworkDeviceClaim) {
+	for i0 := range data.DetailsByDevice {
+		if i0 < len(config.DetailsByDevice) {
+			for i1 := range data.DetailsByDevice[i0].Details {
+				if i1 < len(config.DetailsByDevice[i0].Details) {
+					data.DetailsByDevice[i0].Details[i1].ValueWo = config.DetailsByDevice[i0].Details[i1].ValueWo
+				}
+			}
+		}
+	}
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody

@@ -37,6 +37,7 @@ func TestAccMerakiNetworkMerakiAuthUser(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "account_type", "802.1X"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_meraki_auth_user.test", "email", "miles323@meraki.com"))
@@ -46,7 +47,6 @@ func TestAccMerakiNetworkMerakiAuthUser(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkMerakiAuthUserPrerequisitesConfig + testAccMerakiNetworkMerakiAuthUserConfig_minimum(),
@@ -56,12 +56,16 @@ func TestAccMerakiNetworkMerakiAuthUser(t *testing.T) {
 		Config: testAccMerakiNetworkMerakiAuthUserPrerequisitesConfig + testAccMerakiNetworkMerakiAuthUserConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"email_password_to_user", "password"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "password", "password_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_meraki_auth_user.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkMerakiAuthUserImportStateIdFunc("meraki_network_meraki_auth_user.test"),
-		ImportStateVerifyIgnore: []string{"email_password_to_user", "password"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -143,7 +147,6 @@ func testAccMerakiNetworkMerakiAuthUserConfig_all(includeWriteOnly bool) string 
 	config += `  is_admin = false` + "\n"
 	config += `  name = "Miles Meraki"` + "\n"
 	if includeWriteOnly {
-		config += `  password = "Cisco123456&"` + "\n"
 		config += `  password_wo = "Cisco123456&"` + "\n"
 		config += `  password_wo_version = 1` + "\n"
 	} else {

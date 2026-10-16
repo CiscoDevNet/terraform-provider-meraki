@@ -55,12 +55,13 @@ func TestAccMerakiDeviceManagementInterface(t *testing.T) {
 		Config: testAccMerakiDeviceManagementInterfacePrerequisitesConfig + testAccMerakiDeviceManagementInterfaceConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_device_management_interface.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiDeviceManagementInterfaceImportStateIdFunc("meraki_device_management_interface.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

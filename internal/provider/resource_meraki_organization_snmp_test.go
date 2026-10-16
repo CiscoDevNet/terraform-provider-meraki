@@ -37,6 +37,7 @@ func TestAccMerakiOrganizationSNMP(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_snmp.test", "v2c_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_snmp.test", "v3_auth_mode", "SHA"))
@@ -45,7 +46,6 @@ func TestAccMerakiOrganizationSNMP(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiOrganizationSNMPPrerequisitesConfig + testAccMerakiOrganizationSNMPConfig_minimum(),
@@ -55,12 +55,16 @@ func TestAccMerakiOrganizationSNMP(t *testing.T) {
 		Config: testAccMerakiOrganizationSNMPPrerequisitesConfig + testAccMerakiOrganizationSNMPConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"v3_auth_pass", "v3_priv_pass"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "v3_auth_pass", "v3_auth_pass_wo_version", "v3_priv_pass", "v3_priv_pass_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_snmp.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationSNMPImportStateIdFunc("meraki_organization_snmp.test"),
-		ImportStateVerifyIgnore: []string{"v3_auth_pass", "v3_priv_pass"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -120,7 +124,6 @@ func testAccMerakiOrganizationSNMPConfig_all(includeWriteOnly bool) string {
 	config += `  v2c_enabled = false` + "\n"
 	config += `  v3_auth_mode = "SHA"` + "\n"
 	if includeWriteOnly {
-		config += `  v3_auth_pass = "password"` + "\n"
 		config += `  v3_auth_pass_wo = "password"` + "\n"
 		config += `  v3_auth_pass_wo_version = 1` + "\n"
 	} else {
@@ -129,7 +132,6 @@ func testAccMerakiOrganizationSNMPConfig_all(includeWriteOnly bool) string {
 	config += `  v3_enabled = true` + "\n"
 	config += `  v3_priv_mode = "AES128"` + "\n"
 	if includeWriteOnly {
-		config += `  v3_priv_pass = "password"` + "\n"
 		config += `  v3_priv_pass_wo = "password"` + "\n"
 		config += `  v3_priv_pass_wo_version = 1` + "\n"
 	} else {

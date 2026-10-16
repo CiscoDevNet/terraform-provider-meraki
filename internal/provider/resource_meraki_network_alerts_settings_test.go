@@ -59,12 +59,13 @@ func TestAccMerakiNetworkAlertsSettings(t *testing.T) {
 		Config: testAccMerakiNetworkAlertsSettingsPrerequisitesConfig + testAccMerakiNetworkAlertsSettingsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"alerts"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_alerts_settings.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkAlertsSettingsImportStateIdFunc("meraki_network_alerts_settings.test"),
-		ImportStateVerifyIgnore: []string{"alerts"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -59,12 +59,13 @@ func TestAccMerakiSwitchAccessControlLists(t *testing.T) {
 		Config: testAccMerakiSwitchAccessControlListsPrerequisitesConfig + testAccMerakiSwitchAccessControlListsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_access_control_lists.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchAccessControlListsImportStateIdFunc("meraki_switch_access_control_lists.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

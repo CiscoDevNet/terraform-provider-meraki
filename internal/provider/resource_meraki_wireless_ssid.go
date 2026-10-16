@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -185,13 +186,20 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				Sensitive:           true,
 			},
 			"psk_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `psk`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `psk`. Must be used together with `psk_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("psk")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("psk_wo_version")),
+				},
 			},
 			"psk_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of psk_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `psk_wo`. As changes to write-only values are not detected, increment this value to update `psk_wo`. Must be used together with `psk_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("psk_wo")),
+				},
 			},
 			"radius_accounting_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius`").String,
@@ -314,13 +322,20 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				Sensitive:           true,
 			},
 			"active_directory_credentials_password_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `active_directory_credentials_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `active_directory_credentials_password`. Must be used together with `active_directory_credentials_password_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("active_directory_credentials_password")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("active_directory_credentials_password_wo_version")),
+				},
 			},
 			"active_directory_credentials_password_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of active_directory_credentials_password_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `active_directory_credentials_password_wo`. As changes to write-only values are not detected, increment this value to update `active_directory_credentials_password_wo`. Must be used together with `active_directory_credentials_password_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("active_directory_credentials_password_wo")),
+				},
 			},
 			"active_directory_servers": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The Active Directory servers to be used for authentication.").String,
@@ -385,13 +400,20 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				Sensitive:           true,
 			},
 			"ldap_credentials_password_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `ldap_credentials_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `ldap_credentials_password`. Must be used together with `ldap_credentials_password_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("ldap_credentials_password")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("ldap_credentials_password_wo_version")),
+				},
 			},
 			"ldap_credentials_password_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of ldap_credentials_password_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `ldap_credentials_password_wo`. As changes to write-only values are not detected, increment this value to update `ldap_credentials_password_wo`. Must be used together with `ldap_credentials_password_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("ldap_credentials_password_wo")),
+				},
 			},
 			"ldap_server_ca_certificate_contents": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The contents of the CA certificate. Must be in PEM or DER format.").String,
@@ -548,13 +570,20 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 							Sensitive:           true,
 						},
 						"secret_wo": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `secret`. Must be used together with `secret_wo_version`.").String,
 							WriteOnly:           true,
 							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("secret")),
+								stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("secret_wo_version")),
+							},
 						},
 						"secret_wo_version": schema.Int64Attribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Version of secret_wo.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Version of `secret_wo`. As changes to write-only values are not detected, increment this value to update `secret_wo`. Must be used together with `secret_wo`.").String,
 							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("secret_wo")),
+							},
 						},
 					},
 				},
@@ -590,13 +619,20 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 							Sensitive:           true,
 						},
 						"secret_wo": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `secret`. Must be used together with `secret_wo_version`.").String,
 							WriteOnly:           true,
 							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("secret")),
+								stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("secret_wo_version")),
+							},
 						},
 						"secret_wo_version": schema.Int64Attribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Version of secret_wo.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Version of `secret_wo`. As changes to write-only values are not detected, increment this value to update `secret_wo`. Must be used together with `secret_wo`.").String,
 							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("secret_wo")),
+							},
 						},
 					},
 				},
@@ -622,13 +658,20 @@ func (r *WirelessSSIDResource) Schema(ctx context.Context, req resource.SchemaRe
 				Sensitive:           true,
 			},
 			"radius_das_clients_shared_secret_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `radius_das_clients_shared_secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `radius_das_clients_shared_secret`. Must be used together with `radius_das_clients_shared_secret_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("radius_das_clients_shared_secret")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("radius_das_clients_shared_secret_wo_version")),
+				},
 			},
 			"radius_das_clients_shared_secret_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of radius_das_clients_shared_secret_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `radius_das_clients_shared_secret_wo`. As changes to write-only values are not detected, increment this value to update `radius_das_clients_shared_secret_wo`. Must be used together with `radius_das_clients_shared_secret_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("radius_das_clients_shared_secret_wo")),
+				},
 			},
 		},
 	}
@@ -683,6 +726,14 @@ func (r *WirelessSSIDResource) Create(ctx context.Context, req resource.CreateRe
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
+
+	// Read write-only values from config
+	var config WirelessSSID
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, WirelessSSID{})
@@ -785,6 +836,14 @@ func (r *WirelessSSIDResource) Update(ctx context.Context, req resource.UpdateRe
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config WirelessSSID
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)

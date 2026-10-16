@@ -55,12 +55,13 @@ func TestAccMerakiSwitchQoSRule(t *testing.T) {
 		Config: testAccMerakiSwitchQoSRulePrerequisitesConfig + testAccMerakiSwitchQoSRuleConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_qos_rule.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchQoSRuleImportStateIdFunc("meraki_switch_qos_rule.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

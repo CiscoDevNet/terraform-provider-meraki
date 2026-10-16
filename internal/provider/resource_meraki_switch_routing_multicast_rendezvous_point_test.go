@@ -51,12 +51,13 @@ func TestAccMerakiSwitchRoutingMulticastRendezvousPoint(t *testing.T) {
 		Config: testAccMerakiSwitchRoutingMulticastRendezvousPointPrerequisitesConfig + testAccMerakiSwitchRoutingMulticastRendezvousPointConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"vrf_name"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_routing_multicast_rendezvous_point.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchRoutingMulticastRendezvousPointImportStateIdFunc("meraki_switch_routing_multicast_rendezvous_point.test"),
-		ImportStateVerifyIgnore: []string{"vrf_name"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

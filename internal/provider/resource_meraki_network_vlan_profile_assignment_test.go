@@ -50,12 +50,13 @@ func TestAccMerakiNetworkVLANProfileAssignment(t *testing.T) {
 		Config: testAccMerakiNetworkVLANProfileAssignmentPrerequisitesConfig + testAccMerakiNetworkVLANProfileAssignmentConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_vlan_profile_assignment.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkVLANProfileAssignmentImportStateIdFunc("meraki_network_vlan_profile_assignment.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 	steps = append(steps, resource.TestStep{

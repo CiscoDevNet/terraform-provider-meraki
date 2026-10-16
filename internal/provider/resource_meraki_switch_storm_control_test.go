@@ -53,12 +53,13 @@ func TestAccMerakiSwitchStormControl(t *testing.T) {
 		Config: testAccMerakiSwitchStormControlPrerequisitesConfig + testAccMerakiSwitchStormControlConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_storm_control.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchStormControlImportStateIdFunc("meraki_switch_storm_control.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -53,12 +53,13 @@ func TestAccMerakiSwitchDSCPToCoSMappings(t *testing.T) {
 		Config: testAccMerakiSwitchDSCPToCoSMappingsPrerequisitesConfig + testAccMerakiSwitchDSCPToCoSMappingsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_dscp_to_cos_mappings.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchDSCPToCoSMappingsImportStateIdFunc("meraki_switch_dscp_to_cos_mappings.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -571,6 +571,24 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *WirelessSSID) setWoValues(config WirelessSSID) {
+	data.PskWo = config.PskWo
+	data.ActiveDirectoryCredentialsPasswordWo = config.ActiveDirectoryCredentialsPasswordWo
+	data.LdapCredentialsPasswordWo = config.LdapCredentialsPasswordWo
+	for i0 := range data.RadiusAccountingServers {
+		if i0 < len(config.RadiusAccountingServers) {
+			data.RadiusAccountingServers[i0].SecretWo = config.RadiusAccountingServers[i0].SecretWo
+		}
+	}
+	for i0 := range data.RadiusServers {
+		if i0 < len(config.RadiusServers) {
+			data.RadiusServers[i0].SecretWo = config.RadiusServers[i0].SecretWo
+		}
+	}
+	data.RadiusDasClientsSharedSecretWo = config.RadiusDasClientsSharedSecretWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

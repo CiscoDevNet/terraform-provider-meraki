@@ -25,6 +25,7 @@ import (
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
@@ -108,13 +109,20 @@ func (r *WirelessZigbeeResource) Schema(ctx context.Context, req resource.Schema
 				Sensitive:           true,
 			},
 			"lock_management_password_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `lock_management_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `lock_management_password`. Must be used together with `lock_management_password_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("lock_management_password")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("lock_management_password_wo_version")),
+				},
 			},
 			"lock_management_password_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of lock_management_password_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `lock_management_password_wo`. As changes to write-only values are not detected, increment this value to update `lock_management_password_wo`. Must be used together with `lock_management_password_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("lock_management_password_wo")),
+				},
 			},
 			"lock_management_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username").String,
@@ -175,6 +183,14 @@ func (r *WirelessZigbeeResource) Create(ctx context.Context, req resource.Create
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, meraki.Res{Result: gres.Get("items.0")}), resp.Private, &resp.Diagnostics)
 	}
+
+	// Read write-only values from config
+	var config WirelessZigbee
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, WirelessZigbee{})
@@ -288,6 +304,14 @@ func (r *WirelessZigbeeResource) Update(ctx context.Context, req resource.Update
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config WirelessZigbee
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)

@@ -53,12 +53,13 @@ func TestAccMerakiSwitchDHCPServerPolicyARPInspectionTrustedServer(t *testing.T)
 		Config: testAccMerakiSwitchDHCPServerPolicyARPInspectionTrustedServerPrerequisitesConfig + testAccMerakiSwitchDHCPServerPolicyARPInspectionTrustedServerConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_dhcp_server_policy_arp_inspection_trusted_server.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchDHCPServerPolicyARPInspectionTrustedServerImportStateIdFunc("meraki_switch_dhcp_server_policy_arp_inspection_trusted_server.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

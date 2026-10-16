@@ -98,6 +98,11 @@ func (data OrganizationAuthRADIUSServer) toBody(ctx context.Context, state Organ
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *OrganizationAuthRADIUSServer) setWoValues(config OrganizationAuthRADIUSServer) {
+	data.SecretWo = config.SecretWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody

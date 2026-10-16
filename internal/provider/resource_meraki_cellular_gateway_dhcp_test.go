@@ -53,12 +53,13 @@ func TestAccMerakiCellularGatewayDHCP(t *testing.T) {
 		Config: testAccMerakiCellularGatewayDHCPPrerequisitesConfig + testAccMerakiCellularGatewayDHCPConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_cellular_gateway_dhcp.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiCellularGatewayDHCPImportStateIdFunc("meraki_cellular_gateway_dhcp.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

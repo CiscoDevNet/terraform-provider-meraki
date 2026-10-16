@@ -52,12 +52,13 @@ func TestAccMerakiWirelessDeviceElectronicShelfLabel(t *testing.T) {
 		Config: testAccMerakiWirelessDeviceElectronicShelfLabelPrerequisitesConfig + testAccMerakiWirelessDeviceElectronicShelfLabelConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_device_electronic_shelf_label.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessDeviceElectronicShelfLabelImportStateIdFunc("meraki_wireless_device_electronic_shelf_label.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

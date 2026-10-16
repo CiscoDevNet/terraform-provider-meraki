@@ -57,12 +57,13 @@ func TestAccMerakiCameraCustomAnalytics(t *testing.T) {
 		Config: testAccMerakiCameraCustomAnalyticsPrerequisitesConfig + testAccMerakiCameraCustomAnalyticsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_camera_custom_analytics.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiCameraCustomAnalyticsImportStateIdFunc("meraki_camera_custom_analytics.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

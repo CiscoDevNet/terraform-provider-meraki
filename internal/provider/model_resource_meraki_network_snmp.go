@@ -96,6 +96,16 @@ func (data NetworkSNMP) toBody(ctx context.Context, state NetworkSNMP) string {
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *NetworkSNMP) setWoValues(config NetworkSNMP) {
+	data.CommunityStringWo = config.CommunityStringWo
+	for i0 := range data.Users {
+		if i0 < len(config.Users) {
+			data.Users[i0].PassphraseWo = config.Users[i0].PassphraseWo
+		}
+	}
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

@@ -57,12 +57,13 @@ func TestAccMerakiWirelessAlternateManagementInterface(t *testing.T) {
 		Config: testAccMerakiWirelessAlternateManagementInterfacePrerequisitesConfig + testAccMerakiWirelessAlternateManagementInterfaceConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_alternate_management_interface.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessAlternateManagementInterfaceImportStateIdFunc("meraki_wireless_alternate_management_interface.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -147,6 +147,15 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *ApplianceVPNBGP) setWoValues(config ApplianceVPNBGP) {
+	for i0 := range data.Neighbors {
+		if i0 < len(config.Neighbors) {
+			data.Neighbors[i0].AuthenticationPasswordWo = config.Neighbors[i0].AuthenticationPasswordWo
+		}
+	}
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

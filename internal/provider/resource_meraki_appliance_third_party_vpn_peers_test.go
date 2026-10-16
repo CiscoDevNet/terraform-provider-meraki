@@ -37,6 +37,7 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ike_version", "2"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.is_route_based", "false"))
@@ -45,7 +46,9 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.priority_in_group", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.public_ip", "123.123.123.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.remote_id", "miles@meraki.com"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.secret", "Sample Password"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.secret", "Sample Password"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_active_active_tunnel", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_number", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_failover_direct_to_internet", "false"))
@@ -63,7 +66,6 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceThirdPartyVPNPeersPrerequisitesConfig + testAccMerakiApplianceThirdPartyVPNPeersConfig_minimum(),
@@ -73,12 +75,16 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 		Config: testAccMerakiApplianceThirdPartyVPNPeersPrerequisitesConfig + testAccMerakiApplianceThirdPartyVPNPeersConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"peers.0.peer_id"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "peers.0.secret", "peers.0.secret_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_third_party_vpn_peers.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceThirdPartyVPNPeersImportStateIdFunc("meraki_appliance_third_party_vpn_peers.test"),
-		ImportStateVerifyIgnore: []string{"peers.0.peer_id"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -149,7 +155,6 @@ func testAccMerakiApplianceThirdPartyVPNPeersConfig_all(includeWriteOnly bool) s
 	config += `    public_ip = "123.123.123.1"` + "\n"
 	config += `    remote_id = "miles@meraki.com"` + "\n"
 	if includeWriteOnly {
-		config += `    secret = "Sample Password"` + "\n"
 		config += `    secret_wo = "Sample Password"` + "\n"
 		config += `    secret_wo_version = 1` + "\n"
 	} else {

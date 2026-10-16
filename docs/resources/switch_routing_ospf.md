@@ -59,8 +59,8 @@ resource "meraki_switch_routing_ospf" "example" {
 - `md5_authentication_enabled` (Boolean) Boolean value to enable or disable MD5 authentication. MD5 authentication is disabled by default.
 - `md5_authentication_key_id` (Number) MD5 authentication key index. Key index must be between 1 to 255
 - `md5_authentication_key_passphrase` (String, Sensitive) MD5 authentication passphrase
-- `md5_authentication_key_passphrase_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `md5_authentication_key_passphrase_wo_version` (Number) Version of md5_authentication_key_passphrase_wo.
+- `md5_authentication_key_passphrase_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `md5_authentication_key_passphrase`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `md5_authentication_key_passphrase`. Must be used together with `md5_authentication_key_passphrase_wo_version`.
+- `md5_authentication_key_passphrase_wo_version` (Number) Version of `md5_authentication_key_passphrase_wo`. As changes to write-only values are not detected, increment this value to update `md5_authentication_key_passphrase_wo`. Must be used together with `md5_authentication_key_passphrase_wo`.
 - `v3_areas` (Attributes List) OSPF v3 areas (see [below for nested schema](#nestedatt--v3_areas))
 - `v3_dead_timer_in_seconds` (Number) Time interval to determine when the peer will be declared inactive/dead. Value must be between 1 and 65535
 - `v3_enabled` (Boolean) Boolean value to enable or disable V3 OSPF routing. OSPF V3 routing is disabled by default.

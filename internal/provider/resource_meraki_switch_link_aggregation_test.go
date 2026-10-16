@@ -46,12 +46,13 @@ func TestAccMerakiSwitchLinkAggregation(t *testing.T) {
 		Config: testAccMerakiSwitchLinkAggregationPrerequisitesConfig + testAccMerakiSwitchLinkAggregationConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_link_aggregation.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchLinkAggregationImportStateIdFunc("meraki_switch_link_aggregation.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

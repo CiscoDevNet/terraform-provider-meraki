@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -98,13 +99,20 @@ func (r *ApplianceUplinksSettingsResource) Schema(ctx context.Context, req resou
 				Sensitive:           true,
 			},
 			"interfaces_wan1_pppoe_authentication_password_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `interfaces_wan1_pppoe_authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `interfaces_wan1_pppoe_authentication_password`. Must be used together with `interfaces_wan1_pppoe_authentication_password_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("interfaces_wan1_pppoe_authentication_password")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("interfaces_wan1_pppoe_authentication_password_wo_version")),
+				},
 			},
 			"interfaces_wan1_pppoe_authentication_password_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of interfaces_wan1_pppoe_authentication_password_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `interfaces_wan1_pppoe_authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `interfaces_wan1_pppoe_authentication_password_wo`. Must be used together with `interfaces_wan1_pppoe_authentication_password_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("interfaces_wan1_pppoe_authentication_password_wo")),
+				},
 			},
 			"interfaces_wan1_pppoe_authentication_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username for PPPoE authentication.").String,
@@ -176,13 +184,20 @@ func (r *ApplianceUplinksSettingsResource) Schema(ctx context.Context, req resou
 				Sensitive:           true,
 			},
 			"interfaces_wan2_pppoe_authentication_password_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `interfaces_wan2_pppoe_authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `interfaces_wan2_pppoe_authentication_password`. Must be used together with `interfaces_wan2_pppoe_authentication_password_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("interfaces_wan2_pppoe_authentication_password")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("interfaces_wan2_pppoe_authentication_password_wo_version")),
+				},
 			},
 			"interfaces_wan2_pppoe_authentication_password_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of interfaces_wan2_pppoe_authentication_password_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `interfaces_wan2_pppoe_authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `interfaces_wan2_pppoe_authentication_password_wo`. Must be used together with `interfaces_wan2_pppoe_authentication_password_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("interfaces_wan2_pppoe_authentication_password_wo")),
+				},
 			},
 			"interfaces_wan2_pppoe_authentication_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username for PPPoE authentication.").String,
@@ -286,6 +301,14 @@ func (r *ApplianceUplinksSettingsResource) Create(ctx context.Context, req resou
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
+	// Read write-only values from config
+	var config ApplianceUplinksSettings
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
+
 	// Create object
 	body := plan.toBody(ctx, ApplianceUplinksSettings{})
 	res, err := r.client.Put(plan.getPath(), body)
@@ -387,6 +410,14 @@ func (r *ApplianceUplinksSettingsResource) Update(ctx context.Context, req resou
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config ApplianceUplinksSettings
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)

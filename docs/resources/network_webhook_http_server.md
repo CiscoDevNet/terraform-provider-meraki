@@ -39,8 +39,8 @@ resource "meraki_network_webhook_http_server" "example" {
 - `payload_template_name` (String) The name of the payload template.
 - `payload_template_payload_template_id` (String) The ID of the payload template. Defaults to `wpt_00001` for the Meraki template. For Meraki-included templates: for the Webex (included) template use `wpt_00002`; for the Slack (included) template use `wpt_00003`; for the Microsoft Teams (included) template use `wpt_00004`; for the ServiceNow (included) template use `wpt_00006`
 - `shared_secret` (String, Sensitive) A shared secret that will be included in POSTs sent to the HTTP server. This secret can be used to verify that the request was sent by Meraki.
-- `shared_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `shared_secret_wo_version` (Number) Version of shared_secret_wo.
+- `shared_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `shared_secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `shared_secret`. Must be used together with `shared_secret_wo_version`.
+- `shared_secret_wo_version` (Number) Version of `shared_secret_wo`. As changes to write-only values are not detected, increment this value to update `shared_secret_wo`. Must be used together with `shared_secret_wo`.
 
 ### Read-Only
 

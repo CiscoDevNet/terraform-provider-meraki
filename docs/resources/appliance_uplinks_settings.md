@@ -54,8 +54,8 @@ resource "meraki_appliance_uplinks_settings" "example" {
 - `interfaces_wan1_enabled` (Boolean) Enable or disable the interface.
 - `interfaces_wan1_pppoe_authentication_enabled` (Boolean) Whether PPPoE authentication is enabled.
 - `interfaces_wan1_pppoe_authentication_password` (String, Sensitive) Password for PPPoE authentication. This parameter is not returned.
-- `interfaces_wan1_pppoe_authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `interfaces_wan1_pppoe_authentication_password_wo_version` (Number) Version of interfaces_wan1_pppoe_authentication_password_wo.
+- `interfaces_wan1_pppoe_authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `interfaces_wan1_pppoe_authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `interfaces_wan1_pppoe_authentication_password`. Must be used together with `interfaces_wan1_pppoe_authentication_password_wo_version`.
+- `interfaces_wan1_pppoe_authentication_password_wo_version` (Number) Version of `interfaces_wan1_pppoe_authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `interfaces_wan1_pppoe_authentication_password_wo`. Must be used together with `interfaces_wan1_pppoe_authentication_password_wo`.
 - `interfaces_wan1_pppoe_authentication_username` (String) Username for PPPoE authentication.
 - `interfaces_wan1_pppoe_enabled` (Boolean) Whether PPPoE is enabled.
 - `interfaces_wan1_svis_ipv4_address` (String) IP address and subnet mask when in static mode.
@@ -73,8 +73,8 @@ resource "meraki_appliance_uplinks_settings" "example" {
 - `interfaces_wan2_enabled` (Boolean) Enable or disable the interface.
 - `interfaces_wan2_pppoe_authentication_enabled` (Boolean) Whether PPPoE authentication is enabled.
 - `interfaces_wan2_pppoe_authentication_password` (String, Sensitive) Password for PPPoE authentication. This parameter is not returned.
-- `interfaces_wan2_pppoe_authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `interfaces_wan2_pppoe_authentication_password_wo_version` (Number) Version of interfaces_wan2_pppoe_authentication_password_wo.
+- `interfaces_wan2_pppoe_authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `interfaces_wan2_pppoe_authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `interfaces_wan2_pppoe_authentication_password`. Must be used together with `interfaces_wan2_pppoe_authentication_password_wo_version`.
+- `interfaces_wan2_pppoe_authentication_password_wo_version` (Number) Version of `interfaces_wan2_pppoe_authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `interfaces_wan2_pppoe_authentication_password_wo`. Must be used together with `interfaces_wan2_pppoe_authentication_password_wo`.
 - `interfaces_wan2_pppoe_authentication_username` (String) Username for PPPoE authentication.
 - `interfaces_wan2_pppoe_enabled` (Boolean) Whether PPPoE is enabled.
 - `interfaces_wan2_svis_ipv4_address` (String) IP address and subnet mask when in static mode.

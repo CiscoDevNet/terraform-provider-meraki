@@ -56,12 +56,13 @@ func TestAccMerakiInsightMonitoredMediaServer(t *testing.T) {
 		Config: testAccMerakiInsightMonitoredMediaServerPrerequisitesConfig + testAccMerakiInsightMonitoredMediaServerConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_insight_monitored_media_server.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiInsightMonitoredMediaServerImportStateIdFunc("meraki_insight_monitored_media_server.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

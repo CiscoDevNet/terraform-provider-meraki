@@ -53,12 +53,13 @@ func TestAccMerakiWirelessAirMarshalRule(t *testing.T) {
 		Config: testAccMerakiWirelessAirMarshalRulePrerequisitesConfig + testAccMerakiWirelessAirMarshalRuleConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_air_marshal_rule.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessAirMarshalRuleImportStateIdFunc("meraki_wireless_air_marshal_rule.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

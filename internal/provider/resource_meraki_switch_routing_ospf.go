@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -105,13 +106,20 @@ func (r *SwitchRoutingOSPFResource) Schema(ctx context.Context, req resource.Sch
 				Sensitive:           true,
 			},
 			"md5_authentication_key_passphrase_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `md5_authentication_key_passphrase`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `md5_authentication_key_passphrase`. Must be used together with `md5_authentication_key_passphrase_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("md5_authentication_key_passphrase")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("md5_authentication_key_passphrase_wo_version")),
+				},
 			},
 			"md5_authentication_key_passphrase_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of md5_authentication_key_passphrase_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `md5_authentication_key_passphrase_wo`. As changes to write-only values are not detected, increment this value to update `md5_authentication_key_passphrase_wo`. Must be used together with `md5_authentication_key_passphrase_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("md5_authentication_key_passphrase_wo")),
+				},
 			},
 			"v3_dead_timer_in_seconds": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Time interval to determine when the peer will be declared inactive/dead. Value must be between 1 and 65535").String,
@@ -221,6 +229,14 @@ func (r *SwitchRoutingOSPFResource) Create(ctx context.Context, req resource.Cre
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
 
+	// Read write-only values from config
+	var config SwitchRoutingOSPF
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
+
 	// Create object
 	body := plan.toBody(ctx, SwitchRoutingOSPF{})
 	res, err := r.client.Put(plan.getPath(), body)
@@ -322,6 +338,14 @@ func (r *SwitchRoutingOSPFResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config SwitchRoutingOSPF
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)

@@ -50,12 +50,13 @@ func TestAccMerakiSwitchQoSRuleOrder(t *testing.T) {
 		Config: testAccMerakiSwitchQoSRuleOrderPrerequisitesConfig + testAccMerakiSwitchQoSRuleOrderConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_qos_rule_order.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchQoSRuleOrderImportStateIdFunc("meraki_switch_qos_rule_order.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

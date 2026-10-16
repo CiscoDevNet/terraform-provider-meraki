@@ -54,12 +54,13 @@ func TestAccMerakiApplianceTrafficShapingCustomPerformanceClass(t *testing.T) {
 		Config: testAccMerakiApplianceTrafficShapingCustomPerformanceClassPrerequisitesConfig + testAccMerakiApplianceTrafficShapingCustomPerformanceClassConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_traffic_shaping_custom_performance_class.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceTrafficShapingCustomPerformanceClassImportStateIdFunc("meraki_appliance_traffic_shaping_custom_performance_class.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

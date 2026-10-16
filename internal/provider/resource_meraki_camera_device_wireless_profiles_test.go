@@ -50,12 +50,13 @@ func TestAccMerakiCameraDeviceWirelessProfiles(t *testing.T) {
 		Config: testAccMerakiCameraDeviceWirelessProfilesPrerequisitesConfig + testAccMerakiCameraDeviceWirelessProfilesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_camera_device_wireless_profiles.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiCameraDeviceWirelessProfilesImportStateIdFunc("meraki_camera_device_wireless_profiles.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -50,12 +50,13 @@ func TestAccMerakiOrganizationIntegrationsXDRNetworks(t *testing.T) {
 		Config: testAccMerakiOrganizationIntegrationsXDRNetworksPrerequisitesConfig + testAccMerakiOrganizationIntegrationsXDRNetworksConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_integrations_xdr_networks.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationIntegrationsXDRNetworksImportStateIdFunc("meraki_organization_integrations_xdr_networks.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

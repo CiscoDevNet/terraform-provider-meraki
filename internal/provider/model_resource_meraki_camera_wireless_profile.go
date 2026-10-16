@@ -95,6 +95,12 @@ func (data CameraWirelessProfile) toBody(ctx context.Context, state CameraWirele
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *CameraWirelessProfile) setWoValues(config CameraWirelessProfile) {
+	data.IdentityPasswordWo = config.IdentityPasswordWo
+	data.SsidPskWo = config.SsidPskWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody

@@ -137,6 +137,16 @@ func (data ApplianceSSID) toBody(ctx context.Context, state ApplianceSSID) strin
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *ApplianceSSID) setWoValues(config ApplianceSSID) {
+	data.PskWo = config.PskWo
+	for i0 := range data.RadiusServers {
+		if i0 < len(config.RadiusServers) {
+			data.RadiusServers[i0].SecretWo = config.RadiusServers[i0].SecretWo
+		}
+	}
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
