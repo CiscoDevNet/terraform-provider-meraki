@@ -114,13 +114,13 @@ func TestAccMerakiWirelessRFProfile(t *testing.T) {
 		Config: testAccMerakiWirelessRFProfilePrerequisitesConfig + testAccMerakiWirelessRFProfileConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
-	importStateVerifyIgnore := []string{}
+	importStateVerifyIgnore := []string{"flex_radios_by_model"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_rf_profile.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessRFProfileImportStateIdFunc("meraki_wireless_rf_profile.test"),
-		ImportStateVerifyIgnore: []string{"flex_radios_by_model"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
