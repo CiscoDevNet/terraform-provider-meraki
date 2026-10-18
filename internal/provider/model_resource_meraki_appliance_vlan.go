@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"net/url"
 	"slices"
+	"strconv"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -58,9 +59,12 @@ type ApplianceVLAN struct {
 	Ipv6Enabled            types.Bool                                 `tfsdk:"ipv6_enabled"`
 	Ipv6PrefixAssignments  []ApplianceVLANIpv6PrefixAssignments       `tfsdk:"ipv6_prefix_assignments"`
 	MandatoryDhcpEnabled   types.Bool                                 `tfsdk:"mandatory_dhcp_enabled"`
+	SgtId                  types.Int64                                `tfsdk:"sgt_id"`
+	VrfId                  types.String                               `tfsdk:"vrf_id"`
 	DhcpOptions            []ApplianceVLANDhcpOptions                 `tfsdk:"dhcp_options"`
 	DhcpRelayServerIps     types.List                                 `tfsdk:"dhcp_relay_server_ips"`
 	ReservedIpRanges       []ApplianceVLANReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
+	Uplinks                []ApplianceVLANUplinks                     `tfsdk:"uplinks"`
 }
 
 type ApplianceVLANFixedIpAssignments struct {
@@ -87,6 +91,11 @@ type ApplianceVLANReservedIpRanges struct {
 	Comment types.String `tfsdk:"comment"`
 	End     types.String `tfsdk:"end"`
 	Start   types.String `tfsdk:"start"`
+}
+
+type ApplianceVLANUplinks struct {
+	Interface  types.String `tfsdk:"interface"`
+	NatEnabled types.Bool   `tfsdk:"nat_enabled"`
 }
 
 type ApplianceVLANIdentity struct {
@@ -199,6 +208,12 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	if !data.MandatoryDhcpEnabled.IsNull() {
 		body, _ = sjson.Set(body, "mandatoryDhcp.enabled", data.MandatoryDhcpEnabled.ValueBool())
 	}
+	if !data.SgtId.IsNull() {
+		body, _ = sjson.Set(body, "sgt.id", data.SgtId.ValueInt64())
+	}
+	if !data.VrfId.IsNull() {
+		body, _ = sjson.Set(body, "vrf.id", data.VrfId.ValueString())
+	}
 	if len(data.DhcpOptions) > 0 {
 		body, _ = sjson.Set(body, "dhcpOptions", []interface{}{})
 		for _, item := range data.DhcpOptions {
@@ -234,6 +249,19 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 				itemBody, _ = sjson.Set(itemBody, "start", item.Start.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "reservedIpRanges.-1", itemBody)
+		}
+	}
+	if len(data.Uplinks) > 0 {
+		body, _ = sjson.Set(body, "uplinks", []interface{}{})
+		for _, item := range data.Uplinks {
+			itemBody := ""
+			if !item.Interface.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "interface", item.Interface.ValueString())
+			}
+			if !item.NatEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "nat.enabled", item.NatEnabled.ValueBool())
+			}
+			body, _ = sjson.SetRaw(body, "uplinks.-1", itemBody)
 		}
 	}
 	return body
@@ -387,6 +415,16 @@ func (data *ApplianceVLAN) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.MandatoryDhcpEnabled = types.BoolNull()
 	}
+	if value := res.Get("sgt.id"); value.Exists() && value.Value() != nil {
+		data.SgtId = types.Int64Value(value.Int())
+	} else {
+		data.SgtId = types.Int64Null()
+	}
+	if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+		data.VrfId = types.StringValue(value.String())
+	} else {
+		data.VrfId = types.StringNull()
+	}
 	if value := res.Get("dhcpOptions"); value.Exists() && value.Value() != nil {
 		data.DhcpOptions = make([]ApplianceVLANDhcpOptions, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -437,6 +475,25 @@ func (data *ApplianceVLAN) fromBody(ctx context.Context, res meraki.Res) {
 				data.Start = types.StringNull()
 			}
 			(*parent).ReservedIpRanges = append((*parent).ReservedIpRanges, data)
+			return true
+		})
+	}
+	if value := res.Get("uplinks"); value.Exists() && value.Value() != nil {
+		data.Uplinks = make([]ApplianceVLANUplinks, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := ApplianceVLANUplinks{}
+			if value := res.Get("interface"); value.Exists() && value.Value() != nil {
+				data.Interface = types.StringValue(value.String())
+			} else {
+				data.Interface = types.StringNull()
+			}
+			if value := res.Get("nat.enabled"); value.Exists() && value.Value() != nil {
+				data.NatEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.NatEnabled = types.BoolNull()
+			}
+			(*parent).Uplinks = append((*parent).Uplinks, data)
 			return true
 		})
 	}
@@ -597,6 +654,16 @@ func (data *ApplianceVLAN) fromBodyPartial(ctx context.Context, res meraki.Res) 
 	} else {
 		data.MandatoryDhcpEnabled = types.BoolNull()
 	}
+	if value := res.Get("sgt.id"); value.Exists() && !data.SgtId.IsNull() {
+		data.SgtId = types.Int64Value(value.Int())
+	} else {
+		data.SgtId = types.Int64Null()
+	}
+	if value := res.Get("vrf.id"); value.Exists() && !data.VrfId.IsNull() {
+		data.VrfId = types.StringValue(value.String())
+	} else {
+		data.VrfId = types.StringNull()
+	}
 	for i := 0; i < len(data.DhcpOptions); i++ {
 		keys := [...]string{"code", "type", "value"}
 		keyValues := [...]string{data.DhcpOptions[i].Code.ValueString(), data.DhcpOptions[i].Type.ValueString(), data.DhcpOptions[i].Value.ValueString()}
@@ -707,6 +774,54 @@ func (data *ApplianceVLAN) fromBodyPartial(ctx context.Context, res meraki.Res) 
 			data.Start = types.StringNull()
 		}
 		(*parent).ReservedIpRanges[i] = data
+	}
+	for i := 0; i < len(data.Uplinks); i++ {
+		keys := [...]string{"interface", "nat.enabled"}
+		keyValues := [...]string{data.Uplinks[i].Interface.ValueString(), strconv.FormatBool(data.Uplinks[i].NatEnabled.ValueBool())}
+
+		parent := &data
+		data := (*parent).Uplinks[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.Get("uplinks").ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing Uplinks[%d] = %+v",
+				i,
+				(*parent).Uplinks[i],
+			))
+			(*parent).Uplinks = slices.Delete((*parent).Uplinks, i, i+1)
+			i--
+
+			continue
+		}
+		if value := res.Get("interface"); value.Exists() && !data.Interface.IsNull() {
+			data.Interface = types.StringValue(value.String())
+		} else {
+			data.Interface = types.StringNull()
+		}
+		if value := res.Get("nat.enabled"); value.Exists() && !data.NatEnabled.IsNull() {
+			data.NatEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.NatEnabled = types.BoolNull()
+		}
+		(*parent).Uplinks[i] = data
 	}
 }
 

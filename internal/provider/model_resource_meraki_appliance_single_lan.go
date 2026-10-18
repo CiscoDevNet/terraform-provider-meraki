@@ -43,6 +43,7 @@ type ApplianceSingleLAN struct {
 	Ipv6Enabled           types.Bool                                `tfsdk:"ipv6_enabled"`
 	Ipv6PrefixAssignments []ApplianceSingleLANIpv6PrefixAssignments `tfsdk:"ipv6_prefix_assignments"`
 	MandatoryDhcpEnabled  types.Bool                                `tfsdk:"mandatory_dhcp_enabled"`
+	VrfId                 types.String                              `tfsdk:"vrf_id"`
 }
 
 type ApplianceSingleLANIpv6PrefixAssignments struct {
@@ -110,6 +111,9 @@ func (data ApplianceSingleLAN) toBody(ctx context.Context, state ApplianceSingle
 	}
 	if !data.MandatoryDhcpEnabled.IsNull() {
 		body, _ = sjson.Set(body, "mandatoryDhcp.enabled", data.MandatoryDhcpEnabled.ValueBool())
+	}
+	if !data.VrfId.IsNull() {
+		body, _ = sjson.Set(body, "vrf.id", data.VrfId.ValueString())
 	}
 	return body
 }
@@ -215,6 +219,13 @@ func (data ApplianceSingleLAN) toBodyPreservingNulls(ctx context.Context, res me
 			body, _ = sjson.Set(body, "mandatoryDhcp.enabled", value.Bool())
 		}
 	}
+	if value := res.Get("vrf.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "vrf.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "vrf.id", value.String())
+		}
+	}
 	return body
 }
 
@@ -281,6 +292,11 @@ func (data *ApplianceSingleLAN) fromBody(ctx context.Context, res meraki.Res) {
 		data.MandatoryDhcpEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.MandatoryDhcpEnabled = types.BoolNull()
+	}
+	if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+		data.VrfId = types.StringValue(value.String())
+	} else {
+		data.VrfId = types.StringNull()
 	}
 }
 
@@ -356,6 +372,11 @@ func (data *ApplianceSingleLAN) fromBodyPartial(ctx context.Context, res meraki.
 		data.MandatoryDhcpEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.MandatoryDhcpEnabled = types.BoolNull()
+	}
+	if value := res.Get("vrf.id"); value.Exists() && !data.VrfId.IsNull() {
+		data.VrfId = types.StringValue(value.String())
+	} else {
+		data.VrfId = types.StringNull()
 	}
 }
 
