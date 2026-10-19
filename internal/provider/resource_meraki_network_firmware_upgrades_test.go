@@ -65,12 +65,13 @@ func TestAccMerakiNetworkFirmwareUpgrades(t *testing.T) {
 		Config: testAccMerakiNetworkFirmwareUpgradesPrerequisitesConfig + testAccMerakiNetworkFirmwareUpgradesConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"products_appliance_next_upgrade_time", "products_appliance_next_upgrade_to_version_id", "products_camera_next_upgrade_time", "products_camera_next_upgrade_to_version_id", "products_cellular_gateway_next_upgrade_time", "products_cellular_gateway_next_upgrade_to_version_id", "products_secure_connect_next_upgrade_time", "products_secure_connect_next_upgrade_to_version_id", "products_sensor_next_upgrade_time", "products_sensor_next_upgrade_to_version_id", "products_switch_next_upgrade_time", "products_switch_next_upgrade_to_version_id", "products_switch_catalyst_next_upgrade_time", "products_switch_catalyst_next_upgrade_to_version_id", "products_wireless_next_upgrade_time", "products_wireless_next_upgrade_predownload_enabled", "products_wireless_next_upgrade_to_version_id", "products_wireless_controller_next_upgrade_time", "products_wireless_controller_next_upgrade_to_version_id"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_firmware_upgrades.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkFirmwareUpgradesImportStateIdFunc("meraki_network_firmware_upgrades.test"),
-		ImportStateVerifyIgnore: []string{"products_appliance_next_upgrade_time", "products_appliance_next_upgrade_to_version_id", "products_camera_next_upgrade_time", "products_camera_next_upgrade_to_version_id", "products_cellular_gateway_next_upgrade_time", "products_cellular_gateway_next_upgrade_to_version_id", "products_secure_connect_next_upgrade_time", "products_secure_connect_next_upgrade_to_version_id", "products_sensor_next_upgrade_time", "products_sensor_next_upgrade_to_version_id", "products_switch_next_upgrade_time", "products_switch_next_upgrade_to_version_id", "products_switch_catalyst_next_upgrade_time", "products_switch_catalyst_next_upgrade_to_version_id", "products_wireless_next_upgrade_time", "products_wireless_next_upgrade_predownload_enabled", "products_wireless_next_upgrade_to_version_id", "products_wireless_controller_next_upgrade_time", "products_wireless_controller_next_upgrade_to_version_id"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

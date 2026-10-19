@@ -49,7 +49,7 @@ type {{camelCase .Name}} struct {
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
-{{- if and .Sensitive (eq .Type "String")}}
+{{- if hasWo .}}
 	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
 	{{toGoName .TfName}}WoVersion types.Int64 `tfsdk:"{{.TfName}}_wo_version"`
 {{- end}}
@@ -70,7 +70,7 @@ type {{.GoTypeName}} struct {
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
-{{- if and .Sensitive (eq .Type "String")}}
+{{- if hasWo .}}
 	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
 	{{toGoName .TfName}}WoVersion types.Int64 `tfsdk:"{{.TfName}}_wo_version"`
 {{- end}}
@@ -97,7 +97,7 @@ type {{.GoTypeName}} struct {
 {{- else}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
 {{- end}}
-{{- if and .Sensitive (eq .Type "String")}}
+{{- if hasWo .}}
 	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
 	{{toGoName .TfName}}WoVersion types.Int64 `tfsdk:"{{.TfName}}_wo_version"`
 {{- end}}
@@ -124,7 +124,7 @@ type {{.GoTypeName}} struct {
 {{- range .Attributes}}
 {{- if and (not .Value) (not .DataSourceOnly)}}
 	{{toGoName .TfName}} types.{{.Type}} `tfsdk:"{{.TfName}}"`
-{{- if and .Sensitive (eq .Type "String")}}
+{{- if hasWo .}}
 	{{toGoName .TfName}}Wo types.String `tfsdk:"{{.TfName}}_wo"`
 	{{toGoName .TfName}}WoVersion types.Int64 `tfsdk:"{{.TfName}}_wo_version"`
 {{- end}}
@@ -170,7 +170,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 	{{- if .Value}}
 	body, _ = sjson.Set(body, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 	{{- else if not .Reference}}
-	{{- if and .Sensitive (eq .Type "String")}}
+	{{- if hasWo .}}
 	if !data.{{toGoName .TfName}}Wo.IsNull() {
 		body, _ = sjson.Set(body, "{{getFullModelName . true}}", data.{{toGoName .TfName}}Wo.ValueString())
 	} else if !data.{{toGoName .TfName}}.IsNull() {
@@ -205,7 +205,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 			{{- if .Value}}
 			itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 			{{- else if not .Reference}}
-			{{- if and .Sensitive (eq .Type "String")}}
+			{{- if hasWo .}}
 			if !item.{{toGoName .TfName}}Wo.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "{{getFullModelName . true}}", item.{{toGoName .TfName}}Wo.ValueString())
 			} else if !item.{{toGoName .TfName}}.IsNull() {
@@ -240,7 +240,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 					{{- if .Value}}
 					itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 					{{- else if not .Reference}}
-					{{- if and .Sensitive (eq .Type "String")}}
+					{{- if hasWo .}}
 					if !childItem.{{toGoName .TfName}}Wo.IsNull() {
 						itemChildBody, _ = sjson.Set(itemChildBody, "{{getFullModelName . true}}", childItem.{{toGoName .TfName}}Wo.ValueString())
 					} else if !childItem.{{toGoName .TfName}}.IsNull() {
@@ -275,7 +275,7 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 							{{- if .Value}}
 							itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", {{if eq .Type "String"}}"{{end}}{{.Value}}{{if eq .Type "String"}}"{{end}})
 							{{- else if not .Reference}}
-							{{- if and .Sensitive (eq .Type "String")}}
+							{{- if hasWo .}}
 							if !childChildItem.{{toGoName .TfName}}Wo.IsNull() {
 								itemChildChildBody, _ = sjson.Set(itemChildChildBody, "{{getFullModelName . true}}", childChildItem.{{toGoName .TfName}}Wo.ValueString())
 							} else if !childChildItem.{{toGoName .TfName}}.IsNull() {
@@ -330,6 +330,13 @@ func (data {{camelCase .Name}}) toBody(ctx context.Context, state {{camelCase .N
 	{{- end}}
 	return body
 }
+{{- if hasWoRecursive .Attributes}}
+
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *{{camelCase .Name}}) setWoValues(config {{camelCase .Name}}) {
+{{setWoValues .Attributes "data" "config" 0 -}}
+}
+{{- end}}
 
 // End of section. //template:end toBody
 

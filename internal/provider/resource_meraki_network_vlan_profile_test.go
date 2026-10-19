@@ -56,12 +56,13 @@ func TestAccMerakiNetworkVLANProfile(t *testing.T) {
 		Config: testAccMerakiNetworkVLANProfilePrerequisitesConfig + testAccMerakiNetworkVLANProfileConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"vlan_names.0.adaptive_policy_group_id"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_vlan_profile.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkVLANProfileImportStateIdFunc("meraki_network_vlan_profile.test"),
-		ImportStateVerifyIgnore: []string{"vlan_names.0.adaptive_policy_group_id"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

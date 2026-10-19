@@ -63,12 +63,13 @@ func TestAccMerakiApplianceRFProfile(t *testing.T) {
 		Config: testAccMerakiApplianceRFProfilePrerequisitesConfig + testAccMerakiApplianceRFProfileConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_rf_profile.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceRFProfileImportStateIdFunc("meraki_appliance_rf_profile.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

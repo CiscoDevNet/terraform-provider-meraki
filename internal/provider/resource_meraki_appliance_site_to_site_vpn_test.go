@@ -54,12 +54,13 @@ func TestAccMerakiApplianceSiteToSiteVPN(t *testing.T) {
 		Config: testAccMerakiApplianceSiteToSiteVPNPrerequisitesConfig + testAccMerakiApplianceSiteToSiteVPNConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_site_to_site_vpn.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceSiteToSiteVPNImportStateIdFunc("meraki_appliance_site_to_site_vpn.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

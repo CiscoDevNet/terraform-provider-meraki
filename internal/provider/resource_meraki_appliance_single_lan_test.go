@@ -54,12 +54,13 @@ func TestAccMerakiApplianceSingleLAN(t *testing.T) {
 		Config: testAccMerakiApplianceSingleLANPrerequisitesConfig + testAccMerakiApplianceSingleLANConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"ipv6_prefix_assignments"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_single_lan.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceSingleLANImportStateIdFunc("meraki_appliance_single_lan.test"),
-		ImportStateVerifyIgnore: []string{"ipv6_prefix_assignments"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

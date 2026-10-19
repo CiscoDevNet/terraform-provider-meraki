@@ -37,6 +37,7 @@ func TestAccMerakiWirelessLocationScanningReceiver(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_location_scanning_receiver.test", "url", "https://www.myreceiver.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_location_scanning_receiver.test", "version", "3"))
@@ -44,7 +45,6 @@ func TestAccMerakiWirelessLocationScanningReceiver(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig + testAccMerakiWirelessLocationScanningReceiverConfig_minimum(),
@@ -54,12 +54,16 @@ func TestAccMerakiWirelessLocationScanningReceiver(t *testing.T) {
 		Config: testAccMerakiWirelessLocationScanningReceiverPrerequisitesConfig + testAccMerakiWirelessLocationScanningReceiverConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"shared_secret"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "shared_secret", "shared_secret_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_location_scanning_receiver.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessLocationScanningReceiverImportStateIdFunc("meraki_wireless_location_scanning_receiver.test"),
-		ImportStateVerifyIgnore: []string{"shared_secret"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -128,7 +132,6 @@ func testAccMerakiWirelessLocationScanningReceiverConfig_all(includeWriteOnly bo
 	config := `resource "meraki_wireless_location_scanning_receiver" "test" {` + "\n"
 	config += `  organization_id = data.meraki_organization.test.id` + "\n"
 	if includeWriteOnly {
-		config += `  shared_secret = "mysecretvalue"` + "\n"
 		config += `  shared_secret_wo = "mysecretvalue"` + "\n"
 		config += `  shared_secret_wo_version = 1` + "\n"
 	} else {

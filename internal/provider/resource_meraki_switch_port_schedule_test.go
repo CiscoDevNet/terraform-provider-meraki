@@ -72,12 +72,13 @@ func TestAccMerakiSwitchPortSchedule(t *testing.T) {
 		Config: testAccMerakiSwitchPortSchedulePrerequisitesConfig + testAccMerakiSwitchPortScheduleConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_port_schedule.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchPortScheduleImportStateIdFunc("meraki_switch_port_schedule.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

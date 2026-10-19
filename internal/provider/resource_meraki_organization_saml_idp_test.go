@@ -53,12 +53,13 @@ func TestAccMerakiOrganizationSAMLIdP(t *testing.T) {
 		Config: testAccMerakiOrganizationSAMLIdPPrerequisitesConfig + testAccMerakiOrganizationSAMLIdPConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_saml_idp.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationSAMLIdPImportStateIdFunc("meraki_organization_saml_idp.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

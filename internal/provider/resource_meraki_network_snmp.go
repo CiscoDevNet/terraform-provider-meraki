@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -92,13 +93,20 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 				Sensitive:           true,
 			},
 			"community_string_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `community_string`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `community_string`. Must be used together with `community_string_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("community_string")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("community_string_wo_version")),
+				},
 			},
 			"community_string_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of community_string_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `community_string_wo`. As changes to write-only values are not detected, increment this value to update `community_string_wo`. Must be used together with `community_string_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("community_string_wo")),
+				},
 			},
 			"users": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of SNMP users. Only relevant if `access` is set to `users`.").String,
@@ -111,13 +119,20 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 							Sensitive:           true,
 						},
 						"passphrase_wo": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `passphrase`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `passphrase` or `passphrase_wo` must be configured. Must be used together with `passphrase_wo_version`.").String,
 							WriteOnly:           true,
 							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.ExactlyOneOf(path.MatchRelative().AtParent().AtName("passphrase")),
+								stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("passphrase_wo_version")),
+							},
 						},
 						"passphrase_wo_version": schema.Int64Attribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Version of passphrase_wo.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Version of `passphrase_wo`. As changes to write-only values are not detected, increment this value to update `passphrase_wo`. Must be used together with `passphrase_wo`.").String,
 							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("passphrase_wo")),
+							},
 						},
 						"username": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The username for the SNMP user. Required.").String,
@@ -175,6 +190,14 @@ func (r *NetworkSNMPResource) Create(ctx context.Context, req resource.CreateReq
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
+
+	// Read write-only values from config
+	var config NetworkSNMP
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, NetworkSNMP{})
@@ -277,6 +300,14 @@ func (r *NetworkSNMPResource) Update(ctx context.Context, req resource.UpdateReq
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config NetworkSNMP
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)

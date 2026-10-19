@@ -55,12 +55,13 @@ func TestAccMerakiSwitchOrganizationPortsProfilesAutomation(t *testing.T) {
 		Config: testAccMerakiSwitchOrganizationPortsProfilesAutomationPrerequisitesConfig + testAccMerakiSwitchOrganizationPortsProfilesAutomationConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_organization_ports_profiles_automation.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchOrganizationPortsProfilesAutomationImportStateIdFunc("meraki_switch_organization_ports_profiles_automation.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

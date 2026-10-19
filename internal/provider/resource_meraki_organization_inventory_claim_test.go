@@ -52,12 +52,13 @@ func TestAccMerakiOrganizationInventoryClaim(t *testing.T) {
 		Config: testAccMerakiOrganizationInventoryClaimPrerequisitesConfig + testAccMerakiOrganizationInventoryClaimConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_inventory_claim.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationInventoryClaimImportStateIdFunc("meraki_organization_inventory_claim.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -51,12 +51,13 @@ func TestAccMerakiSMTargetGroup(t *testing.T) {
 		Config: testAccMerakiSMTargetGroupPrerequisitesConfig + testAccMerakiSMTargetGroupConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"scope"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_sm_target_group.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSMTargetGroupImportStateIdFunc("meraki_sm_target_group.test"),
-		ImportStateVerifyIgnore: []string{"scope"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

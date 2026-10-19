@@ -40,6 +40,7 @@ func TestAccMerakiDeviceCellularSIMs(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sim_failover_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sim_failover_timeout", "300"))
@@ -48,13 +49,14 @@ func TestAccMerakiDeviceCellularSIMs(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sims.0.sim_order", "3"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sims.0.slot", "sim1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sims.0.apns.0.name", "internet"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sims.0.apns.0.authentication_password", "secret"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sims.0.apns.0.authentication_password", "secret"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sims.0.apns.0.authentication_type", "pap"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_device_cellular_sims.test", "sims.0.apns.0.authentication_username", "milesmeraki"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiDeviceCellularSIMsPrerequisitesConfig + testAccMerakiDeviceCellularSIMsConfig_minimum(),
@@ -64,12 +66,16 @@ func TestAccMerakiDeviceCellularSIMs(t *testing.T) {
 		Config: testAccMerakiDeviceCellularSIMsPrerequisitesConfig + testAccMerakiDeviceCellularSIMsConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "sims.0.apns.0.authentication_password", "sims.0.apns.0.authentication_password_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_device_cellular_sims.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiDeviceCellularSIMsImportStateIdFunc("meraki_device_cellular_sims.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -146,7 +152,6 @@ func testAccMerakiDeviceCellularSIMsConfig_all(includeWriteOnly bool) string {
 	config += `    apns = [{` + "\n"
 	config += `      name = "internet"` + "\n"
 	if includeWriteOnly {
-		config += `      authentication_password = "secret"` + "\n"
 		config += `      authentication_password_wo = "secret"` + "\n"
 		config += `      authentication_password_wo_version = 1` + "\n"
 	} else {

@@ -64,8 +64,8 @@ Required:
 Optional:
 
 - `value` (String, Sensitive) Value of device detail
-- `value_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `value_wo_version` (Number) Version of value_wo.
+- `value_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `value`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `value`. Must be used together with `value_wo_version`.
+- `value_wo_version` (Number) Version of `value_wo`. As changes to write-only values are not detected, increment this value to update `value_wo`. Must be used together with `value_wo`.
 
 ## Import
 

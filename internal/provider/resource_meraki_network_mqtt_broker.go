@@ -25,12 +25,15 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -96,13 +99,20 @@ func (r *NetworkMQTTBrokerResource) Schema(ctx context.Context, req resource.Sch
 				Sensitive:           true,
 			},
 			"authentication_password_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `authentication_password`. Must be used together with `authentication_password_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("authentication_password")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("authentication_password_wo_version")),
+				},
 			},
 			"authentication_password_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of authentication_password_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `authentication_password_wo`. Must be used together with `authentication_password_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("authentication_password_wo")),
+				},
 			},
 			"authentication_username": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Username for the MQTT broker.").String,
@@ -162,6 +172,14 @@ func (r *NetworkMQTTBrokerResource) Create(ctx context.Context, req resource.Cre
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config NetworkMQTTBroker
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, NetworkMQTTBroker{})
@@ -264,6 +282,14 @@ func (r *NetworkMQTTBrokerResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config NetworkMQTTBroker
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)

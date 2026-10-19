@@ -55,12 +55,13 @@ func TestAccMerakiWirelessZigbeeDoorLock(t *testing.T) {
 		Config: testAccMerakiWirelessZigbeeDoorLockPrerequisitesConfig + testAccMerakiWirelessZigbeeDoorLockConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_zigbee_door_lock.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessZigbeeDoorLockImportStateIdFunc("meraki_wireless_zigbee_door_lock.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

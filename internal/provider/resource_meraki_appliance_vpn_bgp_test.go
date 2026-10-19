@@ -40,6 +40,7 @@ func TestAccMerakiApplianceVPNBGP(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "as_number", "64515"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "enabled", "true"))
@@ -54,14 +55,15 @@ func TestAccMerakiApplianceVPNBGP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.remote_as_number", "64343"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.source_interface", "wan1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.weight", "10"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.authentication_password", "abc123"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.authentication_password", "abc123"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.ipv6_address", "2002::1234:abcd:ffff:c0a8:101"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.ttl_security_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vpn_bgp.test", "neighbors.0.path_prepend.0", "1"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceVPNBGPPrerequisitesConfig + testAccMerakiApplianceVPNBGPConfig_minimum(),
@@ -71,12 +73,16 @@ func TestAccMerakiApplianceVPNBGP(t *testing.T) {
 		Config: testAccMerakiApplianceVPNBGPPrerequisitesConfig + testAccMerakiApplianceVPNBGPConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "neighbors.0.authentication_password", "neighbors.0.authentication_password_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_vpn_bgp.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceVPNBGPImportStateIdFunc("meraki_appliance_vpn_bgp.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -158,7 +164,6 @@ func testAccMerakiApplianceVPNBGPConfig_all(includeWriteOnly bool) string {
 	config += `    source_interface = "wan1"` + "\n"
 	config += `    weight = 10` + "\n"
 	if includeWriteOnly {
-		config += `    authentication_password = "abc123"` + "\n"
 		config += `    authentication_password_wo = "abc123"` + "\n"
 		config += `    authentication_password_wo_version = 1` + "\n"
 	} else {

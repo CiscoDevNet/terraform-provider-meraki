@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -118,13 +119,20 @@ func (r *ApplianceSSIDResource) Schema(ctx context.Context, req resource.SchemaR
 				Sensitive:           true,
 			},
 			"psk_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `psk`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `psk`. Must be used together with `psk_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("psk")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("psk_wo_version")),
+				},
 			},
 			"psk_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of psk_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `psk_wo`. As changes to write-only values are not detected, increment this value to update `psk_wo`. Must be used together with `psk_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("psk_wo")),
+				},
 			},
 			"visible": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether the MX should advertise or hide this SSID.").String,
@@ -168,13 +176,20 @@ func (r *ApplianceSSIDResource) Schema(ctx context.Context, req resource.SchemaR
 							Sensitive:           true,
 						},
 						"secret_wo": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `secret`. Must be used together with `secret_wo_version`.").String,
 							WriteOnly:           true,
 							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.ConflictsWith(path.MatchRelative().AtParent().AtName("secret")),
+								stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("secret_wo_version")),
+							},
 						},
 						"secret_wo_version": schema.Int64Attribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Version of secret_wo.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Version of `secret_wo`. As changes to write-only values are not detected, increment this value to update `secret_wo`. Must be used together with `secret_wo`.").String,
 							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("secret_wo")),
+							},
 						},
 					},
 				},
@@ -232,6 +247,14 @@ func (r *ApplianceSSIDResource) Create(ctx context.Context, req resource.CreateR
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
+
+	// Read write-only values from config
+	var config ApplianceSSID
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, ApplianceSSID{})
@@ -334,6 +357,14 @@ func (r *ApplianceSSIDResource) Update(ctx context.Context, req resource.UpdateR
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config ApplianceSSID
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath(), body)

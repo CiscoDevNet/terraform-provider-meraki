@@ -37,6 +37,7 @@ func TestAccMerakiOrganizationAuthRADIUSServer(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_auth_radius_server.test", "address", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_auth_radius_server.test", "name", "HQ RADIUS server"))
@@ -45,7 +46,6 @@ func TestAccMerakiOrganizationAuthRADIUSServer(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiOrganizationAuthRADIUSServerPrerequisitesConfig + testAccMerakiOrganizationAuthRADIUSServerConfig_minimum(),
@@ -55,12 +55,16 @@ func TestAccMerakiOrganizationAuthRADIUSServer(t *testing.T) {
 		Config: testAccMerakiOrganizationAuthRADIUSServerPrerequisitesConfig + testAccMerakiOrganizationAuthRADIUSServerConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"secret"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "secret", "secret_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_auth_radius_server.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationAuthRADIUSServerImportStateIdFunc("meraki_organization_auth_radius_server.test"),
-		ImportStateVerifyIgnore: []string{"secret"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -126,7 +130,6 @@ func testAccMerakiOrganizationAuthRADIUSServerConfig_all(includeWriteOnly bool) 
 	config += `  address = "1.2.3.4"` + "\n"
 	config += `  name = "HQ RADIUS server"` + "\n"
 	if includeWriteOnly {
-		config += `  secret = "secret"` + "\n"
 		config += `  secret_wo = "secret"` + "\n"
 		config += `  secret_wo_version = 1` + "\n"
 	} else {

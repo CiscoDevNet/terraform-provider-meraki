@@ -25,12 +25,15 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -85,13 +88,20 @@ func (r *WirelessLocationScanningReceiverResource) Schema(ctx context.Context, r
 				Sensitive:           true,
 			},
 			"shared_secret_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `shared_secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `shared_secret` or `shared_secret_wo` must be configured. Must be used together with `shared_secret_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ExactlyOneOf(path.MatchRelative().AtParent().AtName("shared_secret")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("shared_secret_wo_version")),
+				},
 			},
 			"shared_secret_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of shared_secret_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `shared_secret_wo`. As changes to write-only values are not detected, increment this value to update `shared_secret_wo`. Must be used together with `shared_secret_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("shared_secret_wo")),
+				},
 			},
 			"url": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Receiver Url").String,
@@ -151,6 +161,14 @@ func (r *WirelessLocationScanningReceiverResource) Create(ctx context.Context, r
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config WirelessLocationScanningReceiver
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, WirelessLocationScanningReceiver{})
@@ -265,6 +283,14 @@ func (r *WirelessLocationScanningReceiverResource) Update(ctx context.Context, r
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Update", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config WirelessLocationScanningReceiver
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	body := plan.toBody(ctx, state)
 	res, err := r.client.Put(plan.getPath()+"/"+url.QueryEscape(plan.Id.ValueString()), body)

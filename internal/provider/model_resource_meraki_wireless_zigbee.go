@@ -90,6 +90,11 @@ func (data WirelessZigbee) toBody(ctx context.Context, state WirelessZigbee) str
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *WirelessZigbee) setWoValues(config WirelessZigbee) {
+	data.LockManagementPasswordWo = config.LockManagementPasswordWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

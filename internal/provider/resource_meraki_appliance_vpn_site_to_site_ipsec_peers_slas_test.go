@@ -52,12 +52,13 @@ func TestAccMerakiApplianceVPNSiteToSiteIPsecPeersSLAs(t *testing.T) {
 		Config: testAccMerakiApplianceVPNSiteToSiteIPsecPeersSLAsPrerequisitesConfig + testAccMerakiApplianceVPNSiteToSiteIPsecPeersSLAsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_vpn_site_to_site_ipsec_peers_slas.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceVPNSiteToSiteIPsecPeersSLAsImportStateIdFunc("meraki_appliance_vpn_site_to_site_ipsec_peers_slas.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

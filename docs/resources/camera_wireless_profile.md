@@ -40,13 +40,13 @@ resource "meraki_camera_wireless_profile" "example" {
 > **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
 
 - `identity_password` (String, Sensitive) The password of the identity.
-- `identity_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `identity_password_wo_version` (Number) Version of identity_password_wo.
+- `identity_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `identity_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `identity_password`. Must be used together with `identity_password_wo_version`.
+- `identity_password_wo_version` (Number) Version of `identity_password_wo`. As changes to write-only values are not detected, increment this value to update `identity_password_wo`. Must be used together with `identity_password_wo`.
 - `identity_username` (String) The username of the identity.
 - `ssid_encryption_mode` (String) The encryption mode of the SSID. It can be set to (`wpa`, `wpa-eap`). With `wpa` mode, the authMode should be `psk` and with `wpa-eap` the authMode should be `8021x-radius`
 - `ssid_psk` (String, Sensitive) The pre-shared key of the SSID.
-- `ssid_psk_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `ssid_psk_wo_version` (Number) Version of ssid_psk_wo.
+- `ssid_psk_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `ssid_psk`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `ssid_psk`. Must be used together with `ssid_psk_wo_version`.
+- `ssid_psk_wo_version` (Number) Version of `ssid_psk_wo`. As changes to write-only values are not detected, increment this value to update `ssid_psk_wo`. Must be used together with `ssid_psk_wo`.
 
 ### Read-Only
 

@@ -51,12 +51,13 @@ func TestAccMerakiSwitchWarmSpare(t *testing.T) {
 		Config: testAccMerakiSwitchWarmSparePrerequisitesConfig + testAccMerakiSwitchWarmSpareConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_warm_spare.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchWarmSpareImportStateIdFunc("meraki_switch_warm_spare.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

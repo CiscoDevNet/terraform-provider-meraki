@@ -56,12 +56,13 @@ func TestAccMerakiWirelessSSIDEAPOverride(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDEAPOverridePrerequisitesConfig + testAccMerakiWirelessSSIDEAPOverrideConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_eap_override.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDEAPOverrideImportStateIdFunc("meraki_wireless_ssid_eap_override.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -52,12 +52,13 @@ func TestAccMerakiCameraSense(t *testing.T) {
 		Config: testAccMerakiCameraSensePrerequisitesConfig + testAccMerakiCameraSenseConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"detection_model_id"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_camera_sense.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiCameraSenseImportStateIdFunc("meraki_camera_sense.test"),
-		ImportStateVerifyIgnore: []string{"detection_model_id"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

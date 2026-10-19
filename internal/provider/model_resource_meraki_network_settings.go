@@ -90,6 +90,11 @@ func (data NetworkSettings) toBody(ctx context.Context, state NetworkSettings) s
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *NetworkSettings) setWoValues(config NetworkSettings) {
+	data.LocalStatusPageAuthenticationPasswordWo = config.LocalStatusPageAuthenticationPasswordWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

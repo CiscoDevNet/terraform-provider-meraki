@@ -53,12 +53,13 @@ func TestAccMerakiApplianceConnectivityMonitoringDestinations(t *testing.T) {
 		Config: testAccMerakiApplianceConnectivityMonitoringDestinationsPrerequisitesConfig + testAccMerakiApplianceConnectivityMonitoringDestinationsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_connectivity_monitoring_destinations.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiApplianceConnectivityMonitoringDestinationsImportStateIdFunc("meraki_appliance_connectivity_monitoring_destinations.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

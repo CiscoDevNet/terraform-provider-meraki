@@ -73,12 +73,13 @@ func TestAccMerakiSwitchRoutingInterface(t *testing.T) {
 		Config: testAccMerakiSwitchRoutingInterfacePrerequisitesConfig + testAccMerakiSwitchRoutingInterfaceConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_routing_interface.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchRoutingInterfaceImportStateIdFunc("meraki_switch_routing_interface.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

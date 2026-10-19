@@ -37,6 +37,7 @@ func TestAccMerakiNetworkSettings(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "local_status_page_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_settings.test", "remote_status_page_enabled", "true"))
@@ -47,7 +48,6 @@ func TestAccMerakiNetworkSettings(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_minimum(),
@@ -57,12 +57,16 @@ func TestAccMerakiNetworkSettings(t *testing.T) {
 		Config: testAccMerakiNetworkSettingsPrerequisitesConfig + testAccMerakiNetworkSettingsConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"local_status_page_authentication_password"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "local_status_page_authentication_password", "local_status_page_authentication_password_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_network_settings.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiNetworkSettingsImportStateIdFunc("meraki_network_settings.test"),
-		ImportStateVerifyIgnore: []string{"local_status_page_authentication_password"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -129,7 +133,6 @@ func testAccMerakiNetworkSettingsConfig_all(includeWriteOnly bool) string {
 	config += `  remote_status_page_enabled = true` + "\n"
 	config += `  local_status_page_authentication_enabled = false` + "\n"
 	if includeWriteOnly {
-		config += `  local_status_page_authentication_password = "MilesMiles123!"` + "\n"
 		config += `  local_status_page_authentication_password_wo = "MilesMiles123!"` + "\n"
 		config += `  local_status_page_authentication_password_wo_version = 1` + "\n"
 	} else {

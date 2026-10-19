@@ -37,6 +37,7 @@ func TestAccMerakiSwitchAccessPolicy(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_access_policy.test", "access_policy_type", "Hybrid authentication"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_access_policy.test", "guest_port_bouncing", "true"))
@@ -63,7 +64,6 @@ func TestAccMerakiSwitchAccessPolicy(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiSwitchAccessPolicyPrerequisitesConfig + testAccMerakiSwitchAccessPolicyConfig_minimum(),
@@ -73,12 +73,16 @@ func TestAccMerakiSwitchAccessPolicy(t *testing.T) {
 		Config: testAccMerakiSwitchAccessPolicyPrerequisitesConfig + testAccMerakiSwitchAccessPolicyConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"guest_group_policy_id", "radius_failed_auth_group_policy_id", "radius_pre_authentication_group_policy_id", "radius_authentication_mode", "radius_cache_enabled", "radius_cache_timeout", "radius_critical_auth_data_group_policy_id", "radius_critical_auth_voice_group_policy_id", "radius_accounting_servers.0.secret", "radius_servers.0.secret"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "radius_accounting_servers.0.secret", "radius_accounting_servers.0.secret_wo_version", "radius_servers.0.secret", "radius_servers.0.secret_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_access_policy.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchAccessPolicyImportStateIdFunc("meraki_switch_access_policy.test"),
-		ImportStateVerifyIgnore: []string{"guest_group_policy_id", "radius_failed_auth_group_policy_id", "radius_pre_authentication_group_policy_id", "radius_authentication_mode", "radius_cache_enabled", "radius_cache_timeout", "radius_critical_auth_data_group_policy_id", "radius_critical_auth_voice_group_policy_id", "radius_accounting_servers.0.secret", "radius_servers.0.secret"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -176,7 +180,6 @@ func testAccMerakiSwitchAccessPolicyConfig_all(includeWriteOnly bool) string {
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 22` + "\n"
 	if includeWriteOnly {
-		config += `    secret = "secret"` + "\n"
 		config += `    secret_wo = "secret"` + "\n"
 		config += `    secret_wo_version = 1` + "\n"
 	} else {
@@ -187,7 +190,6 @@ func testAccMerakiSwitchAccessPolicyConfig_all(includeWriteOnly bool) string {
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 22` + "\n"
 	if includeWriteOnly {
-		config += `    secret = "secret"` + "\n"
 		config += `    secret_wo = "secret"` + "\n"
 		config += `    secret_wo_version = 1` + "\n"
 	} else {

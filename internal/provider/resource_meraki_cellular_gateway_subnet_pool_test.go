@@ -52,12 +52,13 @@ func TestAccMerakiCellularGatewaySubnetPool(t *testing.T) {
 		Config: testAccMerakiCellularGatewaySubnetPoolPrerequisitesConfig + testAccMerakiCellularGatewaySubnetPoolConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_cellular_gateway_subnet_pool.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiCellularGatewaySubnetPoolImportStateIdFunc("meraki_cellular_gateway_subnet_pool.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

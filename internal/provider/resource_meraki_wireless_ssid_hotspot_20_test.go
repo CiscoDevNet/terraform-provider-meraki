@@ -60,12 +60,13 @@ func TestAccMerakiWirelessSSIDHotspot20(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDHotspot20PrerequisitesConfig + testAccMerakiWirelessSSIDHotspot20Config_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_hotspot_20.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDHotspot20ImportStateIdFunc("meraki_wireless_ssid_hotspot_20.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

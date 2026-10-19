@@ -83,6 +83,11 @@ func (data WirelessLocationScanningReceiver) toBody(ctx context.Context, state W
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *WirelessLocationScanningReceiver) setWoValues(config WirelessLocationScanningReceiver) {
+	data.SharedSecretWo = config.SharedSecretWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody

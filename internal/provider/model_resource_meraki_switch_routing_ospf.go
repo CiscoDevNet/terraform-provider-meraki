@@ -147,6 +147,11 @@ func (data SwitchRoutingOSPF) toBody(ctx context.Context, state SwitchRoutingOSP
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *SwitchRoutingOSPF) setWoValues(config SwitchRoutingOSPF) {
+	data.Md5AuthenticationKeyPassphraseWo = config.Md5AuthenticationKeyPassphraseWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls

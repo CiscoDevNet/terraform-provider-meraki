@@ -56,12 +56,13 @@ func TestAccMerakiAppliancePort(t *testing.T) {
 		Config: testAccMerakiAppliancePortPrerequisitesConfig + testAccMerakiAppliancePortConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_port.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiAppliancePortImportStateIdFunc("meraki_appliance_port.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

@@ -66,12 +66,13 @@ func TestAccMerakiWirelessSSIDSplashSettings(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDSplashSettingsPrerequisitesConfig + testAccMerakiWirelessSSIDSplashSettingsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"splash_image_extension", "splash_image_md5", "splash_image_image_contents", "splash_image_image_format", "splash_logo_extension", "splash_logo_md5", "splash_logo_image_contents", "splash_logo_image_format", "splash_prepaid_front_extension", "splash_prepaid_front_md5", "splash_prepaid_front_image_contents", "splash_prepaid_front_image_format"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid_splash_settings.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDSplashSettingsImportStateIdFunc("meraki_wireless_ssid_splash_settings.test"),
-		ImportStateVerifyIgnore: []string{"splash_image_extension", "splash_image_md5", "splash_image_image_contents", "splash_image_image_format", "splash_logo_extension", "splash_logo_md5", "splash_logo_image_contents", "splash_logo_image_format", "splash_prepaid_front_extension", "splash_prepaid_front_md5", "splash_prepaid_front_image_contents", "splash_prepaid_front_image_format"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

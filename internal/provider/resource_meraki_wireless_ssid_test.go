@@ -37,6 +37,7 @@ func TestAccMerakiWirelessSSID(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "number", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "auth_mode", "psk"))
@@ -53,7 +54,9 @@ func TestAccMerakiWirelessSSID(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "per_client_bandwidth_limit_up", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "per_ssid_bandwidth_limit_down", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "per_ssid_bandwidth_limit_up", "0"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "psk", "deadbeef"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "psk", "deadbeef"))
+	}
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "splash_page", "Click-through splash page"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "use_vlan_tagging", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid.test", "visible", "false"))
@@ -68,7 +71,6 @@ func TestAccMerakiWirelessSSID(t *testing.T) {
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiWirelessSSIDPrerequisitesConfig + testAccMerakiWirelessSSIDConfig_minimum(),
@@ -78,12 +80,16 @@ func TestAccMerakiWirelessSSID(t *testing.T) {
 		Config: testAccMerakiWirelessSSIDPrerequisitesConfig + testAccMerakiWirelessSSIDConfig_all(includeWriteOnly),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"radius_accounting_servers.0.secret", "radius_servers.0.secret", "radius_das_clients_shared_secret"}
+	if includeWriteOnly {
+		importStateVerifyIgnore = append(importStateVerifyIgnore, "psk", "psk_wo_version")
+	}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_wireless_ssid.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiWirelessSSIDImportStateIdFunc("meraki_wireless_ssid.test"),
-		ImportStateVerifyIgnore: []string{"radius_accounting_servers.0.secret", "radius_servers.0.secret", "radius_das_clients_shared_secret"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
@@ -164,7 +170,6 @@ func testAccMerakiWirelessSSIDConfig_all(includeWriteOnly bool) string {
 	config += `  per_ssid_bandwidth_limit_down = 0` + "\n"
 	config += `  per_ssid_bandwidth_limit_up = 0` + "\n"
 	if includeWriteOnly {
-		config += `  psk = "deadbeef"` + "\n"
 		config += `  psk_wo = "deadbeef"` + "\n"
 		config += `  psk_wo_version = 1` + "\n"
 	} else {

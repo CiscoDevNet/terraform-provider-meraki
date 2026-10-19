@@ -53,12 +53,13 @@ func TestAccMerakiOrganizationAdaptivePolicyGroup(t *testing.T) {
 		Config: testAccMerakiOrganizationAdaptivePolicyGroupPrerequisitesConfig + testAccMerakiOrganizationAdaptivePolicyGroupConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_adaptive_policy_group.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationAdaptivePolicyGroupImportStateIdFunc("meraki_organization_adaptive_policy_group.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

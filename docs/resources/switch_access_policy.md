@@ -113,8 +113,8 @@ Optional:
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS server listens on for access requests
 - `secret` (String, Sensitive) RADIUS client shared secret
-- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `secret_wo_version` (Number) Version of secret_wo.
+- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `secret`. Must be used together with `secret_wo_version`.
+- `secret_wo_version` (Number) Version of `secret_wo`. As changes to write-only values are not detected, increment this value to update `secret_wo`. Must be used together with `secret_wo`.
 
 
 <a id="nestedatt--radius_accounting_servers"></a>
@@ -126,8 +126,8 @@ Optional:
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS Accounting server listens on for access requests
 - `secret` (String, Sensitive) RADIUS client shared secret
-- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `secret_wo_version` (Number) Version of secret_wo.
+- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `secret`. Must be used together with `secret_wo_version`.
+- `secret_wo_version` (Number) Version of `secret_wo`. As changes to write-only values are not detected, increment this value to update `secret_wo`. Must be used together with `secret_wo`.
 
 ## Import
 

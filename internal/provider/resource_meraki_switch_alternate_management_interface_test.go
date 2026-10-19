@@ -54,12 +54,13 @@ func TestAccMerakiSwitchAlternateManagementInterface(t *testing.T) {
 		Config: testAccMerakiSwitchAlternateManagementInterfacePrerequisitesConfig + testAccMerakiSwitchAlternateManagementInterfaceConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"vlan_id", "protocols"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_alternate_management_interface.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchAlternateManagementInterfaceImportStateIdFunc("meraki_switch_alternate_management_interface.test"),
-		ImportStateVerifyIgnore: []string{"vlan_id", "protocols"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

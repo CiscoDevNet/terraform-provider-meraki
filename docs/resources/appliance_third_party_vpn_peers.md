@@ -102,8 +102,8 @@ Optional:
 - `public_ip` (String) [optional] The public IP of the VPN peer
 - `remote_id` (String) [optional] The remote ID is used to identify the connecting VPN peer. This can either be a valid IPv4 Address, FQDN or User FQDN.
 - `secret` (String, Sensitive) The shared secret with the VPN peer
-- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `secret_wo_version` (Number) Version of secret_wo.
+- `secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `secret` or `secret_wo` must be configured. Must be used together with `secret_wo_version`.
+- `secret_wo_version` (Number) Version of `secret_wo`. As changes to write-only values are not detected, increment this value to update `secret_wo`. Must be used together with `secret_wo`.
 - `sla_policy_id` (String) The ID of the SLA policy
 
 <a id="nestedatt--peers--ecmp_uplink_configs"></a>

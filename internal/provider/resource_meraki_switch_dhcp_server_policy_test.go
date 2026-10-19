@@ -53,12 +53,13 @@ func TestAccMerakiSwitchDHCPServerPolicy(t *testing.T) {
 		Config: testAccMerakiSwitchDHCPServerPolicyPrerequisitesConfig + testAccMerakiSwitchDHCPServerPolicyConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_switch_dhcp_server_policy.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiSwitchDHCPServerPolicyImportStateIdFunc("meraki_switch_dhcp_server_policy.test"),
-		ImportStateVerifyIgnore: []string{},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 
