@@ -40,13 +40,17 @@ func TestAccMerakiApplianceUmbrellaAccount(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_umbrella_account.test", "api_key", "1234567890abcdef1234567890abcdef12345678"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_umbrella_account.test", "api_secret", "abcdef1234567890abcdef1234567890abcdef12"))
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_umbrella_account.test", "api_key", "1234567890abcdef1234567890abcdef12345678"))
+	}
+	if !includeWriteOnly {
+		checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_umbrella_account.test", "api_secret", "abcdef1234567890abcdef1234567890abcdef12"))
+	}
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
-	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
 			Config: testAccMerakiApplianceUmbrellaAccountPrerequisitesConfig + testAccMerakiApplianceUmbrellaAccountConfig_minimum(),
@@ -118,14 +122,12 @@ func testAccMerakiApplianceUmbrellaAccountConfig_all(includeWriteOnly bool) stri
 	config := `resource "meraki_appliance_umbrella_account" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	if includeWriteOnly {
-		config += `  api_key = "1234567890abcdef1234567890abcdef12345678"` + "\n"
 		config += `  api_key_wo = "1234567890abcdef1234567890abcdef12345678"` + "\n"
 		config += `  api_key_wo_version = 1` + "\n"
 	} else {
 		config += `  api_key = "1234567890abcdef1234567890abcdef12345678"` + "\n"
 	}
 	if includeWriteOnly {
-		config += `  api_secret = "abcdef1234567890abcdef1234567890abcdef12"` + "\n"
 		config += `  api_secret_wo = "abcdef1234567890abcdef1234567890abcdef12"` + "\n"
 		config += `  api_secret_wo_version = 1` + "\n"
 	} else {

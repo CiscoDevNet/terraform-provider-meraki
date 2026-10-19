@@ -32,11 +32,11 @@ resource "meraki_appliance_umbrella_account" "example" {
 > **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
 
 - `api_key` (String, Sensitive) API key for the Umbrella account
-- `api_key_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `api_key_wo_version` (Number) Version of api_key_wo.
+- `api_key_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `api_key`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `api_key` or `api_key_wo` must be configured. Must be used together with `api_key_wo_version`.
+- `api_key_wo_version` (Number) Version of `api_key_wo`. As changes to write-only values are not detected, increment this value to update `api_key_wo`. Must be used together with `api_key_wo`.
 - `api_secret` (String, Sensitive) API secret for the Umbrella account
-- `api_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only attribute.
-- `api_secret_wo_version` (Number) Version of api_secret_wo.
+- `api_secret_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `api_secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `api_secret` or `api_secret_wo` must be configured. Must be used together with `api_secret_wo_version`.
+- `api_secret_wo_version` (Number) Version of `api_secret_wo`. As changes to write-only values are not detected, increment this value to update `api_secret_wo`. Must be used together with `api_secret_wo`.
 
 ### Read-Only
 

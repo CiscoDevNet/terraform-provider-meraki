@@ -79,6 +79,12 @@ func (data ApplianceUmbrellaAccount) toBody(ctx context.Context, state Appliance
 	return body
 }
 
+// setWoValues copies write-only attribute values from the configuration, as they are always null in the plan
+func (data *ApplianceUmbrellaAccount) setWoValues(config ApplianceUmbrellaAccount) {
+	data.ApiKeyWo = config.ApiKeyWo
+	data.ApiSecretWo = config.ApiSecretWo
+}
+
 // End of section. //template:end toBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody

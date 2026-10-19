@@ -53,12 +53,13 @@ func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployment(t *testing.T
 		Config: testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentPrerequisitesConfig + testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{"devices_old_serial", "devices_old_name", "devices_old_rf_profile_id"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_organization_wireless_devices_provisioning_deployment.test",
 		ImportState:             true,
 		ImportStateVerify:       true,
 		ImportStateIdFunc:       merakiOrganizationWirelessDevicesProvisioningDeploymentImportStateIdFunc("meraki_organization_wireless_devices_provisioning_deployment.test"),
-		ImportStateVerifyIgnore: []string{"devices_old_serial", "devices_old_name", "devices_old_rf_profile_id"},
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
 		Check:                   resource.ComposeTestCheckFunc(checks...),
 	})
 

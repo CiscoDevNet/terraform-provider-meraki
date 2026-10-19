@@ -24,11 +24,15 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -83,13 +87,20 @@ func (r *ApplianceUmbrellaAccountResource) Schema(ctx context.Context, req resou
 				},
 			},
 			"api_key_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `api_key`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `api_key` or `api_key_wo` must be configured. Must be used together with `api_key_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ExactlyOneOf(path.MatchRelative().AtParent().AtName("api_key")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("api_key_wo_version")),
+				},
 			},
 			"api_key_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of api_key_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `api_key_wo`. As changes to write-only values are not detected, increment this value to update `api_key_wo`. Must be used together with `api_key_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("api_key_wo")),
+				},
 			},
 			"api_secret": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("API secret for the Umbrella account").String,
@@ -100,13 +111,20 @@ func (r *ApplianceUmbrellaAccountResource) Schema(ctx context.Context, req resou
 				},
 			},
 			"api_secret_wo": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Write-only attribute.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Write-only variant of `api_secret`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Exactly one of `api_secret` or `api_secret_wo` must be configured. Must be used together with `api_secret_wo_version`.").String,
 				WriteOnly:           true,
 				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.ExactlyOneOf(path.MatchRelative().AtParent().AtName("api_secret")),
+					stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("api_secret_wo_version")),
+				},
 			},
 			"api_secret_wo_version": schema.Int64Attribute{
-				MarkdownDescription: helpers.NewAttributeDescription("Version of api_secret_wo.").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Version of `api_secret_wo`. As changes to write-only values are not detected, increment this value to update `api_secret_wo`. Must be used together with `api_secret_wo`.").String,
 				Optional:            true,
+				Validators: []validator.Int64{
+					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("api_secret_wo")),
+				},
 			},
 			"umbrella_organization_id": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Umbrella organization ID returned when the account is connected").String,
@@ -153,6 +171,14 @@ func (r *ApplianceUmbrellaAccountResource) Create(ctx context.Context, req resou
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
+
+	// Read write-only values from config
+	var config ApplianceUmbrellaAccount
+	diags = req.Config.Get(ctx, &config)
+	if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
+		return
+	}
+	plan.setWoValues(config)
 
 	// Create object
 	body := plan.toBody(ctx, ApplianceUmbrellaAccount{})
