@@ -32,6 +32,7 @@ data "meraki_network_vlan_profile" "example" {
 
 ### Read-Only
 
+- `active_vlans` (String) The active VLANs for the VLAN profile. Only applicable to trunk ports. The given range must be inclusive of all named VLANs.
 - `iname` (String) IName of the profile
 - `vlan_groups` (Attributes List) An array of VLAN groups (see [below for nested schema](#nestedatt--vlan_groups))
 - `vlan_names` (Attributes List) An array of named VLANs (see [below for nested schema](#nestedatt--vlan_names))

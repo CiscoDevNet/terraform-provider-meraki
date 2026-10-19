@@ -12,6 +12,7 @@ description: |-
 - Fix write-only (`*_wo`) attributes never being sent to the API, as their values are only available in the configuration, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/291), [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/243)
 - Validate that only one of an attribute and its write-only (`*_wo`) variant is configured, that exactly one of them is configured if the attribute is required by the API, and that `*_wo` and `*_wo_version` are configured together
 - Remove non-functional `token_wo` and `token_wo_version` attributes from `meraki_appliance_vmx_authentication_token` resource
+- Add `active_vlans` attribute to `meraki_network_vlan_profile` resource and data source
 
 ## 1.14.1
 ## 1.14.1

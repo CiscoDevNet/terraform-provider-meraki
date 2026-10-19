@@ -34,6 +34,7 @@ data "meraki_network_vlan_profiles" "example" {
 
 Read-Only:
 
+- `active_vlans` (String) The active VLANs for the VLAN profile. Only applicable to trunk ports. The given range must be inclusive of all named VLANs.
 - `id` (String) The id of the object
 - `iname` (String) IName of the profile
 - `name` (String) Name of the profile, string length must be from 1 to 255 characters

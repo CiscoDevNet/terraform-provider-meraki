@@ -38,11 +38,12 @@ type DataSourceNetworkVLANProfiles struct {
 }
 
 type DataSourceNetworkVLANProfilesItems struct {
-	Id         types.String                              `tfsdk:"id"`
-	Iname      types.String                              `tfsdk:"iname"`
-	Name       types.String                              `tfsdk:"name"`
-	VlanGroups []DataSourceNetworkVLANProfilesVlanGroups `tfsdk:"vlan_groups"`
-	VlanNames  []DataSourceNetworkVLANProfilesVlanNames  `tfsdk:"vlan_names"`
+	Id          types.String                              `tfsdk:"id"`
+	Iname       types.String                              `tfsdk:"iname"`
+	Name        types.String                              `tfsdk:"name"`
+	ActiveVlans types.String                              `tfsdk:"active_vlans"`
+	VlanGroups  []DataSourceNetworkVLANProfilesVlanGroups `tfsdk:"vlan_groups"`
+	VlanNames   []DataSourceNetworkVLANProfilesVlanNames  `tfsdk:"vlan_names"`
 }
 
 type DataSourceNetworkVLANProfilesVlanGroups struct {
@@ -83,6 +84,11 @@ func (data *DataSourceNetworkVLANProfiles) fromBody(ctx context.Context, res mer
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
+		}
+		if value := res.Get("activeVlans"); value.Exists() && value.Value() != nil {
+			data.ActiveVlans = types.StringValue(value.String())
+		} else {
+			data.ActiveVlans = types.StringNull()
 		}
 		if value := res.Get("vlanGroups"); value.Exists() && value.Value() != nil {
 			data.VlanGroups = make([]DataSourceNetworkVLANProfilesVlanGroups, 0)
