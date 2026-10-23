@@ -7,7 +7,7 @@ description: |-
 
 # Changelog
 
-## Unreleased
+## 1.15.0
 
 - Add `meraki_appliance_umbrella_account` resource
 - Add `meraki_wireless_devices_provisioning_deployment` resource and data source
