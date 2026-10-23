@@ -493,6 +493,11 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 				Validators: []validator.Int64{
 					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("{{.TfName}}_wo")),
 				},
+				{{- if or .Id .Reference .RequiresReplace}}
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.RequiresReplace(),
+				},
+				{{- end}}
 			},
 			{{- end}}
 			{{- end}}
