@@ -35,7 +35,7 @@ func TestAccDataSourceMerakiApplianceStaticRoute(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "gateway_ip", "192.168.128.254"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "gateway_ip", "192.168.1.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "name", "My route"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_static_route.test", "subnet", "5.5.5.0/24"))
 	resource.Test(t, resource.TestCase{
@@ -85,9 +85,9 @@ resource "meraki_appliance_vlan" "test" {
 
 func testAccDataSourceMerakiApplianceStaticRouteConfig() string {
 	config := `resource "meraki_appliance_static_route" "test" {` + "\n"
-	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  network_id = meraki_appliance_vlan.test.network_id` + "\n"
 	config += `  enabled = true` + "\n"
-	config += `  gateway_ip = "192.168.128.254"` + "\n"
+	config += `  gateway_ip = "192.168.1.1"` + "\n"
 	config += `  gateway_vlan_id = tonumber(meraki_appliance_vlan.test.vlan_id)` + "\n"
 	config += `  name = "My route"` + "\n"
 	config += `  subnet = "5.5.5.0/24"` + "\n"
@@ -96,7 +96,7 @@ func testAccDataSourceMerakiApplianceStaticRouteConfig() string {
 	config += `
 		data "meraki_appliance_static_route" "test" {
 			id = meraki_appliance_static_route.test.id
-			network_id = meraki_network.test.id
+			network_id = meraki_appliance_vlan.test.network_id
 			depends_on = [meraki_appliance_static_route.test]
 		}
 	`
@@ -105,9 +105,9 @@ func testAccDataSourceMerakiApplianceStaticRouteConfig() string {
 
 func testAccNamedDataSourceMerakiApplianceStaticRouteConfig() string {
 	config := `resource "meraki_appliance_static_route" "test" {` + "\n"
-	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  network_id = meraki_appliance_vlan.test.network_id` + "\n"
 	config += `  enabled = true` + "\n"
-	config += `  gateway_ip = "192.168.128.254"` + "\n"
+	config += `  gateway_ip = "192.168.1.1"` + "\n"
 	config += `  gateway_vlan_id = tonumber(meraki_appliance_vlan.test.vlan_id)` + "\n"
 	config += `  name = "My route"` + "\n"
 	config += `  subnet = "5.5.5.0/24"` + "\n"
@@ -116,7 +116,7 @@ func testAccNamedDataSourceMerakiApplianceStaticRouteConfig() string {
 	config += `
 		data "meraki_appliance_static_route" "test" {
 			name = meraki_appliance_static_route.test.name
-			network_id = meraki_network.test.id
+			network_id = meraki_appliance_vlan.test.network_id
 			depends_on = [meraki_appliance_static_route.test]
 		}
 	`

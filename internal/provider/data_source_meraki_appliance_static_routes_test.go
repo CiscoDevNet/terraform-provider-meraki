@@ -79,7 +79,7 @@ resource "meraki_appliance_vlan" "test" {
 
 func testAccDataSourceMerakiApplianceStaticRoutesConfig() string {
 	config := `data "meraki_appliance_static_routes" "test" {
-			network_id = meraki_network.test.id
+			network_id = meraki_appliance_vlan.test.network_id
 		}
 	`
 	return config
