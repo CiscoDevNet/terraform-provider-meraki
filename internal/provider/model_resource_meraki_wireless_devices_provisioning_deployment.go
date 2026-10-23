@@ -33,7 +33,7 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type OrganizationWirelessDevicesProvisioningDeployment struct {
+type WirelessDevicesProvisioningDeployment struct {
 	Id                    types.String `tfsdk:"id"`
 	OrganizationId        types.String `tfsdk:"organization_id"`
 	Type                  types.String `tfsdk:"type"`
@@ -50,7 +50,7 @@ type OrganizationWirelessDevicesProvisioningDeployment struct {
 	DevicesOldRfProfileId types.String `tfsdk:"devices_old_rf_profile_id"`
 }
 
-type OrganizationWirelessDevicesProvisioningDeploymentIdentity struct {
+type WirelessDevicesProvisioningDeploymentIdentity struct {
 	OrganizationId types.String `tfsdk:"organization_id"`
 	Id             types.String `tfsdk:"id"`
 }
@@ -59,7 +59,7 @@ type OrganizationWirelessDevicesProvisioningDeploymentIdentity struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data OrganizationWirelessDevicesProvisioningDeployment) getPath() string {
+func (data WirelessDevicesProvisioningDeployment) getPath() string {
 	return fmt.Sprintf("/organizations/%v/wireless/devices/provisioning/deployments", url.QueryEscape(data.OrganizationId.ValueString()))
 }
 
@@ -67,7 +67,7 @@ func (data OrganizationWirelessDevicesProvisioningDeployment) getPath() string {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data OrganizationWirelessDevicesProvisioningDeployment) toBody(ctx context.Context, state OrganizationWirelessDevicesProvisioningDeployment) string {
+func (data WirelessDevicesProvisioningDeployment) toBody(ctx context.Context, state WirelessDevicesProvisioningDeployment) string {
 	body := ""
 	if !data.Type.IsNull() {
 		body, _ = sjson.Set(body, "type", data.Type.ValueString())
@@ -116,7 +116,7 @@ func (data OrganizationWirelessDevicesProvisioningDeployment) toBody(ctx context
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *OrganizationWirelessDevicesProvisioningDeployment) fromBody(ctx context.Context, res meraki.Res) {
+func (data *WirelessDevicesProvisioningDeployment) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("type"); value.Exists() && value.Value() != nil {
 		data.Type = types.StringValue(value.String())
 	} else {
@@ -187,7 +187,7 @@ func (data *OrganizationWirelessDevicesProvisioningDeployment) fromBody(ctx cont
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *OrganizationWirelessDevicesProvisioningDeployment) fromBodyPartial(ctx context.Context, res meraki.Res) {
+func (data *WirelessDevicesProvisioningDeployment) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if value := res.Get("type"); value.Exists() && !data.Type.IsNull() {
 		data.Type = types.StringValue(value.String())
 	} else {
@@ -256,14 +256,14 @@ func (data *OrganizationWirelessDevicesProvisioningDeployment) fromBodyPartial(c
 
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
-func (data *OrganizationWirelessDevicesProvisioningDeployment) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+func (data *WirelessDevicesProvisioningDeployment) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
 
-func (data *OrganizationWirelessDevicesProvisioningDeploymentIdentity) toIdentity(ctx context.Context, plan *OrganizationWirelessDevicesProvisioningDeployment) {
+func (data *WirelessDevicesProvisioningDeploymentIdentity) toIdentity(ctx context.Context, plan *WirelessDevicesProvisioningDeployment) {
 	data.OrganizationId = plan.OrganizationId
 	data.Id = plan.Id
 }
@@ -272,7 +272,7 @@ func (data *OrganizationWirelessDevicesProvisioningDeploymentIdentity) toIdentit
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
 
-func (data *OrganizationWirelessDevicesProvisioningDeployment) fromIdentity(ctx context.Context, identity *OrganizationWirelessDevicesProvisioningDeploymentIdentity) {
+func (data *WirelessDevicesProvisioningDeployment) fromIdentity(ctx context.Context, identity *WirelessDevicesProvisioningDeploymentIdentity) {
 	data.OrganizationId = identity.OrganizationId
 	data.Id = identity.Id
 }
@@ -281,7 +281,7 @@ func (data *OrganizationWirelessDevicesProvisioningDeployment) fromIdentity(ctx 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data OrganizationWirelessDevicesProvisioningDeployment) toDestroyBody(ctx context.Context) string {
+func (data WirelessDevicesProvisioningDeployment) toDestroyBody(ctx context.Context) string {
 	body := ""
 	return body
 }

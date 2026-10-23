@@ -18,7 +18,7 @@
 package provider
 
 // This template renders for every definition with a data source (gated only by NoDataSource in gen/generator.go).
-// It emits a separate model - DataSourceOrganizationWirelessDevicesProvisioningDeployment - used only by the data source, always including every
+// It emits a separate model - DataSourceWirelessDevicesProvisioningDeployment - used only by the data source, always including every
 // attribute (unlike model_resource.go's resource-side struct, which excludes `data_source_only` attributes), since
 // terraform-plugin-framework requires a model struct's tfsdk-tagged fields to exactly match the schema it's decoded
 // against. Keep this file's shape in sync with model_resource.go's `types`/`getPath`/`fromBody` sections - the only
@@ -40,7 +40,7 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type DataSourceOrganizationWirelessDevicesProvisioningDeployment struct {
+type DataSourceWirelessDevicesProvisioningDeployment struct {
 	Id                      types.String `tfsdk:"id"`
 	OrganizationId          types.String `tfsdk:"organization_id"`
 	Type                    types.String `tfsdk:"type"`
@@ -72,7 +72,7 @@ type DataSourceOrganizationWirelessDevicesProvisioningDeployment struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data DataSourceOrganizationWirelessDevicesProvisioningDeployment) getPath() string {
+func (data DataSourceWirelessDevicesProvisioningDeployment) getPath() string {
 	return fmt.Sprintf("/organizations/%v/wireless/devices/provisioning/deployments", url.QueryEscape(data.OrganizationId.ValueString()))
 }
 
@@ -80,7 +80,7 @@ func (data DataSourceOrganizationWirelessDevicesProvisioningDeployment) getPath(
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *DataSourceOrganizationWirelessDevicesProvisioningDeployment) fromBody(ctx context.Context, res meraki.Res) {
+func (data *DataSourceWirelessDevicesProvisioningDeployment) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("type"); value.Exists() && value.Value() != nil {
 		data.Type = types.StringValue(value.String())
 	} else {

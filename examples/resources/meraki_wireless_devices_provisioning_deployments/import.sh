@@ -1,0 +1,1 @@
+terraform import meraki_wireless_devices_provisioning_deployments.example "<organization_id>"

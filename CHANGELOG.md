@@ -1,12 +1,10 @@
 ## Unreleased
 
 - Add `meraki_appliance_umbrella_account` resource
-- Add `meraki_organization_wireless_devices_provisioning_deployment` resource and data source
-- Add `meraki_organization_wireless_devices_provisioning_deployments` resource and data source
+- Add `meraki_wireless_devices_provisioning_deployment` resource and data source
+- Add `meraki_wireless_devices_provisioning_deployments` resource and data source
 - Add `ecmp_uplink_configs` attribute to `meraki_appliance_third_party_vpn_peers` resource and data source
 - Add `mqtt_topics` attribute to `meraki_camera_sense` data source
-
-## 1.14.2 (unreleased)
 
 - Fix write-only (`*_wo`) attributes never being sent to the API, as their values are only available in the configuration, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/291), [link](https://github.com/CiscoDevNet/terraform-provider-meraki/issues/243)
 - Validate that only one of an attribute and its write-only (`*_wo`) variant is configured, that exactly one of them is configured if the attribute is required by the API, and that `*_wo` and `*_wo_version` are configured together

@@ -46,27 +46,27 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.ResourceWithIdentity    = &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
-	_ resource.ResourceWithImportState = &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
-	_ resource.ResourceWithModifyPlan  = &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
+	_ resource.ResourceWithIdentity    = &WirelessDevicesProvisioningDeploymentsResource{}
+	_ resource.ResourceWithImportState = &WirelessDevicesProvisioningDeploymentsResource{}
+	_ resource.ResourceWithModifyPlan  = &WirelessDevicesProvisioningDeploymentsResource{}
 )
 
-func NewOrganizationWirelessDevicesProvisioningDeploymentsResource() resource.Resource {
-	return &OrganizationWirelessDevicesProvisioningDeploymentsResource{}
+func NewWirelessDevicesProvisioningDeploymentsResource() resource.Resource {
+	return &WirelessDevicesProvisioningDeploymentsResource{}
 }
 
-type OrganizationWirelessDevicesProvisioningDeploymentsResource struct {
+type WirelessDevicesProvisioningDeploymentsResource struct {
 	client *meraki.Client
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_organization_wireless_devices_provisioning_deployments"
+func (r *WirelessDevicesProvisioningDeploymentsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_wireless_devices_provisioning_deployments"
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *WirelessDevicesProvisioningDeploymentsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Wireless Devices Provisioning Deployment` configuration in bulk.").AddBulkResourceIds("devices_new_serial").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless Devices Provisioning Deployment` configuration in bulk.").AddBulkResourceIds("devices_new_serial").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -155,7 +155,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Schema(ctx 
 	}
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+func (r *WirelessDevicesProvisioningDeploymentsResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
 	resp.IdentitySchema = identityschema.Schema{
 		Attributes: map[string]identityschema.Attribute{
 			"organization_id": identityschema.StringAttribute{
@@ -171,7 +171,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) IdentitySch
 	}
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *WirelessDevicesProvisioningDeploymentsResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -204,9 +204,9 @@ func deploymentIdsBySerial(res meraki.Res) map[string]string {
 	return ids
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan ResourceOrganizationWirelessDevicesProvisioningDeployments
-	var identity ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity
+func (r *WirelessDevicesProvisioningDeploymentsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan ResourceWirelessDevicesProvisioningDeployments
+	var identity ResourceWirelessDevicesProvisioningDeploymentsIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -218,7 +218,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Create(ctx 
 
 	items := make([]string, len(plan.Items))
 	for i, item := range plan.Items {
-		items[i] = item.toBody(ctx, ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{})
+		items[i] = item.toBody(ctx, ResourceWirelessDevicesProvisioningDeploymentsItems{})
 	}
 	res, err := r.client.Post(plan.getPath(), deploymentsBatchBody(items))
 	if err != nil {
@@ -244,9 +244,9 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Create(ctx 
 
 // Read refreshes the deployments from the organization-wide list. On a regular refresh the
 // configured `status` of each deployment is kept, while import reads the current ones.
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state ResourceOrganizationWirelessDevicesProvisioningDeployments
-	var identity ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity
+func (r *WirelessDevicesProvisioningDeploymentsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state ResourceWirelessDevicesProvisioningDeployments
+	var identity ResourceWirelessDevicesProvisioningDeploymentsIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -314,8 +314,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Read(ctx co
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state ResourceOrganizationWirelessDevicesProvisioningDeployments
+func (r *WirelessDevicesProvisioningDeploymentsResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state ResourceWirelessDevicesProvisioningDeployments
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -359,7 +359,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Update(ctx 
 			}
 			found = true
 			plan.Items[i].Id = itemState.Id
-			if plan.Items[i].toBody(ctx, ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}) != itemState.toBody(ctx, ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}) {
+			if plan.Items[i].toBody(ctx, ResourceWirelessDevicesProvisioningDeploymentsItems{}) != itemState.toBody(ctx, ResourceWirelessDevicesProvisioningDeploymentsItems{}) {
 				itemBody := plan.Items[i].toBody(ctx, itemState)
 				itemBody, _ = sjson.Set(itemBody, "deploymentId", itemState.Id.ValueString())
 				changed = append(changed, itemBody)
@@ -367,7 +367,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Update(ctx 
 			break
 		}
 		if !found {
-			created = append(created, plan.Items[i].toBody(ctx, ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}))
+			created = append(created, plan.Items[i].toBody(ctx, ResourceWirelessDevicesProvisioningDeploymentsItems{}))
 		}
 	}
 
@@ -396,14 +396,14 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Update(ctx 
 
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
-	var identity ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity
+	var identity ResourceWirelessDevicesProvisioningDeploymentsIdentity
 	identity.toIdentity(ctx, &plan)
 	diags = resp.Identity.Set(ctx, &identity)
 	resp.Diagnostics.Append(diags...)
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state ResourceOrganizationWirelessDevicesProvisioningDeployments
+func (r *WirelessDevicesProvisioningDeploymentsResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state ResourceWirelessDevicesProvisioningDeployments
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -427,7 +427,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) Delete(ctx 
 }
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *WirelessDevicesProvisioningDeploymentsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
 		itemIdParts := make([]string, 0)
 		if strings.Contains(req.ID, ",[") {
@@ -449,9 +449,9 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ImportState
 		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("organization_id"), idParts[0])...)
 
 		if len(itemIdParts) > 0 {
-			items := make([]ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems, len(itemIdParts))
+			items := make([]ResourceWirelessDevicesProvisioningDeploymentsItems, len(itemIdParts))
 			for i, itemId := range itemIdParts {
-				item := ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}
+				item := ResourceWirelessDevicesProvisioningDeploymentsItems{}
 				item.Id = types.StringValue(itemId)
 				item.DevicesNewTags = types.SetNull(types.StringType)
 				item.DevicesOldTags = types.SetNull(types.StringType)
@@ -460,7 +460,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ImportState
 			resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("items"), items)...)
 		}
 	} else {
-		var identity ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity
+		var identity ResourceWirelessDevicesProvisioningDeploymentsIdentity
 		diags := req.Identity.Get(ctx, &identity)
 		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 			return
@@ -469,11 +469,11 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ImportState
 		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), identity.OrganizationId.ValueString())...)
 
 		if len(identity.ItemIds.Elements()) > 0 {
-			items := make([]ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems, len(identity.ItemIds.Elements()))
+			items := make([]ResourceWirelessDevicesProvisioningDeploymentsItems, len(identity.ItemIds.Elements()))
 			var values []string
 			identity.ItemIds.ElementsAs(ctx, &values, false)
 			for i, itemId := range values {
-				item := ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}
+				item := ResourceWirelessDevicesProvisioningDeploymentsItems{}
 				item.Id = types.StringValue(itemId)
 				item.DevicesNewTags = types.SetNull(types.StringType)
 				item.DevicesOldTags = types.SetNull(types.StringType)
@@ -489,8 +489,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ImportState
 // End of section. //template:end import
 
 // Section below is generated&owned by "gen/generator.go". //template:begin modifyPlan
-func (r *OrganizationWirelessDevicesProvisioningDeploymentsResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
-	var plan, state ResourceOrganizationWirelessDevicesProvisioningDeployments
+func (r *WirelessDevicesProvisioningDeploymentsResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	var plan, state ResourceWirelessDevicesProvisioningDeployments
 
 	if req.Plan.Raw.IsNull() || req.State.Raw.IsNull() {
 		return

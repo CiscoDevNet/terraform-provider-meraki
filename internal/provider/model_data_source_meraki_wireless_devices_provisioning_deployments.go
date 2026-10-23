@@ -33,12 +33,12 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type DataSourceOrganizationWirelessDevicesProvisioningDeployments struct {
-	OrganizationId types.String                                                        `tfsdk:"organization_id"`
-	Items          []DataSourceOrganizationWirelessDevicesProvisioningDeploymentsItems `tfsdk:"items"`
+type DataSourceWirelessDevicesProvisioningDeployments struct {
+	OrganizationId types.String                                            `tfsdk:"organization_id"`
+	Items          []DataSourceWirelessDevicesProvisioningDeploymentsItems `tfsdk:"items"`
 }
 
-type DataSourceOrganizationWirelessDevicesProvisioningDeploymentsItems struct {
+type DataSourceWirelessDevicesProvisioningDeploymentsItems struct {
 	Id                      types.String `tfsdk:"id"`
 	Type                    types.String `tfsdk:"type"`
 	Status                  types.String `tfsdk:"status"`
@@ -69,7 +69,7 @@ type DataSourceOrganizationWirelessDevicesProvisioningDeploymentsItems struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data DataSourceOrganizationWirelessDevicesProvisioningDeployments) getPath() string {
+func (data DataSourceWirelessDevicesProvisioningDeployments) getPath() string {
 	return fmt.Sprintf("/organizations/%v/wireless/devices/provisioning/deployments", url.QueryEscape(data.OrganizationId.ValueString()))
 }
 
@@ -77,11 +77,11 @@ func (data DataSourceOrganizationWirelessDevicesProvisioningDeployments) getPath
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *DataSourceOrganizationWirelessDevicesProvisioningDeployments) fromBody(ctx context.Context, res meraki.Res) {
-	data.Items = make([]DataSourceOrganizationWirelessDevicesProvisioningDeploymentsItems, 0)
+func (data *DataSourceWirelessDevicesProvisioningDeployments) fromBody(ctx context.Context, res meraki.Res) {
+	data.Items = make([]DataSourceWirelessDevicesProvisioningDeploymentsItems, 0)
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
-		data := DataSourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}
+		data := DataSourceWirelessDevicesProvisioningDeploymentsItems{}
 		data.Id = types.StringValue(res.Get("deploymentId").String())
 		if value := res.Get("type"); value.Exists() && value.Value() != nil {
 			data.Type = types.StringValue(value.String())

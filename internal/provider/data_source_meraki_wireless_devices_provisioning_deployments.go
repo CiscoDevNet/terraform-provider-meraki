@@ -36,26 +36,26 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &OrganizationWirelessDevicesProvisioningDeploymentsDataSource{}
-	_ datasource.DataSourceWithConfigure = &OrganizationWirelessDevicesProvisioningDeploymentsDataSource{}
+	_ datasource.DataSource              = &WirelessDevicesProvisioningDeploymentsDataSource{}
+	_ datasource.DataSourceWithConfigure = &WirelessDevicesProvisioningDeploymentsDataSource{}
 )
 
-func NewOrganizationWirelessDevicesProvisioningDeploymentsDataSource() datasource.DataSource {
-	return &OrganizationWirelessDevicesProvisioningDeploymentsDataSource{}
+func NewWirelessDevicesProvisioningDeploymentsDataSource() datasource.DataSource {
+	return &WirelessDevicesProvisioningDeploymentsDataSource{}
 }
 
-type OrganizationWirelessDevicesProvisioningDeploymentsDataSource struct {
+type WirelessDevicesProvisioningDeploymentsDataSource struct {
 	client *meraki.Client
 }
 
-func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_organization_wireless_devices_provisioning_deployments"
+func (d *WirelessDevicesProvisioningDeploymentsDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_wireless_devices_provisioning_deployments"
 }
 
-func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *WirelessDevicesProvisioningDeploymentsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Wireless Devices Provisioning Deployment` configuration in bulk.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless Devices Provisioning Deployment` configuration in bulk.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"organization_id": schema.StringAttribute{
@@ -172,7 +172,7 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Schema(ct
 	}
 }
 
-func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *WirelessDevicesProvisioningDeploymentsDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -184,8 +184,8 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Configure
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config DataSourceOrganizationWirelessDevicesProvisioningDeployments
+func (d *WirelessDevicesProvisioningDeploymentsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config DataSourceWirelessDevicesProvisioningDeployments
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
@@ -194,7 +194,7 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Read(ctx 
 		return
 	}
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", "OrganizationWirelessDevicesProvisioningDeploymentsDataSource"))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", "WirelessDevicesProvisioningDeploymentsDataSource"))
 
 	res, err := d.client.Get(config.getPath())
 	if err != nil {
@@ -207,7 +207,7 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentsDataSource) Read(ctx 
 	}
 	config.fromBody(ctx, res)
 
-	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", "OrganizationWirelessDevicesProvisioningDeploymentsDataSource"))
+	tflog.Debug(ctx, fmt.Sprintf("%s: Read finished successfully", "WirelessDevicesProvisioningDeploymentsDataSource"))
 
 	diags = resp.State.Set(ctx, &config)
 	resp.Diagnostics.Append(diags...)

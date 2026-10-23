@@ -29,21 +29,16 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
-func TestAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeployment(t *testing.T) {
+func TestAccDataSourceMerakiWirelessDevicesProvisioningDeployments(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_ap_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
 	}
-	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "type", "deploy"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "status", "ready"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_wireless_devices_provisioning_deployment.test", "devices_new_name", "My AP"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentPrerequisitesConfig + testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentConfig(),
-				Check:  resource.ComposeTestCheckFunc(checks...),
+				Config: testAccDataSourceMerakiWirelessDevicesProvisioningDeploymentsPrerequisitesConfig + testAccDataSourceMerakiWirelessDevicesProvisioningDeploymentsConfig(),
 			},
 		},
 	})
@@ -53,7 +48,7 @@ func TestAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeployment(t 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentPrerequisitesConfig = `
+const testAccDataSourceMerakiWirelessDevicesProvisioningDeploymentsPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 variable "test_ap_1_serial" {}
@@ -77,23 +72,9 @@ resource "meraki_wireless_rf_profile" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSourceConfig
 
-func testAccDataSourceMerakiOrganizationWirelessDevicesProvisioningDeploymentConfig() string {
-	config := `resource "meraki_organization_wireless_devices_provisioning_deployment" "test" {` + "\n"
-	config += `  organization_id = data.meraki_organization.test.id` + "\n"
-	config += `  type = "deploy"` + "\n"
-	config += `  status = "ready"` + "\n"
-	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  devices_new_serial = var.test_ap_1_serial` + "\n"
-	config += `  devices_new_name = "My AP"` + "\n"
-	config += `  devices_new_tags = ["tag1"]` + "\n"
-	config += `  devices_new_rf_profile_id = meraki_wireless_rf_profile.test.id` + "\n"
-	config += `}` + "\n"
-
-	config += `
-		data "meraki_organization_wireless_devices_provisioning_deployment" "test" {
-			id = meraki_organization_wireless_devices_provisioning_deployment.test.id
+func testAccDataSourceMerakiWirelessDevicesProvisioningDeploymentsConfig() string {
+	config := `data "meraki_wireless_devices_provisioning_deployments" "test" {
 			organization_id = data.meraki_organization.test.id
-			depends_on = [meraki_organization_wireless_devices_provisioning_deployment.test]
 		}
 	`
 	return config

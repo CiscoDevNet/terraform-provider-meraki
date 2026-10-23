@@ -31,7 +31,7 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
-func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployments(t *testing.T) {
+func TestAccMerakiWirelessDevicesProvisioningDeployments(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_ap_1_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_ap_1_serial")
 	}
@@ -39,16 +39,16 @@ func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployments(t *testing.
 	var steps []resource.TestStep
 	if os.Getenv("SKIP_MINIMUM_TEST") == "" {
 		steps = append(steps, resource.TestStep{
-			Config: testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsPrerequisitesConfig + testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsConfig_minimum(),
+			Config: testAccMerakiWirelessDevicesProvisioningDeploymentsPrerequisitesConfig + testAccMerakiWirelessDevicesProvisioningDeploymentsConfig_minimum(),
 		})
 	}
 	steps = append(steps, resource.TestStep{
-		Config: testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsPrerequisitesConfig + testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsConfig_all(),
+		Config: testAccMerakiWirelessDevicesProvisioningDeploymentsPrerequisitesConfig + testAccMerakiWirelessDevicesProvisioningDeploymentsConfig_all(),
 	})
 	steps = append(steps, resource.TestStep{
-		ResourceName:      "meraki_organization_wireless_devices_provisioning_deployments.test",
+		ResourceName:      "meraki_wireless_devices_provisioning_deployments.test",
 		ImportState:       true,
-		ImportStateIdFunc: merakiOrganizationWirelessDevicesProvisioningDeploymentsImportStateIdFunc("meraki_organization_wireless_devices_provisioning_deployments.test"),
+		ImportStateIdFunc: merakiWirelessDevicesProvisioningDeploymentsImportStateIdFunc("meraki_wireless_devices_provisioning_deployments.test"),
 	})
 
 	resource.Test(t, resource.TestCase{
@@ -62,7 +62,7 @@ func TestAccMerakiOrganizationWirelessDevicesProvisioningDeployments(t *testing.
 
 // Section below is generated&owned by "gen/generator.go". //template:begin importStateIdFunc
 
-func merakiOrganizationWirelessDevicesProvisioningDeploymentsImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+func merakiWirelessDevicesProvisioningDeploymentsImportStateIdFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 		primary := s.RootModule().Resources[resourceName].Primary
 		OrganizationId := primary.Attributes["organization_id"]
@@ -75,7 +75,7 @@ func merakiOrganizationWirelessDevicesProvisioningDeploymentsImportStateIdFunc(r
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testPrerequisites
 
-const testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsPrerequisitesConfig = `
+const testAccMerakiWirelessDevicesProvisioningDeploymentsPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
 variable "test_ap_1_serial" {}
@@ -99,8 +99,8 @@ resource "meraki_wireless_rf_profile" "test" {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigMinimal
 
-func testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsConfig_minimum() string {
-	config := `resource "meraki_organization_wireless_devices_provisioning_deployments" "test" {` + "\n"
+func testAccMerakiWirelessDevicesProvisioningDeploymentsConfig_minimum() string {
+	config := `resource "meraki_wireless_devices_provisioning_deployments" "test" {` + "\n"
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
 	config += `  type = "deploy"` + "\n"
@@ -115,8 +115,8 @@ func testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsConfig_minim
 
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccConfigAll
 
-func testAccMerakiOrganizationWirelessDevicesProvisioningDeploymentsConfig_all() string {
-	config := `resource "meraki_organization_wireless_devices_provisioning_deployments" "test" {` + "\n"
+func testAccMerakiWirelessDevicesProvisioningDeploymentsConfig_all() string {
+	config := `resource "meraki_wireless_devices_provisioning_deployments" "test" {` + "\n"
 	config += ` organization_id = data.meraki_organization.test.id` + "\n"
 	config += ` items = [{` + "\n"
 	config += `  type = "deploy"` + "\n"

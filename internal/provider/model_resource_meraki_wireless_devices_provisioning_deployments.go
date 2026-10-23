@@ -36,13 +36,13 @@ import (
 
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
-type ResourceOrganizationWirelessDevicesProvisioningDeployments struct {
-	Id             types.String                                                      `tfsdk:"id"`
-	OrganizationId types.String                                                      `tfsdk:"organization_id"`
-	Items          []ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems `tfsdk:"items"`
+type ResourceWirelessDevicesProvisioningDeployments struct {
+	Id             types.String                                          `tfsdk:"id"`
+	OrganizationId types.String                                          `tfsdk:"organization_id"`
+	Items          []ResourceWirelessDevicesProvisioningDeploymentsItems `tfsdk:"items"`
 }
 
-type ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems struct {
+type ResourceWirelessDevicesProvisioningDeploymentsItems struct {
 	Id                    types.String `tfsdk:"id"`
 	Type                  types.String `tfsdk:"type"`
 	Status                types.String `tfsdk:"status"`
@@ -58,7 +58,7 @@ type ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems struct {
 	DevicesOldRfProfileId types.String `tfsdk:"devices_old_rf_profile_id"`
 }
 
-type ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity struct {
+type ResourceWirelessDevicesProvisioningDeploymentsIdentity struct {
 	OrganizationId types.String `tfsdk:"organization_id"`
 	ItemIds        types.List   `tfsdk:"item_ids"`
 }
@@ -67,7 +67,7 @@ type ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity struct {
 
 // Section below is generated&owned by "gen/generator.go". //template:begin getPath
 
-func (data ResourceOrganizationWirelessDevicesProvisioningDeployments) getPath() string {
+func (data ResourceWirelessDevicesProvisioningDeployments) getPath() string {
 	return fmt.Sprintf("/organizations/%v/wireless/devices/provisioning/deployments", url.QueryEscape(data.OrganizationId.ValueString()))
 }
 
@@ -75,7 +75,7 @@ func (data ResourceOrganizationWirelessDevicesProvisioningDeployments) getPath()
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toBody
 
-func (data ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems) toBody(ctx context.Context, state ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems) string {
+func (data ResourceWirelessDevicesProvisioningDeploymentsItems) toBody(ctx context.Context, state ResourceWirelessDevicesProvisioningDeploymentsItems) string {
 	body := ""
 	if !data.Type.IsNull() {
 		body, _ = sjson.Set(body, "type", data.Type.ValueString())
@@ -124,14 +124,14 @@ func (data ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems) toBo
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
-func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody(ctx context.Context, res meraki.Res) {
-	data.Items = make([]ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems, 0)
+func (data *ResourceWirelessDevicesProvisioningDeployments) fromBody(ctx context.Context, res meraki.Res) {
+	data.Items = make([]ResourceWirelessDevicesProvisioningDeploymentsItems, 0)
 	if res.Get("items").Exists() {
 		res = meraki.Res{Result: res.Get("items")}
 	}
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
-		data := ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}
+		data := ResourceWirelessDevicesProvisioningDeploymentsItems{}
 		if value := res.Get("type"); value.Exists() && value.Value() != nil {
 			data.Type = types.StringValue(value.String())
 		} else {
@@ -212,7 +212,7 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
-func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBodyPartial(ctx context.Context, res meraki.Res) {
+func (data *ResourceWirelessDevicesProvisioningDeployments) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	if res.Get("items").Exists() {
 		res = meraki.Res{Result: res.Get("items")}
 	}
@@ -312,14 +312,14 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 
 // fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
 // Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
-func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+func (data *ResourceWirelessDevicesProvisioningDeployments) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
 }
 
 // End of section. //template:end fromBodyUnknowns
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyImport
 
-func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBodyImport(ctx context.Context, res meraki.Res) {
+func (data *ResourceWirelessDevicesProvisioningDeployments) fromBodyImport(ctx context.Context, res meraki.Res) {
 	if res.Get("items").Exists() {
 		res = meraki.Res{Result: res.Get("items")}
 	}
@@ -417,7 +417,7 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromBody
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
 
-func (data *ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity) toIdentity(ctx context.Context, plan *ResourceOrganizationWirelessDevicesProvisioningDeployments) {
+func (data *ResourceWirelessDevicesProvisioningDeploymentsIdentity) toIdentity(ctx context.Context, plan *ResourceWirelessDevicesProvisioningDeployments) {
 	data.OrganizationId = plan.OrganizationId
 	if len(data.ItemIds.Elements()) == 0 {
 		data.ItemIds = types.ListNull(types.StringType)
@@ -428,7 +428,7 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity) 
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
 
-func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromIdentity(ctx context.Context, identity *ResourceOrganizationWirelessDevicesProvisioningDeploymentsIdentity) {
+func (data *ResourceWirelessDevicesProvisioningDeployments) fromIdentity(ctx context.Context, identity *ResourceWirelessDevicesProvisioningDeploymentsIdentity) {
 	data.OrganizationId = identity.OrganizationId
 }
 
@@ -436,7 +436,7 @@ func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) fromIden
 
 // Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
 
-func (data ResourceOrganizationWirelessDevicesProvisioningDeployments) toDestroyBody(ctx context.Context) string {
+func (data ResourceWirelessDevicesProvisioningDeployments) toDestroyBody(ctx context.Context) string {
 	body := ""
 	return body
 }
@@ -445,17 +445,17 @@ func (data ResourceOrganizationWirelessDevicesProvisioningDeployments) toDestroy
 
 // Section below is generated&owned by "gen/generator.go". //template:begin hasChanges
 
-func (data *ResourceOrganizationWirelessDevicesProvisioningDeployments) hasChanges(ctx context.Context, state *ResourceOrganizationWirelessDevicesProvisioningDeployments, id string) bool {
+func (data *ResourceWirelessDevicesProvisioningDeployments) hasChanges(ctx context.Context, state *ResourceWirelessDevicesProvisioningDeployments, id string) bool {
 	hasChanges := false
 
-	item := ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}
+	item := ResourceWirelessDevicesProvisioningDeploymentsItems{}
 	for i := range data.Items {
 		if data.Items[i].Id.ValueString() == id {
 			item = data.Items[i]
 			break
 		}
 	}
-	stateItem := ResourceOrganizationWirelessDevicesProvisioningDeploymentsItems{}
+	stateItem := ResourceWirelessDevicesProvisioningDeploymentsItems{}
 	for i := range state.Items {
 		if state.Items[i].Id.ValueString() == id {
 			stateItem = state.Items[i]

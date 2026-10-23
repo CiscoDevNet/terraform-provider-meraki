@@ -46,26 +46,26 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces
 var (
-	_ resource.ResourceWithIdentity    = &OrganizationWirelessDevicesProvisioningDeploymentResource{}
-	_ resource.ResourceWithImportState = &OrganizationWirelessDevicesProvisioningDeploymentResource{}
+	_ resource.ResourceWithIdentity    = &WirelessDevicesProvisioningDeploymentResource{}
+	_ resource.ResourceWithImportState = &WirelessDevicesProvisioningDeploymentResource{}
 )
 
-func NewOrganizationWirelessDevicesProvisioningDeploymentResource() resource.Resource {
-	return &OrganizationWirelessDevicesProvisioningDeploymentResource{}
+func NewWirelessDevicesProvisioningDeploymentResource() resource.Resource {
+	return &WirelessDevicesProvisioningDeploymentResource{}
 }
 
-type OrganizationWirelessDevicesProvisioningDeploymentResource struct {
+type WirelessDevicesProvisioningDeploymentResource struct {
 	client *meraki.Client
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_organization_wireless_devices_provisioning_deployment"
+func (r *WirelessDevicesProvisioningDeploymentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_wireless_devices_provisioning_deployment"
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *WirelessDevicesProvisioningDeploymentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Organization Wireless Devices Provisioning Deployment` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Wireless Devices Provisioning Deployment` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -142,7 +142,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Schema(ctx c
 	}
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
+func (r *WirelessDevicesProvisioningDeploymentResource) IdentitySchema(ctx context.Context, req resource.IdentitySchemaRequest, resp *resource.IdentitySchemaResponse) {
 	resp.IdentitySchema = identityschema.Schema{
 		Attributes: map[string]identityschema.Attribute{
 			"organization_id": identityschema.StringAttribute{
@@ -157,7 +157,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) IdentitySche
 	}
 }
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *WirelessDevicesProvisioningDeploymentResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -169,9 +169,9 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Configure(_ 
 
 // Create creates the deployment. The API only accepts batches, so the body is wrapped as
 // `{"items": [...]}` and the created deployment is read from `items.0` of the response.
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var plan OrganizationWirelessDevicesProvisioningDeployment
-	var identity OrganizationWirelessDevicesProvisioningDeploymentIdentity
+func (r *WirelessDevicesProvisioningDeploymentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var plan WirelessDevicesProvisioningDeployment
+	var identity WirelessDevicesProvisioningDeploymentIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -182,7 +182,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Create(ctx c
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Create", plan.Id.ValueString()))
 
 	// Create object
-	body, _ := sjson.SetRaw("{}", "items.-1", plan.toBody(ctx, OrganizationWirelessDevicesProvisioningDeployment{}))
+	body, _ := sjson.SetRaw("{}", "items.-1", plan.toBody(ctx, WirelessDevicesProvisioningDeployment{}))
 	res, err := r.client.Post(plan.getPath(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
@@ -205,9 +205,9 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Create(ctx c
 
 // Read refreshes the deployment from the organization-wide list. On a regular refresh the
 // configured `status` is kept, while import reads the current one.
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state OrganizationWirelessDevicesProvisioningDeployment
-	var identity OrganizationWirelessDevicesProvisioningDeploymentIdentity
+func (r *WirelessDevicesProvisioningDeploymentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state WirelessDevicesProvisioningDeployment
+	var identity WirelessDevicesProvisioningDeploymentIdentity
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -278,9 +278,9 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Read(ctx con
 
 // Update updates the deployment. There is no per-deployment PUT, so this is a batch PUT on the
 // collection path, with the deployment identified by the `deploymentId` inside its `items` entry.
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan, state OrganizationWirelessDevicesProvisioningDeployment
-	var identity OrganizationWirelessDevicesProvisioningDeploymentIdentity
+func (r *WirelessDevicesProvisioningDeploymentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state WirelessDevicesProvisioningDeployment
+	var identity WirelessDevicesProvisioningDeploymentIdentity
 
 	// Read plan
 	diags := req.Plan.Get(ctx, &plan)
@@ -316,8 +316,8 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Update(ctx c
 
 // Section below is generated&owned by "gen/generator.go". //template:begin delete
 
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state OrganizationWirelessDevicesProvisioningDeployment
+func (r *WirelessDevicesProvisioningDeploymentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state WirelessDevicesProvisioningDeployment
 
 	// Read state
 	diags := req.State.Get(ctx, &state)
@@ -340,7 +340,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) Delete(ctx c
 // End of section. //template:end delete
 
 // Section below is generated&owned by "gen/generator.go". //template:begin import
-func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *WirelessDevicesProvisioningDeploymentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	if req.ID != "" || req.Identity == nil || req.Identity.Raw.IsNull() {
 		idParts := strings.Split(req.ID, ",")
 
@@ -356,7 +356,7 @@ func (r *OrganizationWirelessDevicesProvisioningDeploymentResource) ImportState(
 		resp.Diagnostics.Append(resp.Identity.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 	} else {
-		var identity OrganizationWirelessDevicesProvisioningDeploymentIdentity
+		var identity WirelessDevicesProvisioningDeploymentIdentity
 		diags := req.Identity.Get(ctx, &identity)
 		if resp.Diagnostics.Append(diags...); resp.Diagnostics.HasError() {
 			return

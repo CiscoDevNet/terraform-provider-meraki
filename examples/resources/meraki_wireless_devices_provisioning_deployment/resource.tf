@@ -1,4 +1,4 @@
-resource "meraki_organization_wireless_devices_provisioning_deployment" "example" {
+resource "meraki_wireless_devices_provisioning_deployment" "example" {
   organization_id           = "123456"
   type                      = "deploy"
   status                    = "ready"

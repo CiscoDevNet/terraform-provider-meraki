@@ -4,7 +4,7 @@
 # resource matches items by the new device serial.
 # Customize Read() of both resources: a refresh keeps the configured `status`, since the API moves
 # it on its own (for example "in progress" to "completed"); import and the data sources read it.
-name: Organization Wireless Devices Provisioning Deployment
+name: Wireless Devices Provisioning Deployment
 spec_endpoint: /organizations/{organizationId}/wireless/devices/provisioning/deployments/{deploymentId}
 rest_endpoint: /organizations/%v/wireless/devices/provisioning/deployments
 bulk_data_source: true

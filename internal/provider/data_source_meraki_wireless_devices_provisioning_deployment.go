@@ -37,26 +37,26 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &OrganizationWirelessDevicesProvisioningDeploymentDataSource{}
-	_ datasource.DataSourceWithConfigure = &OrganizationWirelessDevicesProvisioningDeploymentDataSource{}
+	_ datasource.DataSource              = &WirelessDevicesProvisioningDeploymentDataSource{}
+	_ datasource.DataSourceWithConfigure = &WirelessDevicesProvisioningDeploymentDataSource{}
 )
 
-func NewOrganizationWirelessDevicesProvisioningDeploymentDataSource() datasource.DataSource {
-	return &OrganizationWirelessDevicesProvisioningDeploymentDataSource{}
+func NewWirelessDevicesProvisioningDeploymentDataSource() datasource.DataSource {
+	return &WirelessDevicesProvisioningDeploymentDataSource{}
 }
 
-type OrganizationWirelessDevicesProvisioningDeploymentDataSource struct {
+type WirelessDevicesProvisioningDeploymentDataSource struct {
 	client *meraki.Client
 }
 
-func (d *OrganizationWirelessDevicesProvisioningDeploymentDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_organization_wireless_devices_provisioning_deployment"
+func (d *WirelessDevicesProvisioningDeploymentDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_wireless_devices_provisioning_deployment"
 }
 
-func (d *OrganizationWirelessDevicesProvisioningDeploymentDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *WirelessDevicesProvisioningDeploymentDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Organization Wireless Devices Provisioning Deployment` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This data source can read the `Wireless Devices Provisioning Deployment` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -165,7 +165,7 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentDataSource) Schema(ctx
 	}
 }
 
-func (d *OrganizationWirelessDevicesProvisioningDeploymentDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *WirelessDevicesProvisioningDeploymentDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -177,8 +177,8 @@ func (d *OrganizationWirelessDevicesProvisioningDeploymentDataSource) Configure(
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
-func (d *OrganizationWirelessDevicesProvisioningDeploymentDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var config DataSourceOrganizationWirelessDevicesProvisioningDeployment
+func (d *WirelessDevicesProvisioningDeploymentDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config DataSourceWirelessDevicesProvisioningDeployment
 
 	// Read config
 	diags := req.Config.Get(ctx, &config)
