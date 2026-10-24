@@ -36,12 +36,13 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkVLANProfile struct {
-	Id         types.String                   `tfsdk:"id"`
-	NetworkId  types.String                   `tfsdk:"network_id"`
-	Iname      types.String                   `tfsdk:"iname"`
-	Name       types.String                   `tfsdk:"name"`
-	VlanGroups []NetworkVLANProfileVlanGroups `tfsdk:"vlan_groups"`
-	VlanNames  []NetworkVLANProfileVlanNames  `tfsdk:"vlan_names"`
+	Id          types.String                   `tfsdk:"id"`
+	NetworkId   types.String                   `tfsdk:"network_id"`
+	Iname       types.String                   `tfsdk:"iname"`
+	Name        types.String                   `tfsdk:"name"`
+	ActiveVlans types.String                   `tfsdk:"active_vlans"`
+	VlanGroups  []NetworkVLANProfileVlanGroups `tfsdk:"vlan_groups"`
+	VlanNames   []NetworkVLANProfileVlanNames  `tfsdk:"vlan_names"`
 }
 
 type NetworkVLANProfileVlanGroups struct {
@@ -79,6 +80,9 @@ func (data NetworkVLANProfile) toBody(ctx context.Context, state NetworkVLANProf
 	}
 	if !data.Name.IsNull() {
 		body, _ = sjson.Set(body, "name", data.Name.ValueString())
+	}
+	if !data.ActiveVlans.IsNull() {
+		body, _ = sjson.Set(body, "activeVlans", data.ActiveVlans.ValueString())
 	}
 	{
 		body, _ = sjson.Set(body, "vlanGroups", []interface{}{})
@@ -126,6 +130,11 @@ func (data *NetworkVLANProfile) fromBody(ctx context.Context, res meraki.Res) {
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
+	}
+	if value := res.Get("activeVlans"); value.Exists() && value.Value() != nil {
+		data.ActiveVlans = types.StringValue(value.String())
+	} else {
+		data.ActiveVlans = types.StringNull()
 	}
 	if value := res.Get("vlanGroups"); value.Exists() && value.Value() != nil {
 		data.VlanGroups = make([]NetworkVLANProfileVlanGroups, 0)
@@ -193,6 +202,11 @@ func (data *NetworkVLANProfile) fromBodyPartial(ctx context.Context, res meraki.
 		data.Name = types.StringValue(value.String())
 	} else {
 		data.Name = types.StringNull()
+	}
+	if value := res.Get("activeVlans"); value.Exists() && !data.ActiveVlans.IsNull() {
+		data.ActiveVlans = types.StringValue(value.String())
+	} else {
+		data.ActiveVlans = types.StringNull()
 	}
 	for i := 0; i < len(data.VlanGroups); i++ {
 		keys := [...]string{"name"}

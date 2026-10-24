@@ -80,6 +80,10 @@ func (d *NetworkVLANProfileDataSource) Schema(ctx context.Context, req datasourc
 				Optional:            true,
 				Computed:            true,
 			},
+			"active_vlans": schema.StringAttribute{
+				MarkdownDescription: "The active VLANs for the VLAN profile. Only applicable to trunk ports. The given range must be inclusive of all named VLANs.",
+				Computed:            true,
+			},
 			"vlan_groups": schema.ListNestedAttribute{
 				MarkdownDescription: "An array of VLAN groups",
 				Computed:            true,

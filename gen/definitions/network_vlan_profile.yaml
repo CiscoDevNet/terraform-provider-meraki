@@ -25,6 +25,10 @@ attributes:
     mandatory: true
     description: Name of the profile, string length must be from 1 to 255 characters
     example: My VLAN profile name
+  - model_name: activeVlans
+    type: String
+    description: The active VLANs for the VLAN profile. Only applicable to trunk ports. The given range must be inclusive of all named VLANs.
+    example: 1-1000
   - model_name: vlanGroups
     type: List
     mandatory: true
