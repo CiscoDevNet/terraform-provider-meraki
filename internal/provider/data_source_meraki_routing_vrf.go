@@ -147,7 +147,7 @@ func (d *RoutingVRFDataSource) Read(ctx context.Context, req datasource.ReadRequ
 						resp.Diagnostics.AddWarning("Multiple objects with same name", fmt.Sprintf("Found multiple objects with name: %s", config.Name.ValueString()))
 						return false
 					}
-					config.Id = types.StringValue(v.Get("id").String())
+					config.Id = types.StringValue(v.Get("vrfId").String())
 					tflog.Debug(ctx, fmt.Sprintf("%s: Found object with name '%v', id: %v", config.Id.String(), config.Name.ValueString(), config.Id.String()))
 					res = meraki.Res{Result: v}
 					found = true
@@ -174,7 +174,7 @@ func (d *RoutingVRFDataSource) Read(ctx context.Context, req datasource.ReadRequ
 	}
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
-			if config.Id.ValueString() == v.Get("id").String() {
+			if config.Id.ValueString() == v.Get("vrfId").String() {
 				res = meraki.Res{Result: v}
 				return false
 			}
