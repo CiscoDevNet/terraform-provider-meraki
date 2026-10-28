@@ -3,6 +3,7 @@ spec_endpoint: /organizations/{organizationId}/routing/vrfs/{vrfId}
 rest_endpoint: /organizations/%v/routing/vrfs
 bulk_data_source: true
 get_from_all: true
+id_name: vrfId
 early_access: true
 data_source_name_query: true
 doc_category: Organizations

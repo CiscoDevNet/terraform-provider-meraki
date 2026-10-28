@@ -64,7 +64,7 @@ func (data *DataSourceRoutingVRFs) fromBody(ctx context.Context, res meraki.Res)
 	res.ForEach(func(k, res gjson.Result) bool {
 		parent := &data
 		data := DataSourceRoutingVRFsItems{}
-		data.Id = types.StringValue(res.Get("id").String())
+		data.Id = types.StringValue(res.Get("vrfId").String())
 		if value := res.Get("description"); value.Exists() && value.Value() != nil {
 			data.Description = types.StringValue(value.String())
 		} else {

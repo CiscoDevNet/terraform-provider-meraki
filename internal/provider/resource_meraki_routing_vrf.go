@@ -153,7 +153,7 @@ func (r *RoutingVRFResource) Create(ctx context.Context, req resource.CreateRequ
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (POST/PUT), got error: %s, %s", err, res.String()))
 		return
 	}
-	plan.Id = types.StringValue(res.Get("id").String())
+	plan.Id = types.StringValue(res.Get("vrfId").String())
 	plan.fromBodyUnknowns(ctx, res)
 	identity.toIdentity(ctx, &plan)
 
@@ -207,7 +207,7 @@ func (r *RoutingVRFResource) Read(ctx context.Context, req resource.ReadRequest,
 	}
 	if len(res.Array()) > 0 {
 		res.ForEach(func(k, v gjson.Result) bool {
-			if state.Id.ValueString() == v.Get("id").String() {
+			if state.Id.ValueString() == v.Get("vrfId").String() {
 				res = meraki.Res{Result: v}
 				return false
 			}
