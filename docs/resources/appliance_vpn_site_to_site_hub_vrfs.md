@@ -18,7 +18,7 @@ This resource can manage the `Appliance VPN Site to Site Hub VRFs` configuration
 ```terraform
 resource "meraki_appliance_vpn_site_to_site_hub_vrfs" "example" {
   network_id     = "L_123456"
-  hub_network_id = "<<Example>>"
+  hub_network_id = "L_234567"
   _json = [
     {
       id = "12345"
@@ -33,7 +33,7 @@ resource "meraki_appliance_vpn_site_to_site_hub_vrfs" "example" {
 ### Required
 
 - `_json` (Attributes List) The list of VRFs for this source and hub mapping. (see [below for nested schema](#nestedatt--_json))
-- `hub_network_id` (String) <<Description>>
+- `hub_network_id` (String) Hub network ID
 - `network_id` (String) Network ID
 
 ### Read-Only

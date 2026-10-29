@@ -74,7 +74,7 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Schema(ctx context.Context, req 
 				},
 			},
 			"hub_network_id": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("<<Description>>").String,
+				MarkdownDescription: helpers.NewAttributeDescription("Hub network ID").String,
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -104,7 +104,7 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) IdentitySchema(ctx context.Conte
 				RequiredForImport: true,
 			},
 			"hub_network_id": identityschema.StringAttribute{
-				Description:       helpers.NewAttributeDescription("<<Description>>").String,
+				Description:       helpers.NewAttributeDescription("Hub network ID").String,
 				RequiredForImport: true,
 			},
 		},
