@@ -80,7 +80,7 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Schema(ctx context.Context, req 
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"_json": schema.ListNestedAttribute{
+			"vrfs": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of VRFs for this source and hub mapping.").String,
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
