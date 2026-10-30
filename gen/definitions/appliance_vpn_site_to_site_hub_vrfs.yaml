@@ -1,3 +1,5 @@
+# Customize Create() (restoreOriginalStateOnDestroy), resource and datasource Read(), resource and datasource fromBody(), fromBodyPartial(), fromBodyPreservingNulls():
+# use the organization-level GET endpoint as a network-level GET endpoint does not exist.
 name: Appliance VPN Site to Site Hub VRFs
 spec_endpoint: /networks/{networkId}/appliance/vpn/siteToSite/hubs/{hubNetworkId}/vrfs
 rest_endpoint: /networks/%v/appliance/vpn/siteToSite/hubs/%v/vrfs

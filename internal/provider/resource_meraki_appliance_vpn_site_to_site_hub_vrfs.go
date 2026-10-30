@@ -127,8 +127,9 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Configure(_ context.Context, req
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
+// Create configures the resource.
+// Custom (not-generated) changes: if restoreOriginalStateOnDestroy is enabled,
+// fetch the original state using the organization-level GET endpoint.
 func (r *ApplianceVPNSiteToSiteHubVRFsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceVPNSiteToSiteHubVRFs
 	var identity ApplianceVPNSiteToSiteHubVRFsIdentity
@@ -143,10 +144,27 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Create(ctx context.Context, req 
 	// If the resource is a singleton, we need to read and save the initial state
 	if r.restoreOriginalStateOnDestroy {
 		var initialState ApplianceVPNSiteToSiteHubVRFs
-		gres, err := r.client.Get(plan.getPath())
+		networkPath := fmt.Sprintf("/networks/%v", plan.NetworkId.ValueString())
+		nres, err := r.client.Get(networkPath)
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, nres.String()))
 			return
+		}
+		orgId := nres.Get("organizationId").String()
+		getPath := fmt.Sprintf("/organizations/%v/appliance/vpn/siteToSite/hubs/vrfs?networkIds[]=%v", orgId, plan.NetworkId.ValueString())
+		gres, err := r.client.Get(getPath)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve appliance VPN site-to-site hub VRFs (GET), got error: %s, %s", err, gres.String()))
+			return
+		}
+		if len(gres.Get("items").Array()) > 0 {
+			gres.Get("items").ForEach(func(k, v gjson.Result) bool {
+				if plan.Id.ValueString() == v.Get("hub.network.id").String() {
+					gres = meraki.Res{Result: v}
+					return false
+				}
+				return true
+			})
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
 	}
@@ -172,10 +190,8 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Create(ctx context.Context, req 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// End of section. //template:end create
-
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
+// Read fetches the resource's current configuration.
+// Custom (not-generated) changes: use the organization-level GET endpoint.
 func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceVPNSiteToSiteHubVRFs
 	var identity ApplianceVPNSiteToSiteHubVRFsIdentity
@@ -196,7 +212,9 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req re
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath())
+
+	networkPath := fmt.Sprintf("/networks/%v", state.NetworkId.ValueString())
+	res, err := r.client.Get(networkPath)
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		identity.toIdentity(ctx, &state)
 		diags = resp.Identity.Set(ctx, &identity)
@@ -204,15 +222,27 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req re
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, res.String()))
 		return
 	}
-	if res.Get("items").Exists() {
-		res = meraki.Res{Result: res.Get("items")}
+	orgId := res.Get("organizationId").String()
+
+	getPath := fmt.Sprintf("/organizations/%v/appliance/vpn/siteToSite/hubs/vrfs?networkIds[]=%v", orgId, state.NetworkId.ValueString())
+	res, err = r.client.Get(getPath)
+	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
+		resp.State.RemoveResource(ctx)
+		return
+	} else if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve appliance VPN site-to-site hub VRFs (GET), got error: %s, %s", err, res.String()))
+		return
 	}
-	if len(res.Array()) > 0 {
-		res.ForEach(func(k, v gjson.Result) bool {
-			if state.Id.ValueString() == v.Get("id").String() {
+
+	if len(res.Get("items").Array()) > 0 {
+		res.Get("items").ForEach(func(k, v gjson.Result) bool {
+			if state.Id.ValueString() == v.Get("hub.network.id").String() {
 				res = meraki.Res{Result: v}
 				return false
 			}
@@ -242,8 +272,6 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req re
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end read
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 

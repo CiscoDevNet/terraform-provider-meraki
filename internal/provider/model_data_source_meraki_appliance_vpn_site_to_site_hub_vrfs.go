@@ -60,11 +60,9 @@ func (data DataSourceApplianceVPNSiteToSiteHubVRFs) getPath() string {
 }
 
 // End of section. //template:end getPath
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
-
+// Custom (not-generated) changes: use "vrfs" (organization-level GET schema) instead of "_json" (network-level PUT schema).
 func (data *DataSourceApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("_json"); value.Exists() && value.Value() != nil {
+	if value := res.Get("vrfs"); value.Exists() && value.Value() != nil {
 		data.Vrfs = make([]DataSourceApplianceVPNSiteToSiteHubVRFsVrfs, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
@@ -79,5 +77,3 @@ func (data *DataSourceApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Contex
 		})
 	}
 }
-
-// End of section. //template:end fromBody
