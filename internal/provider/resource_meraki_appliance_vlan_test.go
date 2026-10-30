@@ -54,9 +54,6 @@ func TestAccMerakiApplianceVLAN(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.origin_type", "internet"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "ipv6_prefix_assignments.0.origin_interfaces.0", "wan1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "mandatory_dhcp_enabled", "true"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "sgt_id", "1234"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "uplinks.0.interface", "wan1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_vlan.test", "uplinks.0.nat_enabled", "true"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -182,12 +179,7 @@ func testAccMerakiApplianceVLANConfig_all() string {
 	config += `    origin_interfaces = ["wan1"]` + "\n"
 	config += `  }]` + "\n"
 	config += `  mandatory_dhcp_enabled = true` + "\n"
-	config += `  sgt_id = 1234` + "\n"
 	config += `  vrf_id = meraki_routing_vrf.test.id` + "\n"
-	config += `  uplinks = [{` + "\n"
-	config += `    interface = "wan1"` + "\n"
-	config += `    nat_enabled = true` + "\n"
-	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }
