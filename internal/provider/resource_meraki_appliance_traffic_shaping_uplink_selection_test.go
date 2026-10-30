@@ -42,7 +42,6 @@ func TestAccMerakiApplianceTrafficShapingUplinkSelection(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_uplink_selection.test", "load_balancing_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_uplink_selection.test", "failover_and_failback_immediate_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.preferred_uplink", "wan1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.vrf_id", "12345"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.type", "custom"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.protocol", "tcp"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_uplink_selection.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.destination_cidr", "any"))
@@ -114,6 +113,19 @@ resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
   serials    = [var.test_appliance_1_serial]
 }
+resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+  organization_id = data.meraki_organization.test.id
+  short_name      = "has_mx_vrf_26_1_early_access"
+}
+resource "meraki_appliance_routing_vrfs_settings" "test" {
+  organization_id = data.meraki_organization.test.id
+  enabled         = true
+}
+resource "meraki_routing_vrf" "test" {
+  organization_id   = data.meraki_organization.test.id
+  name              = "test-vrf"
+  appliance_enabled = true
+}
 
 `
 
@@ -140,7 +152,7 @@ func testAccMerakiApplianceTrafficShapingUplinkSelectionConfig_all() string {
 	config += `  failover_and_failback_immediate_enabled = true` + "\n"
 	config += `  wan_traffic_uplink_preferences = [{` + "\n"
 	config += `    preferred_uplink = "wan1"` + "\n"
-	config += `    vrf_id = "12345"` + "\n"
+	config += `    vrf_id = meraki_routing_vrf.test.id` + "\n"
 	config += `    traffic_filters = [{` + "\n"
 	config += `      type = "custom"` + "\n"
 	config += `      protocol = "tcp"` + "\n"

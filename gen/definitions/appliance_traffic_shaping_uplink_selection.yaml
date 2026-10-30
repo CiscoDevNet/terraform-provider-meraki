@@ -75,6 +75,7 @@ attributes:
         data_path: [vrf]
         description: VRF ID for this uplink preference rule. Use 0 for the default VRF.
         example: "12345"
+        test_value: meraki_routing_vrf.test.id
       - model_name: trafficFilters
         type: List
         mandatory: true
@@ -187,6 +188,7 @@ attributes:
         data_path: [vrf]
         description: VRF ID for this uplink preference rule. Use 0 for the default VRF.
         example: "12345"
+        test_value: meraki_routing_vrf.test.id
       - model_name: trafficFilters
         type: List
         mandatory: true
@@ -256,4 +258,17 @@ test_prerequisites: |
   resource "meraki_network_device_claim" "test" {
     network_id = meraki_network.test.id
     serials    = [var.test_appliance_1_serial]
+  }
+  resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+    organization_id = data.meraki_organization.test.id
+    short_name      = "has_mx_vrf_26_1_early_access"
+  }
+  resource "meraki_appliance_routing_vrfs_settings" "test" {
+    organization_id = data.meraki_organization.test.id
+    enabled         = true
+  }
+  resource "meraki_routing_vrf" "test" {
+    organization_id   = data.meraki_organization.test.id
+    name              = "test-vrf"
+    appliance_enabled = true
   }
