@@ -39,10 +39,10 @@ type ApplianceVPNSiteToSiteHubVRFs struct {
 	Id           types.String                        `tfsdk:"id"`
 	NetworkId    types.String                        `tfsdk:"network_id"`
 	HubNetworkId types.String                        `tfsdk:"hub_network_id"`
-	Json         []ApplianceVPNSiteToSiteHubVRFsJson `tfsdk:"_json"`
+	Vrfs         []ApplianceVPNSiteToSiteHubVRFsVrfs `tfsdk:"vrfs"`
 }
 
-type ApplianceVPNSiteToSiteHubVRFsJson struct {
+type ApplianceVPNSiteToSiteHubVRFsVrfs struct {
 	Id types.String `tfsdk:"id"`
 }
 
@@ -67,7 +67,7 @@ func (data ApplianceVPNSiteToSiteHubVRFs) toBody(ctx context.Context, state Appl
 	body := ""
 	{
 		body, _ = sjson.Set(body, "_json", []interface{}{})
-		for _, item := range data.Json {
+		for _, item := range data.Vrfs {
 			itemBody := ""
 			if !item.Id.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "id", item.Id.ValueString())
@@ -84,16 +84,16 @@ func (data ApplianceVPNSiteToSiteHubVRFs) toBody(ctx context.Context, state Appl
 
 func (data *ApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("_json"); value.Exists() && value.Value() != nil {
-		data.Json = make([]ApplianceVPNSiteToSiteHubVRFsJson, 0)
+		data.Vrfs = make([]ApplianceVPNSiteToSiteHubVRFsVrfs, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
-			data := ApplianceVPNSiteToSiteHubVRFsJson{}
+			data := ApplianceVPNSiteToSiteHubVRFsVrfs{}
 			if value := res.Get("id"); value.Exists() && value.Value() != nil {
 				data.Id = types.StringValue(value.String())
 			} else {
 				data.Id = types.StringNull()
 			}
-			(*parent).Json = append((*parent).Json, data)
+			(*parent).Vrfs = append((*parent).Vrfs, data)
 			return true
 		})
 	}
@@ -108,12 +108,12 @@ func (data *ApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Context, res mer
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceVPNSiteToSiteHubVRFs) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	for i := 0; i < len(data.Json); i++ {
+	for i := 0; i < len(data.Vrfs); i++ {
 		keys := [...]string{"id"}
-		keyValues := [...]string{data.Json[i].Id.ValueString()}
+		keyValues := [...]string{data.Vrfs[i].Id.ValueString()}
 
 		parent := &data
-		data := (*parent).Json[i]
+		data := (*parent).Vrfs[i]
 		parentRes := &res
 		var res gjson.Result
 
@@ -135,11 +135,11 @@ func (data *ApplianceVPNSiteToSiteHubVRFs) fromBodyPartial(ctx context.Context, 
 			},
 		)
 		if !res.Exists() {
-			tflog.Debug(ctx, fmt.Sprintf("removing Json[%d] = %+v",
+			tflog.Debug(ctx, fmt.Sprintf("removing Vrfs[%d] = %+v",
 				i,
-				(*parent).Json[i],
+				(*parent).Vrfs[i],
 			))
-			(*parent).Json = slices.Delete((*parent).Json, i, i+1)
+			(*parent).Vrfs = slices.Delete((*parent).Vrfs, i, i+1)
 			i--
 
 			continue
@@ -149,7 +149,7 @@ func (data *ApplianceVPNSiteToSiteHubVRFs) fromBodyPartial(ctx context.Context, 
 		} else {
 			data.Id = types.StringNull()
 		}
-		(*parent).Json[i] = data
+		(*parent).Vrfs[i] = data
 	}
 }
 
