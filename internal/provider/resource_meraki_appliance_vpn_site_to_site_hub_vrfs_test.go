@@ -129,11 +129,18 @@ resource "meraki_appliance_site_to_site_vpn" "test_spoke" {
       hub_id = meraki_network.test.id
     }
   ]
+  depends_on = [
+    meraki_appliance_site_to_site_vpn.test,
+  ]
 }
 resource "meraki_routing_vrf" "test" {
   organization_id   = data.meraki_organization.test.id
   name              = "test-vrf"
   appliance_enabled = true
+  depends_on        = [
+    meraki_organization_early_access_features_opt_in.test_vrf,
+    meraki_appliance_routing_vrfs_settings.test,
+  ]
 }
 
 `
