@@ -50,6 +50,15 @@ func TestAccMerakiApplianceVPNSiteToSiteHubVRFs(t *testing.T) {
 		Config: testAccMerakiApplianceVPNSiteToSiteHubVRFsPrerequisitesConfig + testAccMerakiApplianceVPNSiteToSiteHubVRFsConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
+	importStateVerifyIgnore := []string{}
+	steps = append(steps, resource.TestStep{
+		ResourceName:            "meraki_appliance_vpn_site_to_site_hub_vrfs.test",
+		ImportState:             true,
+		ImportStateVerify:       true,
+		ImportStateIdFunc:       merakiApplianceVPNSiteToSiteHubVRFsImportStateIdFunc("meraki_appliance_vpn_site_to_site_hub_vrfs.test"),
+		ImportStateVerifyIgnore: importStateVerifyIgnore,
+		Check:                   resource.ComposeTestCheckFunc(checks...),
+	})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },

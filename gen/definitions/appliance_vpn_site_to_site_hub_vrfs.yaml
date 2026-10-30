@@ -1,11 +1,12 @@
 name: Appliance VPN Site to Site Hub VRFs
 spec_endpoint: /networks/{networkId}/appliance/vpn/siteToSite/hubs/{hubNetworkId}/vrfs
 rest_endpoint: /networks/%v/appliance/vpn/siteToSite/hubs/%v/vrfs
-no_data_source: true
+no_data_source: false
 put_create: true
+get_from_all: true
 no_delete: true
-no_import: true
-no_read: true
+no_import: false
+no_read: false
 early_access: true
 doc_category: Appliances
 test_variables: [test_org, test_network, test_appliance_1_serial]
