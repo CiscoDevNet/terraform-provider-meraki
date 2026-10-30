@@ -584,6 +584,7 @@ func (p *MerakiProvider) DataSources(ctx context.Context) []func() datasource.Da
 		NewApplianceVLANsSettingsDataSource,
 		NewApplianceVPNBGPDataSource,
 		NewApplianceVPNFirewallRulesDataSource,
+		NewApplianceVPNSiteToSiteHubVRFsDataSource,
 		NewApplianceVPNSiteToSiteIPsecPeersSLAsDataSource,
 		NewApplianceWarmSpareDataSource,
 		NewCameraCustomAnalyticsDataSource,
