@@ -5,7 +5,7 @@ bulk_data_source: true
 bulk_resource: true
 data_source_name_query: true
 doc_category: Appliances
-test_variables: [test_org, test_network]
+test_variables: [test_org, test_network, test_appliance_1_serial]
 attributes:
   - tf_name: network_id
     type: String
@@ -161,6 +161,7 @@ attributes:
     data_path: [vrf]
     description: VRF ID. Use '0' for the default VRF.
     example: "1000"
+    test_value: meraki_routing_vrf.test.id
   - model_name: dhcpOptions
     type: List
     exclude_test: true
@@ -240,4 +241,21 @@ test_prerequisites: |
   resource "meraki_appliance_vlans_settings" "test" {
     network_id = meraki_network.test.id
     vlans_enabled = true
+  }
+  resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+    organization_id = data.meraki_organization.test.id
+    short_name      = "has_mx_vrf_26_1_early_access"
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
+  resource "meraki_appliance_routing_vrfs_settings" "test" {
+    organization_id = data.meraki_organization.test.id
+    enabled         = true
+  }
+  resource "meraki_routing_vrf" "test" {
+    organization_id   = data.meraki_organization.test.id
+    name              = "test-vrf"
+    appliance_enabled = true
   }
