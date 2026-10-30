@@ -34,15 +34,14 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiApplianceStaticRoute(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "gateway_ip", "192.168.1.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "name", "My route"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "subnet", "5.5.5.0/24"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "vrf_id", "12345"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -96,6 +95,7 @@ func merakiApplianceStaticRouteImportStateIdFunc(resourceName string) resource.I
 const testAccMerakiApplianceStaticRoutePrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
+variable "test_appliance_1_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
@@ -104,16 +104,45 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["switch", "wireless", "appliance"]
 }
+resource "meraki_network_device_claim" "test" {
+  network_id = meraki_network.test.id
+  serials    = [var.test_appliance_1_serial]
+}
 resource "meraki_appliance_vlans_settings" "test" {
   network_id = meraki_network.test.id
   vlans_enabled = true
 }
+resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+  organization_id = data.meraki_organization.test.id
+  short_name      = "has_mx_vrf_26_1_early_access"
+}
+resource "meraki_appliance_routing_vrfs_settings" "test" {
+  organization_id = data.meraki_organization.test.id
+  enabled         = true
+  depends_on      = [
+    meraki_network_device_claim.test,
+  ]
+}
+resource "meraki_routing_vrf" "test" {
+  organization_id   = data.meraki_organization.test.id
+  name              = "test-vrf"
+  appliance_enabled = true
+  depends_on        = [
+    meraki_organization_early_access_features_opt_in.test_vrf,
+    meraki_appliance_routing_vrfs_settings.test,
+  ]
+}
 resource "meraki_appliance_vlan" "test" {
-  network_id = meraki_appliance_vlans_settings.test.network_id
+  network_id   = meraki_appliance_vlans_settings.test.network_id
   appliance_ip = "192.168.1.2"
-  vlan_id = "100"
-  name = "My VLAN"
-  subnet = "192.168.1.0/24"
+  vlan_id      = "100"
+  name         = "My VLAN"
+  subnet       = "192.168.1.0/24"
+  vrf_id       = meraki_routing_vrf.test.id
+  depends_on   = [
+    meraki_network_device_claim.test,
+    meraki_appliance_vlans_settings.test,
+  ]
 }
 
 `
@@ -143,7 +172,7 @@ func testAccMerakiApplianceStaticRouteConfig_all() string {
 	config += `  gateway_vlan_id = tonumber(meraki_appliance_vlan.test.vlan_id)` + "\n"
 	config += `  name = "My route"` + "\n"
 	config += `  subnet = "5.5.5.0/24"` + "\n"
-	config += `  vrf_id = "12345"` + "\n"
+	config += `  vrf_id = meraki_routing_vrf.test.id` + "\n"
 	config += `}` + "\n"
 	return config
 }
