@@ -1,0 +1,221 @@
+// Copyright © 2024 Cisco Systems, Inc. and its affiliates.
+// All rights reserved.
+//
+// Licensed under the Mozilla Public License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://mozilla.org/MPL/2.0/
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// SPDX-License-Identifier: MPL-2.0
+
+package provider
+
+// Section below is generated&owned by "gen/generator.go". //template:begin imports
+import (
+	"context"
+	"fmt"
+	"net/url"
+	"slices"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
+	"github.com/tidwall/sjson"
+)
+
+// End of section. //template:end imports
+
+// Section below is generated&owned by "gen/generator.go". //template:begin types
+
+type ApplianceVPNSiteToSiteHubVRFs struct {
+	Id           types.String                        `tfsdk:"id"`
+	NetworkId    types.String                        `tfsdk:"network_id"`
+	HubNetworkId types.String                        `tfsdk:"hub_network_id"`
+	Vrfs         []ApplianceVPNSiteToSiteHubVRFsVrfs `tfsdk:"vrfs"`
+}
+
+type ApplianceVPNSiteToSiteHubVRFsVrfs struct {
+	Id types.String `tfsdk:"id"`
+}
+
+type ApplianceVPNSiteToSiteHubVRFsIdentity struct {
+	NetworkId    types.String `tfsdk:"network_id"`
+	HubNetworkId types.String `tfsdk:"hub_network_id"`
+}
+
+// End of section. //template:end types
+
+// Section below is generated&owned by "gen/generator.go". //template:begin getPath
+
+func (data ApplianceVPNSiteToSiteHubVRFs) getPath() string {
+	return fmt.Sprintf("/networks/%v/appliance/vpn/siteToSite/hubs/%v/vrfs", url.QueryEscape(data.NetworkId.ValueString()), url.QueryEscape(data.HubNetworkId.ValueString()))
+}
+
+// End of section. //template:end getPath
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toBody
+
+func (data ApplianceVPNSiteToSiteHubVRFs) toBody(ctx context.Context, state ApplianceVPNSiteToSiteHubVRFs) string {
+	body := ""
+	{
+		body, _ = sjson.Set(body, "_json", []interface{}{})
+		for _, item := range data.Vrfs {
+			itemBody := ""
+			if !item.Id.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "id", item.Id.ValueString())
+			}
+			body, _ = sjson.SetRaw(body, "_json.-1", itemBody)
+		}
+	}
+	return body
+}
+
+// End of section. //template:end toBody
+
+// toBodyPreservingNulls walks the same writable-attribute schema as toBody but
+// reads directly from the raw API response (gjson) instead of from the
+// Terraform model. Unlike toBody, it preserves attributes that the API
+// explicitly returned as `null` (emitting them as JSON `null` rather than
+// dropping them). This is used by the singleton restoreOriginalStateOnDestroy
+// path so that explicit-null fields captured during Create are restored on
+// Delete. Keep this method in sync with toBody — both walk the same
+// `.Attributes` schema and must agree on which fields are writable.
+// Custom (not-generated) changes: use "vrfs" (organization-level GET schema) instead of "_json" (network-level PUT schema).
+func (data ApplianceVPNSiteToSiteHubVRFs) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
+	body := ""
+	if value := res.Get("vrfs"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "_json", "null")
+		} else {
+			body, _ = sjson.Set(body, "_json", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("id"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "id", "null")
+					} else {
+						body, _ = sjson.Set(body, "id", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "_json.-1", body)
+				return true
+			})
+		}
+	}
+	return body
+}
+
+// fromBody parses the GET response.
+// Custom (not-generated) changes: use "vrfs" (organization-level GET schema) instead of "_json" (network-level PUT schema).
+func (data *ApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("vrfs"); value.Exists() && value.Value() != nil {
+		data.Vrfs = make([]ApplianceVPNSiteToSiteHubVRFsVrfs, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := ApplianceVPNSiteToSiteHubVRFsVrfs{}
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
+			(*parent).Vrfs = append((*parent).Vrfs, data)
+			return true
+		})
+	}
+}
+
+// fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
+// uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
+// easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
+// "managed" elements, instead of all elements.
+// Custom (not-generated) changes: use "vrfs" (organization-level GET schema) instead of "_json" (network-level PUT schema).
+func (data *ApplianceVPNSiteToSiteHubVRFs) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	for i := 0; i < len(data.Vrfs); i++ {
+		keys := [...]string{"id"}
+		keyValues := [...]string{data.Vrfs[i].Id.ValueString()}
+
+		parent := &data
+		data := (*parent).Vrfs[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.Get("vrfs").ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing Vrfs[%d] = %+v",
+				i,
+				(*parent).Vrfs[i],
+			))
+			(*parent).Vrfs = slices.Delete((*parent).Vrfs, i, i+1)
+			i--
+
+			continue
+		}
+		if value := res.Get("id"); value.Exists() && !data.Id.IsNull() {
+			data.Id = types.StringValue(value.String())
+		} else {
+			data.Id = types.StringNull()
+		}
+		(*parent).Vrfs[i] = data
+	}
+}
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
+
+// fromBodyUnknowns updates the Unknown Computed tfstate values from a JSON.
+// Known values are not changed (usual for Computed attributes with UseStateForUnknown or with Default).
+func (data *ApplianceVPNSiteToSiteHubVRFs) fromBodyUnknowns(ctx context.Context, res meraki.Res) {
+}
+
+// End of section. //template:end fromBodyUnknowns
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toIdentity
+
+func (data *ApplianceVPNSiteToSiteHubVRFsIdentity) toIdentity(ctx context.Context, plan *ApplianceVPNSiteToSiteHubVRFs) {
+	data.NetworkId = plan.NetworkId
+	data.HubNetworkId = plan.HubNetworkId
+}
+
+// End of section. //template:end toIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromIdentity
+
+func (data *ApplianceVPNSiteToSiteHubVRFs) fromIdentity(ctx context.Context, identity *ApplianceVPNSiteToSiteHubVRFsIdentity) {
+	data.NetworkId = identity.NetworkId
+	data.HubNetworkId = identity.HubNetworkId
+}
+
+// End of section. //template:end fromIdentity
+
+// Section below is generated&owned by "gen/generator.go". //template:begin toDestroyBody
+
+func (data ApplianceVPNSiteToSiteHubVRFs) toDestroyBody(ctx context.Context) string {
+	body := ""
+	return body
+}
+
+// End of section. //template:end toDestroyBody

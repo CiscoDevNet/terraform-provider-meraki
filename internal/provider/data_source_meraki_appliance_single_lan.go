@@ -115,6 +115,10 @@ func (d *ApplianceSingleLANDataSource) Schema(ctx context.Context, req datasourc
 				MarkdownDescription: "Enable Mandatory DHCP on LAN.",
 				Computed:            true,
 			},
+			"vrf_id": schema.StringAttribute{
+				MarkdownDescription: "VRF ID. Use 0 for the default VRF.",
+				Computed:            true,
+			},
 		},
 	}
 }

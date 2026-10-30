@@ -42,6 +42,7 @@ func TestAccMerakiApplianceStaticRoute(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "gateway_ip", "192.168.1.1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "name", "My route"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "subnet", "5.5.5.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_static_route.test", "vrf_id", "12345"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -114,6 +115,19 @@ resource "meraki_appliance_vlan" "test" {
   name = "My VLAN"
   subnet = "192.168.1.0/24"
 }
+resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+  organization_id = data.meraki_organization.test.id
+  short_name      = "has_mx_vrf_26_1_early_access"
+}
+resource "meraki_appliance_routing_vrfs_settings" "test" {
+  organization_id = data.meraki_organization.test.id
+  enabled         = true
+}
+resource "meraki_routing_vrf" "test" {
+  organization_id   = data.meraki_organization.test.id
+  name              = "test-vrf"
+  appliance_enabled = true
+}
 
 `
 
@@ -142,6 +156,7 @@ func testAccMerakiApplianceStaticRouteConfig_all() string {
 	config += `  gateway_vlan_id = tonumber(meraki_appliance_vlan.test.vlan_id)` + "\n"
 	config += `  name = "My route"` + "\n"
 	config += `  subnet = "5.5.5.0/24"` + "\n"
+	config += `  vrf_id = "12345"` + "\n"
 	config += `}` + "\n"
 	return config
 }

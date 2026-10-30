@@ -22,5 +22,6 @@ resource "meraki_appliance_vlans" "example" {
       }
     ]
     mandatory_dhcp_enabled = true
+    vrf_id                 = "1000"
   }]
 }

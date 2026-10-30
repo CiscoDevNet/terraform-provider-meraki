@@ -76,6 +76,19 @@ resource "meraki_network_device_claim" "test" {
   network_id = meraki_network.test.id
   serials    = [var.test_appliance_1_serial]
 }
+resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+  organization_id = data.meraki_organization.test.id
+  short_name      = "has_mx_vrf_26_1_early_access"
+}
+resource "meraki_appliance_routing_vrfs_settings" "test" {
+  organization_id = data.meraki_organization.test.id
+  enabled         = true
+}
+resource "meraki_routing_vrf" "test" {
+  organization_id   = data.meraki_organization.test.id
+  name              = "test-vrf"
+  appliance_enabled = true
+}
 
 `
 
@@ -91,6 +104,7 @@ func testAccDataSourceMerakiApplianceTrafficShapingUplinkSelectionConfig() strin
 	config += `  failover_and_failback_immediate_enabled = true` + "\n"
 	config += `  wan_traffic_uplink_preferences = [{` + "\n"
 	config += `    preferred_uplink = "wan1"` + "\n"
+	config += `    vrf_id = meraki_routing_vrf.test.id` + "\n"
 	config += `    traffic_filters = [{` + "\n"
 	config += `      type = "custom"` + "\n"
 	config += `      protocol = "tcp"` + "\n"

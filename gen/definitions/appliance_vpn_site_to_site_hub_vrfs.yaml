@@ -1,0 +1,131 @@
+# Customize Create() (restoreOriginalStateOnDestroy), resource and datasource Read(), resource and datasource fromBody(), fromBodyPartial(), fromBodyPreservingNulls():
+# use the organization-level GET endpoint as a network-level GET endpoint does not exist.
+name: Appliance VPN Site to Site Hub VRFs
+spec_endpoint: /networks/{networkId}/appliance/vpn/siteToSite/hubs/{hubNetworkId}/vrfs
+rest_endpoint: /networks/%v/appliance/vpn/siteToSite/hubs/%v/vrfs
+no_data_source: false
+put_create: true
+get_from_all: true
+no_delete: true
+no_import: false
+no_read: false
+early_access: true
+doc_category: Appliances
+test_variables: [test_org, test_network, test_appliance_1_serial, test_appliance_2_serial]
+attributes:
+  - tf_name: network_id
+    type: String
+    reference: true
+    description: Network ID
+    example: L_123456
+    test_value: meraki_network.test_spoke.id
+  - tf_name: hub_network_id
+    type: String
+    id: true
+    reference: true
+    description: Hub network ID
+    example: L_234567
+    test_value: meraki_network.test.id
+  - model_name: _json
+    tf_name: vrfs
+    type: List
+    mandatory: true
+    description: The list of VRFs for this source and hub mapping.
+    attributes:
+      - model_name: id
+        type: String
+        mandatory: true
+        description: The VRF ID. Use `0` for the default VRF.
+        example: "12345"
+        test_value: meraki_routing_vrf.test.id
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+    organization_id = data.meraki_organization.test.id
+    short_name      = "has_mx_vrf_26_1_early_access"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
+  resource "meraki_network" "test_spoke" {
+    organization_id = data.meraki_organization.test.id
+    name            = "spoke test network"
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
+  resource "meraki_network_device_claim" "test_spoke" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_2_serial]
+  }
+  resource "meraki_appliance_routing_vrfs_settings" "test" {
+    organization_id = data.meraki_organization.test.id
+    enabled         = true
+  }
+  resource "meraki_appliance_site_to_site_vpn" "test" {
+    network_id = meraki_network.test.id
+    mode       = "hub"
+    depends_on = [
+      meraki_appliance_vlan.test,
+    ]
+  }
+  resource "meraki_routing_vrf" "test" {
+    organization_id   = data.meraki_organization.test.id
+    name              = "test-vrf"
+    appliance_enabled = true
+    depends_on        = [
+      meraki_organization_early_access_features_opt_in.test_vrf,
+      meraki_appliance_routing_vrfs_settings.test,
+    ]
+  }
+  resource "meraki_appliance_vlans_settings" "test" {
+    network_id = meraki_network.test.id
+    vlans_enabled = true
+  }
+  resource "meraki_appliance_vlan" "test" {
+    network_id   = meraki_network.test.id
+    name         = "test vlan 10"
+    vlan_id      = 10
+    appliance_ip = "192.168.128.1"
+    subnet       = "192.168.128.0/24"
+    vrf_id       = meraki_routing_vrf.test.id
+    depends_on   = [
+      meraki_network_device_claim.test,
+      meraki_appliance_vlans_settings.test,
+    ]
+  }
+  resource "meraki_appliance_vlans_settings" "test_spoke" {
+    network_id = meraki_network.test_spoke.id
+    vlans_enabled = true
+  }
+  resource "meraki_appliance_vlan" "test_spoke" {
+    network_id   = meraki_network.test_spoke.id
+    name         = "test vlan 20"
+    vlan_id      = 20
+    appliance_ip = "192.168.129.1"
+    subnet       = "192.168.129.0/24"
+    vrf_id       = meraki_routing_vrf.test.id
+    depends_on   = [
+      meraki_network_device_claim.test_spoke,
+      meraki_appliance_vlans_settings.test_spoke,
+    ]
+  }
+  resource "meraki_appliance_site_to_site_vpn" "test_spoke" {
+    network_id = meraki_network.test_spoke.id
+    mode       = "spoke"
+    hubs       = [
+      {
+        hub_id = meraki_network.test.id
+      }
+    ]
+    depends_on = [
+      meraki_appliance_site_to_site_vpn.test,
+      meraki_appliance_vlan.test_spoke,
+    ]
+  }

@@ -70,6 +70,19 @@ resource "meraki_appliance_vlan" "test" {
   name = "My VLAN"
   subnet = "192.168.1.0/24"
 }
+resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+  organization_id = data.meraki_organization.test.id
+  short_name      = "has_mx_vrf_26_1_early_access"
+}
+resource "meraki_appliance_routing_vrfs_settings" "test" {
+  organization_id = data.meraki_organization.test.id
+  enabled         = true
+}
+resource "meraki_routing_vrf" "test" {
+  organization_id   = data.meraki_organization.test.id
+  name              = "test-vrf"
+  appliance_enabled = true
+}
 
 `
 
