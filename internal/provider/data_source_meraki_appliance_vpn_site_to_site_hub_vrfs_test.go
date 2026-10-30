@@ -30,8 +30,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiApplianceVPNSiteToSiteHubVRFs(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" || os.Getenv("TF_VAR_test_appliance_2_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial and TF_VAR_test_appliance_2_serial")
 	}
 	var checks []resource.TestCheckFunc
 	resource.Test(t, resource.TestCase{
@@ -54,6 +54,7 @@ const testAccDataSourceMerakiApplianceVPNSiteToSiteHubVRFsPrerequisitesConfig = 
 variable "test_org" {}
 variable "test_network" {}
 variable "test_appliance_1_serial" {}
+variable "test_appliance_2_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
@@ -66,14 +67,18 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
 }
+resource "meraki_network_device_claim" "test" {
+  network_id = meraki_network.test.id
+  serials    = [var.test_appliance_1_serial]
+}
 resource "meraki_network" "test_spoke" {
   organization_id = data.meraki_organization.test.id
   name            = "spoke test network"
   product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
 }
-resource "meraki_network_device_claim" "test" {
+resource "meraki_network_device_claim" "test_spoke" {
   network_id = meraki_network.test.id
-  serials    = [var.test_appliance_1_serial]
+  serials    = [var.test_appliance_2_serial]
 }
 resource "meraki_appliance_routing_vrfs_settings" "test" {
   organization_id = data.meraki_organization.test.id
@@ -82,6 +87,50 @@ resource "meraki_appliance_routing_vrfs_settings" "test" {
 resource "meraki_appliance_site_to_site_vpn" "test" {
   network_id = meraki_network.test.id
   mode       = "hub"
+  depends_on = [
+    meraki_appliance_vlan.test,
+  ]
+}
+resource "meraki_routing_vrf" "test" {
+  organization_id   = data.meraki_organization.test.id
+  name              = "test-vrf"
+  appliance_enabled = true
+  depends_on        = [
+    meraki_organization_early_access_features_opt_in.test_vrf,
+    meraki_appliance_routing_vrfs_settings.test,
+  ]
+}
+resource "meraki_appliance_vlans_settings" "test" {
+  network_id = meraki_network.test.id
+  vlans_enabled = true
+}
+resource "meraki_appliance_vlan" "test" {
+  network_id   = meraki_network.test.id
+  name         = "test vlan 10"
+  vlan_id      = 10
+  appliance_ip = "192.168.128.1"
+  subnet       = "192.168.128.0/24"
+  vrf_id       = meraki_routing_vrf.test.id
+  depends_on   = [
+    meraki_network_device_claim.test,
+    meraki_appliance_vlans_settings.test,
+  ]
+}
+resource "meraki_appliance_vlans_settings" "test_spoke" {
+  network_id = meraki_network.test_spoke.id
+  vlans_enabled = true
+}
+resource "meraki_appliance_vlan" "test_spoke" {
+  network_id   = meraki_network.test_spoke.id
+  name         = "test vlan 20"
+  vlan_id      = 20
+  appliance_ip = "192.168.129.1"
+  subnet       = "192.168.129.0/24"
+  vrf_id       = meraki_routing_vrf.test.id
+  depends_on   = [
+    meraki_network_device_claim.test_spoke,
+    meraki_appliance_vlans_settings.test_spoke,
+  ]
 }
 resource "meraki_appliance_site_to_site_vpn" "test_spoke" {
   network_id = meraki_network.test_spoke.id
@@ -93,15 +142,7 @@ resource "meraki_appliance_site_to_site_vpn" "test_spoke" {
   ]
   depends_on = [
     meraki_appliance_site_to_site_vpn.test,
-  ]
-}
-resource "meraki_routing_vrf" "test" {
-  organization_id   = data.meraki_organization.test.id
-  name              = "test-vrf"
-  appliance_enabled = true
-  depends_on        = [
-    meraki_organization_early_access_features_opt_in.test_vrf,
-    meraki_appliance_routing_vrfs_settings.test,
+    meraki_appliance_vlan.test_spoke,
   ]
 }
 
