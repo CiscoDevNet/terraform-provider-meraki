@@ -80,8 +80,6 @@ func (data ApplianceVPNSiteToSiteHubVRFs) toBody(ctx context.Context, state Appl
 
 // End of section. //template:end toBody
 
-// Section below is generated&owned by "gen/generator.go". //template:begin toBodyPreservingNulls
-
 // toBodyPreservingNulls walks the same writable-attribute schema as toBody but
 // reads directly from the raw API response (gjson) instead of from the
 // Terraform model. Unlike toBody, it preserves attributes that the API
@@ -90,9 +88,10 @@ func (data ApplianceVPNSiteToSiteHubVRFs) toBody(ctx context.Context, state Appl
 // path so that explicit-null fields captured during Create are restored on
 // Delete. Keep this method in sync with toBody — both walk the same
 // `.Attributes` schema and must agree on which fields are writable.
+// Custom (not-generated) changes: use "vrfs" (organization-level GET schema) instead of "_json" (network-level PUT schema).
 func (data ApplianceVPNSiteToSiteHubVRFs) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
 	body := ""
-	if value := res.Get("_json"); value.Exists() {
+	if value := res.Get("vrfs"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "_json", "null")
 		} else {
@@ -115,12 +114,10 @@ func (data ApplianceVPNSiteToSiteHubVRFs) toBodyPreservingNulls(ctx context.Cont
 	return body
 }
 
-// End of section. //template:end toBodyPreservingNulls
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
-
+// fromBody parses the GET response.
+// Custom (not-generated) changes: use "vrfs" (organization-level GET schema) instead of "_json" (network-level PUT schema).
 func (data *ApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("_json"); value.Exists() && value.Value() != nil {
+	if value := res.Get("vrfs"); value.Exists() && value.Value() != nil {
 		data.Vrfs = make([]ApplianceVPNSiteToSiteHubVRFsVrfs, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
 			parent := &data
@@ -136,14 +133,11 @@ func (data *ApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Context, res mer
 	}
 }
 
-// End of section. //template:end fromBody
-
-// Section below is generated&owned by "gen/generator.go". //template:begin fromBodyPartial
-
 // fromBodyPartial reads values from a gjson.Result into a tfstate model. It ignores null attributes in order to
 // uncouple the provider from the exact values that the backend API might summon to replace nulls. (Such behavior might
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
+// Custom (not-generated) changes: use "vrfs" (organization-level GET schema) instead of "_json" (network-level PUT schema).
 func (data *ApplianceVPNSiteToSiteHubVRFs) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	for i := 0; i < len(data.Vrfs); i++ {
 		keys := [...]string{"id"}
@@ -154,7 +148,7 @@ func (data *ApplianceVPNSiteToSiteHubVRFs) fromBodyPartial(ctx context.Context, 
 		parentRes := &res
 		var res gjson.Result
 
-		parentRes.Get("_json").ForEach(
+		parentRes.Get("vrfs").ForEach(
 			func(_, v gjson.Result) bool {
 				found := false
 				for ik := range keys {
@@ -189,8 +183,6 @@ func (data *ApplianceVPNSiteToSiteHubVRFs) fromBodyPartial(ctx context.Context, 
 		(*parent).Vrfs[i] = data
 	}
 }
-
-// End of section. //template:end fromBodyPartial
 
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBodyUnknowns
 

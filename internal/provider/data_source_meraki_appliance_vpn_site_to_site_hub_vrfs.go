@@ -96,8 +96,8 @@ func (d *ApplianceVPNSiteToSiteHubVRFsDataSource) Configure(_ context.Context, r
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
+// Read fetches the resource's current configuration.
+// Custom (not-generated) changes: use the organization-level GET endpoint.
 func (d *ApplianceVPNSiteToSiteHubVRFsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var config DataSourceApplianceVPNSiteToSiteHubVRFs
 
@@ -110,22 +110,24 @@ func (d *ApplianceVPNSiteToSiteHubVRFsDataSource) Read(ctx context.Context, req 
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
 
-	var res meraki.Res
-	var err error
+	networkPath := fmt.Sprintf("/networks/%v", config.NetworkId.ValueString())
+	res, err := d.client.Get(networkPath)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve network (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+	orgId := res.Get("organizationId").String()
 
-	if !res.Exists() {
-		res, err = d.client.Get(config.getPath())
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
-			return
-		}
+	getPath := fmt.Sprintf("/organizations/%v/appliance/vpn/siteToSite/hubs/vrfs?networkIds[]=%v", orgId, config.NetworkId.ValueString())
+	res, err = d.client.Get(getPath)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve appliance VPN site-to-site hub VRFs, got error: %s, %s", err, res.String()))
+		return
 	}
-	if res.Get("items").Exists() {
-		res = meraki.Res{Result: res.Get("items")}
-	}
-	if len(res.Array()) > 0 {
-		res.ForEach(func(k, v gjson.Result) bool {
-			if config.Id.ValueString() == v.Get("id").String() {
+
+	if len(res.Get("items").Array()) > 0 {
+		res.Get("items").ForEach(func(k, v gjson.Result) bool {
+			if config.Id.ValueString() == v.Get("hub.network.id").String() {
 				res = meraki.Res{Result: v}
 				return false
 			}
@@ -141,5 +143,3 @@ func (d *ApplianceVPNSiteToSiteHubVRFsDataSource) Read(ctx context.Context, req 
 	diags = resp.State.Set(ctx, &config)
 	resp.Diagnostics.Append(diags...)
 }
-
-// End of section. //template:end read
