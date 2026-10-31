@@ -208,7 +208,7 @@ func (r *WirelessLocationScanningResource) Read(ctx context.Context, req resourc
 
 	getPath := fmt.Sprintf("/organizations/%v/wireless/location/scanning/byNetwork", orgId)
 	res, err = r.client.Get(getPath)
-	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+	if err != nil && strings.Contains(err.Error(), "StatusCode 400") {
 		identity.toIdentity(ctx, &state)
 		diags = resp.Identity.Set(ctx, &identity)
 		resp.Diagnostics.Append(diags...)

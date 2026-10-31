@@ -136,7 +136,7 @@ func (r *WirelessAirMarshalSettingsResource) Create(ctx context.Context, req res
 		settingsPath := fmt.Sprintf("/organizations/%v/wireless/airMarshal/settings/byNetwork?networkIds[]=%v", orgId, plan.NetworkId.ValueString())
 		gres, err := r.client.Get(settingsPath)
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve rules (GET), got error: %s, %s", err, gres.String()))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve air marshal settings (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
 		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, meraki.Res{Result: gres.Get("items.0")}), resp.Private, &resp.Diagnostics)
@@ -199,14 +199,14 @@ func (r *WirelessAirMarshalSettingsResource) Read(ctx context.Context, req resou
 
 	settingsPath := fmt.Sprintf("/organizations/%v/wireless/airMarshal/settings/byNetwork?networkIds[]=%v", orgId, state.NetworkId.ValueString())
 	res, err = r.client.Get(settingsPath)
-	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+	if err != nil && strings.Contains(err.Error(), "StatusCode 400") {
 		identity.toIdentity(ctx, &state)
 		diags = resp.Identity.Set(ctx, &identity)
 		resp.Diagnostics.Append(diags...)
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve rules (GET), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve air marshal settings (GET), got error: %s, %s", err, res.String()))
 		return
 	}
 

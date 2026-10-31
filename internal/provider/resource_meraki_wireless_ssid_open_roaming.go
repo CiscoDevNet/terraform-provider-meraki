@@ -206,7 +206,7 @@ func (r *WirelessSSIDOpenRoamingResource) Read(ctx context.Context, req resource
 
 	getPath := fmt.Sprintf("/organizations/%v/wireless/ssids/openRoaming/byNetwork?includeDisabledSsidsboolean=true&networkIds[]=%v", orgId, state.NetworkId.ValueString())
 	res, err = r.client.Get(getPath)
-	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+	if err != nil && strings.Contains(err.Error(), "StatusCode 400") {
 		identity.toIdentity(ctx, &state)
 		diags = resp.Identity.Set(ctx, &identity)
 		resp.Diagnostics.Append(diags...)

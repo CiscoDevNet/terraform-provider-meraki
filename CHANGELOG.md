@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `meraki_appliance_firewall_multicast_forwarding`, `meraki_appliance_traffic_shaping_vpn_exclusions`, `meraki_network_wireless_radio_rrm`, `meraki_wireless_air_marshal_rule`, `meraki_wireless_air_marshal_settings`, `meraki_wireless_location_scanning`, `meraki_wireless_ssid_open_roaming` and `meraki_wireless_zigbee` resources being removed from state and re-created on every run when their organization-level read endpoint returns 404, for example for an API key without organization access. `terraform plan` now fails with the API error instead, so these resources need organization read access, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/300)
+
 ## 1.15.0
 
 - Add `meraki_appliance_umbrella_account` resource

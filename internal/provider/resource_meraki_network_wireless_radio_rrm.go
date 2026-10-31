@@ -224,7 +224,7 @@ func (r *NetworkWirelessRadioRRMResource) Read(ctx context.Context, req resource
 
 	settingsPath := fmt.Sprintf("/organizations/%v/wireless/radio/rrm/byNetwork?networkIds[]=%v", orgId, state.NetworkId.ValueString())
 	res, err = r.client.Get(settingsPath)
-	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+	if err != nil && strings.Contains(err.Error(), "StatusCode 400") {
 		identity.toIdentity(ctx, &state)
 		diags = resp.Identity.Set(ctx, &identity)
 		resp.Diagnostics.Append(diags...)

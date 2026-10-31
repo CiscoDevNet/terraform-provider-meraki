@@ -213,7 +213,7 @@ func (r *ApplianceFirewallMulticastForwardingResource) Read(ctx context.Context,
 
 	getPath := fmt.Sprintf("/organizations/%v/appliance/firewall/multicastForwarding/byNetwork", orgId)
 	res, err = r.client.Get(getPath)
-	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
+	if err != nil && strings.Contains(err.Error(), "StatusCode 400") {
 		identity.toIdentity(ctx, &state)
 		diags = resp.Identity.Set(ctx, &identity)
 		resp.Diagnostics.Append(diags...)

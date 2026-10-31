@@ -106,7 +106,7 @@ func (d *WirelessAirMarshalSettingsDataSource) Read(ctx context.Context, req dat
 	settingsPath := fmt.Sprintf("/organizations/%v/wireless/airMarshal/settings/byNetwork?networkIds[]=%v", orgId, config.NetworkId.ValueString())
 	res, err = d.client.Get(settingsPath)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve rules (GET), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve air marshal settings (GET), got error: %s, %s", err, res.String()))
 		return
 	}
 
