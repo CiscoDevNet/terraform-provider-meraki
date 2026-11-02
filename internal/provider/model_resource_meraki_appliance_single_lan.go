@@ -411,6 +411,7 @@ func (data *ApplianceSingleLAN) fromIdentity(ctx context.Context, identity *Appl
 
 func (data ApplianceSingleLAN) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "vrf.id", "0")
 	return body
 }
 
