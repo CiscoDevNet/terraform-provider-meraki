@@ -30,6 +30,7 @@ attributes:
     tf_name: vrfs
     type: List
     mandatory: true
+    destroy_value: '[]interface{}{}'
     description: The list of VRFs for this source and hub mapping.
     attributes:
       - model_name: id

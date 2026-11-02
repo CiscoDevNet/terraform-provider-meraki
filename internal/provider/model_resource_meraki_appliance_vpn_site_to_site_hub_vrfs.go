@@ -215,6 +215,7 @@ func (data *ApplianceVPNSiteToSiteHubVRFs) fromIdentity(ctx context.Context, ide
 
 func (data ApplianceVPNSiteToSiteHubVRFs) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "_json", []interface{}{})
 	return body
 }
 
