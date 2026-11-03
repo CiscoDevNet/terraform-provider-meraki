@@ -60,7 +60,9 @@ func (data DataSourceApplianceVPNSiteToSiteHubVRFs) getPath() string {
 }
 
 // End of section. //template:end getPath
-// Custom (not-generated) changes: use "vrfs" (organization-level GET schema) instead of "_json" (network-level PUT schema).
+
+// Section below is generated&owned by "gen/generator.go". //template:begin fromBody
+
 func (data *DataSourceApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Context, res meraki.Res) {
 	if value := res.Get("vrfs"); value.Exists() && value.Value() != nil {
 		data.Vrfs = make([]DataSourceApplianceVPNSiteToSiteHubVRFsVrfs, 0)
@@ -77,3 +79,5 @@ func (data *DataSourceApplianceVPNSiteToSiteHubVRFs) fromBody(ctx context.Contex
 		})
 	}
 }
+
+// End of section. //template:end fromBody
