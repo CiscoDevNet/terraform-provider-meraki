@@ -66,13 +66,13 @@ func (data ApplianceVPNSiteToSiteHubVRFs) getPath() string {
 func (data ApplianceVPNSiteToSiteHubVRFs) toBody(ctx context.Context, state ApplianceVPNSiteToSiteHubVRFs) string {
 	body := ""
 	{
-		body, _ = sjson.Set(body, "_json", []interface{}{})
+		body, _ = sjson.Set(body, "vrfs", []interface{}{})
 		for _, item := range data.Vrfs {
 			itemBody := ""
 			if !item.Id.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "id", item.Id.ValueString())
 			}
-			body, _ = sjson.SetRaw(body, "_json.-1", itemBody)
+			body, _ = sjson.SetRaw(body, "vrfs.-1", itemBody)
 		}
 	}
 	return body
@@ -215,7 +215,7 @@ func (data *ApplianceVPNSiteToSiteHubVRFs) fromIdentity(ctx context.Context, ide
 
 func (data ApplianceVPNSiteToSiteHubVRFs) toDestroyBody(ctx context.Context) string {
 	body := ""
-	body, _ = sjson.Set(body, "_json", []interface{}{})
+	body, _ = sjson.Set(body, "vrfs", []interface{}{})
 	return body
 }
 

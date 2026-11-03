@@ -12,6 +12,7 @@ no_read: false
 early_access: true
 doc_category: Appliances
 test_variables: [test_org, test_network, test_appliance_1_serial, test_appliance_2_serial]
+ignore_attributes: [_json]
 attributes:
   - tf_name: network_id
     type: String
@@ -26,12 +27,11 @@ attributes:
     description: Hub network ID
     example: L_234567
     test_value: meraki_network.test.id
-  - model_name: _json
-    tf_name: vrfs
+  - model_name: vrfs
     type: List
     mandatory: true
-    destroy_value: '[]interface{}{}'
     description: The list of VRFs for this source and hub mapping.
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: id
         type: String
