@@ -32,7 +32,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
-	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -206,18 +205,6 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req re
 	} else if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
 		return
-	}
-	if res.Get("items").Exists() {
-		res = meraki.Res{Result: res.Get("items")}
-	}
-	if len(res.Array()) > 0 {
-		res.ForEach(func(k, v gjson.Result) bool {
-			if state.Id.ValueString() == v.Get("id").String() {
-				res = meraki.Res{Result: v}
-				return false
-			}
-			return true
-		})
 	}
 
 	imp, diags := helpers.IsFlagImporting(ctx, req)
