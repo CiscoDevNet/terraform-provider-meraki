@@ -1,3 +1,7 @@
+# Customize Create() (restoreOriginalStateOnDestroy), resource and datasource Read():
+# use appliance_site_to_site_vpn's GET endpoint,
+# as /organizations/{organizationId}/appliance/vpn/siteToSite/hubs/vrfs
+# returns N_* IDs for networks with L_* IDs (combined network) and the IDs cannot be matched.
 name: Appliance VPN Site to Site Hub VRFs
 spec_endpoint: /networks/{networkId}/appliance/vpn/siteToSite/hubs/{hubNetworkId}/vrfs
 rest_endpoint: /networks/%v/appliance/vpn/siteToSite/hubs/%v/vrfs

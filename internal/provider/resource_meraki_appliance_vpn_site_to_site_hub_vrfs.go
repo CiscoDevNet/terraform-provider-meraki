@@ -32,6 +32,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -126,8 +127,9 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Configure(_ context.Context, req
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
+// Create configures the resource.
+// Custom (not-generated) changes: if restoreOriginalStateOnDestroy is enabled,
+// fetch the original state using ApplianceSiteToSiteVPN's GET endpoint.
 func (r *ApplianceVPNSiteToSiteHubVRFsResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan ApplianceVPNSiteToSiteHubVRFs
 	var identity ApplianceVPNSiteToSiteHubVRFsIdentity
@@ -142,12 +144,30 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Create(ctx context.Context, req 
 	// If the resource is a singleton, we need to read and save the initial state
 	if r.restoreOriginalStateOnDestroy {
 		var initialState ApplianceVPNSiteToSiteHubVRFs
-		gres, err := r.client.Get(plan.getPath())
+		vpnPlan := ApplianceSiteToSiteVPN{
+			NetworkId: plan.NetworkId,
+		}
+		gres, err := r.client.Get(vpnPlan.getPath())
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, gres.String()))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve appliance site-to-site VPN (GET), got error: %s, %s", err, gres.String()))
 			return
 		}
-		helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
+		found := false
+		if value := gres.Get("hubs"); value.Exists() && value.Value() != nil {
+			value.ForEach(func(k, v gjson.Result) bool {
+				if plan.HubNetworkId.ValueString() == v.Get("hubId").String() {
+					gres = meraki.Res{Result: v}
+					found = true
+					return false
+				}
+				return true
+			})
+		}
+		if found {
+			helpers.SetJsonInitialState(ctx, initialState.toBodyPreservingNulls(ctx, gres), resp.Private, &resp.Diagnostics)
+		} else {
+			helpers.SetJsonInitialState(ctx, initialState.toDestroyBody(ctx), resp.Private, &resp.Diagnostics)
+		}
 	}
 
 	// Create object
@@ -171,10 +191,11 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Create(ctx context.Context, req 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// End of section. //template:end create
-
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
+// Read fetches the resource's current configuration.
+// Custom (not-generated) changes: use ApplianceSiteToSiteVPN endpoint instead,
+// as that uses the proper L_* IDs for combined networks
+// instead of the N_* IDs used by the organization-level hubs VRFs endpoint
+// that cannot be inferred from the L_* network IDs.
 func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state ApplianceVPNSiteToSiteHubVRFs
 	var identity ApplianceVPNSiteToSiteHubVRFsIdentity
@@ -195,7 +216,10 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req re
 	}
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", state.Id.String()))
-	res, err := r.client.Get(state.getPath())
+	vpnState := ApplianceSiteToSiteVPN{
+		NetworkId: state.NetworkId,
+	}
+	res, err := r.client.Get(vpnState.getPath())
 	if err != nil && (strings.Contains(err.Error(), "StatusCode 404") || strings.Contains(err.Error(), "StatusCode 400")) {
 		identity.toIdentity(ctx, &state)
 		diags = resp.Identity.Set(ctx, &identity)
@@ -203,7 +227,27 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req re
 		resp.State.RemoveResource(ctx)
 		return
 	} else if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object (GET), got error: %s, %s", err, res.String()))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve appliance site-to-site VPN (GET), got error: %s, %s", err, res.String()))
+		return
+	}
+
+	found := false
+	if value := res.Get("hubs"); value.Exists() && value.Value() != nil {
+		value.ForEach(func(k, v gjson.Result) bool {
+			if state.HubNetworkId.ValueString() == v.Get("hubId").String() {
+				res = meraki.Res{Result: v}
+				found = true
+				return false
+			}
+			return true
+		})
+	}
+	if !found {
+		tflog.Debug(ctx, fmt.Sprintf("Failed to find hub %s in appliance site-to-site VPN GET response; treating the resource as removed", state.HubNetworkId.String()))
+		identity.toIdentity(ctx, &state)
+		diags = resp.Identity.Set(ctx, &identity)
+		resp.Diagnostics.Append(diags...)
+		resp.State.RemoveResource(ctx)
 		return
 	}
 
@@ -229,8 +273,6 @@ func (r *ApplianceVPNSiteToSiteHubVRFsResource) Read(ctx context.Context, req re
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end read
 
 // Section below is generated&owned by "gen/generator.go". //template:begin update
 

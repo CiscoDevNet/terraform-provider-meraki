@@ -27,6 +27,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
 )
 
 // End of section. //template:end imports
@@ -95,8 +96,11 @@ func (d *ApplianceVPNSiteToSiteHubVRFsDataSource) Configure(_ context.Context, r
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin read
-
+// Read fetches the resource's current configuration.
+// Custom (not-generated) changes: use ApplianceSiteToSiteVPN endpoint instead,
+// as that uses the proper L_* IDs for combined networks
+// instead of the N_* IDs used by the organization-level hubs VRFs endpoint
+// that cannot be inferred from the L_* network IDs.
 func (d *ApplianceVPNSiteToSiteHubVRFsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var config DataSourceApplianceVPNSiteToSiteHubVRFs
 
@@ -109,15 +113,29 @@ func (d *ApplianceVPNSiteToSiteHubVRFsDataSource) Read(ctx context.Context, req 
 
 	tflog.Debug(ctx, fmt.Sprintf("%s: Beginning Read", config.Id.String()))
 
-	var res meraki.Res
-	var err error
+	vpnConfig := ApplianceSiteToSiteVPN{
+		NetworkId: config.NetworkId,
+	}
+	res, err := d.client.Get(vpnConfig.getPath())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve appliance site-to-site VPN (GET), got error: %s, %s", err, res.String()))
+		return
+	}
 
-	if !res.Exists() {
-		res, err = d.client.Get(config.getPath())
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to retrieve object, got error: %s", err))
-			return
-		}
+	found := false
+	if value := res.Get("hubs"); value.Exists() && value.Value() != nil {
+		value.ForEach(func(k, v gjson.Result) bool {
+			if config.HubNetworkId.ValueString() == v.Get("hubId").String() {
+				res = meraki.Res{Result: v}
+				found = true
+				return false
+			}
+			return true
+		})
+	}
+	if !found {
+		resp.Diagnostics.AddError("Data Error", fmt.Sprintf("Failed to find hub %s in appliance site-to-site VPN GET response", config.HubNetworkId.String()))
+		return
 	}
 
 	config.fromBody(ctx, res)
@@ -128,5 +146,3 @@ func (d *ApplianceVPNSiteToSiteHubVRFsDataSource) Read(ctx context.Context, req 
 	diags = resp.State.Set(ctx, &config)
 	resp.Diagnostics.Append(diags...)
 }
-
-// End of section. //template:end read
