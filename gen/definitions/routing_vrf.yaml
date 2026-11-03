@@ -7,7 +7,7 @@ id_name: vrfId
 early_access: true
 data_source_name_query: true
 doc_category: Organizations
-test_variables: [test_org, test_vrf_network, test_appliance_1_serial]
+test_variables: [test_org, test_network, test_appliance_1_serial]
 attributes:
   - tf_name: organization_id
     type: String
@@ -50,12 +50,13 @@ test_prerequisites: |
     organization_id = data.meraki_organization.test.id
     short_name      = "has_mx_vrf_26_1_early_access"
   }
-  data "meraki_network" "test" {
+  resource "meraki_network" "test" {
     organization_id = data.meraki_organization.test.id
-    name            = var.test_vrf_network
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
   }
   resource "meraki_network_device_claim" "test" {
-    network_id = data.meraki_network.test.id
+    network_id = meraki_network.test.id
     serials    = [var.test_appliance_1_serial]
   }
   resource "meraki_appliance_routing_vrfs_settings" "test" {

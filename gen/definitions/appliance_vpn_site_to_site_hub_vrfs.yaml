@@ -12,7 +12,7 @@ no_import: false
 no_read: false
 early_access: true
 doc_category: Appliances
-test_variables: [test_org, test_network, test_vrf_network, test_appliance_1_serial, test_appliance_2_serial]
+test_variables: [test_org, test_network, test_appliance_1_serial, test_appliance_2_serial]
 ignore_attributes: [_json]
 attributes:
   - tf_name: network_id
@@ -57,12 +57,13 @@ test_prerequisites: |
     network_id = meraki_network.test.id
     serials    = [var.test_appliance_1_serial]
   }
-  data "meraki_network" "test_spoke" {
+  resource "meraki_network" "test_spoke" {
     organization_id = data.meraki_organization.test.id
-    name            = var.test_vrf_network
+    name            = "spoke test network"
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
   }
   resource "meraki_network_device_claim" "test_spoke" {
-    network_id = data.meraki_network.test_spoke.id
+    network_id = meraki_network.test.id
     serials    = [var.test_appliance_2_serial]
   }
   resource "meraki_appliance_routing_vrfs_settings" "test" {
@@ -102,11 +103,11 @@ test_prerequisites: |
     ]
   }
   resource "meraki_appliance_vlans_settings" "test_spoke" {
-    network_id = data.meraki_network.test_spoke.id
+    network_id = meraki_network.test_spoke.id
     vlans_enabled = true
   }
   resource "meraki_appliance_vlan" "test_spoke" {
-    network_id   = data.meraki_network.test_spoke.id
+    network_id   = meraki_network.test_spoke.id
     name         = "test vlan 20"
     vlan_id      = 20
     appliance_ip = "192.168.129.1"
@@ -118,7 +119,7 @@ test_prerequisites: |
     ]
   }
   resource "meraki_appliance_site_to_site_vpn" "test_spoke" {
-    network_id = data.meraki_network.test_spoke.id
+    network_id = meraki_network.test_spoke.id
     mode       = "spoke"
     hubs       = [
       {
