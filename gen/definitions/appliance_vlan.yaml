@@ -54,6 +54,7 @@ attributes:
   - model_name: groupPolicyId
     type: String
     exclude_test: true
+    write_null: true
     description: The id of the desired group policy to apply to the VLAN
     example: "101"
   - model_name: id
