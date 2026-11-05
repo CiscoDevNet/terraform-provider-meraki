@@ -192,7 +192,7 @@ resource "meraki_appliance_vlan" "test" {
 
 const testAccApplianceVLANConfigAdditional1 = `
 resource "meraki_appliance_vlan" "test" {
-  network_id   =meraki_appliance_vlans_settings.test.network_id
+  network_id   = meraki_appliance_vlans_settings.test.network_id
   appliance_ip = "192.168.1.2"
   vlan_id      = "1234"
   name         = "My VLAN"
