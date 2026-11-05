@@ -27,6 +27,13 @@ attributes:
     description: Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`
     example: high frequency
     enum_values: [Bluetooth, high frequency]
+  - model_name: hostname
+    type: String
+    data_path: [sepioo]
+    data_source_only: true
+    exclude_test: true
+    description: Desired sepioo hostname of the network
+    example: example.com
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

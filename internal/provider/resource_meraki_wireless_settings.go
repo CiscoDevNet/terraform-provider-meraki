@@ -102,6 +102,10 @@ func (r *WirelessSettingsResource) Schema(ctx context.Context, req resource.Sche
 					stringvalidator.OneOf("minimizeClientDowntime", "minimizeUpgradeTime"),
 				},
 			},
+			"upgrade_predownload_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The default setting for upgrade firmware predownload. Only applies to devices running MR 32 or higher.").String,
+				Optional:            true,
+			},
 			"multicast_to_unicast_conversion_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Toggle for enabling or disabling multicast-to-unicast conversion across the network").String,
 				Optional:            true,

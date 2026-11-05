@@ -133,6 +133,7 @@ func testAccMerakiWirelessSSIDsConfig_all() string {
 	config += `  psk = "deadbeef"` + "\n"
 	config += `  splash_page = "Click-through splash page"` + "\n"
 	config += `  use_vlan_tagging = false` + "\n"
+	config += `  ssid_admin_accessible = false` + "\n"
 	config += `  visible = false` + "\n"
 	config += `  walled_garden_enabled = false` + "\n"
 	config += `  wpa_encryption_mode = "WPA2 only"` + "\n"

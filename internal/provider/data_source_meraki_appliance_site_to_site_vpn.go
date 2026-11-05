@@ -89,6 +89,26 @@ func (d *ApplianceSiteToSiteVPNDataSource) Schema(ctx context.Context, req datas
 					},
 				},
 			},
+			"host_translations": schema.ListNestedAttribute{
+				MarkdownDescription: "The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2",
+				Computed:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							MarkdownDescription: "The name of the translated host.",
+							Computed:            true,
+						},
+						"local_address": schema.StringAttribute{
+							MarkdownDescription: "The local IP address of the translated host.",
+							Computed:            true,
+						},
+						"remote_address": schema.StringAttribute{
+							MarkdownDescription: "The remote IP address of the translated host.",
+							Computed:            true,
+						},
+					},
+				},
+			},
 			"subnets": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of subnets and their VPN presence.",
 				Computed:            true,

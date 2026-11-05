@@ -35,9 +35,9 @@ attributes:
     destroy_value: "false"
   - model_name: authMode
     type: String
-    description: The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)
+    description: The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-enhanced-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius`, `ipsk-with-nac` or `ipsk-with-radius-easy-psk`)
     example: psk
-    enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, open, open-enhanced, open-with-nac, open-with-radius, psk]
+    enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, ipsk-with-radius-easy-psk, open, open-enhanced, open-enhanced-with-radius, open-with-nac, open-with-radius, psk]
     destroy_value: '"open"'
   - model_name: availableOnAllAps
     type: Bool
@@ -81,9 +81,9 @@ attributes:
     enum_values: [access disabled, access enabled]
   - model_name: ipAssignmentMode
     type: String
-    description: The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)
+    description: The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator`, `VPN` or `Campus Gateway`)
     example: Bridge mode
-    enum_values: [Bridge mode, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, VPN]
+    enum_values: [Bridge mode, Campus Gateway, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, VPN]
     destroy_value: '"NAT mode"'
   - model_name: lanIsolationEnabled
     type: Bool
@@ -233,6 +233,10 @@ attributes:
     description: Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
     example: "false"
     destroy_value: "false"
+  - model_name: ssidAdminAccessible
+    type: Bool
+    description: SSID Administrator access status
+    example: "false"
   - model_name: visible
     type: Bool
     description: Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true

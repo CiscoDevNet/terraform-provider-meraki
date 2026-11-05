@@ -44,6 +44,8 @@ type DataSourceNetworkClientSplashAuthorizationStatus struct {
 	NetworkId           types.String `tfsdk:"network_id"`
 	ClientId            types.String `tfsdk:"client_id"`
 	Ssids0IsAuthorized  types.Bool   `tfsdk:"ssids_0_is_authorized"`
+	Ssids0AuthorizedAt  types.String `tfsdk:"ssids_0_authorized_at"`
+	Ssids0ExpiresAt     types.String `tfsdk:"ssids_0_expires_at"`
 	Ssids1IsAuthorized  types.Bool   `tfsdk:"ssids_1_is_authorized"`
 	Ssids10IsAuthorized types.Bool   `tfsdk:"ssids_10_is_authorized"`
 	Ssids11IsAuthorized types.Bool   `tfsdk:"ssids_11_is_authorized"`
@@ -77,6 +79,16 @@ func (data *DataSourceNetworkClientSplashAuthorizationStatus) fromBody(ctx conte
 		data.Ssids0IsAuthorized = types.BoolValue(value.Bool())
 	} else {
 		data.Ssids0IsAuthorized = types.BoolNull()
+	}
+	if value := res.Get("ssids.0.authorizedAt"); value.Exists() && value.Value() != nil {
+		data.Ssids0AuthorizedAt = types.StringValue(value.String())
+	} else {
+		data.Ssids0AuthorizedAt = types.StringNull()
+	}
+	if value := res.Get("ssids.0.expiresAt"); value.Exists() && value.Value() != nil {
+		data.Ssids0ExpiresAt = types.StringValue(value.String())
+	} else {
+		data.Ssids0ExpiresAt = types.StringNull()
 	}
 	if value := res.Get("ssids.1.isAuthorized"); value.Exists() && value.Value() != nil {
 		data.Ssids1IsAuthorized = types.BoolValue(value.Bool())

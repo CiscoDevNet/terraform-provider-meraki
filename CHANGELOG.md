@@ -1,3 +1,27 @@
+## Unreleased
+
+- Update to Meraki Dashboard API version 1.69.0
+- Add `meraki_organization_policies_global_firewall_ruleset` resource and data source, and `meraki_organization_policies_global_firewall_rulesets` data source
+- Add `meraki_organization_policies_global_firewall_rule` resource and data source, and `meraki_organization_policies_global_firewall_rules` data source
+- Add `meraki_organization_policies_global_group_policy` resource and data source, and `meraki_organization_policies_global_group_policies` data source
+- Add `meraki_organization_policies_global_group_policy_firewall_ruleset_assignment` resource and data source, and `meraki_organization_policies_global_group_policy_firewall_ruleset_assignments` data source
+- Add `meraki_organization_policies_global_group_policy_adaptive_policy_group_assignment` resource and data source
+- Add `meraki_organization_policies_global_group_policy_appliance_vlan_assignment` resource and data source
+- Add `meraki_appliance_uplinks_nat` resource
+- Add `meraki_organization_sase_site_attachment` resource and data source
+- Add `host_translations` attribute to `meraki_appliance_site_to_site_vpn` resource and data source
+- Add `uplinks` attribute to `meraki_appliance_vlan` and `meraki_appliance_vlans` resources
+- Add `interface_id` attribute to `meraki_appliance_vlan` and `meraki_appliance_vlans` data sources
+- Add `router_id`, `neighbors.community_out` and `neighbors.filter_in` attributes to `meraki_appliance_vpn_bgp` resource and data source
+- Add `upgrade_predownload_enabled` attribute to `meraki_wireless_settings` resource and data source
+- Add `ssid_admin_accessible` attribute to `meraki_wireless_ssid` and `meraki_wireless_ssids` resources and `meraki_wireless_ssid` data source
+- Add `open-enhanced-with-radius` and `ipsk-with-radius-easy-psk` as valid values for `auth_mode` in `meraki_wireless_ssid` and `meraki_wireless_ssids` resources
+- Add `Campus Gateway` as a valid value for `ip_assignment_mode` in `meraki_wireless_ssid` and `meraki_wireless_ssids` resources
+- Add `wan4` as a valid value for `alert_condition_interface` in `meraki_organization_alerts_profile` resource
+- Add `ssids_0_authorized_at` and `ssids_0_expires_at` attributes to `meraki_network_client_splash_authorization_status` data source
+- Add `sepioo_hostname` attribute to `meraki_wireless_network_electronic_shelf_label` data source
+- Add `concentrator_name` attribute to `meraki_wireless_ssid_vpn` data source
+
 ## 1.15.0
 
 - Add `meraki_appliance_umbrella_account` resource

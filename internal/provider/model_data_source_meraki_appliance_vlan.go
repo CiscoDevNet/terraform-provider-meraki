@@ -54,11 +54,13 @@ type DataSourceApplianceVLAN struct {
 	DnsNameservers         types.String                                         `tfsdk:"dns_nameservers"`
 	GroupPolicyId          types.String                                         `tfsdk:"group_policy_id"`
 	VlanId                 types.String                                         `tfsdk:"vlan_id"`
+	InterfaceId            types.String                                         `tfsdk:"interface_id"`
 	Mask                   types.Int64                                          `tfsdk:"mask"`
 	Name                   types.String                                         `tfsdk:"name"`
 	Subnet                 types.String                                         `tfsdk:"subnet"`
 	TemplateVlanType       types.String                                         `tfsdk:"template_vlan_type"`
 	VpnNatSubnet           types.String                                         `tfsdk:"vpn_nat_subnet"`
+	Uplinks                []DataSourceApplianceVLANUplinks                     `tfsdk:"uplinks"`
 	FixedIpAssignments     map[string]DataSourceApplianceVLANFixedIpAssignments `tfsdk:"fixed_ip_assignments"`
 	Ipv6Enabled            types.Bool                                           `tfsdk:"ipv6_enabled"`
 	Ipv6PrefixAssignments  []DataSourceApplianceVLANIpv6PrefixAssignments       `tfsdk:"ipv6_prefix_assignments"`
@@ -66,6 +68,11 @@ type DataSourceApplianceVLAN struct {
 	DhcpOptions            []DataSourceApplianceVLANDhcpOptions                 `tfsdk:"dhcp_options"`
 	DhcpRelayServerIps     types.List                                           `tfsdk:"dhcp_relay_server_ips"`
 	ReservedIpRanges       []DataSourceApplianceVLANReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
+}
+
+type DataSourceApplianceVLANUplinks struct {
+	Interface  types.String `tfsdk:"interface"`
+	NatEnabled types.Bool   `tfsdk:"nat_enabled"`
 }
 
 type DataSourceApplianceVLANFixedIpAssignments struct {
@@ -156,6 +163,11 @@ func (data *DataSourceApplianceVLAN) fromBody(ctx context.Context, res meraki.Re
 		data.VlanId = types.StringValue(value.String())
 	} else {
 		data.VlanId = types.StringNull()
+	}
+	if value := res.Get("interfaceId"); value.Exists() && value.Value() != nil {
+		data.InterfaceId = types.StringValue(value.String())
+	} else {
+		data.InterfaceId = types.StringNull()
 	}
 	if value := res.Get("mask"); value.Exists() && value.Value() != nil {
 		data.Mask = types.Int64Value(value.Int())

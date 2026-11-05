@@ -101,10 +101,10 @@ func (r *OrganizationAlertsProfileResource) Schema(ctx context.Context, req reso
 				Optional:            true,
 			},
 			"alert_condition_interface": schema.StringAttribute{
-				MarkdownDescription: helpers.NewAttributeDescription("The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, cellular").AddStringEnumDescription("cellular", "wan1", "wan2", "wan3").String,
+				MarkdownDescription: helpers.NewAttributeDescription("The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, wan4, cellular").AddStringEnumDescription("cellular", "wan1", "wan2", "wan3", "wan4").String,
 				Optional:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("cellular", "wan1", "wan2", "wan3"),
+					stringvalidator.OneOf("cellular", "wan1", "wan2", "wan3", "wan4"),
 				},
 			},
 			"alert_condition_jitter_ms": schema.Int64Attribute{

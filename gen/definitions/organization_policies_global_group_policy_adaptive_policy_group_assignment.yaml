@@ -1,0 +1,54 @@
+# Customize Create() and Delete(): the API creates and removes assignments with POSTs to the
+# sibling `assign` and `remove` endpoints, which only return {"success": true}. Create looks the
+# new assignment up in the assignments list to get its ID; Read and import stay generated.
+name: Organization Policies Global Group Policy Adaptive Policy Group Assignment
+spec_endpoint: /organizations/{organizationId}/policies/global/group/policies/adaptivePolicyGroups/assign
+rest_endpoint: /organizations/%v/policies/global/group/policies/adaptivePolicyGroups/assignments
+no_data_source: false
+put_create: false
+get_from_all: true
+no_update: true
+no_delete: false
+no_import: false
+no_read: false
+id_name: assignmentId
+data_source_name_query: false
+doc_category: Organizations
+test_tags: [ORGANIZATION_POLICIES_GLOBAL]
+test_variables: [test_org]
+ignore_attributes: [policy.id, adaptivePolicyGroups, items, meta.counts.items.remaining, meta.counts.items.total]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: false
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: policyId
+    type: String
+    requires_replace: true
+    mandatory: true
+    description: ID of the organization-wide policy
+    example: "123"
+    test_value: meraki_organization_policies_global_group_policy.test.id
+  - model_name: adaptivePolicyGroupId
+    type: String
+    requires_replace: true
+    mandatory: true
+    description: ID of the adaptive policy group assigned to the policy
+    example: "1234"
+    test_value: meraki_organization_adaptive_policy_group.test.id
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_organization_policies_global_group_policy" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Terraform Test Policy"
+  }
+  resource "meraki_organization_adaptive_policy_group" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Terraform Test Group"
+    sgt             = 1000
+  }

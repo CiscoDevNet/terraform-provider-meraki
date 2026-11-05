@@ -1,0 +1,60 @@
+# Customize Create(), Read() and Delete(): attaching is an asynchronous POST to .../sase/sites/attach
+# that returns a pipeline job, not the site, and detaching is a DELETE with a body. The resource is
+# identified by its network; Read finds the site in the sites list by network ID.
+name: Organization SASE Site Attachment
+spec_endpoint: /organizations/{organizationId}/sase/sites/attach
+rest_endpoint: /organizations/%v/sase/sites
+no_data_source: false
+put_create: false
+get_from_all: true
+no_update: true
+no_delete: false
+no_import: true
+no_read: false
+id_name: siteId
+data_source_name_query: false
+res_description: This resource allows attaching a network to Cisco Secure Access as a SASE site. Attaching and detaching are asynchronous, so the site can take some time to appear after creation. The resource cannot be imported.
+doc_category: Organizations
+test_tags: [ORGANIZATION_SASE]
+test_variables: [test_org, test_network]
+ignore_attributes: [items, callback.url, callback.sharedSecret, callback.httpServer.id, callback.payloadTemplate.id, meta.counts.items.remaining, meta.counts.items.total]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: false
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: id
+    tf_name: network_id
+    type: String
+    data_path: [network]
+    requires_replace: true
+    mandatory: true
+    description: ID of the network to attach
+    example: N_1234567890
+    test_value: meraki_network.test.id
+  - model_name: slug
+    tf_name: region_slug
+    type: String
+    data_path: [region]
+    requires_replace: true
+    mandatory: true
+    description: Slug of the Secure Access region to attach the site to
+    example: us-west-1
+  - model_name: siteId
+    type: String
+    exclude_test: true
+    description: ID of the SASE site, once the attachment has completed
+    example: "1234"
+    computed: true
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["appliance"]
+  }

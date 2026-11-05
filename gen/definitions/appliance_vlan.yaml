@@ -63,6 +63,12 @@ attributes:
     mandatory: true
     description: The VLAN ID of the new VLAN (must be between 1 and 4094)
     example: "1234"
+  - model_name: interfaceId
+    type: String
+    data_source_only: true
+    exclude_test: true
+    description: The interface ID of the VLAN, assigned by the API
+    example: "828099381483422508"
   - model_name: mask
     type: Int64
     exclude_test: true
@@ -89,6 +95,23 @@ attributes:
     exclude_test: true
     description: The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
     example: 192.168.1.0/24
+  - model_name: uplinks
+    type: List
+    write_only: true
+    exclude_test: true
+    description: Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions.
+    attributes:
+      - model_name: interface
+        type: String
+        mandatory: true
+        description: Interface name of the uplink
+        example: wan1
+      - model_name: enabled
+        type: Bool
+        data_path: [nat]
+        mandatory: true
+        description: Whether NAT is enabled on the uplink
+        example: "false"
   - model_name: fixedIpAssignments
     type: Map
     exclude_test: true

@@ -47,6 +47,7 @@ type DataSourceApplianceVPNBGP struct {
 	AsNumber      types.Int64                          `tfsdk:"as_number"`
 	Enabled       types.Bool                           `tfsdk:"enabled"`
 	IbgpHoldTimer types.Int64                          `tfsdk:"ibgp_hold_timer"`
+	RouterId      types.String                         `tfsdk:"router_id"`
 	Neighbors     []DataSourceApplianceVPNBGPNeighbors `tfsdk:"neighbors"`
 }
 
@@ -67,6 +68,8 @@ type DataSourceApplianceVPNBGPNeighbors struct {
 	Ipv6Address                     types.String `tfsdk:"ipv6_address"`
 	TtlSecurityEnabled              types.Bool   `tfsdk:"ttl_security_enabled"`
 	PathPrepend                     types.List   `tfsdk:"path_prepend"`
+	CommunityOut                    types.List   `tfsdk:"community_out"`
+	FilterIn                        types.List   `tfsdk:"filter_in"`
 }
 
 // End of section. //template:end types
@@ -96,6 +99,11 @@ func (data *DataSourceApplianceVPNBGP) fromBody(ctx context.Context, res meraki.
 		data.IbgpHoldTimer = types.Int64Value(value.Int())
 	} else {
 		data.IbgpHoldTimer = types.Int64Null()
+	}
+	if value := res.Get("routerId"); value.Exists() && value.Value() != nil {
+		data.RouterId = types.StringValue(value.String())
+	} else {
+		data.RouterId = types.StringNull()
 	}
 	if value := res.Get("neighbors"); value.Exists() && value.Value() != nil {
 		data.Neighbors = make([]DataSourceApplianceVPNBGPNeighbors, 0)
@@ -171,6 +179,16 @@ func (data *DataSourceApplianceVPNBGP) fromBody(ctx context.Context, res meraki.
 				data.PathPrepend = helpers.GetInt64List(value.Array())
 			} else {
 				data.PathPrepend = types.ListNull(types.Int64Type)
+			}
+			if value := res.Get("communityOut"); value.Exists() && value.Value() != nil {
+				data.CommunityOut = helpers.GetStringList(value.Array())
+			} else {
+				data.CommunityOut = types.ListNull(types.StringType)
+			}
+			if value := res.Get("filterIn"); value.Exists() && value.Value() != nil {
+				data.FilterIn = helpers.GetStringList(value.Array())
+			} else {
+				data.FilterIn = types.ListNull(types.StringType)
 			}
 			(*parent).Neighbors = append((*parent).Neighbors, data)
 			return true
