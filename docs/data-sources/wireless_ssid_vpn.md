@@ -29,6 +29,7 @@ data "meraki_wireless_ssid_vpn" "example" {
 
 ### Read-Only
 
+- `concentrator_name` (String) The name of the concentrator.
 - `concentrator_network_id` (String) The NAT ID of the concentrator that should be set.
 - `concentrator_vlan_id` (Number) The VLAN that should be tagged for the concentrator.
 - `failover_heartbeat_interval` (Number) Idle timer interval in seconds.

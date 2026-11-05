@@ -84,7 +84,7 @@ func (d *OrganizationAlertsProfileDataSource) Schema(ctx context.Context, req da
 				Computed:            true,
 			},
 			"alert_condition_interface": schema.StringAttribute{
-				MarkdownDescription: "The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, cellular",
+				MarkdownDescription: "The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, wan4, cellular",
 				Computed:            true,
 			},
 			"alert_condition_jitter_ms": schema.Int64Attribute{

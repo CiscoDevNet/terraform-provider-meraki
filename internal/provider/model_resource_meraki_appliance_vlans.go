@@ -61,6 +61,7 @@ type ResourceApplianceVLANsItems struct {
 	Subnet                 types.String                                        `tfsdk:"subnet"`
 	TemplateVlanType       types.String                                        `tfsdk:"template_vlan_type"`
 	VpnNatSubnet           types.String                                        `tfsdk:"vpn_nat_subnet"`
+	Uplinks                []ResourceApplianceVLANsUplinks                     `tfsdk:"uplinks"`
 	FixedIpAssignments     map[string]ResourceApplianceVLANsFixedIpAssignments `tfsdk:"fixed_ip_assignments"`
 	Ipv6Enabled            types.Bool                                          `tfsdk:"ipv6_enabled"`
 	Ipv6PrefixAssignments  []ResourceApplianceVLANsIpv6PrefixAssignments       `tfsdk:"ipv6_prefix_assignments"`
@@ -68,6 +69,11 @@ type ResourceApplianceVLANsItems struct {
 	DhcpOptions            []ResourceApplianceVLANsDhcpOptions                 `tfsdk:"dhcp_options"`
 	DhcpRelayServerIps     types.List                                          `tfsdk:"dhcp_relay_server_ips"`
 	ReservedIpRanges       []ResourceApplianceVLANsReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
+}
+
+type ResourceApplianceVLANsUplinks struct {
+	Interface  types.String `tfsdk:"interface"`
+	NatEnabled types.Bool   `tfsdk:"nat_enabled"`
 }
 
 type ResourceApplianceVLANsFixedIpAssignments struct {
@@ -160,6 +166,19 @@ func (data ResourceApplianceVLANsItems) toBody(ctx context.Context, state Resour
 	}
 	if !data.VpnNatSubnet.IsNull() {
 		body, _ = sjson.Set(body, "vpnNatSubnet", data.VpnNatSubnet.ValueString())
+	}
+	if len(data.Uplinks) > 0 {
+		body, _ = sjson.Set(body, "uplinks", []interface{}{})
+		for _, item := range data.Uplinks {
+			itemBody := ""
+			if !item.Interface.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "interface", item.Interface.ValueString())
+			}
+			if !item.NatEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "nat.enabled", item.NatEnabled.ValueBool())
+			}
+			body, _ = sjson.SetRaw(body, "uplinks.-1", itemBody)
+		}
 	}
 	if len(data.FixedIpAssignments) > 0 {
 		body, _ = sjson.Set(body, "fixedIpAssignments", map[string]interface{}{})
@@ -1104,6 +1123,18 @@ func (data *ResourceApplianceVLANs) hasChanges(ctx context.Context, state *Resou
 	}
 	if !item.VpnNatSubnet.Equal(stateItem.VpnNatSubnet) {
 		hasChanges = true
+	}
+	if len(item.Uplinks) != len(stateItem.Uplinks) {
+		hasChanges = true
+	} else {
+		for i := range item.Uplinks {
+			if !item.Uplinks[i].Interface.Equal(stateItem.Uplinks[i].Interface) {
+				hasChanges = true
+			}
+			if !item.Uplinks[i].NatEnabled.Equal(stateItem.Uplinks[i].NatEnabled) {
+				hasChanges = true
+			}
+		}
 	}
 	if !maps.Equal(item.FixedIpAssignments, stateItem.FixedIpAssignments) {
 		hasChanges = true

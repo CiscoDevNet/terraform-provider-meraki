@@ -32,6 +32,13 @@ attributes:
     data_path: [concentrator]
     description: The VLAN that should be tagged for the concentrator.
     example: "44"
+  - model_name: name
+    type: String
+    data_path: [concentrator]
+    data_source_only: true
+    exclude_test: true
+    description: The name of the concentrator.
+    example: some concentrator name
   - model_name: heartbeatInterval
     type: Int64
     data_path: [failover]

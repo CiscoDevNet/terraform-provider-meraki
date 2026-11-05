@@ -73,6 +73,14 @@ func (d *NetworkClientSplashAuthorizationStatusDataSource) Schema(ctx context.Co
 				MarkdownDescription: "New authorization status for the SSID (true, false).",
 				Computed:            true,
 			},
+			"ssids_0_authorized_at": schema.StringAttribute{
+				MarkdownDescription: "When the client was authorized on this SSID in ISO 8601 format. This field will be null if the client is not currently authorized.",
+				Computed:            true,
+			},
+			"ssids_0_expires_at": schema.StringAttribute{
+				MarkdownDescription: "When the client's authorization on this SSID expires in ISO 8601 format. This field will be null if the client is not currently authorized.",
+				Computed:            true,
+			},
 			"ssids_1_is_authorized": schema.BoolAttribute{
 				MarkdownDescription: "New authorization status for the SSID (true, false).",
 				Computed:            true,

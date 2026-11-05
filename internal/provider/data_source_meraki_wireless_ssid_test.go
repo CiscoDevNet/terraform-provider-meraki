@@ -52,6 +52,7 @@ func TestAccDataSourceMerakiWirelessSSID(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "psk", "deadbeef"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "splash_page", "Click-through splash page"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "use_vlan_tagging", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "ssid_admin_accessible", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "visible", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "walled_garden_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "wpa_encryption_mode", "WPA2 only"))
@@ -116,6 +117,7 @@ func testAccDataSourceMerakiWirelessSSIDConfig() string {
 	config += `  psk = "deadbeef"` + "\n"
 	config += `  splash_page = "Click-through splash page"` + "\n"
 	config += `  use_vlan_tagging = false` + "\n"
+	config += `  ssid_admin_accessible = false` + "\n"
 	config += `  visible = false` + "\n"
 	config += `  walled_garden_enabled = false` + "\n"
 	config += `  wpa_encryption_mode = "WPA2 only"` + "\n"

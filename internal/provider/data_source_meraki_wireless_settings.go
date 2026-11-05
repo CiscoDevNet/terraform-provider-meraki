@@ -85,6 +85,10 @@ func (d *WirelessSettingsDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "The default strategy that network devices will use to perform an upgrade. Requires firmware version MR 26.8 or higher.",
 				Computed:            true,
 			},
+			"upgrade_predownload_enabled": schema.BoolAttribute{
+				MarkdownDescription: "The default setting for upgrade firmware predownload. Only applies to devices running MR 32 or higher.",
+				Computed:            true,
+			},
 			"multicast_to_unicast_conversion_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Toggle for enabling or disabling multicast-to-unicast conversion across the network",
 				Computed:            true,

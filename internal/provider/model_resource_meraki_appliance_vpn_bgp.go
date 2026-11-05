@@ -42,6 +42,7 @@ type ApplianceVPNBGP struct {
 	AsNumber      types.Int64                `tfsdk:"as_number"`
 	Enabled       types.Bool                 `tfsdk:"enabled"`
 	IbgpHoldTimer types.Int64                `tfsdk:"ibgp_hold_timer"`
+	RouterId      types.String               `tfsdk:"router_id"`
 	Neighbors     []ApplianceVPNBGPNeighbors `tfsdk:"neighbors"`
 }
 
@@ -62,6 +63,8 @@ type ApplianceVPNBGPNeighbors struct {
 	Ipv6Address                     types.String `tfsdk:"ipv6_address"`
 	TtlSecurityEnabled              types.Bool   `tfsdk:"ttl_security_enabled"`
 	PathPrepend                     types.List   `tfsdk:"path_prepend"`
+	CommunityOut                    types.List   `tfsdk:"community_out"`
+	FilterIn                        types.List   `tfsdk:"filter_in"`
 }
 
 type ApplianceVPNBGPIdentity struct {
@@ -90,6 +93,9 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 	}
 	if !data.IbgpHoldTimer.IsNull() {
 		body, _ = sjson.Set(body, "ibgpHoldTimer", data.IbgpHoldTimer.ValueInt64())
+	}
+	if !data.RouterId.IsNull() {
+		body, _ = sjson.Set(body, "routerId", data.RouterId.ValueString())
 	}
 	if len(data.Neighbors) > 0 {
 		body, _ = sjson.Set(body, "neighbors", []interface{}{})
@@ -141,6 +147,16 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 				item.PathPrepend.ElementsAs(ctx, &values, false)
 				itemBody, _ = sjson.Set(itemBody, "pathPrepend", values)
 			}
+			if !item.CommunityOut.IsNull() {
+				var values []string
+				item.CommunityOut.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "communityOut", values)
+			}
+			if !item.FilterIn.IsNull() {
+				var values []string
+				item.FilterIn.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "filterIn", values)
+			}
 			body, _ = sjson.SetRaw(body, "neighbors.-1", itemBody)
 		}
 	}
@@ -189,6 +205,13 @@ func (data ApplianceVPNBGP) toBodyPreservingNulls(ctx context.Context, res merak
 			body, _ = sjson.SetRaw(body, "ibgpHoldTimer", "null")
 		} else {
 			body, _ = sjson.Set(body, "ibgpHoldTimer", value.Int())
+		}
+	}
+	if value := res.Get("routerId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "routerId", "null")
+		} else {
+			body, _ = sjson.Set(body, "routerId", value.String())
 		}
 	}
 	if value := res.Get("neighbors"); value.Exists() {
@@ -301,6 +324,28 @@ func (data ApplianceVPNBGP) toBodyPreservingNulls(ctx context.Context, res merak
 						body, _ = sjson.Set(body, "pathPrepend", values)
 					}
 				}
+				if value := res.Get("communityOut"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "communityOut", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "communityOut", values)
+					}
+				}
+				if value := res.Get("filterIn"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filterIn", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "filterIn", values)
+					}
+				}
 				*parent, _ = sjson.SetRaw(*parent, "neighbors.-1", body)
 				return true
 			})
@@ -328,6 +373,11 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 		data.IbgpHoldTimer = types.Int64Value(value.Int())
 	} else {
 		data.IbgpHoldTimer = types.Int64Null()
+	}
+	if value := res.Get("routerId"); value.Exists() && value.Value() != nil {
+		data.RouterId = types.StringValue(value.String())
+	} else {
+		data.RouterId = types.StringNull()
 	}
 	if value := res.Get("neighbors"); value.Exists() && value.Value() != nil {
 		data.Neighbors = make([]ApplianceVPNBGPNeighbors, 0)
@@ -404,6 +454,16 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 			} else {
 				data.PathPrepend = types.ListNull(types.Int64Type)
 			}
+			if value := res.Get("communityOut"); value.Exists() && value.Value() != nil {
+				data.CommunityOut = helpers.GetStringList(value.Array())
+			} else {
+				data.CommunityOut = types.ListNull(types.StringType)
+			}
+			if value := res.Get("filterIn"); value.Exists() && value.Value() != nil {
+				data.FilterIn = helpers.GetStringList(value.Array())
+			} else {
+				data.FilterIn = types.ListNull(types.StringType)
+			}
 			(*parent).Neighbors = append((*parent).Neighbors, data)
 			return true
 		})
@@ -433,6 +493,11 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 		data.IbgpHoldTimer = types.Int64Value(value.Int())
 	} else {
 		data.IbgpHoldTimer = types.Int64Null()
+	}
+	if value := res.Get("routerId"); value.Exists() && !data.RouterId.IsNull() {
+		data.RouterId = types.StringValue(value.String())
+	} else {
+		data.RouterId = types.StringNull()
 	}
 	for i := 0; i < len(data.Neighbors); i++ {
 		keys := [...]string{"ip"}
@@ -539,6 +604,16 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 			data.PathPrepend = helpers.GetInt64List(value.Array())
 		} else {
 			data.PathPrepend = types.ListNull(types.Int64Type)
+		}
+		if value := res.Get("communityOut"); value.Exists() && !data.CommunityOut.IsNull() {
+			data.CommunityOut = helpers.GetStringList(value.Array())
+		} else {
+			data.CommunityOut = types.ListNull(types.StringType)
+		}
+		if value := res.Get("filterIn"); value.Exists() && !data.FilterIn.IsNull() {
+			data.FilterIn = helpers.GetStringList(value.Array())
+		} else {
+			data.FilterIn = types.ListNull(types.StringType)
 		}
 		(*parent).Neighbors[i] = data
 	}

@@ -40,6 +40,7 @@ type WirelessSettings struct {
 	LocationAnalyticsEnabled             types.Bool   `tfsdk:"location_analytics_enabled"`
 	MeshingEnabled                       types.Bool   `tfsdk:"meshing_enabled"`
 	UpgradeStrategy                      types.String `tfsdk:"upgrade_strategy"`
+	UpgradePredownloadEnabled            types.Bool   `tfsdk:"upgrade_predownload_enabled"`
 	MulticastToUnicastConversionEnabled  types.Bool   `tfsdk:"multicast_to_unicast_conversion_enabled"`
 	NamedVlansPoolDhcpMonitoringDuration types.Int64  `tfsdk:"named_vlans_pool_dhcp_monitoring_duration"`
 	NamedVlansPoolDhcpMonitoringEnabled  types.Bool   `tfsdk:"named_vlans_pool_dhcp_monitoring_enabled"`
@@ -77,6 +78,9 @@ func (data WirelessSettings) toBody(ctx context.Context, state WirelessSettings)
 	}
 	if !data.UpgradeStrategy.IsNull() {
 		body, _ = sjson.Set(body, "upgradeStrategy", data.UpgradeStrategy.ValueString())
+	}
+	if !data.UpgradePredownloadEnabled.IsNull() {
+		body, _ = sjson.Set(body, "upgrade.predownload.enabled", data.UpgradePredownloadEnabled.ValueBool())
 	}
 	if !data.MulticastToUnicastConversionEnabled.IsNull() {
 		body, _ = sjson.Set(body, "multicastToUnicastConversion.enabled", data.MulticastToUnicastConversionEnabled.ValueBool())
@@ -139,6 +143,13 @@ func (data WirelessSettings) toBodyPreservingNulls(ctx context.Context, res mera
 			body, _ = sjson.Set(body, "upgradeStrategy", value.String())
 		}
 	}
+	if value := res.Get("upgrade.predownload.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "upgrade.predownload.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "upgrade.predownload.enabled", value.Bool())
+		}
+	}
 	if value := res.Get("multicastToUnicastConversion.enabled"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "multicastToUnicastConversion.enabled", "null")
@@ -193,6 +204,11 @@ func (data *WirelessSettings) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.UpgradeStrategy = types.StringNull()
 	}
+	if value := res.Get("upgrade.predownload.enabled"); value.Exists() && value.Value() != nil {
+		data.UpgradePredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.UpgradePredownloadEnabled = types.BoolNull()
+	}
 	if value := res.Get("multicastToUnicastConversion.enabled"); value.Exists() && value.Value() != nil {
 		data.MulticastToUnicastConversionEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -243,6 +259,11 @@ func (data *WirelessSettings) fromBodyPartial(ctx context.Context, res meraki.Re
 		data.UpgradeStrategy = types.StringValue(value.String())
 	} else {
 		data.UpgradeStrategy = types.StringNull()
+	}
+	if value := res.Get("upgrade.predownload.enabled"); value.Exists() && !data.UpgradePredownloadEnabled.IsNull() {
+		data.UpgradePredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.UpgradePredownloadEnabled = types.BoolNull()
 	}
 	if value := res.Get("multicastToUnicastConversion.enabled"); value.Exists() && !data.MulticastToUnicastConversionEnabled.IsNull() {
 		data.MulticastToUnicastConversionEnabled = types.BoolValue(value.Bool())

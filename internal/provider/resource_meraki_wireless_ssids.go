@@ -99,10 +99,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							Optional:            true,
 						},
 						"auth_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)").AddStringEnumDescription("8021x-entra", "8021x-google", "8021x-localradius", "8021x-meraki", "8021x-nac", "8021x-radius", "ipsk-with-nac", "ipsk-with-radius", "ipsk-without-radius", "open", "open-enhanced", "open-with-nac", "open-with-radius", "psk").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-enhanced-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius`, `ipsk-with-nac` or `ipsk-with-radius-easy-psk`)").AddStringEnumDescription("8021x-entra", "8021x-google", "8021x-localradius", "8021x-meraki", "8021x-nac", "8021x-radius", "ipsk-with-nac", "ipsk-with-radius", "ipsk-without-radius", "ipsk-with-radius-easy-psk", "open", "open-enhanced", "open-enhanced-with-radius", "open-with-nac", "open-with-radius", "psk").String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("8021x-entra", "8021x-google", "8021x-localradius", "8021x-meraki", "8021x-nac", "8021x-radius", "ipsk-with-nac", "ipsk-with-radius", "ipsk-without-radius", "open", "open-enhanced", "open-with-nac", "open-with-radius", "psk"),
+								stringvalidator.OneOf("8021x-entra", "8021x-google", "8021x-localradius", "8021x-meraki", "8021x-nac", "8021x-radius", "ipsk-with-nac", "ipsk-with-radius", "ipsk-without-radius", "ipsk-with-radius-easy-psk", "open", "open-enhanced", "open-enhanced-with-radius", "open-with-nac", "open-with-radius", "psk"),
 							},
 						},
 						"available_on_all_aps": schema.BoolAttribute{
@@ -144,10 +144,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 							},
 						},
 						"ip_assignment_mode": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)").AddStringEnumDescription("Bridge mode", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN").String,
+							MarkdownDescription: helpers.NewAttributeDescription("The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator`, `VPN` or `Campus Gateway`)").AddStringEnumDescription("Bridge mode", "Campus Gateway", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN").String,
 							Optional:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf("Bridge mode", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN"),
+								stringvalidator.OneOf("Bridge mode", "Campus Gateway", "Ethernet over GRE", "Layer 3 roaming", "Layer 3 roaming with a concentrator", "NAT mode", "VPN"),
 							},
 						},
 						"lan_isolation_enabled": schema.BoolAttribute{
@@ -277,6 +277,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 						},
 						"use_vlan_tagging": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`").String,
+							Optional:            true,
+						},
+						"ssid_admin_accessible": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("SSID Administrator access status").String,
 							Optional:            true,
 						},
 						"visible": schema.BoolAttribute{

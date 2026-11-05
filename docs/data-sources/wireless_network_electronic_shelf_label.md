@@ -31,3 +31,4 @@ data "meraki_wireless_network_electronic_shelf_label" "example" {
 - `hostname` (String) Desired ESL hostname of the network
 - `id` (String) The id of the object
 - `mode` (String) Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`
+- `sepioo_hostname` (String) Desired sepioo hostname of the network

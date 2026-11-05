@@ -37,9 +37,9 @@ attributes:
   - model_name: interface
     type: String
     data_path: [alertCondition]
-    description: 'The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, cellular'
+    description: 'The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, wan4, cellular'
     example: wan1
-    enum_values: [cellular, wan1, wan2, wan3]
+    enum_values: [cellular, wan1, wan2, wan3, wan4]
     minimum_test_value: '"wan2"'
   - model_name: jitter_ms
     type: Int64

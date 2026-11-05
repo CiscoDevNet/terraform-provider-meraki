@@ -30,6 +30,8 @@ data "meraki_network_client_splash_authorization_status" "example" {
 ### Read-Only
 
 - `id` (String) The id of the object
+- `ssids_0_authorized_at` (String) When the client was authorized on this SSID in ISO 8601 format. This field will be null if the client is not currently authorized.
+- `ssids_0_expires_at` (String) When the client's authorization on this SSID expires in ISO 8601 format. This field will be null if the client is not currently authorized.
 - `ssids_0_is_authorized` (Boolean) New authorization status for the SSID (true, false).
 - `ssids_10_is_authorized` (Boolean) New authorization status for the SSID (true, false).
 - `ssids_11_is_authorized` (Boolean) New authorization status for the SSID (true, false).
