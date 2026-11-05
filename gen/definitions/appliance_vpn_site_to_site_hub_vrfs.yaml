@@ -13,6 +13,7 @@ no_read: false
 early_access: true
 doc_category: Appliances
 test_variables: [test_org, test_network, test_appliance_1_serial, test_appliance_2_serial]
+test_tags: [APPLIANCE_FIRMWARE_26_2]
 ignore_attributes: [_json]
 attributes:
   - tf_name: network_id

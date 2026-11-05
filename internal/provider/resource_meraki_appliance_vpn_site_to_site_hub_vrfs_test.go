@@ -34,6 +34,9 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiApplianceVPNSiteToSiteHubVRFs(t *testing.T) {
+	if os.Getenv("APPLIANCE_FIRMWARE_26_2") == "" {
+		t.Skip("skipping test, set environment variable APPLIANCE_FIRMWARE_26_2")
+	}
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" || os.Getenv("TF_VAR_test_appliance_2_serial") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial and TF_VAR_test_appliance_2_serial")
 	}
