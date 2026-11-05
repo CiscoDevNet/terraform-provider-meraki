@@ -33,8 +33,8 @@ func TestAccDataSourceMerakiApplianceVPNSiteToSiteHubVRFs(t *testing.T) {
 	if os.Getenv("APPLIANCE_FIRMWARE_26_2") == "" {
 		t.Skip("skipping test, set environment variable APPLIANCE_FIRMWARE_26_2")
 	}
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" || os.Getenv("TF_VAR_test_appliance_2_serial") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial and TF_VAR_test_appliance_2_serial")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_network_2") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" || os.Getenv("TF_VAR_test_appliance_2_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_network_2 and TF_VAR_test_appliance_1_serial and TF_VAR_test_appliance_2_serial")
 	}
 	var checks []resource.TestCheckFunc
 	resource.Test(t, resource.TestCase{
@@ -56,6 +56,7 @@ func TestAccDataSourceMerakiApplianceVPNSiteToSiteHubVRFs(t *testing.T) {
 const testAccDataSourceMerakiApplianceVPNSiteToSiteHubVRFsPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
+variable "test_network_2" {}
 variable "test_appliance_1_serial" {}
 variable "test_appliance_2_serial" {}
 data "meraki_organization" "test" {
@@ -76,7 +77,7 @@ resource "meraki_network_device_claim" "test" {
 }
 resource "meraki_network" "test_spoke" {
   organization_id = data.meraki_organization.test.id
-  name            = "spoke test network"
+  name            = var.test_network_2
   product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
 }
 resource "meraki_network_device_claim" "test_spoke" {
