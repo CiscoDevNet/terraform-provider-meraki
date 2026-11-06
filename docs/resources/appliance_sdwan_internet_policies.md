@@ -22,6 +22,7 @@ resource "meraki_appliance_sdwan_internet_policies" "example" {
       builtin_performance_class_name = "VoIP"
       custom_performance_class_id    = "123456"
       performance_class_type         = "custom"
+      vrf_id                         = "12345"
       traffic_filters = [
         {
           type             = "custom"
@@ -76,6 +77,7 @@ Optional:
   - Choices: `poorPerformance`, `uplinkDown`
 - `performance_class_type` (String) Type of this performance class. Must be one of: `builtin` or `custom`
   - Choices: `builtin`, `custom`
+- `vrf_id` (String) VRF ID for the policy. Use 0 for the default VRF.
 
 <a id="nestedatt--wan_traffic_uplink_preferences--traffic_filters"></a>
 ### Nested Schema for `wan_traffic_uplink_preferences.traffic_filters`

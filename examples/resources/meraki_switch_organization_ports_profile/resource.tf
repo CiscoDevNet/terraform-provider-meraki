@@ -6,12 +6,15 @@ resource "meraki_switch_organization_ports_profile" "example" {
   port_access_policy_type    = "Open"
   port_allowed_vlans         = "1-100"
   port_dai_trusted           = false
+  port_fast_poe_enabled      = true
   port_isolation_enabled     = false
   port_peer_sgt_capable      = false
+  port_perpetual_poe_enabled = true
   port_poe_enabled           = true
   port_rstp_enabled          = true
   port_storm_control_enabled = true
   port_stp_guard             = "disabled"
+  port_stp_port_fast_trunk   = false
   port_type                  = "access"
   port_udld                  = "Alert only"
   port_vlan                  = 10

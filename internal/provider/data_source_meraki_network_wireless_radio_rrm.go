@@ -89,6 +89,10 @@ func (d *NetworkWirelessRadioRRMDataSource) Schema(ctx context.Context, req data
 				MarkdownDescription: "Toggle for enabling or disabling channel avoidance in a network",
 				Computed:            true,
 			},
+			"channel_selection_preferred_mode": schema.StringAttribute{
+				MarkdownDescription: "The preferred 6 GHz channel selection mode. `automatic` lets RRM decide when non-PSC channels are used. `enforced` restricts 6 GHz channel selection to PSC channels. If omitted on update, the existing mode is preserved.",
+				Computed:            true,
+			},
 			"fra_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Toggle to activate or deactivate FRA in a network, contingent on AI-RRM being enabled.",
 				Computed:            true,

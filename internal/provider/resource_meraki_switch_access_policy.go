@@ -251,6 +251,14 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 								int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("secret_wo")),
 							},
 						},
+						"server_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Unique ID of an existing Access Policy accounting server to copy").String,
+							Optional:            true,
+						},
+						"radsec_enabled": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Whether this RADIUS accounting server assignment is configured to use RadSec").String,
+							Optional:            true,
+						},
 					},
 				},
 			},
@@ -291,6 +299,14 @@ func (r *SwitchAccessPolicyResource) Schema(ctx context.Context, req resource.Sc
 							Validators: []validator.Int64{
 								int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("secret_wo")),
 							},
+						},
+						"server_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Unique ID of an existing Access Policy authentication server to copy").String,
+							Optional:            true,
+						},
+						"radsec_enabled": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Whether this RADIUS server assignment is configured to use RadSec").String,
+							Optional:            true,
 						},
 					},
 				},

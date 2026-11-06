@@ -82,6 +82,14 @@ func (d *SwitchRoutingInterfaceDHCPDataSource) Schema(ctx context.Context, req d
 				MarkdownDescription: "Enable DHCP boot options to provide PXE boot options configs for the dhcp server running on the switch interface",
 				Computed:            true,
 			},
+			"dhcp_default_router_ips": schema.StringAttribute{
+				MarkdownDescription: "The DHCP default router IPs for the DHCP server running on the switch interface",
+				Computed:            true,
+			},
+			"dhcp_domain_name": schema.StringAttribute{
+				MarkdownDescription: "The DHCP domain name for the DHCP server running on the switch interface",
+				Computed:            true,
+			},
 			"dhcp_lease_time": schema.StringAttribute{
 				MarkdownDescription: "The DHCP lease time config for the dhcp server running on switch interface (`30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`)",
 				Computed:            true,

@@ -46,11 +46,18 @@ type WirelessRFProfile struct {
 	ApBandSettingsBandOperationMode      types.String                         `tfsdk:"ap_band_settings_band_operation_mode"`
 	ApBandSettingsBandSteeringEnabled    types.Bool                           `tfsdk:"ap_band_settings_band_steering_enabled"`
 	ApBandSettingsBandsEnabled           types.Set                            `tfsdk:"ap_band_settings_bands_enabled"`
+	Dot11beEnabled                       types.Bool                           `tfsdk:"dot11be_enabled"`
+	Dot11beMode                          types.String                         `tfsdk:"dot11be_mode"`
+	Dot11beSsidsGroups1Enabled           types.Bool                           `tfsdk:"dot11be_ssids_groups_1_enabled"`
+	Dot11beSsidsGroups2Enabled           types.Bool                           `tfsdk:"dot11be_ssids_groups_2_enabled"`
+	Dot11beSsidsGroups3Enabled           types.Bool                           `tfsdk:"dot11be_ssids_groups_3_enabled"`
+	Dot11beSsidsGroups4Enabled           types.Bool                           `tfsdk:"dot11be_ssids_groups_4_enabled"`
 	FiveGhzSettingsChannelWidth          types.String                         `tfsdk:"five_ghz_settings_channel_width"`
 	FiveGhzSettingsMaxPower              types.Int64                          `tfsdk:"five_ghz_settings_max_power"`
 	FiveGhzSettingsMinBitrate            types.Int64                          `tfsdk:"five_ghz_settings_min_bitrate"`
 	FiveGhzSettingsMinPower              types.Int64                          `tfsdk:"five_ghz_settings_min_power"`
 	FiveGhzSettingsRxsop                 types.Int64                          `tfsdk:"five_ghz_settings_rxsop"`
+	FiveGhzSettingsDot11axEnabled        types.Bool                           `tfsdk:"five_ghz_settings_dot11ax_enabled"`
 	FiveGhzSettingsValidAutoChannels     types.Set                            `tfsdk:"five_ghz_settings_valid_auto_channels"`
 	FlexRadiosByModel                    []WirelessRFProfileFlexRadiosByModel `tfsdk:"flex_radios_by_model"`
 	PerSsidSettings0BandOperationMode    types.String                         `tfsdk:"per_ssid_settings_0_band_operation_mode"`
@@ -125,6 +132,7 @@ type WirelessRFProfile struct {
 	TwoFourGhzSettingsMinBitrate         types.Float64                        `tfsdk:"two_four_ghz_settings_min_bitrate"`
 	TwoFourGhzSettingsMinPower           types.Int64                          `tfsdk:"two_four_ghz_settings_min_power"`
 	TwoFourGhzSettingsRxsop              types.Int64                          `tfsdk:"two_four_ghz_settings_rxsop"`
+	TwoFourGhzSettingsDot11axEnabled     types.Bool                           `tfsdk:"two_four_ghz_settings_dot11ax_enabled"`
 	TwoFourGhzSettingsValidAutoChannels  types.Set                            `tfsdk:"two_four_ghz_settings_valid_auto_channels"`
 	IsIndoorDefault                      types.Bool                           `tfsdk:"is_indoor_default"`
 	IsOutdoorDefault                     types.Bool                           `tfsdk:"is_outdoor_default"`
@@ -511,6 +519,36 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.ApBandSettingsBandsEnabled = types.SetNull(types.StringType)
 	}
+	if value := res.Get("dot11be.enabled"); value.Exists() && value.Value() != nil {
+		data.Dot11beEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beEnabled = types.BoolNull()
+	}
+	if value := res.Get("dot11be.mode"); value.Exists() && value.Value() != nil {
+		data.Dot11beMode = types.StringValue(value.String())
+	} else {
+		data.Dot11beMode = types.StringNull()
+	}
+	if value := res.Get("dot11be.ssids.groups.1.enabled"); value.Exists() && value.Value() != nil {
+		data.Dot11beSsidsGroups1Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beSsidsGroups1Enabled = types.BoolNull()
+	}
+	if value := res.Get("dot11be.ssids.groups.2.enabled"); value.Exists() && value.Value() != nil {
+		data.Dot11beSsidsGroups2Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beSsidsGroups2Enabled = types.BoolNull()
+	}
+	if value := res.Get("dot11be.ssids.groups.3.enabled"); value.Exists() && value.Value() != nil {
+		data.Dot11beSsidsGroups3Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beSsidsGroups3Enabled = types.BoolNull()
+	}
+	if value := res.Get("dot11be.ssids.groups.4.enabled"); value.Exists() && value.Value() != nil {
+		data.Dot11beSsidsGroups4Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beSsidsGroups4Enabled = types.BoolNull()
+	}
 	if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() && value.Value() != nil {
 		data.FiveGhzSettingsChannelWidth = types.StringValue(value.String())
 	} else {
@@ -535,6 +573,11 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res meraki.Res) {
 		data.FiveGhzSettingsRxsop = types.Int64Value(value.Int())
 	} else {
 		data.FiveGhzSettingsRxsop = types.Int64Null()
+	}
+	if value := res.Get("fiveGhzSettings.dot11ax.enabled"); value.Exists() && value.Value() != nil {
+		data.FiveGhzSettingsDot11axEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.FiveGhzSettingsDot11axEnabled = types.BoolNull()
 	}
 	if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil {
 		data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
@@ -920,6 +963,11 @@ func (data *WirelessRFProfile) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.TwoFourGhzSettingsRxsop = types.Int64Null()
 	}
+	if value := res.Get("twoFourGhzSettings.dot11ax.enabled"); value.Exists() && value.Value() != nil {
+		data.TwoFourGhzSettingsDot11axEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.TwoFourGhzSettingsDot11axEnabled = types.BoolNull()
+	}
 	if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() && value.Value() != nil {
 		data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
 	} else {
@@ -981,6 +1029,36 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res meraki.R
 	} else {
 		data.ApBandSettingsBandsEnabled = types.SetNull(types.StringType)
 	}
+	if value := res.Get("dot11be.enabled"); value.Exists() && !data.Dot11beEnabled.IsNull() {
+		data.Dot11beEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beEnabled = types.BoolNull()
+	}
+	if value := res.Get("dot11be.mode"); value.Exists() && !data.Dot11beMode.IsNull() {
+		data.Dot11beMode = types.StringValue(value.String())
+	} else {
+		data.Dot11beMode = types.StringNull()
+	}
+	if value := res.Get("dot11be.ssids.groups.1.enabled"); value.Exists() && !data.Dot11beSsidsGroups1Enabled.IsNull() {
+		data.Dot11beSsidsGroups1Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beSsidsGroups1Enabled = types.BoolNull()
+	}
+	if value := res.Get("dot11be.ssids.groups.2.enabled"); value.Exists() && !data.Dot11beSsidsGroups2Enabled.IsNull() {
+		data.Dot11beSsidsGroups2Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beSsidsGroups2Enabled = types.BoolNull()
+	}
+	if value := res.Get("dot11be.ssids.groups.3.enabled"); value.Exists() && !data.Dot11beSsidsGroups3Enabled.IsNull() {
+		data.Dot11beSsidsGroups3Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beSsidsGroups3Enabled = types.BoolNull()
+	}
+	if value := res.Get("dot11be.ssids.groups.4.enabled"); value.Exists() && !data.Dot11beSsidsGroups4Enabled.IsNull() {
+		data.Dot11beSsidsGroups4Enabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11beSsidsGroups4Enabled = types.BoolNull()
+	}
 	if value := res.Get("fiveGhzSettings.channelWidth"); value.Exists() && !data.FiveGhzSettingsChannelWidth.IsNull() {
 		data.FiveGhzSettingsChannelWidth = types.StringValue(value.String())
 	} else {
@@ -1005,6 +1083,11 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res meraki.R
 		data.FiveGhzSettingsRxsop = types.Int64Value(value.Int())
 	} else {
 		data.FiveGhzSettingsRxsop = types.Int64Null()
+	}
+	if value := res.Get("fiveGhzSettings.dot11ax.enabled"); value.Exists() && !data.FiveGhzSettingsDot11axEnabled.IsNull() {
+		data.FiveGhzSettingsDot11axEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.FiveGhzSettingsDot11axEnabled = types.BoolNull()
 	}
 	if value := res.Get("fiveGhzSettings.validAutoChannels"); value.Exists() && !data.FiveGhzSettingsValidAutoChannels.IsNull() {
 		data.FiveGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())
@@ -1418,6 +1501,11 @@ func (data *WirelessRFProfile) fromBodyPartial(ctx context.Context, res meraki.R
 		data.TwoFourGhzSettingsRxsop = types.Int64Value(value.Int())
 	} else {
 		data.TwoFourGhzSettingsRxsop = types.Int64Null()
+	}
+	if value := res.Get("twoFourGhzSettings.dot11ax.enabled"); value.Exists() && !data.TwoFourGhzSettingsDot11axEnabled.IsNull() {
+		data.TwoFourGhzSettingsDot11axEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.TwoFourGhzSettingsDot11axEnabled = types.BoolNull()
 	}
 	if value := res.Get("twoFourGhzSettings.validAutoChannels"); value.Exists() && !data.TwoFourGhzSettingsValidAutoChannels.IsNull() {
 		data.TwoFourGhzSettingsValidAutoChannels = helpers.GetInt64Set(value.Array())

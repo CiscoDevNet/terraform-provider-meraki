@@ -6,4 +6,6 @@ resource "meraki_appliance_port" "example" {
   enabled               = true
   type                  = "access"
   vlan                  = 1
+  sgt_enabled           = true
+  sgt_id                = 1234
 }

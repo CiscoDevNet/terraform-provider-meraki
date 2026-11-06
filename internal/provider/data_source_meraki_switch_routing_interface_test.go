@@ -39,6 +39,7 @@ func TestAccDataSourceMerakiSwitchRoutingInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "interface_ip", "192.168.1.2"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "is_switch_default_gateway", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "mode", "vlan"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "mtu", "1500"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "multicast_routing", "disabled"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "name", "L3 interface"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "static_v4_dns1", "8.8.8.8"))
@@ -47,6 +48,15 @@ func TestAccDataSourceMerakiSwitchRoutingInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "uplink_v4", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "uplink_v6", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "vlan_id", "100"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "bidirectional_forwarding_detection_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "bidirectional_forwarding_detection_interval_interface_min_rx", "75"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "bidirectional_forwarding_detection_interval_interface_msecs", "100"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "bidirectional_forwarding_detection_interval_interface_multiplier", "5"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "cloud_uplink_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "cloud_uplink_is_default_gateway", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "cloud_uplink_is_eligible", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "cloud_uplink_nameservers_primary", "8.8.8.8"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "cloud_uplink_nameservers_secondary", "8.8.4.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_address", "1:2:3:4::1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_assignment_mode", "static"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_candidate_uplink", "true"))
@@ -55,6 +65,11 @@ func TestAccDataSourceMerakiSwitchRoutingInterface(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_prefix", "1:2:3:4::/64"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_static_v6_dns1", "2001:db8::1234"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_static_v6_dns2", "2001:db8::8888"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_cloud_uplink_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_cloud_uplink_is_default_gateway", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_cloud_uplink_is_eligible", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_cloud_uplink_nameservers_primary", "2001:db8::1234"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ipv6_cloud_uplink_nameservers_secondary", "2001:db8::8888"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "ospf_settings_area", "ospfDisabled"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_routing_interface.test", "vrf_name", "Default"))
 	resource.Test(t, resource.TestCase{
@@ -104,6 +119,7 @@ func testAccDataSourceMerakiSwitchRoutingInterfaceConfig() string {
 	config += `  interface_ip = "192.168.1.2"` + "\n"
 	config += `  is_switch_default_gateway = false` + "\n"
 	config += `  mode = "vlan"` + "\n"
+	config += `  mtu = 1500` + "\n"
 	config += `  multicast_routing = "disabled"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
 	config += `  static_v4_dns1 = "8.8.8.8"` + "\n"
@@ -112,6 +128,15 @@ func testAccDataSourceMerakiSwitchRoutingInterfaceConfig() string {
 	config += `  uplink_v4 = true` + "\n"
 	config += `  uplink_v6 = true` + "\n"
 	config += `  vlan_id = 100` + "\n"
+	config += `  bidirectional_forwarding_detection_enabled = true` + "\n"
+	config += `  bidirectional_forwarding_detection_interval_interface_min_rx = 75` + "\n"
+	config += `  bidirectional_forwarding_detection_interval_interface_msecs = 100` + "\n"
+	config += `  bidirectional_forwarding_detection_interval_interface_multiplier = 5` + "\n"
+	config += `  cloud_uplink_enabled = false` + "\n"
+	config += `  cloud_uplink_is_default_gateway = false` + "\n"
+	config += `  cloud_uplink_is_eligible = false` + "\n"
+	config += `  cloud_uplink_nameservers_primary = "8.8.8.8"` + "\n"
+	config += `  cloud_uplink_nameservers_secondary = "8.8.4.4"` + "\n"
 	config += `  ipv6_address = "1:2:3:4::1"` + "\n"
 	config += `  ipv6_assignment_mode = "static"` + "\n"
 	config += `  ipv6_candidate_uplink = true` + "\n"
@@ -120,6 +145,11 @@ func testAccDataSourceMerakiSwitchRoutingInterfaceConfig() string {
 	config += `  ipv6_prefix = "1:2:3:4::/64"` + "\n"
 	config += `  ipv6_static_v6_dns1 = "2001:db8::1234"` + "\n"
 	config += `  ipv6_static_v6_dns2 = "2001:db8::8888"` + "\n"
+	config += `  ipv6_cloud_uplink_enabled = false` + "\n"
+	config += `  ipv6_cloud_uplink_is_default_gateway = false` + "\n"
+	config += `  ipv6_cloud_uplink_is_eligible = false` + "\n"
+	config += `  ipv6_cloud_uplink_nameservers_primary = "2001:db8::1234"` + "\n"
+	config += `  ipv6_cloud_uplink_nameservers_secondary = "2001:db8::8888"` + "\n"
 	config += `  ospf_settings_area = "ospfDisabled"` + "\n"
 	config += `  vrf_name = "Default"` + "\n"
 	config += `}` + "\n"
@@ -142,6 +172,7 @@ func testAccNamedDataSourceMerakiSwitchRoutingInterfaceConfig() string {
 	config += `  interface_ip = "192.168.1.2"` + "\n"
 	config += `  is_switch_default_gateway = false` + "\n"
 	config += `  mode = "vlan"` + "\n"
+	config += `  mtu = 1500` + "\n"
 	config += `  multicast_routing = "disabled"` + "\n"
 	config += `  name = "L3 interface"` + "\n"
 	config += `  static_v4_dns1 = "8.8.8.8"` + "\n"
@@ -150,6 +181,15 @@ func testAccNamedDataSourceMerakiSwitchRoutingInterfaceConfig() string {
 	config += `  uplink_v4 = true` + "\n"
 	config += `  uplink_v6 = true` + "\n"
 	config += `  vlan_id = 100` + "\n"
+	config += `  bidirectional_forwarding_detection_enabled = true` + "\n"
+	config += `  bidirectional_forwarding_detection_interval_interface_min_rx = 75` + "\n"
+	config += `  bidirectional_forwarding_detection_interval_interface_msecs = 100` + "\n"
+	config += `  bidirectional_forwarding_detection_interval_interface_multiplier = 5` + "\n"
+	config += `  cloud_uplink_enabled = false` + "\n"
+	config += `  cloud_uplink_is_default_gateway = false` + "\n"
+	config += `  cloud_uplink_is_eligible = false` + "\n"
+	config += `  cloud_uplink_nameservers_primary = "8.8.8.8"` + "\n"
+	config += `  cloud_uplink_nameservers_secondary = "8.8.4.4"` + "\n"
 	config += `  ipv6_address = "1:2:3:4::1"` + "\n"
 	config += `  ipv6_assignment_mode = "static"` + "\n"
 	config += `  ipv6_candidate_uplink = true` + "\n"
@@ -158,6 +198,11 @@ func testAccNamedDataSourceMerakiSwitchRoutingInterfaceConfig() string {
 	config += `  ipv6_prefix = "1:2:3:4::/64"` + "\n"
 	config += `  ipv6_static_v6_dns1 = "2001:db8::1234"` + "\n"
 	config += `  ipv6_static_v6_dns2 = "2001:db8::8888"` + "\n"
+	config += `  ipv6_cloud_uplink_enabled = false` + "\n"
+	config += `  ipv6_cloud_uplink_is_default_gateway = false` + "\n"
+	config += `  ipv6_cloud_uplink_is_eligible = false` + "\n"
+	config += `  ipv6_cloud_uplink_nameservers_primary = "2001:db8::1234"` + "\n"
+	config += `  ipv6_cloud_uplink_nameservers_secondary = "2001:db8::8888"` + "\n"
 	config += `  ospf_settings_area = "ospfDisabled"` + "\n"
 	config += `  vrf_name = "Default"` + "\n"
 	config += `}` + "\n"

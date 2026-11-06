@@ -39,6 +39,8 @@ type DataSourceOrganizationEarlyAccessFeatures struct {
 
 type DataSourceOrganizationEarlyAccessFeaturesItems struct {
 	Id                types.String `tfsdk:"id"`
+	Advantage         types.Bool   `tfsdk:"advantage"`
+	AdvantageTrial    types.Bool   `tfsdk:"advantage_trial"`
 	DocumentationLink types.String `tfsdk:"documentation_link"`
 	IsOrgScopedOnly   types.Bool   `tfsdk:"is_org_scoped_only"`
 	Name              types.String `tfsdk:"name"`
@@ -68,6 +70,16 @@ func (data *DataSourceOrganizationEarlyAccessFeatures) fromBody(ctx context.Cont
 		parent := &data
 		data := DataSourceOrganizationEarlyAccessFeaturesItems{}
 		data.Id = types.StringValue(res.Get("").String())
+		if value := res.Get("advantage"); value.Exists() && value.Value() != nil {
+			data.Advantage = types.BoolValue(value.Bool())
+		} else {
+			data.Advantage = types.BoolNull()
+		}
+		if value := res.Get("advantageTrial"); value.Exists() && value.Value() != nil {
+			data.AdvantageTrial = types.BoolValue(value.Bool())
+		} else {
+			data.AdvantageTrial = types.BoolNull()
+		}
 		if value := res.Get("documentationLink"); value.Exists() && value.Value() != nil {
 			data.DocumentationLink = types.StringValue(value.String())
 		} else {

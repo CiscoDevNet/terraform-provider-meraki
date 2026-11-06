@@ -68,6 +68,8 @@ type CameraQualityRetentionProfile struct {
 	VideoSettingsMv33Resolution         types.String `tfsdk:"video_settings_mv33_resolution"`
 	VideoSettingsMv33MQuality           types.String `tfsdk:"video_settings_mv33_m_quality"`
 	VideoSettingsMv33MResolution        types.String `tfsdk:"video_settings_mv33_m_resolution"`
+	VideoSettingsMv44XQuality           types.String `tfsdk:"video_settings_mv44_x_quality"`
+	VideoSettingsMv44XResolution        types.String `tfsdk:"video_settings_mv44_x_resolution"`
 	VideoSettingsMv52Quality            types.String `tfsdk:"video_settings_mv52_quality"`
 	VideoSettingsMv52Resolution         types.String `tfsdk:"video_settings_mv52_resolution"`
 	VideoSettingsMv53XQuality           types.String `tfsdk:"video_settings_mv53_x_quality"`
@@ -211,6 +213,12 @@ func (data CameraQualityRetentionProfile) toBody(ctx context.Context, state Came
 	}
 	if !data.VideoSettingsMv33MResolution.IsNull() {
 		body, _ = sjson.Set(body, "videoSettings.MV33M.resolution", data.VideoSettingsMv33MResolution.ValueString())
+	}
+	if !data.VideoSettingsMv44XQuality.IsNull() {
+		body, _ = sjson.Set(body, "videoSettings.MV44X.quality", data.VideoSettingsMv44XQuality.ValueString())
+	}
+	if !data.VideoSettingsMv44XResolution.IsNull() {
+		body, _ = sjson.Set(body, "videoSettings.MV44X.resolution", data.VideoSettingsMv44XResolution.ValueString())
 	}
 	if !data.VideoSettingsMv52Quality.IsNull() {
 		body, _ = sjson.Set(body, "videoSettings.MV52.quality", data.VideoSettingsMv52Quality.ValueString())
@@ -456,6 +464,16 @@ func (data *CameraQualityRetentionProfile) fromBody(ctx context.Context, res mer
 		data.VideoSettingsMv33MResolution = types.StringValue(value.String())
 	} else {
 		data.VideoSettingsMv33MResolution = types.StringNull()
+	}
+	if value := res.Get("videoSettings.MV44X.quality"); value.Exists() && value.Value() != nil {
+		data.VideoSettingsMv44XQuality = types.StringValue(value.String())
+	} else {
+		data.VideoSettingsMv44XQuality = types.StringNull()
+	}
+	if value := res.Get("videoSettings.MV44X.resolution"); value.Exists() && value.Value() != nil {
+		data.VideoSettingsMv44XResolution = types.StringValue(value.String())
+	} else {
+		data.VideoSettingsMv44XResolution = types.StringNull()
 	}
 	if value := res.Get("videoSettings.MV52.quality"); value.Exists() && value.Value() != nil {
 		data.VideoSettingsMv52Quality = types.StringValue(value.String())
@@ -752,6 +770,16 @@ func (data *CameraQualityRetentionProfile) fromBodyPartial(ctx context.Context, 
 		data.VideoSettingsMv33MResolution = types.StringValue(value.String())
 	} else {
 		data.VideoSettingsMv33MResolution = types.StringNull()
+	}
+	if value := res.Get("videoSettings.MV44X.quality"); value.Exists() && !data.VideoSettingsMv44XQuality.IsNull() {
+		data.VideoSettingsMv44XQuality = types.StringValue(value.String())
+	} else {
+		data.VideoSettingsMv44XQuality = types.StringNull()
+	}
+	if value := res.Get("videoSettings.MV44X.resolution"); value.Exists() && !data.VideoSettingsMv44XResolution.IsNull() {
+		data.VideoSettingsMv44XResolution = types.StringValue(value.String())
+	} else {
+		data.VideoSettingsMv44XResolution = types.StringNull()
 	}
 	if value := res.Get("videoSettings.MV52.quality"); value.Exists() && !data.VideoSettingsMv52Quality.IsNull() {
 		data.VideoSettingsMv52Quality = types.StringValue(value.String())

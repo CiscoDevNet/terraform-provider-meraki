@@ -4,6 +4,7 @@ resource "meraki_organization_branding_policy" "example" {
   name                                                 = "My Branding Policy"
   admin_settings_applies_to                            = "All admins of networks..."
   admin_settings_values                                = ["N_1234"]
+  appearance_dashboard_menu_theme                      = "light"
   custom_logo_enabled                                  = true
   custom_logo_image_contents                           = "Hyperg26C8F4h8CvcoUqpA=="
   custom_logo_image_format                             = "jpg"

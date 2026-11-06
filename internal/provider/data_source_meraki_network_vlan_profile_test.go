@@ -34,6 +34,7 @@ func TestAccDataSourceMerakiNetworkVLANProfile(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_vlan_profile.test", "active_vlans", "1-1000"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_vlan_profile.test", "iname", "Profile1"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_vlan_profile.test", "name", "My VLAN profile name"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_vlan_profile.test", "vlan_groups.0.name", "named-group-1"))
@@ -94,6 +95,7 @@ resource "meraki_network_vlan_profile" "default" {
 func testAccDataSourceMerakiNetworkVLANProfileConfig() string {
 	config := `resource "meraki_network_vlan_profile" "test" {` + "\n"
 	config += `  network_id = meraki_network_vlan_profile.default.network_id` + "\n"
+	config += `  active_vlans = "1-1000"` + "\n"
 	config += `  iname = "Profile1"` + "\n"
 	config += `  name = "My VLAN profile name"` + "\n"
 	config += `  vlan_groups = [{` + "\n"
@@ -119,6 +121,7 @@ func testAccDataSourceMerakiNetworkVLANProfileConfig() string {
 func testAccNamedDataSourceMerakiNetworkVLANProfileConfig() string {
 	config := `resource "meraki_network_vlan_profile" "test" {` + "\n"
 	config += `  network_id = meraki_network_vlan_profile.default.network_id` + "\n"
+	config += `  active_vlans = "1-1000"` + "\n"
 	config += `  iname = "Profile1"` + "\n"
 	config += `  name = "My VLAN profile name"` + "\n"
 	config += `  vlan_groups = [{` + "\n"

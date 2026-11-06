@@ -97,6 +97,10 @@ func (d *WirelessSettingsDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Whether or not devices using named VLAN pools should remove dirty VLANs from the pool, thereby preventing clients from being assigned to VLANs where they would be unable to obtain an IP address via DHCP.",
 				Computed:            true,
 			},
+			"upgrade_predownload_enabled": schema.BoolAttribute{
+				MarkdownDescription: "The default setting for upgrade firmware predownload. Only applies to devices running MR 32 or higher.",
+				Computed:            true,
+			},
 		},
 	}
 }

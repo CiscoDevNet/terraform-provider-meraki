@@ -37,6 +37,8 @@ func TestAccDataSourceMerakiSwitchStackRoutingInterfaceDHCP(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface_dhcp.test", "boot_file_name", "home_boot_file"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface_dhcp.test", "boot_next_server", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface_dhcp.test", "boot_options_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface_dhcp.test", "dhcp_default_router_ips", "192.168.1.1, 192.168.1.2"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface_dhcp.test", "dhcp_domain_name", "example.com"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface_dhcp.test", "dhcp_lease_time", "1 day"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface_dhcp.test", "dhcp_mode", "dhcpServer"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_stack_routing_interface_dhcp.test", "dns_nameservers_option", "custom"))
@@ -123,6 +125,8 @@ func testAccDataSourceMerakiSwitchStackRoutingInterfaceDHCPConfig() string {
 	config += `  boot_file_name = "home_boot_file"` + "\n"
 	config += `  boot_next_server = "1.2.3.4"` + "\n"
 	config += `  boot_options_enabled = true` + "\n"
+	config += `  dhcp_default_router_ips = "192.168.1.1, 192.168.1.2"` + "\n"
+	config += `  dhcp_domain_name = "example.com"` + "\n"
 	config += `  dhcp_lease_time = "1 day"` + "\n"
 	config += `  dhcp_mode = "dhcpServer"` + "\n"
 	config += `  dns_nameservers_option = "custom"` + "\n"

@@ -31,6 +31,7 @@ resource "meraki_organization_policy_object" "example" {
 - `name` (String) Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
 - `organization_id` (String) Organization ID
 - `type` (String) Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)
+  - Choices: `adaptivePolicyIpv4Cidr`, `cidr`, `fqdn`
 
 ### Optional
 

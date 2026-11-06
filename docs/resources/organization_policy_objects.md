@@ -50,6 +50,7 @@ Required:
 - `category` (String) Category of a policy object (one of: adaptivePolicy, network)
 - `name` (String) Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
 - `type` (String) Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)
+  - Choices: `adaptivePolicyIpv4Cidr`, `cidr`, `fqdn`
 
 Optional:
 

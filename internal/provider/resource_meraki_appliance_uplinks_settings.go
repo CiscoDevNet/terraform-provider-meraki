@@ -158,6 +158,112 @@ func (r *ApplianceUplinksSettingsResource) Schema(ctx context.Context, req resou
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
+			"interfaces_wan1_transition_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the IPoE transition IPv4 to IPv6 is enabled.").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Mode selector for the IPoE transition IPv4 to IPv6 is enabled.").AddStringEnumDescription("DS-Lite", "IP-in-IP", "MAP-E", "MAP-T").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("DS-Lite", "IP-in-IP", "MAP-E", "MAP-T"),
+				},
+			},
+			"interfaces_wan1_transition_authentication_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether IPoE transition authentication is enabled.").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_authentication_password": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Password for IPoE transition authentication. This parameter is not returned.").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_authentication_username": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Username for IPoE transition authentication.").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_ipv4_local_address": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Static IPv4 information used for host origination and NAT44 translation").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_ipv6_interface_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The 64-bit interface ID (suffix) of the uplink IPv6 address").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_ipv6_border_relay_address": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("CIDR for the border relay for the IPoE transition authentication.").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_ipv6_border_relay_mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Mode selection for the border relay for the IPoE transition.").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_isp_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("ISP name for the IPoE transition.").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_map_draft_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether MAP-E draft mode is enabled. This field is accepted only for MAP-E. Null is treated as omitted and preserves the existing setting.").String,
+				Optional:            true,
+			},
+			"interfaces_wan1_transition_map_rules_source": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How MAP rules are obtained. HTTPS requires an ISP supported for the transition mode.").AddStringEnumDescription("DHCPv6", "HTTPS", "manual").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("DHCPv6", "HTTPS", "manual"),
+				},
+			},
+			"interfaces_wan1_transition_map_rules_entries": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Manual MAP rules. At most one entry is supported.").String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"ea_bit_length": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Embedded address bit length (0-48).").AddIntegerRangeDescription(0, 48).String,
+							Required:            true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 48),
+							},
+						},
+						"ps_id_offset": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("PSID offset (0-15).").AddIntegerRangeDescription(0, 15).String,
+							Required:            true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 15),
+							},
+						},
+						"border_relay_address": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv6 border relay address for MAP-E.").String,
+							Optional:            true,
+						},
+						"border_relay_prefix": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv6 border relay prefix for MAP-T in CIDR notation, with a prefix length from 0 to 96.").String,
+							Optional:            true,
+						},
+						"ipv4_prefix_address": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv4 network address used by the MAP rule, without the prefix length.").String,
+							Optional:            true,
+						},
+						"ipv4_prefix_length": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv4 prefix length (0-32).").AddIntegerRangeDescription(0, 32).String,
+							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 32),
+							},
+						},
+						"ipv6_prefix_address": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv6 network address used by the MAP rule, without the prefix length.").String,
+							Optional:            true,
+						},
+						"ipv6_prefix_length": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv6 prefix length (0-128).").AddIntegerRangeDescription(0, 128).String,
+							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 128),
+							},
+						},
+					},
+				},
+			},
 			"interfaces_wan1_vlan_tagging_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether VLAN tagging is enabled.").String,
 				Optional:            true,
@@ -242,6 +348,112 @@ func (r *ApplianceUplinksSettingsResource) Schema(ctx context.Context, req resou
 				MarkdownDescription: helpers.NewAttributeDescription("Up to 2 nameserver addresses to use, ordered in priority from highest to lowest priority.").String,
 				ElementType:         types.StringType,
 				Optional:            true,
+			},
+			"interfaces_wan2_transition_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether the IPoE transition IPv4 to IPv6 is enabled.").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Mode selector for the IPoE transition IPv4 to IPv6 is enabled.").AddStringEnumDescription("DS-Lite", "IP-in-IP", "MAP-E", "MAP-T").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("DS-Lite", "IP-in-IP", "MAP-E", "MAP-T"),
+				},
+			},
+			"interfaces_wan2_transition_authentication_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether IPoE transition authentication is enabled.").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_authentication_password": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Password for IPoE transition authentication. This parameter is not returned.").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_authentication_username": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Username for IPoE transition authentication.").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_ipv4_local_address": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Static IPv4 information used for host origination and NAT44 translation").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_ipv6_interface_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The 64-bit interface ID (suffix) of the uplink IPv6 address").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_ipv6_border_relay_address": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("CIDR for the border relay for the IPoE transition authentication.").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_ipv6_border_relay_mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Mode selection for the border relay for the IPoE transition.").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_isp_name": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("ISP name for the IPoE transition.").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_map_draft_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether MAP-E draft mode is enabled. This field is accepted only for MAP-E. Null is treated as omitted and preserves the existing setting.").String,
+				Optional:            true,
+			},
+			"interfaces_wan2_transition_map_rules_source": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("How MAP rules are obtained. HTTPS requires an ISP supported for the transition mode.").AddStringEnumDescription("DHCPv6", "HTTPS", "manual").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("DHCPv6", "HTTPS", "manual"),
+				},
+			},
+			"interfaces_wan2_transition_map_rules_entries": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Manual MAP rules. At most one entry is supported.").String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"ea_bit_length": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Embedded address bit length (0-48).").AddIntegerRangeDescription(0, 48).String,
+							Required:            true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 48),
+							},
+						},
+						"ps_id_offset": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("PSID offset (0-15).").AddIntegerRangeDescription(0, 15).String,
+							Required:            true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 15),
+							},
+						},
+						"border_relay_address": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv6 border relay address for MAP-E.").String,
+							Optional:            true,
+						},
+						"border_relay_prefix": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv6 border relay prefix for MAP-T in CIDR notation, with a prefix length from 0 to 96.").String,
+							Optional:            true,
+						},
+						"ipv4_prefix_address": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv4 network address used by the MAP rule, without the prefix length.").String,
+							Optional:            true,
+						},
+						"ipv4_prefix_length": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv4 prefix length (0-32).").AddIntegerRangeDescription(0, 32).String,
+							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 32),
+							},
+						},
+						"ipv6_prefix_address": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv6 network address used by the MAP rule, without the prefix length.").String,
+							Optional:            true,
+						},
+						"ipv6_prefix_length": schema.Int64Attribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IPv6 prefix length (0-128).").AddIntegerRangeDescription(0, 128).String,
+							Optional:            true,
+							Validators: []validator.Int64{
+								int64validator.Between(0, 128),
+							},
+						},
+					},
+				},
 			},
 			"interfaces_wan2_vlan_tagging_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether VLAN tagging is enabled.").String,

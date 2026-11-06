@@ -45,6 +45,7 @@ type DataSourceApplianceNetworkSecurityIntrusion struct {
 	NetworkId                     types.String `tfsdk:"network_id"`
 	IdsRulesets                   types.String `tfsdk:"ids_rulesets"`
 	Mode                          types.String `tfsdk:"mode"`
+	PolicyId                      types.String `tfsdk:"policy_id"`
 	ProtectedNetworksUseDefault   types.Bool   `tfsdk:"protected_networks_use_default"`
 	ProtectedNetworksExcludedCidr types.List   `tfsdk:"protected_networks_excluded_cidr"`
 	ProtectedNetworksIncludedCidr types.List   `tfsdk:"protected_networks_included_cidr"`
@@ -72,6 +73,11 @@ func (data *DataSourceApplianceNetworkSecurityIntrusion) fromBody(ctx context.Co
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
+	}
+	if value := res.Get("policy.id"); value.Exists() && value.Value() != nil {
+		data.PolicyId = types.StringValue(value.String())
+	} else {
+		data.PolicyId = types.StringNull()
 	}
 	if value := res.Get("protectedNetworks.useDefault"); value.Exists() && value.Value() != nil {
 		data.ProtectedNetworksUseDefault = types.BoolValue(value.Bool())

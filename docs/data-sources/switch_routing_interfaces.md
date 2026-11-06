@@ -37,13 +37,27 @@ data "meraki_switch_routing_interfaces" "example" {
 
 Read-Only:
 
+- `bidirectional_forwarding_detection_enabled` (Boolean) Whether BFD is enabled on the L3 interface.
+- `bidirectional_forwarding_detection_interval_interface_min_rx` (Number) Minimum BFD receive interval in milliseconds.
+- `bidirectional_forwarding_detection_interval_interface_msecs` (Number) BFD transmit interval in milliseconds.
+- `bidirectional_forwarding_detection_interval_interface_multiplier` (Number) BFD detection multiplier.
 - `candidate_uplink_v4` (Boolean) When true, this interface is a UAC candidate for IPv4 Uplink.
+- `cloud_uplink_enabled` (Boolean) Whether this interface is enabled as an uplink.
+- `cloud_uplink_is_default_gateway` (Boolean) Whether the switch uses this uplink gateway as its default gateway.
+- `cloud_uplink_is_eligible` (Boolean) Whether this interface is eligible as a UAC uplink.
+- `cloud_uplink_nameservers_primary` (String) Primary DNS server address.
+- `cloud_uplink_nameservers_secondary` (String) Secondary DNS server address.
 - `default_gateway` (String) The next hop for any traffic that isn`t going to a directly connected subnet or over a static route. This IP address must exist in a subnet with a routed interface. Required if this is the first IPv4 interface.
 - `id` (String) The id of the object
 - `interface_ip` (String) The IP address this switch will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.
 - `ipv6_address` (String) The IPv6 address of the interface. Required if assignmentMode is `static`. Must not be included if assignmentMode is `eui-64`.
 - `ipv6_assignment_mode` (String) The IPv6 assignment mode for the interface. Can be either `eui-64` or `static`.
 - `ipv6_candidate_uplink` (Boolean) When true, this interface is a UAC candidate for IPv6 Uplink.
+- `ipv6_cloud_uplink_enabled` (Boolean) Whether this interface is enabled as an uplink.
+- `ipv6_cloud_uplink_is_default_gateway` (Boolean) Whether the switch uses this uplink gateway as its default gateway.
+- `ipv6_cloud_uplink_is_eligible` (Boolean) Whether this interface is eligible as a UAC uplink.
+- `ipv6_cloud_uplink_nameservers_primary` (String) Primary DNS server address.
+- `ipv6_cloud_uplink_nameservers_secondary` (String) Secondary DNS server address.
 - `ipv6_gateway` (String) The IPv6 default gateway of the interface. Required if prefix is defined and this is the first interface with IPv6 configured for the switch.
 - `ipv6_is_switch_default_gateway` (Boolean) When true, the switch uses the IPv6 uplink gateway as its IPv6 default gateway. This can only be set if the interface is designated as the IPv6 uplink.
 - `ipv6_prefix` (String) The IPv6 prefix of the interface. Required if IPv6 object is included.
@@ -51,6 +65,7 @@ Read-Only:
 - `ipv6_static_v6_dns2` (String) Secondary IPv6 DNS server address
 - `is_switch_default_gateway` (Boolean) When true, the switch uses the IPv4 uplink gateway as its IPv4 default gateway. This can only be set if the interface is designated as the IPv4 uplink.
 - `mode` (String) L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.
+- `mtu` (Number) The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and routed modes.
 - `multicast_routing` (String) Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.
 - `name` (String) A friendly name or description for the interface or VLAN.
 - `ospf_settings_area` (String) The OSPF area to which this interface should belong. Can be either `ospfDisabled` or the identifier of an existing OSPF area. Defaults to `ospfDisabled`.

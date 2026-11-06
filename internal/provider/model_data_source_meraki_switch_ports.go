@@ -66,11 +66,13 @@ type DataSourceSwitchPortsItems struct {
 	AdaptivePolicyGroupId                  types.String `tfsdk:"adaptive_policy_group_id"`
 	AdaptivePolicyGroupName                types.String `tfsdk:"adaptive_policy_group_name"`
 	Dot3azEnabled                          types.Bool   `tfsdk:"dot3az_enabled"`
+	FastPoeEnabled                         types.Bool   `tfsdk:"fast_poe_enabled"`
 	HighSpeedEnabled                       types.Bool   `tfsdk:"high_speed_enabled"`
 	MirrorMode                             types.String `tfsdk:"mirror_mode"`
 	ModuleModel                            types.String `tfsdk:"module_model"`
 	ModuleSerial                           types.String `tfsdk:"module_serial"`
 	ModuleSlot                             types.Int64  `tfsdk:"module_slot"`
+	PerpetualPoeEnabled                    types.Bool   `tfsdk:"perpetual_poe_enabled"`
 	ProfileEnabled                         types.Bool   `tfsdk:"profile_enabled"`
 	ProfileId                              types.String `tfsdk:"profile_id"`
 	ProfileIname                           types.String `tfsdk:"profile_iname"`
@@ -232,6 +234,11 @@ func (data *DataSourceSwitchPorts) fromBody(ctx context.Context, res meraki.Res)
 		} else {
 			data.Dot3azEnabled = types.BoolNull()
 		}
+		if value := res.Get("fastPoe.enabled"); value.Exists() && value.Value() != nil {
+			data.FastPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.FastPoeEnabled = types.BoolNull()
+		}
 		if value := res.Get("highSpeed.enabled"); value.Exists() && value.Value() != nil {
 			data.HighSpeedEnabled = types.BoolValue(value.Bool())
 		} else {
@@ -256,6 +263,11 @@ func (data *DataSourceSwitchPorts) fromBody(ctx context.Context, res meraki.Res)
 			data.ModuleSlot = types.Int64Value(value.Int())
 		} else {
 			data.ModuleSlot = types.Int64Null()
+		}
+		if value := res.Get("perpetualPoe.enabled"); value.Exists() && value.Value() != nil {
+			data.PerpetualPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerpetualPoeEnabled = types.BoolNull()
 		}
 		if value := res.Get("profile.enabled"); value.Exists() && value.Value() != nil {
 			data.ProfileEnabled = types.BoolValue(value.Bool())

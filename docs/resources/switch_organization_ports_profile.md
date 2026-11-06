@@ -24,12 +24,15 @@ resource "meraki_switch_organization_ports_profile" "example" {
   port_access_policy_type    = "Open"
   port_allowed_vlans         = "1-100"
   port_dai_trusted           = false
+  port_fast_poe_enabled      = true
   port_isolation_enabled     = false
   port_peer_sgt_capable      = false
+  port_perpetual_poe_enabled = true
   port_poe_enabled           = true
   port_rstp_enabled          = true
   port_storm_control_enabled = true
   port_stp_guard             = "disabled"
+  port_stp_port_fast_trunk   = false
   port_type                  = "access"
   port_udld                  = "Alert only"
   port_vlan                  = 10
@@ -63,9 +66,11 @@ resource "meraki_switch_organization_ports_profile" "example" {
 - `port_adaptive_policy_voice_group_id` (String) The adaptive policy group ID that will be used to tag voice traffic through this port profile. This ID must pre-exist during the configuration, else needs to be created using adaptivePolicy/groups API.
 - `port_allowed_vlans` (String) The VLANs allowed on the port profile. Only applicable to trunk ports.
 - `port_dai_trusted` (Boolean) If true, ARP packets for this port will be considered trusted, and Dynamic ARP Inspection will allow the traffic.
+- `port_fast_poe_enabled` (Boolean) Whether Fast PoE is enabled for the port profile. Fast PoE requires Perpetual PoE to be enabled.
 - `port_isolation_enabled` (Boolean) The isolation status of the port profile.
 - `port_mac_allow_list` (List of String) Only devices with MAC addresses specified in this list will have access to this port. Up to 20 MAC addresses can be defined. Only applicable when `accessPolicyType` is `MAC allow list`.
 - `port_peer_sgt_capable` (Boolean) If true, Peer SGT is enabled for traffic through this port profile. Applicable to trunk ports only.
+- `port_perpetual_poe_enabled` (Boolean) Whether Perpetual PoE is enabled for the port profile.
 - `port_poe_enabled` (Boolean) The PoE status of the port profile.
 - `port_rstp_enabled` (Boolean) The rapid spanning tree protocol status.
 - `port_sticky_mac_allow_list` (List of String) The initial list of MAC addresses for sticky Mac allow list. Only applicable when `accessPolicyType` is `Sticky MAC allow list`.
@@ -73,6 +78,7 @@ resource "meraki_switch_organization_ports_profile" "example" {
 - `port_storm_control_enabled` (Boolean) The storm control status of the port profile.
 - `port_stp_guard` (String) The state of the STP guard.
   - Choices: `bpdu guard`, `disabled`, `loop guard`, `root guard`
+- `port_stp_port_fast_trunk` (Boolean) The state of STP PortFast Trunk on the port profile.
 - `port_udld` (String) The action to take when Unidirectional Link is detected. LinkDefault configuration is Alert only.
   - Choices: `Alert only`, `Enforce`
 - `port_vlan` (Number) The VLAN of the port profile. A null value will clear the value set for trunk ports.

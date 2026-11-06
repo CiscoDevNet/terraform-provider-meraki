@@ -48,6 +48,7 @@ type DataSourceNetworkWirelessRadioRRM struct {
 	BusyHourScheduleManualEnd      types.String `tfsdk:"busy_hour_schedule_manual_end"`
 	BusyHourScheduleManualStart    types.String `tfsdk:"busy_hour_schedule_manual_start"`
 	ChannelAvoidanceEnabled        types.Bool   `tfsdk:"channel_avoidance_enabled"`
+	ChannelSelectionPreferredMode  types.String `tfsdk:"channel_selection_preferred_mode"`
 	FraEnabled                     types.Bool   `tfsdk:"fra_enabled"`
 }
 
@@ -93,6 +94,11 @@ func (data *DataSourceNetworkWirelessRadioRRM) fromBody(ctx context.Context, res
 		data.ChannelAvoidanceEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.ChannelAvoidanceEnabled = types.BoolNull()
+	}
+	if value := res.Get("channel.selection.preferred.mode"); value.Exists() && value.Value() != nil {
+		data.ChannelSelectionPreferredMode = types.StringValue(value.String())
+	} else {
+		data.ChannelSelectionPreferredMode = types.StringNull()
 	}
 	if value := res.Get("fra.enabled"); value.Exists() && value.Value() != nil {
 		data.FraEnabled = types.BoolValue(value.Bool())

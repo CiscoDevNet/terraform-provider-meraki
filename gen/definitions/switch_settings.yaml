@@ -5,6 +5,7 @@ put_create: true
 no_delete: true
 doc_category: Switches
 test_variables: [test_org, test_network]
+ignore_attributes: [clientTracking.deviceConfigMode]
 attributes:
   - tf_name: network_id
     type: String
@@ -13,6 +14,10 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
+  - model_name: portChannelFallback
+    type: Bool
+    description: Port channel fallback
+    example: "false"
   - model_name: useCombinedPower
     type: Bool
     description: The use Combined Power as the default behavior of secondary power supplies on supported devices.

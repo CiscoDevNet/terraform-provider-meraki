@@ -49,6 +49,7 @@ attributes:
     attributes:
       - model_name: enabled
         type: Bool
+        mandatory: true
         description: AP usb port enabled
         example: "true"
       - model_name: name

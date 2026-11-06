@@ -113,7 +113,7 @@ func (r *WirelessEthernetPortProfileResource) Schema(ctx context.Context, req re
 					Attributes: map[string]schema.Attribute{
 						"enabled": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("AP usb port enabled").String,
-							Optional:            true,
+							Required:            true,
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("AP usb port name").String,

@@ -47,6 +47,7 @@ type DataSourceOrganizationLoginSecurity struct {
 	EnforceAccountLockout                         types.Bool   `tfsdk:"enforce_account_lockout"`
 	EnforceDifferentPasswords                     types.Bool   `tfsdk:"enforce_different_passwords"`
 	EnforceIdleTimeout                            types.Bool   `tfsdk:"enforce_idle_timeout"`
+	EnforceLockedIpSessions                       types.Bool   `tfsdk:"enforce_locked_ip_sessions"`
 	EnforceLoginIpRanges                          types.Bool   `tfsdk:"enforce_login_ip_ranges"`
 	EnforcePasswordExpiration                     types.Bool   `tfsdk:"enforce_password_expiration"`
 	EnforceStrongPasswords                        types.Bool   `tfsdk:"enforce_strong_passwords"`
@@ -92,6 +93,11 @@ func (data *DataSourceOrganizationLoginSecurity) fromBody(ctx context.Context, r
 		data.EnforceIdleTimeout = types.BoolValue(value.Bool())
 	} else {
 		data.EnforceIdleTimeout = types.BoolNull()
+	}
+	if value := res.Get("enforceLockedIpSessions"); value.Exists() && value.Value() != nil {
+		data.EnforceLockedIpSessions = types.BoolValue(value.Bool())
+	} else {
+		data.EnforceLockedIpSessions = types.BoolNull()
 	}
 	if value := res.Get("enforceLoginIpRanges"); value.Exists() && value.Value() != nil {
 		data.EnforceLoginIpRanges = types.BoolValue(value.Bool())

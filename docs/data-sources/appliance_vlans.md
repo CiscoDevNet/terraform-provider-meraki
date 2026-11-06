@@ -53,10 +53,13 @@ Read-Only:
 - `mask` (Number) Mask used for the subnet of all bound to the template networks. Applicable only for template network.
 - `name` (String) The name of the new VLAN
 - `reserved_ip_ranges` (Attributes List) The DHCP reserved IP ranges on the VLAN (see [below for nested schema](#nestedatt--items--reserved_ip_ranges))
+- `sgt_id` (Number) Adaptive policy group ID this VLAN is assigned to.
 - `subnet` (String) The subnet of the VLAN
 - `template_vlan_type` (String) Type of subnetting of the VLAN. Applicable only for template network.
+- `uplinks` (Attributes List) Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions. (see [below for nested schema](#nestedatt--items--uplinks))
 - `vlan_id` (String) The VLAN ID of the new VLAN (must be between 1 and 4094)
 - `vpn_nat_subnet` (String) The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
+- `vrf_id` (String) VRF ID. Use '0' for the default VRF.
 
 <a id="nestedatt--items--dhcp_options"></a>
 ### Nested Schema for `items.dhcp_options`
@@ -98,3 +101,12 @@ Read-Only:
 - `comment` (String) A text comment for the reserved range
 - `end` (String) The last IP in the reserved range
 - `start` (String) The first IP in the reserved range
+
+
+<a id="nestedatt--items--uplinks"></a>
+### Nested Schema for `items.uplinks`
+
+Read-Only:
+
+- `interface` (String) Interface name of the uplink
+- `nat_enabled` (Boolean) Whether NAT is enabled on the uplink

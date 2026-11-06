@@ -38,6 +38,7 @@ func TestAccMerakiSwitchSettings(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "port_channel_fallback", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "use_combined_power", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "vlan", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_settings.test", "mac_blocklist_enabled", "true"))
@@ -125,6 +126,7 @@ func testAccMerakiSwitchSettingsConfig_minimum() string {
 func testAccMerakiSwitchSettingsConfig_all() string {
 	config := `resource "meraki_switch_settings" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  port_channel_fallback = false` + "\n"
 	config += `  use_combined_power = false` + "\n"
 	config += `  vlan = 1` + "\n"
 	config += `  mac_blocklist_enabled = true` + "\n"

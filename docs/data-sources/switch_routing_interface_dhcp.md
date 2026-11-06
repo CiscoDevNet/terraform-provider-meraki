@@ -32,6 +32,8 @@ data "meraki_switch_routing_interface_dhcp" "example" {
 - `boot_file_name` (String) The PXE boot server filename for the DHCP server running on the switch interface
 - `boot_next_server` (String) The PXE boot server IP for the DHCP server running on the switch interface
 - `boot_options_enabled` (Boolean) Enable DHCP boot options to provide PXE boot options configs for the dhcp server running on the switch interface
+- `dhcp_default_router_ips` (String) The DHCP default router IPs for the DHCP server running on the switch interface
+- `dhcp_domain_name` (String) The DHCP domain name for the DHCP server running on the switch interface
 - `dhcp_lease_time` (String) The DHCP lease time config for the dhcp server running on switch interface (`30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`)
 - `dhcp_mode` (String) The DHCP mode options for the switch interface (`dhcpDisabled`, `dhcpRelay` or `dhcpServer`)
 - `dhcp_options` (Attributes List) Array of DHCP options consisting of code, type and value for the DHCP server running on the switch interface (see [below for nested schema](#nestedatt--dhcp_options))

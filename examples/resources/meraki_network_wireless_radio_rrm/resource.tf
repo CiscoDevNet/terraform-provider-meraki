@@ -6,5 +6,6 @@ resource "meraki_network_wireless_radio_rrm" "example" {
   busy_hour_schedule_manual_end      = "15:00"
   busy_hour_schedule_manual_start    = "10:00"
   channel_avoidance_enabled          = true
+  channel_selection_preferred_mode   = "automatic"
   fra_enabled                        = false
 }

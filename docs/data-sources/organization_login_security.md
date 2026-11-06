@@ -33,6 +33,7 @@ data "meraki_organization_login_security" "example" {
 - `enforce_account_lockout` (Boolean) Boolean indicating whether users` Dashboard accounts will be locked out after a specified number of consecutive failed login attempts.
 - `enforce_different_passwords` (Boolean) Boolean indicating whether users, when setting a new password, are forced to choose a new password that is different from any past passwords.
 - `enforce_idle_timeout` (Boolean) Boolean indicating whether users will be logged out after being idle for the specified number of minutes.
+- `enforce_locked_ip_sessions` (Boolean) Boolean indicating whether Dashboard sessions are locked to the IP address from which they were established. Only applicable to organizations that support locked-IP sessions; otherwise the parameter is ignored.
 - `enforce_login_ip_ranges` (Boolean) Boolean indicating whether organization will restrict access to Dashboard (including the API) from certain IP addresses.
 - `enforce_password_expiration` (Boolean) Boolean indicating whether users are forced to change their password every X number of days.
 - `enforce_strong_passwords` (Boolean) Boolean indicating whether users will be forced to choose strong passwords for their accounts. Strong passwords are at least 8 characters that contain 3 of the following: number, uppercase letter, lowercase letter, and symbol

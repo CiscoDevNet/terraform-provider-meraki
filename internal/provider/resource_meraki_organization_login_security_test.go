@@ -42,6 +42,7 @@ func TestAccMerakiOrganizationLoginSecurity(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_account_lockout", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_different_passwords", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_idle_timeout", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_locked_ip_sessions", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_password_expiration", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_strong_passwords", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_login_security.test", "enforce_two_factor_auth", "true"))
@@ -127,6 +128,7 @@ func testAccMerakiOrganizationLoginSecurityConfig_all() string {
 	config += `  enforce_account_lockout = true` + "\n"
 	config += `  enforce_different_passwords = true` + "\n"
 	config += `  enforce_idle_timeout = true` + "\n"
+	config += `  enforce_locked_ip_sessions = true` + "\n"
 	config += `  enforce_password_expiration = true` + "\n"
 	config += `  enforce_strong_passwords = true` + "\n"
 	config += `  enforce_two_factor_auth = true` + "\n"

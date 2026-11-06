@@ -31,6 +31,7 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
@@ -89,6 +90,10 @@ type DataSourceNetworkFirmwareUpgrades struct {
 	ProductsCameraLastUpgradeToVersionShortName                 types.String                                                                   `tfsdk:"products_camera_last_upgrade_to_version_short_name"`
 	ProductsCameraNextUpgradeTime                               types.String                                                                   `tfsdk:"products_camera_next_upgrade_time"`
 	ProductsCameraNextUpgradeToVersionId                        types.String                                                                   `tfsdk:"products_camera_next_upgrade_to_version_id"`
+	ProductsCampusGatewayParticipateInNextBetaRelease           types.Bool                                                                     `tfsdk:"products_campus_gateway_participate_in_next_beta_release"`
+	ProductsCampusGatewayNextUpgradeStrategy                    types.String                                                                   `tfsdk:"products_campus_gateway_next_upgrade_strategy"`
+	ProductsCampusGatewayNextUpgradeTime                        types.String                                                                   `tfsdk:"products_campus_gateway_next_upgrade_time"`
+	ProductsCampusGatewayNextUpgradeToVersionId                 types.String                                                                   `tfsdk:"products_campus_gateway_next_upgrade_to_version_id"`
 	ProductsCameraNextUpgradeToVersionFirmware                  types.String                                                                   `tfsdk:"products_camera_next_upgrade_to_version_firmware"`
 	ProductsCameraNextUpgradeToVersionReleaseDate               types.String                                                                   `tfsdk:"products_camera_next_upgrade_to_version_release_date"`
 	ProductsCameraNextUpgradeToVersionReleaseType               types.String                                                                   `tfsdk:"products_camera_next_upgrade_to_version_release_type"`
@@ -221,6 +226,7 @@ type DataSourceNetworkFirmwareUpgrades struct {
 	ProductsSwitchCatalystAvailableVersions                     []DataSourceNetworkFirmwareUpgradesProductsSwitchCatalystAvailableVersions     `tfsdk:"products_switch_catalyst_available_versions"`
 	ProductsWirelessIsUpgradeAvailable                          types.Bool                                                                     `tfsdk:"products_wireless_is_upgrade_available"`
 	ProductsWirelessParticipateInNextBetaRelease                types.Bool                                                                     `tfsdk:"products_wireless_participate_in_next_beta_release"`
+	ProductsWirelessNextUpgradeStrategy                         types.String                                                                   `tfsdk:"products_wireless_next_upgrade_strategy"`
 	ProductsWirelessCurrentVersionFirmware                      types.String                                                                   `tfsdk:"products_wireless_current_version_firmware"`
 	ProductsWirelessCurrentVersionId                            types.String                                                                   `tfsdk:"products_wireless_current_version_id"`
 	ProductsWirelessCurrentVersionReleaseDate                   types.String                                                                   `tfsdk:"products_wireless_current_version_release_date"`
@@ -272,6 +278,7 @@ type DataSourceNetworkFirmwareUpgrades struct {
 	ProductsWirelessControllerAvailableVersions                 []DataSourceNetworkFirmwareUpgradesProductsWirelessControllerAvailableVersions `tfsdk:"products_wireless_controller_available_versions"`
 	UpgradeWindowDayOfWeek                                      types.String                                                                   `tfsdk:"upgrade_window_day_of_week"`
 	UpgradeWindowHourOfDay                                      types.String                                                                   `tfsdk:"upgrade_window_hour_of_day"`
+	FeatureLossAcknowledgements                                 []DataSourceNetworkFirmwareUpgradesFeatureLossAcknowledgements                 `tfsdk:"feature_loss_acknowledgements"`
 }
 
 type DataSourceNetworkFirmwareUpgradesProductsApplianceAvailableVersions struct {
@@ -344,6 +351,12 @@ type DataSourceNetworkFirmwareUpgradesProductsWirelessControllerAvailableVersion
 	ReleaseDate types.String `tfsdk:"release_date"`
 	ReleaseType types.String `tfsdk:"release_type"`
 	ShortName   types.String `tfsdk:"short_name"`
+}
+
+type DataSourceNetworkFirmwareUpgradesFeatureLossAcknowledgements struct {
+	NetworkId                types.String `tfsdk:"network_id"`
+	ProductType              types.String `tfsdk:"product_type"`
+	RemovedFeatureCheckNames types.List   `tfsdk:"removed_feature_check_names"`
 }
 
 // End of section. //template:end types
@@ -597,6 +610,26 @@ func (data *DataSourceNetworkFirmwareUpgrades) fromBody(ctx context.Context, res
 		data.ProductsCameraLastUpgradeToVersionShortName = types.StringValue(value.String())
 	} else {
 		data.ProductsCameraLastUpgradeToVersionShortName = types.StringNull()
+	}
+	if value := res.Get("products.campusGateway.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
+		data.ProductsCampusGatewayParticipateInNextBetaRelease = types.BoolValue(value.Bool())
+	} else {
+		data.ProductsCampusGatewayParticipateInNextBetaRelease = types.BoolNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.strategy"); value.Exists() && value.Value() != nil {
+		data.ProductsCampusGatewayNextUpgradeStrategy = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeStrategy = types.StringNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.time"); value.Exists() && value.Value() != nil {
+		data.ProductsCampusGatewayNextUpgradeTime = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeTime = types.StringNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
+		data.ProductsCampusGatewayNextUpgradeToVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.camera.nextUpgrade.toVersion.firmware"); value.Exists() && value.Value() != nil {
 		data.ProductsCameraNextUpgradeToVersionFirmware = types.StringValue(value.String())
@@ -1382,6 +1415,11 @@ func (data *DataSourceNetworkFirmwareUpgrades) fromBody(ctx context.Context, res
 	} else {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolNull()
 	}
+	if value := res.Get("products.wireless.nextUpgrade.strategy"); value.Exists() && value.Value() != nil {
+		data.ProductsWirelessNextUpgradeStrategy = types.StringValue(value.String())
+	} else {
+		data.ProductsWirelessNextUpgradeStrategy = types.StringNull()
+	}
 	if value := res.Get("products.wireless.currentVersion.firmware"); value.Exists() && value.Value() != nil {
 		data.ProductsWirelessCurrentVersionFirmware = types.StringValue(value.String())
 	} else {
@@ -1669,6 +1707,30 @@ func (data *DataSourceNetworkFirmwareUpgrades) fromBody(ctx context.Context, res
 		data.UpgradeWindowHourOfDay = types.StringValue(value.String())
 	} else {
 		data.UpgradeWindowHourOfDay = types.StringNull()
+	}
+	if value := res.Get("featureLossAcknowledgements"); value.Exists() && value.Value() != nil {
+		data.FeatureLossAcknowledgements = make([]DataSourceNetworkFirmwareUpgradesFeatureLossAcknowledgements, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := DataSourceNetworkFirmwareUpgradesFeatureLossAcknowledgements{}
+			if value := res.Get("networkId"); value.Exists() && value.Value() != nil {
+				data.NetworkId = types.StringValue(value.String())
+			} else {
+				data.NetworkId = types.StringNull()
+			}
+			if value := res.Get("productType"); value.Exists() && value.Value() != nil {
+				data.ProductType = types.StringValue(value.String())
+			} else {
+				data.ProductType = types.StringNull()
+			}
+			if value := res.Get("removedFeatureCheckNames"); value.Exists() && value.Value() != nil {
+				data.RemovedFeatureCheckNames = helpers.GetStringList(value.Array())
+			} else {
+				data.RemovedFeatureCheckNames = types.ListNull(types.StringType)
+			}
+			(*parent).FeatureLossAcknowledgements = append((*parent).FeatureLossAcknowledgements, data)
+			return true
+		})
 	}
 }
 

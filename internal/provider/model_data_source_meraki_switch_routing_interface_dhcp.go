@@ -48,6 +48,8 @@ type DataSourceSwitchRoutingInterfaceDHCP struct {
 	BootFileName         types.String                                             `tfsdk:"boot_file_name"`
 	BootNextServer       types.String                                             `tfsdk:"boot_next_server"`
 	BootOptionsEnabled   types.Bool                                               `tfsdk:"boot_options_enabled"`
+	DhcpDefaultRouterIps types.String                                             `tfsdk:"dhcp_default_router_ips"`
+	DhcpDomainName       types.String                                             `tfsdk:"dhcp_domain_name"`
 	DhcpLeaseTime        types.String                                             `tfsdk:"dhcp_lease_time"`
 	DhcpMode             types.String                                             `tfsdk:"dhcp_mode"`
 	DnsNameserversOption types.String                                             `tfsdk:"dns_nameservers_option"`
@@ -103,6 +105,16 @@ func (data *DataSourceSwitchRoutingInterfaceDHCP) fromBody(ctx context.Context, 
 		data.BootOptionsEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.BootOptionsEnabled = types.BoolNull()
+	}
+	if value := res.Get("dhcpDefaultRouterIps"); value.Exists() && value.Value() != nil {
+		data.DhcpDefaultRouterIps = types.StringValue(value.String())
+	} else {
+		data.DhcpDefaultRouterIps = types.StringNull()
+	}
+	if value := res.Get("dhcpDomainName"); value.Exists() && value.Value() != nil {
+		data.DhcpDomainName = types.StringValue(value.String())
+	} else {
+		data.DhcpDomainName = types.StringNull()
 	}
 	if value := res.Get("dhcpLeaseTime"); value.Exists() && value.Value() != nil {
 		data.DhcpLeaseTime = types.StringValue(value.String())

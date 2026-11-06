@@ -55,6 +55,11 @@ attributes:
         example: custom
         enum_values: [builtin, custom]
         minimum_test_value: '"builtin"'
+      - model_name: id
+        type: String
+        data_path: [vrf]
+        description: VRF ID for the policy. Use 0 for the default VRF.
+        example: "12345"
       - model_name: trafficFilters
         type: List
         mandatory: true

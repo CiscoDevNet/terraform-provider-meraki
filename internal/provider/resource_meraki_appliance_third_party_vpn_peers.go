@@ -94,8 +94,11 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 							},
 						},
 						"ipsec_policies_preset": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.").AddStringEnumDescription("aws (insecure)", "aws_v2", "azure (insecure)", "azure_v2", "default (insecure)", "secure", "umbrella (deprecated)", "umbrella (insecure)", "umbrella_v2", "zscaler (insecure)", "zscaler_v2").String,
 							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("aws (insecure)", "aws_v2", "azure (insecure)", "azure_v2", "default (insecure)", "secure", "umbrella (deprecated)", "umbrella (insecure)", "umbrella_v2", "zscaler (insecure)", "zscaler_v2"),
+							},
 						},
 						"ip_version": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("[optional] The IP version of the VPN peer. Required when isRouteBased is true. Accepted values are 4 or 6.").String,
@@ -184,6 +187,14 @@ func (r *ApplianceThirdPartyVPNPeersResource) Schema(ctx context.Context, req re
 						},
 						"ebgp_neighbor_weight": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_vrf_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("VRF ID for the Catalyst BGP neighbor. Use 0 for the default VRF.").String,
+							Optional:            true,
+						},
+						"ebgp_neighbor_vrf_name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("VRF name for the Catalyst BGP neighbor.").String,
 							Optional:            true,
 						},
 						"ebgp_neighbor_path_prepend": schema.ListAttribute{

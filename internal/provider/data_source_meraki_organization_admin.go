@@ -100,6 +100,15 @@ func (d *OrganizationAdminDataSource) Schema(ctx context.Context, req datasource
 							MarkdownDescription: "The network ID",
 							Computed:            true,
 						},
+						"packet_capture_allowed": schema.BoolAttribute{
+							MarkdownDescription: "True if admin has access to the packet capture utility. Only allowed if switch-port-manager or switchport is the access value",
+							Computed:            true,
+						},
+						"switch_port_tags": schema.ListAttribute{
+							MarkdownDescription: "Switch port tags the admin will have access to. Only allowed if switch-port-manager or switchport is the access value",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
 					},
 				},
 			},

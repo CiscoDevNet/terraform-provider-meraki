@@ -82,6 +82,14 @@ func (d *NetworkSNMPDataSource) Schema(ctx context.Context, req datasource.Schem
 				MarkdownDescription: "Version of community_string_wo.",
 				Computed:            true,
 			},
+			"authentication_protocol": schema.StringAttribute{
+				MarkdownDescription: "The SNMPv3 authentication protocol.",
+				Computed:            true,
+			},
+			"privacy_protocol": schema.StringAttribute{
+				MarkdownDescription: "The SNMPv3 privacy protocol.",
+				Computed:            true,
+			},
 			"users": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of SNMP users. Only relevant if `access` is set to `users`.",
 				Computed:            true,

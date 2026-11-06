@@ -52,6 +52,7 @@ type DataSourceNetworkDevicesItems struct {
 	NetworkId           types.String                      `tfsdk:"network_id"`
 	Notes               types.String                      `tfsdk:"notes"`
 	Serial              types.String                      `tfsdk:"serial"`
+	Url                 types.String                      `tfsdk:"url"`
 	BeaconIdParamsMajor types.Int64                       `tfsdk:"beacon_id_params_major"`
 	BeaconIdParamsMinor types.Int64                       `tfsdk:"beacon_id_params_minor"`
 	BeaconIdParamsUuid  types.String                      `tfsdk:"beacon_id_params_uuid"`
@@ -141,6 +142,11 @@ func (data *DataSourceNetworkDevices) fromBody(ctx context.Context, res meraki.R
 			data.Serial = types.StringValue(value.String())
 		} else {
 			data.Serial = types.StringNull()
+		}
+		if value := res.Get("url"); value.Exists() && value.Value() != nil {
+			data.Url = types.StringValue(value.String())
+		} else {
+			data.Url = types.StringNull()
 		}
 		if value := res.Get("beaconIdParams.major"); value.Exists() && value.Value() != nil {
 			data.BeaconIdParamsMajor = types.Int64Value(value.Int())

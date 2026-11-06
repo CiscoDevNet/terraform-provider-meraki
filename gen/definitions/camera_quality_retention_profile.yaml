@@ -196,6 +196,16 @@ attributes:
     enum_values: [1080x1080, 2112x2112, 2880x2880]
   - model_name: quality
     type: String
+    data_path: [videoSettings, MV44X]
+    description: Quality of the camera. Can be one of `Standard` or `Enhanced`.
+    enum_values: [Enhanced, Standard]
+  - model_name: resolution
+    type: String
+    data_path: [videoSettings, MV44X]
+    description: Resolution of the camera. Can be one of `1440x1080` or `2560x1920`.
+    enum_values: [1440x1080, 2560x1920]
+  - model_name: quality
+    type: String
     data_path: [videoSettings, MV52]
     description: Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.
     example: Standard

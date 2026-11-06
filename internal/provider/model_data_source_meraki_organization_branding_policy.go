@@ -47,6 +47,7 @@ type DataSourceOrganizationBrandingPolicy struct {
 	Name                                           types.String `tfsdk:"name"`
 	AdminSettingsAppliesTo                         types.String `tfsdk:"admin_settings_applies_to"`
 	AdminSettingsValues                            types.List   `tfsdk:"admin_settings_values"`
+	AppearanceDashboardMenuTheme                   types.String `tfsdk:"appearance_dashboard_menu_theme"`
 	CustomLogoEnabled                              types.Bool   `tfsdk:"custom_logo_enabled"`
 	CustomLogoImageContents                        types.String `tfsdk:"custom_logo_image_contents"`
 	CustomLogoImageFormat                          types.String `tfsdk:"custom_logo_image_format"`
@@ -99,6 +100,11 @@ func (data *DataSourceOrganizationBrandingPolicy) fromBody(ctx context.Context, 
 		data.AdminSettingsValues = helpers.GetStringList(value.Array())
 	} else {
 		data.AdminSettingsValues = types.ListNull(types.StringType)
+	}
+	if value := res.Get("appearance.dashboardMenuTheme"); value.Exists() && value.Value() != nil {
+		data.AppearanceDashboardMenuTheme = types.StringValue(value.String())
+	} else {
+		data.AppearanceDashboardMenuTheme = types.StringNull()
 	}
 	if value := res.Get("customLogo.enabled"); value.Exists() && value.Value() != nil {
 		data.CustomLogoEnabled = types.BoolValue(value.Bool())

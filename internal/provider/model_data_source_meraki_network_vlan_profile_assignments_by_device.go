@@ -39,6 +39,7 @@ type DataSourceNetworkVLANProfileAssignmentsByDevice struct {
 
 type DataSourceNetworkVLANProfileAssignmentsByDeviceItems struct {
 	Id                   types.String `tfsdk:"id"`
+	ConfigurationSource  types.String `tfsdk:"configuration_source"`
 	Mac                  types.String `tfsdk:"mac"`
 	Name                 types.String `tfsdk:"name"`
 	ProductType          types.String `tfsdk:"product_type"`
@@ -67,6 +68,11 @@ func (data *DataSourceNetworkVLANProfileAssignmentsByDevice) fromBody(ctx contex
 		parent := &data
 		data := DataSourceNetworkVLANProfileAssignmentsByDeviceItems{}
 		data.Id = types.StringValue(res.Get("").String())
+		if value := res.Get("configurationSource"); value.Exists() && value.Value() != nil {
+			data.ConfigurationSource = types.StringValue(value.String())
+		} else {
+			data.ConfigurationSource = types.StringNull()
+		}
 		if value := res.Get("mac"); value.Exists() && value.Value() != nil {
 			data.Mac = types.StringValue(value.String())
 		} else {

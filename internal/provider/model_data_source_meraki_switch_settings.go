@@ -43,6 +43,7 @@ import (
 type DataSourceSwitchSettings struct {
 	Id                             types.String                              `tfsdk:"id"`
 	NetworkId                      types.String                              `tfsdk:"network_id"`
+	PortChannelFallback            types.Bool                                `tfsdk:"port_channel_fallback"`
 	UseCombinedPower               types.Bool                                `tfsdk:"use_combined_power"`
 	Vlan                           types.Int64                               `tfsdk:"vlan"`
 	MacBlocklistEnabled            types.Bool                                `tfsdk:"mac_blocklist_enabled"`
@@ -70,6 +71,11 @@ func (data DataSourceSwitchSettings) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DataSourceSwitchSettings) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("portChannelFallback"); value.Exists() && value.Value() != nil {
+		data.PortChannelFallback = types.BoolValue(value.Bool())
+	} else {
+		data.PortChannelFallback = types.BoolNull()
+	}
 	if value := res.Get("useCombinedPower"); value.Exists() && value.Value() != nil {
 		data.UseCombinedPower = types.BoolValue(value.Bool())
 	} else {

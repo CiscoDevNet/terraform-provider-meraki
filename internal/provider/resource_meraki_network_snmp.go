@@ -108,6 +108,20 @@ func (r *NetworkSNMPResource) Schema(ctx context.Context, req resource.SchemaReq
 					int64validator.AlsoRequires(path.MatchRelative().AtParent().AtName("community_string_wo")),
 				},
 			},
+			"authentication_protocol": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The SNMPv3 authentication protocol.").AddStringEnumDescription("SHA-1", "SHA-256", "SHA-384", "SHA-512").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("SHA-1", "SHA-256", "SHA-384", "SHA-512"),
+				},
+			},
+			"privacy_protocol": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The SNMPv3 privacy protocol.").AddStringEnumDescription("AES-128", "DES").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("AES-128", "DES"),
+				},
+			},
 			"users": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of SNMP users. Only relevant if `access` is set to `users`.").String,
 				Optional:            true,

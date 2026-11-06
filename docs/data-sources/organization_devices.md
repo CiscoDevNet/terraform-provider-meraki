@@ -35,6 +35,7 @@ data "meraki_organization_devices" "example" {
 Read-Only:
 
 - `address` (String) Physical address of the device
+- `configuration_updated_at` (String) Time at which network configuration is updated (ISO 8601 UTC format)
 - `details` (Attributes List) Additional device information (see [below for nested schema](#nestedatt--items--details))
 - `firmware` (String) Firmware version of the device
 - `id` (String) The id of the object

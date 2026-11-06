@@ -284,6 +284,20 @@ func (r *CameraQualityRetentionProfileResource) Schema(ctx context.Context, req 
 					stringvalidator.OneOf("1080x1080", "2112x2112", "2880x2880"),
 				},
 			},
+			"video_settings_mv44_x_quality": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Quality of the camera. Can be one of `Standard` or `Enhanced`.").AddStringEnumDescription("Enhanced", "Standard").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Enhanced", "Standard"),
+				},
+			},
+			"video_settings_mv44_x_resolution": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Resolution of the camera. Can be one of `1440x1080` or `2560x1920`.").AddStringEnumDescription("1440x1080", "2560x1920").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("1440x1080", "2560x1920"),
+				},
+			},
 			"video_settings_mv52_quality": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.").AddStringEnumDescription("Enhanced", "High", "Standard").String,
 				Optional:            true,

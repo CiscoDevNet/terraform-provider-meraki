@@ -10,6 +10,8 @@ resource "meraki_appliance_third_party_vpn_peers" "example" {
       public_ip                               = "123.123.123.1"
       remote_id                               = "miles@meraki.com"
       secret                                  = "Sample Password"
+      ebgp_neighbor_vrf_id                    = "12345"
+      ebgp_neighbor_vrf_name                  = "VRF Blue"
       group_active_active_tunnel              = false
       group_number                            = 1
       group_failover_direct_to_internet       = false

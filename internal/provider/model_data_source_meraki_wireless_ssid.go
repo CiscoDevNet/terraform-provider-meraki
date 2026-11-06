@@ -87,6 +87,7 @@ type DataSourceWirelessSSID struct {
 	RadiusTestingEnabled                                                types.Bool                                        `tfsdk:"radius_testing_enabled"`
 	SecondaryConcentratorNetworkId                                      types.String                                      `tfsdk:"secondary_concentrator_network_id"`
 	SplashPage                                                          types.String                                      `tfsdk:"splash_page"`
+	SsidAdminAccessible                                                 types.Bool                                        `tfsdk:"ssid_admin_accessible"`
 	UseVlanTagging                                                      types.Bool                                        `tfsdk:"use_vlan_tagging"`
 	Visible                                                             types.Bool                                        `tfsdk:"visible"`
 	VlanId                                                              types.Int64                                       `tfsdk:"vlan_id"`
@@ -97,8 +98,10 @@ type DataSourceWirelessSSID struct {
 	ActiveDirectoryCredentialsPasswordWo                                types.String                                      `tfsdk:"active_directory_credentials_password_wo"`
 	ActiveDirectoryCredentialsPasswordWoVersion                         types.Int64                                       `tfsdk:"active_directory_credentials_password_wo_version"`
 	ActiveDirectoryServers                                              []DataSourceWirelessSSIDActiveDirectoryServers    `tfsdk:"active_directory_servers"`
+	CampusGatewayClusterId                                              types.String                                      `tfsdk:"campus_gateway_cluster_id"`
 	DnsRewriteEnabled                                                   types.Bool                                        `tfsdk:"dns_rewrite_enabled"`
 	DnsRewriteDnsCustomNameservers                                      types.List                                        `tfsdk:"dns_rewrite_dns_custom_nameservers"`
+	Dot11kEnabled                                                       types.Bool                                        `tfsdk:"dot11k_enabled"`
 	Dot11rAdaptive                                                      types.Bool                                        `tfsdk:"dot11r_adaptive"`
 	Dot11rEnabled                                                       types.Bool                                        `tfsdk:"dot11r_enabled"`
 	Dot11wEnabled                                                       types.Bool                                        `tfsdk:"dot11w_enabled"`
@@ -129,6 +132,8 @@ type DataSourceWirelessSSID struct {
 	NamedVlansTaggingByApTags                                           []DataSourceWirelessSSIDNamedVlansTaggingByApTags `tfsdk:"named_vlans_tagging_by_ap_tags"`
 	OauthAllowedDomains                                                 types.Set                                         `tfsdk:"oauth_allowed_domains"`
 	RadiusRadsecTlsTunnelTimeout                                        types.Int64                                       `tfsdk:"radius_radsec_tls_tunnel_timeout"`
+	SecurityEncryptionAkms                                              types.List                                        `tfsdk:"security_encryption_akms"`
+	SecurityEncryptionCiphers                                           types.List                                        `tfsdk:"security_encryption_ciphers"`
 	SpeedBurstEnabled                                                   types.Bool                                        `tfsdk:"speed_burst_enabled"`
 	ApTagsAndVlanIds                                                    []DataSourceWirelessSSIDApTagsAndVlanIds          `tfsdk:"ap_tags_and_vlan_ids"`
 	AvailabilityTags                                                    types.Set                                         `tfsdk:"availability_tags"`
@@ -396,6 +401,11 @@ func (data *DataSourceWirelessSSID) fromBody(ctx context.Context, res meraki.Res
 	} else {
 		data.SplashPage = types.StringNull()
 	}
+	if value := res.Get("ssidAdminAccessible"); value.Exists() && value.Value() != nil {
+		data.SsidAdminAccessible = types.BoolValue(value.Bool())
+	} else {
+		data.SsidAdminAccessible = types.BoolNull()
+	}
 	if value := res.Get("useVlanTagging"); value.Exists() && value.Value() != nil {
 		data.UseVlanTagging = types.BoolValue(value.Bool())
 	} else {
@@ -450,6 +460,11 @@ func (data *DataSourceWirelessSSID) fromBody(ctx context.Context, res meraki.Res
 			return true
 		})
 	}
+	if value := res.Get("campusGateway.cluster.id"); value.Exists() && value.Value() != nil {
+		data.CampusGatewayClusterId = types.StringValue(value.String())
+	} else {
+		data.CampusGatewayClusterId = types.StringNull()
+	}
 	if value := res.Get("dnsRewrite.enabled"); value.Exists() && value.Value() != nil {
 		data.DnsRewriteEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -459,6 +474,11 @@ func (data *DataSourceWirelessSSID) fromBody(ctx context.Context, res meraki.Res
 		data.DnsRewriteDnsCustomNameservers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsRewriteDnsCustomNameservers = types.ListNull(types.StringType)
+	}
+	if value := res.Get("dot11k.enabled"); value.Exists() && value.Value() != nil {
+		data.Dot11kEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11kEnabled = types.BoolNull()
 	}
 	if value := res.Get("dot11r.adaptive"); value.Exists() && value.Value() != nil {
 		data.Dot11rAdaptive = types.BoolValue(value.Bool())
@@ -627,6 +647,16 @@ func (data *DataSourceWirelessSSID) fromBody(ctx context.Context, res meraki.Res
 		data.RadiusRadsecTlsTunnelTimeout = types.Int64Value(value.Int())
 	} else {
 		data.RadiusRadsecTlsTunnelTimeout = types.Int64Null()
+	}
+	if value := res.Get("security.encryption.akms"); value.Exists() && value.Value() != nil {
+		data.SecurityEncryptionAkms = helpers.GetStringList(value.Array())
+	} else {
+		data.SecurityEncryptionAkms = types.ListNull(types.StringType)
+	}
+	if value := res.Get("security.encryption.ciphers"); value.Exists() && value.Value() != nil {
+		data.SecurityEncryptionCiphers = helpers.GetStringList(value.Array())
+	} else {
+		data.SecurityEncryptionCiphers = types.ListNull(types.StringType)
 	}
 	if value := res.Get("speedBurst.enabled"); value.Exists() && value.Value() != nil {
 		data.SpeedBurstEnabled = types.BoolValue(value.Bool())

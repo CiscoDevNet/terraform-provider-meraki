@@ -69,11 +69,11 @@ Optional:
 
 Required:
 
+- `enabled` (Boolean) AP usb port enabled
 - `name` (String) AP usb port name
 
 Optional:
 
-- `enabled` (Boolean) AP usb port enabled
 - `ssid` (Number) AP usb port ssid number
 
 ## Import

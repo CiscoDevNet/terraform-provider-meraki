@@ -33,5 +33,6 @@ data "meraki_network_wireless_radio_rrm" "example" {
 - `busy_hour_schedule_manual_start` (String) The hour that Manual Busy Hour starts each day, in the network time zone
 - `busy_hour_schedule_mode` (String) The Busy Hour mode applied to the network when minimizeChanges is enabled. Must be one of `automatic` or `manual`. Automatic busy hour is only available on firmware versions >= MR 27.0
 - `channel_avoidance_enabled` (Boolean) Toggle for enabling or disabling channel avoidance in a network
+- `channel_selection_preferred_mode` (String) The preferred 6 GHz channel selection mode. `automatic` lets RRM decide when non-PSC channels are used. `enforced` restricts 6 GHz channel selection to PSC channels. If omitted on update, the existing mode is preserved.
 - `fra_enabled` (Boolean) Toggle to activate or deactivate FRA in a network, contingent on AI-RRM being enabled.
 - `id` (String) The id of the object

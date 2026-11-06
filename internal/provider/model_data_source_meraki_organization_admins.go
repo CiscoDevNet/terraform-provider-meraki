@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/netascode/go-meraki"
 	"github.com/tidwall/gjson"
@@ -48,8 +49,10 @@ type DataSourceOrganizationAdminsItems struct {
 }
 
 type DataSourceOrganizationAdminsNetworks struct {
-	Access types.String `tfsdk:"access"`
-	Id     types.String `tfsdk:"id"`
+	Access               types.String `tfsdk:"access"`
+	Id                   types.String `tfsdk:"id"`
+	PacketCaptureAllowed types.Bool   `tfsdk:"packet_capture_allowed"`
+	SwitchPortTags       types.List   `tfsdk:"switch_port_tags"`
 }
 
 type DataSourceOrganizationAdminsTags struct {
@@ -109,6 +112,16 @@ func (data *DataSourceOrganizationAdmins) fromBody(ctx context.Context, res mera
 					data.Id = types.StringValue(value.String())
 				} else {
 					data.Id = types.StringNull()
+				}
+				if value := res.Get("packetCaptureAllowed"); value.Exists() && value.Value() != nil {
+					data.PacketCaptureAllowed = types.BoolValue(value.Bool())
+				} else {
+					data.PacketCaptureAllowed = types.BoolNull()
+				}
+				if value := res.Get("switchPortTags"); value.Exists() && value.Value() != nil {
+					data.SwitchPortTags = helpers.GetStringList(value.Array())
+				} else {
+					data.SwitchPortTags = types.ListNull(types.StringType)
 				}
 				(*parent).Networks = append((*parent).Networks, data)
 				return true

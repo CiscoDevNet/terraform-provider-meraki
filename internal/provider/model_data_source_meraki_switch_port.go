@@ -68,7 +68,9 @@ type DataSourceSwitchPort struct {
 	Vlan                    types.Int64  `tfsdk:"vlan"`
 	VoiceVlan               types.Int64  `tfsdk:"voice_vlan"`
 	Dot3azEnabled           types.Bool   `tfsdk:"dot3az_enabled"`
+	FastPoeEnabled          types.Bool   `tfsdk:"fast_poe_enabled"`
 	HighSpeedEnabled        types.Bool   `tfsdk:"high_speed_enabled"`
+	PerpetualPoeEnabled     types.Bool   `tfsdk:"perpetual_poe_enabled"`
 	ProfileEnabled          types.Bool   `tfsdk:"profile_enabled"`
 	ProfileId               types.String `tfsdk:"profile_id"`
 	ProfileIname            types.String `tfsdk:"profile_iname"`
@@ -210,10 +212,20 @@ func (data *DataSourceSwitchPort) fromBody(ctx context.Context, res meraki.Res) 
 	} else {
 		data.Dot3azEnabled = types.BoolNull()
 	}
+	if value := res.Get("fastPoe.enabled"); value.Exists() && value.Value() != nil {
+		data.FastPoeEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.FastPoeEnabled = types.BoolNull()
+	}
 	if value := res.Get("highSpeed.enabled"); value.Exists() && value.Value() != nil {
 		data.HighSpeedEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.HighSpeedEnabled = types.BoolNull()
+	}
+	if value := res.Get("perpetualPoe.enabled"); value.Exists() && value.Value() != nil {
+		data.PerpetualPoeEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.PerpetualPoeEnabled = types.BoolNull()
 	}
 	if value := res.Get("profile.enabled"); value.Exists() && value.Value() != nil {
 		data.ProfileEnabled = types.BoolValue(value.Bool())

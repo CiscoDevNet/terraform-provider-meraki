@@ -27,6 +27,7 @@ data "meraki_network_firmware_upgrades" "example" {
 
 ### Read-Only
 
+- `feature_loss_acknowledgements` (Attributes List) Acknowledges the target version has removed certain features that the network is currently using. (see [below for nested schema](#nestedatt--feature_loss_acknowledgements))
 - `id` (String) The id of the object
 - `products_appliance_available_versions` (Attributes List) Firmware versions available for upgrade (see [below for nested schema](#nestedatt--products_appliance_available_versions))
 - `products_appliance_current_version_firmware` (String) Name of the firmware version
@@ -78,6 +79,10 @@ data "meraki_network_firmware_upgrades" "example" {
 - `products_camera_next_upgrade_to_version_release_type` (String) Release type of the firmware version
 - `products_camera_next_upgrade_to_version_short_name` (String) Firmware version short name
 - `products_camera_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
+- `products_campus_gateway_next_upgrade_strategy` (String) The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.
+- `products_campus_gateway_next_upgrade_time` (String) The time of the last successful upgrade
+- `products_campus_gateway_next_upgrade_to_version_id` (String) The version ID
+- `products_campus_gateway_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
 - `products_cellular_gateway_available_versions` (Attributes List) Firmware versions available for upgrade (see [below for nested schema](#nestedatt--products_cellular_gateway_available_versions))
 - `products_cellular_gateway_current_version_firmware` (String) Name of the firmware version
 - `products_cellular_gateway_current_version_id` (String) Firmware version identifier
@@ -247,6 +252,7 @@ data "meraki_network_firmware_upgrades" "example" {
 - `products_wireless_last_upgrade_to_version_release_type` (String) Release type of the firmware version
 - `products_wireless_last_upgrade_to_version_short_name` (String) Firmware version short name
 - `products_wireless_next_upgrade_predownload_enabled` (Boolean) Whether or not the network devices will predownload the firmware image in advance of the actual upgrade
+- `products_wireless_next_upgrade_strategy` (String) The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.
 - `products_wireless_next_upgrade_time` (String) The time of the last successful upgrade
 - `products_wireless_next_upgrade_to_version_firmware` (String) Name of the firmware version
 - `products_wireless_next_upgrade_to_version_id` (String) The version ID
@@ -257,6 +263,16 @@ data "meraki_network_firmware_upgrades" "example" {
 - `timezone` (String) The timezone for the network
 - `upgrade_window_day_of_week` (String) Day of the week
 - `upgrade_window_hour_of_day` (String) Hour of the day
+
+<a id="nestedatt--feature_loss_acknowledgements"></a>
+### Nested Schema for `feature_loss_acknowledgements`
+
+Read-Only:
+
+- `network_id` (String) The network ID to acknowledge the failing check for. Must refer to a node group.
+- `product_type` (String) The product type within the given network to acknowledge feature loss for (if the network is a combined network). Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.
+- `removed_feature_check_names` (List of String) The names of the removed feature checks to acknowledge.
+
 
 <a id="nestedatt--products_appliance_available_versions"></a>
 ### Nested Schema for `products_appliance_available_versions`

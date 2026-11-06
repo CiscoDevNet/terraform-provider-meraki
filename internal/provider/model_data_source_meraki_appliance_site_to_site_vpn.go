@@ -41,12 +41,24 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DataSourceApplianceSiteToSiteVPN struct {
-	Id                 types.String                              `tfsdk:"id"`
-	NetworkId          types.String                              `tfsdk:"network_id"`
-	Mode               types.String                              `tfsdk:"mode"`
-	SubnetNatIsAllowed types.Bool                                `tfsdk:"subnet_nat_is_allowed"`
-	Hubs               []DataSourceApplianceSiteToSiteVPNHubs    `tfsdk:"hubs"`
-	Subnets            []DataSourceApplianceSiteToSiteVPNSubnets `tfsdk:"subnets"`
+	Id                     types.String                                       `tfsdk:"id"`
+	NetworkId              types.String                                       `tfsdk:"network_id"`
+	Confirmed              types.Bool                                         `tfsdk:"confirmed"`
+	Mode                   types.String                                       `tfsdk:"mode"`
+	NatTraversalMode       types.String                                       `tfsdk:"nat_traversal_mode"`
+	NatTraversalPublicIp   types.String                                       `tfsdk:"nat_traversal_public_ip"`
+	NatTraversalPublicPort types.Int64                                        `tfsdk:"nat_traversal_public_port"`
+	SgtEnabled             types.Bool                                         `tfsdk:"sgt_enabled"`
+	SubnetNatIsAllowed     types.Bool                                         `tfsdk:"subnet_nat_is_allowed"`
+	HostTranslations       []DataSourceApplianceSiteToSiteVPNHostTranslations `tfsdk:"host_translations"`
+	Hubs                   []DataSourceApplianceSiteToSiteVPNHubs             `tfsdk:"hubs"`
+	Subnets                []DataSourceApplianceSiteToSiteVPNSubnets          `tfsdk:"subnets"`
+}
+
+type DataSourceApplianceSiteToSiteVPNHostTranslations struct {
+	Name          types.String `tfsdk:"name"`
+	LocalAddress  types.String `tfsdk:"local_address"`
+	RemoteAddress types.String `tfsdk:"remote_address"`
 }
 
 type DataSourceApplianceSiteToSiteVPNHubs struct {
@@ -74,15 +86,64 @@ func (data DataSourceApplianceSiteToSiteVPN) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DataSourceApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("confirmed"); value.Exists() && value.Value() != nil {
+		data.Confirmed = types.BoolValue(value.Bool())
+	} else {
+		data.Confirmed = types.BoolNull()
+	}
 	if value := res.Get("mode"); value.Exists() && value.Value() != nil {
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
 	}
+	if value := res.Get("natTraversal.mode"); value.Exists() && value.Value() != nil {
+		data.NatTraversalMode = types.StringValue(value.String())
+	} else {
+		data.NatTraversalMode = types.StringNull()
+	}
+	if value := res.Get("natTraversal.publicIp"); value.Exists() && value.Value() != nil {
+		data.NatTraversalPublicIp = types.StringValue(value.String())
+	} else {
+		data.NatTraversalPublicIp = types.StringNull()
+	}
+	if value := res.Get("natTraversal.publicPort"); value.Exists() && value.Value() != nil {
+		data.NatTraversalPublicPort = types.Int64Value(value.Int())
+	} else {
+		data.NatTraversalPublicPort = types.Int64Null()
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() && value.Value() != nil {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
+	}
 	if value := res.Get("subnet.nat.isAllowed"); value.Exists() && value.Value() != nil {
 		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())
 	} else {
 		data.SubnetNatIsAllowed = types.BoolNull()
+	}
+	if value := res.Get("hostTranslations"); value.Exists() && value.Value() != nil {
+		data.HostTranslations = make([]DataSourceApplianceSiteToSiteVPNHostTranslations, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := DataSourceApplianceSiteToSiteVPNHostTranslations{}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("local.address"); value.Exists() && value.Value() != nil {
+				data.LocalAddress = types.StringValue(value.String())
+			} else {
+				data.LocalAddress = types.StringNull()
+			}
+			if value := res.Get("remote.address"); value.Exists() && value.Value() != nil {
+				data.RemoteAddress = types.StringValue(value.String())
+			} else {
+				data.RemoteAddress = types.StringNull()
+			}
+			(*parent).HostTranslations = append((*parent).HostTranslations, data)
+			return true
+		})
 	}
 	if value := res.Get("hubs"); value.Exists() && value.Value() != nil {
 		data.Hubs = make([]DataSourceApplianceSiteToSiteVPNHubs, 0)

@@ -54,6 +54,8 @@ func TestAccMerakiWirelessSSIDSplashSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "guest_sponsorship_guest_can_request_timeframe", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "self_registration_authorization_type", "admin"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "self_registration_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "user_consent_message", "By continuing, you agree to our terms and conditions."))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_ssid_splash_settings.test", "user_consent_required", "true"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -165,6 +167,8 @@ func testAccMerakiWirelessSSIDSplashSettingsConfig_all() string {
 	config += `  splash_logo_image_format = "gif"` + "\n"
 	config += `  splash_prepaid_front_image_contents = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="` + "\n"
 	config += `  splash_prepaid_front_image_format = "gif"` + "\n"
+	config += `  user_consent_message = "By continuing, you agree to our terms and conditions."` + "\n"
+	config += `  user_consent_required = true` + "\n"
 	config += `}` + "\n"
 	return config
 }

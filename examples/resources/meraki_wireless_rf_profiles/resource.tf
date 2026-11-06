@@ -9,11 +9,18 @@ resource "meraki_wireless_rf_profiles" "example" {
     ap_band_settings_band_operation_mode       = "5ghz"
     ap_band_settings_band_steering_enabled     = false
     ap_band_settings_bands_enabled             = ["5"]
+    dot11be_enabled                            = false
+    dot11be_mode                               = "all SSIDs"
+    dot11be_ssids_groups_1_enabled             = true
+    dot11be_ssids_groups_2_enabled             = false
+    dot11be_ssids_groups_3_enabled             = true
+    dot11be_ssids_groups_4_enabled             = false
     five_ghz_settings_channel_width            = "auto"
     five_ghz_settings_max_power                = 30
     five_ghz_settings_min_bitrate              = 12
     five_ghz_settings_min_power                = 8
     five_ghz_settings_rxsop                    = -95
+    five_ghz_settings_dot11ax_enabled          = true
     five_ghz_settings_valid_auto_channels      = [36]
     per_ssid_settings_0_band_operation_mode    = "5ghz"
     per_ssid_settings_0_band_steering_enabled  = true
@@ -81,6 +88,7 @@ resource "meraki_wireless_rf_profiles" "example" {
     two_four_ghz_settings_min_bitrate          = 11
     two_four_ghz_settings_min_power            = 5
     two_four_ghz_settings_rxsop                = -95
+    two_four_ghz_settings_dot11ax_enabled      = true
     two_four_ghz_settings_valid_auto_channels  = [1]
     is_indoor_default                          = false
     is_outdoor_default                         = false

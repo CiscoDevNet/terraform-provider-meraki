@@ -25,6 +25,8 @@ resource "meraki_appliance_third_party_vpn_peers" "example" {
       public_ip                               = "123.123.123.1"
       remote_id                               = "miles@meraki.com"
       secret                                  = "Sample Password"
+      ebgp_neighbor_vrf_id                    = "12345"
+      ebgp_neighbor_vrf_name                  = "VRF Blue"
       group_active_active_tunnel              = false
       group_number                            = 1
       group_failover_direct_to_internet       = false
@@ -74,6 +76,8 @@ Optional:
 - `ebgp_neighbor_path_prepend` (List of Number) Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.
 - `ebgp_neighbor_remote_as_number` (Number) Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.
 - `ebgp_neighbor_source_ip` (String) Source IP of eBGP neighbor
+- `ebgp_neighbor_vrf_id` (String) VRF ID for the Catalyst BGP neighbor. Use 0 for the default VRF.
+- `ebgp_neighbor_vrf_name` (String) VRF name for the Catalyst BGP neighbor.
 - `ebgp_neighbor_weight` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
 - `ecmp_uplink_configs` (Attributes List) [optional] The ECMP per-uplink BGP-over-IPsec configuration for the VPN peer. (see [below for nested schema](#nestedatt--peers--ecmp_uplink_configs))
 - `group_active_active_tunnel` (Boolean) [optional] Both primary and backup tunnels are active.
@@ -92,6 +96,7 @@ Optional:
 - `ipsec_policies_ike_lifetime` (Number) The lifetime of the Phase 1 SA in seconds.
 - `ipsec_policies_ike_prf_algo` (List of String) [optional] This is the pseudo-random function to be used in IKE_SA. The value should be an array with one of the following algorithms: `prfsha256`, `prfsha1`, `prfmd5`, `default`. The `default` option can be used to default to the Authentication algorithm.
 - `ipsec_policies_preset` (String) One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.
+  - Choices: `aws (insecure)`, `aws_v2`, `azure (insecure)`, `azure_v2`, `default (insecure)`, `secure`, `umbrella (deprecated)`, `umbrella (insecure)`, `umbrella_v2`, `zscaler (insecure)`, `zscaler_v2`
 - `is_route_based` (Boolean) [optional] If true, the VPN peer is route-based. If not included, the default is false. Supported only for MX 19.1 and above.
 - `local_id` (String) [optional] The local ID is used to identify the MX to the peer. This will apply to all MXs this peer applies to.
 - `network_ids` (List of String) [optional] A list of network IDs.

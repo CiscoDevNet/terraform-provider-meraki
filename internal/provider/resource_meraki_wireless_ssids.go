@@ -275,6 +275,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 								stringvalidator.OneOf("Billing", "Cisco ISE", "Click-through splash page", "Facebook Wi-Fi", "Google Apps domain", "Google OAuth", "Microsoft Entra ID", "None", "Password-protected with Active Directory", "Password-protected with LDAP", "Password-protected with Meraki RADIUS", "Password-protected with custom RADIUS", "SMS authentication", "Sponsored guest", "Systems Manager Sentry"),
 							},
 						},
+						"ssid_admin_accessible": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("SSID Administrator access status").String,
+							Optional:            true,
+						},
 						"use_vlan_tagging": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`").String,
 							Optional:            true,
@@ -323,6 +327,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 								},
 							},
 						},
+						"campus_gateway_cluster_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The campus gateway cluster ID to use when the ipAssignmentMode is `Campus Gateway`. This param is only valid when ipAssignmentMode is `Campus Gateway`.").String,
+							Optional:            true,
+						},
 						"dns_rewrite_enabled": schema.BoolAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether or not DNS server rewrite is enabled. If disabled, upstream DNS will be used").String,
 							Optional:            true,
@@ -330,6 +338,10 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 						"dns_rewrite_dns_custom_nameservers": schema.ListAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("User specified DNS servers (up to two servers)").String,
 							ElementType:         types.StringType,
+							Optional:            true,
+						},
+						"dot11k_enabled": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Whether 802.11k is enabled or not.").String,
 							Optional:            true,
 						},
 						"dot11r_adaptive": schema.BoolAttribute{
@@ -469,6 +481,16 @@ func (r *WirelessSSIDsResource) Schema(ctx context.Context, req resource.SchemaR
 						},
 						"radius_radsec_tls_tunnel_timeout": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The interval (in seconds) to determines how long a TLS session can remain idle for a RADSec server before it is automatically terminated").String,
+							Optional:            true,
+						},
+						"security_encryption_akms": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Authentication key management systems used by the SSID").String,
+							ElementType:         types.StringType,
+							Optional:            true,
+						},
+						"security_encryption_ciphers": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Encryption ciphers used by the SSID. CCMP 128 is required and cannot be removed.").String,
+							ElementType:         types.StringType,
 							Optional:            true,
 						},
 						"speed_burst_enabled": schema.BoolAttribute{
@@ -885,6 +907,8 @@ func (r *WirelessSSIDsResource) ImportState(ctx context.Context, req resource.Im
 				item.Number = types.StringValue(itemId)
 				item.DnsRewriteDnsCustomNameservers = types.ListNull(types.StringType)
 				item.OauthAllowedDomains = types.SetNull(types.StringType)
+				item.SecurityEncryptionAkms = types.ListNull(types.StringType)
+				item.SecurityEncryptionCiphers = types.ListNull(types.StringType)
 				item.AvailabilityTags = types.SetNull(types.StringType)
 				item.SplashGuestSponsorDomains = types.SetNull(types.StringType)
 				item.WalledGardenRanges = types.SetNull(types.StringType)
@@ -912,6 +936,8 @@ func (r *WirelessSSIDsResource) ImportState(ctx context.Context, req resource.Im
 				item.Number = types.StringValue(itemId)
 				item.DnsRewriteDnsCustomNameservers = types.ListNull(types.StringType)
 				item.OauthAllowedDomains = types.SetNull(types.StringType)
+				item.SecurityEncryptionAkms = types.ListNull(types.StringType)
+				item.SecurityEncryptionCiphers = types.ListNull(types.StringType)
 				item.AvailabilityTags = types.SetNull(types.StringType)
 				item.SplashGuestSponsorDomains = types.SetNull(types.StringType)
 				item.WalledGardenRanges = types.SetNull(types.StringType)

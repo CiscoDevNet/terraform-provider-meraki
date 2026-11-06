@@ -112,6 +112,10 @@ func (r *ApplianceSDWANInternetPoliciesResource) Schema(ctx context.Context, req
 								stringvalidator.OneOf("builtin", "custom"),
 							},
 						},
+						"vrf_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("VRF ID for the policy. Use 0 for the default VRF.").String,
+							Optional:            true,
+						},
 						"traffic_filters": schema.ListNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Traffic filters").String,
 							Required:            true,

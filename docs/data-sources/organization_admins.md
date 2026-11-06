@@ -49,6 +49,8 @@ Read-Only:
 
 - `access` (String) The privilege of the dashboard administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
 - `id` (String) The network ID
+- `packet_capture_allowed` (Boolean) True if admin has access to the packet capture utility. Only allowed if switch-port-manager or switchport is the access value
+- `switch_port_tags` (List of String) Switch port tags the admin will have access to. Only allowed if switch-port-manager or switchport is the access value
 
 
 <a id="nestedatt--items--tags"></a>

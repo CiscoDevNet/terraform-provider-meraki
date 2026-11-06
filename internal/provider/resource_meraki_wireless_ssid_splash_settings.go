@@ -238,6 +238,14 @@ func (r *WirelessSSIDSplashSettingsResource) Schema(ctx context.Context, req res
 					stringvalidator.OneOf("gif", "jpg", "png"),
 				},
 			},
+			"user_consent_message": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Consent message displayed to users").String,
+				Optional:            true,
+			},
+			"user_consent_required": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether users must provide consent").String,
+				Optional:            true,
+			},
 		},
 	}
 }

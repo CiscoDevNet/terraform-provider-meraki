@@ -17,15 +17,20 @@ resource "meraki_wireless_ssid" "example" {
   per_ssid_bandwidth_limit_up     = 0
   psk                             = "deadbeef"
   splash_page                     = "Click-through splash page"
+  ssid_admin_accessible           = false
   use_vlan_tagging                = false
   visible                         = false
   walled_garden_enabled           = false
   wpa_encryption_mode             = "WPA2 only"
+  campus_gateway_cluster_id       = "10"
+  dot11k_enabled                  = true
   dot11r_adaptive                 = false
   dot11r_enabled                  = false
   dot11w_enabled                  = false
   dot11w_required                 = false
   named_vlans_tagging_enabled     = false
+  security_encryption_akms        = ["SAE"]
+  security_encryption_ciphers     = ["CCMP 128"]
   speed_burst_enabled             = false
   availability_tags               = ["tag1"]
 }

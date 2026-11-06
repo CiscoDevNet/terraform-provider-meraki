@@ -1,12 +1,14 @@
 resource "meraki_switch_routing_interface_dhcp" "example" {
-  serial                 = "1234-ABCD-1234"
-  interface_id           = "1234"
-  boot_file_name         = "home_boot_file"
-  boot_next_server       = "1.2.3.4"
-  boot_options_enabled   = true
-  dhcp_lease_time        = "1 day"
-  dhcp_mode              = "dhcpServer"
-  dns_nameservers_option = "custom"
+  serial                  = "1234-ABCD-1234"
+  interface_id            = "1234"
+  boot_file_name          = "home_boot_file"
+  boot_next_server        = "1.2.3.4"
+  boot_options_enabled    = true
+  dhcp_default_router_ips = "192.168.1.1, 192.168.1.2"
+  dhcp_domain_name        = "example.com"
+  dhcp_lease_time         = "1 day"
+  dhcp_mode               = "dhcpServer"
+  dns_nameservers_option  = "custom"
   dhcp_options = [
     {
       code  = "5"

@@ -14,6 +14,10 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network_vlan_profile.default.network_id
+  - model_name: activeVlans
+    type: String
+    description: The active VLANs for the VLAN profile. Only applicable to trunk ports. The given range must be inclusive of all named VLANs.
+    example: 1-1000
   - model_name: iname
     type: String
     id: true

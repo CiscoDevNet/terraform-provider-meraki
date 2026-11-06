@@ -34,6 +34,12 @@ attributes:
     data_path: [adminSettings]
     description: If `appliesTo` is set to one of `Specific admins...`, `All admins of networks...` or `All admins of networks tagged...`, then you must specify this `values` property to provide the set of entities to apply the branding policy to. For `Specific admins...`, specify an array of admin IDs. For `All admins of networks...`, specify an array of network IDs and/or configuration template IDs. For `All admins of networks tagged...`, specify an array of tag names.
     example: N_1234
+  - model_name: dashboardMenuTheme
+    type: String
+    data_path: [appearance]
+    description: Dashboard menu theme.
+    example: light
+    enum_values: [dark, light]
   - model_name: enabled
     type: Bool
     data_path: [customLogo]

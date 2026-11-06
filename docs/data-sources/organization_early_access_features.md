@@ -34,6 +34,8 @@ data "meraki_organization_early_access_features" "example" {
 
 Read-Only:
 
+- `advantage` (Boolean) If this early access feature requires an Advantage license
+- `advantage_trial` (Boolean) If this Advantage early access feature offers an introductory trial
 - `descriptions_long` (String) Long description
 - `descriptions_short` (String) Short description
 - `documentation_link` (String) Link to the documentation of this early access feature

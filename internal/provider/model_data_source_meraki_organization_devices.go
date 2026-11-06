@@ -39,22 +39,23 @@ type DataSourceOrganizationDevices struct {
 }
 
 type DataSourceOrganizationDevicesItems struct {
-	Id          types.String                           `tfsdk:"id"`
-	Address     types.String                           `tfsdk:"address"`
-	Firmware    types.String                           `tfsdk:"firmware"`
-	Imei        types.String                           `tfsdk:"imei"`
-	LanIp       types.String                           `tfsdk:"lan_ip"`
-	Lat         types.Float64                          `tfsdk:"lat"`
-	Lng         types.Float64                          `tfsdk:"lng"`
-	Mac         types.String                           `tfsdk:"mac"`
-	Model       types.String                           `tfsdk:"model"`
-	Name        types.String                           `tfsdk:"name"`
-	NetworkId   types.String                           `tfsdk:"network_id"`
-	Notes       types.String                           `tfsdk:"notes"`
-	ProductType types.String                           `tfsdk:"product_type"`
-	Serial      types.String                           `tfsdk:"serial"`
-	Details     []DataSourceOrganizationDevicesDetails `tfsdk:"details"`
-	Tags        types.List                             `tfsdk:"tags"`
+	Id                     types.String                           `tfsdk:"id"`
+	Address                types.String                           `tfsdk:"address"`
+	ConfigurationUpdatedAt types.String                           `tfsdk:"configuration_updated_at"`
+	Firmware               types.String                           `tfsdk:"firmware"`
+	Imei                   types.String                           `tfsdk:"imei"`
+	LanIp                  types.String                           `tfsdk:"lan_ip"`
+	Lat                    types.Float64                          `tfsdk:"lat"`
+	Lng                    types.Float64                          `tfsdk:"lng"`
+	Mac                    types.String                           `tfsdk:"mac"`
+	Model                  types.String                           `tfsdk:"model"`
+	Name                   types.String                           `tfsdk:"name"`
+	NetworkId              types.String                           `tfsdk:"network_id"`
+	Notes                  types.String                           `tfsdk:"notes"`
+	ProductType            types.String                           `tfsdk:"product_type"`
+	Serial                 types.String                           `tfsdk:"serial"`
+	Details                []DataSourceOrganizationDevicesDetails `tfsdk:"details"`
+	Tags                   types.List                             `tfsdk:"tags"`
 }
 
 type DataSourceOrganizationDevicesDetails struct {
@@ -84,6 +85,11 @@ func (data *DataSourceOrganizationDevices) fromBody(ctx context.Context, res mer
 			data.Address = types.StringValue(value.String())
 		} else {
 			data.Address = types.StringNull()
+		}
+		if value := res.Get("configurationUpdatedAt"); value.Exists() && value.Value() != nil {
+			data.ConfigurationUpdatedAt = types.StringValue(value.String())
+		} else {
+			data.ConfigurationUpdatedAt = types.StringNull()
 		}
 		if value := res.Get("firmware"); value.Exists() && value.Value() != nil {
 			data.Firmware = types.StringValue(value.String())

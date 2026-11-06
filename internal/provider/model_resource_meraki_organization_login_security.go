@@ -40,6 +40,7 @@ type OrganizationLoginSecurity struct {
 	EnforceAccountLockout                         types.Bool   `tfsdk:"enforce_account_lockout"`
 	EnforceDifferentPasswords                     types.Bool   `tfsdk:"enforce_different_passwords"`
 	EnforceIdleTimeout                            types.Bool   `tfsdk:"enforce_idle_timeout"`
+	EnforceLockedIpSessions                       types.Bool   `tfsdk:"enforce_locked_ip_sessions"`
 	EnforceLoginIpRanges                          types.Bool   `tfsdk:"enforce_login_ip_ranges"`
 	EnforcePasswordExpiration                     types.Bool   `tfsdk:"enforce_password_expiration"`
 	EnforceStrongPasswords                        types.Bool   `tfsdk:"enforce_strong_passwords"`
@@ -82,6 +83,9 @@ func (data OrganizationLoginSecurity) toBody(ctx context.Context, state Organiza
 	}
 	if !data.EnforceIdleTimeout.IsNull() {
 		body, _ = sjson.Set(body, "enforceIdleTimeout", data.EnforceIdleTimeout.ValueBool())
+	}
+	if !data.EnforceLockedIpSessions.IsNull() {
+		body, _ = sjson.Set(body, "enforceLockedIpSessions", data.EnforceLockedIpSessions.ValueBool())
 	}
 	if !data.EnforceLoginIpRanges.IsNull() {
 		body, _ = sjson.Set(body, "enforceLoginIpRanges", data.EnforceLoginIpRanges.ValueBool())
@@ -163,6 +167,13 @@ func (data OrganizationLoginSecurity) toBodyPreservingNulls(ctx context.Context,
 			body, _ = sjson.SetRaw(body, "enforceIdleTimeout", "null")
 		} else {
 			body, _ = sjson.Set(body, "enforceIdleTimeout", value.Bool())
+		}
+	}
+	if value := res.Get("enforceLockedIpSessions"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "enforceLockedIpSessions", "null")
+		} else {
+			body, _ = sjson.Set(body, "enforceLockedIpSessions", value.Bool())
 		}
 	}
 	if value := res.Get("enforceLoginIpRanges"); value.Exists() {
@@ -278,6 +289,11 @@ func (data *OrganizationLoginSecurity) fromBody(ctx context.Context, res meraki.
 	} else {
 		data.EnforceIdleTimeout = types.BoolNull()
 	}
+	if value := res.Get("enforceLockedIpSessions"); value.Exists() && value.Value() != nil {
+		data.EnforceLockedIpSessions = types.BoolValue(value.Bool())
+	} else {
+		data.EnforceLockedIpSessions = types.BoolNull()
+	}
 	if value := res.Get("enforceLoginIpRanges"); value.Exists() && value.Value() != nil {
 		data.EnforceLoginIpRanges = types.BoolValue(value.Bool())
 	} else {
@@ -363,6 +379,11 @@ func (data *OrganizationLoginSecurity) fromBodyPartial(ctx context.Context, res 
 		data.EnforceIdleTimeout = types.BoolValue(value.Bool())
 	} else {
 		data.EnforceIdleTimeout = types.BoolNull()
+	}
+	if value := res.Get("enforceLockedIpSessions"); value.Exists() && !data.EnforceLockedIpSessions.IsNull() {
+		data.EnforceLockedIpSessions = types.BoolValue(value.Bool())
+	} else {
+		data.EnforceLockedIpSessions = types.BoolNull()
 	}
 	if value := res.Get("enforceLoginIpRanges"); value.Exists() && !data.EnforceLoginIpRanges.IsNull() {
 		data.EnforceLoginIpRanges = types.BoolValue(value.Bool())

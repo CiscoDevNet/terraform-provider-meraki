@@ -36,10 +36,11 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type ApplianceTrafficShapingVPNExclusions struct {
-	Id                types.String                                            `tfsdk:"id"`
-	NetworkId         types.String                                            `tfsdk:"network_id"`
-	Custom            []ApplianceTrafficShapingVPNExclusionsCustom            `tfsdk:"custom"`
-	MajorApplications []ApplianceTrafficShapingVPNExclusionsMajorApplications `tfsdk:"major_applications"`
+	Id                                types.String                                            `tfsdk:"id"`
+	NetworkId                         types.String                                            `tfsdk:"network_id"`
+	ApplicationCategoryMappingEnabled types.Bool                                              `tfsdk:"application_category_mapping_enabled"`
+	Custom                            []ApplianceTrafficShapingVPNExclusionsCustom            `tfsdk:"custom"`
+	MajorApplications                 []ApplianceTrafficShapingVPNExclusionsMajorApplications `tfsdk:"major_applications"`
 }
 
 type ApplianceTrafficShapingVPNExclusionsCustom struct {
@@ -71,6 +72,9 @@ func (data ApplianceTrafficShapingVPNExclusions) getPath() string {
 
 func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, state ApplianceTrafficShapingVPNExclusions) string {
 	body := ""
+	if !data.ApplicationCategoryMappingEnabled.IsNull() {
+		body, _ = sjson.Set(body, "applicationCategoryMapping.enabled", data.ApplicationCategoryMappingEnabled.ValueBool())
+	}
 	if len(data.Custom) > 0 {
 		body, _ = sjson.Set(body, "custom", []interface{}{})
 		for _, item := range data.Custom {
@@ -117,6 +121,13 @@ func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, sta
 // `.Attributes` schema and must agree on which fields are writable.
 func (data ApplianceTrafficShapingVPNExclusions) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
 	body := ""
+	if value := res.Get("applicationCategoryMapping.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "applicationCategoryMapping.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "applicationCategoryMapping.enabled", value.Bool())
+		}
+	}
 	if value := res.Get("custom"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "custom", "null")
@@ -186,6 +197,11 @@ func (data ApplianceTrafficShapingVPNExclusions) toBodyPreservingNulls(ctx conte
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceTrafficShapingVPNExclusions) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("applicationCategoryMapping.enabled"); value.Exists() && value.Value() != nil {
+		data.ApplicationCategoryMappingEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.ApplicationCategoryMappingEnabled = types.BoolNull()
+	}
 	if value := res.Get("custom"); value.Exists() && value.Value() != nil {
 		data.Custom = make([]ApplianceTrafficShapingVPNExclusionsCustom, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -240,6 +256,11 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBody(ctx context.Context, 
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceTrafficShapingVPNExclusions) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("applicationCategoryMapping.enabled"); value.Exists() && !data.ApplicationCategoryMappingEnabled.IsNull() {
+		data.ApplicationCategoryMappingEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.ApplicationCategoryMappingEnabled = types.BoolNull()
+	}
 	{
 		l := len(res.Get("custom").Array())
 		tflog.Debug(ctx, fmt.Sprintf("custom array resizing from %d to %d", len(data.Custom), l))

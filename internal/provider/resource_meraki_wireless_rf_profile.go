@@ -118,6 +118,33 @@ func (r *WirelessRFProfileResource) Schema(ctx context.Context, req resource.Sch
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
+			"dot11be_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether 802.11be is enabled on Wi-Fi 7 capable APs").String,
+				Optional:            true,
+			},
+			"dot11be_mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("802.11be is enabled for all SSIDs or per SSID group").AddStringEnumDescription("all SSIDs", "per SSID group").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("all SSIDs", "per SSID group"),
+				},
+			},
+			"dot11be_ssids_groups_1_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether 802.11be is enabled for the SSID group").String,
+				Optional:            true,
+			},
+			"dot11be_ssids_groups_2_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether 802.11be is enabled for the SSID group").String,
+				Optional:            true,
+			},
+			"dot11be_ssids_groups_3_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether 802.11be is enabled for the SSID group").String,
+				Optional:            true,
+			},
+			"dot11be_ssids_groups_4_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether 802.11be is enabled for the SSID group").String,
+				Optional:            true,
+			},
 			"five_ghz_settings_channel_width": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Sets channel width (MHz) for 5Ghz band. Can be one of `auto`, `20`, `40` or `80`. Defaults to auto.").String,
 				Optional:            true,
@@ -136,6 +163,10 @@ func (r *WirelessRFProfileResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"five_ghz_settings_rxsop": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.").String,
+				Optional:            true,
+			},
+			"five_ghz_settings_dot11ax_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Determines whether IEEE 802.11ax (Wi-Fi 6) on the 5 GHz band is enabled. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.").String,
 				Optional:            true,
 			},
 			"five_ghz_settings_valid_auto_channels": schema.SetAttribute{
@@ -507,6 +538,10 @@ func (r *WirelessRFProfileResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"two_four_ghz_settings_rxsop": schema.Int64Attribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.").String,
+				Optional:            true,
+			},
+			"two_four_ghz_settings_dot11ax_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Determines whether IEEE 802.11ax (Wi-Fi 6) on the 2.4 GHz band is enabled. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.").String,
 				Optional:            true,
 			},
 			"two_four_ghz_settings_valid_auto_channels": schema.SetAttribute{

@@ -55,6 +55,12 @@ attributes:
     data_path: [channel, avoidance]
     description: Toggle for enabling or disabling channel avoidance in a network
     example: "true"
+  - model_name: mode
+    type: String
+    data_path: [channel, selection, preferred]
+    description: The preferred 6 GHz channel selection mode. `automatic` lets RRM decide when non-PSC channels are used. `enforced` restricts 6 GHz channel selection to PSC channels. If omitted on update, the existing mode is preserved.
+    example: automatic
+    enum_values: [automatic, enforced]
   - model_name: enabled
     tf_name: fra_enabled
     type: Bool

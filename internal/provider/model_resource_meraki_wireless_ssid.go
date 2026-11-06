@@ -83,6 +83,7 @@ type WirelessSSID struct {
 	RadiusTestingEnabled                                                types.Bool                              `tfsdk:"radius_testing_enabled"`
 	SecondaryConcentratorNetworkId                                      types.String                            `tfsdk:"secondary_concentrator_network_id"`
 	SplashPage                                                          types.String                            `tfsdk:"splash_page"`
+	SsidAdminAccessible                                                 types.Bool                              `tfsdk:"ssid_admin_accessible"`
 	UseVlanTagging                                                      types.Bool                              `tfsdk:"use_vlan_tagging"`
 	Visible                                                             types.Bool                              `tfsdk:"visible"`
 	VlanId                                                              types.Int64                             `tfsdk:"vlan_id"`
@@ -93,8 +94,10 @@ type WirelessSSID struct {
 	ActiveDirectoryCredentialsPasswordWo                                types.String                            `tfsdk:"active_directory_credentials_password_wo"`
 	ActiveDirectoryCredentialsPasswordWoVersion                         types.Int64                             `tfsdk:"active_directory_credentials_password_wo_version"`
 	ActiveDirectoryServers                                              []WirelessSSIDActiveDirectoryServers    `tfsdk:"active_directory_servers"`
+	CampusGatewayClusterId                                              types.String                            `tfsdk:"campus_gateway_cluster_id"`
 	DnsRewriteEnabled                                                   types.Bool                              `tfsdk:"dns_rewrite_enabled"`
 	DnsRewriteDnsCustomNameservers                                      types.List                              `tfsdk:"dns_rewrite_dns_custom_nameservers"`
+	Dot11kEnabled                                                       types.Bool                              `tfsdk:"dot11k_enabled"`
 	Dot11rAdaptive                                                      types.Bool                              `tfsdk:"dot11r_adaptive"`
 	Dot11rEnabled                                                       types.Bool                              `tfsdk:"dot11r_enabled"`
 	Dot11wEnabled                                                       types.Bool                              `tfsdk:"dot11w_enabled"`
@@ -125,6 +128,8 @@ type WirelessSSID struct {
 	NamedVlansTaggingByApTags                                           []WirelessSSIDNamedVlansTaggingByApTags `tfsdk:"named_vlans_tagging_by_ap_tags"`
 	OauthAllowedDomains                                                 types.Set                               `tfsdk:"oauth_allowed_domains"`
 	RadiusRadsecTlsTunnelTimeout                                        types.Int64                             `tfsdk:"radius_radsec_tls_tunnel_timeout"`
+	SecurityEncryptionAkms                                              types.List                              `tfsdk:"security_encryption_akms"`
+	SecurityEncryptionCiphers                                           types.List                              `tfsdk:"security_encryption_ciphers"`
 	SpeedBurstEnabled                                                   types.Bool                              `tfsdk:"speed_burst_enabled"`
 	ApTagsAndVlanIds                                                    []WirelessSSIDApTagsAndVlanIds          `tfsdk:"ap_tags_and_vlan_ids"`
 	AvailabilityTags                                                    types.Set                               `tfsdk:"availability_tags"`
@@ -320,6 +325,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	if !data.SplashPage.IsNull() {
 		body, _ = sjson.Set(body, "splashPage", data.SplashPage.ValueString())
 	}
+	if !data.SsidAdminAccessible.IsNull() {
+		body, _ = sjson.Set(body, "ssidAdminAccessible", data.SsidAdminAccessible.ValueBool())
+	}
 	if !data.UseVlanTagging.IsNull() {
 		body, _ = sjson.Set(body, "useVlanTagging", data.UseVlanTagging.ValueBool())
 	}
@@ -356,6 +364,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 			body, _ = sjson.SetRaw(body, "activeDirectory.servers.-1", itemBody)
 		}
 	}
+	if !data.CampusGatewayClusterId.IsNull() {
+		body, _ = sjson.Set(body, "campusGateway.cluster.id", data.CampusGatewayClusterId.ValueString())
+	}
 	if !data.DnsRewriteEnabled.IsNull() {
 		body, _ = sjson.Set(body, "dnsRewrite.enabled", data.DnsRewriteEnabled.ValueBool())
 	}
@@ -363,6 +374,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 		var values []string
 		data.DnsRewriteDnsCustomNameservers.ElementsAs(ctx, &values, false)
 		body, _ = sjson.Set(body, "dnsRewrite.dnsCustomNameservers", values)
+	}
+	if !data.Dot11kEnabled.IsNull() {
+		body, _ = sjson.Set(body, "dot11k.enabled", data.Dot11kEnabled.ValueBool())
 	}
 	if !data.Dot11rAdaptive.IsNull() {
 		body, _ = sjson.Set(body, "dot11r.adaptive", data.Dot11rAdaptive.ValueBool())
@@ -473,6 +487,16 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	}
 	if !data.RadiusRadsecTlsTunnelTimeout.IsNull() {
 		body, _ = sjson.Set(body, "radiusRadsec.tlsTunnel.timeout", data.RadiusRadsecTlsTunnelTimeout.ValueInt64())
+	}
+	if !data.SecurityEncryptionAkms.IsNull() {
+		var values []string
+		data.SecurityEncryptionAkms.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "security.encryption.akms", values)
+	}
+	if !data.SecurityEncryptionCiphers.IsNull() {
+		var values []string
+		data.SecurityEncryptionCiphers.ElementsAs(ctx, &values, false)
+		body, _ = sjson.Set(body, "security.encryption.ciphers", values)
 	}
 	if !data.SpeedBurstEnabled.IsNull() {
 		body, _ = sjson.Set(body, "speedBurst.enabled", data.SpeedBurstEnabled.ValueBool())
@@ -883,6 +907,13 @@ func (data WirelessSSID) toBodyPreservingNulls(ctx context.Context, res meraki.R
 			body, _ = sjson.Set(body, "splashPage", value.String())
 		}
 	}
+	if value := res.Get("ssidAdminAccessible"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssidAdminAccessible", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssidAdminAccessible", value.Bool())
+		}
+	}
 	if value := res.Get("useVlanTagging"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "useVlanTagging", "null")
@@ -959,6 +990,13 @@ func (data WirelessSSID) toBodyPreservingNulls(ctx context.Context, res meraki.R
 			})
 		}
 	}
+	if value := res.Get("campusGateway.cluster.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "campusGateway.cluster.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "campusGateway.cluster.id", value.String())
+		}
+	}
 	if value := res.Get("dnsRewrite.enabled"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "dnsRewrite.enabled", "null")
@@ -975,6 +1013,13 @@ func (data WirelessSSID) toBodyPreservingNulls(ctx context.Context, res meraki.R
 				values = append(values, v.String())
 			}
 			body, _ = sjson.Set(body, "dnsRewrite.dnsCustomNameservers", values)
+		}
+	}
+	if value := res.Get("dot11k.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dot11k.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "dot11k.enabled", value.Bool())
 		}
 	}
 	if value := res.Get("dot11r.adaptive"); value.Exists() {
@@ -1219,6 +1264,28 @@ func (data WirelessSSID) toBodyPreservingNulls(ctx context.Context, res meraki.R
 			body, _ = sjson.SetRaw(body, "radiusRadsec.tlsTunnel.timeout", "null")
 		} else {
 			body, _ = sjson.Set(body, "radiusRadsec.tlsTunnel.timeout", value.Int())
+		}
+	}
+	if value := res.Get("security.encryption.akms"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "security.encryption.akms", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "security.encryption.akms", values)
+		}
+	}
+	if value := res.Get("security.encryption.ciphers"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "security.encryption.ciphers", "null")
+		} else {
+			var values []string
+			for _, v := range value.Array() {
+				values = append(values, v.String())
+			}
+			body, _ = sjson.Set(body, "security.encryption.ciphers", values)
 		}
 	}
 	if value := res.Get("speedBurst.enabled"); value.Exists() {
@@ -1600,6 +1667,11 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.SplashPage = types.StringNull()
 	}
+	if value := res.Get("ssidAdminAccessible"); value.Exists() && value.Value() != nil {
+		data.SsidAdminAccessible = types.BoolValue(value.Bool())
+	} else {
+		data.SsidAdminAccessible = types.BoolNull()
+	}
 	if value := res.Get("useVlanTagging"); value.Exists() && value.Value() != nil {
 		data.UseVlanTagging = types.BoolValue(value.Bool())
 	} else {
@@ -1654,6 +1726,11 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 			return true
 		})
 	}
+	if value := res.Get("campusGateway.cluster.id"); value.Exists() && value.Value() != nil {
+		data.CampusGatewayClusterId = types.StringValue(value.String())
+	} else {
+		data.CampusGatewayClusterId = types.StringNull()
+	}
 	if value := res.Get("dnsRewrite.enabled"); value.Exists() && value.Value() != nil {
 		data.DnsRewriteEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -1663,6 +1740,11 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 		data.DnsRewriteDnsCustomNameservers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsRewriteDnsCustomNameservers = types.ListNull(types.StringType)
+	}
+	if value := res.Get("dot11k.enabled"); value.Exists() && value.Value() != nil {
+		data.Dot11kEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11kEnabled = types.BoolNull()
 	}
 	if value := res.Get("dot11r.adaptive"); value.Exists() && value.Value() != nil {
 		data.Dot11rAdaptive = types.BoolValue(value.Bool())
@@ -1831,6 +1913,16 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 		data.RadiusRadsecTlsTunnelTimeout = types.Int64Value(value.Int())
 	} else {
 		data.RadiusRadsecTlsTunnelTimeout = types.Int64Null()
+	}
+	if value := res.Get("security.encryption.akms"); value.Exists() && value.Value() != nil {
+		data.SecurityEncryptionAkms = helpers.GetStringList(value.Array())
+	} else {
+		data.SecurityEncryptionAkms = types.ListNull(types.StringType)
+	}
+	if value := res.Get("security.encryption.ciphers"); value.Exists() && value.Value() != nil {
+		data.SecurityEncryptionCiphers = helpers.GetStringList(value.Array())
+	} else {
+		data.SecurityEncryptionCiphers = types.ListNull(types.StringType)
 	}
 	if value := res.Get("speedBurst.enabled"); value.Exists() && value.Value() != nil {
 		data.SpeedBurstEnabled = types.BoolValue(value.Bool())
@@ -2150,6 +2242,11 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
 	} else {
 		data.SplashPage = types.StringNull()
 	}
+	if value := res.Get("ssidAdminAccessible"); value.Exists() && !data.SsidAdminAccessible.IsNull() {
+		data.SsidAdminAccessible = types.BoolValue(value.Bool())
+	} else {
+		data.SsidAdminAccessible = types.BoolNull()
+	}
 	if value := res.Get("useVlanTagging"); value.Exists() && !data.UseVlanTagging.IsNull() {
 		data.UseVlanTagging = types.BoolValue(value.Bool())
 	} else {
@@ -2233,6 +2330,11 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		}
 		(*parent).ActiveDirectoryServers[i] = data
 	}
+	if value := res.Get("campusGateway.cluster.id"); value.Exists() && !data.CampusGatewayClusterId.IsNull() {
+		data.CampusGatewayClusterId = types.StringValue(value.String())
+	} else {
+		data.CampusGatewayClusterId = types.StringNull()
+	}
 	if value := res.Get("dnsRewrite.enabled"); value.Exists() && !data.DnsRewriteEnabled.IsNull() {
 		data.DnsRewriteEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -2242,6 +2344,11 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.DnsRewriteDnsCustomNameservers = helpers.GetStringList(value.Array())
 	} else {
 		data.DnsRewriteDnsCustomNameservers = types.ListNull(types.StringType)
+	}
+	if value := res.Get("dot11k.enabled"); value.Exists() && !data.Dot11kEnabled.IsNull() {
+		data.Dot11kEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.Dot11kEnabled = types.BoolNull()
 	}
 	if value := res.Get("dot11r.adaptive"); value.Exists() && !data.Dot11rAdaptive.IsNull() {
 		data.Dot11rAdaptive = types.BoolValue(value.Bool())
@@ -2444,6 +2551,16 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.RadiusRadsecTlsTunnelTimeout = types.Int64Value(value.Int())
 	} else {
 		data.RadiusRadsecTlsTunnelTimeout = types.Int64Null()
+	}
+	if value := res.Get("security.encryption.akms"); value.Exists() && !data.SecurityEncryptionAkms.IsNull() {
+		data.SecurityEncryptionAkms = helpers.GetStringList(value.Array())
+	} else {
+		data.SecurityEncryptionAkms = types.ListNull(types.StringType)
+	}
+	if value := res.Get("security.encryption.ciphers"); value.Exists() && !data.SecurityEncryptionCiphers.IsNull() {
+		data.SecurityEncryptionCiphers = helpers.GetStringList(value.Array())
+	} else {
+		data.SecurityEncryptionCiphers = types.ListNull(types.StringType)
 	}
 	if value := res.Get("speedBurst.enabled"); value.Exists() && !data.SpeedBurstEnabled.IsNull() {
 		data.SpeedBurstEnabled = types.BoolValue(value.Bool())

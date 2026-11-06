@@ -65,6 +65,8 @@ type ApplianceThirdPartyVPNPeersPeers struct {
 	EbgpNeighborRemoteAsNumber         types.Int64                                         `tfsdk:"ebgp_neighbor_remote_as_number"`
 	EbgpNeighborSourceIp               types.String                                        `tfsdk:"ebgp_neighbor_source_ip"`
 	EbgpNeighborWeight                 types.Int64                                         `tfsdk:"ebgp_neighbor_weight"`
+	EbgpNeighborVrfId                  types.String                                        `tfsdk:"ebgp_neighbor_vrf_id"`
+	EbgpNeighborVrfName                types.String                                        `tfsdk:"ebgp_neighbor_vrf_name"`
 	EbgpNeighborPathPrepend            types.List                                          `tfsdk:"ebgp_neighbor_path_prepend"`
 	GroupActiveActiveTunnel            types.Bool                                          `tfsdk:"group_active_active_tunnel"`
 	GroupNumber                        types.Int64                                         `tfsdk:"group_number"`
@@ -176,6 +178,12 @@ func (data ApplianceThirdPartyVPNPeers) toBody(ctx context.Context, state Applia
 			}
 			if !item.EbgpNeighborWeight.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "ebgpNeighbor.weight", item.EbgpNeighborWeight.ValueInt64())
+			}
+			if !item.EbgpNeighborVrfId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "ebgpNeighbor.vrf.id", item.EbgpNeighborVrfId.ValueString())
+			}
+			if !item.EbgpNeighborVrfName.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "ebgpNeighbor.vrf.name", item.EbgpNeighborVrfName.ValueString())
 			}
 			if !item.EbgpNeighborPathPrepend.IsNull() {
 				var values []int64
@@ -449,6 +457,20 @@ func (data ApplianceThirdPartyVPNPeers) toBodyPreservingNulls(ctx context.Contex
 						body, _ = sjson.SetRaw(body, "ebgpNeighbor.weight", "null")
 					} else {
 						body, _ = sjson.Set(body, "ebgpNeighbor.weight", value.Int())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.vrf.id"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.vrf.id", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.vrf.id", value.String())
+					}
+				}
+				if value := res.Get("ebgpNeighbor.vrf.name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "ebgpNeighbor.vrf.name", "null")
+					} else {
+						body, _ = sjson.Set(body, "ebgpNeighbor.vrf.name", value.String())
 					}
 				}
 				if value := res.Get("ebgpNeighbor.pathPrepend"); value.Exists() {
@@ -784,6 +806,16 @@ func (data *ApplianceThirdPartyVPNPeers) fromBody(ctx context.Context, res merak
 			} else {
 				data.EbgpNeighborWeight = types.Int64Null()
 			}
+			if value := res.Get("ebgpNeighbor.vrf.id"); value.Exists() && value.Value() != nil {
+				data.EbgpNeighborVrfId = types.StringValue(value.String())
+			} else {
+				data.EbgpNeighborVrfId = types.StringNull()
+			}
+			if value := res.Get("ebgpNeighbor.vrf.name"); value.Exists() && value.Value() != nil {
+				data.EbgpNeighborVrfName = types.StringValue(value.String())
+			} else {
+				data.EbgpNeighborVrfName = types.StringNull()
+			}
 			if value := res.Get("ebgpNeighbor.pathPrepend"); value.Exists() && value.Value() != nil {
 				data.EbgpNeighborPathPrepend = helpers.GetInt64List(value.Array())
 			} else {
@@ -1053,6 +1085,16 @@ func (data *ApplianceThirdPartyVPNPeers) fromBodyPartial(ctx context.Context, re
 			data.EbgpNeighborWeight = types.Int64Value(value.Int())
 		} else {
 			data.EbgpNeighborWeight = types.Int64Null()
+		}
+		if value := res.Get("ebgpNeighbor.vrf.id"); value.Exists() && !data.EbgpNeighborVrfId.IsNull() {
+			data.EbgpNeighborVrfId = types.StringValue(value.String())
+		} else {
+			data.EbgpNeighborVrfId = types.StringNull()
+		}
+		if value := res.Get("ebgpNeighbor.vrf.name"); value.Exists() && !data.EbgpNeighborVrfName.IsNull() {
+			data.EbgpNeighborVrfName = types.StringValue(value.String())
+		} else {
+			data.EbgpNeighborVrfName = types.StringNull()
 		}
 		if value := res.Get("ebgpNeighbor.pathPrepend"); value.Exists() && !data.EbgpNeighborPathPrepend.IsNull() {
 			data.EbgpNeighborPathPrepend = helpers.GetInt64List(value.Array())

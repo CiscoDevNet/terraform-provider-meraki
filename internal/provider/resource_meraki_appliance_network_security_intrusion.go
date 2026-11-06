@@ -94,6 +94,10 @@ func (r *ApplianceNetworkSecurityIntrusionResource) Schema(ctx context.Context, 
 					stringvalidator.OneOf("detection", "disabled", "prevention"),
 				},
 			},
+			"policy_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The identifier of an existing custom intrusion policy in this organization").String,
+				Optional:            true,
+			},
 			"protected_networks_use_default": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("true/false whether to use special IPv4 addresses: https://tools.ietf.org/html/rfc5735 (required). Default value is true if none currently saved").String,
 				Optional:            true,

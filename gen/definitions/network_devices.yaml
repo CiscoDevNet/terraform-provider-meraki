@@ -66,6 +66,10 @@ attributes:
     type: String
     description: Serial number of the device
     example: Q234-ABCD-5678
+  - model_name: url
+    type: String
+    description: URL link to the device in the Meraki Dashboard
+    example: https://n1.meraki.com/MyOrg/n/XXXXXX/manage/nodes/new_list/1
   - model_name: major
     type: Int64
     data_path: [beaconIdParams]

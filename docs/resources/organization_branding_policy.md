@@ -19,6 +19,7 @@ resource "meraki_organization_branding_policy" "example" {
   name                                                 = "My Branding Policy"
   admin_settings_applies_to                            = "All admins of networks..."
   admin_settings_values                                = ["N_1234"]
+  appearance_dashboard_menu_theme                      = "light"
   custom_logo_enabled                                  = true
   custom_logo_image_contents                           = "Hyperg26C8F4h8CvcoUqpA=="
   custom_logo_image_format                             = "jpg"
@@ -53,6 +54,8 @@ resource "meraki_organization_branding_policy" "example" {
 - `admin_settings_applies_to` (String) Which kinds of admins this policy applies to. Can be one of `All organization admins`, `All enterprise admins`, `All network admins`, `All admins of networks...`, `All admins of networks tagged...`, `Specific admins...`, `All admins` or `All SAML admins`.
   - Choices: `All SAML admins`, `All admins`, `All admins of networks tagged...`, `All admins of networks...`, `All enterprise admins`, `All network admins`, `All organization admins`, `Specific admins...`
 - `admin_settings_values` (List of String) If `appliesTo` is set to one of `Specific admins...`, `All admins of networks...` or `All admins of networks tagged...`, then you must specify this `values` property to provide the set of entities to apply the branding policy to. For `Specific admins...`, specify an array of admin IDs. For `All admins of networks...`, specify an array of network IDs and/or configuration template IDs. For `All admins of networks tagged...`, specify an array of tag names.
+- `appearance_dashboard_menu_theme` (String) Dashboard menu theme.
+  - Choices: `dark`, `light`
 - `custom_logo_enabled` (Boolean) Whether or not there is a custom logo enabled.
 - `custom_logo_image_contents` (String) The file contents (a base 64 encoded string) of your new logo.
 - `custom_logo_image_format` (String) The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.

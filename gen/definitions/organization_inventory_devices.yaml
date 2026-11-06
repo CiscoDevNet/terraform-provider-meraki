@@ -18,6 +18,10 @@ attributes:
     description: Organization ID
     example: "123456"
     test_value: data.meraki_organization.test.id
+  - model_name: address
+    type: String
+    description: Physical address of the device
+    example: 500 Terry A Francois Blvd, San Francisco, CA 94158
   - model_name: claimedAt
     type: String
     description: Claimed time of the device
@@ -58,6 +62,10 @@ attributes:
     type: String
     description: Serial number of the device
     example: Q234-ABCD-5678
+  - model_name: sku
+    type: String
+    description: Full product model SKU of the device
+    example: MR34-HW
   - model_name: endOfSaleAt
     type: String
     data_path: [eox]

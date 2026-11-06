@@ -41,6 +41,7 @@ type NetworkWirelessRadioRRM struct {
 	BusyHourScheduleManualEnd      types.String `tfsdk:"busy_hour_schedule_manual_end"`
 	BusyHourScheduleManualStart    types.String `tfsdk:"busy_hour_schedule_manual_start"`
 	ChannelAvoidanceEnabled        types.Bool   `tfsdk:"channel_avoidance_enabled"`
+	ChannelSelectionPreferredMode  types.String `tfsdk:"channel_selection_preferred_mode"`
 	FraEnabled                     types.Bool   `tfsdk:"fra_enabled"`
 }
 
@@ -79,6 +80,9 @@ func (data NetworkWirelessRadioRRM) toBody(ctx context.Context, state NetworkWir
 	}
 	if !data.ChannelAvoidanceEnabled.IsNull() {
 		body, _ = sjson.Set(body, "channel.avoidance.enabled", data.ChannelAvoidanceEnabled.ValueBool())
+	}
+	if !data.ChannelSelectionPreferredMode.IsNull() {
+		body, _ = sjson.Set(body, "channel.selection.preferred.mode", data.ChannelSelectionPreferredMode.ValueString())
 	}
 	if !data.FraEnabled.IsNull() {
 		body, _ = sjson.Set(body, "fra.enabled", data.FraEnabled.ValueBool())
@@ -142,6 +146,13 @@ func (data NetworkWirelessRadioRRM) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.Set(body, "channel.avoidance.enabled", value.Bool())
 		}
 	}
+	if value := res.Get("channel.selection.preferred.mode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "channel.selection.preferred.mode", "null")
+		} else {
+			body, _ = sjson.Set(body, "channel.selection.preferred.mode", value.String())
+		}
+	}
 	if value := res.Get("fra.enabled"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "fra.enabled", "null")
@@ -186,6 +197,11 @@ func (data *NetworkWirelessRadioRRM) fromBody(ctx context.Context, res meraki.Re
 		data.ChannelAvoidanceEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.ChannelAvoidanceEnabled = types.BoolNull()
+	}
+	if value := res.Get("channel.selection.preferred.mode"); value.Exists() && value.Value() != nil {
+		data.ChannelSelectionPreferredMode = types.StringValue(value.String())
+	} else {
+		data.ChannelSelectionPreferredMode = types.StringNull()
 	}
 	if value := res.Get("fra.enabled"); value.Exists() && value.Value() != nil {
 		data.FraEnabled = types.BoolValue(value.Bool())
@@ -232,6 +248,11 @@ func (data *NetworkWirelessRadioRRM) fromBodyPartial(ctx context.Context, res me
 		data.ChannelAvoidanceEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.ChannelAvoidanceEnabled = types.BoolNull()
+	}
+	if value := res.Get("channel.selection.preferred.mode"); value.Exists() && !data.ChannelSelectionPreferredMode.IsNull() {
+		data.ChannelSelectionPreferredMode = types.StringValue(value.String())
+	} else {
+		data.ChannelSelectionPreferredMode = types.StringNull()
 	}
 	if value := res.Get("fra.enabled"); value.Exists() && !data.FraEnabled.IsNull() {
 		data.FraEnabled = types.BoolValue(value.Bool())

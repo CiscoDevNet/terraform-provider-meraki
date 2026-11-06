@@ -205,6 +205,16 @@ attributes:
     description: The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.
     example: gif
     enum_values: [gif, jpg, png]
+  - model_name: message
+    type: String
+    data_path: [userConsent]
+    description: Consent message displayed to users
+    example: By continuing, you agree to our terms and conditions.
+  - model_name: required
+    type: Bool
+    data_path: [userConsent]
+    description: Whether users must provide consent
+    example: "true"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

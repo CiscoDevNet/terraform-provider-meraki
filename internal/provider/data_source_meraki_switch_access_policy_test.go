@@ -54,8 +54,12 @@ func TestAccDataSourceMerakiSwitchAccessPolicy(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_critical_auth_voice_vlan_id", "101"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_accounting_servers.0.host", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_accounting_servers.0.port", "22"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_accounting_servers.0.server_id", "2"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_accounting_servers.0.radsec_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_servers.0.host", "1.2.3.4"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_servers.0.port", "22"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_servers.0.server_id", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_access_policy.test", "radius_servers.0.radsec_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -117,11 +121,15 @@ func testAccDataSourceMerakiSwitchAccessPolicyConfig() string {
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 22` + "\n"
 	config += `    secret = "secret"` + "\n"
+	config += `    server_id = "2"` + "\n"
+	config += `    radsec_enabled = true` + "\n"
 	config += `  }]` + "\n"
 	config += `  radius_servers = [{` + "\n"
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 22` + "\n"
 	config += `    secret = "secret"` + "\n"
+	config += `    server_id = "1"` + "\n"
+	config += `    radsec_enabled = false` + "\n"
 	config += `  }]` + "\n"
 	config += `  url_redirect_walled_garden_ranges = ["192.168.1.0/24"]` + "\n"
 	config += `}` + "\n"
@@ -163,11 +171,15 @@ func testAccNamedDataSourceMerakiSwitchAccessPolicyConfig() string {
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 22` + "\n"
 	config += `    secret = "secret"` + "\n"
+	config += `    server_id = "2"` + "\n"
+	config += `    radsec_enabled = true` + "\n"
 	config += `  }]` + "\n"
 	config += `  radius_servers = [{` + "\n"
 	config += `    host = "1.2.3.4"` + "\n"
 	config += `    port = 22` + "\n"
 	config += `    secret = "secret"` + "\n"
+	config += `    server_id = "1"` + "\n"
+	config += `    radsec_enabled = false` + "\n"
 	config += `  }]` + "\n"
 	config += `  url_redirect_walled_garden_ranges = ["192.168.1.0/24"]` + "\n"
 	config += `}` + "\n"

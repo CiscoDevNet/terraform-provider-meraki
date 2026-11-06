@@ -53,6 +53,37 @@ attributes:
     data_path: [apBandSettings, bands]
     description: List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
     example: "5"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11be]
+    description: Whether 802.11be is enabled on Wi-Fi 7 capable APs
+    example: "false"
+  - model_name: mode
+    type: String
+    data_path: [dot11be]
+    description: 802.11be is enabled for all SSIDs or per SSID group
+    example: all SSIDs
+    enum_values: [all SSIDs, per SSID group]
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11be, ssids, groups, "1"]
+    description: Whether 802.11be is enabled for the SSID group
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11be, ssids, groups, "2"]
+    description: Whether 802.11be is enabled for the SSID group
+    example: "false"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11be, ssids, groups, "3"]
+    description: Whether 802.11be is enabled for the SSID group
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11be, ssids, groups, "4"]
+    description: Whether 802.11be is enabled for the SSID group
+    example: "false"
   - model_name: channelWidth
     type: String
     data_path: [fiveGhzSettings]
@@ -78,6 +109,11 @@ attributes:
     data_path: [fiveGhzSettings]
     description: The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
     example: "-95"
+  - model_name: enabled
+    type: Bool
+    data_path: [fiveGhzSettings, dot11ax]
+    description: Determines whether IEEE 802.11ax (Wi-Fi 6) on the 5 GHz band is enabled. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.
+    example: "true"
   - model_name: validAutoChannels
     type: Set
     element_type: Int64
@@ -497,6 +533,11 @@ attributes:
     data_path: [twoFourGhzSettings]
     description: The RX-SOP level controls the sensitivity of the radio. It is strongly recommended to use RX-SOP only after consulting a wireless expert. RX-SOP can be configured in the range of -65 to -95 (dBm). A value of null will reset this to the default.
     example: "-95"
+  - model_name: enabled
+    type: Bool
+    data_path: [twoFourGhzSettings, dot11ax]
+    description: Determines whether IEEE 802.11ax (Wi-Fi 6) on the 2.4 GHz band is enabled. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.
+    example: "true"
   - model_name: validAutoChannels
     type: Set
     element_type: Int64

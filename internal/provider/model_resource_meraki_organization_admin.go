@@ -23,7 +23,9 @@ import (
 	"fmt"
 	"net/url"
 	"slices"
+	"strconv"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -47,8 +49,10 @@ type OrganizationAdmin struct {
 }
 
 type OrganizationAdminNetworks struct {
-	Access types.String `tfsdk:"access"`
-	Id     types.String `tfsdk:"id"`
+	Access               types.String `tfsdk:"access"`
+	Id                   types.String `tfsdk:"id"`
+	PacketCaptureAllowed types.Bool   `tfsdk:"packet_capture_allowed"`
+	SwitchPortTags       types.List   `tfsdk:"switch_port_tags"`
 }
 
 type OrganizationAdminTags struct {
@@ -96,6 +100,14 @@ func (data OrganizationAdmin) toBody(ctx context.Context, state OrganizationAdmi
 			}
 			if !item.Id.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "id", item.Id.ValueString())
+			}
+			if !item.PacketCaptureAllowed.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "packetCaptureAllowed", item.PacketCaptureAllowed.ValueBool())
+			}
+			if !item.SwitchPortTags.IsNull() {
+				var values []string
+				item.SwitchPortTags.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "switchPortTags", values)
 			}
 			body, _ = sjson.SetRaw(body, "networks.-1", itemBody)
 		}
@@ -156,6 +168,16 @@ func (data *OrganizationAdmin) fromBody(ctx context.Context, res meraki.Res) {
 			} else {
 				data.Id = types.StringNull()
 			}
+			if value := res.Get("packetCaptureAllowed"); value.Exists() && value.Value() != nil {
+				data.PacketCaptureAllowed = types.BoolValue(value.Bool())
+			} else {
+				data.PacketCaptureAllowed = types.BoolNull()
+			}
+			if value := res.Get("switchPortTags"); value.Exists() && value.Value() != nil {
+				data.SwitchPortTags = helpers.GetStringList(value.Array())
+			} else {
+				data.SwitchPortTags = types.ListNull(types.StringType)
+			}
 			(*parent).Networks = append((*parent).Networks, data)
 			return true
 		})
@@ -211,8 +233,8 @@ func (data *OrganizationAdmin) fromBodyPartial(ctx context.Context, res meraki.R
 		data.OrgAccess = types.StringNull()
 	}
 	for i := 0; i < len(data.Networks); i++ {
-		keys := [...]string{"access", "id"}
-		keyValues := [...]string{data.Networks[i].Access.ValueString(), data.Networks[i].Id.ValueString()}
+		keys := [...]string{"access", "id", "packetCaptureAllowed"}
+		keyValues := [...]string{data.Networks[i].Access.ValueString(), data.Networks[i].Id.ValueString(), strconv.FormatBool(data.Networks[i].PacketCaptureAllowed.ValueBool())}
 
 		parent := &data
 		data := (*parent).Networks[i]
@@ -255,6 +277,16 @@ func (data *OrganizationAdmin) fromBodyPartial(ctx context.Context, res meraki.R
 			data.Id = types.StringValue(value.String())
 		} else {
 			data.Id = types.StringNull()
+		}
+		if value := res.Get("packetCaptureAllowed"); value.Exists() && !data.PacketCaptureAllowed.IsNull() {
+			data.PacketCaptureAllowed = types.BoolValue(value.Bool())
+		} else {
+			data.PacketCaptureAllowed = types.BoolNull()
+		}
+		if value := res.Get("switchPortTags"); value.Exists() && !data.SwitchPortTags.IsNull() {
+			data.SwitchPortTags = helpers.GetStringList(value.Array())
+		} else {
+			data.SwitchPortTags = types.ListNull(types.StringType)
 		}
 		(*parent).Networks[i] = data
 	}

@@ -41,6 +41,10 @@ attributes:
     description: L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.
     example: vlan
     enum_values: [loopback, routed, vlan]
+  - model_name: mtu
+    type: Int64
+    description: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and routed modes.
+    example: "1500"
   - model_name: multicastRouting
     type: String
     description: 'Enable multicast support if, multicast routing between VLANs is required. Options are: `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.'
@@ -85,6 +89,51 @@ attributes:
     description: The VLAN this routed interface is on. VLAN must be between 1 and 4094.
     example: "100"
     minimum_test_value: "100"
+  - model_name: enabled
+    type: Bool
+    data_path: [bidirectionalForwardingDetection]
+    description: Whether BFD is enabled on the L3 interface.
+    example: "true"
+  - model_name: minRx
+    type: Int64
+    data_path: [bidirectionalForwardingDetection, intervalInterface]
+    description: Minimum BFD receive interval in milliseconds.
+    example: "75"
+  - model_name: msecs
+    type: Int64
+    data_path: [bidirectionalForwardingDetection, intervalInterface]
+    description: BFD transmit interval in milliseconds.
+    example: "100"
+  - model_name: multiplier
+    type: Int64
+    data_path: [bidirectionalForwardingDetection, intervalInterface]
+    description: BFD detection multiplier.
+    example: "5"
+  - model_name: enabled
+    type: Bool
+    data_path: [cloud, uplink]
+    description: Whether this interface is enabled as an uplink.
+    example: "false"
+  - model_name: isDefaultGateway
+    type: Bool
+    data_path: [cloud, uplink]
+    description: Whether the switch uses this uplink gateway as its default gateway.
+    example: "false"
+  - model_name: isEligible
+    type: Bool
+    data_path: [cloud, uplink]
+    description: Whether this interface is eligible as a UAC uplink.
+    example: "false"
+  - model_name: primary
+    type: String
+    data_path: [cloud, uplink, nameservers]
+    description: Primary DNS server address.
+    example: 8.8.8.8
+  - model_name: secondary
+    type: String
+    data_path: [cloud, uplink, nameservers]
+    description: Secondary DNS server address.
+    example: 8.8.4.4
   - model_name: address
     type: String
     data_path: [ipv6]
@@ -124,6 +173,31 @@ attributes:
     type: String
     data_path: [ipv6]
     description: Secondary IPv6 DNS server address
+    example: 2001:db8::8888
+  - model_name: enabled
+    type: Bool
+    data_path: [ipv6, cloud, uplink]
+    description: Whether this interface is enabled as an uplink.
+    example: "false"
+  - model_name: isDefaultGateway
+    type: Bool
+    data_path: [ipv6, cloud, uplink]
+    description: Whether the switch uses this uplink gateway as its default gateway.
+    example: "false"
+  - model_name: isEligible
+    type: Bool
+    data_path: [ipv6, cloud, uplink]
+    description: Whether this interface is eligible as a UAC uplink.
+    example: "false"
+  - model_name: primary
+    type: String
+    data_path: [ipv6, cloud, uplink, nameservers]
+    description: Primary DNS server address.
+    example: 2001:db8::1234
+  - model_name: secondary
+    type: String
+    data_path: [ipv6, cloud, uplink, nameservers]
+    description: Secondary DNS server address.
     example: 2001:db8::8888
   - model_name: area
     type: String

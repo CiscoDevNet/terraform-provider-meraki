@@ -38,6 +38,7 @@ import (
 type SwitchSettings struct {
 	Id                             types.String                    `tfsdk:"id"`
 	NetworkId                      types.String                    `tfsdk:"network_id"`
+	PortChannelFallback            types.Bool                      `tfsdk:"port_channel_fallback"`
 	UseCombinedPower               types.Bool                      `tfsdk:"use_combined_power"`
 	Vlan                           types.Int64                     `tfsdk:"vlan"`
 	MacBlocklistEnabled            types.Bool                      `tfsdk:"mac_blocklist_enabled"`
@@ -70,6 +71,9 @@ func (data SwitchSettings) getPath() string {
 
 func (data SwitchSettings) toBody(ctx context.Context, state SwitchSettings) string {
 	body := ""
+	if !data.PortChannelFallback.IsNull() {
+		body, _ = sjson.Set(body, "portChannelFallback", data.PortChannelFallback.ValueBool())
+	}
 	if !data.UseCombinedPower.IsNull() {
 		body, _ = sjson.Set(body, "useCombinedPower", data.UseCombinedPower.ValueBool())
 	}
@@ -118,6 +122,13 @@ func (data SwitchSettings) toBody(ctx context.Context, state SwitchSettings) str
 // `.Attributes` schema and must agree on which fields are writable.
 func (data SwitchSettings) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
 	body := ""
+	if value := res.Get("portChannelFallback"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "portChannelFallback", "null")
+		} else {
+			body, _ = sjson.Set(body, "portChannelFallback", value.Bool())
+		}
+	}
 	if value := res.Get("useCombinedPower"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "useCombinedPower", "null")
@@ -195,6 +206,11 @@ func (data SwitchSettings) toBodyPreservingNulls(ctx context.Context, res meraki
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *SwitchSettings) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("portChannelFallback"); value.Exists() && value.Value() != nil {
+		data.PortChannelFallback = types.BoolValue(value.Bool())
+	} else {
+		data.PortChannelFallback = types.BoolNull()
+	}
 	if value := res.Get("useCombinedPower"); value.Exists() && value.Value() != nil {
 		data.UseCombinedPower = types.BoolValue(value.Bool())
 	} else {
@@ -255,6 +271,11 @@ func (data *SwitchSettings) fromBody(ctx context.Context, res meraki.Res) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *SwitchSettings) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("portChannelFallback"); value.Exists() && !data.PortChannelFallback.IsNull() {
+		data.PortChannelFallback = types.BoolValue(value.Bool())
+	} else {
+		data.PortChannelFallback = types.BoolNull()
+	}
 	if value := res.Get("useCombinedPower"); value.Exists() && !data.UseCombinedPower.IsNull() {
 		data.UseCombinedPower = types.BoolValue(value.Bool())
 	} else {

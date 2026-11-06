@@ -71,6 +71,10 @@ func (d *OrganizationInventoryDevicesDataSource) Schema(ctx context.Context, req
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
+						"address": schema.StringAttribute{
+							MarkdownDescription: "Physical address of the device",
+							Computed:            true,
+						},
 						"claimed_at": schema.StringAttribute{
 							MarkdownDescription: "Claimed time of the device",
 							Computed:            true,
@@ -109,6 +113,10 @@ func (d *OrganizationInventoryDevicesDataSource) Schema(ctx context.Context, req
 						},
 						"serial": schema.StringAttribute{
 							MarkdownDescription: "Serial number of the device",
+							Computed:            true,
+						},
+						"sku": schema.StringAttribute{
+							MarkdownDescription: "Full product model SKU of the device",
 							Computed:            true,
 						},
 						"eox_end_of_sale_at": schema.StringAttribute{

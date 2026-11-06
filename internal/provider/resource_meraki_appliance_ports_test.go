@@ -130,6 +130,8 @@ func testAccMerakiAppliancePortsConfig_all() string {
 	config += `  enabled = true` + "\n"
 	config += `  type = "access"` + "\n"
 	config += `  vlan = 1` + "\n"
+	config += `  sgt_enabled = true` + "\n"
+	config += `  sgt_id = 1234` + "\n"
 	config += ` }]` + "\n"
 	config += `}` + "\n"
 	return config

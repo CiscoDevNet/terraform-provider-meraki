@@ -45,6 +45,16 @@ attributes:
     type: Int64
     description: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.
     example: "3"
+  - model_name: enabled
+    type: Bool
+    data_path: [sgt]
+    description: Whether or not Peer SGT is enabled for traffic through this port.
+    example: "true"
+  - model_name: id
+    type: Int64
+    data_path: [sgt]
+    description: Adaptive policy group ID this port is assigned to.
+    example: "1234"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

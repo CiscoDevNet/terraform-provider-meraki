@@ -43,6 +43,8 @@ func TestAccMerakiOrganizationAdmin(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "name", "Miles Meraki"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "org_access", "none"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "networks.0.access", "full"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "networks.0.packet_capture_allowed", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "networks.0.switch_port_tags.0", "meraki-test"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "tags.0.access", "read-only"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_organization_admin.test", "tags.0.tag", "west"))
 
@@ -136,6 +138,8 @@ func testAccMerakiOrganizationAdminConfig_all() string {
 	config += `  networks = [{` + "\n"
 	config += `    access = "full"` + "\n"
 	config += `    id = meraki_network.test.id` + "\n"
+	config += `    packet_capture_allowed = true` + "\n"
+	config += `    switch_port_tags = ["meraki-test"]` + "\n"
 	config += `  }]` + "\n"
 	config += `  tags = [{` + "\n"
 	config += `    access = "read-only"` + "\n"

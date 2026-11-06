@@ -135,6 +135,11 @@ attributes:
     example: "false"
   - model_name: enabled
     type: Bool
+    data_path: [fastPoe]
+    description: Whether Fast PoE is enabled on the switch port. Fast PoE requires Perpetual PoE and can only be enabled on ports that support PoE HA.
+    example: "true"
+  - model_name: enabled
+    type: Bool
     data_path: [highSpeed]
     description: For C9500-32QC, whether or not the port is enabled for high speed.
     example: "false"
@@ -159,6 +164,11 @@ attributes:
     data_path: [module]
     description: The slot number of the module.
     example: "1"
+  - model_name: enabled
+    type: Bool
+    data_path: [perpetualPoe]
+    description: Whether Perpetual PoE is enabled on the switch port. Perpetual PoE can only be enabled on ports that support PoE HA.
+    example: "true"
   - model_name: enabled
     type: Bool
     data_path: [profile]

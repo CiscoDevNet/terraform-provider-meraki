@@ -97,8 +97,11 @@ func (r *ApplianceTrafficShapingRulesResource) Schema(ctx context.Context, req r
 							Optional:            true,
 						},
 						"per_client_bandwidth_limit_settings": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("How bandwidth limits are applied by your rule. Can be one of `network default`, `ignore` or `custom`.").String,
+							MarkdownDescription: helpers.NewAttributeDescription("How bandwidth limits are applied by your rule. Can be one of `network default`, `ignore` or `custom`.").AddStringEnumDescription("custom", "ignore", "network default").String,
 							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("custom", "ignore", "network default"),
+							},
 						},
 						"per_client_bandwidth_limit_down": schema.Int64Attribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The maximum download limit (integer, in Kbps).").String,

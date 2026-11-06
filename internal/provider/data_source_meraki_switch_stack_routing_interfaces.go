@@ -94,6 +94,10 @@ func (d *SwitchStackRoutingInterfacesDataSource) Schema(ctx context.Context, req
 							MarkdownDescription: "L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.",
 							Computed:            true,
 						},
+						"mtu": schema.Int64Attribute{
+							MarkdownDescription: "The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and routed modes.",
+							Computed:            true,
+						},
 						"multicast_routing": schema.StringAttribute{
 							MarkdownDescription: "Enable multicast support if, multicast routing between VLANs is required. Options are, `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.",
 							Computed:            true,
@@ -130,6 +134,42 @@ func (d *SwitchStackRoutingInterfacesDataSource) Schema(ctx context.Context, req
 							MarkdownDescription: "The VLAN this routed interface is on. VLAN must be between 1 and 4094.",
 							Computed:            true,
 						},
+						"bidirectional_forwarding_detection_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether BFD is enabled on the L3 interface.",
+							Computed:            true,
+						},
+						"bidirectional_forwarding_detection_interval_interface_min_rx": schema.Int64Attribute{
+							MarkdownDescription: "Minimum BFD receive interval in milliseconds.",
+							Computed:            true,
+						},
+						"bidirectional_forwarding_detection_interval_interface_msecs": schema.Int64Attribute{
+							MarkdownDescription: "BFD transmit interval in milliseconds.",
+							Computed:            true,
+						},
+						"bidirectional_forwarding_detection_interval_interface_multiplier": schema.Int64Attribute{
+							MarkdownDescription: "BFD detection multiplier.",
+							Computed:            true,
+						},
+						"cloud_uplink_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether this interface is enabled as an uplink.",
+							Computed:            true,
+						},
+						"cloud_uplink_is_default_gateway": schema.BoolAttribute{
+							MarkdownDescription: "Whether the switch uses this uplink gateway as its default gateway.",
+							Computed:            true,
+						},
+						"cloud_uplink_is_eligible": schema.BoolAttribute{
+							MarkdownDescription: "Whether this interface is eligible as a UAC uplink.",
+							Computed:            true,
+						},
+						"cloud_uplink_nameservers_primary": schema.StringAttribute{
+							MarkdownDescription: "Primary DNS server address.",
+							Computed:            true,
+						},
+						"cloud_uplink_nameservers_secondary": schema.StringAttribute{
+							MarkdownDescription: "Secondary DNS server address.",
+							Computed:            true,
+						},
 						"ipv6_address": schema.StringAttribute{
 							MarkdownDescription: "The IPv6 address of the interface. Required if assignmentMode is `static`. Must not be included if assignmentMode is `eui-64`.",
 							Computed:            true,
@@ -160,6 +200,26 @@ func (d *SwitchStackRoutingInterfacesDataSource) Schema(ctx context.Context, req
 						},
 						"ipv6_static_v6_dns2": schema.StringAttribute{
 							MarkdownDescription: "Secondary IPv6 DNS server address",
+							Computed:            true,
+						},
+						"ipv6_cloud_uplink_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether this interface is enabled as an uplink.",
+							Computed:            true,
+						},
+						"ipv6_cloud_uplink_is_default_gateway": schema.BoolAttribute{
+							MarkdownDescription: "Whether the switch uses this uplink gateway as its default gateway.",
+							Computed:            true,
+						},
+						"ipv6_cloud_uplink_is_eligible": schema.BoolAttribute{
+							MarkdownDescription: "Whether this interface is eligible as a UAC uplink.",
+							Computed:            true,
+						},
+						"ipv6_cloud_uplink_nameservers_primary": schema.StringAttribute{
+							MarkdownDescription: "Primary DNS server address.",
+							Computed:            true,
+						},
+						"ipv6_cloud_uplink_nameservers_secondary": schema.StringAttribute{
+							MarkdownDescription: "Secondary DNS server address.",
 							Computed:            true,
 						},
 						"ospf_settings_area": schema.StringAttribute{

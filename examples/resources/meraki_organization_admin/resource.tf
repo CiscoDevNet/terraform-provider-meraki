@@ -6,8 +6,10 @@ resource "meraki_organization_admin" "example" {
   org_access            = "none"
   networks = [
     {
-      access = "full"
-      id     = "N_24329156"
+      access                 = "full"
+      id                     = "N_24329156"
+      packet_capture_allowed = true
+      switch_port_tags       = ["meraki-test"]
     }
   ]
   tags = [

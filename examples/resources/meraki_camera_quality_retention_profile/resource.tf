@@ -32,6 +32,8 @@ resource "meraki_camera_quality_retention_profile" "example" {
   video_settings_mv33_resolution           = "1080x1080"
   video_settings_mv33_m_quality            = "Standard"
   video_settings_mv33_m_resolution         = "1080x1080"
+  video_settings_mv44_x_quality            = ""
+  video_settings_mv44_x_resolution         = ""
   video_settings_mv52_quality              = "Standard"
   video_settings_mv52_resolution           = "1280x720"
   video_settings_mv53_x_quality            = "Standard"

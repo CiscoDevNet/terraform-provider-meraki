@@ -77,6 +77,10 @@ func (r *NetworkVLANProfileResource) Schema(ctx context.Context, req resource.Sc
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"active_vlans": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The active VLANs for the VLAN profile. Only applicable to trunk ports. The given range must be inclusive of all named VLANs.").String,
+				Optional:            true,
+			},
 			"iname": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("IName of the profile").String,
 				Required:            true,

@@ -52,6 +52,7 @@ Read-Only:
 - `notes` (String) Notes for the device, limited to 255 characters
 - `serial` (String) Serial number of the device
 - `tags` (List of String) List of tags assigned to the device
+- `url` (String) URL link to the device in the Meraki Dashboard
 
 <a id="nestedatt--items--details"></a>
 ### Nested Schema for `items.details`

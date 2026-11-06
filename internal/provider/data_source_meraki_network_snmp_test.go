@@ -35,6 +35,8 @@ func TestAccDataSourceMerakiNetworkSNMP(t *testing.T) {
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "access", "users"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "authentication_protocol", "SHA-1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "privacy_protocol", "AES-128"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "users.0.passphrase", "N7!qW4#cT3@p"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_network_snmp.test", "users.0.username", "AzureDiamond"))
 	resource.Test(t, resource.TestCase{
@@ -75,6 +77,8 @@ func testAccDataSourceMerakiNetworkSNMPConfig() string {
 	config := `resource "meraki_network_snmp" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  access = "users"` + "\n"
+	config += `  authentication_protocol = "SHA-1"` + "\n"
+	config += `  privacy_protocol = "AES-128"` + "\n"
 	config += `  users = [{` + "\n"
 	config += `    passphrase = "N7!qW4#cT3@p"` + "\n"
 	config += `    username = "AzureDiamond"` + "\n"

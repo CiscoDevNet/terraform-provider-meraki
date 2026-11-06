@@ -44,6 +44,7 @@ func TestAccMerakiNetworkWirelessRadioRRM(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "busy_hour_schedule_manual_end", "15:00"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "busy_hour_schedule_manual_start", "10:00"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "channel_avoidance_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "channel_selection_preferred_mode", "automatic"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_wireless_radio_rrm.test", "fra_enabled", "false"))
 
 	var steps []resource.TestStep
@@ -131,6 +132,7 @@ func testAccMerakiNetworkWirelessRadioRRMConfig_all() string {
 	config += `  busy_hour_schedule_manual_end = "15:00"` + "\n"
 	config += `  busy_hour_schedule_manual_start = "10:00"` + "\n"
 	config += `  channel_avoidance_enabled = true` + "\n"
+	config += `  channel_selection_preferred_mode = "automatic"` + "\n"
 	config += `  fra_enabled = false` + "\n"
 	config += `}` + "\n"
 	return config

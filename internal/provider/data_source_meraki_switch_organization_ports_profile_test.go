@@ -40,12 +40,15 @@ func TestAccDataSourceMerakiSwitchOrganizationPortsProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_access_policy_type", "Open"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_allowed_vlans", "1-100"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_dai_trusted", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_fast_poe_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_isolation_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_peer_sgt_capable", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_perpetual_poe_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_poe_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_rstp_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_storm_control_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_stp_guard", "disabled"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_stp_port_fast_trunk", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_type", "access"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_udld", "Alert only"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_switch_organization_ports_profile.test", "port_vlan", "10"))
@@ -88,12 +91,15 @@ func testAccDataSourceMerakiSwitchOrganizationPortsProfileConfig() string {
 	config += `  port_access_policy_type = "Open"` + "\n"
 	config += `  port_allowed_vlans = "1-100"` + "\n"
 	config += `  port_dai_trusted = false` + "\n"
+	config += `  port_fast_poe_enabled = true` + "\n"
 	config += `  port_isolation_enabled = false` + "\n"
 	config += `  port_peer_sgt_capable = false` + "\n"
+	config += `  port_perpetual_poe_enabled = true` + "\n"
 	config += `  port_poe_enabled = true` + "\n"
 	config += `  port_rstp_enabled = true` + "\n"
 	config += `  port_storm_control_enabled = true` + "\n"
 	config += `  port_stp_guard = "disabled"` + "\n"
+	config += `  port_stp_port_fast_trunk = false` + "\n"
 	config += `  port_type = "access"` + "\n"
 	config += `  port_udld = "Alert only"` + "\n"
 	config += `  port_vlan = 10` + "\n"
@@ -120,12 +126,15 @@ func testAccNamedDataSourceMerakiSwitchOrganizationPortsProfileConfig() string {
 	config += `  port_access_policy_type = "Open"` + "\n"
 	config += `  port_allowed_vlans = "1-100"` + "\n"
 	config += `  port_dai_trusted = false` + "\n"
+	config += `  port_fast_poe_enabled = true` + "\n"
 	config += `  port_isolation_enabled = false` + "\n"
 	config += `  port_peer_sgt_capable = false` + "\n"
+	config += `  port_perpetual_poe_enabled = true` + "\n"
 	config += `  port_poe_enabled = true` + "\n"
 	config += `  port_rstp_enabled = true` + "\n"
 	config += `  port_storm_control_enabled = true` + "\n"
 	config += `  port_stp_guard = "disabled"` + "\n"
+	config += `  port_stp_port_fast_trunk = false` + "\n"
 	config += `  port_type = "access"` + "\n"
 	config += `  port_udld = "Alert only"` + "\n"
 	config += `  port_vlan = 10` + "\n"

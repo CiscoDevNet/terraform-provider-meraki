@@ -7,6 +7,10 @@ resource "meraki_network_firmware_upgrades" "example" {
   products_camera_participate_in_next_beta_release              = false
   products_camera_next_upgrade_time                             = "2019-03-17T17:22:52Z"
   products_camera_next_upgrade_to_version_id                    = "1003"
+  products_campus_gateway_participate_in_next_beta_release      = false
+  products_campus_gateway_next_upgrade_strategy                 = "minimizeUpgradeTime"
+  products_campus_gateway_next_upgrade_time                     = "2019-03-17T17:22:52Z"
+  products_campus_gateway_next_upgrade_to_version_id            = "1007"
   products_cellular_gateway_participate_in_next_beta_release    = false
   products_cellular_gateway_next_upgrade_time                   = "2019-03-17T17:22:52Z"
   products_cellular_gateway_next_upgrade_to_version_id          = "1004"
@@ -23,6 +27,7 @@ resource "meraki_network_firmware_upgrades" "example" {
   products_switch_catalyst_next_upgrade_time                    = "2019-03-17T17:22:52Z"
   products_switch_catalyst_next_upgrade_to_version_id           = "1234"
   products_wireless_participate_in_next_beta_release            = false
+  products_wireless_next_upgrade_strategy                       = "minimizeUpgradeTime"
   products_wireless_next_upgrade_time                           = "2019-03-17T17:22:52Z"
   products_wireless_next_upgrade_predownload_enabled            = false
   products_wireless_next_upgrade_to_version_id                  = "1000"
@@ -31,4 +36,11 @@ resource "meraki_network_firmware_upgrades" "example" {
   products_wireless_controller_next_upgrade_to_version_id       = "1006"
   upgrade_window_day_of_week                                    = "Sun"
   upgrade_window_hour_of_day                                    = "4:00"
+  feature_loss_acknowledgements = [
+    {
+      network_id                  = "N_1234"
+      product_type                = "wireless"
+      removed_feature_check_names = ["snmp-auth-and-privacy-check"]
+    }
+  ]
 }

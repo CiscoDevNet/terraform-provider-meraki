@@ -26,6 +26,18 @@ attributes:
     description: The SNMP community string. Only relevant if `access` is set to `community`.
     example: sample
     minimum_test_value: '"sample"'
+  - model_name: protocol
+    type: String
+    data_path: [authentication]
+    description: The SNMPv3 authentication protocol.
+    example: SHA-1
+    enum_values: [SHA-1, SHA-256, SHA-384, SHA-512]
+  - model_name: protocol
+    type: String
+    data_path: [privacy]
+    description: The SNMPv3 privacy protocol.
+    example: AES-128
+    enum_values: [AES-128, DES]
   - model_name: users
     type: List
     description: The list of SNMP users. Only relevant if `access` is set to `users`.

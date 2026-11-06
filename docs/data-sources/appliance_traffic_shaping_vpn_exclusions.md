@@ -27,6 +27,7 @@ data "meraki_appliance_traffic_shaping_vpn_exclusions" "example" {
 
 ### Read-Only
 
+- `application_category_mapping_enabled` (Boolean) When true, map the configured majorApplications to application categories and add the results to applications. Keep majorApplications unchanged. Defaults to false.
 - `custom` (Attributes List) Custom VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--custom))
 - `id` (String) The id of the object
 - `major_applications` (Attributes List) Major Application based VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--major_applications))

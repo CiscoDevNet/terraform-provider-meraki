@@ -34,5 +34,7 @@ data "meraki_appliance_port" "example" {
 - `drop_untagged_traffic` (Boolean) Trunk port can Drop all Untagged traffic. When true, no VLAN is required. Access ports cannot have dropUntaggedTraffic set to true.
 - `enabled` (Boolean) The status of the port
 - `id` (String) The id of the object
+- `sgt_enabled` (Boolean) Whether or not Peer SGT is enabled for traffic through this port.
+- `sgt_id` (Number) Adaptive policy group ID this port is assigned to.
 - `type` (String) The type of the port: `access` or `trunk`.
 - `vlan` (Number) Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.

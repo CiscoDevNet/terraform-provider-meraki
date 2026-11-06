@@ -25,6 +25,11 @@ attributes:
     example: prevention
     enum_values: [detection, disabled, prevention]
     minimum_test_value: '"disabled"'
+  - model_name: id
+    type: String
+    data_path: [policy]
+    description: The identifier of an existing custom intrusion policy in this organization
+    example: "123"
   - model_name: useDefault
     type: Bool
     data_path: [protectedNetworks]

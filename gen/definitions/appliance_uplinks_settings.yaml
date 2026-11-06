@@ -90,6 +90,117 @@ attributes:
     example: 1001:4860:4860::8888
   - model_name: enabled
     type: Bool
+    data_path: [interfaces, wan1, transition]
+    description: Whether the IPoE transition IPv4 to IPv6 is enabled.
+    example: "true"
+  - model_name: mode
+    type: String
+    data_path: [interfaces, wan1, transition]
+    description: Mode selector for the IPoE transition IPv4 to IPv6 is enabled.
+    example: MAP-E
+    enum_values: [DS-Lite, IP-in-IP, MAP-E, MAP-T]
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan1, transition, authentication]
+    description: Whether IPoE transition authentication is enabled.
+    example: "true"
+  - model_name: password
+    type: String
+    data_path: [interfaces, wan1, transition, authentication]
+    description: Password for IPoE transition authentication. This parameter is not returned.
+    example: password
+  - model_name: username
+    type: String
+    data_path: [interfaces, wan1, transition, authentication]
+    description: Username for IPoE transition authentication.
+    example: 4o6ddns
+  - model_name: address
+    type: String
+    data_path: [interfaces, wan1, transition, ipv4, local]
+    description: Static IPv4 information used for host origination and NAT44 translation
+  - model_name: interfaceId
+    type: String
+    data_path: [interfaces, wan1, transition, ipv6]
+    description: The 64-bit interface ID (suffix) of the uplink IPv6 address
+  - model_name: address
+    type: String
+    data_path: [interfaces, wan1, transition, ipv6, borderRelay]
+    description: CIDR for the border relay for the IPoE transition authentication.
+  - model_name: mode
+    type: String
+    data_path: [interfaces, wan1, transition, ipv6, borderRelay]
+    description: Mode selection for the border relay for the IPoE transition.
+    example: auto
+  - model_name: name
+    type: String
+    data_path: [interfaces, wan1, transition, isp]
+    description: ISP name for the IPoE transition.
+    example: OCN IPoE
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan1, transition, map, draft]
+    description: Whether MAP-E draft mode is enabled. This field is accepted only for MAP-E. Null is treated as omitted and preserves the existing setting.
+    example: "false"
+  - model_name: source
+    type: String
+    data_path: [interfaces, wan1, transition, map, rules]
+    description: How MAP rules are obtained. HTTPS requires an ISP supported for the transition mode.
+    example: manual
+    enum_values: [DHCPv6, HTTPS, manual]
+  - model_name: entries
+    type: List
+    data_path: [interfaces, wan1, transition, map, rules]
+    description: Manual MAP rules. At most one entry is supported.
+    attributes:
+      - model_name: eaBitLength
+        type: Int64
+        mandatory: true
+        description: Embedded address bit length (0-48).
+        example: "20"
+        min_int: 0
+        max_int: 48
+      - model_name: psIdOffset
+        type: Int64
+        mandatory: true
+        description: PSID offset (0-15).
+        example: "6"
+        min_int: 0
+        max_int: 15
+      - model_name: address
+        type: String
+        data_path: [borderRelay]
+        description: IPv6 border relay address for MAP-E.
+        example: 2001:db8:ffff::1
+      - model_name: prefix
+        type: String
+        data_path: [borderRelay]
+        description: IPv6 border relay prefix for MAP-T in CIDR notation, with a prefix length from 0 to 96.
+      - model_name: address
+        type: String
+        data_path: [ipv4, prefix]
+        description: IPv4 network address used by the MAP rule, without the prefix length.
+        example: 192.0.2.0
+      - model_name: length
+        type: Int64
+        data_path: [ipv4, prefix]
+        description: IPv4 prefix length (0-32).
+        example: "18"
+        min_int: 0
+        max_int: 32
+      - model_name: address
+        type: String
+        data_path: [ipv6, prefix]
+        description: IPv6 network address used by the MAP rule, without the prefix length.
+        example: '2001:db8:100::'
+      - model_name: length
+        type: Int64
+        data_path: [ipv6, prefix]
+        description: IPv6 prefix length (0-128).
+        example: "36"
+        min_int: 0
+        max_int: 128
+  - model_name: enabled
+    type: Bool
     data_path: [interfaces, wan1, vlanTagging]
     description: Whether VLAN tagging is enabled.
     example: "true"
@@ -174,6 +285,117 @@ attributes:
     exclude_test: true
     description: Up to 2 nameserver addresses to use, ordered in priority from highest to lowest priority.
     example: 1001:4860:4860::8888
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan2, transition]
+    description: Whether the IPoE transition IPv4 to IPv6 is enabled.
+    example: "true"
+  - model_name: mode
+    type: String
+    data_path: [interfaces, wan2, transition]
+    description: Mode selector for the IPoE transition IPv4 to IPv6 is enabled.
+    example: MAP-E
+    enum_values: [DS-Lite, IP-in-IP, MAP-E, MAP-T]
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan2, transition, authentication]
+    description: Whether IPoE transition authentication is enabled.
+    example: "true"
+  - model_name: password
+    type: String
+    data_path: [interfaces, wan2, transition, authentication]
+    description: Password for IPoE transition authentication. This parameter is not returned.
+    example: password
+  - model_name: username
+    type: String
+    data_path: [interfaces, wan2, transition, authentication]
+    description: Username for IPoE transition authentication.
+    example: 4o6ddns
+  - model_name: address
+    type: String
+    data_path: [interfaces, wan2, transition, ipv4, local]
+    description: Static IPv4 information used for host origination and NAT44 translation
+  - model_name: interfaceId
+    type: String
+    data_path: [interfaces, wan2, transition, ipv6]
+    description: The 64-bit interface ID (suffix) of the uplink IPv6 address
+  - model_name: address
+    type: String
+    data_path: [interfaces, wan2, transition, ipv6, borderRelay]
+    description: CIDR for the border relay for the IPoE transition authentication.
+  - model_name: mode
+    type: String
+    data_path: [interfaces, wan2, transition, ipv6, borderRelay]
+    description: Mode selection for the border relay for the IPoE transition.
+    example: auto
+  - model_name: name
+    type: String
+    data_path: [interfaces, wan2, transition, isp]
+    description: ISP name for the IPoE transition.
+    example: OCN IPoE
+  - model_name: enabled
+    type: Bool
+    data_path: [interfaces, wan2, transition, map, draft]
+    description: Whether MAP-E draft mode is enabled. This field is accepted only for MAP-E. Null is treated as omitted and preserves the existing setting.
+    example: "false"
+  - model_name: source
+    type: String
+    data_path: [interfaces, wan2, transition, map, rules]
+    description: How MAP rules are obtained. HTTPS requires an ISP supported for the transition mode.
+    example: manual
+    enum_values: [DHCPv6, HTTPS, manual]
+  - model_name: entries
+    type: List
+    data_path: [interfaces, wan2, transition, map, rules]
+    description: Manual MAP rules. At most one entry is supported.
+    attributes:
+      - model_name: eaBitLength
+        type: Int64
+        mandatory: true
+        description: Embedded address bit length (0-48).
+        example: "20"
+        min_int: 0
+        max_int: 48
+      - model_name: psIdOffset
+        type: Int64
+        mandatory: true
+        description: PSID offset (0-15).
+        example: "6"
+        min_int: 0
+        max_int: 15
+      - model_name: address
+        type: String
+        data_path: [borderRelay]
+        description: IPv6 border relay address for MAP-E.
+        example: 2001:db8:ffff::1
+      - model_name: prefix
+        type: String
+        data_path: [borderRelay]
+        description: IPv6 border relay prefix for MAP-T in CIDR notation, with a prefix length from 0 to 96.
+      - model_name: address
+        type: String
+        data_path: [ipv4, prefix]
+        description: IPv4 network address used by the MAP rule, without the prefix length.
+        example: 192.0.2.0
+      - model_name: length
+        type: Int64
+        data_path: [ipv4, prefix]
+        description: IPv4 prefix length (0-32).
+        example: "18"
+        min_int: 0
+        max_int: 32
+      - model_name: address
+        type: String
+        data_path: [ipv6, prefix]
+        description: IPv6 network address used by the MAP rule, without the prefix length.
+        example: '2001:db8:100::'
+      - model_name: length
+        type: Int64
+        data_path: [ipv6, prefix]
+        description: IPv6 prefix length (0-128).
+        example: "36"
+        min_int: 0
+        max_int: 128
   - model_name: enabled
     type: Bool
     data_path: [interfaces, wan2, vlanTagging]

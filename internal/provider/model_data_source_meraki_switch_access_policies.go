@@ -80,6 +80,8 @@ type DataSourceSwitchAccessPoliciesRadiusAccountingServers struct {
 	OrganizationRadiusServerId types.String `tfsdk:"organization_radius_server_id"`
 	Port                       types.Int64  `tfsdk:"port"`
 	Secret                     types.String `tfsdk:"secret"`
+	ServerId                   types.String `tfsdk:"server_id"`
+	RadsecEnabled              types.Bool   `tfsdk:"radsec_enabled"`
 }
 
 type DataSourceSwitchAccessPoliciesRadiusServers struct {
@@ -87,6 +89,8 @@ type DataSourceSwitchAccessPoliciesRadiusServers struct {
 	OrganizationRadiusServerId types.String `tfsdk:"organization_radius_server_id"`
 	Port                       types.Int64  `tfsdk:"port"`
 	Secret                     types.String `tfsdk:"secret"`
+	ServerId                   types.String `tfsdk:"server_id"`
+	RadsecEnabled              types.Bool   `tfsdk:"radsec_enabled"`
 }
 
 // End of section. //template:end types
@@ -267,6 +271,16 @@ func (data *DataSourceSwitchAccessPolicies) fromBody(ctx context.Context, res me
 				} else {
 					data.Port = types.Int64Null()
 				}
+				if value := res.Get("serverId"); value.Exists() && value.Value() != nil {
+					data.ServerId = types.StringValue(value.String())
+				} else {
+					data.ServerId = types.StringNull()
+				}
+				if value := res.Get("radsec.enabled"); value.Exists() && value.Value() != nil {
+					data.RadsecEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.RadsecEnabled = types.BoolNull()
+				}
 				(*parent).RadiusAccountingServers = append((*parent).RadiusAccountingServers, data)
 				return true
 			})
@@ -290,6 +304,16 @@ func (data *DataSourceSwitchAccessPolicies) fromBody(ctx context.Context, res me
 					data.Port = types.Int64Value(value.Int())
 				} else {
 					data.Port = types.Int64Null()
+				}
+				if value := res.Get("serverId"); value.Exists() && value.Value() != nil {
+					data.ServerId = types.StringValue(value.String())
+				} else {
+					data.ServerId = types.StringNull()
+				}
+				if value := res.Get("radsec.enabled"); value.Exists() && value.Value() != nil {
+					data.RadsecEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.RadsecEnabled = types.BoolNull()
 				}
 				(*parent).RadiusServers = append((*parent).RadiusServers, data)
 				return true

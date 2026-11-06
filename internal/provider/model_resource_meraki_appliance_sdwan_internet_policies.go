@@ -47,6 +47,7 @@ type ApplianceSDWANInternetPoliciesWanTrafficUplinkPreferences struct {
 	BuiltinPerformanceClassName types.String                                                              `tfsdk:"builtin_performance_class_name"`
 	CustomPerformanceClassId    types.String                                                              `tfsdk:"custom_performance_class_id"`
 	PerformanceClassType        types.String                                                              `tfsdk:"performance_class_type"`
+	VrfId                       types.String                                                              `tfsdk:"vrf_id"`
 	TrafficFilters              []ApplianceSDWANInternetPoliciesWanTrafficUplinkPreferencesTrafficFilters `tfsdk:"traffic_filters"`
 }
 
@@ -104,6 +105,9 @@ func (data ApplianceSDWANInternetPolicies) toBody(ctx context.Context, state App
 			}
 			if !item.PerformanceClassType.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "performanceClass.type", item.PerformanceClassType.ValueString())
+			}
+			if !item.VrfId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "vrf.id", item.VrfId.ValueString())
 			}
 			{
 				itemBody, _ = sjson.Set(itemBody, "trafficFilters", []interface{}{})
@@ -192,6 +196,11 @@ func (data *ApplianceSDWANInternetPolicies) fromBody(ctx context.Context, res me
 				data.PerformanceClassType = types.StringValue(value.String())
 			} else {
 				data.PerformanceClassType = types.StringNull()
+			}
+			if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+				data.VrfId = types.StringValue(value.String())
+			} else {
+				data.VrfId = types.StringNull()
 			}
 			if value := res.Get("trafficFilters"); value.Exists() && value.Value() != nil {
 				data.TrafficFilters = make([]ApplianceSDWANInternetPoliciesWanTrafficUplinkPreferencesTrafficFilters, 0)
@@ -317,6 +326,11 @@ func (data *ApplianceSDWANInternetPolicies) fromBodyPartial(ctx context.Context,
 			data.PerformanceClassType = types.StringValue(value.String())
 		} else {
 			data.PerformanceClassType = types.StringNull()
+		}
+		if value := res.Get("vrf.id"); value.Exists() && !data.VrfId.IsNull() {
+			data.VrfId = types.StringValue(value.String())
+		} else {
+			data.VrfId = types.StringNull()
 		}
 		{
 			l := len(res.Get("trafficFilters").Array())

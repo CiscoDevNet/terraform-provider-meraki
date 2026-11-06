@@ -79,6 +79,10 @@ func (r *ApplianceSiteToSiteVPNResource) Schema(ctx context.Context, req resourc
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"confirmed": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether to accept the confirmation warnings for these changes. Defaults to true, which accepts confirmation warnings and preserves the existing update behavior. Set to false to opt in to confirmation warnings. Review the warnings returned in confirmations, then retry with confirmed: true to accept them. Fatal errors must be corrected before retrying.").String,
+				Optional:            true,
+			},
 			"mode": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The site-to-site VPN mode. Can be one of `none`, `spoke` or `hub`").AddStringEnumDescription("hub", "none", "spoke").String,
 				Required:            true,
@@ -86,9 +90,48 @@ func (r *ApplianceSiteToSiteVPNResource) Schema(ctx context.Context, req resourc
 					stringvalidator.OneOf("hub", "none", "spoke"),
 				},
 			},
+			"nat_traversal_mode": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether NAT traversal is automatic or manually configured.").AddStringEnumDescription("automatic", "manual").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("automatic", "manual"),
+				},
+			},
+			"nat_traversal_public_ip": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The public IP address used for manual NAT traversal.").String,
+				Optional:            true,
+			},
+			"nat_traversal_public_port": schema.Int64Attribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The public port used for manual NAT traversal. Must be between 1024 and 65535.").String,
+				Optional:            true,
+			},
+			"sgt_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not Peer SGT is enabled for traffic to this VPN peer.").String,
+				Optional:            true,
+			},
 			"subnet_nat_is_allowed": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.").String,
 				Optional:            true,
+			},
+			"host_translations": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2").String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The name of the translated host.").String,
+							Optional:            true,
+						},
+						"local_address": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The local IP address of the translated host.").String,
+							Optional:            true,
+						},
+						"remote_address": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The remote IP address of the translated host.").String,
+							Optional:            true,
+						},
+					},
+				},
 			},
 			"hubs": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.").String,

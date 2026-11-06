@@ -85,6 +85,8 @@ type ResourceSwitchAccessPoliciesRadiusAccountingServers struct {
 	OrganizationRadiusServerId types.String `tfsdk:"organization_radius_server_id"`
 	Port                       types.Int64  `tfsdk:"port"`
 	Secret                     types.String `tfsdk:"secret"`
+	ServerId                   types.String `tfsdk:"server_id"`
+	RadsecEnabled              types.Bool   `tfsdk:"radsec_enabled"`
 }
 
 type ResourceSwitchAccessPoliciesRadiusServers struct {
@@ -92,6 +94,8 @@ type ResourceSwitchAccessPoliciesRadiusServers struct {
 	OrganizationRadiusServerId types.String `tfsdk:"organization_radius_server_id"`
 	Port                       types.Int64  `tfsdk:"port"`
 	Secret                     types.String `tfsdk:"secret"`
+	ServerId                   types.String `tfsdk:"server_id"`
+	RadsecEnabled              types.Bool   `tfsdk:"radsec_enabled"`
 }
 
 type ResourceSwitchAccessPoliciesIdentity struct {
@@ -220,6 +224,12 @@ func (data ResourceSwitchAccessPoliciesItems) toBody(ctx context.Context, state 
 			if !item.Secret.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "secret", item.Secret.ValueString())
 			}
+			if !item.ServerId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "serverId", item.ServerId.ValueString())
+			}
+			if !item.RadsecEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "radsec.enabled", item.RadsecEnabled.ValueBool())
+			}
 			body, _ = sjson.SetRaw(body, "radiusAccountingServers.-1", itemBody)
 		}
 	}
@@ -238,6 +248,12 @@ func (data ResourceSwitchAccessPoliciesItems) toBody(ctx context.Context, state 
 			}
 			if !item.Secret.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "secret", item.Secret.ValueString())
+			}
+			if !item.ServerId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "serverId", item.ServerId.ValueString())
+			}
+			if !item.RadsecEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "radsec.enabled", item.RadsecEnabled.ValueBool())
 			}
 			body, _ = sjson.SetRaw(body, "radiusServers.-1", itemBody)
 		}
@@ -422,6 +438,16 @@ func (data *ResourceSwitchAccessPolicies) fromBody(ctx context.Context, res mera
 				} else {
 					data.Port = types.Int64Null()
 				}
+				if value := res.Get("serverId"); value.Exists() && value.Value() != nil {
+					data.ServerId = types.StringValue(value.String())
+				} else {
+					data.ServerId = types.StringNull()
+				}
+				if value := res.Get("radsec.enabled"); value.Exists() && value.Value() != nil {
+					data.RadsecEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.RadsecEnabled = types.BoolNull()
+				}
 				(*parent).RadiusAccountingServers = append((*parent).RadiusAccountingServers, data)
 				return true
 			})
@@ -445,6 +471,16 @@ func (data *ResourceSwitchAccessPolicies) fromBody(ctx context.Context, res mera
 					data.Port = types.Int64Value(value.Int())
 				} else {
 					data.Port = types.Int64Null()
+				}
+				if value := res.Get("serverId"); value.Exists() && value.Value() != nil {
+					data.ServerId = types.StringValue(value.String())
+				} else {
+					data.ServerId = types.StringNull()
+				}
+				if value := res.Get("radsec.enabled"); value.Exists() && value.Value() != nil {
+					data.RadsecEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.RadsecEnabled = types.BoolNull()
 				}
 				(*parent).RadiusServers = append((*parent).RadiusServers, data)
 				return true
@@ -668,6 +704,16 @@ func (data *ResourceSwitchAccessPolicies) fromBodyPartial(ctx context.Context, r
 			} else {
 				data.Port = types.Int64Null()
 			}
+			if value := res.Get("serverId"); value.Exists() && !data.ServerId.IsNull() {
+				data.ServerId = types.StringValue(value.String())
+			} else {
+				data.ServerId = types.StringNull()
+			}
+			if value := res.Get("radsec.enabled"); value.Exists() && !data.RadsecEnabled.IsNull() {
+				data.RadsecEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.RadsecEnabled = types.BoolNull()
+			}
 			(*parent).RadiusAccountingServers[i] = data
 		}
 		{
@@ -696,6 +742,16 @@ func (data *ResourceSwitchAccessPolicies) fromBodyPartial(ctx context.Context, r
 				data.Port = types.Int64Value(value.Int())
 			} else {
 				data.Port = types.Int64Null()
+			}
+			if value := res.Get("serverId"); value.Exists() && !data.ServerId.IsNull() {
+				data.ServerId = types.StringValue(value.String())
+			} else {
+				data.ServerId = types.StringNull()
+			}
+			if value := res.Get("radsec.enabled"); value.Exists() && !data.RadsecEnabled.IsNull() {
+				data.RadsecEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.RadsecEnabled = types.BoolNull()
 			}
 			(*parent).RadiusServers[i] = data
 		}
@@ -911,6 +967,16 @@ func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, re
 				} else {
 					data.Port = types.Int64Null()
 				}
+				if value := res.Get("serverId"); value.Exists() && value.Value() != nil {
+					data.ServerId = types.StringValue(value.String())
+				} else {
+					data.ServerId = types.StringNull()
+				}
+				if value := res.Get("radsec.enabled"); value.Exists() && value.Value() != nil {
+					data.RadsecEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.RadsecEnabled = types.BoolNull()
+				}
 				(*parent).RadiusAccountingServers = append((*parent).RadiusAccountingServers, data)
 				return true
 			})
@@ -934,6 +1000,16 @@ func (data *ResourceSwitchAccessPolicies) fromBodyImport(ctx context.Context, re
 					data.Port = types.Int64Value(value.Int())
 				} else {
 					data.Port = types.Int64Null()
+				}
+				if value := res.Get("serverId"); value.Exists() && value.Value() != nil {
+					data.ServerId = types.StringValue(value.String())
+				} else {
+					data.ServerId = types.StringNull()
+				}
+				if value := res.Get("radsec.enabled"); value.Exists() && value.Value() != nil {
+					data.RadsecEnabled = types.BoolValue(value.Bool())
+				} else {
+					data.RadsecEnabled = types.BoolNull()
 				}
 				(*parent).RadiusServers = append((*parent).RadiusServers, data)
 				return true
@@ -1109,6 +1185,12 @@ func (data *ResourceSwitchAccessPolicies) hasChanges(ctx context.Context, state 
 			if !item.RadiusAccountingServers[i].Secret.Equal(stateItem.RadiusAccountingServers[i].Secret) {
 				hasChanges = true
 			}
+			if !item.RadiusAccountingServers[i].ServerId.Equal(stateItem.RadiusAccountingServers[i].ServerId) {
+				hasChanges = true
+			}
+			if !item.RadiusAccountingServers[i].RadsecEnabled.Equal(stateItem.RadiusAccountingServers[i].RadsecEnabled) {
+				hasChanges = true
+			}
 		}
 	}
 	if len(item.RadiusServers) != len(stateItem.RadiusServers) {
@@ -1125,6 +1207,12 @@ func (data *ResourceSwitchAccessPolicies) hasChanges(ctx context.Context, state 
 				hasChanges = true
 			}
 			if !item.RadiusServers[i].Secret.Equal(stateItem.RadiusServers[i].Secret) {
+				hasChanges = true
+			}
+			if !item.RadiusServers[i].ServerId.Equal(stateItem.RadiusServers[i].ServerId) {
+				hasChanges = true
+			}
+			if !item.RadiusServers[i].RadsecEnabled.Equal(stateItem.RadiusServers[i].RadsecEnabled) {
 				hasChanges = true
 			}
 		}

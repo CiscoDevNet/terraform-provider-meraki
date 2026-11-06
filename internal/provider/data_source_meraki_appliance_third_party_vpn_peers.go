@@ -160,6 +160,14 @@ func (d *ApplianceThirdPartyVPNPeersDataSource) Schema(ctx context.Context, req 
 							MarkdownDescription: "Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.",
 							Computed:            true,
 						},
+						"ebgp_neighbor_vrf_id": schema.StringAttribute{
+							MarkdownDescription: "VRF ID for the Catalyst BGP neighbor. Use 0 for the default VRF.",
+							Computed:            true,
+						},
+						"ebgp_neighbor_vrf_name": schema.StringAttribute{
+							MarkdownDescription: "VRF name for the Catalyst BGP neighbor.",
+							Computed:            true,
+						},
 						"ebgp_neighbor_path_prepend": schema.ListAttribute{
 							MarkdownDescription: "Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.",
 							ElementType:         types.Int64Type,
