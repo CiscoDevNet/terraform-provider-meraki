@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `group_policy_id` attribute of `meraki_appliance_vlan` resource not being cleared via the API when removed from config, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/289)
+
 ## 1.15.0
 
 - Add `meraki_appliance_umbrella_account` resource
