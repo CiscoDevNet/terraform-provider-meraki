@@ -77,7 +77,9 @@ Read-Only:
 - `host` (String) Public IP address of the RADIUS accounting server
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS Accounting server listens on for access requests
+- `radsec_enabled` (Boolean) Whether this RADIUS accounting server assignment is configured to use RadSec
 - `secret` (String, Sensitive) RADIUS client shared secret
+- `server_id` (String) Unique ID of an existing Access Policy accounting server to copy
 
 
 <a id="nestedatt--items--radius_servers"></a>
@@ -88,4 +90,6 @@ Read-Only:
 - `host` (String) Public IP address of the RADIUS server
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS server listens on for access requests
+- `radsec_enabled` (Boolean) Whether this RADIUS server assignment is configured to use RadSec
 - `secret` (String, Sensitive) RADIUS client shared secret
+- `server_id` (String) Unique ID of an existing Access Policy authentication server to copy

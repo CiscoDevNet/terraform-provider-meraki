@@ -71,8 +71,16 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
+						"adaptive_policy_group_id": schema.StringAttribute{
+							MarkdownDescription: "Adaptive policy group ID this SSID is assigned to.",
+							Computed:            true,
+						},
 						"admin_splash_url": schema.StringAttribute{
 							MarkdownDescription: "URL for the admin splash page",
+							Computed:            true,
+						},
+						"adult_content_filtering_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Boolean indicating whether or not adult content will be blocked. Only present when ipAssignmentMode is `NAT mode`.",
 							Computed:            true,
 						},
 						"auth_mode": schema.StringAttribute{
@@ -87,6 +95,10 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "The client-serving radio frequencies of this SSID in the default indoor RF profile",
 							Computed:            true,
 						},
+						"default_vlan_id": schema.Int64Attribute{
+							MarkdownDescription: "The default VLAN ID used for `all other APs`. Only present when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming` and VLAN tagging is enabled.",
+							Computed:            true,
+						},
 						"enabled": schema.BoolAttribute{
 							MarkdownDescription: "Whether or not the SSID is enabled",
 							Computed:            true,
@@ -95,8 +107,16 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "The psk encryption mode for the SSID",
 							Computed:            true,
 						},
+						"enterprise_admin_access": schema.StringAttribute{
+							MarkdownDescription: "Whether or not an SSID is accessible by `enterprise` administrators. Only present when the organization supports enterprise admins.",
+							Computed:            true,
+						},
 						"ip_assignment_mode": schema.StringAttribute{
 							MarkdownDescription: "The client IP assignment mode",
+							Computed:            true,
+						},
+						"lan_isolation_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.",
 							Computed:            true,
 						},
 						"local_auth": schema.BoolAttribute{
@@ -107,7 +127,7 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "Whether clients connecting to this SSID must use the IP address assigned by the DHCP server",
 							Computed:            true,
 						},
-						"min_bitrate": schema.Int64Attribute{
+						"min_bitrate": schema.Float64Attribute{
 							MarkdownDescription: "The minimum bitrate in Mbps of this SSID in the default indoor RF profile",
 							Computed:            true,
 						},
@@ -135,12 +155,28 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "The total upload bandwidth limit in Kbps (0 represents no limit)",
 							Computed:            true,
 						},
+						"psk": schema.StringAttribute{
+							MarkdownDescription: "The passkey for the SSID. This param is only valid if the authMode is `psk`. Read-only admins receive a masked value. Only present when authMode is `psk`.",
+							Computed:            true,
+						},
 						"radius_accounting_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Whether or not RADIUS accounting is enabled",
 							Computed:            true,
 						},
 						"radius_attribute_for_group_policies": schema.StringAttribute{
 							MarkdownDescription: "RADIUS attribute used to look up group policies",
+							Computed:            true,
+						},
+						"radius_authentication_nas_id": schema.StringAttribute{
+							MarkdownDescription: "The configured NAS identifier used for RADIUS authentication. May include custom text and template variables. Only present when configured and the SSID uses RADIUS-based authentication.",
+							Computed:            true,
+						},
+						"radius_called_station_id": schema.StringAttribute{
+							MarkdownDescription: "The template of the called station identifier to be used for RADIUS (ex. $NODE_MAC$:$VAP_NUM$). Only present when configured and the SSID uses RADIUS-based auth.",
+							Computed:            true,
+						},
+						"radius_coa_enabled": schema.BoolAttribute{
+							MarkdownDescription: "If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server. Only present when the SSID uses RADIUS-based auth.",
 							Computed:            true,
 						},
 						"radius_enabled": schema.BoolAttribute{
@@ -151,8 +187,32 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "Policy which determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable",
 							Computed:            true,
 						},
+						"radius_fallback_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether or not higher priority RADIUS servers should be retried after 60 seconds. Only present when the SSID uses RADIUS-based auth.",
+							Computed:            true,
+						},
 						"radius_load_balancing_policy": schema.StringAttribute{
 							MarkdownDescription: "Policy which determines which RADIUS server will be contacted first in an authentication attempt, and the ordering of any necessary retry attempts",
+							Computed:            true,
+						},
+						"radius_override": schema.BoolAttribute{
+							MarkdownDescription: "If true, the RADIUS response can override VLAN tag. This is not valid when ipAssignmentMode is `NAT mode`. Only present when the SSID uses RADIUS-based auth and the network supports group policies.",
+							Computed:            true,
+						},
+						"radius_proxy_enabled": schema.BoolAttribute{
+							MarkdownDescription: "If true, Meraki devices will proxy RADIUS messages through the Meraki cloud to the configured RADIUS auth and accounting servers. Only present when the SSID uses RADIUS-based auth.",
+							Computed:            true,
+						},
+						"radius_server_attempts_limit": schema.Int64Attribute{
+							MarkdownDescription: "The maximum number of transmit attempts after which a RADIUS server is failed over (must be between 1-5). Only present when the SSID uses RADIUS-based auth.",
+							Computed:            true,
+						},
+						"radius_server_timeout": schema.Int64Attribute{
+							MarkdownDescription: "The amount of time for which a RADIUS client waits for a reply from the RADIUS server (must be between 1-10 seconds). Only present when the SSID uses RADIUS-based auth.",
+							Computed:            true,
+						},
+						"radius_testing_enabled": schema.BoolAttribute{
+							MarkdownDescription: "If true, Meraki devices will periodically send Access-Request messages to configured RADIUS servers using identity `meraki_8021x_test` to ensure that the RADIUS servers are reachable. Only present when the SSID is configured to use RADIUS.",
 							Computed:            true,
 						},
 						"splash_page": schema.StringAttribute{
@@ -167,6 +227,10 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "SSID Administrator access status",
 							Computed:            true,
 						},
+						"use_vlan_tagging": schema.BoolAttribute{
+							MarkdownDescription: "Whether or not traffic should be directed to use specific VLANs. Only present when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`.",
+							Computed:            true,
+						},
 						"visible": schema.BoolAttribute{
 							MarkdownDescription: "Whether the SSID is advertised or hidden by the AP",
 							Computed:            true,
@@ -175,8 +239,125 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 							MarkdownDescription: "Allow users to access a configurable list of IP ranges prior to sign-on",
 							Computed:            true,
 						},
+						"wifi_personal_network_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Boolean indicating whether or not Wi-Fi Personal Network is enabled for this SSID. Only present when the network supports Wi-Fi Personal Network.",
+							Computed:            true,
+						},
+						"wlan_identifier": schema.Int64Attribute{
+							MarkdownDescription: "WLAN identifier for the SSID. Only present for Meraki admin users.",
+							Computed:            true,
+						},
 						"wpa_encryption_mode": schema.StringAttribute{
 							MarkdownDescription: "The types of WPA encryption",
+							Computed:            true,
+						},
+						"campus_gateway_cluster_id": schema.StringAttribute{
+							MarkdownDescription: "The campus gateway cluster ID used when the ipAssignmentMode is `Campus Gateway`.",
+							Computed:            true,
+						},
+						"dns_rewrite_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Boolean indicating whether or not DNS server rewrite is enabled. If disabled, upstream DNS will be used.",
+							Computed:            true,
+						},
+						"dns_rewrite_dns_custom_nameservers": schema.ListAttribute{
+							MarkdownDescription: "User specified DNS servers (up to two servers)",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"dot11k_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether 802.11k is enabled or not.",
+							Computed:            true,
+						},
+						"dot11r_adaptive": schema.BoolAttribute{
+							MarkdownDescription: "Whether 802.11r is adaptive or not.",
+							Computed:            true,
+						},
+						"dot11r_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether 802.11r is enabled or not.",
+							Computed:            true,
+						},
+						"dot11w_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether 802.11w is enabled or not.",
+							Computed:            true,
+						},
+						"dot11w_required": schema.BoolAttribute{
+							MarkdownDescription: "Whether 802.11w is required or not.",
+							Computed:            true,
+						},
+						"gre_client_isolation": schema.BoolAttribute{
+							MarkdownDescription: "Whether or not client isolation is enabled.",
+							Computed:            true,
+						},
+						"gre_key": schema.Int64Attribute{
+							MarkdownDescription: "Optional numerical identifier that will add the GRE key field to the GRE header. Used to identify an individual traffic flow within a tunnel.",
+							Computed:            true,
+						},
+						"gre_concentrator_host": schema.StringAttribute{
+							MarkdownDescription: "The EoGRE concentrator`s IP or FQDN.",
+							Computed:            true,
+						},
+						"local_auth_fallback_cache_timeout": schema.Int64Attribute{
+							MarkdownDescription: "The duration (in seconds) for which auths are cached.",
+							Computed:            true,
+						},
+						"local_auth_fallback_enabled": schema.BoolAttribute{
+							MarkdownDescription: "If true, MR devices will cache authentication credentials for EAP-TLS or for MAC based authentication.",
+							Computed:            true,
+						},
+						"local_auth_fallback_server_ca_certificate_contents": schema.StringAttribute{
+							MarkdownDescription: "The contents of the Server CA Certificate. Must be in PEM or DER format.",
+							Computed:            true,
+						},
+						"named_vlans_radius_guest_vlan_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether or not RADIUS guest named VLAN is enabled.",
+							Computed:            true,
+						},
+						"named_vlans_radius_guest_vlan_name": schema.StringAttribute{
+							MarkdownDescription: "RADIUS guest VLAN name.",
+							Computed:            true,
+						},
+						"named_vlans_tagging_default_vlan_name": schema.StringAttribute{
+							MarkdownDescription: "The default VLAN name used to tag traffic in the absence of a matching AP tag.",
+							Computed:            true,
+						},
+						"named_vlans_tagging_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether or not traffic should be directed to use specific VLAN names.",
+							Computed:            true,
+						},
+						"named_vlans_tagging_by_ap_tags": schema.ListNestedAttribute{
+							MarkdownDescription: "The list of AP tags and VLAN names used for named VLAN tagging.",
+							Computed:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"vlan_name": schema.StringAttribute{
+										MarkdownDescription: "VLAN name that will be used to tag traffic.",
+										Computed:            true,
+									},
+									"tags": schema.ListAttribute{
+										MarkdownDescription: "List of AP tags.",
+										ElementType:         types.StringType,
+										Computed:            true,
+									},
+								},
+							},
+						},
+						"oauth_allowed_domains": schema.ListAttribute{
+							MarkdownDescription: "The list of domains allowed access to the network.",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"security_encryption_akms": schema.ListAttribute{
+							MarkdownDescription: "Authentication key management systems used by the SSID.",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"security_encryption_ciphers": schema.ListAttribute{
+							MarkdownDescription: "Encryption ciphers used by the SSID.",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+						"speed_burst_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.",
 							Computed:            true,
 						},
 						"access_control_clients_blocked_from_using_lan": schema.BoolAttribute{
@@ -265,12 +446,20 @@ func (d *WirelessSSIDsDataSource) Schema(ctx context.Context, req datasource.Sch
 										MarkdownDescription: "IP address (or FQDN) of your RADIUS server",
 										Computed:            true,
 									},
+									"id": schema.StringAttribute{
+										MarkdownDescription: "Unique identifier of the RADIUS server",
+										Computed:            true,
+									},
 									"open_roaming_certificate_id": schema.Int64Attribute{
 										MarkdownDescription: "The ID of the Openroaming Certificate attached to radius server",
 										Computed:            true,
 									},
 									"port": schema.Int64Attribute{
 										MarkdownDescription: "UDP port the RADIUS server listens on for Access-requests",
+										Computed:            true,
+									},
+									"radsec_enabled": schema.BoolAttribute{
+										MarkdownDescription: "Use RADSEC (TLS over TCP) to connect to this RADIUS server. Requires radiusProxyEnabled.",
 										Computed:            true,
 									},
 								},

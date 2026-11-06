@@ -228,6 +228,10 @@ attributes:
     example: Click-through splash page
     enum_values: [Billing, Cisco ISE, Click-through splash page, Facebook Wi-Fi, Google Apps domain, Google OAuth, Microsoft Entra ID, None, Password-protected with Active Directory, Password-protected with LDAP, Password-protected with Meraki RADIUS, Password-protected with custom RADIUS, SMS authentication, Sponsored guest, Systems Manager Sentry]
     destroy_value: '"None"'
+  - model_name: ssidAdminAccessible
+    type: Bool
+    description: SSID Administrator access status
+    example: "false"
   - model_name: useVlanTagging
     type: Bool
     description: Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
@@ -281,6 +285,11 @@ attributes:
         type: Int64
         description: (Optional) UDP port the Active Directory server listens on. By default, uses port 3268.
         example: "3268"
+  - model_name: id
+    type: String
+    data_path: [campusGateway, cluster]
+    description: The campus gateway cluster ID to use when the ipAssignmentMode is `Campus Gateway`. This param is only valid when ipAssignmentMode is `Campus Gateway`.
+    example: "10"
   - model_name: enabled
     type: Bool
     data_path: [dnsRewrite]
@@ -296,6 +305,11 @@ attributes:
     description: User specified DNS servers (up to two servers)
     example: 8.8.8.8
     destroy_value: '[]interface{}{}'
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11k]
+    description: Whether 802.11k is enabled or not.
+    example: "true"
   - model_name: adaptive
     type: Bool
     data_path: [dot11r]
@@ -509,6 +523,18 @@ attributes:
     exclude_test: true
     description: The interval (in seconds) to determines how long a TLS session can remain idle for a RADSec server before it is automatically terminated
     example: "600"
+  - model_name: akms
+    type: List
+    element_type: String
+    data_path: [security, encryption]
+    description: Authentication key management systems used by the SSID
+    example: SAE
+  - model_name: ciphers
+    type: List
+    element_type: String
+    data_path: [security, encryption]
+    description: Encryption ciphers used by the SSID. CCMP 128 is required and cannot be removed.
+    example: CCMP 128
   - model_name: enabled
     type: Bool
     data_path: [speedBurst]

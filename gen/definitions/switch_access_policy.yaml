@@ -205,6 +205,15 @@ attributes:
         sensitive: true
         description: RADIUS client shared secret
         example: secret
+      - model_name: serverId
+        type: String
+        description: Unique ID of an existing Access Policy accounting server to copy
+        example: "2"
+      - model_name: enabled
+        type: Bool
+        data_path: [radsec]
+        description: Whether this RADIUS accounting server assignment is configured to use RadSec
+        example: "true"
   - model_name: radiusServers
     type: List
     mandatory: true
@@ -233,6 +242,15 @@ attributes:
         description: RADIUS client shared secret
         example: secret
         minimum_test_value: '"secret"'
+      - model_name: serverId
+        type: String
+        description: Unique ID of an existing Access Policy authentication server to copy
+        example: "1"
+      - model_name: enabled
+        type: Bool
+        data_path: [radsec]
+        description: Whether this RADIUS server assignment is configured to use RadSec
+        example: "false"
   - model_name: urlRedirectWalledGardenRanges
     type: Set
     element_type: String

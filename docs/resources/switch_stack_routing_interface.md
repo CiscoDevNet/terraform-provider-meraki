@@ -17,31 +17,46 @@ This resource can manage the `Switch Stack Routing Interface` configuration.
 
 ```terraform
 resource "meraki_switch_stack_routing_interface" "example" {
-  network_id                     = "L_123456"
-  switch_stack_id                = "1234"
-  candidate_uplink_v4            = true
-  default_gateway                = "192.168.1.1"
-  interface_ip                   = "192.168.1.2"
-  is_switch_default_gateway      = false
-  mode                           = "vlan"
-  multicast_routing              = "disabled"
-  name                           = "L3 interface"
-  static_v4_dns1                 = "8.8.8.8"
-  static_v4_dns2                 = "8.8.4.4"
-  subnet                         = "192.168.1.0/24"
-  uplink_v4                      = true
-  uplink_v6                      = true
-  vlan_id                        = 100
-  ipv6_address                   = "1:2:3:4::1"
-  ipv6_assignment_mode           = "static"
-  ipv6_candidate_uplink          = true
-  ipv6_gateway                   = "1:2:3:4::2"
-  ipv6_is_switch_default_gateway = false
-  ipv6_prefix                    = "1:2:3:4::/64"
-  ipv6_static_v6_dns1            = "2001:db8::1234"
-  ipv6_static_v6_dns2            = "2001:db8::8888"
-  ospf_settings_area             = "ospfDisabled"
-  vrf_name                       = "Default"
+  network_id                                                       = "L_123456"
+  switch_stack_id                                                  = "1234"
+  candidate_uplink_v4                                              = true
+  default_gateway                                                  = "192.168.1.1"
+  interface_ip                                                     = "192.168.1.2"
+  is_switch_default_gateway                                        = false
+  mode                                                             = "vlan"
+  mtu                                                              = 1500
+  multicast_routing                                                = "disabled"
+  name                                                             = "L3 interface"
+  static_v4_dns1                                                   = "8.8.8.8"
+  static_v4_dns2                                                   = "8.8.4.4"
+  subnet                                                           = "192.168.1.0/24"
+  uplink_v4                                                        = true
+  uplink_v6                                                        = true
+  vlan_id                                                          = 100
+  bidirectional_forwarding_detection_enabled                       = true
+  bidirectional_forwarding_detection_interval_interface_min_rx     = 75
+  bidirectional_forwarding_detection_interval_interface_msecs      = 100
+  bidirectional_forwarding_detection_interval_interface_multiplier = 5
+  cloud_uplink_enabled                                             = false
+  cloud_uplink_is_default_gateway                                  = false
+  cloud_uplink_is_eligible                                         = false
+  cloud_uplink_nameservers_primary                                 = "8.8.8.8"
+  cloud_uplink_nameservers_secondary                               = "8.8.4.4"
+  ipv6_address                                                     = "1:2:3:4::1"
+  ipv6_assignment_mode                                             = "static"
+  ipv6_candidate_uplink                                            = true
+  ipv6_gateway                                                     = "1:2:3:4::2"
+  ipv6_is_switch_default_gateway                                   = false
+  ipv6_prefix                                                      = "1:2:3:4::/64"
+  ipv6_static_v6_dns1                                              = "2001:db8::1234"
+  ipv6_static_v6_dns2                                              = "2001:db8::8888"
+  ipv6_cloud_uplink_enabled                                        = false
+  ipv6_cloud_uplink_is_default_gateway                             = false
+  ipv6_cloud_uplink_is_eligible                                    = false
+  ipv6_cloud_uplink_nameservers_primary                            = "2001:db8::1234"
+  ipv6_cloud_uplink_nameservers_secondary                          = "2001:db8::8888"
+  ospf_settings_area                                               = "ospfDisabled"
+  vrf_name                                                         = "Default"
 }
 ```
 
@@ -57,12 +72,26 @@ resource "meraki_switch_stack_routing_interface" "example" {
 
 ### Optional
 
+- `bidirectional_forwarding_detection_enabled` (Boolean) Whether BFD is enabled on the L3 interface.
+- `bidirectional_forwarding_detection_interval_interface_min_rx` (Number) Minimum BFD receive interval in milliseconds.
+- `bidirectional_forwarding_detection_interval_interface_msecs` (Number) BFD transmit interval in milliseconds.
+- `bidirectional_forwarding_detection_interval_interface_multiplier` (Number) BFD detection multiplier.
 - `candidate_uplink_v4` (Boolean) When true, this interface is a UAC candidate for IPv4 Uplink.
+- `cloud_uplink_enabled` (Boolean) Whether this interface is enabled as an uplink.
+- `cloud_uplink_is_default_gateway` (Boolean) Whether the switch uses this uplink gateway as its default gateway.
+- `cloud_uplink_is_eligible` (Boolean) Whether this interface is eligible as a UAC uplink.
+- `cloud_uplink_nameservers_primary` (String) Primary DNS server address.
+- `cloud_uplink_nameservers_secondary` (String) Secondary DNS server address.
 - `default_gateway` (String) The next hop for any traffic that isn`t going to a directly connected subnet or over a static route. This IP address must exist in a subnet with a routed interface.
 - `interface_ip` (String) The IP address this switch stack will use for layer 3 routing on this VLAN or subnet. This cannot be the same as the switch`s management IP.
 - `ipv6_address` (String) The IPv6 address of the interface. Required if assignmentMode is `static`. Must not be included if assignmentMode is `eui-64`.
 - `ipv6_assignment_mode` (String) The IPv6 assignment mode for the interface. Can be either `eui-64` or `static`.
 - `ipv6_candidate_uplink` (Boolean) When true, this interface is a UAC candidate for IPv6 Uplink.
+- `ipv6_cloud_uplink_enabled` (Boolean) Whether this interface is enabled as an uplink.
+- `ipv6_cloud_uplink_is_default_gateway` (Boolean) Whether the switch uses this uplink gateway as its default gateway.
+- `ipv6_cloud_uplink_is_eligible` (Boolean) Whether this interface is eligible as a UAC uplink.
+- `ipv6_cloud_uplink_nameservers_primary` (String) Primary DNS server address.
+- `ipv6_cloud_uplink_nameservers_secondary` (String) Secondary DNS server address.
 - `ipv6_gateway` (String) The IPv6 default gateway of the interface. Required if prefix is defined and this is the first interface with IPv6 configured for the stack.
 - `ipv6_is_switch_default_gateway` (Boolean) When true, the switch uses the IPv6 uplink gateway as its IPv6 default gateway. This can only be set if the interface is designated as the IPv6 uplink.
 - `ipv6_prefix` (String) The IPv6 prefix of the interface. Required if IPv6 object is included.
@@ -71,6 +100,7 @@ resource "meraki_switch_stack_routing_interface" "example" {
 - `is_switch_default_gateway` (Boolean) When true, the switch uses the IPv4 uplink gateway as its IPv4 default gateway. This can only be set if the interface is designated as the IPv4 uplink.
 - `mode` (String) L3 Interface mode, can be one of `vlan`, `routed` or `loopback`. Default is `vlan`. CS 17.18 or higher is required for `routed` mode.
   - Choices: `loopback`, `routed`, `vlan`
+- `mtu` (Number) The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and routed modes.
 - `multicast_routing` (String) Enable multicast support if, multicast routing between VLANs is required. Options are, `disabled`, `enabled` or `IGMP snooping querier`. Default is `disabled`.
   - Choices: `IGMP snooping querier`, `disabled`, `enabled`
 - `ospf_settings_area` (String) The OSPF area to which this interface should belong. Can be either `ospfDisabled` or the identifier of an existing OSPF area. Defaults to `ospfDisabled`.

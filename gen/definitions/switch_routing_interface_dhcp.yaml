@@ -31,6 +31,14 @@ attributes:
     type: Bool
     description: Enable DHCP boot options to provide PXE boot options configs for the dhcp server running on the switch interface
     example: "true"
+  - model_name: dhcpDefaultRouterIps
+    type: String
+    description: The DHCP default router IPs for the DHCP server running on the switch interface
+    example: 192.168.1.1, 192.168.1.2
+  - model_name: dhcpDomainName
+    type: String
+    description: The DHCP domain name for the DHCP server running on the switch interface
+    example: example.com
   - model_name: dhcpLeaseTime
     type: String
     description: The DHCP lease time config for the dhcp server running on switch interface (`30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`)

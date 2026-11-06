@@ -88,6 +88,10 @@ func (d *OrganizationBrandingPoliciesDataSource) Schema(ctx context.Context, req
 							ElementType:         types.StringType,
 							Computed:            true,
 						},
+						"appearance_dashboard_menu_theme": schema.StringAttribute{
+							MarkdownDescription: "Dashboard menu theme.",
+							Computed:            true,
+						},
 						"custom_logo_enabled": schema.BoolAttribute{
 							MarkdownDescription: "Whether or not there is a custom logo enabled.",
 							Computed:            true,

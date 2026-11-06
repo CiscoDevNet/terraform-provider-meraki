@@ -40,6 +40,8 @@ func TestAccDataSourceMerakiAppliancePort(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_port.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_port.test", "type", "access"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_port.test", "vlan", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_port.test", "sgt_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_port.test", "sgt_id", "1234"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -92,6 +94,8 @@ func testAccDataSourceMerakiAppliancePortConfig() string {
 	config += `  enabled = true` + "\n"
 	config += `  type = "access"` + "\n"
 	config += `  vlan = 1` + "\n"
+	config += `  sgt_enabled = true` + "\n"
+	config += `  sgt_id = 1234` + "\n"
 	config += `}` + "\n"
 
 	config += `

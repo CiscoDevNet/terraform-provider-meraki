@@ -37,6 +37,7 @@ func TestAccDataSourceMerakiApplianceTrafficShapingVPNExclusions(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_vpn_exclusions.test", "application_category_mapping_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.destination", "192.168.3.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.port", "8000"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.protocol", "tcp"))
@@ -79,6 +80,7 @@ resource "meraki_network" "test" {
 func testAccDataSourceMerakiApplianceTrafficShapingVPNExclusionsConfig() string {
 	config := `resource "meraki_appliance_traffic_shaping_vpn_exclusions" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  application_category_mapping_enabled = false` + "\n"
 	config += `  custom = [{` + "\n"
 	config += `    destination = "192.168.3.0/24"` + "\n"
 	config += `    port = "8000"` + "\n"

@@ -54,6 +54,8 @@ func TestAccMerakiSwitchPort(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_port.test", "udld", "Alert only"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_port.test", "vlan", "10"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_port.test", "voice_vlan", "20"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_port.test", "fast_poe_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_port.test", "perpetual_poe_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_switch_port.test", "profile_enabled", "false"))
 
 	var steps []resource.TestStep
@@ -159,6 +161,8 @@ func testAccMerakiSwitchPortConfig_all() string {
 	config += `  udld = "Alert only"` + "\n"
 	config += `  vlan = 10` + "\n"
 	config += `  voice_vlan = 20` + "\n"
+	config += `  fast_poe_enabled = true` + "\n"
+	config += `  perpetual_poe_enabled = true` + "\n"
 	config += `  profile_enabled = false` + "\n"
 	config += `  sticky_mac_allow_list = ["34:56:fe:ce:8e:b0"]` + "\n"
 	config += `  tags = ["tag1"]` + "\n"

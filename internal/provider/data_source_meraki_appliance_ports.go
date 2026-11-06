@@ -98,6 +98,14 @@ func (d *AppliancePortsDataSource) Schema(ctx context.Context, req datasource.Sc
 							MarkdownDescription: "Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.",
 							Computed:            true,
 						},
+						"sgt_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether or not Peer SGT is enabled for traffic through this port.",
+							Computed:            true,
+						},
+						"sgt_id": schema.Int64Attribute{
+							MarkdownDescription: "Adaptive policy group ID this port is assigned to.",
+							Computed:            true,
+						},
 					},
 				},
 			},

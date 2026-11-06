@@ -51,6 +51,15 @@ attributes:
         description: The network ID
         example: N_24329156
         test_value: meraki_network.test.id
+      - model_name: packetCaptureAllowed
+        type: Bool
+        description: True if admin has access to the packet capture utility. Only allowed if switch-port-manager or switchport is the access value
+        example: "true"
+      - model_name: switchPortTags
+        type: List
+        element_type: String
+        description: Switch port tags the admin will have access to. Only allowed if switch-port-manager or switchport is the access value
+        example: meraki-test
   - model_name: tags
     type: List
     description: The list of tags that the dashboard administrator has privileges on

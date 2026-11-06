@@ -38,6 +38,7 @@ type ApplianceNetworkSecurityIntrusion struct {
 	NetworkId                     types.String `tfsdk:"network_id"`
 	IdsRulesets                   types.String `tfsdk:"ids_rulesets"`
 	Mode                          types.String `tfsdk:"mode"`
+	PolicyId                      types.String `tfsdk:"policy_id"`
 	ProtectedNetworksUseDefault   types.Bool   `tfsdk:"protected_networks_use_default"`
 	ProtectedNetworksExcludedCidr types.List   `tfsdk:"protected_networks_excluded_cidr"`
 	ProtectedNetworksIncludedCidr types.List   `tfsdk:"protected_networks_included_cidr"`
@@ -66,6 +67,9 @@ func (data ApplianceNetworkSecurityIntrusion) toBody(ctx context.Context, state 
 	}
 	if !data.Mode.IsNull() {
 		body, _ = sjson.Set(body, "mode", data.Mode.ValueString())
+	}
+	if !data.PolicyId.IsNull() {
+		body, _ = sjson.Set(body, "policy.id", data.PolicyId.ValueString())
 	}
 	if !data.ProtectedNetworksUseDefault.IsNull() {
 		body, _ = sjson.Set(body, "protectedNetworks.useDefault", data.ProtectedNetworksUseDefault.ValueBool())
@@ -109,6 +113,13 @@ func (data ApplianceNetworkSecurityIntrusion) toBodyPreservingNulls(ctx context.
 			body, _ = sjson.SetRaw(body, "mode", "null")
 		} else {
 			body, _ = sjson.Set(body, "mode", value.String())
+		}
+	}
+	if value := res.Get("policy.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "policy.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "policy.id", value.String())
 		}
 	}
 	if value := res.Get("protectedNetworks.useDefault"); value.Exists() {
@@ -158,6 +169,11 @@ func (data *ApplianceNetworkSecurityIntrusion) fromBody(ctx context.Context, res
 	} else {
 		data.Mode = types.StringNull()
 	}
+	if value := res.Get("policy.id"); value.Exists() && value.Value() != nil {
+		data.PolicyId = types.StringValue(value.String())
+	} else {
+		data.PolicyId = types.StringNull()
+	}
 	if value := res.Get("protectedNetworks.useDefault"); value.Exists() && value.Value() != nil {
 		data.ProtectedNetworksUseDefault = types.BoolValue(value.Bool())
 	} else {
@@ -193,6 +209,11 @@ func (data *ApplianceNetworkSecurityIntrusion) fromBodyPartial(ctx context.Conte
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
+	}
+	if value := res.Get("policy.id"); value.Exists() && !data.PolicyId.IsNull() {
+		data.PolicyId = types.StringValue(value.String())
+	} else {
+		data.PolicyId = types.StringNull()
 	}
 	if value := res.Get("protectedNetworks.useDefault"); value.Exists() && !data.ProtectedNetworksUseDefault.IsNull() {
 		data.ProtectedNetworksUseDefault = types.BoolValue(value.Bool())

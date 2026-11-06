@@ -66,6 +66,10 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Schema(ctx context.Cont
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
+			"application_category_mapping_enabled": schema.BoolAttribute{
+				MarkdownDescription: "When true, map the configured majorApplications to application categories and add the results to applications. Keep majorApplications unchanged. Defaults to false.",
+				Computed:            true,
+			},
 			"custom": schema.ListNestedAttribute{
 				MarkdownDescription: "Custom VPN exclusion rules. Pass an empty array to clear existing rules.",
 				Computed:            true,

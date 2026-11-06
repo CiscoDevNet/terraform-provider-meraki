@@ -15,6 +15,7 @@ This resource can manage the `Switch Settings` configuration.
 ```terraform
 resource "meraki_switch_settings" "example" {
   network_id                        = "L_123456"
+  port_channel_fallback             = false
   use_combined_power                = false
   vlan                              = 1
   mac_blocklist_enabled             = true
@@ -34,6 +35,7 @@ resource "meraki_switch_settings" "example" {
 ### Optional
 
 - `mac_blocklist_enabled` (Boolean) Enable MAC blocklist
+- `port_channel_fallback` (Boolean) Port channel fallback
 - `power_exceptions` (Attributes List) Exceptions on a per switch basis to 'useCombinedPower' (see [below for nested schema](#nestedatt--power_exceptions))
 - `uplink_client_sampling_enabled` (Boolean) Enable uplink client sampling
 - `uplink_selection_candidates` (String) `all` lets devices try any potential interface. `designated` restricts to specified candidates (configured via the Routing & DHCP page).

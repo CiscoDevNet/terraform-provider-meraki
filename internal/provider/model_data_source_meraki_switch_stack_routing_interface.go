@@ -40,36 +40,51 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DataSourceSwitchStackRoutingInterface struct {
-	Id                           types.String `tfsdk:"id"`
-	NetworkId                    types.String `tfsdk:"network_id"`
-	SwitchStackId                types.String `tfsdk:"switch_stack_id"`
-	CandidateUplinkV4            types.Bool   `tfsdk:"candidate_uplink_v4"`
-	DefaultGateway               types.String `tfsdk:"default_gateway"`
-	InterfaceIp                  types.String `tfsdk:"interface_ip"`
-	IsSwitchDefaultGateway       types.Bool   `tfsdk:"is_switch_default_gateway"`
-	Mode                         types.String `tfsdk:"mode"`
-	MulticastRouting             types.String `tfsdk:"multicast_routing"`
-	Name                         types.String `tfsdk:"name"`
-	StaticV4Dns1                 types.String `tfsdk:"static_v4_dns1"`
-	StaticV4Dns2                 types.String `tfsdk:"static_v4_dns2"`
-	Subnet                       types.String `tfsdk:"subnet"`
-	SwitchPortId                 types.String `tfsdk:"switch_port_id"`
-	UplinkV4                     types.Bool   `tfsdk:"uplink_v4"`
-	UplinkV6                     types.Bool   `tfsdk:"uplink_v6"`
-	VlanId                       types.Int64  `tfsdk:"vlan_id"`
-	Ipv6Address                  types.String `tfsdk:"ipv6_address"`
-	Ipv6AssignmentMode           types.String `tfsdk:"ipv6_assignment_mode"`
-	Ipv6CandidateUplink          types.Bool   `tfsdk:"ipv6_candidate_uplink"`
-	Ipv6Gateway                  types.String `tfsdk:"ipv6_gateway"`
-	Ipv6IsSwitchDefaultGateway   types.Bool   `tfsdk:"ipv6_is_switch_default_gateway"`
-	Ipv6Prefix                   types.String `tfsdk:"ipv6_prefix"`
-	Ipv6StaticV6Dns1             types.String `tfsdk:"ipv6_static_v6_dns1"`
-	Ipv6StaticV6Dns2             types.String `tfsdk:"ipv6_static_v6_dns2"`
-	OspfSettingsArea             types.String `tfsdk:"ospf_settings_area"`
-	OspfSettingsCost             types.Int64  `tfsdk:"ospf_settings_cost"`
-	OspfSettingsIsPassiveEnabled types.Bool   `tfsdk:"ospf_settings_is_passive_enabled"`
-	OspfSettingsNetworkType      types.String `tfsdk:"ospf_settings_network_type"`
-	VrfName                      types.String `tfsdk:"vrf_name"`
+	Id                                                          types.String `tfsdk:"id"`
+	NetworkId                                                   types.String `tfsdk:"network_id"`
+	SwitchStackId                                               types.String `tfsdk:"switch_stack_id"`
+	CandidateUplinkV4                                           types.Bool   `tfsdk:"candidate_uplink_v4"`
+	DefaultGateway                                              types.String `tfsdk:"default_gateway"`
+	InterfaceIp                                                 types.String `tfsdk:"interface_ip"`
+	IsSwitchDefaultGateway                                      types.Bool   `tfsdk:"is_switch_default_gateway"`
+	Mode                                                        types.String `tfsdk:"mode"`
+	Mtu                                                         types.Int64  `tfsdk:"mtu"`
+	MulticastRouting                                            types.String `tfsdk:"multicast_routing"`
+	Name                                                        types.String `tfsdk:"name"`
+	StaticV4Dns1                                                types.String `tfsdk:"static_v4_dns1"`
+	StaticV4Dns2                                                types.String `tfsdk:"static_v4_dns2"`
+	Subnet                                                      types.String `tfsdk:"subnet"`
+	SwitchPortId                                                types.String `tfsdk:"switch_port_id"`
+	UplinkV4                                                    types.Bool   `tfsdk:"uplink_v4"`
+	UplinkV6                                                    types.Bool   `tfsdk:"uplink_v6"`
+	VlanId                                                      types.Int64  `tfsdk:"vlan_id"`
+	BidirectionalForwardingDetectionEnabled                     types.Bool   `tfsdk:"bidirectional_forwarding_detection_enabled"`
+	BidirectionalForwardingDetectionIntervalInterfaceMinRx      types.Int64  `tfsdk:"bidirectional_forwarding_detection_interval_interface_min_rx"`
+	BidirectionalForwardingDetectionIntervalInterfaceMsecs      types.Int64  `tfsdk:"bidirectional_forwarding_detection_interval_interface_msecs"`
+	BidirectionalForwardingDetectionIntervalInterfaceMultiplier types.Int64  `tfsdk:"bidirectional_forwarding_detection_interval_interface_multiplier"`
+	CloudUplinkEnabled                                          types.Bool   `tfsdk:"cloud_uplink_enabled"`
+	CloudUplinkIsDefaultGateway                                 types.Bool   `tfsdk:"cloud_uplink_is_default_gateway"`
+	CloudUplinkIsEligible                                       types.Bool   `tfsdk:"cloud_uplink_is_eligible"`
+	CloudUplinkNameserversPrimary                               types.String `tfsdk:"cloud_uplink_nameservers_primary"`
+	CloudUplinkNameserversSecondary                             types.String `tfsdk:"cloud_uplink_nameservers_secondary"`
+	Ipv6Address                                                 types.String `tfsdk:"ipv6_address"`
+	Ipv6AssignmentMode                                          types.String `tfsdk:"ipv6_assignment_mode"`
+	Ipv6CandidateUplink                                         types.Bool   `tfsdk:"ipv6_candidate_uplink"`
+	Ipv6Gateway                                                 types.String `tfsdk:"ipv6_gateway"`
+	Ipv6IsSwitchDefaultGateway                                  types.Bool   `tfsdk:"ipv6_is_switch_default_gateway"`
+	Ipv6Prefix                                                  types.String `tfsdk:"ipv6_prefix"`
+	Ipv6StaticV6Dns1                                            types.String `tfsdk:"ipv6_static_v6_dns1"`
+	Ipv6StaticV6Dns2                                            types.String `tfsdk:"ipv6_static_v6_dns2"`
+	Ipv6CloudUplinkEnabled                                      types.Bool   `tfsdk:"ipv6_cloud_uplink_enabled"`
+	Ipv6CloudUplinkIsDefaultGateway                             types.Bool   `tfsdk:"ipv6_cloud_uplink_is_default_gateway"`
+	Ipv6CloudUplinkIsEligible                                   types.Bool   `tfsdk:"ipv6_cloud_uplink_is_eligible"`
+	Ipv6CloudUplinkNameserversPrimary                           types.String `tfsdk:"ipv6_cloud_uplink_nameservers_primary"`
+	Ipv6CloudUplinkNameserversSecondary                         types.String `tfsdk:"ipv6_cloud_uplink_nameservers_secondary"`
+	OspfSettingsArea                                            types.String `tfsdk:"ospf_settings_area"`
+	OspfSettingsCost                                            types.Int64  `tfsdk:"ospf_settings_cost"`
+	OspfSettingsIsPassiveEnabled                                types.Bool   `tfsdk:"ospf_settings_is_passive_enabled"`
+	OspfSettingsNetworkType                                     types.String `tfsdk:"ospf_settings_network_type"`
+	VrfName                                                     types.String `tfsdk:"vrf_name"`
 }
 
 // End of section. //template:end types
@@ -109,6 +124,11 @@ func (data *DataSourceSwitchStackRoutingInterface) fromBody(ctx context.Context,
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
+	}
+	if value := res.Get("mtu"); value.Exists() && value.Value() != nil {
+		data.Mtu = types.Int64Value(value.Int())
+	} else {
+		data.Mtu = types.Int64Null()
 	}
 	if value := res.Get("multicastRouting"); value.Exists() && value.Value() != nil {
 		data.MulticastRouting = types.StringValue(value.String())
@@ -155,6 +175,51 @@ func (data *DataSourceSwitchStackRoutingInterface) fromBody(ctx context.Context,
 	} else {
 		data.VlanId = types.Int64Null()
 	}
+	if value := res.Get("bidirectionalForwardingDetection.enabled"); value.Exists() && value.Value() != nil {
+		data.BidirectionalForwardingDetectionEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.BidirectionalForwardingDetectionEnabled = types.BoolNull()
+	}
+	if value := res.Get("bidirectionalForwardingDetection.intervalInterface.minRx"); value.Exists() && value.Value() != nil {
+		data.BidirectionalForwardingDetectionIntervalInterfaceMinRx = types.Int64Value(value.Int())
+	} else {
+		data.BidirectionalForwardingDetectionIntervalInterfaceMinRx = types.Int64Null()
+	}
+	if value := res.Get("bidirectionalForwardingDetection.intervalInterface.msecs"); value.Exists() && value.Value() != nil {
+		data.BidirectionalForwardingDetectionIntervalInterfaceMsecs = types.Int64Value(value.Int())
+	} else {
+		data.BidirectionalForwardingDetectionIntervalInterfaceMsecs = types.Int64Null()
+	}
+	if value := res.Get("bidirectionalForwardingDetection.intervalInterface.multiplier"); value.Exists() && value.Value() != nil {
+		data.BidirectionalForwardingDetectionIntervalInterfaceMultiplier = types.Int64Value(value.Int())
+	} else {
+		data.BidirectionalForwardingDetectionIntervalInterfaceMultiplier = types.Int64Null()
+	}
+	if value := res.Get("cloud.uplink.enabled"); value.Exists() && value.Value() != nil {
+		data.CloudUplinkEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.CloudUplinkEnabled = types.BoolNull()
+	}
+	if value := res.Get("cloud.uplink.isDefaultGateway"); value.Exists() && value.Value() != nil {
+		data.CloudUplinkIsDefaultGateway = types.BoolValue(value.Bool())
+	} else {
+		data.CloudUplinkIsDefaultGateway = types.BoolNull()
+	}
+	if value := res.Get("cloud.uplink.isEligible"); value.Exists() && value.Value() != nil {
+		data.CloudUplinkIsEligible = types.BoolValue(value.Bool())
+	} else {
+		data.CloudUplinkIsEligible = types.BoolNull()
+	}
+	if value := res.Get("cloud.uplink.nameservers.primary"); value.Exists() && value.Value() != nil {
+		data.CloudUplinkNameserversPrimary = types.StringValue(value.String())
+	} else {
+		data.CloudUplinkNameserversPrimary = types.StringNull()
+	}
+	if value := res.Get("cloud.uplink.nameservers.secondary"); value.Exists() && value.Value() != nil {
+		data.CloudUplinkNameserversSecondary = types.StringValue(value.String())
+	} else {
+		data.CloudUplinkNameserversSecondary = types.StringNull()
+	}
 	if value := res.Get("ipv6.address"); value.Exists() && value.Value() != nil {
 		data.Ipv6Address = types.StringValue(value.String())
 	} else {
@@ -194,6 +259,31 @@ func (data *DataSourceSwitchStackRoutingInterface) fromBody(ctx context.Context,
 		data.Ipv6StaticV6Dns2 = types.StringValue(value.String())
 	} else {
 		data.Ipv6StaticV6Dns2 = types.StringNull()
+	}
+	if value := res.Get("ipv6.cloud.uplink.enabled"); value.Exists() && value.Value() != nil {
+		data.Ipv6CloudUplinkEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6CloudUplinkEnabled = types.BoolNull()
+	}
+	if value := res.Get("ipv6.cloud.uplink.isDefaultGateway"); value.Exists() && value.Value() != nil {
+		data.Ipv6CloudUplinkIsDefaultGateway = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6CloudUplinkIsDefaultGateway = types.BoolNull()
+	}
+	if value := res.Get("ipv6.cloud.uplink.isEligible"); value.Exists() && value.Value() != nil {
+		data.Ipv6CloudUplinkIsEligible = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6CloudUplinkIsEligible = types.BoolNull()
+	}
+	if value := res.Get("ipv6.cloud.uplink.nameservers.primary"); value.Exists() && value.Value() != nil {
+		data.Ipv6CloudUplinkNameserversPrimary = types.StringValue(value.String())
+	} else {
+		data.Ipv6CloudUplinkNameserversPrimary = types.StringNull()
+	}
+	if value := res.Get("ipv6.cloud.uplink.nameservers.secondary"); value.Exists() && value.Value() != nil {
+		data.Ipv6CloudUplinkNameserversSecondary = types.StringValue(value.String())
+	} else {
+		data.Ipv6CloudUplinkNameserversSecondary = types.StringNull()
 	}
 	if value := res.Get("ospfSettings.area"); value.Exists() && value.Value() != nil {
 		data.OspfSettingsArea = types.StringValue(value.String())

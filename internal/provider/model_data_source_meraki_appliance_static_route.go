@@ -47,6 +47,7 @@ type DataSourceApplianceStaticRoute struct {
 	GatewayVlanId types.Int64  `tfsdk:"gateway_vlan_id"`
 	Name          types.String `tfsdk:"name"`
 	Subnet        types.String `tfsdk:"subnet"`
+	VrfId         types.String `tfsdk:"vrf_id"`
 }
 
 // End of section. //template:end types
@@ -86,6 +87,11 @@ func (data *DataSourceApplianceStaticRoute) fromBody(ctx context.Context, res me
 		data.Subnet = types.StringValue(value.String())
 	} else {
 		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+		data.VrfId = types.StringValue(value.String())
+	} else {
+		data.VrfId = types.StringNull()
 	}
 }
 

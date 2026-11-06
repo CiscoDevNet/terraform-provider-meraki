@@ -47,6 +47,26 @@ func TestAccMerakiApplianceUplinksSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_svis_ipv4_assignment_mode", "static"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_svis_ipv6_address", "2001:2:3::4"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_svis_ipv6_assignment_mode", "static"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_mode", "MAP-E"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_authentication_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_authentication_password", "password"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_authentication_username", "4o6ddns"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_ipv4_local_address", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_ipv6_interface_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_ipv6_border_relay_address", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_ipv6_border_relay_mode", "auto"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_isp_name", "OCN IPoE"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_draft_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_source", "manual"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_entries.0.ea_bit_length", "20"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_entries.0.ps_id_offset", "6"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_entries.0.border_relay_address", "2001:db8:ffff::1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_entries.0.border_relay_prefix", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_entries.0.ipv4_prefix_address", "192.0.2.0"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_entries.0.ipv4_prefix_length", "18"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_entries.0.ipv6_prefix_address", "2001:db8:100::"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_transition_map_rules_entries.0.ipv6_prefix_length", "36"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_vlan_tagging_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan1_vlan_tagging_vlan_id", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_enabled", "true"))
@@ -57,6 +77,26 @@ func TestAccMerakiApplianceUplinksSettings(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_svis_ipv4_assignment_mode", "static"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_svis_ipv6_address", "2001:2:3::4"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_svis_ipv6_assignment_mode", "static"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_mode", "MAP-E"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_authentication_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_authentication_password", "password"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_authentication_username", "4o6ddns"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_ipv4_local_address", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_ipv6_interface_id", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_ipv6_border_relay_address", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_ipv6_border_relay_mode", "auto"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_isp_name", "OCN IPoE"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_draft_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_source", "manual"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_entries.0.ea_bit_length", "20"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_entries.0.ps_id_offset", "6"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_entries.0.border_relay_address", "2001:db8:ffff::1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_entries.0.border_relay_prefix", ""))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_entries.0.ipv4_prefix_address", "192.0.2.0"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_entries.0.ipv4_prefix_length", "18"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_entries.0.ipv6_prefix_address", "2001:db8:100::"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_transition_map_rules_entries.0.ipv6_prefix_length", "36"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_vlan_tagging_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_uplinks_settings.test", "interfaces_wan2_vlan_tagging_vlan_id", "1"))
 
@@ -162,6 +202,28 @@ func testAccMerakiApplianceUplinksSettingsConfig_all(includeWriteOnly bool) stri
 	config += `  interfaces_wan1_svis_ipv4_assignment_mode = "static"` + "\n"
 	config += `  interfaces_wan1_svis_ipv6_address = "2001:2:3::4"` + "\n"
 	config += `  interfaces_wan1_svis_ipv6_assignment_mode = "static"` + "\n"
+	config += `  interfaces_wan1_transition_enabled = true` + "\n"
+	config += `  interfaces_wan1_transition_mode = "MAP-E"` + "\n"
+	config += `  interfaces_wan1_transition_authentication_enabled = true` + "\n"
+	config += `  interfaces_wan1_transition_authentication_password = "password"` + "\n"
+	config += `  interfaces_wan1_transition_authentication_username = "4o6ddns"` + "\n"
+	config += `  interfaces_wan1_transition_ipv4_local_address = ""` + "\n"
+	config += `  interfaces_wan1_transition_ipv6_interface_id = ""` + "\n"
+	config += `  interfaces_wan1_transition_ipv6_border_relay_address = ""` + "\n"
+	config += `  interfaces_wan1_transition_ipv6_border_relay_mode = "auto"` + "\n"
+	config += `  interfaces_wan1_transition_isp_name = "OCN IPoE"` + "\n"
+	config += `  interfaces_wan1_transition_map_draft_enabled = false` + "\n"
+	config += `  interfaces_wan1_transition_map_rules_source = "manual"` + "\n"
+	config += `  interfaces_wan1_transition_map_rules_entries = [{` + "\n"
+	config += `    ea_bit_length = 20` + "\n"
+	config += `    ps_id_offset = 6` + "\n"
+	config += `    border_relay_address = "2001:db8:ffff::1"` + "\n"
+	config += `    border_relay_prefix = ""` + "\n"
+	config += `    ipv4_prefix_address = "192.0.2.0"` + "\n"
+	config += `    ipv4_prefix_length = 18` + "\n"
+	config += `    ipv6_prefix_address = "2001:db8:100::"` + "\n"
+	config += `    ipv6_prefix_length = 36` + "\n"
+	config += `  }]` + "\n"
 	config += `  interfaces_wan1_vlan_tagging_enabled = true` + "\n"
 	config += `  interfaces_wan1_vlan_tagging_vlan_id = 1` + "\n"
 	config += `  interfaces_wan2_enabled = true` + "\n"
@@ -178,6 +240,28 @@ func testAccMerakiApplianceUplinksSettingsConfig_all(includeWriteOnly bool) stri
 	config += `  interfaces_wan2_svis_ipv4_assignment_mode = "static"` + "\n"
 	config += `  interfaces_wan2_svis_ipv6_address = "2001:2:3::4"` + "\n"
 	config += `  interfaces_wan2_svis_ipv6_assignment_mode = "static"` + "\n"
+	config += `  interfaces_wan2_transition_enabled = true` + "\n"
+	config += `  interfaces_wan2_transition_mode = "MAP-E"` + "\n"
+	config += `  interfaces_wan2_transition_authentication_enabled = true` + "\n"
+	config += `  interfaces_wan2_transition_authentication_password = "password"` + "\n"
+	config += `  interfaces_wan2_transition_authentication_username = "4o6ddns"` + "\n"
+	config += `  interfaces_wan2_transition_ipv4_local_address = ""` + "\n"
+	config += `  interfaces_wan2_transition_ipv6_interface_id = ""` + "\n"
+	config += `  interfaces_wan2_transition_ipv6_border_relay_address = ""` + "\n"
+	config += `  interfaces_wan2_transition_ipv6_border_relay_mode = "auto"` + "\n"
+	config += `  interfaces_wan2_transition_isp_name = "OCN IPoE"` + "\n"
+	config += `  interfaces_wan2_transition_map_draft_enabled = false` + "\n"
+	config += `  interfaces_wan2_transition_map_rules_source = "manual"` + "\n"
+	config += `  interfaces_wan2_transition_map_rules_entries = [{` + "\n"
+	config += `    ea_bit_length = 20` + "\n"
+	config += `    ps_id_offset = 6` + "\n"
+	config += `    border_relay_address = "2001:db8:ffff::1"` + "\n"
+	config += `    border_relay_prefix = ""` + "\n"
+	config += `    ipv4_prefix_address = "192.0.2.0"` + "\n"
+	config += `    ipv4_prefix_length = 18` + "\n"
+	config += `    ipv6_prefix_address = "2001:db8:100::"` + "\n"
+	config += `    ipv6_prefix_length = 36` + "\n"
+	config += `  }]` + "\n"
 	config += `  interfaces_wan2_vlan_tagging_enabled = true` + "\n"
 	config += `  interfaces_wan2_vlan_tagging_vlan_id = 1` + "\n"
 	config += `}` + "\n"

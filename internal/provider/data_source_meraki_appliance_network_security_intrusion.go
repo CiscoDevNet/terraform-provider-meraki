@@ -74,6 +74,10 @@ func (d *ApplianceNetworkSecurityIntrusionDataSource) Schema(ctx context.Context
 				MarkdownDescription: "Set mode to `disabled`/`detection`/`prevention` (optional - omitting will leave current config unchanged)",
 				Computed:            true,
 			},
+			"policy_id": schema.StringAttribute{
+				MarkdownDescription: "The identifier of an existing custom intrusion policy in this organization",
+				Computed:            true,
+			},
 			"protected_networks_use_default": schema.BoolAttribute{
 				MarkdownDescription: "true/false whether to use special IPv4 addresses: https://tools.ietf.org/html/rfc5735 (required). Default value is true if none currently saved",
 				Computed:            true,

@@ -7,6 +7,7 @@ resource "meraki_appliance_sdwan_internet_policies" "example" {
       builtin_performance_class_name = "VoIP"
       custom_performance_class_id    = "123456"
       performance_class_type         = "custom"
+      vrf_id                         = "12345"
       traffic_filters = [
         {
           type             = "custom"

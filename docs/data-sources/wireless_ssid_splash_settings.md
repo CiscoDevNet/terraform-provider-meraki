@@ -62,4 +62,6 @@ data "meraki_wireless_ssid_splash_settings" "example" {
 - `theme_id` (String) The id of the selected splash theme.
 - `use_redirect_url` (Boolean) The Boolean indicating whether the the user will be redirected to the custom redirect URL after the splash page. A custom redirect URL must be set if this is true.
 - `use_splash_url` (Boolean) [optional] Boolean indicating whether the users will be redirected to the custom splash url. A custom splash URL must be set if this is true. Note that depending on your SSID`s access control settings, it may not be possible to use the custom splash URL.
+- `user_consent_message` (String) Consent message displayed to users
+- `user_consent_required` (Boolean) Whether users must provide consent
 - `welcome_message` (String) The welcome message for the users on the splash page.

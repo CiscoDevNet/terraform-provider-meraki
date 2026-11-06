@@ -25,6 +25,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -97,6 +98,15 @@ func (d *OrganizationAdminsDataSource) Schema(ctx context.Context, req datasourc
 									},
 									"id": schema.StringAttribute{
 										MarkdownDescription: "The network ID",
+										Computed:            true,
+									},
+									"packet_capture_allowed": schema.BoolAttribute{
+										MarkdownDescription: "True if admin has access to the packet capture utility. Only allowed if switch-port-manager or switchport is the access value",
+										Computed:            true,
+									},
+									"switch_port_tags": schema.ListAttribute{
+										MarkdownDescription: "Switch port tags the admin will have access to. Only allowed if switch-port-manager or switchport is the access value",
+										ElementType:         types.StringType,
 										Computed:            true,
 									},
 								},

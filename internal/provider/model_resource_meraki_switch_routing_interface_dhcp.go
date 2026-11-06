@@ -43,6 +43,8 @@ type SwitchRoutingInterfaceDHCP struct {
 	BootFileName         types.String                                   `tfsdk:"boot_file_name"`
 	BootNextServer       types.String                                   `tfsdk:"boot_next_server"`
 	BootOptionsEnabled   types.Bool                                     `tfsdk:"boot_options_enabled"`
+	DhcpDefaultRouterIps types.String                                   `tfsdk:"dhcp_default_router_ips"`
+	DhcpDomainName       types.String                                   `tfsdk:"dhcp_domain_name"`
 	DhcpLeaseTime        types.String                                   `tfsdk:"dhcp_lease_time"`
 	DhcpMode             types.String                                   `tfsdk:"dhcp_mode"`
 	DnsNameserversOption types.String                                   `tfsdk:"dns_nameservers_option"`
@@ -98,6 +100,12 @@ func (data SwitchRoutingInterfaceDHCP) toBody(ctx context.Context, state SwitchR
 	}
 	if !data.BootOptionsEnabled.IsNull() {
 		body, _ = sjson.Set(body, "bootOptionsEnabled", data.BootOptionsEnabled.ValueBool())
+	}
+	if !data.DhcpDefaultRouterIps.IsNull() {
+		body, _ = sjson.Set(body, "dhcpDefaultRouterIps", data.DhcpDefaultRouterIps.ValueString())
+	}
+	if !data.DhcpDomainName.IsNull() {
+		body, _ = sjson.Set(body, "dhcpDomainName", data.DhcpDomainName.ValueString())
 	}
 	if !data.DhcpLeaseTime.IsNull() {
 		body, _ = sjson.Set(body, "dhcpLeaseTime", data.DhcpLeaseTime.ValueString())
@@ -202,6 +210,20 @@ func (data SwitchRoutingInterfaceDHCP) toBodyPreservingNulls(ctx context.Context
 			body, _ = sjson.SetRaw(body, "bootOptionsEnabled", "null")
 		} else {
 			body, _ = sjson.Set(body, "bootOptionsEnabled", value.Bool())
+		}
+	}
+	if value := res.Get("dhcpDefaultRouterIps"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpDefaultRouterIps", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpDefaultRouterIps", value.String())
+		}
+	}
+	if value := res.Get("dhcpDomainName"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "dhcpDomainName", "null")
+		} else {
+			body, _ = sjson.Set(body, "dhcpDomainName", value.String())
 		}
 	}
 	if value := res.Get("dhcpLeaseTime"); value.Exists() {
@@ -372,6 +394,16 @@ func (data *SwitchRoutingInterfaceDHCP) fromBody(ctx context.Context, res meraki
 	} else {
 		data.BootOptionsEnabled = types.BoolNull()
 	}
+	if value := res.Get("dhcpDefaultRouterIps"); value.Exists() && value.Value() != nil {
+		data.DhcpDefaultRouterIps = types.StringValue(value.String())
+	} else {
+		data.DhcpDefaultRouterIps = types.StringNull()
+	}
+	if value := res.Get("dhcpDomainName"); value.Exists() && value.Value() != nil {
+		data.DhcpDomainName = types.StringValue(value.String())
+	} else {
+		data.DhcpDomainName = types.StringNull()
+	}
 	if value := res.Get("dhcpLeaseTime"); value.Exists() && value.Value() != nil {
 		data.DhcpLeaseTime = types.StringValue(value.String())
 	} else {
@@ -494,6 +526,16 @@ func (data *SwitchRoutingInterfaceDHCP) fromBodyPartial(ctx context.Context, res
 		data.BootOptionsEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.BootOptionsEnabled = types.BoolNull()
+	}
+	if value := res.Get("dhcpDefaultRouterIps"); value.Exists() && !data.DhcpDefaultRouterIps.IsNull() {
+		data.DhcpDefaultRouterIps = types.StringValue(value.String())
+	} else {
+		data.DhcpDefaultRouterIps = types.StringNull()
+	}
+	if value := res.Get("dhcpDomainName"); value.Exists() && !data.DhcpDomainName.IsNull() {
+		data.DhcpDomainName = types.StringValue(value.String())
+	} else {
+		data.DhcpDomainName = types.StringNull()
 	}
 	if value := res.Get("dhcpLeaseTime"); value.Exists() && !data.DhcpLeaseTime.IsNull() {
 		data.DhcpLeaseTime = types.StringValue(value.String())

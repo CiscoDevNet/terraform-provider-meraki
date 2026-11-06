@@ -36,12 +36,13 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkVLANProfile struct {
-	Id         types.String                   `tfsdk:"id"`
-	NetworkId  types.String                   `tfsdk:"network_id"`
-	Iname      types.String                   `tfsdk:"iname"`
-	Name       types.String                   `tfsdk:"name"`
-	VlanGroups []NetworkVLANProfileVlanGroups `tfsdk:"vlan_groups"`
-	VlanNames  []NetworkVLANProfileVlanNames  `tfsdk:"vlan_names"`
+	Id          types.String                   `tfsdk:"id"`
+	NetworkId   types.String                   `tfsdk:"network_id"`
+	ActiveVlans types.String                   `tfsdk:"active_vlans"`
+	Iname       types.String                   `tfsdk:"iname"`
+	Name        types.String                   `tfsdk:"name"`
+	VlanGroups  []NetworkVLANProfileVlanGroups `tfsdk:"vlan_groups"`
+	VlanNames   []NetworkVLANProfileVlanNames  `tfsdk:"vlan_names"`
 }
 
 type NetworkVLANProfileVlanGroups struct {
@@ -74,6 +75,9 @@ func (data NetworkVLANProfile) getPath() string {
 
 func (data NetworkVLANProfile) toBody(ctx context.Context, state NetworkVLANProfile) string {
 	body := ""
+	if !data.ActiveVlans.IsNull() {
+		body, _ = sjson.Set(body, "activeVlans", data.ActiveVlans.ValueString())
+	}
 	if !data.Iname.IsNull() {
 		body, _ = sjson.Set(body, "iname", data.Iname.ValueString())
 	}
@@ -117,6 +121,11 @@ func (data NetworkVLANProfile) toBody(ctx context.Context, state NetworkVLANProf
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *NetworkVLANProfile) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("activeVlans"); value.Exists() && value.Value() != nil {
+		data.ActiveVlans = types.StringValue(value.String())
+	} else {
+		data.ActiveVlans = types.StringNull()
+	}
 	if value := res.Get("iname"); value.Exists() && value.Value() != nil {
 		data.Iname = types.StringValue(value.String())
 	} else {
@@ -184,6 +193,11 @@ func (data *NetworkVLANProfile) fromBody(ctx context.Context, res meraki.Res) {
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *NetworkVLANProfile) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("activeVlans"); value.Exists() && !data.ActiveVlans.IsNull() {
+		data.ActiveVlans = types.StringValue(value.String())
+	} else {
+		data.ActiveVlans = types.StringNull()
+	}
 	if value := res.Get("iname"); value.Exists() && !data.Iname.IsNull() {
 		data.Iname = types.StringValue(value.String())
 	} else {

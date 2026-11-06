@@ -14,7 +14,8 @@ This resource can manage the `Appliance Traffic Shaping VPN Exclusions` configur
 
 ```terraform
 resource "meraki_appliance_traffic_shaping_vpn_exclusions" "example" {
-  network_id = "L_123456"
+  network_id                           = "L_123456"
+  application_category_mapping_enabled = false
   custom = [
     {
       destination = "192.168.3.0/24"
@@ -40,6 +41,7 @@ resource "meraki_appliance_traffic_shaping_vpn_exclusions" "example" {
 
 ### Optional
 
+- `application_category_mapping_enabled` (Boolean) When true, map the configured majorApplications to application categories and add the results to applications. Keep majorApplications unchanged. Defaults to false.
 - `custom` (Attributes List) Custom VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--custom))
 - `major_applications` (Attributes List) Major Application based VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--major_applications))
 

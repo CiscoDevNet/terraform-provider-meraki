@@ -18,6 +18,8 @@ resource "meraki_switch_ports" "example" {
     udld                        = "Alert only"
     vlan                        = 10
     voice_vlan                  = 20
+    fast_poe_enabled            = true
+    perpetual_poe_enabled       = true
     profile_enabled             = false
     sticky_mac_allow_list       = ["34:56:fe:ce:8e:b0"]
     tags                        = ["tag1"]

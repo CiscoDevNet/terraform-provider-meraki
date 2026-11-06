@@ -41,12 +41,13 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DataSourceNetworkVLANProfile struct {
-	Id         types.String                             `tfsdk:"id"`
-	NetworkId  types.String                             `tfsdk:"network_id"`
-	Iname      types.String                             `tfsdk:"iname"`
-	Name       types.String                             `tfsdk:"name"`
-	VlanGroups []DataSourceNetworkVLANProfileVlanGroups `tfsdk:"vlan_groups"`
-	VlanNames  []DataSourceNetworkVLANProfileVlanNames  `tfsdk:"vlan_names"`
+	Id          types.String                             `tfsdk:"id"`
+	NetworkId   types.String                             `tfsdk:"network_id"`
+	ActiveVlans types.String                             `tfsdk:"active_vlans"`
+	Iname       types.String                             `tfsdk:"iname"`
+	Name        types.String                             `tfsdk:"name"`
+	VlanGroups  []DataSourceNetworkVLANProfileVlanGroups `tfsdk:"vlan_groups"`
+	VlanNames   []DataSourceNetworkVLANProfileVlanNames  `tfsdk:"vlan_names"`
 }
 
 type DataSourceNetworkVLANProfileVlanGroups struct {
@@ -73,6 +74,11 @@ func (data DataSourceNetworkVLANProfile) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DataSourceNetworkVLANProfile) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("activeVlans"); value.Exists() && value.Value() != nil {
+		data.ActiveVlans = types.StringValue(value.String())
+	} else {
+		data.ActiveVlans = types.StringNull()
+	}
 	if value := res.Get("iname"); value.Exists() && value.Value() != nil {
 		data.Iname = types.StringValue(value.String())
 	} else {

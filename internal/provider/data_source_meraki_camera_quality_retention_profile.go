@@ -204,6 +204,14 @@ func (d *CameraQualityRetentionProfileDataSource) Schema(ctx context.Context, re
 				MarkdownDescription: "Resolution of the camera. Can be one of `1080x1080`, `2112x2112` or `2880x2880`.",
 				Computed:            true,
 			},
+			"video_settings_mv44_x_quality": schema.StringAttribute{
+				MarkdownDescription: "Quality of the camera. Can be one of `Standard` or `Enhanced`.",
+				Computed:            true,
+			},
+			"video_settings_mv44_x_resolution": schema.StringAttribute{
+				MarkdownDescription: "Resolution of the camera. Can be one of `1440x1080` or `2560x1920`.",
+				Computed:            true,
+			},
 			"video_settings_mv52_quality": schema.StringAttribute{
 				MarkdownDescription: "Quality of the camera. Can be one of `Standard`, `Enhanced` or `High`.",
 				Computed:            true,

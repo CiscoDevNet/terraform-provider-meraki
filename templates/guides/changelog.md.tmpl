@@ -10,6 +10,17 @@ description: |-
 ## Unreleased
 
 - Fix `group_policy_id` attribute of `meraki_appliance_vlan` resource not being cleared via the API when removed from config, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/289)
+- Update to Meraki Dashboard API version 1.76.0
+- Add `confirmed`, `nat_traversal_*`, `sgt_enabled` and `host_translations` attributes to `meraki_appliance_site_to_site_vpn` resource and data source
+- Add `vrf_id` attribute to `meraki_appliance_static_route` resource and data source
+- Add `port_channel_fallback` attribute to `meraki_switch_settings` resource and data source
+- Add `mtu` and bidirectional forwarding detection attributes to `meraki_switch_routing_interface` and `meraki_switch_stack_routing_interface` resources and data sources
+- Add `dhcp_default_router_ips` and `dhcp_domain_name` attributes to `meraki_switch_routing_interface_dhcp` and `meraki_switch_stack_routing_interface_dhcp` resources and data sources
+- Add new attributes to `meraki_wireless_ssids` resource and data source, including RADIUS, VLAN and LAN isolation settings
+- Add new attributes to `meraki_wireless_ssid`, `meraki_wireless_rf_profile`, `meraki_wireless_settings`, `meraki_wireless_ssid_splash_settings` and `meraki_network_wireless_radio_rrm` resources and data sources
+- Add new attributes to `meraki_appliance_uplinks_settings`, `meraki_appliance_vpn_bgp`, `meraki_appliance_vlan`, `meraki_appliance_port`, `meraki_appliance_ports` and `meraki_appliance_third_party_vpn_peers` resources and data sources
+- Add new attributes to `meraki_network_firmware_upgrades`, `meraki_network_vlan_profile`, `meraki_network_snmp`, `meraki_organization_admin`, `meraki_organization_branding_policy`, `meraki_organization_login_security`, `meraki_organization_early_access_features` and `meraki_switch_organization_ports_profile`
+- Change `min_bitrate` attribute of `meraki_wireless_ssids` resource and data source from integer to number to match the API (e.g. `5.5`)
 
 ## 1.15.0
 

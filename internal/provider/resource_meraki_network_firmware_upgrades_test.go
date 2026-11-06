@@ -44,15 +44,23 @@ func TestAccMerakiNetworkFirmwareUpgrades(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "timezone", "America/Los_Angeles"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_appliance_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_camera_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_campus_gateway_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_campus_gateway_next_upgrade_strategy", "minimizeUpgradeTime"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_campus_gateway_next_upgrade_time", "2019-03-17T17:22:52Z"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_campus_gateway_next_upgrade_to_version_id", "1007"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_cellular_gateway_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_secure_connect_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_sensor_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_switch_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_switch_catalyst_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_participate_in_next_beta_release", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_next_upgrade_strategy", "minimizeUpgradeTime"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "products_wireless_controller_participate_in_next_beta_release", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "upgrade_window_day_of_week", "Sun"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "upgrade_window_hour_of_day", "4:00"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "feature_loss_acknowledgements.0.network_id", "N_1234"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "feature_loss_acknowledgements.0.product_type", "wireless"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_firmware_upgrades.test", "feature_loss_acknowledgements.0.removed_feature_check_names.0", "snmp-auth-and-privacy-check"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -141,6 +149,10 @@ func testAccMerakiNetworkFirmwareUpgradesConfig_all() string {
 	config += `  products_camera_participate_in_next_beta_release = false` + "\n"
 	config += `  products_camera_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
 	config += `  products_camera_next_upgrade_to_version_id = "1003"` + "\n"
+	config += `  products_campus_gateway_participate_in_next_beta_release = false` + "\n"
+	config += `  products_campus_gateway_next_upgrade_strategy = "minimizeUpgradeTime"` + "\n"
+	config += `  products_campus_gateway_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
+	config += `  products_campus_gateway_next_upgrade_to_version_id = "1007"` + "\n"
 	config += `  products_cellular_gateway_participate_in_next_beta_release = false` + "\n"
 	config += `  products_cellular_gateway_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
 	config += `  products_cellular_gateway_next_upgrade_to_version_id = "1004"` + "\n"
@@ -157,6 +169,7 @@ func testAccMerakiNetworkFirmwareUpgradesConfig_all() string {
 	config += `  products_switch_catalyst_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
 	config += `  products_switch_catalyst_next_upgrade_to_version_id = "1234"` + "\n"
 	config += `  products_wireless_participate_in_next_beta_release = false` + "\n"
+	config += `  products_wireless_next_upgrade_strategy = "minimizeUpgradeTime"` + "\n"
 	config += `  products_wireless_next_upgrade_time = "2019-03-17T17:22:52Z"` + "\n"
 	config += `  products_wireless_next_upgrade_predownload_enabled = false` + "\n"
 	config += `  products_wireless_next_upgrade_to_version_id = "1000"` + "\n"
@@ -165,6 +178,11 @@ func testAccMerakiNetworkFirmwareUpgradesConfig_all() string {
 	config += `  products_wireless_controller_next_upgrade_to_version_id = "1006"` + "\n"
 	config += `  upgrade_window_day_of_week = "Sun"` + "\n"
 	config += `  upgrade_window_hour_of_day = "4:00"` + "\n"
+	config += `  feature_loss_acknowledgements = [{` + "\n"
+	config += `    network_id = "N_1234"` + "\n"
+	config += `    product_type = "wireless"` + "\n"
+	config += `    removed_feature_check_names = ["snmp-auth-and-privacy-check"]` + "\n"
+	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config
 }

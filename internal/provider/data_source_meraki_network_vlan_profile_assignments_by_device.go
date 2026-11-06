@@ -70,6 +70,10 @@ func (d *NetworkVLANProfileAssignmentsByDeviceDataSource) Schema(ctx context.Con
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
+						"configuration_source": schema.StringAttribute{
+							MarkdownDescription: "Indicates whether the device configuration is managed by the cloud or the device",
+							Computed:            true,
+						},
 						"mac": schema.StringAttribute{
 							MarkdownDescription: "MAC address of the device",
 							Computed:            true,

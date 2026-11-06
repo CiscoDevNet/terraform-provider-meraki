@@ -239,6 +239,10 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				MarkdownDescription: "The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.",
 				Computed:            true,
 			},
+			"ssid_admin_accessible": schema.BoolAttribute{
+				MarkdownDescription: "SSID Administrator access status",
+				Computed:            true,
+			},
 			"use_vlan_tagging": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`",
 				Computed:            true,
@@ -292,6 +296,10 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 					},
 				},
 			},
+			"campus_gateway_cluster_id": schema.StringAttribute{
+				MarkdownDescription: "The campus gateway cluster ID to use when the ipAssignmentMode is `Campus Gateway`. This param is only valid when ipAssignmentMode is `Campus Gateway`.",
+				Computed:            true,
+			},
 			"dns_rewrite_enabled": schema.BoolAttribute{
 				MarkdownDescription: "Boolean indicating whether or not DNS server rewrite is enabled. If disabled, upstream DNS will be used",
 				Computed:            true,
@@ -299,6 +307,10 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			"dns_rewrite_dns_custom_nameservers": schema.ListAttribute{
 				MarkdownDescription: "User specified DNS servers (up to two servers)",
 				ElementType:         types.StringType,
+				Computed:            true,
+			},
+			"dot11k_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Whether 802.11k is enabled or not.",
 				Computed:            true,
 			},
 			"dot11r_adaptive": schema.BoolAttribute{
@@ -446,6 +458,16 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			},
 			"radius_radsec_tls_tunnel_timeout": schema.Int64Attribute{
 				MarkdownDescription: "The interval (in seconds) to determines how long a TLS session can remain idle for a RADSec server before it is automatically terminated",
+				Computed:            true,
+			},
+			"security_encryption_akms": schema.ListAttribute{
+				MarkdownDescription: "Authentication key management systems used by the SSID",
+				ElementType:         types.StringType,
+				Computed:            true,
+			},
+			"security_encryption_ciphers": schema.ListAttribute{
+				MarkdownDescription: "Encryption ciphers used by the SSID. CCMP 128 is required and cannot be removed.",
+				ElementType:         types.StringType,
 				Computed:            true,
 			},
 			"speed_burst_enabled": schema.BoolAttribute{

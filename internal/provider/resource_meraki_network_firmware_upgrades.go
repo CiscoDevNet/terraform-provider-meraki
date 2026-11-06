@@ -32,6 +32,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -107,6 +108,25 @@ func (r *NetworkFirmwareUpgradesResource) Schema(ctx context.Context, req resour
 				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
 				Optional:            true,
 			},
+			"products_campus_gateway_participate_in_next_beta_release": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
+				Optional:            true,
+			},
+			"products_campus_gateway_next_upgrade_strategy": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.").AddStringEnumDescription("minimizeClientDowntime", "minimizeUpgradeTime").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("minimizeClientDowntime", "minimizeUpgradeTime"),
+				},
+			},
+			"products_campus_gateway_next_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
+				Optional:            true,
+			},
+			"products_campus_gateway_next_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The version ID").String,
+				Optional:            true,
+			},
 			"products_cellular_gateway_participate_in_next_beta_release": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
@@ -171,6 +191,13 @@ func (r *NetworkFirmwareUpgradesResource) Schema(ctx context.Context, req resour
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not the network wants beta firmware").String,
 				Optional:            true,
 			},
+			"products_wireless_next_upgrade_strategy": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.").AddStringEnumDescription("minimizeClientDowntime", "minimizeUpgradeTime").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("minimizeClientDowntime", "minimizeUpgradeTime"),
+				},
+			},
 			"products_wireless_next_upgrade_time": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The time of the last successful upgrade").String,
 				Optional:            true,
@@ -207,6 +234,30 @@ func (r *NetworkFirmwareUpgradesResource) Schema(ctx context.Context, req resour
 				Optional:            true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("0:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "1:00", "20:00", "21:00", "22:00", "23:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00"),
+				},
+			},
+			"feature_loss_acknowledgements": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Acknowledges the target version has removed certain features that the network is currently using.").String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"network_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The network ID to acknowledge the failing check for. Must refer to a node group.").String,
+							Required:            true,
+						},
+						"product_type": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The product type within the given network to acknowledge feature loss for (if the network is a combined network). Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.").AddStringEnumDescription("appliance", "camera", "campusGateway", "cellularGateway", "secureConnect", "sensor", "switch", "systemsManager", "wireless", "wirelessController").String,
+							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("appliance", "camera", "campusGateway", "cellularGateway", "secureConnect", "sensor", "switch", "systemsManager", "wireless", "wirelessController"),
+							},
+						},
+						"removed_feature_check_names": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("The names of the removed feature checks to acknowledge.").String,
+							ElementType:         types.StringType,
+							Required:            true,
+						},
+					},
 				},
 			},
 		},

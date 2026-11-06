@@ -36,12 +36,24 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type ApplianceSiteToSiteVPN struct {
-	Id                 types.String                    `tfsdk:"id"`
-	NetworkId          types.String                    `tfsdk:"network_id"`
-	Mode               types.String                    `tfsdk:"mode"`
-	SubnetNatIsAllowed types.Bool                      `tfsdk:"subnet_nat_is_allowed"`
-	Hubs               []ApplianceSiteToSiteVPNHubs    `tfsdk:"hubs"`
-	Subnets            []ApplianceSiteToSiteVPNSubnets `tfsdk:"subnets"`
+	Id                     types.String                             `tfsdk:"id"`
+	NetworkId              types.String                             `tfsdk:"network_id"`
+	Confirmed              types.Bool                               `tfsdk:"confirmed"`
+	Mode                   types.String                             `tfsdk:"mode"`
+	NatTraversalMode       types.String                             `tfsdk:"nat_traversal_mode"`
+	NatTraversalPublicIp   types.String                             `tfsdk:"nat_traversal_public_ip"`
+	NatTraversalPublicPort types.Int64                              `tfsdk:"nat_traversal_public_port"`
+	SgtEnabled             types.Bool                               `tfsdk:"sgt_enabled"`
+	SubnetNatIsAllowed     types.Bool                               `tfsdk:"subnet_nat_is_allowed"`
+	HostTranslations       []ApplianceSiteToSiteVPNHostTranslations `tfsdk:"host_translations"`
+	Hubs                   []ApplianceSiteToSiteVPNHubs             `tfsdk:"hubs"`
+	Subnets                []ApplianceSiteToSiteVPNSubnets          `tfsdk:"subnets"`
+}
+
+type ApplianceSiteToSiteVPNHostTranslations struct {
+	Name          types.String `tfsdk:"name"`
+	LocalAddress  types.String `tfsdk:"local_address"`
+	RemoteAddress types.String `tfsdk:"remote_address"`
 }
 
 type ApplianceSiteToSiteVPNHubs struct {
@@ -74,11 +86,42 @@ func (data ApplianceSiteToSiteVPN) getPath() string {
 
 func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSiteToSiteVPN) string {
 	body := ""
+	if !data.Confirmed.IsNull() {
+		body, _ = sjson.Set(body, "confirmed", data.Confirmed.ValueBool())
+	}
 	if !data.Mode.IsNull() {
 		body, _ = sjson.Set(body, "mode", data.Mode.ValueString())
 	}
+	if !data.NatTraversalMode.IsNull() {
+		body, _ = sjson.Set(body, "natTraversal.mode", data.NatTraversalMode.ValueString())
+	}
+	if !data.NatTraversalPublicIp.IsNull() {
+		body, _ = sjson.Set(body, "natTraversal.publicIp", data.NatTraversalPublicIp.ValueString())
+	}
+	if !data.NatTraversalPublicPort.IsNull() {
+		body, _ = sjson.Set(body, "natTraversal.publicPort", data.NatTraversalPublicPort.ValueInt64())
+	}
+	if !data.SgtEnabled.IsNull() {
+		body, _ = sjson.Set(body, "sgt.enabled", data.SgtEnabled.ValueBool())
+	}
 	if !data.SubnetNatIsAllowed.IsNull() {
 		body, _ = sjson.Set(body, "subnet.nat.isAllowed", data.SubnetNatIsAllowed.ValueBool())
+	}
+	if len(data.HostTranslations) > 0 {
+		body, _ = sjson.Set(body, "hostTranslations", []interface{}{})
+		for _, item := range data.HostTranslations {
+			itemBody := ""
+			if !item.Name.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "name", item.Name.ValueString())
+			}
+			if !item.LocalAddress.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "local.address", item.LocalAddress.ValueString())
+			}
+			if !item.RemoteAddress.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "remote.address", item.RemoteAddress.ValueString())
+			}
+			body, _ = sjson.SetRaw(body, "hostTranslations.-1", itemBody)
+		}
 	}
 	if len(data.Hubs) > 0 {
 		body, _ = sjson.Set(body, "hubs", []interface{}{})
@@ -129,6 +172,13 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 // `.Attributes` schema and must agree on which fields are writable.
 func (data ApplianceSiteToSiteVPN) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
 	body := ""
+	if value := res.Get("confirmed"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "confirmed", "null")
+		} else {
+			body, _ = sjson.Set(body, "confirmed", value.Bool())
+		}
+	}
 	if value := res.Get("mode"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "mode", "null")
@@ -136,11 +186,73 @@ func (data ApplianceSiteToSiteVPN) toBodyPreservingNulls(ctx context.Context, re
 			body, _ = sjson.Set(body, "mode", value.String())
 		}
 	}
+	if value := res.Get("natTraversal.mode"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "natTraversal.mode", "null")
+		} else {
+			body, _ = sjson.Set(body, "natTraversal.mode", value.String())
+		}
+	}
+	if value := res.Get("natTraversal.publicIp"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "natTraversal.publicIp", "null")
+		} else {
+			body, _ = sjson.Set(body, "natTraversal.publicIp", value.String())
+		}
+	}
+	if value := res.Get("natTraversal.publicPort"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "natTraversal.publicPort", "null")
+		} else {
+			body, _ = sjson.Set(body, "natTraversal.publicPort", value.Int())
+		}
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "sgt.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "sgt.enabled", value.Bool())
+		}
+	}
 	if value := res.Get("subnet.nat.isAllowed"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "subnet.nat.isAllowed", "null")
 		} else {
 			body, _ = sjson.Set(body, "subnet.nat.isAllowed", value.Bool())
+		}
+	}
+	if value := res.Get("hostTranslations"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "hostTranslations", "null")
+		} else {
+			body, _ = sjson.Set(body, "hostTranslations", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "name", "null")
+					} else {
+						body, _ = sjson.Set(body, "name", value.String())
+					}
+				}
+				if value := res.Get("local.address"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "local.address", "null")
+					} else {
+						body, _ = sjson.Set(body, "local.address", value.String())
+					}
+				}
+				if value := res.Get("remote.address"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "remote.address", "null")
+					} else {
+						body, _ = sjson.Set(body, "remote.address", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "hostTranslations.-1", body)
+				return true
+			})
 		}
 	}
 	if value := res.Get("hubs"); value.Exists() {
@@ -219,15 +331,64 @@ func (data ApplianceSiteToSiteVPN) toBodyPreservingNulls(ctx context.Context, re
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("confirmed"); value.Exists() && value.Value() != nil {
+		data.Confirmed = types.BoolValue(value.Bool())
+	} else {
+		data.Confirmed = types.BoolNull()
+	}
 	if value := res.Get("mode"); value.Exists() && value.Value() != nil {
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
 	}
+	if value := res.Get("natTraversal.mode"); value.Exists() && value.Value() != nil {
+		data.NatTraversalMode = types.StringValue(value.String())
+	} else {
+		data.NatTraversalMode = types.StringNull()
+	}
+	if value := res.Get("natTraversal.publicIp"); value.Exists() && value.Value() != nil {
+		data.NatTraversalPublicIp = types.StringValue(value.String())
+	} else {
+		data.NatTraversalPublicIp = types.StringNull()
+	}
+	if value := res.Get("natTraversal.publicPort"); value.Exists() && value.Value() != nil {
+		data.NatTraversalPublicPort = types.Int64Value(value.Int())
+	} else {
+		data.NatTraversalPublicPort = types.Int64Null()
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() && value.Value() != nil {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
+	}
 	if value := res.Get("subnet.nat.isAllowed"); value.Exists() && value.Value() != nil {
 		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())
 	} else {
 		data.SubnetNatIsAllowed = types.BoolNull()
+	}
+	if value := res.Get("hostTranslations"); value.Exists() && value.Value() != nil {
+		data.HostTranslations = make([]ApplianceSiteToSiteVPNHostTranslations, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := ApplianceSiteToSiteVPNHostTranslations{}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("local.address"); value.Exists() && value.Value() != nil {
+				data.LocalAddress = types.StringValue(value.String())
+			} else {
+				data.LocalAddress = types.StringNull()
+			}
+			if value := res.Get("remote.address"); value.Exists() && value.Value() != nil {
+				data.RemoteAddress = types.StringValue(value.String())
+			} else {
+				data.RemoteAddress = types.StringNull()
+			}
+			(*parent).HostTranslations = append((*parent).HostTranslations, data)
+			return true
+		})
 	}
 	if value := res.Get("hubs"); value.Exists() && value.Value() != nil {
 		data.Hubs = make([]ApplianceSiteToSiteVPNHubs, 0)
@@ -288,15 +449,93 @@ func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceSiteToSiteVPN) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	if value := res.Get("confirmed"); value.Exists() && !data.Confirmed.IsNull() {
+		data.Confirmed = types.BoolValue(value.Bool())
+	} else {
+		data.Confirmed = types.BoolNull()
+	}
 	if value := res.Get("mode"); value.Exists() && !data.Mode.IsNull() {
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
 	}
+	if value := res.Get("natTraversal.mode"); value.Exists() && !data.NatTraversalMode.IsNull() {
+		data.NatTraversalMode = types.StringValue(value.String())
+	} else {
+		data.NatTraversalMode = types.StringNull()
+	}
+	if value := res.Get("natTraversal.publicIp"); value.Exists() && !data.NatTraversalPublicIp.IsNull() {
+		data.NatTraversalPublicIp = types.StringValue(value.String())
+	} else {
+		data.NatTraversalPublicIp = types.StringNull()
+	}
+	if value := res.Get("natTraversal.publicPort"); value.Exists() && !data.NatTraversalPublicPort.IsNull() {
+		data.NatTraversalPublicPort = types.Int64Value(value.Int())
+	} else {
+		data.NatTraversalPublicPort = types.Int64Null()
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() && !data.SgtEnabled.IsNull() {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
+	}
 	if value := res.Get("subnet.nat.isAllowed"); value.Exists() && !data.SubnetNatIsAllowed.IsNull() {
 		data.SubnetNatIsAllowed = types.BoolValue(value.Bool())
 	} else {
 		data.SubnetNatIsAllowed = types.BoolNull()
+	}
+	for i := 0; i < len(data.HostTranslations); i++ {
+		keys := [...]string{"name", "local.address", "remote.address"}
+		keyValues := [...]string{data.HostTranslations[i].Name.ValueString(), data.HostTranslations[i].LocalAddress.ValueString(), data.HostTranslations[i].RemoteAddress.ValueString()}
+
+		parent := &data
+		data := (*parent).HostTranslations[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.Get("hostTranslations").ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing HostTranslations[%d] = %+v",
+				i,
+				(*parent).HostTranslations[i],
+			))
+			(*parent).HostTranslations = slices.Delete((*parent).HostTranslations, i, i+1)
+			i--
+
+			continue
+		}
+		if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("local.address"); value.Exists() && !data.LocalAddress.IsNull() {
+			data.LocalAddress = types.StringValue(value.String())
+		} else {
+			data.LocalAddress = types.StringNull()
+		}
+		if value := res.Get("remote.address"); value.Exists() && !data.RemoteAddress.IsNull() {
+			data.RemoteAddress = types.StringValue(value.String())
+		} else {
+			data.RemoteAddress = types.StringNull()
+		}
+		(*parent).HostTranslations[i] = data
 	}
 	for i := 0; i < len(data.Hubs); i++ {
 		keys := [...]string{"hubId"}

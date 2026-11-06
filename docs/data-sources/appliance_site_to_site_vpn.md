@@ -27,11 +27,27 @@ data "meraki_appliance_site_to_site_vpn" "example" {
 
 ### Read-Only
 
+- `confirmed` (Boolean) Whether to accept the confirmation warnings for these changes. Defaults to true, which accepts confirmation warnings and preserves the existing update behavior. Set to false to opt in to confirmation warnings. Review the warnings returned in confirmations, then retry with confirmed: true to accept them. Fatal errors must be corrected before retrying.
+- `host_translations` (Attributes List) The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2 (see [below for nested schema](#nestedatt--host_translations))
 - `hubs` (Attributes List) The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required. (see [below for nested schema](#nestedatt--hubs))
 - `id` (String) The id of the object
 - `mode` (String) The site-to-site VPN mode. Can be one of `none`, `spoke` or `hub`
+- `nat_traversal_mode` (String) Whether NAT traversal is automatic or manually configured.
+- `nat_traversal_public_ip` (String) The public IP address used for manual NAT traversal.
+- `nat_traversal_public_port` (Number) The public port used for manual NAT traversal. Must be between 1024 and 65535.
+- `sgt_enabled` (Boolean) Whether or not Peer SGT is enabled for traffic to this VPN peer.
 - `subnet_nat_is_allowed` (Boolean) If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
 - `subnets` (Attributes List) The list of subnets and their VPN presence. (see [below for nested schema](#nestedatt--subnets))
+
+<a id="nestedatt--host_translations"></a>
+### Nested Schema for `host_translations`
+
+Read-Only:
+
+- `local_address` (String) The local IP address of the translated host.
+- `name` (String) The name of the translated host.
+- `remote_address` (String) The remote IP address of the translated host.
+
 
 <a id="nestedatt--hubs"></a>
 ### Nested Schema for `hubs`

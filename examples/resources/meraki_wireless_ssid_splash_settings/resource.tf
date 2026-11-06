@@ -23,4 +23,6 @@ resource "meraki_wireless_ssid_splash_settings" "example" {
   splash_logo_image_format                      = "gif"
   splash_prepaid_front_image_contents           = "R0lGODdhAQABAIEAAP///wAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw=="
   splash_prepaid_front_image_format             = "gif"
+  user_consent_message                          = "By continuing, you agree to our terms and conditions."
+  user_consent_required                         = true
 }

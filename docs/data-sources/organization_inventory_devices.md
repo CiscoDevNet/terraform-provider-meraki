@@ -34,6 +34,7 @@ data "meraki_organization_inventory_devices" "example" {
 
 Read-Only:
 
+- `address` (String) Physical address of the device
 - `claimed_at` (String) Claimed time of the device
 - `country_code` (String) Country/region code from device, network, or store order
 - `details` (Attributes List) Additional device information (see [below for nested schema](#nestedatt--items--details))
@@ -49,6 +50,7 @@ Read-Only:
 - `order_number` (String) Order number of the device
 - `product_type` (String) Product type of the device
 - `serial` (String) Serial number of the device
+- `sku` (String) Full product model SKU of the device
 - `tags` (List of String) Device tags
 
 <a id="nestedatt--items--details"></a>

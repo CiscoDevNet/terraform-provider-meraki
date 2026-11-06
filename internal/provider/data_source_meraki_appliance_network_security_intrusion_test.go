@@ -39,6 +39,7 @@ func TestAccDataSourceMerakiApplianceNetworkSecurityIntrusion(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_network_security_intrusion.test", "ids_rulesets", "balanced"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_network_security_intrusion.test", "mode", "prevention"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_network_security_intrusion.test", "policy_id", "123"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_network_security_intrusion.test", "protected_networks_use_default", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_network_security_intrusion.test", "protected_networks_excluded_cidr.0", "10.0.0.0/8"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_network_security_intrusion.test", "protected_networks_included_cidr.0", "10.0.0.0/8"))
@@ -81,6 +82,7 @@ func testAccDataSourceMerakiApplianceNetworkSecurityIntrusionConfig() string {
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  ids_rulesets = "balanced"` + "\n"
 	config += `  mode = "prevention"` + "\n"
+	config += `  policy_id = "123"` + "\n"
 	config += `  protected_networks_use_default = false` + "\n"
 	config += `  protected_networks_excluded_cidr = ["10.0.0.0/8"]` + "\n"
 	config += `  protected_networks_included_cidr = ["10.0.0.0/8"]` + "\n"

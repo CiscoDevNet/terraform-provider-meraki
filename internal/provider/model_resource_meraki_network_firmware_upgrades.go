@@ -22,9 +22,13 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"slices"
 
+	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
+	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )
 
@@ -33,39 +37,51 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type NetworkFirmwareUpgrades struct {
-	Id                                                     types.String `tfsdk:"id"`
-	NetworkId                                              types.String `tfsdk:"network_id"`
-	Timezone                                               types.String `tfsdk:"timezone"`
-	ProductsApplianceParticipateInNextBetaRelease          types.Bool   `tfsdk:"products_appliance_participate_in_next_beta_release"`
-	ProductsApplianceNextUpgradeTime                       types.String `tfsdk:"products_appliance_next_upgrade_time"`
-	ProductsApplianceNextUpgradeToVersionId                types.String `tfsdk:"products_appliance_next_upgrade_to_version_id"`
-	ProductsCameraParticipateInNextBetaRelease             types.Bool   `tfsdk:"products_camera_participate_in_next_beta_release"`
-	ProductsCameraNextUpgradeTime                          types.String `tfsdk:"products_camera_next_upgrade_time"`
-	ProductsCameraNextUpgradeToVersionId                   types.String `tfsdk:"products_camera_next_upgrade_to_version_id"`
-	ProductsCellularGatewayParticipateInNextBetaRelease    types.Bool   `tfsdk:"products_cellular_gateway_participate_in_next_beta_release"`
-	ProductsCellularGatewayNextUpgradeTime                 types.String `tfsdk:"products_cellular_gateway_next_upgrade_time"`
-	ProductsCellularGatewayNextUpgradeToVersionId          types.String `tfsdk:"products_cellular_gateway_next_upgrade_to_version_id"`
-	ProductsSecureConnectParticipateInNextBetaRelease      types.Bool   `tfsdk:"products_secure_connect_participate_in_next_beta_release"`
-	ProductsSecureConnectNextUpgradeTime                   types.String `tfsdk:"products_secure_connect_next_upgrade_time"`
-	ProductsSecureConnectNextUpgradeToVersionId            types.String `tfsdk:"products_secure_connect_next_upgrade_to_version_id"`
-	ProductsSensorParticipateInNextBetaRelease             types.Bool   `tfsdk:"products_sensor_participate_in_next_beta_release"`
-	ProductsSensorNextUpgradeTime                          types.String `tfsdk:"products_sensor_next_upgrade_time"`
-	ProductsSensorNextUpgradeToVersionId                   types.String `tfsdk:"products_sensor_next_upgrade_to_version_id"`
-	ProductsSwitchParticipateInNextBetaRelease             types.Bool   `tfsdk:"products_switch_participate_in_next_beta_release"`
-	ProductsSwitchNextUpgradeTime                          types.String `tfsdk:"products_switch_next_upgrade_time"`
-	ProductsSwitchNextUpgradeToVersionId                   types.String `tfsdk:"products_switch_next_upgrade_to_version_id"`
-	ProductsSwitchCatalystParticipateInNextBetaRelease     types.Bool   `tfsdk:"products_switch_catalyst_participate_in_next_beta_release"`
-	ProductsSwitchCatalystNextUpgradeTime                  types.String `tfsdk:"products_switch_catalyst_next_upgrade_time"`
-	ProductsSwitchCatalystNextUpgradeToVersionId           types.String `tfsdk:"products_switch_catalyst_next_upgrade_to_version_id"`
-	ProductsWirelessParticipateInNextBetaRelease           types.Bool   `tfsdk:"products_wireless_participate_in_next_beta_release"`
-	ProductsWirelessNextUpgradeTime                        types.String `tfsdk:"products_wireless_next_upgrade_time"`
-	ProductsWirelessNextUpgradePredownloadEnabled          types.Bool   `tfsdk:"products_wireless_next_upgrade_predownload_enabled"`
-	ProductsWirelessNextUpgradeToVersionId                 types.String `tfsdk:"products_wireless_next_upgrade_to_version_id"`
-	ProductsWirelessControllerParticipateInNextBetaRelease types.Bool   `tfsdk:"products_wireless_controller_participate_in_next_beta_release"`
-	ProductsWirelessControllerNextUpgradeTime              types.String `tfsdk:"products_wireless_controller_next_upgrade_time"`
-	ProductsWirelessControllerNextUpgradeToVersionId       types.String `tfsdk:"products_wireless_controller_next_upgrade_to_version_id"`
-	UpgradeWindowDayOfWeek                                 types.String `tfsdk:"upgrade_window_day_of_week"`
-	UpgradeWindowHourOfDay                                 types.String `tfsdk:"upgrade_window_hour_of_day"`
+	Id                                                     types.String                                         `tfsdk:"id"`
+	NetworkId                                              types.String                                         `tfsdk:"network_id"`
+	Timezone                                               types.String                                         `tfsdk:"timezone"`
+	ProductsApplianceParticipateInNextBetaRelease          types.Bool                                           `tfsdk:"products_appliance_participate_in_next_beta_release"`
+	ProductsApplianceNextUpgradeTime                       types.String                                         `tfsdk:"products_appliance_next_upgrade_time"`
+	ProductsApplianceNextUpgradeToVersionId                types.String                                         `tfsdk:"products_appliance_next_upgrade_to_version_id"`
+	ProductsCameraParticipateInNextBetaRelease             types.Bool                                           `tfsdk:"products_camera_participate_in_next_beta_release"`
+	ProductsCameraNextUpgradeTime                          types.String                                         `tfsdk:"products_camera_next_upgrade_time"`
+	ProductsCameraNextUpgradeToVersionId                   types.String                                         `tfsdk:"products_camera_next_upgrade_to_version_id"`
+	ProductsCampusGatewayParticipateInNextBetaRelease      types.Bool                                           `tfsdk:"products_campus_gateway_participate_in_next_beta_release"`
+	ProductsCampusGatewayNextUpgradeStrategy               types.String                                         `tfsdk:"products_campus_gateway_next_upgrade_strategy"`
+	ProductsCampusGatewayNextUpgradeTime                   types.String                                         `tfsdk:"products_campus_gateway_next_upgrade_time"`
+	ProductsCampusGatewayNextUpgradeToVersionId            types.String                                         `tfsdk:"products_campus_gateway_next_upgrade_to_version_id"`
+	ProductsCellularGatewayParticipateInNextBetaRelease    types.Bool                                           `tfsdk:"products_cellular_gateway_participate_in_next_beta_release"`
+	ProductsCellularGatewayNextUpgradeTime                 types.String                                         `tfsdk:"products_cellular_gateway_next_upgrade_time"`
+	ProductsCellularGatewayNextUpgradeToVersionId          types.String                                         `tfsdk:"products_cellular_gateway_next_upgrade_to_version_id"`
+	ProductsSecureConnectParticipateInNextBetaRelease      types.Bool                                           `tfsdk:"products_secure_connect_participate_in_next_beta_release"`
+	ProductsSecureConnectNextUpgradeTime                   types.String                                         `tfsdk:"products_secure_connect_next_upgrade_time"`
+	ProductsSecureConnectNextUpgradeToVersionId            types.String                                         `tfsdk:"products_secure_connect_next_upgrade_to_version_id"`
+	ProductsSensorParticipateInNextBetaRelease             types.Bool                                           `tfsdk:"products_sensor_participate_in_next_beta_release"`
+	ProductsSensorNextUpgradeTime                          types.String                                         `tfsdk:"products_sensor_next_upgrade_time"`
+	ProductsSensorNextUpgradeToVersionId                   types.String                                         `tfsdk:"products_sensor_next_upgrade_to_version_id"`
+	ProductsSwitchParticipateInNextBetaRelease             types.Bool                                           `tfsdk:"products_switch_participate_in_next_beta_release"`
+	ProductsSwitchNextUpgradeTime                          types.String                                         `tfsdk:"products_switch_next_upgrade_time"`
+	ProductsSwitchNextUpgradeToVersionId                   types.String                                         `tfsdk:"products_switch_next_upgrade_to_version_id"`
+	ProductsSwitchCatalystParticipateInNextBetaRelease     types.Bool                                           `tfsdk:"products_switch_catalyst_participate_in_next_beta_release"`
+	ProductsSwitchCatalystNextUpgradeTime                  types.String                                         `tfsdk:"products_switch_catalyst_next_upgrade_time"`
+	ProductsSwitchCatalystNextUpgradeToVersionId           types.String                                         `tfsdk:"products_switch_catalyst_next_upgrade_to_version_id"`
+	ProductsWirelessParticipateInNextBetaRelease           types.Bool                                           `tfsdk:"products_wireless_participate_in_next_beta_release"`
+	ProductsWirelessNextUpgradeStrategy                    types.String                                         `tfsdk:"products_wireless_next_upgrade_strategy"`
+	ProductsWirelessNextUpgradeTime                        types.String                                         `tfsdk:"products_wireless_next_upgrade_time"`
+	ProductsWirelessNextUpgradePredownloadEnabled          types.Bool                                           `tfsdk:"products_wireless_next_upgrade_predownload_enabled"`
+	ProductsWirelessNextUpgradeToVersionId                 types.String                                         `tfsdk:"products_wireless_next_upgrade_to_version_id"`
+	ProductsWirelessControllerParticipateInNextBetaRelease types.Bool                                           `tfsdk:"products_wireless_controller_participate_in_next_beta_release"`
+	ProductsWirelessControllerNextUpgradeTime              types.String                                         `tfsdk:"products_wireless_controller_next_upgrade_time"`
+	ProductsWirelessControllerNextUpgradeToVersionId       types.String                                         `tfsdk:"products_wireless_controller_next_upgrade_to_version_id"`
+	UpgradeWindowDayOfWeek                                 types.String                                         `tfsdk:"upgrade_window_day_of_week"`
+	UpgradeWindowHourOfDay                                 types.String                                         `tfsdk:"upgrade_window_hour_of_day"`
+	FeatureLossAcknowledgements                            []NetworkFirmwareUpgradesFeatureLossAcknowledgements `tfsdk:"feature_loss_acknowledgements"`
+}
+
+type NetworkFirmwareUpgradesFeatureLossAcknowledgements struct {
+	NetworkId                types.String `tfsdk:"network_id"`
+	ProductType              types.String `tfsdk:"product_type"`
+	RemovedFeatureCheckNames types.List   `tfsdk:"removed_feature_check_names"`
 }
 
 type NetworkFirmwareUpgradesIdentity struct {
@@ -213,6 +229,34 @@ func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.Set(body, "products.camera.participateInNextBetaRelease", value.Bool())
 		}
 	}
+	if value := res.Get("products.campusGateway.participateInNextBetaRelease"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.campusGateway.participateInNextBetaRelease", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.campusGateway.participateInNextBetaRelease", value.Bool())
+		}
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.strategy"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.campusGateway.nextUpgrade.strategy", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.campusGateway.nextUpgrade.strategy", value.String())
+		}
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.time"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.campusGateway.nextUpgrade.time", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.campusGateway.nextUpgrade.time", value.String())
+		}
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.toVersion.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.campusGateway.nextUpgrade.toVersion.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.campusGateway.nextUpgrade.toVersion.id", value.String())
+		}
+	}
 	if value := res.Get("products.cellularGateway.participateInNextBetaRelease"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "products.cellularGateway.participateInNextBetaRelease", "null")
@@ -255,6 +299,13 @@ func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.Set(body, "products.wireless.participateInNextBetaRelease", value.Bool())
 		}
 	}
+	if value := res.Get("products.wireless.nextUpgrade.strategy"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "products.wireless.nextUpgrade.strategy", "null")
+		} else {
+			body, _ = sjson.Set(body, "products.wireless.nextUpgrade.strategy", value.String())
+		}
+	}
 	if value := res.Get("products.wirelessController.participateInNextBetaRelease"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "products.wirelessController.participateInNextBetaRelease", "null")
@@ -274,6 +325,44 @@ func (data NetworkFirmwareUpgrades) toBodyPreservingNulls(ctx context.Context, r
 			body, _ = sjson.SetRaw(body, "upgradeWindow.hourOfDay", "null")
 		} else {
 			body, _ = sjson.Set(body, "upgradeWindow.hourOfDay", value.String())
+		}
+	}
+	if value := res.Get("featureLossAcknowledgements"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "featureLossAcknowledgements", "null")
+		} else {
+			body, _ = sjson.Set(body, "featureLossAcknowledgements", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("networkId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "networkId", "null")
+					} else {
+						body, _ = sjson.Set(body, "networkId", value.String())
+					}
+				}
+				if value := res.Get("productType"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "productType", "null")
+					} else {
+						body, _ = sjson.Set(body, "productType", value.String())
+					}
+				}
+				if value := res.Get("removedFeatureCheckNames"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "removedFeatureCheckNames", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "removedFeatureCheckNames", values)
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "featureLossAcknowledgements.-1", body)
+				return true
+			})
 		}
 	}
 	return body
@@ -298,6 +387,26 @@ func (data *NetworkFirmwareUpgrades) fromBody(ctx context.Context, res meraki.Re
 		data.ProductsCameraParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsCameraParticipateInNextBetaRelease = types.BoolNull()
+	}
+	if value := res.Get("products.campusGateway.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
+		data.ProductsCampusGatewayParticipateInNextBetaRelease = types.BoolValue(value.Bool())
+	} else {
+		data.ProductsCampusGatewayParticipateInNextBetaRelease = types.BoolNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.strategy"); value.Exists() && value.Value() != nil {
+		data.ProductsCampusGatewayNextUpgradeStrategy = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeStrategy = types.StringNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.time"); value.Exists() && value.Value() != nil {
+		data.ProductsCampusGatewayNextUpgradeTime = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeTime = types.StringNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.toVersion.id"); value.Exists() && value.Value() != nil {
+		data.ProductsCampusGatewayNextUpgradeToVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.cellularGateway.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsCellularGatewayParticipateInNextBetaRelease = types.BoolValue(value.Bool())
@@ -329,6 +438,11 @@ func (data *NetworkFirmwareUpgrades) fromBody(ctx context.Context, res meraki.Re
 	} else {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolNull()
 	}
+	if value := res.Get("products.wireless.nextUpgrade.strategy"); value.Exists() && value.Value() != nil {
+		data.ProductsWirelessNextUpgradeStrategy = types.StringValue(value.String())
+	} else {
+		data.ProductsWirelessNextUpgradeStrategy = types.StringNull()
+	}
 	if value := res.Get("products.wirelessController.participateInNextBetaRelease"); value.Exists() && value.Value() != nil {
 		data.ProductsWirelessControllerParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
@@ -343,6 +457,30 @@ func (data *NetworkFirmwareUpgrades) fromBody(ctx context.Context, res meraki.Re
 		data.UpgradeWindowHourOfDay = types.StringValue(value.String())
 	} else {
 		data.UpgradeWindowHourOfDay = types.StringNull()
+	}
+	if value := res.Get("featureLossAcknowledgements"); value.Exists() && value.Value() != nil {
+		data.FeatureLossAcknowledgements = make([]NetworkFirmwareUpgradesFeatureLossAcknowledgements, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := NetworkFirmwareUpgradesFeatureLossAcknowledgements{}
+			if value := res.Get("networkId"); value.Exists() && value.Value() != nil {
+				data.NetworkId = types.StringValue(value.String())
+			} else {
+				data.NetworkId = types.StringNull()
+			}
+			if value := res.Get("productType"); value.Exists() && value.Value() != nil {
+				data.ProductType = types.StringValue(value.String())
+			} else {
+				data.ProductType = types.StringNull()
+			}
+			if value := res.Get("removedFeatureCheckNames"); value.Exists() && value.Value() != nil {
+				data.RemovedFeatureCheckNames = helpers.GetStringList(value.Array())
+			} else {
+				data.RemovedFeatureCheckNames = types.ListNull(types.StringType)
+			}
+			(*parent).FeatureLossAcknowledgements = append((*parent).FeatureLossAcknowledgements, data)
+			return true
+		})
 	}
 }
 
@@ -369,6 +507,26 @@ func (data *NetworkFirmwareUpgrades) fromBodyPartial(ctx context.Context, res me
 		data.ProductsCameraParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
 		data.ProductsCameraParticipateInNextBetaRelease = types.BoolNull()
+	}
+	if value := res.Get("products.campusGateway.participateInNextBetaRelease"); value.Exists() && !data.ProductsCampusGatewayParticipateInNextBetaRelease.IsNull() {
+		data.ProductsCampusGatewayParticipateInNextBetaRelease = types.BoolValue(value.Bool())
+	} else {
+		data.ProductsCampusGatewayParticipateInNextBetaRelease = types.BoolNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.strategy"); value.Exists() && !data.ProductsCampusGatewayNextUpgradeStrategy.IsNull() {
+		data.ProductsCampusGatewayNextUpgradeStrategy = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeStrategy = types.StringNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.time"); value.Exists() && !data.ProductsCampusGatewayNextUpgradeTime.IsNull() {
+		data.ProductsCampusGatewayNextUpgradeTime = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeTime = types.StringNull()
+	}
+	if value := res.Get("products.campusGateway.nextUpgrade.toVersion.id"); value.Exists() && !data.ProductsCampusGatewayNextUpgradeToVersionId.IsNull() {
+		data.ProductsCampusGatewayNextUpgradeToVersionId = types.StringValue(value.String())
+	} else {
+		data.ProductsCampusGatewayNextUpgradeToVersionId = types.StringNull()
 	}
 	if value := res.Get("products.cellularGateway.participateInNextBetaRelease"); value.Exists() && !data.ProductsCellularGatewayParticipateInNextBetaRelease.IsNull() {
 		data.ProductsCellularGatewayParticipateInNextBetaRelease = types.BoolValue(value.Bool())
@@ -400,6 +558,11 @@ func (data *NetworkFirmwareUpgrades) fromBodyPartial(ctx context.Context, res me
 	} else {
 		data.ProductsWirelessParticipateInNextBetaRelease = types.BoolNull()
 	}
+	if value := res.Get("products.wireless.nextUpgrade.strategy"); value.Exists() && !data.ProductsWirelessNextUpgradeStrategy.IsNull() {
+		data.ProductsWirelessNextUpgradeStrategy = types.StringValue(value.String())
+	} else {
+		data.ProductsWirelessNextUpgradeStrategy = types.StringNull()
+	}
 	if value := res.Get("products.wirelessController.participateInNextBetaRelease"); value.Exists() && !data.ProductsWirelessControllerParticipateInNextBetaRelease.IsNull() {
 		data.ProductsWirelessControllerParticipateInNextBetaRelease = types.BoolValue(value.Bool())
 	} else {
@@ -414,6 +577,59 @@ func (data *NetworkFirmwareUpgrades) fromBodyPartial(ctx context.Context, res me
 		data.UpgradeWindowHourOfDay = types.StringValue(value.String())
 	} else {
 		data.UpgradeWindowHourOfDay = types.StringNull()
+	}
+	for i := 0; i < len(data.FeatureLossAcknowledgements); i++ {
+		keys := [...]string{"networkId", "productType"}
+		keyValues := [...]string{data.FeatureLossAcknowledgements[i].NetworkId.ValueString(), data.FeatureLossAcknowledgements[i].ProductType.ValueString()}
+
+		parent := &data
+		data := (*parent).FeatureLossAcknowledgements[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.Get("featureLossAcknowledgements").ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing FeatureLossAcknowledgements[%d] = %+v",
+				i,
+				(*parent).FeatureLossAcknowledgements[i],
+			))
+			(*parent).FeatureLossAcknowledgements = slices.Delete((*parent).FeatureLossAcknowledgements, i, i+1)
+			i--
+
+			continue
+		}
+		if value := res.Get("networkId"); value.Exists() && !data.NetworkId.IsNull() {
+			data.NetworkId = types.StringValue(value.String())
+		} else {
+			data.NetworkId = types.StringNull()
+		}
+		if value := res.Get("productType"); value.Exists() && !data.ProductType.IsNull() {
+			data.ProductType = types.StringValue(value.String())
+		} else {
+			data.ProductType = types.StringNull()
+		}
+		if value := res.Get("removedFeatureCheckNames"); value.Exists() && !data.RemovedFeatureCheckNames.IsNull() {
+			data.RemovedFeatureCheckNames = helpers.GetStringList(value.Array())
+		} else {
+			data.RemovedFeatureCheckNames = types.ListNull(types.StringType)
+		}
+		(*parent).FeatureLossAcknowledgements[i] = data
 	}
 }
 

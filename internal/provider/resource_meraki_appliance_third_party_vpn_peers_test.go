@@ -49,6 +49,8 @@ func TestAccMerakiApplianceThirdPartyVPNPeers(t *testing.T) {
 	if !includeWriteOnly {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.secret", "Sample Password"))
 	}
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ebgp_neighbor_vrf_id", "12345"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.ebgp_neighbor_vrf_name", "VRF Blue"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_active_active_tunnel", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_number", "1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_third_party_vpn_peers.test", "peers.0.group_failover_direct_to_internet", "false"))
@@ -160,6 +162,8 @@ func testAccMerakiApplianceThirdPartyVPNPeersConfig_all(includeWriteOnly bool) s
 	} else {
 		config += `    secret = "Sample Password"` + "\n"
 	}
+	config += `    ebgp_neighbor_vrf_id = "12345"` + "\n"
+	config += `    ebgp_neighbor_vrf_name = "VRF Blue"` + "\n"
 	config += `    group_active_active_tunnel = false` + "\n"
 	config += `    group_number = 1` + "\n"
 	config += `    group_failover_direct_to_internet = false` + "\n"

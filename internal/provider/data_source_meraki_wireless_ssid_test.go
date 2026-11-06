@@ -51,15 +51,20 @@ func TestAccDataSourceMerakiWirelessSSID(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "per_ssid_bandwidth_limit_up", "0"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "psk", "deadbeef"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "splash_page", "Click-through splash page"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "ssid_admin_accessible", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "use_vlan_tagging", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "visible", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "walled_garden_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "wpa_encryption_mode", "WPA2 only"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "campus_gateway_cluster_id", "10"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "dot11k_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "dot11r_adaptive", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "dot11r_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "dot11w_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "dot11w_required", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "named_vlans_tagging_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "security_encryption_akms.0", "SAE"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "security_encryption_ciphers.0", "CCMP 128"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_wireless_ssid.test", "speed_burst_enabled", "false"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -115,15 +120,20 @@ func testAccDataSourceMerakiWirelessSSIDConfig() string {
 	config += `  per_ssid_bandwidth_limit_up = 0` + "\n"
 	config += `  psk = "deadbeef"` + "\n"
 	config += `  splash_page = "Click-through splash page"` + "\n"
+	config += `  ssid_admin_accessible = false` + "\n"
 	config += `  use_vlan_tagging = false` + "\n"
 	config += `  visible = false` + "\n"
 	config += `  walled_garden_enabled = false` + "\n"
 	config += `  wpa_encryption_mode = "WPA2 only"` + "\n"
+	config += `  campus_gateway_cluster_id = "10"` + "\n"
+	config += `  dot11k_enabled = true` + "\n"
 	config += `  dot11r_adaptive = false` + "\n"
 	config += `  dot11r_enabled = false` + "\n"
 	config += `  dot11w_enabled = false` + "\n"
 	config += `  dot11w_required = false` + "\n"
 	config += `  named_vlans_tagging_enabled = false` + "\n"
+	config += `  security_encryption_akms = ["SAE"]` + "\n"
+	config += `  security_encryption_ciphers = ["CCMP 128"]` + "\n"
 	config += `  speed_burst_enabled = false` + "\n"
 	config += `  availability_tags = ["tag1"]` + "\n"
 	config += `}` + "\n"

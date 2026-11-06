@@ -47,6 +47,8 @@ type DataSourceNetworkSNMP struct {
 	CommunityString          types.String                 `tfsdk:"community_string"`
 	CommunityStringWo        types.String                 `tfsdk:"community_string_wo"`
 	CommunityStringWoVersion types.Int64                  `tfsdk:"community_string_wo_version"`
+	AuthenticationProtocol   types.String                 `tfsdk:"authentication_protocol"`
+	PrivacyProtocol          types.String                 `tfsdk:"privacy_protocol"`
 	Users                    []DataSourceNetworkSNMPUsers `tfsdk:"users"`
 }
 
@@ -79,6 +81,16 @@ func (data *DataSourceNetworkSNMP) fromBody(ctx context.Context, res meraki.Res)
 		data.CommunityString = types.StringValue(value.String())
 	} else {
 		data.CommunityString = types.StringNull()
+	}
+	if value := res.Get("authentication.protocol"); value.Exists() && value.Value() != nil {
+		data.AuthenticationProtocol = types.StringValue(value.String())
+	} else {
+		data.AuthenticationProtocol = types.StringNull()
+	}
+	if value := res.Get("privacy.protocol"); value.Exists() && value.Value() != nil {
+		data.PrivacyProtocol = types.StringValue(value.String())
+	} else {
+		data.PrivacyProtocol = types.StringNull()
 	}
 	if value := res.Get("users"); value.Exists() && value.Value() != nil {
 		data.Users = make([]DataSourceNetworkSNMPUsers, 0)

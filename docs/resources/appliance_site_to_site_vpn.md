@@ -14,9 +14,21 @@ This resource can manage the `Appliance Site to Site VPN` configuration.
 
 ```terraform
 resource "meraki_appliance_site_to_site_vpn" "example" {
-  network_id            = "L_123456"
-  mode                  = "hub"
-  subnet_nat_is_allowed = false
+  network_id                = "L_123456"
+  confirmed                 = false
+  mode                      = "hub"
+  nat_traversal_mode        = "manual"
+  nat_traversal_public_ip   = "203.0.113.8"
+  nat_traversal_public_port = 4500
+  sgt_enabled               = true
+  subnet_nat_is_allowed     = false
+  host_translations = [
+    {
+      name           = "Host 1"
+      local_address  = "192.168.1.10"
+      remote_address = "72.168.2.10"
+    }
+  ]
   subnets = [
     {
       local_subnet = "192.168.128.0/24"
@@ -37,13 +49,30 @@ resource "meraki_appliance_site_to_site_vpn" "example" {
 
 ### Optional
 
+- `confirmed` (Boolean) Whether to accept the confirmation warnings for these changes. Defaults to true, which accepts confirmation warnings and preserves the existing update behavior. Set to false to opt in to confirmation warnings. Review the warnings returned in confirmations, then retry with confirmed: true to accept them. Fatal errors must be corrected before retrying.
+- `host_translations` (Attributes List) The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2 (see [below for nested schema](#nestedatt--host_translations))
 - `hubs` (Attributes List) The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required. (see [below for nested schema](#nestedatt--hubs))
+- `nat_traversal_mode` (String) Whether NAT traversal is automatic or manually configured.
+  - Choices: `automatic`, `manual`
+- `nat_traversal_public_ip` (String) The public IP address used for manual NAT traversal.
+- `nat_traversal_public_port` (Number) The public port used for manual NAT traversal. Must be between 1024 and 65535.
+- `sgt_enabled` (Boolean) Whether or not Peer SGT is enabled for traffic to this VPN peer.
 - `subnet_nat_is_allowed` (Boolean) If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
 - `subnets` (Attributes List) The list of subnets and their VPN presence. (see [below for nested schema](#nestedatt--subnets))
 
 ### Read-Only
 
 - `id` (String) The id of the object
+
+<a id="nestedatt--host_translations"></a>
+### Nested Schema for `host_translations`
+
+Optional:
+
+- `local_address` (String) The local IP address of the translated host.
+- `name` (String) The name of the translated host.
+- `remote_address` (String) The remote IP address of the translated host.
+
 
 <a id="nestedatt--hubs"></a>
 ### Nested Schema for `hubs`

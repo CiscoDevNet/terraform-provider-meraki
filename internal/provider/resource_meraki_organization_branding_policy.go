@@ -100,6 +100,13 @@ func (r *OrganizationBrandingPolicyResource) Schema(ctx context.Context, req res
 				ElementType:         types.StringType,
 				Optional:            true,
 			},
+			"appearance_dashboard_menu_theme": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Dashboard menu theme.").AddStringEnumDescription("dark", "light").String,
+				Optional:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("dark", "light"),
+				},
+			},
 			"custom_logo_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Whether or not there is a custom logo enabled.").String,
 				Optional:            true,

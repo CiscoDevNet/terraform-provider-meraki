@@ -268,6 +268,27 @@ attributes:
     write_changes_only: true
     description: The version ID
     example: "1003"
+  - model_name: participateInNextBetaRelease
+    type: Bool
+    data_path: [products, campusGateway]
+    description: Whether or not the network wants beta firmware
+    example: "false"
+  - model_name: strategy
+    type: String
+    data_path: [products, campusGateway, nextUpgrade]
+    description: The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.
+    example: minimizeUpgradeTime
+    enum_values: [minimizeClientDowntime, minimizeUpgradeTime]
+  - model_name: time
+    type: String
+    data_path: [products, campusGateway, nextUpgrade]
+    description: The time of the last successful upgrade
+    example: "2019-03-17T17:22:52Z"
+  - model_name: id
+    type: String
+    data_path: [products, campusGateway, nextUpgrade, toVersion]
+    description: The version ID
+    example: "1007"
   - model_name: firmware
     type: String
     data_path: [products, camera, nextUpgrade, toVersion]
@@ -1044,6 +1065,12 @@ attributes:
     data_path: [products, wireless]
     description: Whether or not the network wants beta firmware
     example: "false"
+  - model_name: strategy
+    type: String
+    data_path: [products, wireless, nextUpgrade]
+    description: The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.
+    example: minimizeUpgradeTime
+    enum_values: [minimizeClientDowntime, minimizeUpgradeTime]
   - model_name: firmware
     type: String
     data_path: [products, wireless, currentVersion]
@@ -1343,6 +1370,26 @@ attributes:
     description: Hour of the day
     example: "4:00"
     enum_values: ["0:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "1:00", "20:00", "21:00", "22:00", "23:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00"]
+  - model_name: featureLossAcknowledgements
+    type: List
+    description: Acknowledges the target version has removed certain features that the network is currently using.
+    attributes:
+      - model_name: networkId
+        type: String
+        mandatory: true
+        description: The network ID to acknowledge the failing check for. Must refer to a node group.
+        example: N_1234
+      - model_name: productType
+        type: String
+        description: The product type within the given network to acknowledge feature loss for (if the network is a combined network). Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.
+        example: wireless
+        enum_values: [appliance, camera, campusGateway, cellularGateway, secureConnect, sensor, switch, systemsManager, wireless, wirelessController]
+      - model_name: removedFeatureCheckNames
+        type: List
+        element_type: String
+        mandatory: true
+        description: The names of the removed feature checks to acknowledge.
+        example: snmp-auth-and-privacy-check
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

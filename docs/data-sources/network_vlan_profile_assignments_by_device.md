@@ -34,6 +34,7 @@ data "meraki_network_vlan_profile_assignments_by_device" "example" {
 
 Read-Only:
 
+- `configuration_source` (String) Indicates whether the device configuration is managed by the cloud or the device
 - `id` (String) The id of the object
 - `mac` (String) MAC address of the device
 - `name` (String) Name of the Device

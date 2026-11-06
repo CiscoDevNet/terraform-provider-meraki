@@ -32,15 +32,20 @@ resource "meraki_wireless_ssid" "example" {
   per_ssid_bandwidth_limit_up     = 0
   psk                             = "deadbeef"
   splash_page                     = "Click-through splash page"
+  ssid_admin_accessible           = false
   use_vlan_tagging                = false
   visible                         = false
   walled_garden_enabled           = false
   wpa_encryption_mode             = "WPA2 only"
+  campus_gateway_cluster_id       = "10"
+  dot11k_enabled                  = true
   dot11r_adaptive                 = false
   dot11r_enabled                  = false
   dot11w_enabled                  = false
   dot11w_required                 = false
   named_vlans_tagging_enabled     = false
+  security_encryption_akms        = ["SAE"]
+  security_encryption_ciphers     = ["CCMP 128"]
   speed_burst_enabled             = false
   availability_tags               = ["tag1"]
 }
@@ -72,11 +77,13 @@ resource "meraki_wireless_ssid" "example" {
 - `availability_tags` (Set of String) Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
 - `available_on_all_aps` (Boolean) Boolean indicating whether all APs should broadcast the SSID or if it should be restricted to APs matching any availability tags. Can only be false if the SSID has availability tags.
 - `band_selection` (String) The client-serving radio frequencies of this SSID in the default indoor RF profile. (`Dual band operation`, `5 GHz band only` or `Dual band operation with Band Steering`)
+- `campus_gateway_cluster_id` (String) The campus gateway cluster ID to use when the ipAssignmentMode is `Campus Gateway`. This param is only valid when ipAssignmentMode is `Campus Gateway`.
 - `concentrator_network_id` (String) The concentrator to use when the ipAssignmentMode is `Layer 3 roaming with a concentrator` or `VPN`.
 - `default_vlan_id` (Number) The default VLAN ID used for `all other APs`. This param is only valid when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
 - `disassociate_clients_on_vpn_failover` (Boolean) Disassociate clients when `VPN` concentrator failover occurs in order to trigger clients to re-associate and generate new DHCP requests. This param is only valid if ipAssignmentMode is `VPN`.
 - `dns_rewrite_dns_custom_nameservers` (List of String) User specified DNS servers (up to two servers)
 - `dns_rewrite_enabled` (Boolean) Boolean indicating whether or not DNS server rewrite is enabled. If disabled, upstream DNS will be used
+- `dot11k_enabled` (Boolean) Whether 802.11k is enabled or not.
 - `dot11r_adaptive` (Boolean) (Optional) Whether 802.11r is adaptive or not.
 - `dot11r_enabled` (Boolean) Whether 802.11r is enabled or not.
 - `dot11w_enabled` (Boolean) Whether 802.11w is enabled or not.
@@ -151,10 +158,13 @@ resource "meraki_wireless_ssid" "example" {
 - `radius_servers` (Attributes List) The RADIUS 802.1X servers to be used for authentication. This param is only valid if the authMode is `open-with-radius`, `8021x-radius` or `ipsk-with-radius` (see [below for nested schema](#nestedatt--radius_servers))
 - `radius_testing_enabled` (Boolean) If true, Meraki devices will periodically send Access-Request messages to configured RADIUS servers using identity `meraki_8021x_test` to ensure that the RADIUS servers are reachable.
 - `secondary_concentrator_network_id` (String) The secondary concentrator to use when the ipAssignmentMode is `VPN`. If configured, the APs will switch to using this concentrator if the primary concentrator is unreachable. This param is optional. (`disabled` represents no secondary concentrator.)
+- `security_encryption_akms` (List of String) Authentication key management systems used by the SSID
+- `security_encryption_ciphers` (List of String) Encryption ciphers used by the SSID. CCMP 128 is required and cannot be removed.
 - `speed_burst_enabled` (Boolean) Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.
 - `splash_guest_sponsor_domains` (Set of String) Array of valid sponsor email domains for sponsored guest splash type.
 - `splash_page` (String) The type of splash page for the SSID (`None`, `Click-through splash page`, `Billing`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `SMS authentication`, `Systems Manager Sentry`, `Facebook Wi-Fi`, `Google OAuth`, `Microsoft Entra ID`, `Sponsored guest`, `Cisco ISE` or `Google Apps domain`). This attribute is not supported for template children.
   - Choices: `Billing`, `Cisco ISE`, `Click-through splash page`, `Facebook Wi-Fi`, `Google Apps domain`, `Google OAuth`, `Microsoft Entra ID`, `None`, `Password-protected with Active Directory`, `Password-protected with LDAP`, `Password-protected with Meraki RADIUS`, `Password-protected with custom RADIUS`, `SMS authentication`, `Sponsored guest`, `Systems Manager Sentry`
+- `ssid_admin_accessible` (Boolean) SSID Administrator access status
 - `use_vlan_tagging` (Boolean) Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`
 - `visible` (Boolean) Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true
 - `vlan_id` (Number) The VLAN ID used for VLAN tagging. This param is only valid when the ipAssignmentMode is `Layer 3 roaming with a concentrator` or `VPN`

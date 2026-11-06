@@ -75,6 +75,10 @@ func (d *OrganizationDevicesDataSource) Schema(ctx context.Context, req datasour
 							MarkdownDescription: "Physical address of the device",
 							Computed:            true,
 						},
+						"configuration_updated_at": schema.StringAttribute{
+							MarkdownDescription: "Time at which network configuration is updated (ISO 8601 UTC format)",
+							Computed:            true,
+						},
 						"firmware": schema.StringAttribute{
 							MarkdownDescription: "Firmware version of the device",
 							Computed:            true,

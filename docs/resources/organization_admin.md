@@ -21,8 +21,10 @@ resource "meraki_organization_admin" "example" {
   org_access            = "none"
   networks = [
     {
-      access = "full"
-      id     = "N_24329156"
+      access                 = "full"
+      id                     = "N_24329156"
+      packet_capture_allowed = true
+      switch_port_tags       = ["meraki-test"]
     }
   ]
   tags = [
@@ -64,6 +66,11 @@ Required:
 - `access` (String) The privilege of the dashboard administrator on the network. Can be one of `full`, `read-only`, `guest-ambassador` or `monitor-only`
   - Choices: `full`, `read-only`, `guest-ambassador`, `monitor-only`
 - `id` (String) The network ID
+
+Optional:
+
+- `packet_capture_allowed` (Boolean) True if admin has access to the packet capture utility. Only allowed if switch-port-manager or switchport is the access value
+- `switch_port_tags` (List of String) Switch port tags the admin will have access to. Only allowed if switch-port-manager or switchport is the access value
 
 
 <a id="nestedatt--tags"></a>

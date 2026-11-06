@@ -26,12 +26,14 @@ import (
 	"strings"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/identityschema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
@@ -114,8 +116,11 @@ func (r *OrganizationPolicyObjectsResource) Schema(ctx context.Context, req reso
 							Required:            true,
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: helpers.NewAttributeDescription("Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)").String,
+							MarkdownDescription: helpers.NewAttributeDescription("Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)").AddStringEnumDescription("adaptivePolicyIpv4Cidr", "cidr", "fqdn").String,
 							Required:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("adaptivePolicyIpv4Cidr", "cidr", "fqdn"),
+							},
 						},
 						"group_ids": schema.SetAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The IDs of policy object groups the policy object belongs to").String,

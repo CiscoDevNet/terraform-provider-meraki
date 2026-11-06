@@ -147,12 +147,20 @@ func (r *SwitchOrganizationPortsProfileResource) Schema(ctx context.Context, req
 				MarkdownDescription: helpers.NewAttributeDescription("If true, ARP packets for this port will be considered trusted, and Dynamic ARP Inspection will allow the traffic.").String,
 				Optional:            true,
 			},
+			"port_fast_poe_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether Fast PoE is enabled for the port profile. Fast PoE requires Perpetual PoE to be enabled.").String,
+				Optional:            true,
+			},
 			"port_isolation_enabled": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The isolation status of the port profile.").String,
 				Optional:            true,
 			},
 			"port_peer_sgt_capable": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("If true, Peer SGT is enabled for traffic through this port profile. Applicable to trunk ports only.").String,
+				Optional:            true,
+			},
+			"port_perpetual_poe_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Whether Perpetual PoE is enabled for the port profile.").String,
 				Optional:            true,
 			},
 			"port_poe_enabled": schema.BoolAttribute{
@@ -177,6 +185,10 @@ func (r *SwitchOrganizationPortsProfileResource) Schema(ctx context.Context, req
 				Validators: []validator.String{
 					stringvalidator.OneOf("bpdu guard", "disabled", "loop guard", "root guard"),
 				},
+			},
+			"port_stp_port_fast_trunk": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The state of STP PortFast Trunk on the port profile.").String,
+				Optional:            true,
 			},
 			"port_type": schema.StringAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The type of the port profile.").AddStringEnumDescription("access", "stack", "trunk").String,

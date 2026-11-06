@@ -222,6 +222,14 @@ func (d *SwitchAccessPolicyDataSource) Schema(ctx context.Context, req datasourc
 							MarkdownDescription: "Version of secret_wo.",
 							Computed:            true,
 						},
+						"server_id": schema.StringAttribute{
+							MarkdownDescription: "Unique ID of an existing Access Policy accounting server to copy",
+							Computed:            true,
+						},
+						"radsec_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether this RADIUS accounting server assignment is configured to use RadSec",
+							Computed:            true,
+						},
 					},
 				},
 			},
@@ -253,6 +261,14 @@ func (d *SwitchAccessPolicyDataSource) Schema(ctx context.Context, req datasourc
 						},
 						"secret_wo_version": schema.Int64Attribute{
 							MarkdownDescription: "Version of secret_wo.",
+							Computed:            true,
+						},
+						"server_id": schema.StringAttribute{
+							MarkdownDescription: "Unique ID of an existing Access Policy authentication server to copy",
+							Computed:            true,
+						},
+						"radsec_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether this RADIUS server assignment is configured to use RadSec",
 							Computed:            true,
 						},
 					},

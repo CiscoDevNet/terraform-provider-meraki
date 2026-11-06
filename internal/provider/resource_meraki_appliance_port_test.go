@@ -44,6 +44,8 @@ func TestAccMerakiAppliancePort(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_port.test", "enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_port.test", "type", "access"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_port.test", "vlan", "1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_port.test", "sgt_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_port.test", "sgt_id", "1234"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -142,6 +144,8 @@ func testAccMerakiAppliancePortConfig_all() string {
 	config += `  enabled = true` + "\n"
 	config += `  type = "access"` + "\n"
 	config += `  vlan = 1` + "\n"
+	config += `  sgt_enabled = true` + "\n"
+	config += `  sgt_id = 1234` + "\n"
 	config += `}` + "\n"
 	return config
 }

@@ -43,6 +43,7 @@ func TestAccMerakiApplianceSDWANInternetPolicies(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_sdwan_internet_policies.test", "wan_traffic_uplink_preferences.0.builtin_performance_class_name", "VoIP"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_sdwan_internet_policies.test", "wan_traffic_uplink_preferences.0.custom_performance_class_id", "123456"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_sdwan_internet_policies.test", "wan_traffic_uplink_preferences.0.performance_class_type", "custom"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_sdwan_internet_policies.test", "wan_traffic_uplink_preferences.0.vrf_id", "12345"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_sdwan_internet_policies.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.type", "custom"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_sdwan_internet_policies.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.protocol", "tcp"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_sdwan_internet_policies.test", "wan_traffic_uplink_preferences.0.traffic_filters.0.destination_cidr", "any"))
@@ -146,6 +147,7 @@ func testAccMerakiApplianceSDWANInternetPoliciesConfig_all() string {
 	config += `    builtin_performance_class_name = "VoIP"` + "\n"
 	config += `    custom_performance_class_id = "123456"` + "\n"
 	config += `    performance_class_type = "custom"` + "\n"
+	config += `    vrf_id = "12345"` + "\n"
 	config += `    traffic_filters = [{` + "\n"
 	config += `      type = "custom"` + "\n"
 	config += `      protocol = "tcp"` + "\n"

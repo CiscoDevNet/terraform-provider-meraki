@@ -96,6 +96,10 @@ func (r *OrganizationLoginSecurityResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether users will be logged out after being idle for the specified number of minutes.").String,
 				Optional:            true,
 			},
+			"enforce_locked_ip_sessions": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether Dashboard sessions are locked to the IP address from which they were established. Only applicable to organizations that support locked-IP sessions; otherwise the parameter is ignored.").String,
+				Optional:            true,
+			},
 			"enforce_login_ip_ranges": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Boolean indicating whether organization will restrict access to Dashboard (including the API) from certain IP addresses.").String,
 				Optional:            true,

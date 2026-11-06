@@ -4,6 +4,7 @@ resource "meraki_organization_login_security" "example" {
   enforce_account_lockout     = true
   enforce_different_passwords = true
   enforce_idle_timeout        = true
+  enforce_locked_ip_sessions  = true
   enforce_password_expiration = true
   enforce_strong_passwords    = true
   enforce_two_factor_auth     = true

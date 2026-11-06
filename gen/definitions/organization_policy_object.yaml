@@ -49,6 +49,7 @@ attributes:
     mandatory: true
     description: 'Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)'
     example: cidr
+    enum_values: [adaptivePolicyIpv4Cidr, cidr, fqdn]
   - model_name: groupIds
     type: Set
     element_type: String

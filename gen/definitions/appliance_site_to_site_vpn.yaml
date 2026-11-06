@@ -5,6 +5,7 @@ put_create: true
 no_delete: true
 doc_category: Appliances
 test_variables: [test_org, test_network]
+ignore_attributes: [nat.legacy]
 attributes:
   - tf_name: network_id
     type: String
@@ -13,6 +14,10 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
+  - model_name: confirmed
+    type: Bool
+    description: 'Whether to accept the confirmation warnings for these changes. Defaults to true, which accepts confirmation warnings and preserves the existing update behavior. Set to false to opt in to confirmation warnings. Review the warnings returned in confirmations, then retry with confirmed: true to accept them. Fatal errors must be corrected before retrying.'
+    example: "false"
   - model_name: mode
     type: String
     mandatory: true
@@ -20,11 +25,50 @@ attributes:
     example: hub
     enum_values: [hub, none, spoke]
     minimum_test_value: '"none"'
+  - model_name: mode
+    type: String
+    data_path: [natTraversal]
+    description: Whether NAT traversal is automatic or manually configured.
+    example: manual
+    enum_values: [automatic, manual]
+  - model_name: publicIp
+    type: String
+    data_path: [natTraversal]
+    description: The public IP address used for manual NAT traversal.
+    example: 203.0.113.8
+  - model_name: publicPort
+    type: Int64
+    data_path: [natTraversal]
+    description: The public port used for manual NAT traversal. Must be between 1024 and 65535.
+    example: "4500"
+  - model_name: enabled
+    type: Bool
+    data_path: [sgt]
+    description: Whether or not Peer SGT is enabled for traffic to this VPN peer.
+    example: "true"
   - model_name: isAllowed
     type: Bool
     data_path: [subnet, nat]
     description: If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.
     example: "false"
+  - model_name: hostTranslations
+    type: List
+    description: The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2
+    attributes:
+      - model_name: name
+        type: String
+        description: The name of the translated host.
+        example: Host 1
+      - model_name: address
+        type: String
+        data_path: [local]
+        description: The local IP address of the translated host.
+        example: 192.168.1.10
+      - model_name: address
+        type: String
+        data_path: [remote]
+        description: The remote IP address of the translated host.
+        example: 72.168.2.10
   - model_name: hubs
     type: List
     exclude_test: true

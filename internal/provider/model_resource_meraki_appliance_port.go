@@ -42,6 +42,8 @@ type AppliancePort struct {
 	Enabled             types.Bool   `tfsdk:"enabled"`
 	Type                types.String `tfsdk:"type"`
 	Vlan                types.Int64  `tfsdk:"vlan"`
+	SgtEnabled          types.Bool   `tfsdk:"sgt_enabled"`
+	SgtId               types.Int64  `tfsdk:"sgt_id"`
 }
 
 type AppliancePortIdentity struct {
@@ -80,6 +82,12 @@ func (data AppliancePort) toBody(ctx context.Context, state AppliancePort) strin
 	}
 	if !data.Vlan.IsNull() {
 		body, _ = sjson.Set(body, "vlan", data.Vlan.ValueInt64())
+	}
+	if !data.SgtEnabled.IsNull() {
+		body, _ = sjson.Set(body, "sgt.enabled", data.SgtEnabled.ValueBool())
+	}
+	if !data.SgtId.IsNull() {
+		body, _ = sjson.Set(body, "sgt.id", data.SgtId.ValueInt64())
 	}
 	return body
 }
@@ -140,6 +148,20 @@ func (data AppliancePort) toBodyPreservingNulls(ctx context.Context, res meraki.
 			body, _ = sjson.Set(body, "vlan", value.Int())
 		}
 	}
+	if value := res.Get("sgt.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "sgt.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "sgt.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("sgt.id"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "sgt.id", "null")
+		} else {
+			body, _ = sjson.Set(body, "sgt.id", value.Int())
+		}
+	}
 	return body
 }
 
@@ -177,6 +199,16 @@ func (data *AppliancePort) fromBody(ctx context.Context, res meraki.Res) {
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() && value.Value() != nil {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
+	}
+	if value := res.Get("sgt.id"); value.Exists() && value.Value() != nil {
+		data.SgtId = types.Int64Value(value.Int())
+	} else {
+		data.SgtId = types.Int64Null()
 	}
 }
 
@@ -218,6 +250,16 @@ func (data *AppliancePort) fromBodyPartial(ctx context.Context, res meraki.Res) 
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() && !data.SgtEnabled.IsNull() {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
+	}
+	if value := res.Get("sgt.id"); value.Exists() && !data.SgtId.IsNull() {
+		data.SgtId = types.Int64Value(value.Int())
+	} else {
+		data.SgtId = types.Int64Null()
 	}
 }
 

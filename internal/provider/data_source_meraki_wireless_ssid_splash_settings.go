@@ -203,6 +203,14 @@ func (d *WirelessSSIDSplashSettingsDataSource) Schema(ctx context.Context, req d
 				MarkdownDescription: "The format of the encoded contents. Supported formats are `png`, `gif`, and jpg`.",
 				Computed:            true,
 			},
+			"user_consent_message": schema.StringAttribute{
+				MarkdownDescription: "Consent message displayed to users",
+				Computed:            true,
+			},
+			"user_consent_required": schema.BoolAttribute{
+				MarkdownDescription: "Whether users must provide consent",
+				Computed:            true,
+			},
 		},
 	}
 }

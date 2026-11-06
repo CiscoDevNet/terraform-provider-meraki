@@ -18,10 +18,18 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
+  - model_name: adaptivePolicyGroupId
+    type: String
+    description: Adaptive policy group ID this SSID is assigned to.
+    example: "1234"
   - model_name: adminSplashUrl
     type: String
     description: URL for the admin splash page
     example: http://example.com
+  - model_name: adultContentFilteringEnabled
+    type: Bool
+    description: Boolean indicating whether or not adult content will be blocked. Only present when ipAssignmentMode is `NAT mode`.
+    example: "false"
   - model_name: authMode
     type: String
     description: The association control method for the SSID
@@ -36,6 +44,10 @@ attributes:
     description: The client-serving radio frequencies of this SSID in the default indoor RF profile
     example: 5 GHz band only
     enum_values: [5 GHz band only, Dual band operation, Dual band operation with Band Steering]
+  - model_name: defaultVlanId
+    type: Int64
+    description: The default VLAN ID used for `all other APs`. Only present when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming` and VLAN tagging is enabled.
+    example: "1"
   - model_name: enabled
     type: Bool
     description: Whether or not the SSID is enabled
@@ -45,11 +57,20 @@ attributes:
     description: The psk encryption mode for the SSID
     example: wpa
     enum_values: [wep, wpa]
+  - model_name: enterpriseAdminAccess
+    type: String
+    description: Whether or not an SSID is accessible by `enterprise` administrators. Only present when the organization supports enterprise admins.
+    example: access enabled
+    enum_values: [access disabled, access enabled]
   - model_name: ipAssignmentMode
     type: String
     description: The client IP assignment mode
     example: NAT mode
     enum_values: [Bridge mode, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, VPN]
+  - model_name: lanIsolationEnabled
+    type: Bool
+    description: Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
+    example: "true"
   - model_name: localAuth
     type: Bool
     description: Extended local auth flag for Enterprise NAC
@@ -59,7 +80,7 @@ attributes:
     description: Whether clients connecting to this SSID must use the IP address assigned by the DHCP server
     example: "false"
   - model_name: minBitrate
-    type: Int64
+    type: Float64
     description: The minimum bitrate in Mbps of this SSID in the default indoor RF profile
     example: "11"
   - model_name: name
@@ -86,6 +107,10 @@ attributes:
     type: Int64
     description: The total upload bandwidth limit in Kbps (0 represents no limit)
     example: "0"
+  - model_name: psk
+    type: String
+    description: The passkey for the SSID. This param is only valid if the authMode is `psk`. Read-only admins receive a masked value. Only present when authMode is `psk`.
+    example: deadbeef
   - model_name: radiusAccountingEnabled
     type: Bool
     description: Whether or not RADIUS accounting is enabled
@@ -95,6 +120,18 @@ attributes:
     description: RADIUS attribute used to look up group policies
     example: Filter-Id
     enum_values: [Airespace-ACL-Name, Aruba-User-Role, Filter-Id, Reply-Message]
+  - model_name: radiusAuthenticationNasId
+    type: String
+    description: The configured NAS identifier used for RADIUS authentication. May include custom text and template variables. Only present when configured and the SSID uses RADIUS-based authentication.
+    example: 00-11-22-33-44-55:AP1
+  - model_name: radiusCalledStationId
+    type: String
+    description: The template of the called station identifier to be used for RADIUS (ex. $NODE_MAC$:$VAP_NUM$). Only present when configured and the SSID uses RADIUS-based auth.
+    example: 00-11-22-33-44-55:AP1
+  - model_name: radiusCoaEnabled
+    type: Bool
+    description: If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server. Only present when the SSID uses RADIUS-based auth.
+    example: "true"
   - model_name: radiusEnabled
     type: Bool
     description: Whether RADIUS authentication is enabled
@@ -104,11 +141,35 @@ attributes:
     description: Policy which determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable
     example: Deny access
     enum_values: [Allow access, Deny access]
+  - model_name: radiusFallbackEnabled
+    type: Bool
+    description: Whether or not higher priority RADIUS servers should be retried after 60 seconds. Only present when the SSID uses RADIUS-based auth.
+    example: "true"
   - model_name: radiusLoadBalancingPolicy
     type: String
     description: Policy which determines which RADIUS server will be contacted first in an authentication attempt, and the ordering of any necessary retry attempts
     example: Round robin
     enum_values: [Round robin, Strict priority order]
+  - model_name: radiusOverride
+    type: Bool
+    description: If true, the RADIUS response can override VLAN tag. This is not valid when ipAssignmentMode is `NAT mode`. Only present when the SSID uses RADIUS-based auth and the network supports group policies.
+    example: "false"
+  - model_name: radiusProxyEnabled
+    type: Bool
+    description: If true, Meraki devices will proxy RADIUS messages through the Meraki cloud to the configured RADIUS auth and accounting servers. Only present when the SSID uses RADIUS-based auth.
+    example: "false"
+  - model_name: radiusServerAttemptsLimit
+    type: Int64
+    description: The maximum number of transmit attempts after which a RADIUS server is failed over (must be between 1-5). Only present when the SSID uses RADIUS-based auth.
+    example: "5"
+  - model_name: radiusServerTimeout
+    type: Int64
+    description: The amount of time for which a RADIUS client waits for a reply from the RADIUS server (must be between 1-10 seconds). Only present when the SSID uses RADIUS-based auth.
+    example: "5"
+  - model_name: radiusTestingEnabled
+    type: Bool
+    description: If true, Meraki devices will periodically send Access-Request messages to configured RADIUS servers using identity `meraki_8021x_test` to ensure that the RADIUS servers are reachable. Only present when the SSID is configured to use RADIUS.
+    example: "true"
   - model_name: splashPage
     type: String
     description: The type of splash page for the SSID
@@ -122,6 +183,10 @@ attributes:
     type: Bool
     description: SSID Administrator access status
     example: "false"
+  - model_name: useVlanTagging
+    type: Bool
+    description: Whether or not traffic should be directed to use specific VLANs. Only present when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`.
+    example: "false"
   - model_name: visible
     type: Bool
     description: Whether the SSID is advertised or hidden by the AP
@@ -130,11 +195,172 @@ attributes:
     type: Bool
     description: Allow users to access a configurable list of IP ranges prior to sign-on
     example: "true"
+  - model_name: wifiPersonalNetworkEnabled
+    type: Bool
+    description: Boolean indicating whether or not Wi-Fi Personal Network is enabled for this SSID. Only present when the network supports Wi-Fi Personal Network.
+    example: "false"
+  - model_name: wlanIdentifier
+    type: Int64
+    description: WLAN identifier for the SSID. Only present for Meraki admin users.
+    example: "16"
   - model_name: wpaEncryptionMode
     type: String
     description: The types of WPA encryption
     example: WPA2 only
     enum_values: [WPA1 and WPA2, WPA1 only, WPA2 only, WPA3 192-bit Security, WPA3 Transition Mode, WPA3 only]
+  - model_name: id
+    type: String
+    data_path: [campusGateway, cluster]
+    description: The campus gateway cluster ID used when the ipAssignmentMode is `Campus Gateway`.
+    example: "10"
+  - model_name: enabled
+    type: Bool
+    data_path: [dnsRewrite]
+    description: Boolean indicating whether or not DNS server rewrite is enabled. If disabled, upstream DNS will be used.
+    example: "true"
+  - model_name: dnsCustomNameservers
+    type: List
+    element_type: String
+    data_path: [dnsRewrite]
+    description: User specified DNS servers (up to two servers)
+    example: 8.8.8.8
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11k]
+    description: Whether 802.11k is enabled or not.
+    example: "true"
+  - model_name: adaptive
+    type: Bool
+    data_path: [dot11r]
+    description: Whether 802.11r is adaptive or not.
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11r]
+    description: Whether 802.11r is enabled or not.
+    example: "true"
+  - model_name: enabled
+    type: Bool
+    data_path: [dot11w]
+    description: Whether 802.11w is enabled or not.
+    example: "true"
+  - model_name: required
+    type: Bool
+    data_path: [dot11w]
+    description: Whether 802.11w is required or not.
+    example: "false"
+  - model_name: clientIsolation
+    type: Bool
+    data_path: [gre]
+    description: Whether or not client isolation is enabled.
+    example: "false"
+  - model_name: key
+    type: Int64
+    data_path: [gre]
+    description: Optional numerical identifier that will add the GRE key field to the GRE header. Used to identify an individual traffic flow within a tunnel.
+    example: "5"
+  - model_name: host
+    type: String
+    data_path: [gre, concentrator]
+    description: The EoGRE concentrator`s IP or FQDN.
+    example: 192.168.1.1
+  - model_name: cacheTimeout
+    type: Int64
+    data_path: [localAuthFallback]
+    description: The duration (in seconds) for which auths are cached.
+    example: "6500"
+  - model_name: enabled
+    type: Bool
+    data_path: [localAuthFallback]
+    description: If true, MR devices will cache authentication credentials for EAP-TLS or for MAC based authentication.
+    example: "true"
+  - model_name: contents
+    type: String
+    data_path: [localAuthFallback, serverCaCertificate]
+    description: The contents of the Server CA Certificate. Must be in PEM or DER format.
+    example: |-
+      -----BEGIN CERTIFICATE-----
+      MIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw
+      gYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT
+      YW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ
+      RE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx
+      MTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu
+      YXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD
+      aXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3
+      MDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK
+      uTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA
+      ayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u
+      pZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS
+      KjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2
+      aEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU
+      CwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML
+      USopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E
+      BAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE
+      1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa
+      jON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh
+      a/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/
+      uoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/
+      UR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ
+      wTw70BVktzJnb0VLeDg=
+      -----END CERTIFICATE-----
+  - model_name: enabled
+    type: Bool
+    data_path: [namedVlans, radius, guestVlan]
+    description: Whether or not RADIUS guest named VLAN is enabled.
+    example: "true"
+  - model_name: name
+    type: String
+    data_path: [namedVlans, radius, guestVlan]
+    description: RADIUS guest VLAN name.
+    example: Guest VLAN
+  - model_name: defaultVlanName
+    type: String
+    data_path: [namedVlans, tagging]
+    description: The default VLAN name used to tag traffic in the absence of a matching AP tag.
+    example: My VLAN
+  - model_name: enabled
+    type: Bool
+    data_path: [namedVlans, tagging]
+    description: Whether or not traffic should be directed to use specific VLAN names.
+    example: "true"
+  - model_name: byApTags
+    type: List
+    data_path: [namedVlans, tagging]
+    description: The list of AP tags and VLAN names used for named VLAN tagging.
+    attributes:
+      - model_name: vlanName
+        type: String
+        description: VLAN name that will be used to tag traffic.
+        example: My VLAN
+      - model_name: tags
+        type: List
+        element_type: String
+        description: List of AP tags.
+        example: tag1
+  - model_name: allowedDomains
+    type: List
+    element_type: String
+    data_path: [oauth]
+    description: The list of domains allowed access to the network.
+    example: example.com
+  - model_name: akms
+    type: List
+    element_type: String
+    data_path: [security, encryption]
+    description: Authentication key management systems used by the SSID.
+    example: SAE
+  - model_name: ciphers
+    type: List
+    element_type: String
+    data_path: [security, encryption]
+    description: Encryption ciphers used by the SSID.
+    example: CCMP 128
+  - model_name: enabled
+    type: Bool
+    data_path: [speedBurst]
+    description: Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.
+    example: "true"
   - model_name: clientsBlockedFromUsingLan
     type: Bool
     data_path: [accessControl]
@@ -279,6 +505,10 @@ attributes:
         type: String
         description: IP address (or FQDN) of your RADIUS server
         example: 0.0.0.0
+      - model_name: id
+        type: String
+        description: Unique identifier of the RADIUS server
+        example: "797137134045134582"
       - model_name: openRoamingCertificateId
         type: Int64
         description: The ID of the Openroaming Certificate attached to radius server
@@ -287,6 +517,10 @@ attributes:
         type: Int64
         description: UDP port the RADIUS server listens on for Access-requests
         example: "3000"
+      - model_name: radsecEnabled
+        type: Bool
+        description: Use RADSEC (TLS over TCP) to connect to this RADIUS server. Requires radiusProxyEnabled.
+        example: "false"
   - model_name: walledGardenRanges
     type: List
     element_type: String

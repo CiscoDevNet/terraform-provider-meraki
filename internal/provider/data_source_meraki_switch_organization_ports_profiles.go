@@ -135,12 +135,20 @@ func (d *SwitchOrganizationPortsProfilesDataSource) Schema(ctx context.Context, 
 							MarkdownDescription: "If true, ARP packets for this port will be considered trusted, and Dynamic ARP Inspection will allow the traffic.",
 							Computed:            true,
 						},
+						"port_fast_poe_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether Fast PoE is enabled for the port profile. Fast PoE requires Perpetual PoE to be enabled.",
+							Computed:            true,
+						},
 						"port_isolation_enabled": schema.BoolAttribute{
 							MarkdownDescription: "The isolation status of the port profile.",
 							Computed:            true,
 						},
 						"port_peer_sgt_capable": schema.BoolAttribute{
 							MarkdownDescription: "If true, Peer SGT is enabled for traffic through this port profile. Applicable to trunk ports only.",
+							Computed:            true,
+						},
+						"port_perpetual_poe_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether Perpetual PoE is enabled for the port profile.",
 							Computed:            true,
 						},
 						"port_poe_enabled": schema.BoolAttribute{
@@ -161,6 +169,10 @@ func (d *SwitchOrganizationPortsProfilesDataSource) Schema(ctx context.Context, 
 						},
 						"port_stp_guard": schema.StringAttribute{
 							MarkdownDescription: "The state of the STP guard.",
+							Computed:            true,
+						},
+						"port_stp_port_fast_trunk": schema.BoolAttribute{
+							MarkdownDescription: "The state of STP PortFast Trunk on the port profile.",
 							Computed:            true,
 						},
 						"port_type": schema.StringAttribute{

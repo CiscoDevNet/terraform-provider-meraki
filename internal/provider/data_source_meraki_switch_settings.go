@@ -65,6 +65,10 @@ func (d *SwitchSettingsDataSource) Schema(ctx context.Context, req datasource.Sc
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
+			"port_channel_fallback": schema.BoolAttribute{
+				MarkdownDescription: "Port channel fallback",
+				Computed:            true,
+			},
 			"use_combined_power": schema.BoolAttribute{
 				MarkdownDescription: "The use Combined Power as the default behavior of secondary power supplies on supported devices.",
 				Computed:            true,

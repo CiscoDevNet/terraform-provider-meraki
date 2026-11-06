@@ -40,5 +40,7 @@ Read-Only:
 - `enabled` (Boolean) The status of the port
 - `id` (String) The id of the object
 - `number` (Number) Number of the port
+- `sgt_enabled` (Boolean) Whether or not Peer SGT is enabled for traffic through this port.
+- `sgt_id` (Number) Adaptive policy group ID this port is assigned to.
 - `type` (String) The type of the port: `access` or `trunk`.
 - `vlan` (Number) Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.

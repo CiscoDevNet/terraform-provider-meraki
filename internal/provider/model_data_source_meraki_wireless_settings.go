@@ -50,6 +50,7 @@ type DataSourceWirelessSettings struct {
 	MulticastToUnicastConversionEnabled  types.Bool   `tfsdk:"multicast_to_unicast_conversion_enabled"`
 	NamedVlansPoolDhcpMonitoringDuration types.Int64  `tfsdk:"named_vlans_pool_dhcp_monitoring_duration"`
 	NamedVlansPoolDhcpMonitoringEnabled  types.Bool   `tfsdk:"named_vlans_pool_dhcp_monitoring_enabled"`
+	UpgradePredownloadEnabled            types.Bool   `tfsdk:"upgrade_predownload_enabled"`
 }
 
 // End of section. //template:end types
@@ -104,6 +105,11 @@ func (data *DataSourceWirelessSettings) fromBody(ctx context.Context, res meraki
 		data.NamedVlansPoolDhcpMonitoringEnabled = types.BoolValue(value.Bool())
 	} else {
 		data.NamedVlansPoolDhcpMonitoringEnabled = types.BoolNull()
+	}
+	if value := res.Get("upgrade.predownload.enabled"); value.Exists() && value.Value() != nil {
+		data.UpgradePredownloadEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.UpgradePredownloadEnabled = types.BoolNull()
 	}
 }
 

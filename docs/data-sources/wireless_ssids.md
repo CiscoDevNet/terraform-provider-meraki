@@ -45,38 +45,88 @@ Read-Only:
 - `access_control_vlan_enabled` (Boolean) Whether VLAN tagging is enabled
 - `access_control_vlan_tag` (String) VLAN tag applied to this SSID when tagging is enabled
 - `access_control_wired_clients_part_of_wifi_network` (Boolean) Whether wired SSID clients are part of the Wi-Fi network
+- `adaptive_policy_group_id` (String) Adaptive policy group ID this SSID is assigned to.
 - `admin_splash_url` (String) URL for the admin splash page
+- `adult_content_filtering_enabled` (Boolean) Boolean indicating whether or not adult content will be blocked. Only present when ipAssignmentMode is `NAT mode`.
 - `auth_mode` (String) The association control method for the SSID
 - `availability_tags` (List of String) List of tags for this SSID. If availableOnAllAps is false, then the SSID is only broadcast by APs with tags matching any of the tags in this list
 - `available_on_all_aps` (Boolean) Whether all APs broadcast the SSID or if it`s restricted to APs matching any availability tags
 - `band_selection` (String) The client-serving radio frequencies of this SSID in the default indoor RF profile
+- `campus_gateway_cluster_id` (String) The campus gateway cluster ID used when the ipAssignmentMode is `Campus Gateway`.
+- `default_vlan_id` (Number) The default VLAN ID used for `all other APs`. Only present when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming` and VLAN tagging is enabled.
+- `dns_rewrite_dns_custom_nameservers` (List of String) User specified DNS servers (up to two servers)
+- `dns_rewrite_enabled` (Boolean) Boolean indicating whether or not DNS server rewrite is enabled. If disabled, upstream DNS will be used.
+- `dot11k_enabled` (Boolean) Whether 802.11k is enabled or not.
+- `dot11r_adaptive` (Boolean) Whether 802.11r is adaptive or not.
+- `dot11r_enabled` (Boolean) Whether 802.11r is enabled or not.
+- `dot11w_enabled` (Boolean) Whether 802.11w is enabled or not.
+- `dot11w_required` (Boolean) Whether 802.11w is required or not.
 - `enabled` (Boolean) Whether or not the SSID is enabled
 - `encryption_mode` (String) The psk encryption mode for the SSID
+- `enterprise_admin_access` (String) Whether or not an SSID is accessible by `enterprise` administrators. Only present when the organization supports enterprise admins.
+- `gre_client_isolation` (Boolean) Whether or not client isolation is enabled.
+- `gre_concentrator_host` (String) The EoGRE concentrator`s IP or FQDN.
+- `gre_key` (Number) Optional numerical identifier that will add the GRE key field to the GRE header. Used to identify an individual traffic flow within a tunnel.
 - `id` (String) The id of the object
 - `ip_assignment_mode` (String) The client IP assignment mode
+- `lan_isolation_enabled` (Boolean) Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is `Bridge mode`.
 - `local_auth` (Boolean) Extended local auth flag for Enterprise NAC
+- `local_auth_fallback_cache_timeout` (Number) The duration (in seconds) for which auths are cached.
+- `local_auth_fallback_enabled` (Boolean) If true, MR devices will cache authentication credentials for EAP-TLS or for MAC based authentication.
+- `local_auth_fallback_server_ca_certificate_contents` (String) The contents of the Server CA Certificate. Must be in PEM or DER format.
 - `mandatory_dhcp_enabled` (Boolean) Whether clients connecting to this SSID must use the IP address assigned by the DHCP server
 - `min_bitrate` (Number) The minimum bitrate in Mbps of this SSID in the default indoor RF profile
 - `name` (String) The name of the SSID
+- `named_vlans_radius_guest_vlan_enabled` (Boolean) Whether or not RADIUS guest named VLAN is enabled.
+- `named_vlans_radius_guest_vlan_name` (String) RADIUS guest VLAN name.
+- `named_vlans_tagging_by_ap_tags` (Attributes List) The list of AP tags and VLAN names used for named VLAN tagging. (see [below for nested schema](#nestedatt--items--named_vlans_tagging_by_ap_tags))
+- `named_vlans_tagging_default_vlan_name` (String) The default VLAN name used to tag traffic in the absence of a matching AP tag.
+- `named_vlans_tagging_enabled` (Boolean) Whether or not traffic should be directed to use specific VLAN names.
 - `number` (Number) Unique identifier of the SSID
+- `oauth_allowed_domains` (List of String) The list of domains allowed access to the network.
 - `per_client_bandwidth_limit_down` (Number) The download bandwidth limit in Kbps. (0 represents no limit.)
 - `per_client_bandwidth_limit_up` (Number) The upload bandwidth limit in Kbps. (0 represents no limit.)
 - `per_ssid_bandwidth_limit_down` (Number) The total download bandwidth limit in Kbps (0 represents no limit)
 - `per_ssid_bandwidth_limit_up` (Number) The total upload bandwidth limit in Kbps (0 represents no limit)
+- `psk` (String) The passkey for the SSID. This param is only valid if the authMode is `psk`. Read-only admins receive a masked value. Only present when authMode is `psk`.
 - `radius_accounting_enabled` (Boolean) Whether or not RADIUS accounting is enabled
 - `radius_accounting_servers` (Attributes List) List of RADIUS accounting 802.1X servers to be used for authentication (see [below for nested schema](#nestedatt--items--radius_accounting_servers))
 - `radius_attribute_for_group_policies` (String) RADIUS attribute used to look up group policies
+- `radius_authentication_nas_id` (String) The configured NAS identifier used for RADIUS authentication. May include custom text and template variables. Only present when configured and the SSID uses RADIUS-based authentication.
+- `radius_called_station_id` (String) The template of the called station identifier to be used for RADIUS (ex. $NODE_MAC$:$VAP_NUM$). Only present when configured and the SSID uses RADIUS-based auth.
+- `radius_coa_enabled` (Boolean) If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server. Only present when the SSID uses RADIUS-based auth.
 - `radius_enabled` (Boolean) Whether RADIUS authentication is enabled
 - `radius_failover_policy` (String) Policy which determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable
+- `radius_fallback_enabled` (Boolean) Whether or not higher priority RADIUS servers should be retried after 60 seconds. Only present when the SSID uses RADIUS-based auth.
 - `radius_load_balancing_policy` (String) Policy which determines which RADIUS server will be contacted first in an authentication attempt, and the ordering of any necessary retry attempts
+- `radius_override` (Boolean) If true, the RADIUS response can override VLAN tag. This is not valid when ipAssignmentMode is `NAT mode`. Only present when the SSID uses RADIUS-based auth and the network supports group policies.
+- `radius_proxy_enabled` (Boolean) If true, Meraki devices will proxy RADIUS messages through the Meraki cloud to the configured RADIUS auth and accounting servers. Only present when the SSID uses RADIUS-based auth.
+- `radius_server_attempts_limit` (Number) The maximum number of transmit attempts after which a RADIUS server is failed over (must be between 1-5). Only present when the SSID uses RADIUS-based auth.
+- `radius_server_timeout` (Number) The amount of time for which a RADIUS client waits for a reply from the RADIUS server (must be between 1-10 seconds). Only present when the SSID uses RADIUS-based auth.
 - `radius_servers` (Attributes List) List of RADIUS 802.1X servers to be used for authentication (see [below for nested schema](#nestedatt--items--radius_servers))
+- `radius_testing_enabled` (Boolean) If true, Meraki devices will periodically send Access-Request messages to configured RADIUS servers using identity `meraki_8021x_test` to ensure that the RADIUS servers are reachable. Only present when the SSID is configured to use RADIUS.
+- `security_encryption_akms` (List of String) Authentication key management systems used by the SSID.
+- `security_encryption_ciphers` (List of String) Encryption ciphers used by the SSID.
+- `speed_burst_enabled` (Boolean) Boolean indicating whether or not to allow users to temporarily exceed the bandwidth limit for short periods while still keeping them under the bandwidth limit over time.
 - `splash_page` (String) The type of splash page for the SSID
 - `splash_timeout` (String) Splash page timeout
 - `ssid_admin_accessible` (Boolean) SSID Administrator access status
+- `use_vlan_tagging` (Boolean) Whether or not traffic should be directed to use specific VLANs. Only present when the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`.
 - `visible` (Boolean) Whether the SSID is advertised or hidden by the AP
 - `walled_garden_enabled` (Boolean) Allow users to access a configurable list of IP ranges prior to sign-on
 - `walled_garden_ranges` (List of String) Domain names and IP address ranges available in Walled Garden mode
+- `wifi_personal_network_enabled` (Boolean) Boolean indicating whether or not Wi-Fi Personal Network is enabled for this SSID. Only present when the network supports Wi-Fi Personal Network.
+- `wlan_identifier` (Number) WLAN identifier for the SSID. Only present for Meraki admin users.
 - `wpa_encryption_mode` (String) The types of WPA encryption
+
+<a id="nestedatt--items--named_vlans_tagging_by_ap_tags"></a>
+### Nested Schema for `items.named_vlans_tagging_by_ap_tags`
+
+Read-Only:
+
+- `tags` (List of String) List of AP tags.
+- `vlan_name` (String) VLAN name that will be used to tag traffic.
+
 
 <a id="nestedatt--items--radius_accounting_servers"></a>
 ### Nested Schema for `items.radius_accounting_servers`
@@ -96,5 +146,7 @@ Read-Only:
 
 - `ca_certificate` (String) Certificate used for authorization for the RADSEC Server
 - `host` (String) IP address (or FQDN) of your RADIUS server
+- `id` (String) Unique identifier of the RADIUS server
 - `open_roaming_certificate_id` (Number) The ID of the Openroaming Certificate attached to radius server
 - `port` (Number) UDP port the RADIUS server listens on for Access-requests
+- `radsec_enabled` (Boolean) Use RADSEC (TLS over TCP) to connect to this RADIUS server. Requires radiusProxyEnabled.

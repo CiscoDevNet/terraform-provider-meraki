@@ -42,6 +42,8 @@ type NetworkSNMP struct {
 	CommunityString          types.String       `tfsdk:"community_string"`
 	CommunityStringWo        types.String       `tfsdk:"community_string_wo"`
 	CommunityStringWoVersion types.Int64        `tfsdk:"community_string_wo_version"`
+	AuthenticationProtocol   types.String       `tfsdk:"authentication_protocol"`
+	PrivacyProtocol          types.String       `tfsdk:"privacy_protocol"`
 	Users                    []NetworkSNMPUsers `tfsdk:"users"`
 }
 
@@ -77,6 +79,12 @@ func (data NetworkSNMP) toBody(ctx context.Context, state NetworkSNMP) string {
 		body, _ = sjson.Set(body, "communityString", data.CommunityStringWo.ValueString())
 	} else if !data.CommunityString.IsNull() {
 		body, _ = sjson.Set(body, "communityString", data.CommunityString.ValueString())
+	}
+	if !data.AuthenticationProtocol.IsNull() {
+		body, _ = sjson.Set(body, "authentication.protocol", data.AuthenticationProtocol.ValueString())
+	}
+	if !data.PrivacyProtocol.IsNull() {
+		body, _ = sjson.Set(body, "privacy.protocol", data.PrivacyProtocol.ValueString())
 	}
 	if len(data.Users) > 0 {
 		body, _ = sjson.Set(body, "users", []interface{}{})
@@ -134,6 +142,20 @@ func (data NetworkSNMP) toBodyPreservingNulls(ctx context.Context, res meraki.Re
 			body, _ = sjson.Set(body, "communityString", value.String())
 		}
 	}
+	if value := res.Get("authentication.protocol"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "authentication.protocol", "null")
+		} else {
+			body, _ = sjson.Set(body, "authentication.protocol", value.String())
+		}
+	}
+	if value := res.Get("privacy.protocol"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "privacy.protocol", "null")
+		} else {
+			body, _ = sjson.Set(body, "privacy.protocol", value.String())
+		}
+	}
 	if value := res.Get("users"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "users", "null")
@@ -179,6 +201,16 @@ func (data *NetworkSNMP) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.CommunityString = types.StringNull()
 	}
+	if value := res.Get("authentication.protocol"); value.Exists() && value.Value() != nil {
+		data.AuthenticationProtocol = types.StringValue(value.String())
+	} else {
+		data.AuthenticationProtocol = types.StringNull()
+	}
+	if value := res.Get("privacy.protocol"); value.Exists() && value.Value() != nil {
+		data.PrivacyProtocol = types.StringValue(value.String())
+	} else {
+		data.PrivacyProtocol = types.StringNull()
+	}
 	if value := res.Get("users"); value.Exists() && value.Value() != nil {
 		data.Users = make([]NetworkSNMPUsers, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -218,6 +250,16 @@ func (data *NetworkSNMP) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.CommunityString = types.StringValue(value.String())
 	} else {
 		data.CommunityString = types.StringNull()
+	}
+	if value := res.Get("authentication.protocol"); value.Exists() && !data.AuthenticationProtocol.IsNull() {
+		data.AuthenticationProtocol = types.StringValue(value.String())
+	} else {
+		data.AuthenticationProtocol = types.StringNull()
+	}
+	if value := res.Get("privacy.protocol"); value.Exists() && !data.PrivacyProtocol.IsNull() {
+		data.PrivacyProtocol = types.StringValue(value.String())
+	} else {
+		data.PrivacyProtocol = types.StringNull()
 	}
 	for i := 0; i < len(data.Users); i++ {
 		keys := [...]string{"username"}

@@ -119,6 +119,10 @@ func (d *NetworkDevicesDataSource) Schema(ctx context.Context, req datasource.Sc
 							MarkdownDescription: "Serial number of the device",
 							Computed:            true,
 						},
+						"url": schema.StringAttribute{
+							MarkdownDescription: "URL link to the device in the Meraki Dashboard",
+							Computed:            true,
+						},
 						"beacon_id_params_major": schema.Int64Attribute{
 							MarkdownDescription: "The major number to be used in the beacon identifier",
 							Computed:            true,

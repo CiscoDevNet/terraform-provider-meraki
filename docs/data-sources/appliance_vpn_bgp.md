@@ -31,7 +31,12 @@ data "meraki_appliance_vpn_bgp" "example" {
 - `enabled` (Boolean) Boolean value to enable or disable the BGP configuration. When BGP is enabled, the asNumber (ASN) will be autopopulated with the preconfigured ASN at other Hubs or a default value if there is no ASN configured.
 - `ibgp_hold_timer` (Number) The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer between 12 and 240. When absent, this field is not updated. If no value exists then it defaults to 240.
 - `id` (String) The id of the object
+- `ipv6_single_peering_enabled` (Boolean) Whether a single IPv6 BGP peer is enabled.
+- `local_as_number` (Number) Network-specific local Autonomous System Number (ASN) to which the appliance belongs. This field is only configurable for Independent BGP networks.
 - `neighbors` (Attributes List) List of BGP neighbors. This list replaces the existing set of neighbors. When absent, this field is not updated. (see [below for nested schema](#nestedatt--neighbors))
+- `priority_route` (String) Sets the priority route between eBGP and Auto VPN.
+- `router_id` (String) The router ID of the appliance
+- `tunnel_down_termination_enabled` (Boolean) Whether tunnel down termination is enabled.
 
 <a id="nestedatt--neighbors"></a>
 ### Nested Schema for `neighbors`
@@ -42,8 +47,12 @@ Read-Only:
 - `authentication_password` (String, Sensitive) Password to configure MD5 authentication between BGP peers.
 - `authentication_password_wo` (String) Write-only attribute.
 - `authentication_password_wo_version` (Number) Version of authentication_password_wo.
+- `community_out` (List of String) List of BGP communities tagged to the routes advertised to an eBGP neighbor.
 - `ebgp_hold_timer` (Number) The eBGP hold timer in seconds for each neighbor. The eBGP hold timer must be an integer between 12 and 240.
 - `ebgp_multihop` (Number) Configure this if the neighbor is not adjacent. The eBGP multi-hop must be an integer between 1 and 255.
+- `explicit_outbound_route_advertisement_enabled` (Boolean) Whether explicit outbound routes are advertised to the eBGP neighbor.
+- `filter_in` (List of String) Filters routes received from an eBGP neighbor. Each entry must be an IPv4 CIDR string (e.g., `10.0.0.0/8` or `10.0.0.5/32`).
+- `filter_out` (List of String) Filters routes advertised to an eBGP neighbor. Each entry must be an IPv4 CIDR string (e.g., `10.0.0.0/8` or `10.0.0.5/32`).
 - `ip` (String) The IPv4 address of the neighbor
 - `ipv6_address` (String) The IPv6 address of the neighbor.
 - `multi_exit_discriminator` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.

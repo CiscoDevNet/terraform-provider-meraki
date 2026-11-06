@@ -29,6 +29,7 @@ attributes:
         exclude_test: true
         description: 'One of the following available presets: `default`, `aws`, `azure`, `umbrella`, `zscaler`. If this is provided, the `ipsecPolicies` parameter is ignored.'
         example: default
+        enum_values: [aws (insecure), aws_v2, azure (insecure), azure_v2, default (insecure), secure, umbrella (deprecated), umbrella (insecure), umbrella_v2, zscaler (insecure), zscaler_v2]
       - model_name: ipVersion
         tf_name: ip_version
         type: Int64
@@ -127,6 +128,16 @@ attributes:
         exclude_test: true
         description: Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
         example: "10"
+      - model_name: id
+        type: String
+        data_path: [ebgpNeighbor, vrf]
+        description: VRF ID for the Catalyst BGP neighbor. Use 0 for the default VRF.
+        example: "12345"
+      - model_name: name
+        type: String
+        data_path: [ebgpNeighbor, vrf]
+        description: VRF name for the Catalyst BGP neighbor.
+        example: VRF Blue
       - model_name: pathPrepend
         type: List
         element_type: Int64

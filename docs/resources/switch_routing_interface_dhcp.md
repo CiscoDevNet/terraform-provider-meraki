@@ -14,14 +14,16 @@ This resource can manage the `Switch Routing Interface DHCP` configuration.
 
 ```terraform
 resource "meraki_switch_routing_interface_dhcp" "example" {
-  serial                 = "1234-ABCD-1234"
-  interface_id           = "1234"
-  boot_file_name         = "home_boot_file"
-  boot_next_server       = "1.2.3.4"
-  boot_options_enabled   = true
-  dhcp_lease_time        = "1 day"
-  dhcp_mode              = "dhcpServer"
-  dns_nameservers_option = "custom"
+  serial                  = "1234-ABCD-1234"
+  interface_id            = "1234"
+  boot_file_name          = "home_boot_file"
+  boot_next_server        = "1.2.3.4"
+  boot_options_enabled    = true
+  dhcp_default_router_ips = "192.168.1.1, 192.168.1.2"
+  dhcp_domain_name        = "example.com"
+  dhcp_lease_time         = "1 day"
+  dhcp_mode               = "dhcpServer"
+  dns_nameservers_option  = "custom"
   dhcp_options = [
     {
       code  = "5"
@@ -60,6 +62,8 @@ resource "meraki_switch_routing_interface_dhcp" "example" {
 - `boot_file_name` (String) The PXE boot server filename for the DHCP server running on the switch interface
 - `boot_next_server` (String) The PXE boot server IP for the DHCP server running on the switch interface
 - `boot_options_enabled` (Boolean) Enable DHCP boot options to provide PXE boot options configs for the dhcp server running on the switch interface
+- `dhcp_default_router_ips` (String) The DHCP default router IPs for the DHCP server running on the switch interface
+- `dhcp_domain_name` (String) The DHCP domain name for the DHCP server running on the switch interface
 - `dhcp_lease_time` (String) The DHCP lease time config for the dhcp server running on switch interface (`30 minutes`, `1 hour`, `4 hours`, `12 hours`, `1 day` or `1 week`)
   - Choices: `1 day`, `1 hour`, `1 week`, `12 hours`, `30 minutes`, `4 hours`
 - `dhcp_mode` (String) The DHCP mode options for the switch interface (`dhcpDisabled`, `dhcpRelay` or `dhcpServer`)

@@ -79,6 +79,10 @@ func (r *SwitchSettingsResource) Schema(ctx context.Context, req resource.Schema
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"port_channel_fallback": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("Port channel fallback").String,
+				Optional:            true,
+			},
 			"use_combined_power": schema.BoolAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("The use Combined Power as the default behavior of secondary power supplies on supported devices.").String,
 				Optional:            true,

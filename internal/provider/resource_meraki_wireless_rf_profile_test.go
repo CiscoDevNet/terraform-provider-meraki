@@ -44,11 +44,18 @@ func TestAccMerakiWirelessRFProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "name", "Main Office"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "ap_band_settings_band_operation_mode", "5ghz"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "ap_band_settings_band_steering_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "dot11be_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "dot11be_mode", "all SSIDs"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "dot11be_ssids_groups_1_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "dot11be_ssids_groups_2_enabled", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "dot11be_ssids_groups_3_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "dot11be_ssids_groups_4_enabled", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_channel_width", "auto"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_max_power", "30"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_min_bitrate", "12"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_min_power", "8"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_rxsop", "-95"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "five_ghz_settings_dot11ax_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "per_ssid_settings_0_band_operation_mode", "5ghz"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "per_ssid_settings_0_band_steering_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "per_ssid_settings_0_min_bitrate", "11"))
@@ -100,6 +107,7 @@ func TestAccMerakiWirelessRFProfile(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "two_four_ghz_settings_min_bitrate", "11"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "two_four_ghz_settings_min_power", "5"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "two_four_ghz_settings_rxsop", "-95"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "two_four_ghz_settings_dot11ax_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "is_indoor_default", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_wireless_rf_profile.test", "is_outdoor_default", "false"))
 
@@ -192,11 +200,18 @@ func testAccMerakiWirelessRFProfileConfig_all() string {
 	config += `  ap_band_settings_band_operation_mode = "5ghz"` + "\n"
 	config += `  ap_band_settings_band_steering_enabled = false` + "\n"
 	config += `  ap_band_settings_bands_enabled = ["5"]` + "\n"
+	config += `  dot11be_enabled = false` + "\n"
+	config += `  dot11be_mode = "all SSIDs"` + "\n"
+	config += `  dot11be_ssids_groups_1_enabled = true` + "\n"
+	config += `  dot11be_ssids_groups_2_enabled = false` + "\n"
+	config += `  dot11be_ssids_groups_3_enabled = true` + "\n"
+	config += `  dot11be_ssids_groups_4_enabled = false` + "\n"
 	config += `  five_ghz_settings_channel_width = "auto"` + "\n"
 	config += `  five_ghz_settings_max_power = 30` + "\n"
 	config += `  five_ghz_settings_min_bitrate = 12` + "\n"
 	config += `  five_ghz_settings_min_power = 8` + "\n"
 	config += `  five_ghz_settings_rxsop = -95` + "\n"
+	config += `  five_ghz_settings_dot11ax_enabled = true` + "\n"
 	config += `  five_ghz_settings_valid_auto_channels = [36]` + "\n"
 	config += `  per_ssid_settings_0_band_operation_mode = "5ghz"` + "\n"
 	config += `  per_ssid_settings_0_band_steering_enabled = true` + "\n"
@@ -264,6 +279,7 @@ func testAccMerakiWirelessRFProfileConfig_all() string {
 	config += `  two_four_ghz_settings_min_bitrate = 11` + "\n"
 	config += `  two_four_ghz_settings_min_power = 5` + "\n"
 	config += `  two_four_ghz_settings_rxsop = -95` + "\n"
+	config += `  two_four_ghz_settings_dot11ax_enabled = true` + "\n"
 	config += `  two_four_ghz_settings_valid_auto_channels = [1]` + "\n"
 	config += `  is_indoor_default = false` + "\n"
 	config += `  is_outdoor_default = false` + "\n"

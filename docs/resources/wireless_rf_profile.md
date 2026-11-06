@@ -22,11 +22,18 @@ resource "meraki_wireless_rf_profile" "example" {
   ap_band_settings_band_operation_mode       = "5ghz"
   ap_band_settings_band_steering_enabled     = false
   ap_band_settings_bands_enabled             = ["5"]
+  dot11be_enabled                            = false
+  dot11be_mode                               = "all SSIDs"
+  dot11be_ssids_groups_1_enabled             = true
+  dot11be_ssids_groups_2_enabled             = false
+  dot11be_ssids_groups_3_enabled             = true
+  dot11be_ssids_groups_4_enabled             = false
   five_ghz_settings_channel_width            = "auto"
   five_ghz_settings_max_power                = 30
   five_ghz_settings_min_bitrate              = 12
   five_ghz_settings_min_power                = 8
   five_ghz_settings_rxsop                    = -95
+  five_ghz_settings_dot11ax_enabled          = true
   five_ghz_settings_valid_auto_channels      = [36]
   per_ssid_settings_0_band_operation_mode    = "5ghz"
   per_ssid_settings_0_band_steering_enabled  = true
@@ -94,6 +101,7 @@ resource "meraki_wireless_rf_profile" "example" {
   two_four_ghz_settings_min_bitrate          = 11
   two_four_ghz_settings_min_power            = 5
   two_four_ghz_settings_rxsop                = -95
+  two_four_ghz_settings_dot11ax_enabled      = true
   two_four_ghz_settings_valid_auto_channels  = [1]
   is_indoor_default                          = false
   is_outdoor_default                         = false
@@ -117,7 +125,15 @@ resource "meraki_wireless_rf_profile" "example" {
 - `ap_band_settings_band_steering_enabled` (Boolean) Steers client to most open band. Can be either true or false. Defaults to true.
 - `ap_band_settings_bands_enabled` (Set of String) List of enabled bands. Can include ['2.4', '5', '6', 'disabled']
 - `client_balancing_enabled` (Boolean) Steers client to best available access point. Can be either true or false. Defaults to true.
+- `dot11be_enabled` (Boolean) Whether 802.11be is enabled on Wi-Fi 7 capable APs
+- `dot11be_mode` (String) 802.11be is enabled for all SSIDs or per SSID group
+  - Choices: `all SSIDs`, `per SSID group`
+- `dot11be_ssids_groups_1_enabled` (Boolean) Whether 802.11be is enabled for the SSID group
+- `dot11be_ssids_groups_2_enabled` (Boolean) Whether 802.11be is enabled for the SSID group
+- `dot11be_ssids_groups_3_enabled` (Boolean) Whether 802.11be is enabled for the SSID group
+- `dot11be_ssids_groups_4_enabled` (Boolean) Whether 802.11be is enabled for the SSID group
 - `five_ghz_settings_channel_width` (String) Sets channel width (MHz) for 5Ghz band. Can be one of `auto`, `20`, `40` or `80`. Defaults to auto.
+- `five_ghz_settings_dot11ax_enabled` (Boolean) Determines whether IEEE 802.11ax (Wi-Fi 6) on the 5 GHz band is enabled. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.
 - `five_ghz_settings_max_power` (Number) Sets max power (dBm) of 5Ghz band. Can be integer between 2 and 30. Defaults to 30.
 - `five_ghz_settings_min_bitrate` (Number) Sets min bitrate (Mbps) of 5Ghz band. Can be one of `6`, `9`, `12`, `18`, `24`, `36`, `48` or `54`. Defaults to 12.
 - `five_ghz_settings_min_power` (Number) Sets min power (dBm) of 5Ghz band. Can be integer between 2 and 30. Defaults to 8.
@@ -211,6 +227,7 @@ resource "meraki_wireless_rf_profile" "example" {
 - `six_ghz_settings_valid_auto_channels` (Set of Number) Sets valid auto channels for 6Ghz band. Can be one of `1`, `5`, `9`, `13`, `17`, `21`, `25`, `29`, `33`, `37`, `41`, `45`, `49`, `53`, `57`, `61`, `65`, `69`, `73`, `77`, `81`, `85`, `89`, `93`, `97`, `101`, `105`, `109`, `113`, `117`, `121`, `125`, `129`, `133`, `137`, `141`, `145`, `149`, `153`, `157`, `161`, `165`, `169`, `173`, `177`, `181`, `185`, `189`, `193`, `197`, `201`, `205`, `209`, `213`, `217`, `221`, `225`, `229` or `233`.Defaults to [1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233].
 - `transmission_enabled` (Boolean) Toggle for radio transmission. When false, radios will not transmit at all.
 - `two_four_ghz_settings_ax_enabled` (Boolean) Determines whether ax radio on 2.4Ghz band is on or off. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.
+- `two_four_ghz_settings_dot11ax_enabled` (Boolean) Determines whether IEEE 802.11ax (Wi-Fi 6) on the 2.4 GHz band is enabled. Can be either true or false. If false, we highly recommend disabling band steering. Defaults to true.
 - `two_four_ghz_settings_max_power` (Number) Sets max power (dBm) of 2.4Ghz band. Can be integer between 2 and 30. Defaults to 30.
 - `two_four_ghz_settings_min_bitrate` (Number) Sets min bitrate (Mbps) of 2.4Ghz band. Can be one of `1`, `2`, `5.5`, `6`, `9`, `11`, `12`, `18`, `24`, `36`, `48` or `54`. Defaults to 11.
 - `two_four_ghz_settings_min_power` (Number) Sets min power (dBm) of 2.4Ghz band. Can be integer between 2 and 30. Defaults to 5.

@@ -25,6 +25,7 @@ import (
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netascode/go-meraki"
 )
@@ -270,6 +271,22 @@ func (d *NetworkFirmwareUpgradesDataSource) Schema(ctx context.Context, req data
 				Computed:            true,
 			},
 			"products_camera_next_upgrade_to_version_id": schema.StringAttribute{
+				MarkdownDescription: "The version ID",
+				Computed:            true,
+			},
+			"products_campus_gateway_participate_in_next_beta_release": schema.BoolAttribute{
+				MarkdownDescription: "Whether or not the network wants beta firmware",
+				Computed:            true,
+			},
+			"products_campus_gateway_next_upgrade_strategy": schema.StringAttribute{
+				MarkdownDescription: "The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.",
+				Computed:            true,
+			},
+			"products_campus_gateway_next_upgrade_time": schema.StringAttribute{
+				MarkdownDescription: "The time of the last successful upgrade",
+				Computed:            true,
+			},
+			"products_campus_gateway_next_upgrade_to_version_id": schema.StringAttribute{
 				MarkdownDescription: "The version ID",
 				Computed:            true,
 			},
@@ -945,6 +962,10 @@ func (d *NetworkFirmwareUpgradesDataSource) Schema(ctx context.Context, req data
 				MarkdownDescription: "Whether or not the network wants beta firmware",
 				Computed:            true,
 			},
+			"products_wireless_next_upgrade_strategy": schema.StringAttribute{
+				MarkdownDescription: "The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.",
+				Computed:            true,
+			},
 			"products_wireless_current_version_firmware": schema.StringAttribute{
 				MarkdownDescription: "Name of the firmware version",
 				Computed:            true,
@@ -1196,6 +1217,27 @@ func (d *NetworkFirmwareUpgradesDataSource) Schema(ctx context.Context, req data
 			"upgrade_window_hour_of_day": schema.StringAttribute{
 				MarkdownDescription: "Hour of the day",
 				Computed:            true,
+			},
+			"feature_loss_acknowledgements": schema.ListNestedAttribute{
+				MarkdownDescription: "Acknowledges the target version has removed certain features that the network is currently using.",
+				Computed:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"network_id": schema.StringAttribute{
+							MarkdownDescription: "The network ID to acknowledge the failing check for. Must refer to a node group.",
+							Computed:            true,
+						},
+						"product_type": schema.StringAttribute{
+							MarkdownDescription: "The product type within the given network to acknowledge feature loss for (if the network is a combined network). Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.",
+							Computed:            true,
+						},
+						"removed_feature_check_names": schema.ListAttribute{
+							MarkdownDescription: "The names of the removed feature checks to acknowledge.",
+							ElementType:         types.StringType,
+							Computed:            true,
+						},
+					},
+				},
 			},
 		},
 	}

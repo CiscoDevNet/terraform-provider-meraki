@@ -119,6 +119,15 @@ func (r *OrganizationAdminResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: helpers.NewAttributeDescription("The network ID").String,
 							Required:            true,
 						},
+						"packet_capture_allowed": schema.BoolAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("True if admin has access to the packet capture utility. Only allowed if switch-port-manager or switchport is the access value").String,
+							Optional:            true,
+						},
+						"switch_port_tags": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Switch port tags the admin will have access to. Only allowed if switch-port-manager or switchport is the access value").String,
+							ElementType:         types.StringType,
+							Optional:            true,
+						},
 					},
 				},
 			},

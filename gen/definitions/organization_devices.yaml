@@ -22,6 +22,10 @@ attributes:
     type: String
     description: Physical address of the device
     example: 1600 Pennsylvania Ave
+  - model_name: configurationUpdatedAt
+    type: String
+    description: Time at which network configuration is updated (ISO 8601 UTC format)
+    example: "2026-09-15T01:19:07Z"
   - model_name: firmware
     type: String
     description: Firmware version of the device

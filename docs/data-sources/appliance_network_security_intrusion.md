@@ -30,6 +30,7 @@ data "meraki_appliance_network_security_intrusion" "example" {
 - `id` (String) The id of the object
 - `ids_rulesets` (String) Set the detection ruleset `connectivity`/`balanced`/`security` (optional - omitting will leave current config unchanged). Default value is `balanced` if none currently saved
 - `mode` (String) Set mode to `disabled`/`detection`/`prevention` (optional - omitting will leave current config unchanged)
+- `policy_id` (String) The identifier of an existing custom intrusion policy in this organization
 - `protected_networks_excluded_cidr` (List of String) list of IP addresses or subnets being excluded from protection (required if `useDefault` is false)
 - `protected_networks_included_cidr` (List of String) list of IP addresses or subnets being protected (required if `useDefault` is false)
 - `protected_networks_use_default` (Boolean) true/false whether to use special IPv4 addresses: https://tools.ietf.org/html/rfc5735 (required). Default value is true if none currently saved

@@ -40,6 +40,8 @@ func TestAccMerakiNetworkSNMP(t *testing.T) {
 	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "access", "users"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "authentication_protocol", "SHA-1"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "privacy_protocol", "AES-128"))
 	if !includeWriteOnly {
 		checks = append(checks, resource.TestCheckResourceAttr("meraki_network_snmp.test", "users.0.passphrase", "N7!qW4#cT3@p"))
 	}
@@ -130,6 +132,8 @@ func testAccMerakiNetworkSNMPConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_network_snmp" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
 	config += `  access = "users"` + "\n"
+	config += `  authentication_protocol = "SHA-1"` + "\n"
+	config += `  privacy_protocol = "AES-128"` + "\n"
 	config += `  users = [{` + "\n"
 	if includeWriteOnly {
 		config += `    passphrase_wo = "N7!qW4#cT3@p"` + "\n"

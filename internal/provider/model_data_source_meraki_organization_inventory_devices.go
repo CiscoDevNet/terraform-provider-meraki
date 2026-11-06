@@ -40,6 +40,7 @@ type DataSourceOrganizationInventoryDevices struct {
 
 type DataSourceOrganizationInventoryDevicesItems struct {
 	Id                    types.String                                    `tfsdk:"id"`
+	Address               types.String                                    `tfsdk:"address"`
 	ClaimedAt             types.String                                    `tfsdk:"claimed_at"`
 	CountryCode           types.String                                    `tfsdk:"country_code"`
 	LicenseExpirationDate types.String                                    `tfsdk:"license_expiration_date"`
@@ -50,6 +51,7 @@ type DataSourceOrganizationInventoryDevicesItems struct {
 	OrderNumber           types.String                                    `tfsdk:"order_number"`
 	ProductType           types.String                                    `tfsdk:"product_type"`
 	Serial                types.String                                    `tfsdk:"serial"`
+	Sku                   types.String                                    `tfsdk:"sku"`
 	EoxEndOfSaleAt        types.String                                    `tfsdk:"eox_end_of_sale_at"`
 	EoxEndOfSupportAt     types.String                                    `tfsdk:"eox_end_of_support_at"`
 	EoxStatus             types.String                                    `tfsdk:"eox_status"`
@@ -80,6 +82,11 @@ func (data *DataSourceOrganizationInventoryDevices) fromBody(ctx context.Context
 		parent := &data
 		data := DataSourceOrganizationInventoryDevicesItems{}
 		data.Id = types.StringValue(res.Get("").String())
+		if value := res.Get("address"); value.Exists() && value.Value() != nil {
+			data.Address = types.StringValue(value.String())
+		} else {
+			data.Address = types.StringNull()
+		}
 		if value := res.Get("claimedAt"); value.Exists() && value.Value() != nil {
 			data.ClaimedAt = types.StringValue(value.String())
 		} else {
@@ -129,6 +136,11 @@ func (data *DataSourceOrganizationInventoryDevices) fromBody(ctx context.Context
 			data.Serial = types.StringValue(value.String())
 		} else {
 			data.Serial = types.StringNull()
+		}
+		if value := res.Get("sku"); value.Exists() && value.Value() != nil {
+			data.Sku = types.StringValue(value.String())
+		} else {
+			data.Sku = types.StringNull()
 		}
 		if value := res.Get("eox.endOfSaleAt"); value.Exists() && value.Value() != nil {
 			data.EoxEndOfSaleAt = types.StringValue(value.String())

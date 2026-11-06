@@ -37,31 +37,40 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type ApplianceVPNBGP struct {
-	Id            types.String               `tfsdk:"id"`
-	NetworkId     types.String               `tfsdk:"network_id"`
-	AsNumber      types.Int64                `tfsdk:"as_number"`
-	Enabled       types.Bool                 `tfsdk:"enabled"`
-	IbgpHoldTimer types.Int64                `tfsdk:"ibgp_hold_timer"`
-	Neighbors     []ApplianceVPNBGPNeighbors `tfsdk:"neighbors"`
+	Id                           types.String               `tfsdk:"id"`
+	NetworkId                    types.String               `tfsdk:"network_id"`
+	AsNumber                     types.Int64                `tfsdk:"as_number"`
+	Enabled                      types.Bool                 `tfsdk:"enabled"`
+	IbgpHoldTimer                types.Int64                `tfsdk:"ibgp_hold_timer"`
+	LocalAsNumber                types.Int64                `tfsdk:"local_as_number"`
+	PriorityRoute                types.String               `tfsdk:"priority_route"`
+	RouterId                     types.String               `tfsdk:"router_id"`
+	Ipv6SinglePeeringEnabled     types.Bool                 `tfsdk:"ipv6_single_peering_enabled"`
+	TunnelDownTerminationEnabled types.Bool                 `tfsdk:"tunnel_down_termination_enabled"`
+	Neighbors                    []ApplianceVPNBGPNeighbors `tfsdk:"neighbors"`
 }
 
 type ApplianceVPNBGPNeighbors struct {
-	AllowTransit                    types.Bool   `tfsdk:"allow_transit"`
-	EbgpHoldTimer                   types.Int64  `tfsdk:"ebgp_hold_timer"`
-	EbgpMultihop                    types.Int64  `tfsdk:"ebgp_multihop"`
-	Ip                              types.String `tfsdk:"ip"`
-	MultiExitDiscriminator          types.Int64  `tfsdk:"multi_exit_discriminator"`
-	NextHopIp                       types.String `tfsdk:"next_hop_ip"`
-	ReceiveLimit                    types.Int64  `tfsdk:"receive_limit"`
-	RemoteAsNumber                  types.Int64  `tfsdk:"remote_as_number"`
-	SourceInterface                 types.String `tfsdk:"source_interface"`
-	Weight                          types.Int64  `tfsdk:"weight"`
-	AuthenticationPassword          types.String `tfsdk:"authentication_password"`
-	AuthenticationPasswordWo        types.String `tfsdk:"authentication_password_wo"`
-	AuthenticationPasswordWoVersion types.Int64  `tfsdk:"authentication_password_wo_version"`
-	Ipv6Address                     types.String `tfsdk:"ipv6_address"`
-	TtlSecurityEnabled              types.Bool   `tfsdk:"ttl_security_enabled"`
-	PathPrepend                     types.List   `tfsdk:"path_prepend"`
+	AllowTransit                              types.Bool   `tfsdk:"allow_transit"`
+	EbgpHoldTimer                             types.Int64  `tfsdk:"ebgp_hold_timer"`
+	EbgpMultihop                              types.Int64  `tfsdk:"ebgp_multihop"`
+	Ip                                        types.String `tfsdk:"ip"`
+	MultiExitDiscriminator                    types.Int64  `tfsdk:"multi_exit_discriminator"`
+	NextHopIp                                 types.String `tfsdk:"next_hop_ip"`
+	ReceiveLimit                              types.Int64  `tfsdk:"receive_limit"`
+	RemoteAsNumber                            types.Int64  `tfsdk:"remote_as_number"`
+	SourceInterface                           types.String `tfsdk:"source_interface"`
+	Weight                                    types.Int64  `tfsdk:"weight"`
+	AuthenticationPassword                    types.String `tfsdk:"authentication_password"`
+	AuthenticationPasswordWo                  types.String `tfsdk:"authentication_password_wo"`
+	AuthenticationPasswordWoVersion           types.Int64  `tfsdk:"authentication_password_wo_version"`
+	ExplicitOutboundRouteAdvertisementEnabled types.Bool   `tfsdk:"explicit_outbound_route_advertisement_enabled"`
+	FilterOut                                 types.List   `tfsdk:"filter_out"`
+	Ipv6Address                               types.String `tfsdk:"ipv6_address"`
+	TtlSecurityEnabled                        types.Bool   `tfsdk:"ttl_security_enabled"`
+	CommunityOut                              types.List   `tfsdk:"community_out"`
+	FilterIn                                  types.List   `tfsdk:"filter_in"`
+	PathPrepend                               types.List   `tfsdk:"path_prepend"`
 }
 
 type ApplianceVPNBGPIdentity struct {
@@ -90,6 +99,21 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 	}
 	if !data.IbgpHoldTimer.IsNull() {
 		body, _ = sjson.Set(body, "ibgpHoldTimer", data.IbgpHoldTimer.ValueInt64())
+	}
+	if !data.LocalAsNumber.IsNull() {
+		body, _ = sjson.Set(body, "localAsNumber", data.LocalAsNumber.ValueInt64())
+	}
+	if !data.PriorityRoute.IsNull() {
+		body, _ = sjson.Set(body, "priorityRoute", data.PriorityRoute.ValueString())
+	}
+	if !data.RouterId.IsNull() {
+		body, _ = sjson.Set(body, "routerId", data.RouterId.ValueString())
+	}
+	if !data.Ipv6SinglePeeringEnabled.IsNull() {
+		body, _ = sjson.Set(body, "ipv6.singlePeering.enabled", data.Ipv6SinglePeeringEnabled.ValueBool())
+	}
+	if !data.TunnelDownTerminationEnabled.IsNull() {
+		body, _ = sjson.Set(body, "tunnelDownTermination.enabled", data.TunnelDownTerminationEnabled.ValueBool())
 	}
 	if len(data.Neighbors) > 0 {
 		body, _ = sjson.Set(body, "neighbors", []interface{}{})
@@ -130,11 +154,29 @@ func (data ApplianceVPNBGP) toBody(ctx context.Context, state ApplianceVPNBGP) s
 			} else if !item.AuthenticationPassword.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "authentication.password", item.AuthenticationPassword.ValueString())
 			}
+			if !item.ExplicitOutboundRouteAdvertisementEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "explicitOutboundRouteAdvertisement.enabled", item.ExplicitOutboundRouteAdvertisementEnabled.ValueBool())
+			}
+			if !item.FilterOut.IsNull() {
+				var values []string
+				item.FilterOut.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "filter.out", values)
+			}
 			if !item.Ipv6Address.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "ipv6.address", item.Ipv6Address.ValueString())
 			}
 			if !item.TtlSecurityEnabled.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "ttlSecurity.enabled", item.TtlSecurityEnabled.ValueBool())
+			}
+			if !item.CommunityOut.IsNull() {
+				var values []string
+				item.CommunityOut.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "communityOut", values)
+			}
+			if !item.FilterIn.IsNull() {
+				var values []string
+				item.FilterIn.ElementsAs(ctx, &values, false)
+				itemBody, _ = sjson.Set(itemBody, "filterIn", values)
 			}
 			if !item.PathPrepend.IsNull() {
 				var values []int64
@@ -189,6 +231,41 @@ func (data ApplianceVPNBGP) toBodyPreservingNulls(ctx context.Context, res merak
 			body, _ = sjson.SetRaw(body, "ibgpHoldTimer", "null")
 		} else {
 			body, _ = sjson.Set(body, "ibgpHoldTimer", value.Int())
+		}
+	}
+	if value := res.Get("localAsNumber"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "localAsNumber", "null")
+		} else {
+			body, _ = sjson.Set(body, "localAsNumber", value.Int())
+		}
+	}
+	if value := res.Get("priorityRoute"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "priorityRoute", "null")
+		} else {
+			body, _ = sjson.Set(body, "priorityRoute", value.String())
+		}
+	}
+	if value := res.Get("routerId"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "routerId", "null")
+		} else {
+			body, _ = sjson.Set(body, "routerId", value.String())
+		}
+	}
+	if value := res.Get("ipv6.singlePeering.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ipv6.singlePeering.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "ipv6.singlePeering.enabled", value.Bool())
+		}
+	}
+	if value := res.Get("tunnelDownTermination.enabled"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "tunnelDownTermination.enabled", "null")
+		} else {
+			body, _ = sjson.Set(body, "tunnelDownTermination.enabled", value.Bool())
 		}
 	}
 	if value := res.Get("neighbors"); value.Exists() {
@@ -276,6 +353,24 @@ func (data ApplianceVPNBGP) toBodyPreservingNulls(ctx context.Context, res merak
 						body, _ = sjson.Set(body, "authentication.password", value.String())
 					}
 				}
+				if value := res.Get("explicitOutboundRouteAdvertisement.enabled"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "explicitOutboundRouteAdvertisement.enabled", "null")
+					} else {
+						body, _ = sjson.Set(body, "explicitOutboundRouteAdvertisement.enabled", value.Bool())
+					}
+				}
+				if value := res.Get("filter.out"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filter.out", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "filter.out", values)
+					}
+				}
 				if value := res.Get("ipv6.address"); value.Exists() {
 					if value.Value() == nil {
 						body, _ = sjson.SetRaw(body, "ipv6.address", "null")
@@ -288,6 +383,28 @@ func (data ApplianceVPNBGP) toBodyPreservingNulls(ctx context.Context, res merak
 						body, _ = sjson.SetRaw(body, "ttlSecurity.enabled", "null")
 					} else {
 						body, _ = sjson.Set(body, "ttlSecurity.enabled", value.Bool())
+					}
+				}
+				if value := res.Get("communityOut"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "communityOut", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "communityOut", values)
+					}
+				}
+				if value := res.Get("filterIn"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "filterIn", "null")
+					} else {
+						var values []string
+						for _, v := range value.Array() {
+							values = append(values, v.String())
+						}
+						body, _ = sjson.Set(body, "filterIn", values)
 					}
 				}
 				if value := res.Get("pathPrepend"); value.Exists() {
@@ -328,6 +445,31 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 		data.IbgpHoldTimer = types.Int64Value(value.Int())
 	} else {
 		data.IbgpHoldTimer = types.Int64Null()
+	}
+	if value := res.Get("localAsNumber"); value.Exists() && value.Value() != nil {
+		data.LocalAsNumber = types.Int64Value(value.Int())
+	} else {
+		data.LocalAsNumber = types.Int64Null()
+	}
+	if value := res.Get("priorityRoute"); value.Exists() && value.Value() != nil {
+		data.PriorityRoute = types.StringValue(value.String())
+	} else {
+		data.PriorityRoute = types.StringNull()
+	}
+	if value := res.Get("routerId"); value.Exists() && value.Value() != nil {
+		data.RouterId = types.StringValue(value.String())
+	} else {
+		data.RouterId = types.StringNull()
+	}
+	if value := res.Get("ipv6.singlePeering.enabled"); value.Exists() && value.Value() != nil {
+		data.Ipv6SinglePeeringEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6SinglePeeringEnabled = types.BoolNull()
+	}
+	if value := res.Get("tunnelDownTermination.enabled"); value.Exists() && value.Value() != nil {
+		data.TunnelDownTerminationEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.TunnelDownTerminationEnabled = types.BoolNull()
 	}
 	if value := res.Get("neighbors"); value.Exists() && value.Value() != nil {
 		data.Neighbors = make([]ApplianceVPNBGPNeighbors, 0)
@@ -389,6 +531,16 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 			} else {
 				data.AuthenticationPassword = types.StringNull()
 			}
+			if value := res.Get("explicitOutboundRouteAdvertisement.enabled"); value.Exists() && value.Value() != nil {
+				data.ExplicitOutboundRouteAdvertisementEnabled = types.BoolValue(value.Bool())
+			} else {
+				data.ExplicitOutboundRouteAdvertisementEnabled = types.BoolNull()
+			}
+			if value := res.Get("filter.out"); value.Exists() && value.Value() != nil {
+				data.FilterOut = helpers.GetStringList(value.Array())
+			} else {
+				data.FilterOut = types.ListNull(types.StringType)
+			}
 			if value := res.Get("ipv6.address"); value.Exists() && value.Value() != nil {
 				data.Ipv6Address = types.StringValue(value.String())
 			} else {
@@ -398,6 +550,16 @@ func (data *ApplianceVPNBGP) fromBody(ctx context.Context, res meraki.Res) {
 				data.TtlSecurityEnabled = types.BoolValue(value.Bool())
 			} else {
 				data.TtlSecurityEnabled = types.BoolNull()
+			}
+			if value := res.Get("communityOut"); value.Exists() && value.Value() != nil {
+				data.CommunityOut = helpers.GetStringList(value.Array())
+			} else {
+				data.CommunityOut = types.ListNull(types.StringType)
+			}
+			if value := res.Get("filterIn"); value.Exists() && value.Value() != nil {
+				data.FilterIn = helpers.GetStringList(value.Array())
+			} else {
+				data.FilterIn = types.ListNull(types.StringType)
 			}
 			if value := res.Get("pathPrepend"); value.Exists() && value.Value() != nil {
 				data.PathPrepend = helpers.GetInt64List(value.Array())
@@ -433,6 +595,31 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 		data.IbgpHoldTimer = types.Int64Value(value.Int())
 	} else {
 		data.IbgpHoldTimer = types.Int64Null()
+	}
+	if value := res.Get("localAsNumber"); value.Exists() && !data.LocalAsNumber.IsNull() {
+		data.LocalAsNumber = types.Int64Value(value.Int())
+	} else {
+		data.LocalAsNumber = types.Int64Null()
+	}
+	if value := res.Get("priorityRoute"); value.Exists() && !data.PriorityRoute.IsNull() {
+		data.PriorityRoute = types.StringValue(value.String())
+	} else {
+		data.PriorityRoute = types.StringNull()
+	}
+	if value := res.Get("routerId"); value.Exists() && !data.RouterId.IsNull() {
+		data.RouterId = types.StringValue(value.String())
+	} else {
+		data.RouterId = types.StringNull()
+	}
+	if value := res.Get("ipv6.singlePeering.enabled"); value.Exists() && !data.Ipv6SinglePeeringEnabled.IsNull() {
+		data.Ipv6SinglePeeringEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.Ipv6SinglePeeringEnabled = types.BoolNull()
+	}
+	if value := res.Get("tunnelDownTermination.enabled"); value.Exists() && !data.TunnelDownTerminationEnabled.IsNull() {
+		data.TunnelDownTerminationEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.TunnelDownTerminationEnabled = types.BoolNull()
 	}
 	for i := 0; i < len(data.Neighbors); i++ {
 		keys := [...]string{"ip"}
@@ -525,6 +712,16 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 		} else {
 			data.AuthenticationPassword = types.StringNull()
 		}
+		if value := res.Get("explicitOutboundRouteAdvertisement.enabled"); value.Exists() && !data.ExplicitOutboundRouteAdvertisementEnabled.IsNull() {
+			data.ExplicitOutboundRouteAdvertisementEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.ExplicitOutboundRouteAdvertisementEnabled = types.BoolNull()
+		}
+		if value := res.Get("filter.out"); value.Exists() && !data.FilterOut.IsNull() {
+			data.FilterOut = helpers.GetStringList(value.Array())
+		} else {
+			data.FilterOut = types.ListNull(types.StringType)
+		}
 		if value := res.Get("ipv6.address"); value.Exists() && !data.Ipv6Address.IsNull() {
 			data.Ipv6Address = types.StringValue(value.String())
 		} else {
@@ -534,6 +731,16 @@ func (data *ApplianceVPNBGP) fromBodyPartial(ctx context.Context, res meraki.Res
 			data.TtlSecurityEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.TtlSecurityEnabled = types.BoolNull()
+		}
+		if value := res.Get("communityOut"); value.Exists() && !data.CommunityOut.IsNull() {
+			data.CommunityOut = helpers.GetStringList(value.Array())
+		} else {
+			data.CommunityOut = types.ListNull(types.StringType)
+		}
+		if value := res.Get("filterIn"); value.Exists() && !data.FilterIn.IsNull() {
+			data.FilterIn = helpers.GetStringList(value.Array())
+		} else {
+			data.FilterIn = types.ListNull(types.StringType)
 		}
 		if value := res.Get("pathPrepend"); value.Exists() && !data.PathPrepend.IsNull() {
 			data.PathPrepend = helpers.GetInt64List(value.Array())

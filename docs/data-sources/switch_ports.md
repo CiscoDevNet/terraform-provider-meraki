@@ -42,6 +42,7 @@ Read-Only:
 - `dai_trusted` (Boolean) If true, ARP packets for this port will be considered trusted, and Dynamic ARP Inspection will allow the traffic.
 - `dot3az_enabled` (Boolean) The Energy Efficient Ethernet status of the switch port.
 - `enabled` (Boolean) The status of the switch port.
+- `fast_poe_enabled` (Boolean) Whether Fast PoE is enabled on the switch port. Fast PoE requires Perpetual PoE and can only be enabled on ports that support PoE HA.
 - `flexible_stacking_enabled` (Boolean) For supported switches (e.g. MS420/MS425), whether or not the port has flexible stacking enabled.
 - `high_speed_enabled` (Boolean) For C9500-32QC, whether or not the port is enabled for high speed.
 - `id` (String) The id of the object
@@ -56,6 +57,7 @@ Read-Only:
 - `module_slot` (Number) The slot number of the module.
 - `name` (String) The name of the switch port.
 - `peer_sgt_capable` (Boolean) If true, Peer SGT is enabled for traffic through this switch port. Applicable to trunk port only, not access port. Cannot be applied to a port on a switch bound to profile.
+- `perpetual_poe_enabled` (Boolean) Whether Perpetual PoE is enabled on the switch port. Perpetual PoE can only be enabled on ports that support PoE HA.
 - `poe_enabled` (Boolean) The PoE status of the switch port.
 - `port_id` (String) The identifier of the switch port.
 - `port_schedule_id` (String) The ID of the port schedule. A value of null will clear the port schedule.

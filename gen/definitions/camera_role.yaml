@@ -28,6 +28,7 @@ attributes:
       - model_name: inNetworksWithId
         type: String
         description: Network id scope
+        example: L_2568
       - model_name: inNetworksWithTag
         type: String
         description: Network tag scope

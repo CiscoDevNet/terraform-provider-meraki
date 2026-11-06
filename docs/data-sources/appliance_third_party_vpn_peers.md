@@ -43,6 +43,8 @@ Read-Only:
 - `ebgp_neighbor_path_prepend` (List of Number) Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.
 - `ebgp_neighbor_remote_as_number` (Number) Remote ASN of the neighbor. The remote ASN must be an integer between 1 and 4294967295.
 - `ebgp_neighbor_source_ip` (String) Source IP of eBGP neighbor
+- `ebgp_neighbor_vrf_id` (String) VRF ID for the Catalyst BGP neighbor. Use 0 for the default VRF.
+- `ebgp_neighbor_vrf_name` (String) VRF name for the Catalyst BGP neighbor.
 - `ebgp_neighbor_weight` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
 - `ecmp_uplink_configs` (Attributes List) [optional] The ECMP per-uplink BGP-over-IPsec configuration for the VPN peer. (see [below for nested schema](#nestedatt--peers--ecmp_uplink_configs))
 - `group_active_active_tunnel` (Boolean) [optional] Both primary and backup tunnels are active.

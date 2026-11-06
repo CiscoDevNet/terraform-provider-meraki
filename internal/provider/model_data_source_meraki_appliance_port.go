@@ -49,6 +49,8 @@ type DataSourceAppliancePort struct {
 	Enabled             types.Bool   `tfsdk:"enabled"`
 	Type                types.String `tfsdk:"type"`
 	Vlan                types.Int64  `tfsdk:"vlan"`
+	SgtEnabled          types.Bool   `tfsdk:"sgt_enabled"`
+	SgtId               types.Int64  `tfsdk:"sgt_id"`
 }
 
 // End of section. //template:end types
@@ -93,6 +95,16 @@ func (data *DataSourceAppliancePort) fromBody(ctx context.Context, res meraki.Re
 		data.Vlan = types.Int64Value(value.Int())
 	} else {
 		data.Vlan = types.Int64Null()
+	}
+	if value := res.Get("sgt.enabled"); value.Exists() && value.Value() != nil {
+		data.SgtEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.SgtEnabled = types.BoolNull()
+	}
+	if value := res.Get("sgt.id"); value.Exists() && value.Value() != nil {
+		data.SgtId = types.Int64Value(value.Int())
+	} else {
+		data.SgtId = types.Int64Null()
 	}
 }
 

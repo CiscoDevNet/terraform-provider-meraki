@@ -45,16 +45,20 @@ resource "meraki_switch_access_policies" "example" {
     radius_critical_auth_voice_vlan_id       = 101
     radius_accounting_servers = [
       {
-        host   = "1.2.3.4"
-        port   = 22
-        secret = "secret"
+        host           = "1.2.3.4"
+        port           = 22
+        secret         = "secret"
+        server_id      = "2"
+        radsec_enabled = true
       }
     ]
     radius_servers = [
       {
-        host   = "1.2.3.4"
-        port   = 22
-        secret = "secret"
+        host           = "1.2.3.4"
+        port           = 22
+        secret         = "secret"
+        server_id      = "1"
+        radsec_enabled = false
       }
     ]
     url_redirect_walled_garden_ranges = ["192.168.1.0/24"]
@@ -133,7 +137,9 @@ Optional:
 - `host` (String) Public IP address of the RADIUS server
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS server listens on for access requests
+- `radsec_enabled` (Boolean) Whether this RADIUS server assignment is configured to use RadSec
 - `secret` (String, Sensitive) RADIUS client shared secret
+- `server_id` (String) Unique ID of an existing Access Policy authentication server to copy
 
 
 <a id="nestedatt--items--radius_accounting_servers"></a>
@@ -144,7 +150,9 @@ Optional:
 - `host` (String) Public IP address of the RADIUS accounting server
 - `organization_radius_server_id` (String) Organization wide RADIUS server ID. If this field is provided, the host, port and secret field will be ignored
 - `port` (Number) UDP port that the RADIUS Accounting server listens on for access requests
+- `radsec_enabled` (Boolean) Whether this RADIUS accounting server assignment is configured to use RadSec
 - `secret` (String, Sensitive) RADIUS client shared secret
+- `server_id` (String) Unique ID of an existing Access Policy accounting server to copy
 
 ## Import
 

@@ -14,29 +14,77 @@ This resource can manage the `Appliance Uplinks Settings` configuration.
 
 ```terraform
 resource "meraki_appliance_uplinks_settings" "example" {
-  serial                                        = "1234-ABCD-1234"
-  interfaces_wan1_enabled                       = true
-  interfaces_wan1_pppoe_enabled                 = true
-  interfaces_wan1_pppoe_authentication_enabled  = true
-  interfaces_wan1_pppoe_authentication_password = "password"
-  interfaces_wan1_pppoe_authentication_username = "username"
-  interfaces_wan1_svis_ipv4_address             = "9.10.11.10"
-  interfaces_wan1_svis_ipv4_assignment_mode     = "static"
-  interfaces_wan1_svis_ipv6_address             = "2001:2:3::4"
-  interfaces_wan1_svis_ipv6_assignment_mode     = "static"
-  interfaces_wan1_vlan_tagging_enabled          = true
-  interfaces_wan1_vlan_tagging_vlan_id          = 1
-  interfaces_wan2_enabled                       = true
-  interfaces_wan2_pppoe_enabled                 = true
-  interfaces_wan2_pppoe_authentication_enabled  = true
-  interfaces_wan2_pppoe_authentication_password = "password"
-  interfaces_wan2_pppoe_authentication_username = "username"
-  interfaces_wan2_svis_ipv4_address             = "9.10.11.10"
-  interfaces_wan2_svis_ipv4_assignment_mode     = "static"
-  interfaces_wan2_svis_ipv6_address             = "2001:2:3::4"
-  interfaces_wan2_svis_ipv6_assignment_mode     = "static"
-  interfaces_wan2_vlan_tagging_enabled          = true
-  interfaces_wan2_vlan_tagging_vlan_id          = 1
+  serial                                               = "1234-ABCD-1234"
+  interfaces_wan1_enabled                              = true
+  interfaces_wan1_pppoe_enabled                        = true
+  interfaces_wan1_pppoe_authentication_enabled         = true
+  interfaces_wan1_pppoe_authentication_password        = "password"
+  interfaces_wan1_pppoe_authentication_username        = "username"
+  interfaces_wan1_svis_ipv4_address                    = "9.10.11.10"
+  interfaces_wan1_svis_ipv4_assignment_mode            = "static"
+  interfaces_wan1_svis_ipv6_address                    = "2001:2:3::4"
+  interfaces_wan1_svis_ipv6_assignment_mode            = "static"
+  interfaces_wan1_transition_enabled                   = true
+  interfaces_wan1_transition_mode                      = "MAP-E"
+  interfaces_wan1_transition_authentication_enabled    = true
+  interfaces_wan1_transition_authentication_password   = "password"
+  interfaces_wan1_transition_authentication_username   = "4o6ddns"
+  interfaces_wan1_transition_ipv4_local_address        = ""
+  interfaces_wan1_transition_ipv6_interface_id         = ""
+  interfaces_wan1_transition_ipv6_border_relay_address = ""
+  interfaces_wan1_transition_ipv6_border_relay_mode    = "auto"
+  interfaces_wan1_transition_isp_name                  = "OCN IPoE"
+  interfaces_wan1_transition_map_draft_enabled         = false
+  interfaces_wan1_transition_map_rules_source          = "manual"
+  interfaces_wan1_transition_map_rules_entries = [
+    {
+      ea_bit_length        = 20
+      ps_id_offset         = 6
+      border_relay_address = "2001:db8:ffff::1"
+      border_relay_prefix  = ""
+      ipv4_prefix_address  = "192.0.2.0"
+      ipv4_prefix_length   = 18
+      ipv6_prefix_address  = "2001:db8:100::"
+      ipv6_prefix_length   = 36
+    }
+  ]
+  interfaces_wan1_vlan_tagging_enabled                 = true
+  interfaces_wan1_vlan_tagging_vlan_id                 = 1
+  interfaces_wan2_enabled                              = true
+  interfaces_wan2_pppoe_enabled                        = true
+  interfaces_wan2_pppoe_authentication_enabled         = true
+  interfaces_wan2_pppoe_authentication_password        = "password"
+  interfaces_wan2_pppoe_authentication_username        = "username"
+  interfaces_wan2_svis_ipv4_address                    = "9.10.11.10"
+  interfaces_wan2_svis_ipv4_assignment_mode            = "static"
+  interfaces_wan2_svis_ipv6_address                    = "2001:2:3::4"
+  interfaces_wan2_svis_ipv6_assignment_mode            = "static"
+  interfaces_wan2_transition_enabled                   = true
+  interfaces_wan2_transition_mode                      = "MAP-E"
+  interfaces_wan2_transition_authentication_enabled    = true
+  interfaces_wan2_transition_authentication_password   = "password"
+  interfaces_wan2_transition_authentication_username   = "4o6ddns"
+  interfaces_wan2_transition_ipv4_local_address        = ""
+  interfaces_wan2_transition_ipv6_interface_id         = ""
+  interfaces_wan2_transition_ipv6_border_relay_address = ""
+  interfaces_wan2_transition_ipv6_border_relay_mode    = "auto"
+  interfaces_wan2_transition_isp_name                  = "OCN IPoE"
+  interfaces_wan2_transition_map_draft_enabled         = false
+  interfaces_wan2_transition_map_rules_source          = "manual"
+  interfaces_wan2_transition_map_rules_entries = [
+    {
+      ea_bit_length        = 20
+      ps_id_offset         = 6
+      border_relay_address = "2001:db8:ffff::1"
+      border_relay_prefix  = ""
+      ipv4_prefix_address  = "192.0.2.0"
+      ipv4_prefix_length   = 18
+      ipv6_prefix_address  = "2001:db8:100::"
+      ipv6_prefix_length   = 36
+    }
+  ]
+  interfaces_wan2_vlan_tagging_enabled = true
+  interfaces_wan2_vlan_tagging_vlan_id = 1
 }
 ```
 
@@ -68,6 +116,21 @@ resource "meraki_appliance_uplinks_settings" "example" {
   - Choices: `dynamic`, `static`
 - `interfaces_wan1_svis_ipv6_gateway` (String) Static gateway that will override the one received by autoconf.
 - `interfaces_wan1_svis_ipv6_nameservers_addresses` (List of String) Up to 2 nameserver addresses to use, ordered in priority from highest to lowest priority.
+- `interfaces_wan1_transition_authentication_enabled` (Boolean) Whether IPoE transition authentication is enabled.
+- `interfaces_wan1_transition_authentication_password` (String) Password for IPoE transition authentication. This parameter is not returned.
+- `interfaces_wan1_transition_authentication_username` (String) Username for IPoE transition authentication.
+- `interfaces_wan1_transition_enabled` (Boolean) Whether the IPoE transition IPv4 to IPv6 is enabled.
+- `interfaces_wan1_transition_ipv4_local_address` (String) Static IPv4 information used for host origination and NAT44 translation
+- `interfaces_wan1_transition_ipv6_border_relay_address` (String) CIDR for the border relay for the IPoE transition authentication.
+- `interfaces_wan1_transition_ipv6_border_relay_mode` (String) Mode selection for the border relay for the IPoE transition.
+- `interfaces_wan1_transition_ipv6_interface_id` (String) The 64-bit interface ID (suffix) of the uplink IPv6 address
+- `interfaces_wan1_transition_isp_name` (String) ISP name for the IPoE transition.
+- `interfaces_wan1_transition_map_draft_enabled` (Boolean) Whether MAP-E draft mode is enabled. This field is accepted only for MAP-E. Null is treated as omitted and preserves the existing setting.
+- `interfaces_wan1_transition_map_rules_entries` (Attributes List) Manual MAP rules. At most one entry is supported. (see [below for nested schema](#nestedatt--interfaces_wan1_transition_map_rules_entries))
+- `interfaces_wan1_transition_map_rules_source` (String) How MAP rules are obtained. HTTPS requires an ISP supported for the transition mode.
+  - Choices: `DHCPv6`, `HTTPS`, `manual`
+- `interfaces_wan1_transition_mode` (String) Mode selector for the IPoE transition IPv4 to IPv6 is enabled.
+  - Choices: `DS-Lite`, `IP-in-IP`, `MAP-E`, `MAP-T`
 - `interfaces_wan1_vlan_tagging_enabled` (Boolean) Whether VLAN tagging is enabled.
 - `interfaces_wan1_vlan_tagging_vlan_id` (Number) The ID of the VLAN to use for VLAN tagging.
 - `interfaces_wan2_enabled` (Boolean) Enable or disable the interface.
@@ -87,12 +150,70 @@ resource "meraki_appliance_uplinks_settings" "example" {
   - Choices: `dynamic`, `static`
 - `interfaces_wan2_svis_ipv6_gateway` (String) Static gateway that will override the one received by autoconf.
 - `interfaces_wan2_svis_ipv6_nameservers_addresses` (List of String) Up to 2 nameserver addresses to use, ordered in priority from highest to lowest priority.
+- `interfaces_wan2_transition_authentication_enabled` (Boolean) Whether IPoE transition authentication is enabled.
+- `interfaces_wan2_transition_authentication_password` (String) Password for IPoE transition authentication. This parameter is not returned.
+- `interfaces_wan2_transition_authentication_username` (String) Username for IPoE transition authentication.
+- `interfaces_wan2_transition_enabled` (Boolean) Whether the IPoE transition IPv4 to IPv6 is enabled.
+- `interfaces_wan2_transition_ipv4_local_address` (String) Static IPv4 information used for host origination and NAT44 translation
+- `interfaces_wan2_transition_ipv6_border_relay_address` (String) CIDR for the border relay for the IPoE transition authentication.
+- `interfaces_wan2_transition_ipv6_border_relay_mode` (String) Mode selection for the border relay for the IPoE transition.
+- `interfaces_wan2_transition_ipv6_interface_id` (String) The 64-bit interface ID (suffix) of the uplink IPv6 address
+- `interfaces_wan2_transition_isp_name` (String) ISP name for the IPoE transition.
+- `interfaces_wan2_transition_map_draft_enabled` (Boolean) Whether MAP-E draft mode is enabled. This field is accepted only for MAP-E. Null is treated as omitted and preserves the existing setting.
+- `interfaces_wan2_transition_map_rules_entries` (Attributes List) Manual MAP rules. At most one entry is supported. (see [below for nested schema](#nestedatt--interfaces_wan2_transition_map_rules_entries))
+- `interfaces_wan2_transition_map_rules_source` (String) How MAP rules are obtained. HTTPS requires an ISP supported for the transition mode.
+  - Choices: `DHCPv6`, `HTTPS`, `manual`
+- `interfaces_wan2_transition_mode` (String) Mode selector for the IPoE transition IPv4 to IPv6 is enabled.
+  - Choices: `DS-Lite`, `IP-in-IP`, `MAP-E`, `MAP-T`
 - `interfaces_wan2_vlan_tagging_enabled` (Boolean) Whether VLAN tagging is enabled.
 - `interfaces_wan2_vlan_tagging_vlan_id` (Number) The ID of the VLAN to use for VLAN tagging.
 
 ### Read-Only
 
 - `id` (String) The id of the object
+
+<a id="nestedatt--interfaces_wan1_transition_map_rules_entries"></a>
+### Nested Schema for `interfaces_wan1_transition_map_rules_entries`
+
+Required:
+
+- `ea_bit_length` (Number) Embedded address bit length (0-48).
+  - Range: `0`-`48`
+- `ps_id_offset` (Number) PSID offset (0-15).
+  - Range: `0`-`15`
+
+Optional:
+
+- `border_relay_address` (String) IPv6 border relay address for MAP-E.
+- `border_relay_prefix` (String) IPv6 border relay prefix for MAP-T in CIDR notation, with a prefix length from 0 to 96.
+- `ipv4_prefix_address` (String) IPv4 network address used by the MAP rule, without the prefix length.
+- `ipv4_prefix_length` (Number) IPv4 prefix length (0-32).
+  - Range: `0`-`32`
+- `ipv6_prefix_address` (String) IPv6 network address used by the MAP rule, without the prefix length.
+- `ipv6_prefix_length` (Number) IPv6 prefix length (0-128).
+  - Range: `0`-`128`
+
+
+<a id="nestedatt--interfaces_wan2_transition_map_rules_entries"></a>
+### Nested Schema for `interfaces_wan2_transition_map_rules_entries`
+
+Required:
+
+- `ea_bit_length` (Number) Embedded address bit length (0-48).
+  - Range: `0`-`48`
+- `ps_id_offset` (Number) PSID offset (0-15).
+  - Range: `0`-`15`
+
+Optional:
+
+- `border_relay_address` (String) IPv6 border relay address for MAP-E.
+- `border_relay_prefix` (String) IPv6 border relay prefix for MAP-T in CIDR notation, with a prefix length from 0 to 96.
+- `ipv4_prefix_address` (String) IPv4 network address used by the MAP rule, without the prefix length.
+- `ipv4_prefix_length` (Number) IPv4 prefix length (0-32).
+  - Range: `0`-`32`
+- `ipv6_prefix_address` (String) IPv6 network address used by the MAP rule, without the prefix length.
+- `ipv6_prefix_length` (Number) IPv6 prefix length (0-128).
+  - Range: `0`-`128`
 
 ## Import
 

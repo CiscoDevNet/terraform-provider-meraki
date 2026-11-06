@@ -31,6 +31,10 @@ attributes:
     type: Bool
     description: Boolean indicating whether users will be logged out after being idle for the specified number of minutes.
     example: "true"
+  - model_name: enforceLockedIpSessions
+    type: Bool
+    description: Boolean indicating whether Dashboard sessions are locked to the IP address from which they were established. Only applicable to organizations that support locked-IP sessions; otherwise the parameter is ignored.
+    example: "true"
   - model_name: enforceLoginIpRanges
     type: Bool
     exclude_test: true

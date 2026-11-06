@@ -41,6 +41,7 @@ func TestAccDataSourceMerakiOrganizationBrandingPolicy(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_branding_policy.test", "name", "My Branding Policy"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_branding_policy.test", "admin_settings_applies_to", "All admins of networks..."))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_branding_policy.test", "admin_settings_values.0", "N_1234"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_branding_policy.test", "appearance_dashboard_menu_theme", "light"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_branding_policy.test", "custom_logo_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_branding_policy.test", "custom_logo_image_contents", "Hyperg26C8F4h8CvcoUqpA=="))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_organization_branding_policy.test", "custom_logo_image_format", "jpg"))
@@ -94,6 +95,7 @@ func testAccDataSourceMerakiOrganizationBrandingPolicyConfig() string {
 	config += `  name = "My Branding Policy"` + "\n"
 	config += `  admin_settings_applies_to = "All admins of networks..."` + "\n"
 	config += `  admin_settings_values = ["N_1234"]` + "\n"
+	config += `  appearance_dashboard_menu_theme = "light"` + "\n"
 	config += `  custom_logo_enabled = true` + "\n"
 	config += `  custom_logo_image_contents = "Hyperg26C8F4h8CvcoUqpA=="` + "\n"
 	config += `  custom_logo_image_format = "jpg"` + "\n"
@@ -131,6 +133,7 @@ func testAccNamedDataSourceMerakiOrganizationBrandingPolicyConfig() string {
 	config += `  name = "My Branding Policy"` + "\n"
 	config += `  admin_settings_applies_to = "All admins of networks..."` + "\n"
 	config += `  admin_settings_values = ["N_1234"]` + "\n"
+	config += `  appearance_dashboard_menu_theme = "light"` + "\n"
 	config += `  custom_logo_enabled = true` + "\n"
 	config += `  custom_logo_image_contents = "Hyperg26C8F4h8CvcoUqpA=="` + "\n"
 	config += `  custom_logo_image_format = "jpg"` + "\n"

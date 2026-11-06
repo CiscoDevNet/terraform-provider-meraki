@@ -14,8 +14,10 @@ This resource can manage the `Network SNMP` configuration.
 
 ```terraform
 resource "meraki_network_snmp" "example" {
-  network_id = "L_123456"
-  access     = "users"
+  network_id              = "L_123456"
+  access                  = "users"
+  authentication_protocol = "SHA-1"
+  privacy_protocol        = "AES-128"
   users = [
     {
       passphrase = "N7!qW4#cT3@p"
@@ -38,9 +40,13 @@ resource "meraki_network_snmp" "example" {
 
 - `access` (String) The type of SNMP access. Can be one of `none` (disabled), `community` (V1/V2c), or `users` (V3).
   - Choices: `community`, `none`, `users`
+- `authentication_protocol` (String) The SNMPv3 authentication protocol.
+  - Choices: `SHA-1`, `SHA-256`, `SHA-384`, `SHA-512`
 - `community_string` (String, Sensitive) The SNMP community string. Only relevant if `access` is set to `community`.
 - `community_string_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `community_string`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `community_string`. Must be used together with `community_string_wo_version`.
 - `community_string_wo_version` (Number) Version of `community_string_wo`. As changes to write-only values are not detected, increment this value to update `community_string_wo`. Must be used together with `community_string_wo`.
+- `privacy_protocol` (String) The SNMPv3 privacy protocol.
+  - Choices: `AES-128`, `DES`
 - `users` (Attributes List) The list of SNMP users. Only relevant if `access` is set to `users`. (see [below for nested schema](#nestedatt--users))
 
 ### Read-Only

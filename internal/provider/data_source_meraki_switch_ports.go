@@ -175,6 +175,10 @@ func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.Schem
 							MarkdownDescription: "The Energy Efficient Ethernet status of the switch port.",
 							Computed:            true,
 						},
+						"fast_poe_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether Fast PoE is enabled on the switch port. Fast PoE requires Perpetual PoE and can only be enabled on ports that support PoE HA.",
+							Computed:            true,
+						},
 						"high_speed_enabled": schema.BoolAttribute{
 							MarkdownDescription: "For C9500-32QC, whether or not the port is enabled for high speed.",
 							Computed:            true,
@@ -193,6 +197,10 @@ func (d *SwitchPortsDataSource) Schema(ctx context.Context, req datasource.Schem
 						},
 						"module_slot": schema.Int64Attribute{
 							MarkdownDescription: "The slot number of the module.",
+							Computed:            true,
+						},
+						"perpetual_poe_enabled": schema.BoolAttribute{
+							MarkdownDescription: "Whether Perpetual PoE is enabled on the switch port. Perpetual PoE can only be enabled on ports that support PoE HA.",
 							Computed:            true,
 						},
 						"profile_enabled": schema.BoolAttribute{

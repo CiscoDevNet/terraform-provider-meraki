@@ -70,6 +70,14 @@ func (d *OrganizationEarlyAccessFeaturesDataSource) Schema(ctx context.Context, 
 							MarkdownDescription: "The id of the object",
 							Computed:            true,
 						},
+						"advantage": schema.BoolAttribute{
+							MarkdownDescription: "If this early access feature requires an Advantage license",
+							Computed:            true,
+						},
+						"advantage_trial": schema.BoolAttribute{
+							MarkdownDescription: "If this Advantage early access feature offers an introductory trial",
+							Computed:            true,
+						},
 						"documentation_link": schema.StringAttribute{
 							MarkdownDescription: "Link to the documentation of this early access feature",
 							Computed:            true,

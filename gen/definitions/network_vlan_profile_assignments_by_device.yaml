@@ -18,6 +18,10 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
+  - model_name: configurationSource
+    type: String
+    description: Indicates whether the device configuration is managed by the cloud or the device
+    example: Cloud
   - model_name: mac
     type: String
     description: MAC address of the device

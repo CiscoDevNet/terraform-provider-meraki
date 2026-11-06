@@ -80,6 +80,10 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"application_category_mapping_enabled": schema.BoolAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("When true, map the configured majorApplications to application categories and add the results to applications. Keep majorApplications unchanged. Defaults to false.").String,
+				Optional:            true,
+			},
 			"custom": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Custom VPN exclusion rules. Pass an empty array to clear existing rules.").String,
 				Optional:            true,

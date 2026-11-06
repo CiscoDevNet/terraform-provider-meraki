@@ -136,6 +136,8 @@ func testAccMerakiSwitchPortsConfig_all() string {
 	config += `  udld = "Alert only"` + "\n"
 	config += `  vlan = 10` + "\n"
 	config += `  voice_vlan = 20` + "\n"
+	config += `  fast_poe_enabled = true` + "\n"
+	config += `  perpetual_poe_enabled = true` + "\n"
 	config += `  profile_enabled = false` + "\n"
 	config += `  sticky_mac_allow_list = ["34:56:fe:ce:8e:b0"]` + "\n"
 	config += `  tags = ["tag1"]` + "\n"

@@ -22,6 +22,10 @@ resource "meraki_network_firmware_upgrades" "example" {
   products_camera_participate_in_next_beta_release              = false
   products_camera_next_upgrade_time                             = "2019-03-17T17:22:52Z"
   products_camera_next_upgrade_to_version_id                    = "1003"
+  products_campus_gateway_participate_in_next_beta_release      = false
+  products_campus_gateway_next_upgrade_strategy                 = "minimizeUpgradeTime"
+  products_campus_gateway_next_upgrade_time                     = "2019-03-17T17:22:52Z"
+  products_campus_gateway_next_upgrade_to_version_id            = "1007"
   products_cellular_gateway_participate_in_next_beta_release    = false
   products_cellular_gateway_next_upgrade_time                   = "2019-03-17T17:22:52Z"
   products_cellular_gateway_next_upgrade_to_version_id          = "1004"
@@ -38,6 +42,7 @@ resource "meraki_network_firmware_upgrades" "example" {
   products_switch_catalyst_next_upgrade_time                    = "2019-03-17T17:22:52Z"
   products_switch_catalyst_next_upgrade_to_version_id           = "1234"
   products_wireless_participate_in_next_beta_release            = false
+  products_wireless_next_upgrade_strategy                       = "minimizeUpgradeTime"
   products_wireless_next_upgrade_time                           = "2019-03-17T17:22:52Z"
   products_wireless_next_upgrade_predownload_enabled            = false
   products_wireless_next_upgrade_to_version_id                  = "1000"
@@ -46,6 +51,13 @@ resource "meraki_network_firmware_upgrades" "example" {
   products_wireless_controller_next_upgrade_to_version_id       = "1006"
   upgrade_window_day_of_week                                    = "Sun"
   upgrade_window_hour_of_day                                    = "4:00"
+  feature_loss_acknowledgements = [
+    {
+      network_id                  = "N_1234"
+      product_type                = "wireless"
+      removed_feature_check_names = ["snmp-auth-and-privacy-check"]
+    }
+  ]
 }
 ```
 
@@ -58,12 +70,18 @@ resource "meraki_network_firmware_upgrades" "example" {
 
 ### Optional
 
+- `feature_loss_acknowledgements` (Attributes List) Acknowledges the target version has removed certain features that the network is currently using. (see [below for nested schema](#nestedatt--feature_loss_acknowledgements))
 - `products_appliance_next_upgrade_time` (String) The time of the last successful upgrade
 - `products_appliance_next_upgrade_to_version_id` (String) The version ID
 - `products_appliance_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
 - `products_camera_next_upgrade_time` (String) The time of the last successful upgrade
 - `products_camera_next_upgrade_to_version_id` (String) The version ID
 - `products_camera_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
+- `products_campus_gateway_next_upgrade_strategy` (String) The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.
+  - Choices: `minimizeClientDowntime`, `minimizeUpgradeTime`
+- `products_campus_gateway_next_upgrade_time` (String) The time of the last successful upgrade
+- `products_campus_gateway_next_upgrade_to_version_id` (String) The version ID
+- `products_campus_gateway_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
 - `products_cellular_gateway_next_upgrade_time` (String) The time of the last successful upgrade
 - `products_cellular_gateway_next_upgrade_to_version_id` (String) The version ID
 - `products_cellular_gateway_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
@@ -83,6 +101,8 @@ resource "meraki_network_firmware_upgrades" "example" {
 - `products_wireless_controller_next_upgrade_to_version_id` (String) The version ID
 - `products_wireless_controller_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
 - `products_wireless_next_upgrade_predownload_enabled` (Boolean) Whether or not the network devices will predownload the firmware image in advance of the actual upgrade
+- `products_wireless_next_upgrade_strategy` (String) The strategy that network devices will use to perform the upgrade. If unspecified, the scheduled upgrade will use the default strategy for the network.
+  - Choices: `minimizeClientDowntime`, `minimizeUpgradeTime`
 - `products_wireless_next_upgrade_time` (String) The time of the last successful upgrade
 - `products_wireless_next_upgrade_to_version_id` (String) The version ID
 - `products_wireless_participate_in_next_beta_release` (Boolean) Whether or not the network wants beta firmware
@@ -95,6 +115,19 @@ resource "meraki_network_firmware_upgrades" "example" {
 ### Read-Only
 
 - `id` (String) The id of the object
+
+<a id="nestedatt--feature_loss_acknowledgements"></a>
+### Nested Schema for `feature_loss_acknowledgements`
+
+Required:
+
+- `network_id` (String) The network ID to acknowledge the failing check for. Must refer to a node group.
+- `removed_feature_check_names` (List of String) The names of the removed feature checks to acknowledge.
+
+Optional:
+
+- `product_type` (String) The product type within the given network to acknowledge feature loss for (if the network is a combined network). Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.
+  - Choices: `appliance`, `camera`, `campusGateway`, `cellularGateway`, `secureConnect`, `sensor`, `switch`, `systemsManager`, `wireless`, `wirelessController`
 
 ## Import
 

@@ -69,7 +69,9 @@ type ResourceSwitchPortsItems struct {
 	Vlan                    types.Int64  `tfsdk:"vlan"`
 	VoiceVlan               types.Int64  `tfsdk:"voice_vlan"`
 	Dot3azEnabled           types.Bool   `tfsdk:"dot3az_enabled"`
+	FastPoeEnabled          types.Bool   `tfsdk:"fast_poe_enabled"`
 	HighSpeedEnabled        types.Bool   `tfsdk:"high_speed_enabled"`
+	PerpetualPoeEnabled     types.Bool   `tfsdk:"perpetual_poe_enabled"`
 	ProfileEnabled          types.Bool   `tfsdk:"profile_enabled"`
 	ProfileId               types.String `tfsdk:"profile_id"`
 	ProfileIname            types.String `tfsdk:"profile_iname"`
@@ -174,8 +176,14 @@ func (data ResourceSwitchPortsItems) toBody(ctx context.Context, state ResourceS
 	if !data.Dot3azEnabled.IsNull() {
 		body, _ = sjson.Set(body, "dot3az.enabled", data.Dot3azEnabled.ValueBool())
 	}
+	if !data.FastPoeEnabled.IsNull() {
+		body, _ = sjson.Set(body, "fastPoe.enabled", data.FastPoeEnabled.ValueBool())
+	}
 	if !data.HighSpeedEnabled.IsNull() {
 		body, _ = sjson.Set(body, "highSpeed.enabled", data.HighSpeedEnabled.ValueBool())
+	}
+	if !data.PerpetualPoeEnabled.IsNull() {
+		body, _ = sjson.Set(body, "perpetualPoe.enabled", data.PerpetualPoeEnabled.ValueBool())
 	}
 	if !data.ProfileEnabled.IsNull() {
 		body, _ = sjson.Set(body, "profile.enabled", data.ProfileEnabled.ValueBool())
@@ -341,10 +349,20 @@ func (data *ResourceSwitchPorts) fromBody(ctx context.Context, res meraki.Res) {
 		} else {
 			data.Dot3azEnabled = types.BoolNull()
 		}
+		if value := res.Get("fastPoe.enabled"); value.Exists() && value.Value() != nil {
+			data.FastPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.FastPoeEnabled = types.BoolNull()
+		}
 		if value := res.Get("highSpeed.enabled"); value.Exists() && value.Value() != nil {
 			data.HighSpeedEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.HighSpeedEnabled = types.BoolNull()
+		}
+		if value := res.Get("perpetualPoe.enabled"); value.Exists() && value.Value() != nil {
+			data.PerpetualPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerpetualPoeEnabled = types.BoolNull()
 		}
 		if value := res.Get("profile.enabled"); value.Exists() && value.Value() != nil {
 			data.ProfileEnabled = types.BoolValue(value.Bool())
@@ -536,10 +554,20 @@ func (data *ResourceSwitchPorts) fromBodyPartial(ctx context.Context, res meraki
 		} else {
 			data.Dot3azEnabled = types.BoolNull()
 		}
+		if value := res.Get("fastPoe.enabled"); value.Exists() && !data.FastPoeEnabled.IsNull() {
+			data.FastPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.FastPoeEnabled = types.BoolNull()
+		}
 		if value := res.Get("highSpeed.enabled"); value.Exists() && !data.HighSpeedEnabled.IsNull() {
 			data.HighSpeedEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.HighSpeedEnabled = types.BoolNull()
+		}
+		if value := res.Get("perpetualPoe.enabled"); value.Exists() && !data.PerpetualPoeEnabled.IsNull() {
+			data.PerpetualPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerpetualPoeEnabled = types.BoolNull()
 		}
 		if value := res.Get("profile.enabled"); value.Exists() && !data.ProfileEnabled.IsNull() {
 			data.ProfileEnabled = types.BoolValue(value.Bool())
@@ -743,10 +771,20 @@ func (data *ResourceSwitchPorts) fromBodyImport(ctx context.Context, res meraki.
 		} else {
 			data.Dot3azEnabled = types.BoolNull()
 		}
+		if value := res.Get("fastPoe.enabled"); value.Exists() && value.Value() != nil {
+			data.FastPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.FastPoeEnabled = types.BoolNull()
+		}
 		if value := res.Get("highSpeed.enabled"); value.Exists() && value.Value() != nil {
 			data.HighSpeedEnabled = types.BoolValue(value.Bool())
 		} else {
 			data.HighSpeedEnabled = types.BoolNull()
+		}
+		if value := res.Get("perpetualPoe.enabled"); value.Exists() && value.Value() != nil {
+			data.PerpetualPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PerpetualPoeEnabled = types.BoolNull()
 		}
 		if value := res.Get("profile.enabled"); value.Exists() && value.Value() != nil {
 			data.ProfileEnabled = types.BoolValue(value.Bool())
@@ -918,7 +956,13 @@ func (data *ResourceSwitchPorts) hasChanges(ctx context.Context, state *Resource
 	if !item.Dot3azEnabled.Equal(stateItem.Dot3azEnabled) {
 		hasChanges = true
 	}
+	if !item.FastPoeEnabled.Equal(stateItem.FastPoeEnabled) {
+		hasChanges = true
+	}
 	if !item.HighSpeedEnabled.Equal(stateItem.HighSpeedEnabled) {
+		hasChanges = true
+	}
+	if !item.PerpetualPoeEnabled.Equal(stateItem.PerpetualPoeEnabled) {
 		hasChanges = true
 	}
 	if !item.ProfileEnabled.Equal(stateItem.ProfileEnabled) {

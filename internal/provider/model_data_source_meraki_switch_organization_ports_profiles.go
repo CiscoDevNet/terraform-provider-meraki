@@ -53,13 +53,16 @@ type DataSourceSwitchOrganizationPortsProfilesItems struct {
 	PortAdaptivePolicyVoiceGroupId types.String                                              `tfsdk:"port_adaptive_policy_voice_group_id"`
 	PortAllowedVlans               types.String                                              `tfsdk:"port_allowed_vlans"`
 	PortDaiTrusted                 types.Bool                                                `tfsdk:"port_dai_trusted"`
+	PortFastPoeEnabled             types.Bool                                                `tfsdk:"port_fast_poe_enabled"`
 	PortIsolationEnabled           types.Bool                                                `tfsdk:"port_isolation_enabled"`
 	PortPeerSgtCapable             types.Bool                                                `tfsdk:"port_peer_sgt_capable"`
+	PortPerpetualPoeEnabled        types.Bool                                                `tfsdk:"port_perpetual_poe_enabled"`
 	PortPoeEnabled                 types.Bool                                                `tfsdk:"port_poe_enabled"`
 	PortRstpEnabled                types.Bool                                                `tfsdk:"port_rstp_enabled"`
 	PortStickyMacAllowListLimit    types.Int64                                               `tfsdk:"port_sticky_mac_allow_list_limit"`
 	PortStormControlEnabled        types.Bool                                                `tfsdk:"port_storm_control_enabled"`
 	PortStpGuard                   types.String                                              `tfsdk:"port_stp_guard"`
+	PortStpPortFastTrunk           types.Bool                                                `tfsdk:"port_stp_port_fast_trunk"`
 	PortType                       types.String                                              `tfsdk:"port_type"`
 	PortUdld                       types.String                                              `tfsdk:"port_udld"`
 	PortVlan                       types.Int64                                               `tfsdk:"port_vlan"`
@@ -171,6 +174,11 @@ func (data *DataSourceSwitchOrganizationPortsProfiles) fromBody(ctx context.Cont
 		} else {
 			data.PortDaiTrusted = types.BoolNull()
 		}
+		if value := res.Get("port.fastPoeEnabled"); value.Exists() && value.Value() != nil {
+			data.PortFastPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PortFastPoeEnabled = types.BoolNull()
+		}
 		if value := res.Get("port.isolationEnabled"); value.Exists() && value.Value() != nil {
 			data.PortIsolationEnabled = types.BoolValue(value.Bool())
 		} else {
@@ -180,6 +188,11 @@ func (data *DataSourceSwitchOrganizationPortsProfiles) fromBody(ctx context.Cont
 			data.PortPeerSgtCapable = types.BoolValue(value.Bool())
 		} else {
 			data.PortPeerSgtCapable = types.BoolNull()
+		}
+		if value := res.Get("port.perpetualPoeEnabled"); value.Exists() && value.Value() != nil {
+			data.PortPerpetualPoeEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.PortPerpetualPoeEnabled = types.BoolNull()
 		}
 		if value := res.Get("port.poeEnabled"); value.Exists() && value.Value() != nil {
 			data.PortPoeEnabled = types.BoolValue(value.Bool())
@@ -205,6 +218,11 @@ func (data *DataSourceSwitchOrganizationPortsProfiles) fromBody(ctx context.Cont
 			data.PortStpGuard = types.StringValue(value.String())
 		} else {
 			data.PortStpGuard = types.StringNull()
+		}
+		if value := res.Get("port.stpPortFastTrunk"); value.Exists() && value.Value() != nil {
+			data.PortStpPortFastTrunk = types.BoolValue(value.Bool())
+		} else {
+			data.PortStpPortFastTrunk = types.BoolNull()
 		}
 		if value := res.Get("port.type"); value.Exists() && value.Value() != nil {
 			data.PortType = types.StringValue(value.String())

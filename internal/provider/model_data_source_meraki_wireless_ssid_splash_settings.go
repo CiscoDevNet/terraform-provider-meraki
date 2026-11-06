@@ -77,6 +77,8 @@ type DataSourceWirelessSSIDSplashSettings struct {
 	SplashPrepaidFrontMd5                    types.String `tfsdk:"splash_prepaid_front_md5"`
 	SplashPrepaidFrontImageContents          types.String `tfsdk:"splash_prepaid_front_image_contents"`
 	SplashPrepaidFrontImageFormat            types.String `tfsdk:"splash_prepaid_front_image_format"`
+	UserConsentMessage                       types.String `tfsdk:"user_consent_message"`
+	UserConsentRequired                      types.Bool   `tfsdk:"user_consent_required"`
 }
 
 // End of section. //template:end types
@@ -226,6 +228,16 @@ func (data *DataSourceWirelessSSIDSplashSettings) fromBody(ctx context.Context, 
 		data.SplashPrepaidFrontMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontMd5 = types.StringNull()
+	}
+	if value := res.Get("userConsent.message"); value.Exists() && value.Value() != nil {
+		data.UserConsentMessage = types.StringValue(value.String())
+	} else {
+		data.UserConsentMessage = types.StringNull()
+	}
+	if value := res.Get("userConsent.required"); value.Exists() && value.Value() != nil {
+		data.UserConsentRequired = types.BoolValue(value.Bool())
+	} else {
+		data.UserConsentRequired = types.BoolNull()
 	}
 }
 

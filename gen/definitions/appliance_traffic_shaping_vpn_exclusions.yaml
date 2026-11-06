@@ -19,6 +19,11 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
+  - model_name: enabled
+    type: Bool
+    data_path: [applicationCategoryMapping]
+    description: When true, map the configured majorApplications to application categories and add the results to applications. Keep majorApplications unchanged. Defaults to false.
+    example: "false"
   - model_name: custom
     type: List
     description: Custom VPN exclusion rules. Pass an empty array to clear existing rules.

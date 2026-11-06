@@ -52,13 +52,16 @@ type SwitchOrganizationPortsProfile struct {
 	PortAdaptivePolicyVoiceGroupId types.String                                   `tfsdk:"port_adaptive_policy_voice_group_id"`
 	PortAllowedVlans               types.String                                   `tfsdk:"port_allowed_vlans"`
 	PortDaiTrusted                 types.Bool                                     `tfsdk:"port_dai_trusted"`
+	PortFastPoeEnabled             types.Bool                                     `tfsdk:"port_fast_poe_enabled"`
 	PortIsolationEnabled           types.Bool                                     `tfsdk:"port_isolation_enabled"`
 	PortPeerSgtCapable             types.Bool                                     `tfsdk:"port_peer_sgt_capable"`
+	PortPerpetualPoeEnabled        types.Bool                                     `tfsdk:"port_perpetual_poe_enabled"`
 	PortPoeEnabled                 types.Bool                                     `tfsdk:"port_poe_enabled"`
 	PortRstpEnabled                types.Bool                                     `tfsdk:"port_rstp_enabled"`
 	PortStickyMacAllowListLimit    types.Int64                                    `tfsdk:"port_sticky_mac_allow_list_limit"`
 	PortStormControlEnabled        types.Bool                                     `tfsdk:"port_storm_control_enabled"`
 	PortStpGuard                   types.String                                   `tfsdk:"port_stp_guard"`
+	PortStpPortFastTrunk           types.Bool                                     `tfsdk:"port_stp_port_fast_trunk"`
 	PortType                       types.String                                   `tfsdk:"port_type"`
 	PortUdld                       types.String                                   `tfsdk:"port_udld"`
 	PortVlan                       types.Int64                                    `tfsdk:"port_vlan"`
@@ -141,11 +144,17 @@ func (data SwitchOrganizationPortsProfile) toBody(ctx context.Context, state Swi
 	if !data.PortDaiTrusted.IsNull() {
 		body, _ = sjson.Set(body, "port.daiTrusted", data.PortDaiTrusted.ValueBool())
 	}
+	if !data.PortFastPoeEnabled.IsNull() {
+		body, _ = sjson.Set(body, "port.fastPoeEnabled", data.PortFastPoeEnabled.ValueBool())
+	}
 	if !data.PortIsolationEnabled.IsNull() {
 		body, _ = sjson.Set(body, "port.isolationEnabled", data.PortIsolationEnabled.ValueBool())
 	}
 	if !data.PortPeerSgtCapable.IsNull() {
 		body, _ = sjson.Set(body, "port.peerSgtCapable", data.PortPeerSgtCapable.ValueBool())
+	}
+	if !data.PortPerpetualPoeEnabled.IsNull() {
+		body, _ = sjson.Set(body, "port.perpetualPoeEnabled", data.PortPerpetualPoeEnabled.ValueBool())
 	}
 	if !data.PortPoeEnabled.IsNull() {
 		body, _ = sjson.Set(body, "port.poeEnabled", data.PortPoeEnabled.ValueBool())
@@ -161,6 +170,9 @@ func (data SwitchOrganizationPortsProfile) toBody(ctx context.Context, state Swi
 	}
 	if !data.PortStpGuard.IsNull() {
 		body, _ = sjson.Set(body, "port.stpGuard", data.PortStpGuard.ValueString())
+	}
+	if !data.PortStpPortFastTrunk.IsNull() {
+		body, _ = sjson.Set(body, "port.stpPortFastTrunk", data.PortStpPortFastTrunk.ValueBool())
 	}
 	if !data.PortType.IsNull() {
 		body, _ = sjson.Set(body, "port.type", data.PortType.ValueString())
@@ -276,6 +288,11 @@ func (data *SwitchOrganizationPortsProfile) fromBody(ctx context.Context, res me
 	} else {
 		data.PortDaiTrusted = types.BoolNull()
 	}
+	if value := res.Get("port.fastPoeEnabled"); value.Exists() && value.Value() != nil {
+		data.PortFastPoeEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.PortFastPoeEnabled = types.BoolNull()
+	}
 	if value := res.Get("port.isolationEnabled"); value.Exists() && value.Value() != nil {
 		data.PortIsolationEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -285,6 +302,11 @@ func (data *SwitchOrganizationPortsProfile) fromBody(ctx context.Context, res me
 		data.PortPeerSgtCapable = types.BoolValue(value.Bool())
 	} else {
 		data.PortPeerSgtCapable = types.BoolNull()
+	}
+	if value := res.Get("port.perpetualPoeEnabled"); value.Exists() && value.Value() != nil {
+		data.PortPerpetualPoeEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.PortPerpetualPoeEnabled = types.BoolNull()
 	}
 	if value := res.Get("port.poeEnabled"); value.Exists() && value.Value() != nil {
 		data.PortPoeEnabled = types.BoolValue(value.Bool())
@@ -310,6 +332,11 @@ func (data *SwitchOrganizationPortsProfile) fromBody(ctx context.Context, res me
 		data.PortStpGuard = types.StringValue(value.String())
 	} else {
 		data.PortStpGuard = types.StringNull()
+	}
+	if value := res.Get("port.stpPortFastTrunk"); value.Exists() && value.Value() != nil {
+		data.PortStpPortFastTrunk = types.BoolValue(value.Bool())
+	} else {
+		data.PortStpPortFastTrunk = types.BoolNull()
 	}
 	if value := res.Get("port.type"); value.Exists() && value.Value() != nil {
 		data.PortType = types.StringValue(value.String())
@@ -465,6 +492,11 @@ func (data *SwitchOrganizationPortsProfile) fromBodyPartial(ctx context.Context,
 	} else {
 		data.PortDaiTrusted = types.BoolNull()
 	}
+	if value := res.Get("port.fastPoeEnabled"); value.Exists() && !data.PortFastPoeEnabled.IsNull() {
+		data.PortFastPoeEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.PortFastPoeEnabled = types.BoolNull()
+	}
 	if value := res.Get("port.isolationEnabled"); value.Exists() && !data.PortIsolationEnabled.IsNull() {
 		data.PortIsolationEnabled = types.BoolValue(value.Bool())
 	} else {
@@ -474,6 +506,11 @@ func (data *SwitchOrganizationPortsProfile) fromBodyPartial(ctx context.Context,
 		data.PortPeerSgtCapable = types.BoolValue(value.Bool())
 	} else {
 		data.PortPeerSgtCapable = types.BoolNull()
+	}
+	if value := res.Get("port.perpetualPoeEnabled"); value.Exists() && !data.PortPerpetualPoeEnabled.IsNull() {
+		data.PortPerpetualPoeEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.PortPerpetualPoeEnabled = types.BoolNull()
 	}
 	if value := res.Get("port.poeEnabled"); value.Exists() && !data.PortPoeEnabled.IsNull() {
 		data.PortPoeEnabled = types.BoolValue(value.Bool())
@@ -499,6 +536,11 @@ func (data *SwitchOrganizationPortsProfile) fromBodyPartial(ctx context.Context,
 		data.PortStpGuard = types.StringValue(value.String())
 	} else {
 		data.PortStpGuard = types.StringNull()
+	}
+	if value := res.Get("port.stpPortFastTrunk"); value.Exists() && !data.PortStpPortFastTrunk.IsNull() {
+		data.PortStpPortFastTrunk = types.BoolValue(value.Bool())
+	} else {
+		data.PortStpPortFastTrunk = types.BoolNull()
 	}
 	if value := res.Get("port.type"); value.Exists() && !data.PortType.IsNull() {
 		data.PortType = types.StringValue(value.String())

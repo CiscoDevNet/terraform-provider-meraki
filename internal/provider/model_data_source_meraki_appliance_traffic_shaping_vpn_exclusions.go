@@ -41,10 +41,11 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DataSourceApplianceTrafficShapingVPNExclusions struct {
-	Id                types.String                                                      `tfsdk:"id"`
-	NetworkId         types.String                                                      `tfsdk:"network_id"`
-	Custom            []DataSourceApplianceTrafficShapingVPNExclusionsCustom            `tfsdk:"custom"`
-	MajorApplications []DataSourceApplianceTrafficShapingVPNExclusionsMajorApplications `tfsdk:"major_applications"`
+	Id                                types.String                                                      `tfsdk:"id"`
+	NetworkId                         types.String                                                      `tfsdk:"network_id"`
+	ApplicationCategoryMappingEnabled types.Bool                                                        `tfsdk:"application_category_mapping_enabled"`
+	Custom                            []DataSourceApplianceTrafficShapingVPNExclusionsCustom            `tfsdk:"custom"`
+	MajorApplications                 []DataSourceApplianceTrafficShapingVPNExclusionsMajorApplications `tfsdk:"major_applications"`
 }
 
 type DataSourceApplianceTrafficShapingVPNExclusionsCustom struct {
@@ -71,6 +72,11 @@ func (data DataSourceApplianceTrafficShapingVPNExclusions) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DataSourceApplianceTrafficShapingVPNExclusions) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("applicationCategoryMapping.enabled"); value.Exists() && value.Value() != nil {
+		data.ApplicationCategoryMappingEnabled = types.BoolValue(value.Bool())
+	} else {
+		data.ApplicationCategoryMappingEnabled = types.BoolNull()
+	}
 	if value := res.Get("custom"); value.Exists() && value.Value() != nil {
 		data.Custom = make([]DataSourceApplianceTrafficShapingVPNExclusionsCustom, 0)
 		value.ForEach(func(k, res gjson.Result) bool {

@@ -50,6 +50,8 @@ type ResourceAppliancePortsItems struct {
 	Enabled             types.Bool   `tfsdk:"enabled"`
 	Type                types.String `tfsdk:"type"`
 	Vlan                types.Int64  `tfsdk:"vlan"`
+	SgtEnabled          types.Bool   `tfsdk:"sgt_enabled"`
+	SgtId               types.Int64  `tfsdk:"sgt_id"`
 }
 
 type ResourceAppliancePortsIdentity struct {
@@ -93,6 +95,12 @@ func (data ResourceAppliancePortsItems) toBody(ctx context.Context, state Resour
 	}
 	if !data.Vlan.IsNull() {
 		body, _ = sjson.Set(body, "vlan", data.Vlan.ValueInt64())
+	}
+	if !data.SgtEnabled.IsNull() {
+		body, _ = sjson.Set(body, "sgt.enabled", data.SgtEnabled.ValueBool())
+	}
+	if !data.SgtId.IsNull() {
+		body, _ = sjson.Set(body, "sgt.id", data.SgtId.ValueInt64())
 	}
 	return body
 }
@@ -143,6 +151,16 @@ func (data *ResourceAppliancePorts) fromBody(ctx context.Context, res meraki.Res
 			data.Vlan = types.Int64Value(value.Int())
 		} else {
 			data.Vlan = types.Int64Null()
+		}
+		if value := res.Get("sgt.enabled"); value.Exists() && value.Value() != nil {
+			data.SgtEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.SgtEnabled = types.BoolNull()
+		}
+		if value := res.Get("sgt.id"); value.Exists() && value.Value() != nil {
+			data.SgtId = types.Int64Value(value.Int())
+		} else {
+			data.SgtId = types.Int64Null()
 		}
 		(*parent).Items = append((*parent).Items, data)
 		return true
@@ -213,6 +231,16 @@ func (data *ResourceAppliancePorts) fromBodyPartial(ctx context.Context, res mer
 			data.Vlan = types.Int64Value(value.Int())
 		} else {
 			data.Vlan = types.Int64Null()
+		}
+		if value := res.Get("sgt.enabled"); value.Exists() && !data.SgtEnabled.IsNull() {
+			data.SgtEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.SgtEnabled = types.BoolNull()
+		}
+		if value := res.Get("sgt.id"); value.Exists() && !data.SgtId.IsNull() {
+			data.SgtId = types.Int64Value(value.Int())
+		} else {
+			data.SgtId = types.Int64Null()
 		}
 		(*parent).Items[i] = data
 	}
@@ -296,6 +324,16 @@ func (data *ResourceAppliancePorts) fromBodyImport(ctx context.Context, res mera
 		} else {
 			data.Vlan = types.Int64Null()
 		}
+		if value := res.Get("sgt.enabled"); value.Exists() && value.Value() != nil {
+			data.SgtEnabled = types.BoolValue(value.Bool())
+		} else {
+			data.SgtEnabled = types.BoolNull()
+		}
+		if value := res.Get("sgt.id"); value.Exists() && value.Value() != nil {
+			data.SgtId = types.Int64Value(value.Int())
+		} else {
+			data.SgtId = types.Int64Null()
+		}
 		(*parent).Items[i] = data
 	}
 	for i := len(toBeDeleted) - 1; i >= 0; i-- {
@@ -374,6 +412,12 @@ func (data *ResourceAppliancePorts) hasChanges(ctx context.Context, state *Resou
 		hasChanges = true
 	}
 	if !item.Vlan.Equal(stateItem.Vlan) {
+		hasChanges = true
+	}
+	if !item.SgtEnabled.Equal(stateItem.SgtEnabled) {
+		hasChanges = true
+	}
+	if !item.SgtId.Equal(stateItem.SgtId) {
 		hasChanges = true
 	}
 	return hasChanges

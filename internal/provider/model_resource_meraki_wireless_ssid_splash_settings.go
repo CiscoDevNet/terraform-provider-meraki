@@ -70,6 +70,8 @@ type WirelessSSIDSplashSettings struct {
 	SplashPrepaidFrontMd5                    types.String `tfsdk:"splash_prepaid_front_md5"`
 	SplashPrepaidFrontImageContents          types.String `tfsdk:"splash_prepaid_front_image_contents"`
 	SplashPrepaidFrontImageFormat            types.String `tfsdk:"splash_prepaid_front_image_format"`
+	UserConsentMessage                       types.String `tfsdk:"user_consent_message"`
+	UserConsentRequired                      types.Bool   `tfsdk:"user_consent_required"`
 }
 
 type WirelessSSIDSplashSettingsIdentity struct {
@@ -191,6 +193,12 @@ func (data WirelessSSIDSplashSettings) toBody(ctx context.Context, state Wireles
 	}
 	if !data.SplashPrepaidFrontImageFormat.IsNull() {
 		body, _ = sjson.Set(body, "splashPrepaidFront.image.format", data.SplashPrepaidFrontImageFormat.ValueString())
+	}
+	if !data.UserConsentMessage.IsNull() {
+		body, _ = sjson.Set(body, "userConsent.message", data.UserConsentMessage.ValueString())
+	}
+	if !data.UserConsentRequired.IsNull() {
+		body, _ = sjson.Set(body, "userConsent.required", data.UserConsentRequired.ValueBool())
 	}
 	return body
 }
@@ -402,6 +410,20 @@ func (data WirelessSSIDSplashSettings) toBodyPreservingNulls(ctx context.Context
 			body, _ = sjson.Set(body, "splashPrepaidFront.md5", value.String())
 		}
 	}
+	if value := res.Get("userConsent.message"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "userConsent.message", "null")
+		} else {
+			body, _ = sjson.Set(body, "userConsent.message", value.String())
+		}
+	}
+	if value := res.Get("userConsent.required"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "userConsent.required", "null")
+		} else {
+			body, _ = sjson.Set(body, "userConsent.required", value.Bool())
+		}
+	}
 	return body
 }
 
@@ -544,6 +566,16 @@ func (data *WirelessSSIDSplashSettings) fromBody(ctx context.Context, res meraki
 		data.SplashPrepaidFrontMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontMd5 = types.StringNull()
+	}
+	if value := res.Get("userConsent.message"); value.Exists() && value.Value() != nil {
+		data.UserConsentMessage = types.StringValue(value.String())
+	} else {
+		data.UserConsentMessage = types.StringNull()
+	}
+	if value := res.Get("userConsent.required"); value.Exists() && value.Value() != nil {
+		data.UserConsentRequired = types.BoolValue(value.Bool())
+	} else {
+		data.UserConsentRequired = types.BoolNull()
 	}
 }
 
@@ -690,6 +722,16 @@ func (data *WirelessSSIDSplashSettings) fromBodyPartial(ctx context.Context, res
 		data.SplashPrepaidFrontMd5 = types.StringValue(value.String())
 	} else {
 		data.SplashPrepaidFrontMd5 = types.StringNull()
+	}
+	if value := res.Get("userConsent.message"); value.Exists() && !data.UserConsentMessage.IsNull() {
+		data.UserConsentMessage = types.StringValue(value.String())
+	} else {
+		data.UserConsentMessage = types.StringNull()
+	}
+	if value := res.Get("userConsent.required"); value.Exists() && !data.UserConsentRequired.IsNull() {
+		data.UserConsentRequired = types.BoolValue(value.Bool())
+	} else {
+		data.UserConsentRequired = types.BoolNull()
 	}
 }
 
