@@ -14,9 +14,10 @@ This resource can manage the Network VLAN Profile configuration. It can be also 
 
 ```terraform
 resource "meraki_network_vlan_profile" "example" {
-  network_id = "L_123456"
-  iname      = "Profile1"
-  name       = "My VLAN profile name"
+  network_id   = "L_123456"
+  iname        = "Profile1"
+  name         = "My VLAN profile name"
+  active_vlans = "1-1000"
   vlan_groups = [
     {
       name     = "named-group-1"
@@ -42,6 +43,10 @@ resource "meraki_network_vlan_profile" "example" {
 - `network_id` (String) Network ID
 - `vlan_groups` (Attributes List) An array of VLAN groups (see [below for nested schema](#nestedatt--vlan_groups))
 - `vlan_names` (Attributes List) An array of named VLANs (see [below for nested schema](#nestedatt--vlan_names))
+
+### Optional
+
+- `active_vlans` (String) The active VLANs for the VLAN profile. Only applicable to trunk ports. The given range must be inclusive of all named VLANs.
 
 ### Read-Only
 
