@@ -1,6 +1,13 @@
 ## Unreleased
 
 - Fix `group_policy_id` attribute of `meraki_appliance_vlan` resource not being cleared via the API when removed from config, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/289)
+- Add `meraki_appliance_routing_vrfs_settings` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
+- Add `meraki_routing_vrf` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
+- Add `meraki_appliance_vpn_site_to_site_hub_vrfs` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
+- Add `vrf_id`, `sgt_id`, `uplinks` attributes to `meraki_appliance_vlan` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
+- Add `vrf_id` attribute to `meraki_appliance_single_lan` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
+- Add `vrf_id` attribute to `meraki_appliance_static_route` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
+- Add `vpn_traffic_uplink_preferences[].vrf_id`, `wan_traffic_uplink_preferences[].vrf_id` attributes to `meraki_appliance_traffic_shaping_uplink_selection` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
 
 ## 1.15.0
 

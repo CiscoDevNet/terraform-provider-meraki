@@ -73,6 +73,7 @@ Optional:
   - Choices: `poorPerformance`, `uplinkDown`
 - `performance_class_type` (String) Type of this performance class. Must be one of: `builtin` or `custom`
   - Choices: `builtin`, `custom`
+- `vrf_id` (String) VRF ID for this uplink preference rule. Use 0 for the default VRF.
 
 <a id="nestedatt--vpn_traffic_uplink_preferences--traffic_filters"></a>
 ### Nested Schema for `vpn_traffic_uplink_preferences.traffic_filters`
@@ -108,6 +109,10 @@ Required:
 
 - `preferred_uplink` (String) Preferred uplink for uplink preference rule. Must be one of: `wan1` or `wan2`, or any other valid uplink(`wanX`) if it applies to the network
 - `traffic_filters` (Attributes List) Array of traffic filters for this uplink preference rule (see [below for nested schema](#nestedatt--wan_traffic_uplink_preferences--traffic_filters))
+
+Optional:
+
+- `vrf_id` (String) VRF ID for this uplink preference rule. Use 0 for the default VRF.
 
 <a id="nestedatt--wan_traffic_uplink_preferences--traffic_filters"></a>
 ### Nested Schema for `wan_traffic_uplink_preferences.traffic_filters`

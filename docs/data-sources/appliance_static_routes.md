@@ -40,3 +40,4 @@ Read-Only:
 - `id` (String) The id of the object
 - `name` (String) Name of the route
 - `subnet` (String) Subnet of the route
+- `vrf_id` (String) VRF ID for the static route. Use '0' for the default VRF.

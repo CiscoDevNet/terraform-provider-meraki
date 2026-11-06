@@ -65,7 +65,6 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["switch", "wireless", "appliance"]
 }
-
 `
 
 // End of section. //template:end testPrerequisites

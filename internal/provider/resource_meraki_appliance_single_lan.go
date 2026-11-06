@@ -132,6 +132,10 @@ func (r *ApplianceSingleLANResource) Schema(ctx context.Context, req resource.Sc
 				MarkdownDescription: helpers.NewAttributeDescription("Enable Mandatory DHCP on LAN.").String,
 				Optional:            true,
 			},
+			"vrf_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("VRF ID. Use 0 for the default VRF.").String,
+				Optional:            true,
+			},
 		},
 	}
 }
@@ -324,6 +328,13 @@ func (r *ApplianceSingleLANResource) Delete(ctx context.Context, req resource.De
 		res, err := r.client.Put(state.getPath(), jsonInitialState)
 		if err != nil {
 			resp.Diagnostics.AddWarning("Failed to restore initial state", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
+			return
+		}
+	} else {
+		body := state.toDestroyBody(ctx)
+		res, err := r.client.Put(state.getPath(), body)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to configure object (PUT), got error: %s, %s", err, res.String()))
 			return
 		}
 	}

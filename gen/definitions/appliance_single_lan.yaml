@@ -69,7 +69,15 @@ attributes:
     data_path: [mandatoryDhcp]
     description: Enable Mandatory DHCP on LAN.
     example: "false"
-test_prerequisites: |
+  - model_name: id
+    type: String
+    data_path: [vrf]
+    exclude_test: true
+    description: VRF ID. Use 0 for the default VRF.
+    example: "1000"
+    test_value: meraki_routing_vrf.test.id
+    destroy_value: '"0"'
+test_prerequisites: |-
   data "meraki_organization" "test" {
     name = var.test_org
   }

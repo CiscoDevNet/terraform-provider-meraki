@@ -35,6 +35,7 @@ resource "meraki_appliance_vlan" "example" {
     }
   ]
   mandatory_dhcp_enabled = true
+  vrf_id                 = "1000"
 }
 ```
 
@@ -68,10 +69,13 @@ resource "meraki_appliance_vlan" "example" {
 - `mandatory_dhcp_enabled` (Boolean) Enable Mandatory DHCP on VLAN.
 - `mask` (Number) Mask used for the subnet of all bound to the template networks. Applicable only for template network.
 - `reserved_ip_ranges` (Attributes List) The DHCP reserved IP ranges on the VLAN (see [below for nested schema](#nestedatt--reserved_ip_ranges))
+- `sgt_id` (Number) Adaptive policy group ID this VLAN is assigned to.
 - `subnet` (String) The subnet of the VLAN
 - `template_vlan_type` (String) Type of subnetting of the VLAN. Applicable only for template network.
   - Choices: `same`, `unique`
+- `uplinks` (Attributes List) Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions. (see [below for nested schema](#nestedatt--uplinks))
 - `vpn_nat_subnet` (String) The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
+- `vrf_id` (String) VRF ID. Use '0' for the default VRF.
 
 ### Read-Only
 
@@ -122,6 +126,18 @@ Required:
 - `comment` (String) A text comment for the reserved range
 - `end` (String) The last IP in the reserved range
 - `start` (String) The first IP in the reserved range
+
+
+<a id="nestedatt--uplinks"></a>
+### Nested Schema for `uplinks`
+
+Required:
+
+- `interface` (String) Interface name of the uplink
+
+Optional:
+
+- `nat_enabled` (Boolean) Whether NAT is enabled on the uplink
 
 ## Import
 

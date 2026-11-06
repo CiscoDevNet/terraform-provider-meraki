@@ -80,6 +80,7 @@ func main() {
 	apiKey := os.Getenv("MERAKI_API_KEY")
 	orgName := os.Getenv("TF_VAR_test_org")
 	networkName := os.Getenv("TF_VAR_test_network")
+	network2Name := os.Getenv("TF_VAR_test_network_2")
 
 	if apiKey == "" {
 		fmt.Println("ERROR: MERAKI_API_KEY environment variable is required")
@@ -91,6 +92,10 @@ func main() {
 	}
 	if networkName == "" {
 		fmt.Println("ERROR: TF_VAR_test_network environment variable is required")
+		os.Exit(1)
+	}
+	if network2Name == "" {
+		fmt.Println("ERROR: TF_VAR_test_network_2 environment variable is required")
 		os.Exit(1)
 	}
 
@@ -126,6 +131,7 @@ func main() {
 	fmt.Println("Phase 3: Deleting test network(s)...")
 	fmt.Println("========================================")
 	cleanupNetworks(client, orgId, networkName)
+	cleanupNetworks(client, orgId, network2Name)
 
 	fmt.Println("\nCleanup complete.")
 }

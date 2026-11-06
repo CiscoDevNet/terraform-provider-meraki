@@ -40,6 +40,7 @@ type ApplianceStaticRoute struct {
 	GatewayVlanId types.Int64  `tfsdk:"gateway_vlan_id"`
 	Name          types.String `tfsdk:"name"`
 	Subnet        types.String `tfsdk:"subnet"`
+	VrfId         types.String `tfsdk:"vrf_id"`
 }
 
 type ApplianceStaticRouteIdentity struct {
@@ -76,6 +77,9 @@ func (data ApplianceStaticRoute) toBody(ctx context.Context, state ApplianceStat
 	if !data.Subnet.IsNull() {
 		body, _ = sjson.Set(body, "subnet", data.Subnet.ValueString())
 	}
+	if !data.VrfId.IsNull() {
+		body, _ = sjson.Set(body, "vrf.id", data.VrfId.ValueString())
+	}
 	return body
 }
 
@@ -108,6 +112,11 @@ func (data *ApplianceStaticRoute) fromBody(ctx context.Context, res meraki.Res) 
 		data.Subnet = types.StringValue(value.String())
 	} else {
 		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+		data.VrfId = types.StringValue(value.String())
+	} else {
+		data.VrfId = types.StringNull()
 	}
 }
 
@@ -144,6 +153,11 @@ func (data *ApplianceStaticRoute) fromBodyPartial(ctx context.Context, res merak
 		data.Subnet = types.StringValue(value.String())
 	} else {
 		data.Subnet = types.StringNull()
+	}
+	if value := res.Get("vrf.id"); value.Exists() && !data.VrfId.IsNull() {
+		data.VrfId = types.StringValue(value.String())
+	} else {
+		data.VrfId = types.StringNull()
 	}
 }
 
