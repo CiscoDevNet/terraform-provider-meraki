@@ -78,6 +78,10 @@ func (d *NetworkVLANProfilesDataSource) Schema(ctx context.Context, req datasour
 							MarkdownDescription: "Name of the profile, string length must be from 1 to 255 characters",
 							Computed:            true,
 						},
+						"active_vlans": schema.StringAttribute{
+							MarkdownDescription: "The active VLANs for the VLAN profile. Only applicable to trunk ports. The given range must be inclusive of all named VLANs.",
+							Computed:            true,
+						},
 						"vlan_groups": schema.ListNestedAttribute{
 							MarkdownDescription: "An array of VLAN groups",
 							Computed:            true,

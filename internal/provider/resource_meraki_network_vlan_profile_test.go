@@ -40,6 +40,7 @@ func TestAccMerakiNetworkVLANProfile(t *testing.T) {
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_vlan_profile.test", "iname", "Profile1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_vlan_profile.test", "name", "My VLAN profile name"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_vlan_profile.test", "active_vlans", "1-1000"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_vlan_profile.test", "vlan_groups.0.name", "named-group-1"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_vlan_profile.test", "vlan_groups.0.vlan_ids", "2,5-7"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_vlan_profile.test", "vlan_names.0.name", "named-1"))
@@ -154,6 +155,7 @@ func testAccMerakiNetworkVLANProfileConfig_all() string {
 	config += `  network_id = meraki_network_vlan_profile.default.network_id` + "\n"
 	config += `  iname = "Profile1"` + "\n"
 	config += `  name = "My VLAN profile name"` + "\n"
+	config += `  active_vlans = "1-1000"` + "\n"
 	config += `  vlan_groups = [{` + "\n"
 	config += `    name = "named-group-1"` + "\n"
 	config += `    vlan_ids = "2,5-7"` + "\n"
