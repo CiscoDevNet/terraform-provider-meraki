@@ -198,7 +198,7 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	// The claim is completed asynchronously by the Dashboard; wait until the serials are reachable
 	var claimedSerials []string
 	plan.Serials.ElementsAs(ctx, &claimedSerials, false)
-	if err := r.waitForSerials(ctx, plan.getDevicesPath(), claimedSerials); err != nil {
+	if err := waitForClaimedSerials(ctx, r.client, plan.getDevicesPath(), claimedSerials); err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Devices were claimed but did not become available in the network: %s", err))
 		return
 	}
@@ -213,10 +213,10 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// waitForSerials polls the network devices endpoint until all serials are listed.
+// waitForClaimedSerials polls the network devices endpoint until all serials are listed.
 // POST /networks/{networkId}/devices/claim returns before the claim has completed, so
 // dependent device resources would otherwise fail with 404 in the same apply.
-func (r *NetworkDeviceClaimResource) waitForSerials(ctx context.Context, devicesPath string, serials []string) error {
+func waitForClaimedSerials(ctx context.Context, client *meraki.Client, devicesPath string, serials []string) error {
 	if len(serials) == 0 {
 		return nil
 	}
@@ -225,7 +225,7 @@ func (r *NetworkDeviceClaimResource) waitForSerials(ctx context.Context, devices
 
 	var missing []string
 	for {
-		res, err := r.client.Get(devicesPath)
+		res, err := client.Get(devicesPath)
 		if err == nil {
 			present := map[string]bool{}
 			for _, device := range res.Array() {
@@ -406,7 +406,7 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 		for _, s := range gjson.Get(claimBody, "serials").Array() {
 			claimed = append(claimed, s.String())
 		}
-		if err := r.waitForSerials(ctx, plan.getDevicesPath(), claimed); err != nil {
+		if err := waitForClaimedSerials(ctx, r.client, plan.getDevicesPath(), claimed); err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Devices were claimed but did not become available in the network: %s", err))
 			return
 		}

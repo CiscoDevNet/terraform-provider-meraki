@@ -1,3 +1,4 @@
+# Create() is customized to wait until the claimed vMX is available in the network
 name: Network Device Claim vMX
 spec_endpoint: /networks/{networkId}/devices/claim/vmx
 rest_endpoint: /networks/%v/devices/claim/vmx
