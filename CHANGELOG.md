@@ -7,6 +7,7 @@
 - Add `vrf_id`, `sgt_id`, `uplinks` attributes to `meraki_appliance_vlan` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
 - Add `vrf_id` attribute to `meraki_appliance_single_lan` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
 - Add `vrf_id` attribute to `meraki_appliance_static_route` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
+- Fix `meraki_network_device_claim` resource returning before the claim is complete, causing `404 Not Found` on dependent device resources in the same apply
 - Add `vpn_traffic_uplink_preferences[].vrf_id`, `wan_traffic_uplink_preferences[].vrf_id` attributes to `meraki_appliance_traffic_shaping_uplink_selection` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
 
 ## 1.15.0

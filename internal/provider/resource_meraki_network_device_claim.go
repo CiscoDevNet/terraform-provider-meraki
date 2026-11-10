@@ -22,6 +22,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
@@ -42,6 +43,11 @@ import (
 )
 
 // End of section. //template:end imports
+
+const (
+	claimWaitTimeout  = 5 * time.Minute
+	claimWaitInterval = 3 * time.Second
+)
 
 // Section below is generated&owned by "gen/generator.go". //template:begin model
 
@@ -158,8 +164,6 @@ func (r *NetworkDeviceClaimResource) Configure(_ context.Context, req resource.C
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan NetworkDeviceClaim
 	var identity NetworkDeviceClaimIdentity
@@ -191,6 +195,14 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	plan.fromBodyUnknowns(ctx, res)
 	identity.toIdentity(ctx, &plan)
 
+	// The claim is completed asynchronously by the Dashboard; wait until the serials are reachable
+	var claimedSerials []string
+	plan.Serials.ElementsAs(ctx, &claimedSerials, false)
+	if err := r.waitForSerials(ctx, plan.getDevicesPath(), claimedSerials); err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Devices were claimed but did not become available in the network: %s", err))
+		return
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -201,7 +213,44 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// End of section. //template:end create
+// waitForSerials polls the network devices endpoint until all serials are listed.
+// POST /networks/{networkId}/devices/claim returns before the claim has completed, so
+// dependent device resources would otherwise fail with 404 in the same apply.
+func (r *NetworkDeviceClaimResource) waitForSerials(ctx context.Context, devicesPath string, serials []string) error {
+	if len(serials) == 0 {
+		return nil
+	}
+	ctx, cancel := context.WithTimeout(ctx, claimWaitTimeout)
+	defer cancel()
+
+	var missing []string
+	for {
+		res, err := r.client.Get(devicesPath)
+		if err == nil {
+			present := map[string]bool{}
+			for _, device := range res.Array() {
+				present[device.Get("serial").String()] = true
+			}
+			missing = missing[:0]
+			for _, serial := range serials {
+				if !present[serial] {
+					missing = append(missing, serial)
+				}
+			}
+			if len(missing) == 0 {
+				return nil
+			}
+		} else {
+			tflog.Debug(ctx, fmt.Sprintf("Waiting for claimed serials, GET %s failed: %s", devicesPath, err))
+		}
+		tflog.Debug(ctx, fmt.Sprintf("Waiting for claimed serials to become available: %v", missing))
+		select {
+		case <-ctx.Done():
+			return fmt.Errorf("timed out after %s waiting for serials %v", claimWaitTimeout, missing)
+		case <-time.After(claimWaitInterval):
+		}
+	}
+}
 
 func (r *NetworkDeviceClaimResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state NetworkDeviceClaim
@@ -351,6 +400,14 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 		res, err := r.client.Post(plan.getPath(), claimBody)
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to claim devices to network, got error: %s, %s", err, res.String()))
+			return
+		}
+		var claimed []string
+		for _, s := range gjson.Get(claimBody, "serials").Array() {
+			claimed = append(claimed, s.String())
+		}
+		if err := r.waitForSerials(ctx, plan.getDevicesPath(), claimed); err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Devices were claimed but did not become available in the network: %s", err))
 			return
 		}
 	}
