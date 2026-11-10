@@ -45,6 +45,7 @@ attributes:
   - model_name: alerts
     type: List
     allow_import_changes: true
+    retain_missing_on_refresh: true
     description: Alert-specific configuration for each type. Only alerts that pertain to the network can be updated.
     attributes:
       - model_name: enabled
