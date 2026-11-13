@@ -130,9 +130,9 @@ func testAccMerakiNetworkDeviceClaimConfig_minimum() string {
 func testAccMerakiNetworkDeviceClaimConfig_all(includeWriteOnly bool) string {
 	config := `resource "meraki_network_device_claim" "test" {` + "\n"
 	config += `	network_id = meraki_network.test.id` + "\n"
-	config += `	serials = [var.test_claim_serial_1, var.test_claim_serial_2]` + "\n"
+	config += `	serials = [var.test_switch_1_serial, var.test_switch_2_serial]` + "\n"
 	config += `	details_by_device = [{` + "\n"
-	config += `	  serial = var.test_claim_serial_2` + "\n"
+	config += `	  serial = var.test_switch_2_serial` + "\n"
 	config += `	  details = [` + "\n"
 	config += `	    {` + "\n"
 	config += `	      name = "username"` + "\n"
