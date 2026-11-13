@@ -34,9 +34,11 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAcc
 
 func TestAccMerakiNetworkDeviceClaim(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_claim_serial_1") == "" || os.Getenv("TF_VAR_test_claim_serial_2") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_claim_serial_1 and TF_VAR_test_claim_serial_2")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_switch_1_serial") == "" || os.Getenv("TF_VAR_test_switch_2_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_switch_1_serial and TF_VAR_test_switch_2_serial")
 	}
+	// Do not retry on error codes (e.g. 404), so that eventual-consistency errors are not masked
+	t.Setenv("MERAKI_RETRY_ON_ERROR_CODES", "")
 	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim.test", "details_by_device.0.details.0.name", "username"))
@@ -98,8 +100,8 @@ func merakiNetworkDeviceClaimImportStateIdFunc(resourceName string) resource.Imp
 const testAccMerakiNetworkDeviceClaimPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
-variable "test_claim_serial_1" {}
-variable "test_claim_serial_2" {}
+variable "test_switch_1_serial" {}
+variable "test_switch_2_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
@@ -118,7 +120,7 @@ resource "meraki_network" "test" {
 func testAccMerakiNetworkDeviceClaimConfig_minimum() string {
 	config := `resource "meraki_network_device_claim" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  serials = [var.test_claim_serial_1]` + "\n"
+	config += `  serials = [var.test_switch_1_serial]` + "\n"
 	config += `}` + "\n"
 	return config
 }

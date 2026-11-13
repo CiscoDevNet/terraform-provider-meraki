@@ -46,6 +46,10 @@ func TestAccMeraki{{camelCase .Name}}(t *testing.T) {
         t.Skip("skipping test, set environment variable {{range $i, $e := .TestVariables}}{{if $i}} and {{end}}TF_VAR_{{$e}}{{end}}")
 	}
 	{{- end}}
+	{{- if .TestDisableRetry}}
+	// Do not retry on error codes (e.g. 404), so that eventual-consistency errors are not masked
+	t.Setenv("MERAKI_RETRY_ON_ERROR_CODES", "")
+	{{- end}}
 	{{- if hasWoRecursive .Attributes}}
 	includeWriteOnly := terraformVersionMinimum(goversion.Must(goversion.NewVersion("1.11.0")))
 	{{- end}}
