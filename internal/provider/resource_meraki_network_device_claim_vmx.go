@@ -21,7 +21,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/url"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
@@ -140,7 +139,7 @@ func (r *NetworkDeviceClaimVMXResource) Create(ctx context.Context, req resource
 
 	// The claim is completed asynchronously by the Dashboard; wait until the vMX is reachable
 	if !plan.Serial.IsNull() && !plan.Serial.IsUnknown() {
-		if err := waitForClaimedSerials(ctx, r.client, fmt.Sprintf("/networks/%v/devices", url.QueryEscape(plan.NetworkId.ValueString())), []string{plan.Serial.ValueString()}); err != nil {
+		if err := waitForClaimedSerials(ctx, r.client, []string{plan.Serial.ValueString()}); err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("vMX was claimed but did not become available in the network: %s", err))
 			return
 		}

@@ -21,6 +21,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 
@@ -198,7 +199,7 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	// The claim is completed asynchronously by the Dashboard; wait until the serials are reachable
 	var claimedSerials []string
 	plan.Serials.ElementsAs(ctx, &claimedSerials, false)
-	if err := waitForClaimedSerials(ctx, r.client, plan.getDevicesPath(), claimedSerials); err != nil {
+	if err := waitForClaimedSerials(ctx, r.client, claimedSerials); err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Devices were claimed but did not become available in the network: %s", err))
 		return
 	}
@@ -213,10 +214,13 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// waitForClaimedSerials polls the network devices endpoint until all serials are listed.
-// POST /networks/{networkId}/devices/claim returns before the claim has completed, so
-// dependent device resources would otherwise fail with 404 in the same apply.
-func waitForClaimedSerials(ctx context.Context, client *meraki.Client, devicesPath string, serials []string) error {
+// waitForClaimedSerials polls GET /devices/{serial} until none of the serials returns 404.
+// POST /networks/{networkId}/devices/claim returns before the claim has completed, and the
+// network device list is updated before the per-device endpoint (used by device resources)
+// resolves, so dependent device resources would otherwise fail with 404 in the same apply.
+// Only 404 is treated as "not ready yet": any other response means the device endpoint now
+// resolves the serial (for example a shard redirect) and errors surface in the dependent resource.
+func waitForClaimedSerials(ctx context.Context, client *meraki.Client, serials []string) error {
 	if len(serials) == 0 {
 		return nil
 	}
@@ -225,23 +229,18 @@ func waitForClaimedSerials(ctx context.Context, client *meraki.Client, devicesPa
 
 	var missing []string
 	for {
-		res, err := client.Get(devicesPath)
-		if err == nil {
-			present := map[string]bool{}
-			for _, device := range res.Array() {
-				present[device.Get("serial").String()] = true
+		missing = missing[:0]
+		for _, serial := range serials {
+			path := "/devices/" + url.PathEscape(serial)
+			_, err := client.Get(path)
+			if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
+				missing = append(missing, serial)
+			} else if err != nil {
+				tflog.Debug(ctx, fmt.Sprintf("Waiting for claimed serials, GET %s returned non-404 error, treating as available: %s", path, err))
 			}
-			missing = missing[:0]
-			for _, serial := range serials {
-				if !present[serial] {
-					missing = append(missing, serial)
-				}
-			}
-			if len(missing) == 0 {
-				return nil
-			}
-		} else {
-			tflog.Debug(ctx, fmt.Sprintf("Waiting for claimed serials, GET %s failed: %s", devicesPath, err))
+		}
+		if len(missing) == 0 {
+			return nil
 		}
 		tflog.Debug(ctx, fmt.Sprintf("Waiting for claimed serials to become available: %v", missing))
 		select {
@@ -406,7 +405,7 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 		for _, s := range gjson.Get(claimBody, "serials").Array() {
 			claimed = append(claimed, s.String())
 		}
-		if err := waitForClaimedSerials(ctx, r.client, plan.getDevicesPath(), claimed); err != nil {
+		if err := waitForClaimedSerials(ctx, r.client, claimed); err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Devices were claimed but did not become available in the network: %s", err))
 			return
 		}
