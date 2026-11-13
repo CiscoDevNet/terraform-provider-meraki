@@ -1,4 +1,4 @@
-# Customize Read(), Update(), Delete() to support procedural endpoints
+# Customize Create(), Read(), Update(), Delete() to support procedural endpoints
 name: Network Device Claim
 spec_endpoint: /networks/{networkId}/devices/claim
 rest_endpoint: /networks/%v/devices/claim
@@ -9,7 +9,8 @@ no_import: false
 no_read: false
 res_description: This resource allows claiming and removing serials to a network. It will not not touch any existing serials already claimed and not included in `serials`. Removing a serial from a network will return it to the organization inventory.
 doc_category: Networks
-test_variables: [test_org, test_network, test_claim_serial_1, test_claim_serial_2]
+test_variables: [test_org, test_network, test_switch_1_serial, test_switch_2_serial]
+test_disable_retry: true
 attributes:
   - tf_name: network_id
     type: String
@@ -28,7 +29,7 @@ attributes:
         mandatory: true
         description: The serial of the device these details relate to
         example: Q234-ABCD-5678
-        test_value: var.test_claim_serial_2
+        test_value: var.test_switch_2_serial
       - model_name: details
         type: List
         mandatory: true
@@ -50,7 +51,7 @@ attributes:
     mandatory: true
     description: A list of serials of devices to claim
     example: 1234-1234-1234
-    test_value: '[var.test_claim_serial_1]'
+    test_value: '[var.test_switch_1_serial]'
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

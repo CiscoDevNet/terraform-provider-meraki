@@ -1,3 +1,4 @@
+# Create() is customized to wait until the claimed vMX is available in the network
 name: Network Device Claim vMX
 spec_endpoint: /networks/{networkId}/devices/claim/vmx
 rest_endpoint: /networks/%v/devices/claim/vmx
@@ -9,6 +10,7 @@ no_read: true
 doc_category: Networks
 test_tags: [NETWORK_DEVICE_CLAIM_VMX]
 test_variables: [test_org, test_network]
+test_disable_retry: true
 attributes:
   - tf_name: network_id
     type: String
