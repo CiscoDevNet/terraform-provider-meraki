@@ -4,14 +4,11 @@ page_title: "meraki_appliance_traffic_shaping_vpn_exclusions Resource - terrafor
 subcategory: "Appliances"
 description: |-
   This resource can manage the Appliance Traffic Shaping VPN Exclusions configuration.
-  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_appliance_traffic_shaping_vpn_exclusions (Resource)
 
 This resource can manage the `Appliance Traffic Shaping VPN Exclusions` configuration.
-
-~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 
 ## Example Usage
 

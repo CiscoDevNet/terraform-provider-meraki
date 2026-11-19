@@ -8,7 +8,6 @@ get_from_all: true
 no_delete: true
 no_import: false
 no_read: false
-early_access: true
 doc_category: Appliances
 test_tags: [APPLIANCE_TRAFFIC_SHAPING_VPN_EXCLUSIONS]
 test_variables: [test_org, test_network]
