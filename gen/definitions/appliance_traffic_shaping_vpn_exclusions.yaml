@@ -23,6 +23,7 @@ attributes:
     type: List
     early_access: true
     description: NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware
+    destroy_value: '[]interface{}{}'
     attributes:
       - model_name: id
         type: String
