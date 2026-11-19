@@ -57,7 +57,7 @@ resource "meraki_appliance_traffic_shaping_vpn_exclusions" "example" {
 
 ### Optional
 
-- `applications` (Attributes List) NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware (see [below for nested schema](#nestedatt--applications))
+- `applications` (Attributes List) NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware. Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice. (see [below for nested schema](#nestedatt--applications))
 - `custom` (Attributes List) Custom VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--custom))
 - `major_applications` (Attributes List) Major Application based VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--major_applications))
 
@@ -71,15 +71,21 @@ resource "meraki_appliance_traffic_shaping_vpn_exclusions" "example" {
 Required:
 
 - `id` (String) Application`s Meraki ID.
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `name` (String) Application`s name.
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 
 Optional:
 
 - `protocol` (String) Protocol.
   - Choices: `any`, `dns`, `icmp`, `tcp`, `udp`
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `source_cidr` (String) IP address of the source in CIDR format
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `source_port` (String) Port for the source
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `source_vlan_id` (String) Vlan Id for the source of the rule
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 
 
 <a id="nestedatt--custom"></a>
@@ -95,8 +101,11 @@ Optional:
 - `destination` (String) Destination address; hostname required for DNS, IPv4 otherwise.
 - `port` (String) Destination port.
 - `source_cidr` (String) IP address of the source in CIDR format
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `source_port` (String) Port for the source
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `source_vlan_id` (String) Vlan Id for the source of the rule
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 
 
 <a id="nestedatt--major_applications"></a>
@@ -112,9 +121,13 @@ Optional:
   - Choices: `AWS`, `Box`, `Office 365 Sharepoint`, `Office 365 Suite`, `Oracle`, `SAP`, `Salesforce`, `Skype & Teams`, `Slack`, `Webex`, `Webex Calling`, `Webex Meetings`, `Zoom`
 - `protocol` (String) Protocol.
   - Choices: `any`, `dns`, `icmp`, `tcp`, `udp`
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `source_cidr` (String) IP address of the source in CIDR format
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `source_port` (String) Port for the source
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 - `source_vlan_id` (String) Vlan Id for the source of the rule
+  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.
 
 ## Import
 

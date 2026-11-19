@@ -21,36 +21,43 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: applications
     type: List
+    early_access: true
     description: NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware
     attributes:
       - model_name: id
         type: String
         mandatory: true
+        early_access: true
         description: Application`s Meraki ID.
         example: meraki:layer7/application/2
       - model_name: name
         type: String
         mandatory: true
+        early_access: true
         description: Application`s name.
         example: Zoom
       - model_name: protocol
         type: String
+        early_access: true
         description: Protocol.
         example: tcp
         enum_values: [any, dns, icmp, tcp, udp]
       - model_name: cidr
         type: String
         data_path: [source]
+        early_access: true
         description: IP address of the source in CIDR format
         example: 192.168.1.0/24
       - model_name: port
         type: String
         data_path: [source]
+        early_access: true
         description: Port for the source
         example: "8000"
       - model_name: vlanId
         type: String
         data_path: [source]
+        early_access: true
         description: Vlan Id for the source of the rule
         example: "88"
   - model_name: custom
@@ -76,16 +83,19 @@ attributes:
       - model_name: cidr
         type: String
         data_path: [source]
+        early_access: true
         description: IP address of the source in CIDR format
         example: 192.168.1.0/24
       - model_name: port
         type: String
         data_path: [source]
+        early_access: true
         description: Port for the source
         example: "8000"
       - model_name: vlanId
         type: String
         data_path: [source]
+        early_access: true
         description: Vlan Id for the source of the rule
         example: "88"
   - model_name: majorApplications
@@ -106,22 +116,26 @@ attributes:
         enum_values: [AWS, Box, Office 365 Sharepoint, Office 365 Suite, Oracle, SAP, Salesforce, Skype & Teams, Slack, Webex, Webex Calling, Webex Meetings, Zoom]
       - model_name: protocol
         type: String
+        early_access: true
         description: Protocol.
         example: tcp
         enum_values: [any, dns, icmp, tcp, udp]
       - model_name: cidr
         type: String
         data_path: [source]
+        early_access: true
         description: IP address of the source in CIDR format
         example: 192.168.1.0/24
       - model_name: port
         type: String
         data_path: [source]
+        early_access: true
         description: Port for the source
         example: "8000"
       - model_name: vlanId
         type: String
         data_path: [source]
+        early_access: true
         description: Vlan Id for the source of the rule
         example: "88"
 test_prerequisites: |
