@@ -100,6 +100,9 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 					{{- if .DefaultValue -}}
 					.AddDefaultValueDescription("{{.DefaultValue}}")
 					{{- end -}}
+					{{- if .EarlyAccess -}}
+					.AddAttributeEarlyAccessDescription({{if isNestedListSetMap .}}true{{else}}false{{end}})
+					{{- end -}}
 					.String,
 				{{- if isListSet .}}
 				ElementType:         types.{{.ElementType}}Type,
@@ -173,6 +176,9 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 								{{- if .DefaultValue -}}
 								.AddDefaultValueDescription("{{.DefaultValue}}")
 								{{- end -}}
+								{{- if .EarlyAccess -}}
+								.AddAttributeEarlyAccessDescription({{if isNestedListSetMap .}}true{{else}}false{{end}})
+								{{- end -}}
 								.String,
 							{{- if isListSet .}}
 							ElementType:         types.{{.ElementType}}Type,
@@ -241,6 +247,9 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 											{{- if .DefaultValue -}}
 											.AddDefaultValueDescription("{{.DefaultValue}}")
 											{{- end -}}
+											{{- if .EarlyAccess -}}
+											.AddAttributeEarlyAccessDescription({{if isNestedListSetMap .}}true{{else}}false{{end}})
+											{{- end -}}
 											.String,
 										{{- if isListSet .}}
 										ElementType:         types.{{.ElementType}}Type,
@@ -308,6 +317,9 @@ func (r *{{camelCase .Name}}Resource) Schema(ctx context.Context, req resource.S
 														{{- end -}}
 														{{- if .DefaultValue -}}
 														.AddDefaultValueDescription("{{.DefaultValue}}")
+														{{- end -}}
+														{{- if .EarlyAccess -}}
+														.AddAttributeEarlyAccessDescription({{if isNestedListSetMap .}}true{{else}}false{{end}})
 														{{- end -}}
 														.String,
 													{{- if isListSet .}}

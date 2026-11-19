@@ -68,7 +68,11 @@ ifeq ($(NAME),)
 else ifeq ($(SPEC_PATH),)
 	go run ./gen/generator.go X "$(NAME)"
 else
+ifdef FORCE_BETA_SPEC
+	go run ./gen/definition.go "$(SPEC_PATH)" "$(NAME)" --early-access
+else
 	go run ./gen/definition.go "$(SPEC_PATH)" "$(NAME)"
+endif
 	go run ./gen/generator.go "$(SPEC_PATH)" "$(NAME)"
 endif
 	go run golang.org/x/tools/cmd/goimports -w internal/provider/
