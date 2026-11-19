@@ -63,7 +63,7 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Metadata(ctx context.Cont
 func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Traffic Shaping VPN Exclusions` configuration.").AddEarlyAccessDescription().String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Traffic Shaping VPN Exclusions` configuration.").String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
