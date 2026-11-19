@@ -22,36 +22,43 @@ attributes:
   - model_name: applications
     type: List
     description: NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware
+    early_access: true
     attributes:
       - model_name: id
         type: String
         mandatory: true
         description: Application`s Meraki ID.
+        early_access: true
         example: meraki:layer7/application/2
       - model_name: name
         type: String
         mandatory: true
         description: Application`s name.
+        early_access: true
         example: Zoom
       - model_name: protocol
         type: String
         description: Protocol.
+        early_access: true
         example: tcp
         enum_values: [any, dns, icmp, tcp, udp]
       - model_name: cidr
         type: String
         data_path: [source]
         description: IP address of the source in CIDR format
+        early_access: true
         example: 192.168.1.0/24
       - model_name: port
         type: String
         data_path: [source]
         description: Port for the source
+        early_access: true
         example: "8000"
       - model_name: vlanId
         type: String
         data_path: [source]
         description: Vlan Id for the source of the rule
+        early_access: true
         example: "88"
   - model_name: custom
     type: List
@@ -77,16 +84,19 @@ attributes:
         type: String
         data_path: [source]
         description: IP address of the source in CIDR format
+        early_access: true
         example: 192.168.1.0/24
       - model_name: port
         type: String
         data_path: [source]
         description: Port for the source
+        early_access: true
         example: "8000"
       - model_name: vlanId
         type: String
         data_path: [source]
         description: Vlan Id for the source of the rule
+        early_access: true
         example: "88"
   - model_name: majorApplications
     type: List
@@ -108,21 +118,25 @@ attributes:
         type: String
         description: Protocol.
         example: tcp
+        early_access: true
         enum_values: [any, dns, icmp, tcp, udp]
       - model_name: cidr
         type: String
         data_path: [source]
         description: IP address of the source in CIDR format
+        early_access: true
         example: 192.168.1.0/24
       - model_name: port
         type: String
         data_path: [source]
         description: Port for the source
+        early_access: true
         example: "8000"
       - model_name: vlanId
         type: String
         data_path: [source]
         description: Vlan Id for the source of the rule
+        early_access: true
         example: "88"
 test_prerequisites: |
   data "meraki_organization" "test" {
