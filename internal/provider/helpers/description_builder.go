@@ -40,6 +40,15 @@ func (d *AttributeDescription) AddEarlyAccessDescription() *AttributeDescription
 	return d
 }
 
+func (d *AttributeDescription) AddAttributeEarlyAccessDescription(oneLine bool) *AttributeDescription {
+	if oneLine {
+		d.String = fmt.Sprintf("%s. Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.", d.String)
+	} else {
+		d.String = fmt.Sprintf("%s\n  - Warning: This attribute is Early Access API, which is subject to breaking changes without prior notice.", d.String)
+	}
+	return d
+}
+
 func (d *AttributeDescription) AddBulkResourceIds(attributes ...string) *AttributeDescription {
 	d.String = fmt.Sprintf("%s\n\nThis bulk resource uses the following attributes to uniquely identify each object. Changing any of these attributes will cause the object to be deleted and recreated.\n", d.String)
 	for _, attr := range attributes {

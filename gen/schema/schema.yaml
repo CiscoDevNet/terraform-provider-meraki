@@ -45,6 +45,7 @@ attribute:
   bulk_id: bool(required=False) # Set to true if the attribute is part of the bulk ID (uniquely identifies an element within a bulk resource)
   reference: bool(required=False) # Set to true if the attribute is a reference being used in the path (URL) of the REST endpoint
   requires_replace: bool(required=False) # Set to true if the attribute update forces Terraform to destroy/recreate the entire resource
+  early_access: bool(required=False) # Set to true if the attribute is early access
   mandatory: bool(required=False) # Set to true if the attribute is mandatory
   write_only: bool(required=False) # Set to true if the attribute is write-only, meaning we cannot read the value
   data_source_only: bool(required=False) # Set to true if the attribute should only be present in the data source, not the resource (e.g. GET-only detail not accepted by the PUT/POST body). Cascades to nested attributes.
