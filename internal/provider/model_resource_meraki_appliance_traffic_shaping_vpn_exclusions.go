@@ -694,6 +694,7 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromIdentity(ctx context.Conte
 
 func (data ApplianceTrafficShapingVPNExclusions) toDestroyBody(ctx context.Context) string {
 	body := ""
+	body, _ = sjson.Set(body, "applications", []interface{}{})
 	body, _ = sjson.Set(body, "custom", []interface{}{})
 	body, _ = sjson.Set(body, "majorApplications", []interface{}{})
 	return body
