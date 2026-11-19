@@ -41,11 +41,24 @@ func TestAccMerakiApplianceTrafficShapingVPNExclusions(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "applications.0.id", "meraki:layer7/application/2"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "applications.0.name", "Zoom"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "applications.0.protocol", "tcp"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "applications.0.source_cidr", "192.168.1.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "applications.0.source_port", "8000"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "applications.0.source_vlan_id", "88"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.destination", "192.168.3.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.port", "8000"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.protocol", "tcp"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.source_cidr", "192.168.1.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.source_port", "8000"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "custom.0.source_vlan_id", "88"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "major_applications.0.id", "meraki:vpnExclusion/application/2"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "major_applications.0.name", "Office 365 Sharepoint"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "major_applications.0.protocol", "tcp"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "major_applications.0.source_cidr", "192.168.1.0/24"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "major_applications.0.source_port", "8000"))
+	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_traffic_shaping_vpn_exclusions.test", "major_applications.0.source_vlan_id", "88"))
 
 	var steps []resource.TestStep
 	var tfVersion *goversion.Version
@@ -126,14 +139,29 @@ func testAccMerakiApplianceTrafficShapingVPNExclusionsConfig_minimum() string {
 func testAccMerakiApplianceTrafficShapingVPNExclusionsConfig_all() string {
 	config := `resource "meraki_appliance_traffic_shaping_vpn_exclusions" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  applications = [{` + "\n"
+	config += `    id = "meraki:layer7/application/2"` + "\n"
+	config += `    name = "Zoom"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    source_cidr = "192.168.1.0/24"` + "\n"
+	config += `    source_port = "8000"` + "\n"
+	config += `    source_vlan_id = "88"` + "\n"
+	config += `  }]` + "\n"
 	config += `  custom = [{` + "\n"
 	config += `    destination = "192.168.3.0/24"` + "\n"
 	config += `    port = "8000"` + "\n"
 	config += `    protocol = "tcp"` + "\n"
+	config += `    source_cidr = "192.168.1.0/24"` + "\n"
+	config += `    source_port = "8000"` + "\n"
+	config += `    source_vlan_id = "88"` + "\n"
 	config += `  }]` + "\n"
 	config += `  major_applications = [{` + "\n"
 	config += `    id = "meraki:vpnExclusion/application/2"` + "\n"
 	config += `    name = "Office 365 Sharepoint"` + "\n"
+	config += `    protocol = "tcp"` + "\n"
+	config += `    source_cidr = "192.168.1.0/24"` + "\n"
+	config += `    source_port = "8000"` + "\n"
+	config += `    source_vlan_id = "88"` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 	return config

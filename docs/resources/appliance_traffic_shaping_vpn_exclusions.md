@@ -4,28 +4,48 @@ page_title: "meraki_appliance_traffic_shaping_vpn_exclusions Resource - terrafor
 subcategory: "Appliances"
 description: |-
   This resource can manage the Appliance Traffic Shaping VPN Exclusions configuration.
+  ~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
 ---
 
 # meraki_appliance_traffic_shaping_vpn_exclusions (Resource)
 
 This resource can manage the `Appliance Traffic Shaping VPN Exclusions` configuration.
 
+~>Warning: This resource or data source depends on an Early Access API endpoint. These API endpoints are subject to breaking changes without prior notice.
+
 ## Example Usage
 
 ```terraform
 resource "meraki_appliance_traffic_shaping_vpn_exclusions" "example" {
   network_id = "L_123456"
+  applications = [
+    {
+      id             = "meraki:layer7/application/2"
+      name           = "Zoom"
+      protocol       = "tcp"
+      source_cidr    = "192.168.1.0/24"
+      source_port    = "8000"
+      source_vlan_id = "88"
+    }
+  ]
   custom = [
     {
-      destination = "192.168.3.0/24"
-      port        = "8000"
-      protocol    = "tcp"
+      destination    = "192.168.3.0/24"
+      port           = "8000"
+      protocol       = "tcp"
+      source_cidr    = "192.168.1.0/24"
+      source_port    = "8000"
+      source_vlan_id = "88"
     }
   ]
   major_applications = [
     {
-      id   = "meraki:vpnExclusion/application/2"
-      name = "Office 365 Sharepoint"
+      id             = "meraki:vpnExclusion/application/2"
+      name           = "Office 365 Sharepoint"
+      protocol       = "tcp"
+      source_cidr    = "192.168.1.0/24"
+      source_port    = "8000"
+      source_vlan_id = "88"
     }
   ]
 }
@@ -40,12 +60,30 @@ resource "meraki_appliance_traffic_shaping_vpn_exclusions" "example" {
 
 ### Optional
 
+- `applications` (Attributes List) NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware (see [below for nested schema](#nestedatt--applications))
 - `custom` (Attributes List) Custom VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--custom))
 - `major_applications` (Attributes List) Major Application based VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--major_applications))
 
 ### Read-Only
 
 - `id` (String) The id of the object
+
+<a id="nestedatt--applications"></a>
+### Nested Schema for `applications`
+
+Required:
+
+- `id` (String) Application`s Meraki ID.
+- `name` (String) Application`s name.
+
+Optional:
+
+- `protocol` (String) Protocol.
+  - Choices: `any`, `dns`, `icmp`, `tcp`, `udp`
+- `source_cidr` (String) IP address of the source in CIDR format
+- `source_port` (String) Port for the source
+- `source_vlan_id` (String) Vlan Id for the source of the rule
+
 
 <a id="nestedatt--custom"></a>
 ### Nested Schema for `custom`
@@ -59,6 +97,9 @@ Optional:
 
 - `destination` (String) Destination address; hostname required for DNS, IPv4 otherwise.
 - `port` (String) Destination port.
+- `source_cidr` (String) IP address of the source in CIDR format
+- `source_port` (String) Port for the source
+- `source_vlan_id` (String) Vlan Id for the source of the rule
 
 
 <a id="nestedatt--major_applications"></a>
@@ -72,6 +113,11 @@ Optional:
 
 - `name` (String) Application`s name.
   - Choices: `AWS`, `Box`, `Office 365 Sharepoint`, `Office 365 Suite`, `Oracle`, `SAP`, `Salesforce`, `Skype & Teams`, `Slack`, `Webex`, `Webex Calling`, `Webex Meetings`, `Zoom`
+- `protocol` (String) Protocol.
+  - Choices: `any`, `dns`, `icmp`, `tcp`, `udp`
+- `source_cidr` (String) IP address of the source in CIDR format
+- `source_port` (String) Port for the source
+- `source_vlan_id` (String) Vlan Id for the source of the rule
 
 ## Import
 

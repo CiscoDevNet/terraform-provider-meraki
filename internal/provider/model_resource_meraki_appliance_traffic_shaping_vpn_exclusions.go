@@ -38,19 +38,36 @@ import (
 type ApplianceTrafficShapingVPNExclusions struct {
 	Id                types.String                                            `tfsdk:"id"`
 	NetworkId         types.String                                            `tfsdk:"network_id"`
+	Applications      []ApplianceTrafficShapingVPNExclusionsApplications      `tfsdk:"applications"`
 	Custom            []ApplianceTrafficShapingVPNExclusionsCustom            `tfsdk:"custom"`
 	MajorApplications []ApplianceTrafficShapingVPNExclusionsMajorApplications `tfsdk:"major_applications"`
 }
 
+type ApplianceTrafficShapingVPNExclusionsApplications struct {
+	Id           types.String `tfsdk:"id"`
+	Name         types.String `tfsdk:"name"`
+	Protocol     types.String `tfsdk:"protocol"`
+	SourceCidr   types.String `tfsdk:"source_cidr"`
+	SourcePort   types.String `tfsdk:"source_port"`
+	SourceVlanId types.String `tfsdk:"source_vlan_id"`
+}
+
 type ApplianceTrafficShapingVPNExclusionsCustom struct {
-	Destination types.String `tfsdk:"destination"`
-	Port        types.String `tfsdk:"port"`
-	Protocol    types.String `tfsdk:"protocol"`
+	Destination  types.String `tfsdk:"destination"`
+	Port         types.String `tfsdk:"port"`
+	Protocol     types.String `tfsdk:"protocol"`
+	SourceCidr   types.String `tfsdk:"source_cidr"`
+	SourcePort   types.String `tfsdk:"source_port"`
+	SourceVlanId types.String `tfsdk:"source_vlan_id"`
 }
 
 type ApplianceTrafficShapingVPNExclusionsMajorApplications struct {
-	Id   types.String `tfsdk:"id"`
-	Name types.String `tfsdk:"name"`
+	Id           types.String `tfsdk:"id"`
+	Name         types.String `tfsdk:"name"`
+	Protocol     types.String `tfsdk:"protocol"`
+	SourceCidr   types.String `tfsdk:"source_cidr"`
+	SourcePort   types.String `tfsdk:"source_port"`
+	SourceVlanId types.String `tfsdk:"source_vlan_id"`
 }
 
 type ApplianceTrafficShapingVPNExclusionsIdentity struct {
@@ -71,6 +88,31 @@ func (data ApplianceTrafficShapingVPNExclusions) getPath() string {
 
 func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, state ApplianceTrafficShapingVPNExclusions) string {
 	body := ""
+	if len(data.Applications) > 0 {
+		body, _ = sjson.Set(body, "applications", []interface{}{})
+		for _, item := range data.Applications {
+			itemBody := ""
+			if !item.Id.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "id", item.Id.ValueString())
+			}
+			if !item.Name.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "name", item.Name.ValueString())
+			}
+			if !item.Protocol.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "protocol", item.Protocol.ValueString())
+			}
+			if !item.SourceCidr.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.cidr", item.SourceCidr.ValueString())
+			}
+			if !item.SourcePort.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.port", item.SourcePort.ValueString())
+			}
+			if !item.SourceVlanId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.vlanId", item.SourceVlanId.ValueString())
+			}
+			body, _ = sjson.SetRaw(body, "applications.-1", itemBody)
+		}
+	}
 	if len(data.Custom) > 0 {
 		body, _ = sjson.Set(body, "custom", []interface{}{})
 		for _, item := range data.Custom {
@@ -84,6 +126,15 @@ func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, sta
 			if !item.Protocol.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "protocol", item.Protocol.ValueString())
 			}
+			if !item.SourceCidr.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.cidr", item.SourceCidr.ValueString())
+			}
+			if !item.SourcePort.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.port", item.SourcePort.ValueString())
+			}
+			if !item.SourceVlanId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.vlanId", item.SourceVlanId.ValueString())
+			}
 			body, _ = sjson.SetRaw(body, "custom.-1", itemBody)
 		}
 	}
@@ -96,6 +147,18 @@ func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, sta
 			}
 			if !item.Name.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "name", item.Name.ValueString())
+			}
+			if !item.Protocol.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "protocol", item.Protocol.ValueString())
+			}
+			if !item.SourceCidr.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.cidr", item.SourceCidr.ValueString())
+			}
+			if !item.SourcePort.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.port", item.SourcePort.ValueString())
+			}
+			if !item.SourceVlanId.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "source.vlanId", item.SourceVlanId.ValueString())
 			}
 			body, _ = sjson.SetRaw(body, "majorApplications.-1", itemBody)
 		}
@@ -117,6 +180,61 @@ func (data ApplianceTrafficShapingVPNExclusions) toBody(ctx context.Context, sta
 // `.Attributes` schema and must agree on which fields are writable.
 func (data ApplianceTrafficShapingVPNExclusions) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
 	body := ""
+	if value := res.Get("applications"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "applications", "null")
+		} else {
+			body, _ = sjson.Set(body, "applications", []interface{}{})
+			parent := &body
+			value.ForEach(func(k, res gjson.Result) bool {
+				body := ""
+				if value := res.Get("id"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "id", "null")
+					} else {
+						body, _ = sjson.Set(body, "id", value.String())
+					}
+				}
+				if value := res.Get("name"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "name", "null")
+					} else {
+						body, _ = sjson.Set(body, "name", value.String())
+					}
+				}
+				if value := res.Get("protocol"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "protocol", "null")
+					} else {
+						body, _ = sjson.Set(body, "protocol", value.String())
+					}
+				}
+				if value := res.Get("source.cidr"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.cidr", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.cidr", value.String())
+					}
+				}
+				if value := res.Get("source.port"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.port", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.port", value.String())
+					}
+				}
+				if value := res.Get("source.vlanId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.vlanId", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.vlanId", value.String())
+					}
+				}
+				*parent, _ = sjson.SetRaw(*parent, "applications.-1", body)
+				return true
+			})
+		}
+	}
 	if value := res.Get("custom"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "custom", "null")
@@ -146,6 +264,27 @@ func (data ApplianceTrafficShapingVPNExclusions) toBodyPreservingNulls(ctx conte
 						body, _ = sjson.Set(body, "protocol", value.String())
 					}
 				}
+				if value := res.Get("source.cidr"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.cidr", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.cidr", value.String())
+					}
+				}
+				if value := res.Get("source.port"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.port", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.port", value.String())
+					}
+				}
+				if value := res.Get("source.vlanId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.vlanId", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.vlanId", value.String())
+					}
+				}
 				*parent, _ = sjson.SetRaw(*parent, "custom.-1", body)
 				return true
 			})
@@ -173,6 +312,34 @@ func (data ApplianceTrafficShapingVPNExclusions) toBodyPreservingNulls(ctx conte
 						body, _ = sjson.Set(body, "name", value.String())
 					}
 				}
+				if value := res.Get("protocol"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "protocol", "null")
+					} else {
+						body, _ = sjson.Set(body, "protocol", value.String())
+					}
+				}
+				if value := res.Get("source.cidr"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.cidr", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.cidr", value.String())
+					}
+				}
+				if value := res.Get("source.port"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.port", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.port", value.String())
+					}
+				}
+				if value := res.Get("source.vlanId"); value.Exists() {
+					if value.Value() == nil {
+						body, _ = sjson.SetRaw(body, "source.vlanId", "null")
+					} else {
+						body, _ = sjson.Set(body, "source.vlanId", value.String())
+					}
+				}
 				*parent, _ = sjson.SetRaw(*parent, "majorApplications.-1", body)
 				return true
 			})
@@ -186,6 +353,45 @@ func (data ApplianceTrafficShapingVPNExclusions) toBodyPreservingNulls(ctx conte
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceTrafficShapingVPNExclusions) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("applications"); value.Exists() && value.Value() != nil {
+		data.Applications = make([]ApplianceTrafficShapingVPNExclusionsApplications, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := ApplianceTrafficShapingVPNExclusionsApplications{}
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
+				data.Protocol = types.StringValue(value.String())
+			} else {
+				data.Protocol = types.StringNull()
+			}
+			if value := res.Get("source.cidr"); value.Exists() && value.Value() != nil {
+				data.SourceCidr = types.StringValue(value.String())
+			} else {
+				data.SourceCidr = types.StringNull()
+			}
+			if value := res.Get("source.port"); value.Exists() && value.Value() != nil {
+				data.SourcePort = types.StringValue(value.String())
+			} else {
+				data.SourcePort = types.StringNull()
+			}
+			if value := res.Get("source.vlanId"); value.Exists() && value.Value() != nil {
+				data.SourceVlanId = types.StringValue(value.String())
+			} else {
+				data.SourceVlanId = types.StringNull()
+			}
+			(*parent).Applications = append((*parent).Applications, data)
+			return true
+		})
+	}
 	if value := res.Get("custom"); value.Exists() && value.Value() != nil {
 		data.Custom = make([]ApplianceTrafficShapingVPNExclusionsCustom, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -206,6 +412,21 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBody(ctx context.Context, 
 			} else {
 				data.Protocol = types.StringNull()
 			}
+			if value := res.Get("source.cidr"); value.Exists() && value.Value() != nil {
+				data.SourceCidr = types.StringValue(value.String())
+			} else {
+				data.SourceCidr = types.StringNull()
+			}
+			if value := res.Get("source.port"); value.Exists() && value.Value() != nil {
+				data.SourcePort = types.StringValue(value.String())
+			} else {
+				data.SourcePort = types.StringNull()
+			}
+			if value := res.Get("source.vlanId"); value.Exists() && value.Value() != nil {
+				data.SourceVlanId = types.StringValue(value.String())
+			} else {
+				data.SourceVlanId = types.StringNull()
+			}
 			(*parent).Custom = append((*parent).Custom, data)
 			return true
 		})
@@ -225,6 +446,26 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBody(ctx context.Context, 
 			} else {
 				data.Name = types.StringNull()
 			}
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
+				data.Protocol = types.StringValue(value.String())
+			} else {
+				data.Protocol = types.StringNull()
+			}
+			if value := res.Get("source.cidr"); value.Exists() && value.Value() != nil {
+				data.SourceCidr = types.StringValue(value.String())
+			} else {
+				data.SourceCidr = types.StringNull()
+			}
+			if value := res.Get("source.port"); value.Exists() && value.Value() != nil {
+				data.SourcePort = types.StringValue(value.String())
+			} else {
+				data.SourcePort = types.StringNull()
+			}
+			if value := res.Get("source.vlanId"); value.Exists() && value.Value() != nil {
+				data.SourceVlanId = types.StringValue(value.String())
+			} else {
+				data.SourceVlanId = types.StringNull()
+			}
 			(*parent).MajorApplications = append((*parent).MajorApplications, data)
 			return true
 		})
@@ -240,6 +481,74 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBody(ctx context.Context, 
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceTrafficShapingVPNExclusions) fromBodyPartial(ctx context.Context, res meraki.Res) {
+	for i := 0; i < len(data.Applications); i++ {
+		keys := [...]string{"id", "name", "protocol", "source.cidr", "source.port", "source.vlanId"}
+		keyValues := [...]string{data.Applications[i].Id.ValueString(), data.Applications[i].Name.ValueString(), data.Applications[i].Protocol.ValueString(), data.Applications[i].SourceCidr.ValueString(), data.Applications[i].SourcePort.ValueString(), data.Applications[i].SourceVlanId.ValueString()}
+
+		parent := &data
+		data := (*parent).Applications[i]
+		parentRes := &res
+		var res gjson.Result
+
+		parentRes.Get("applications").ForEach(
+			func(_, v gjson.Result) bool {
+				found := false
+				for ik := range keys {
+					if v.Get(keys[ik]).String() != keyValues[ik] {
+						found = false
+						break
+					}
+					found = true
+				}
+				if found {
+					res = v
+					return false
+				}
+				return true
+			},
+		)
+		if !res.Exists() {
+			tflog.Debug(ctx, fmt.Sprintf("removing Applications[%d] = %+v",
+				i,
+				(*parent).Applications[i],
+			))
+			(*parent).Applications = slices.Delete((*parent).Applications, i, i+1)
+			i--
+
+			continue
+		}
+		if value := res.Get("id"); value.Exists() && !data.Id.IsNull() {
+			data.Id = types.StringValue(value.String())
+		} else {
+			data.Id = types.StringNull()
+		}
+		if value := res.Get("name"); value.Exists() && !data.Name.IsNull() {
+			data.Name = types.StringValue(value.String())
+		} else {
+			data.Name = types.StringNull()
+		}
+		if value := res.Get("protocol"); value.Exists() && !data.Protocol.IsNull() {
+			data.Protocol = types.StringValue(value.String())
+		} else {
+			data.Protocol = types.StringNull()
+		}
+		if value := res.Get("source.cidr"); value.Exists() && !data.SourceCidr.IsNull() {
+			data.SourceCidr = types.StringValue(value.String())
+		} else {
+			data.SourceCidr = types.StringNull()
+		}
+		if value := res.Get("source.port"); value.Exists() && !data.SourcePort.IsNull() {
+			data.SourcePort = types.StringValue(value.String())
+		} else {
+			data.SourcePort = types.StringNull()
+		}
+		if value := res.Get("source.vlanId"); value.Exists() && !data.SourceVlanId.IsNull() {
+			data.SourceVlanId = types.StringValue(value.String())
+		} else {
+			data.SourceVlanId = types.StringNull()
+		}
+		(*parent).Applications[i] = data
+	}
 	{
 		l := len(res.Get("custom").Array())
 		tflog.Debug(ctx, fmt.Sprintf("custom array resizing from %d to %d", len(data.Custom), l))
@@ -266,6 +575,21 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBodyPartial(ctx context.Co
 			data.Protocol = types.StringValue(value.String())
 		} else {
 			data.Protocol = types.StringNull()
+		}
+		if value := res.Get("source.cidr"); value.Exists() && !data.SourceCidr.IsNull() {
+			data.SourceCidr = types.StringValue(value.String())
+		} else {
+			data.SourceCidr = types.StringNull()
+		}
+		if value := res.Get("source.port"); value.Exists() && !data.SourcePort.IsNull() {
+			data.SourcePort = types.StringValue(value.String())
+		} else {
+			data.SourcePort = types.StringNull()
+		}
+		if value := res.Get("source.vlanId"); value.Exists() && !data.SourceVlanId.IsNull() {
+			data.SourceVlanId = types.StringValue(value.String())
+		} else {
+			data.SourceVlanId = types.StringNull()
 		}
 		(*parent).Custom[i] = data
 	}
@@ -314,6 +638,26 @@ func (data *ApplianceTrafficShapingVPNExclusions) fromBodyPartial(ctx context.Co
 			data.Name = types.StringValue(value.String())
 		} else {
 			data.Name = types.StringNull()
+		}
+		if value := res.Get("protocol"); value.Exists() && !data.Protocol.IsNull() {
+			data.Protocol = types.StringValue(value.String())
+		} else {
+			data.Protocol = types.StringNull()
+		}
+		if value := res.Get("source.cidr"); value.Exists() && !data.SourceCidr.IsNull() {
+			data.SourceCidr = types.StringValue(value.String())
+		} else {
+			data.SourceCidr = types.StringNull()
+		}
+		if value := res.Get("source.port"); value.Exists() && !data.SourcePort.IsNull() {
+			data.SourcePort = types.StringValue(value.String())
+		} else {
+			data.SourcePort = types.StringNull()
+		}
+		if value := res.Get("source.vlanId"); value.Exists() && !data.SourceVlanId.IsNull() {
+			data.SourceVlanId = types.StringValue(value.String())
+		} else {
+			data.SourceVlanId = types.StringNull()
 		}
 		(*parent).MajorApplications[i] = data
 	}

@@ -63,7 +63,7 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Metadata(ctx context.Cont
 func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Traffic Shaping VPN Exclusions` configuration.").String,
+		MarkdownDescription: helpers.NewAttributeDescription("This resource can manage the `Appliance Traffic Shaping VPN Exclusions` configuration.").AddEarlyAccessDescription().String,
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -78,6 +78,41 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"applications": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware").String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Application`s Meraki ID.").String,
+							Required:            true,
+						},
+						"name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Application`s name.").String,
+							Required:            true,
+						},
+						"protocol": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Protocol.").AddStringEnumDescription("any", "dns", "icmp", "tcp", "udp").String,
+							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("any", "dns", "icmp", "tcp", "udp"),
+							},
+						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IP address of the source in CIDR format").String,
+							Optional:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Port for the source").String,
+							Optional:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Vlan Id for the source of the rule").String,
+							Optional:            true,
+						},
+					},
 				},
 			},
 			"custom": schema.ListNestedAttribute{
@@ -100,6 +135,18 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 								stringvalidator.OneOf("any", "dns", "icmp", "tcp", "udp"),
 							},
 						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IP address of the source in CIDR format").String,
+							Optional:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Port for the source").String,
+							Optional:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Vlan Id for the source of the rule").String,
+							Optional:            true,
+						},
 					},
 				},
 			},
@@ -118,6 +165,25 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 							Validators: []validator.String{
 								stringvalidator.OneOf("AWS", "Box", "Office 365 Sharepoint", "Office 365 Suite", "Oracle", "SAP", "Salesforce", "Skype & Teams", "Slack", "Webex", "Webex Calling", "Webex Meetings", "Zoom"),
 							},
+						},
+						"protocol": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Protocol.").AddStringEnumDescription("any", "dns", "icmp", "tcp", "udp").String,
+							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("any", "dns", "icmp", "tcp", "udp"),
+							},
+						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IP address of the source in CIDR format").String,
+							Optional:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Port for the source").String,
+							Optional:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Vlan Id for the source of the rule").String,
+							Optional:            true,
 						},
 					},
 				},

@@ -8,6 +8,7 @@ get_from_all: true
 no_delete: true
 no_import: false
 no_read: false
+early_access: true
 doc_category: Appliances
 test_tags: [APPLIANCE_TRAFFIC_SHAPING_VPN_EXCLUSIONS]
 test_variables: [test_org, test_network]
@@ -19,6 +20,40 @@ attributes:
     description: Network ID
     example: L_123456
     test_value: meraki_network.test.id
+  - model_name: applications
+    type: List
+    description: NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware
+    attributes:
+      - model_name: id
+        type: String
+        mandatory: true
+        description: Application`s Meraki ID.
+        example: meraki:layer7/application/2
+      - model_name: name
+        type: String
+        mandatory: true
+        description: Application`s name.
+        example: Zoom
+      - model_name: protocol
+        type: String
+        description: Protocol.
+        example: tcp
+        enum_values: [any, dns, icmp, tcp, udp]
+      - model_name: cidr
+        type: String
+        data_path: [source]
+        description: IP address of the source in CIDR format
+        example: 192.168.1.0/24
+      - model_name: port
+        type: String
+        data_path: [source]
+        description: Port for the source
+        example: "8000"
+      - model_name: vlanId
+        type: String
+        data_path: [source]
+        description: Vlan Id for the source of the rule
+        example: "88"
   - model_name: custom
     type: List
     description: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
@@ -39,6 +74,21 @@ attributes:
         description: Protocol.
         example: tcp
         enum_values: [any, dns, icmp, tcp, udp]
+      - model_name: cidr
+        type: String
+        data_path: [source]
+        description: IP address of the source in CIDR format
+        example: 192.168.1.0/24
+      - model_name: port
+        type: String
+        data_path: [source]
+        description: Port for the source
+        example: "8000"
+      - model_name: vlanId
+        type: String
+        data_path: [source]
+        description: Vlan Id for the source of the rule
+        example: "88"
   - model_name: majorApplications
     type: List
     description: Major Application based VPN exclusion rules. Pass an empty array to clear existing rules.
@@ -55,6 +105,26 @@ attributes:
         description: Application`s name.
         example: Office 365 Sharepoint
         enum_values: [AWS, Box, Office 365 Sharepoint, Office 365 Suite, Oracle, SAP, Salesforce, Skype & Teams, Slack, Webex, Webex Calling, Webex Meetings, Zoom]
+      - model_name: protocol
+        type: String
+        description: Protocol.
+        example: tcp
+        enum_values: [any, dns, icmp, tcp, udp]
+      - model_name: cidr
+        type: String
+        data_path: [source]
+        description: IP address of the source in CIDR format
+        example: 192.168.1.0/24
+      - model_name: port
+        type: String
+        data_path: [source]
+        description: Port for the source
+        example: "8000"
+      - model_name: vlanId
+        type: String
+        data_path: [source]
+        description: Vlan Id for the source of the rule
+        example: "88"
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

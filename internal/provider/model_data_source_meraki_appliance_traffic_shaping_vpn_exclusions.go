@@ -43,19 +43,36 @@ import (
 type DataSourceApplianceTrafficShapingVPNExclusions struct {
 	Id                types.String                                                      `tfsdk:"id"`
 	NetworkId         types.String                                                      `tfsdk:"network_id"`
+	Applications      []DataSourceApplianceTrafficShapingVPNExclusionsApplications      `tfsdk:"applications"`
 	Custom            []DataSourceApplianceTrafficShapingVPNExclusionsCustom            `tfsdk:"custom"`
 	MajorApplications []DataSourceApplianceTrafficShapingVPNExclusionsMajorApplications `tfsdk:"major_applications"`
 }
 
+type DataSourceApplianceTrafficShapingVPNExclusionsApplications struct {
+	Id           types.String `tfsdk:"id"`
+	Name         types.String `tfsdk:"name"`
+	Protocol     types.String `tfsdk:"protocol"`
+	SourceCidr   types.String `tfsdk:"source_cidr"`
+	SourcePort   types.String `tfsdk:"source_port"`
+	SourceVlanId types.String `tfsdk:"source_vlan_id"`
+}
+
 type DataSourceApplianceTrafficShapingVPNExclusionsCustom struct {
-	Destination types.String `tfsdk:"destination"`
-	Port        types.String `tfsdk:"port"`
-	Protocol    types.String `tfsdk:"protocol"`
+	Destination  types.String `tfsdk:"destination"`
+	Port         types.String `tfsdk:"port"`
+	Protocol     types.String `tfsdk:"protocol"`
+	SourceCidr   types.String `tfsdk:"source_cidr"`
+	SourcePort   types.String `tfsdk:"source_port"`
+	SourceVlanId types.String `tfsdk:"source_vlan_id"`
 }
 
 type DataSourceApplianceTrafficShapingVPNExclusionsMajorApplications struct {
-	Id   types.String `tfsdk:"id"`
-	Name types.String `tfsdk:"name"`
+	Id           types.String `tfsdk:"id"`
+	Name         types.String `tfsdk:"name"`
+	Protocol     types.String `tfsdk:"protocol"`
+	SourceCidr   types.String `tfsdk:"source_cidr"`
+	SourcePort   types.String `tfsdk:"source_port"`
+	SourceVlanId types.String `tfsdk:"source_vlan_id"`
 }
 
 // End of section. //template:end types
@@ -71,6 +88,45 @@ func (data DataSourceApplianceTrafficShapingVPNExclusions) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DataSourceApplianceTrafficShapingVPNExclusions) fromBody(ctx context.Context, res meraki.Res) {
+	if value := res.Get("applications"); value.Exists() && value.Value() != nil {
+		data.Applications = make([]DataSourceApplianceTrafficShapingVPNExclusionsApplications, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := DataSourceApplianceTrafficShapingVPNExclusionsApplications{}
+			if value := res.Get("id"); value.Exists() && value.Value() != nil {
+				data.Id = types.StringValue(value.String())
+			} else {
+				data.Id = types.StringNull()
+			}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
+				data.Protocol = types.StringValue(value.String())
+			} else {
+				data.Protocol = types.StringNull()
+			}
+			if value := res.Get("source.cidr"); value.Exists() && value.Value() != nil {
+				data.SourceCidr = types.StringValue(value.String())
+			} else {
+				data.SourceCidr = types.StringNull()
+			}
+			if value := res.Get("source.port"); value.Exists() && value.Value() != nil {
+				data.SourcePort = types.StringValue(value.String())
+			} else {
+				data.SourcePort = types.StringNull()
+			}
+			if value := res.Get("source.vlanId"); value.Exists() && value.Value() != nil {
+				data.SourceVlanId = types.StringValue(value.String())
+			} else {
+				data.SourceVlanId = types.StringNull()
+			}
+			(*parent).Applications = append((*parent).Applications, data)
+			return true
+		})
+	}
 	if value := res.Get("custom"); value.Exists() && value.Value() != nil {
 		data.Custom = make([]DataSourceApplianceTrafficShapingVPNExclusionsCustom, 0)
 		value.ForEach(func(k, res gjson.Result) bool {
@@ -91,6 +147,21 @@ func (data *DataSourceApplianceTrafficShapingVPNExclusions) fromBody(ctx context
 			} else {
 				data.Protocol = types.StringNull()
 			}
+			if value := res.Get("source.cidr"); value.Exists() && value.Value() != nil {
+				data.SourceCidr = types.StringValue(value.String())
+			} else {
+				data.SourceCidr = types.StringNull()
+			}
+			if value := res.Get("source.port"); value.Exists() && value.Value() != nil {
+				data.SourcePort = types.StringValue(value.String())
+			} else {
+				data.SourcePort = types.StringNull()
+			}
+			if value := res.Get("source.vlanId"); value.Exists() && value.Value() != nil {
+				data.SourceVlanId = types.StringValue(value.String())
+			} else {
+				data.SourceVlanId = types.StringNull()
+			}
 			(*parent).Custom = append((*parent).Custom, data)
 			return true
 		})
@@ -109,6 +180,26 @@ func (data *DataSourceApplianceTrafficShapingVPNExclusions) fromBody(ctx context
 				data.Name = types.StringValue(value.String())
 			} else {
 				data.Name = types.StringNull()
+			}
+			if value := res.Get("protocol"); value.Exists() && value.Value() != nil {
+				data.Protocol = types.StringValue(value.String())
+			} else {
+				data.Protocol = types.StringNull()
+			}
+			if value := res.Get("source.cidr"); value.Exists() && value.Value() != nil {
+				data.SourceCidr = types.StringValue(value.String())
+			} else {
+				data.SourceCidr = types.StringNull()
+			}
+			if value := res.Get("source.port"); value.Exists() && value.Value() != nil {
+				data.SourcePort = types.StringValue(value.String())
+			} else {
+				data.SourcePort = types.StringNull()
+			}
+			if value := res.Get("source.vlanId"); value.Exists() && value.Value() != nil {
+				data.SourceVlanId = types.StringValue(value.String())
+			} else {
+				data.SourceVlanId = types.StringNull()
 			}
 			(*parent).MajorApplications = append((*parent).MajorApplications, data)
 			return true
