@@ -1,0 +1,65 @@
+name: Routing VRF
+spec_endpoint: /organizations/{organizationId}/routing/vrfs/{vrfId}
+rest_endpoint: /organizations/%v/routing/vrfs
+bulk_data_source: true
+get_from_all: true
+id_name: vrfId
+early_access: true
+data_source_name_query: true
+doc_category: Organizations
+test_variables: [test_org, test_network, test_appliance_1_serial]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: Description of the VRF (Virtual Routing and Forwarding)
+    example: Virtual network for Engineering
+  - model_name: name
+    type: String
+    mandatory: true
+    description: The name of the VRF (Virtual Routing and Forwarding)
+    example: Engineering
+  - model_name: routeDistinguisher
+    type: String
+    description: RD (Route Distinguisher) for the VRF (Virtual Routing and Forwarding)
+    example: "65000:42"
+  - model_name: routeTarget
+    type: String
+    description: Route target are used to control the import and export of routes between VRFs
+    example: "65000:42"
+  - model_name: enabled
+    type: Bool
+    data_path: [appliance]
+    description: Whether the VRF is enabled on the WAN appliance
+    example: "true"
+  - model_name: index
+    type: String
+    data_path: [appliance]
+    description: The index of the VRF on the WAN appliance if enabled. Leave blank to auto-assign
+    example: "1"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_organization_early_access_features_opt_in" "test_vrf" {
+    organization_id = data.meraki_organization.test.id
+    short_name      = "has_mx_vrf_26_1_early_access"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["switch", "wireless", "appliance", "sensor", "camera"]
+  }
+  resource "meraki_network_device_claim" "test" {
+    network_id = meraki_network.test.id
+    serials    = [var.test_appliance_1_serial]
+  }
+  resource "meraki_appliance_routing_vrfs_settings" "test" {
+    organization_id = data.meraki_organization.test.id
+    enabled         = true
+  }

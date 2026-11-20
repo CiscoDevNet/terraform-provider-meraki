@@ -92,6 +92,10 @@ func (d *ApplianceStaticRouteDataSource) Schema(ctx context.Context, req datasou
 				MarkdownDescription: "Subnet of the route",
 				Computed:            true,
 			},
+			"vrf_id": schema.StringAttribute{
+				MarkdownDescription: "VRF ID for the static route. Use '0' for the default VRF.",
+				Computed:            true,
+			},
 		},
 	}
 }

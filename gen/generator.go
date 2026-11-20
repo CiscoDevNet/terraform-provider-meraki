@@ -300,6 +300,12 @@ func updateDefinitions() {
 		}
 		cmd := exec.Command("go", args...)
 		if out, err := cmd.CombinedOutput(); err != nil {
+			// Endpoints missing from the pinned specs (e.g. added in a newer
+			// spec, or removed from the API) don't fail the whole update
+			if strings.Contains(string(out), "failed to find endpoint in spec") {
+				fmt.Fprintf(os.Stderr, "WARNING: definition '%s' not updated: %s", config.Name, out)
+				continue
+			}
 			log.Fatalf("Error creating definition '%s' for endpoint '%s': %s, %+v", config.SpecEndpoint, config.Name, out, err)
 		}
 	}

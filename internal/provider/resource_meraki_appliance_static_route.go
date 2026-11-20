@@ -103,6 +103,10 @@ func (r *ApplianceStaticRouteResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: helpers.NewAttributeDescription("Subnet of the route").String,
 				Required:            true,
 			},
+			"vrf_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("VRF ID for the static route. Use '0' for the default VRF.").String,
+				Optional:            true,
+			},
 		},
 	}
 }

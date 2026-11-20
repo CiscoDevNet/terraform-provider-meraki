@@ -152,7 +152,11 @@ func generateDefinition(endpointPath, resourceName string, earlyAccess bool) {
 	}
 
 	config := yamlconfig.YamlConfigP{}
-	urlResult := parseUrl(endpointPath, spec, betaSpec, earlyAccess)
+	urlResult, err := parseUrl(endpointPath, spec, betaSpec, earlyAccess)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
+	}
 
 	var example map[string]interface{}
 	if e, ok := urlResult.schema["schema"].(map[string]interface{})["example"]; ok {
@@ -342,7 +346,7 @@ type parseUrlResult struct {
 	testVariables  *[]string
 }
 
-func parseUrl(url string, spec interface{}, betaSpec interface{}, forceEarlyAccess bool) parseUrlResult {
+func parseUrl(url string, spec interface{}, betaSpec interface{}, forceEarlyAccess bool) (parseUrlResult, error) {
 	ret := parseUrlResult{}
 
 	shortUrl := ""
@@ -433,6 +437,10 @@ func parseUrl(url string, spec interface{}, betaSpec interface{}, forceEarlyAcce
 			}
 		}
 		ret.earlyAccess = P(true)
+	}
+
+	if !hasPost && !hasShortPost && !hasPut && !hasShortPut && !hasGet && !hasShortGet && !hasDelete && !hasShortDelete {
+		return ret, fmt.Errorf("failed to find endpoint in spec: %q (searched %s and %s)", url, specPath, betaSpecPath)
 	}
 
 	if forceEarlyAccess {
@@ -536,7 +544,7 @@ func parseUrl(url string, spec interface{}, betaSpec interface{}, forceEarlyAcce
 		ret.testVariables = P(append(*ret.testVariables, "test_network"))
 		ret.testVariables = P(append(*ret.testVariables, "test_switch_1_serial"))
 	}
-	return ret
+	return ret, nil
 }
 
 func traverseProperties(m map[string]interface{}, path []string, gjsonPath string, exampleStr string, requiredProperties []string) []yamlconfig.YamlConfigAttributeP {

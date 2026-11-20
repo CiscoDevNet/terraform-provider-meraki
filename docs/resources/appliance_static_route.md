@@ -38,6 +38,7 @@ resource "meraki_appliance_static_route" "example" {
 - `enabled` (Boolean) Enable/disable the static route
 - `gateway_vlan_id` (Number) Gateway VLAN ID
   - Range: `0`-`4094`
+- `vrf_id` (String) VRF ID for the static route. Use '0' for the default VRF.
 
 ### Read-Only
 

@@ -57,11 +57,13 @@ type DataSourceApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferences
 	BuiltinPerformanceClassName types.String                                                                                `tfsdk:"builtin_performance_class_name"`
 	CustomPerformanceClassId    types.String                                                                                `tfsdk:"custom_performance_class_id"`
 	PerformanceClassType        types.String                                                                                `tfsdk:"performance_class_type"`
+	VrfId                       types.String                                                                                `tfsdk:"vrf_id"`
 	TrafficFilters              []DataSourceApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesTrafficFilters `tfsdk:"traffic_filters"`
 }
 
 type DataSourceApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferences struct {
 	PreferredUplink types.String                                                                                `tfsdk:"preferred_uplink"`
+	VrfId           types.String                                                                                `tfsdk:"vrf_id"`
 	TrafficFilters  []DataSourceApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesTrafficFilters `tfsdk:"traffic_filters"`
 }
 
@@ -156,6 +158,11 @@ func (data *DataSourceApplianceTrafficShapingUplinkSelection) fromBody(ctx conte
 			} else {
 				data.PerformanceClassType = types.StringNull()
 			}
+			if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+				data.VrfId = types.StringValue(value.String())
+			} else {
+				data.VrfId = types.StringNull()
+			}
 			if value := res.Get("trafficFilters"); value.Exists() && value.Value() != nil {
 				data.TrafficFilters = make([]DataSourceApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesTrafficFilters, 0)
 				value.ForEach(func(k, res gjson.Result) bool {
@@ -248,6 +255,11 @@ func (data *DataSourceApplianceTrafficShapingUplinkSelection) fromBody(ctx conte
 				data.PreferredUplink = types.StringValue(value.String())
 			} else {
 				data.PreferredUplink = types.StringNull()
+			}
+			if value := res.Get("vrf.id"); value.Exists() && value.Value() != nil {
+				data.VrfId = types.StringValue(value.String())
+			} else {
+				data.VrfId = types.StringNull()
 			}
 			if value := res.Get("trafficFilters"); value.Exists() && value.Value() != nil {
 				data.TrafficFilters = make([]DataSourceApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesTrafficFilters, 0)

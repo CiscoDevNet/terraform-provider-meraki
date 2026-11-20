@@ -130,6 +130,10 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 								stringvalidator.OneOf("builtin", "custom"),
 							},
 						},
+						"vrf_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("VRF ID for this uplink preference rule. Use 0 for the default VRF.").String,
+							Optional:            true,
+						},
 						"traffic_filters": schema.ListNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Array of traffic filters for this uplink preference rule").String,
 							Required:            true,
@@ -211,6 +215,10 @@ func (r *ApplianceTrafficShapingUplinkSelectionResource) Schema(ctx context.Cont
 						"preferred_uplink": schema.StringAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Preferred uplink for uplink preference rule. Must be one of: `wan1` or `wan2`, or any other valid uplink(`wanX`) if it applies to the network").String,
 							Required:            true,
+						},
+						"vrf_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("VRF ID for this uplink preference rule. Use 0 for the default VRF.").String,
+							Optional:            true,
 						},
 						"traffic_filters": schema.ListNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Array of traffic filters for this uplink preference rule").String,

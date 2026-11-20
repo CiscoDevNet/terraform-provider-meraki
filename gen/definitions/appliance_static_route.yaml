@@ -38,6 +38,13 @@ attributes:
     mandatory: true
     description: Subnet of the route
     example: 5.5.5.0/24
+  - model_name: id
+    type: String
+    data_path: [vrf]
+    exclude_test: true
+    description: VRF ID for the static route. Use '0' for the default VRF.
+    example: "12345"
+    test_value: meraki_routing_vrf.test.id
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org
@@ -52,9 +59,9 @@ test_prerequisites: |
     vlans_enabled = true
   }
   resource "meraki_appliance_vlan" "test" {
-    network_id = meraki_appliance_vlans_settings.test.network_id
+    network_id   = meraki_appliance_vlans_settings.test.network_id
     appliance_ip = "192.168.1.2"
-    vlan_id = "100"
-    name = "My VLAN"
-    subnet = "192.168.1.0/24"
+    vlan_id      = "100"
+    name         = "My VLAN"
+    subnet       = "192.168.1.0/24"
   }
