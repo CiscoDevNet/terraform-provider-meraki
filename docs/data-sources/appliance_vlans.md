@@ -47,6 +47,7 @@ Read-Only:
 - `fixed_ip_assignments` (Attributes Map) The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address. (see [below for nested schema](#nestedatt--items--fixed_ip_assignments))
 - `group_policy_id` (String) The id of the desired group policy to apply to the VLAN
 - `id` (String) The id of the object
+- `interface_id` (String) The interface ID of the VLAN, assigned by the API
 - `ipv6_enabled` (Boolean) Enable IPv6 on VLAN.
 - `ipv6_prefix_assignments` (Attributes List) Prefix assignments on the VLAN (see [below for nested schema](#nestedatt--items--ipv6_prefix_assignments))
 - `mandatory_dhcp_enabled` (Boolean) Enable Mandatory DHCP on VLAN.

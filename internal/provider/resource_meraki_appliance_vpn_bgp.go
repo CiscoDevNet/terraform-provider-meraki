@@ -93,6 +93,10 @@ func (r *ApplianceVPNBGPResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: helpers.NewAttributeDescription("The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer between 12 and 240. When absent, this field is not updated. If no value exists then it defaults to 240.").String,
 				Optional:            true,
 			},
+			"router_id": schema.StringAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("The router ID of the appliance").String,
+				Optional:            true,
+			},
 			"neighbors": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("List of BGP neighbors. This list replaces the existing set of neighbors. When absent, this field is not updated.").String,
 				Optional:            true,
@@ -170,6 +174,16 @@ func (r *ApplianceVPNBGPResource) Schema(ctx context.Context, req resource.Schem
 						"path_prepend": schema.ListAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("Prepends the AS_PATH BGP Attribute associated with routes received from the remote peer. Configurable value of ASNs to prepend. Length of the array may not exceed 10, and each ASN in the array must be an integer between 1 and 4294967295. AS_PATH is 4th in the decision tree when identical routes from multiple peers exist.").String,
 							ElementType:         types.Int64Type,
+							Optional:            true,
+						},
+						"community_out": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("List of BGP communities tagged to the routes advertised to an eBGP neighbor.").String,
+							ElementType:         types.StringType,
+							Optional:            true,
+						},
+						"filter_in": schema.ListAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Filters routes received from an eBGP neighbor. Each entry must be an IPv4 CIDR string (e.g., `10.0.0.0/8` or `10.0.0.5/32`).").String,
+							ElementType:         types.StringType,
 							Optional:            true,
 						},
 					},

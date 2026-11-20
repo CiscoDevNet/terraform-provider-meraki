@@ -20,6 +20,7 @@ resource "meraki_wireless_ssids" "example" {
     psk                             = "deadbeef"
     splash_page                     = "Click-through splash page"
     use_vlan_tagging                = false
+    ssid_admin_accessible           = false
     visible                         = false
     walled_garden_enabled           = false
     wpa_encryption_mode             = "WPA2 only"

@@ -26,7 +26,7 @@ attributes:
     type: String
     description: The association control method for the SSID
     example: 8021x-radius
-    enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, open, open-enhanced, open-with-nac, open-with-radius, psk]
+    enum_values: [8021x-entra, 8021x-google, 8021x-localradius, 8021x-meraki, 8021x-nac, 8021x-radius, ipsk-with-nac, ipsk-with-radius, ipsk-without-radius, ipsk-with-radius-easy-psk, open, open-enhanced, open-enhanced-with-radius, open-with-nac, open-with-radius, psk]
   - model_name: availableOnAllAps
     type: Bool
     description: Whether all APs broadcast the SSID or if it`s restricted to APs matching any availability tags
@@ -49,7 +49,7 @@ attributes:
     type: String
     description: The client IP assignment mode
     example: NAT mode
-    enum_values: [Bridge mode, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, VPN]
+    enum_values: [Bridge mode, Campus Gateway, Ethernet over GRE, Layer 3 roaming, Layer 3 roaming with a concentrator, NAT mode, VPN]
   - model_name: localAuth
     type: Bool
     description: Extended local auth flag for Enterprise NAC

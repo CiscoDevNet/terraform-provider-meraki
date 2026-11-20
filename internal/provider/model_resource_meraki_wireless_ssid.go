@@ -84,6 +84,7 @@ type WirelessSSID struct {
 	SecondaryConcentratorNetworkId                                      types.String                            `tfsdk:"secondary_concentrator_network_id"`
 	SplashPage                                                          types.String                            `tfsdk:"splash_page"`
 	UseVlanTagging                                                      types.Bool                              `tfsdk:"use_vlan_tagging"`
+	SsidAdminAccessible                                                 types.Bool                              `tfsdk:"ssid_admin_accessible"`
 	Visible                                                             types.Bool                              `tfsdk:"visible"`
 	VlanId                                                              types.Int64                             `tfsdk:"vlan_id"`
 	WalledGardenEnabled                                                 types.Bool                              `tfsdk:"walled_garden_enabled"`
@@ -322,6 +323,9 @@ func (data WirelessSSID) toBody(ctx context.Context, state WirelessSSID) string 
 	}
 	if !data.UseVlanTagging.IsNull() {
 		body, _ = sjson.Set(body, "useVlanTagging", data.UseVlanTagging.ValueBool())
+	}
+	if !data.SsidAdminAccessible.IsNull() {
+		body, _ = sjson.Set(body, "ssidAdminAccessible", data.SsidAdminAccessible.ValueBool())
 	}
 	if !data.Visible.IsNull() {
 		body, _ = sjson.Set(body, "visible", data.Visible.ValueBool())
@@ -888,6 +892,13 @@ func (data WirelessSSID) toBodyPreservingNulls(ctx context.Context, res meraki.R
 			body, _ = sjson.SetRaw(body, "useVlanTagging", "null")
 		} else {
 			body, _ = sjson.Set(body, "useVlanTagging", value.Bool())
+		}
+	}
+	if value := res.Get("ssidAdminAccessible"); value.Exists() {
+		if value.Value() == nil {
+			body, _ = sjson.SetRaw(body, "ssidAdminAccessible", "null")
+		} else {
+			body, _ = sjson.Set(body, "ssidAdminAccessible", value.Bool())
 		}
 	}
 	if value := res.Get("visible"); value.Exists() {
@@ -1605,6 +1616,11 @@ func (data *WirelessSSID) fromBody(ctx context.Context, res meraki.Res) {
 	} else {
 		data.UseVlanTagging = types.BoolNull()
 	}
+	if value := res.Get("ssidAdminAccessible"); value.Exists() && value.Value() != nil {
+		data.SsidAdminAccessible = types.BoolValue(value.Bool())
+	} else {
+		data.SsidAdminAccessible = types.BoolNull()
+	}
 	if value := res.Get("visible"); value.Exists() && value.Value() != nil {
 		data.Visible = types.BoolValue(value.Bool())
 	} else {
@@ -2154,6 +2170,11 @@ func (data *WirelessSSID) fromBodyPartial(ctx context.Context, res meraki.Res) {
 		data.UseVlanTagging = types.BoolValue(value.Bool())
 	} else {
 		data.UseVlanTagging = types.BoolNull()
+	}
+	if value := res.Get("ssidAdminAccessible"); value.Exists() && !data.SsidAdminAccessible.IsNull() {
+		data.SsidAdminAccessible = types.BoolValue(value.Bool())
+	} else {
+		data.SsidAdminAccessible = types.BoolNull()
 	}
 	if value := res.Get("visible"); value.Exists() && !data.Visible.IsNull() {
 		data.Visible = types.BoolValue(value.Bool())

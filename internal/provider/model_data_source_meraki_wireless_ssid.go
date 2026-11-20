@@ -88,6 +88,7 @@ type DataSourceWirelessSSID struct {
 	SecondaryConcentratorNetworkId                                      types.String                                      `tfsdk:"secondary_concentrator_network_id"`
 	SplashPage                                                          types.String                                      `tfsdk:"splash_page"`
 	UseVlanTagging                                                      types.Bool                                        `tfsdk:"use_vlan_tagging"`
+	SsidAdminAccessible                                                 types.Bool                                        `tfsdk:"ssid_admin_accessible"`
 	Visible                                                             types.Bool                                        `tfsdk:"visible"`
 	VlanId                                                              types.Int64                                       `tfsdk:"vlan_id"`
 	WalledGardenEnabled                                                 types.Bool                                        `tfsdk:"walled_garden_enabled"`
@@ -400,6 +401,11 @@ func (data *DataSourceWirelessSSID) fromBody(ctx context.Context, res meraki.Res
 		data.UseVlanTagging = types.BoolValue(value.Bool())
 	} else {
 		data.UseVlanTagging = types.BoolNull()
+	}
+	if value := res.Get("ssidAdminAccessible"); value.Exists() && value.Value() != nil {
+		data.SsidAdminAccessible = types.BoolValue(value.Bool())
+	} else {
+		data.SsidAdminAccessible = types.BoolNull()
 	}
 	if value := res.Get("visible"); value.Exists() && value.Value() != nil {
 		data.Visible = types.BoolValue(value.Bool())

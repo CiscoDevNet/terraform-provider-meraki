@@ -1,0 +1,69 @@
+# Customize Create() and Delete(): the API creates and removes assignments with POSTs to the
+# sibling `assign` and `remove` endpoints, which only return {"success": true}. Create looks the
+# new assignment up in the assignments list to get its ID; Read and import stay generated.
+name: Organization Policies Global Group Policy Appliance VLAN Assignment
+spec_endpoint: /organizations/{organizationId}/policies/global/group/policies/appliance/vlans/assign
+rest_endpoint: /organizations/%v/policies/global/group/policies/appliance/vlans/assignments
+no_data_source: false
+put_create: false
+get_from_all: true
+no_update: true
+no_delete: false
+no_import: false
+no_read: false
+id_name: assignmentId
+data_source_name_query: false
+doc_category: Organizations
+test_tags: [ORGANIZATION_POLICIES_GLOBAL]
+test_variables: [test_org, test_network]
+ignore_attributes: [policy.id, vlans, items, meta.counts.items.remaining, meta.counts.items.total]
+attributes:
+  - tf_name: organization_id
+    type: String
+    id: false
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: policyId
+    type: String
+    requires_replace: true
+    mandatory: true
+    description: ID of the organization-wide policy
+    example: "123"
+    test_value: meraki_organization_policies_global_group_policy.test.id
+  - model_name: interfaceId
+    type: String
+    requires_replace: true
+    mandatory: true
+    description: Interface ID of the appliance VLAN assigned to the policy, as exposed by the `meraki_appliance_vlan` data source
+    example: "828099381483422508"
+    test_value: data.meraki_appliance_vlan.test.interface_id
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_organization_policies_global_group_policy" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Terraform Test Policy"
+  }
+  resource "meraki_network" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = var.test_network
+    product_types   = ["appliance"]
+  }
+  resource "meraki_appliance_vlans_settings" "test" {
+    network_id    = meraki_network.test.id
+    vlans_enabled = true
+  }
+  resource "meraki_appliance_vlan" "test" {
+    network_id   = meraki_appliance_vlans_settings.test.network_id
+    vlan_id      = "20"
+    name         = "Terraform Test VLAN"
+    subnet       = "192.168.20.0/24"
+    appliance_ip = "192.168.20.1"
+  }
+  data "meraki_appliance_vlan" "test" {
+    network_id = meraki_appliance_vlan.test.network_id
+    id         = meraki_appliance_vlan.test.vlan_id
+  }

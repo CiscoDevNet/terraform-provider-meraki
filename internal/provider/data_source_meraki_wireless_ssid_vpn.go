@@ -77,6 +77,10 @@ func (d *WirelessSSIDVPNDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "The VLAN that should be tagged for the concentrator.",
 				Computed:            true,
 			},
+			"concentrator_name": schema.StringAttribute{
+				MarkdownDescription: "The name of the concentrator.",
+				Computed:            true,
+			},
 			"failover_heartbeat_interval": schema.Int64Attribute{
 				MarkdownDescription: "Idle timer interval in seconds.",
 				Computed:            true,

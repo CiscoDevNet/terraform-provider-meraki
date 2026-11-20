@@ -40,11 +40,12 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DataSourceWirelessNetworkElectronicShelfLabel struct {
-	Id        types.String `tfsdk:"id"`
-	NetworkId types.String `tfsdk:"network_id"`
-	Enabled   types.Bool   `tfsdk:"enabled"`
-	Hostname  types.String `tfsdk:"hostname"`
-	Mode      types.String `tfsdk:"mode"`
+	Id             types.String `tfsdk:"id"`
+	NetworkId      types.String `tfsdk:"network_id"`
+	Enabled        types.Bool   `tfsdk:"enabled"`
+	Hostname       types.String `tfsdk:"hostname"`
+	Mode           types.String `tfsdk:"mode"`
+	SepiooHostname types.String `tfsdk:"sepioo_hostname"`
 }
 
 // End of section. //template:end types
@@ -74,6 +75,11 @@ func (data *DataSourceWirelessNetworkElectronicShelfLabel) fromBody(ctx context.
 		data.Mode = types.StringValue(value.String())
 	} else {
 		data.Mode = types.StringNull()
+	}
+	if value := res.Get("sepioo.hostname"); value.Exists() && value.Value() != nil {
+		data.SepiooHostname = types.StringValue(value.String())
+	} else {
+		data.SepiooHostname = types.StringNull()
 	}
 }
 

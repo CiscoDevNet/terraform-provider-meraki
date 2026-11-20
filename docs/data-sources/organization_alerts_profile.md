@@ -31,7 +31,7 @@ data "meraki_organization_alerts_profile" "example" {
 
 - `alert_condition_bit_rate_bps` (Number) The threshold the metric must cross to be valid for alerting. Used only for WAN Utilization alerts.
 - `alert_condition_duration` (Number) The total duration in seconds that the threshold should be crossed before alerting
-- `alert_condition_interface` (String) The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, cellular
+- `alert_condition_interface` (String) The uplink observed for the alert. interface must be one of the following: wan1, wan2, wan3, wan4, cellular
 - `alert_condition_jitter_ms` (Number) The threshold the metric must cross to be valid for alerting. Used only for VoIP Jitter alerts.
 - `alert_condition_latency_ms` (Number) The threshold the metric must cross to be valid for alerting. Used only for WAN Latency alerts.
 - `alert_condition_loss_ratio` (Number) The threshold the metric must cross to be valid for alerting. Used only for Packet Loss alerts.

@@ -41,17 +41,24 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin types
 
 type DataSourceApplianceSiteToSiteVPN struct {
-	Id                 types.String                              `tfsdk:"id"`
-	NetworkId          types.String                              `tfsdk:"network_id"`
-	Mode               types.String                              `tfsdk:"mode"`
-	SubnetNatIsAllowed types.Bool                                `tfsdk:"subnet_nat_is_allowed"`
-	Hubs               []DataSourceApplianceSiteToSiteVPNHubs    `tfsdk:"hubs"`
-	Subnets            []DataSourceApplianceSiteToSiteVPNSubnets `tfsdk:"subnets"`
+	Id                 types.String                                       `tfsdk:"id"`
+	NetworkId          types.String                                       `tfsdk:"network_id"`
+	Mode               types.String                                       `tfsdk:"mode"`
+	SubnetNatIsAllowed types.Bool                                         `tfsdk:"subnet_nat_is_allowed"`
+	Hubs               []DataSourceApplianceSiteToSiteVPNHubs             `tfsdk:"hubs"`
+	HostTranslations   []DataSourceApplianceSiteToSiteVPNHostTranslations `tfsdk:"host_translations"`
+	Subnets            []DataSourceApplianceSiteToSiteVPNSubnets          `tfsdk:"subnets"`
 }
 
 type DataSourceApplianceSiteToSiteVPNHubs struct {
 	HubId           types.String `tfsdk:"hub_id"`
 	UseDefaultRoute types.Bool   `tfsdk:"use_default_route"`
+}
+
+type DataSourceApplianceSiteToSiteVPNHostTranslations struct {
+	Name          types.String `tfsdk:"name"`
+	LocalAddress  types.String `tfsdk:"local_address"`
+	RemoteAddress types.String `tfsdk:"remote_address"`
 }
 
 type DataSourceApplianceSiteToSiteVPNSubnets struct {
@@ -100,6 +107,30 @@ func (data *DataSourceApplianceSiteToSiteVPN) fromBody(ctx context.Context, res 
 				data.UseDefaultRoute = types.BoolNull()
 			}
 			(*parent).Hubs = append((*parent).Hubs, data)
+			return true
+		})
+	}
+	if value := res.Get("hostTranslations"); value.Exists() && value.Value() != nil {
+		data.HostTranslations = make([]DataSourceApplianceSiteToSiteVPNHostTranslations, 0)
+		value.ForEach(func(k, res gjson.Result) bool {
+			parent := &data
+			data := DataSourceApplianceSiteToSiteVPNHostTranslations{}
+			if value := res.Get("name"); value.Exists() && value.Value() != nil {
+				data.Name = types.StringValue(value.String())
+			} else {
+				data.Name = types.StringNull()
+			}
+			if value := res.Get("local.address"); value.Exists() && value.Value() != nil {
+				data.LocalAddress = types.StringValue(value.String())
+			} else {
+				data.LocalAddress = types.StringNull()
+			}
+			if value := res.Get("remote.address"); value.Exists() && value.Value() != nil {
+				data.RemoteAddress = types.StringValue(value.String())
+			} else {
+				data.RemoteAddress = types.StringNull()
+			}
+			(*parent).HostTranslations = append((*parent).HostTranslations, data)
 			return true
 		})
 	}

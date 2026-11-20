@@ -46,6 +46,7 @@ type DataSourceWirelessSSIDVPN struct {
 	Number                    types.String                                `tfsdk:"number"`
 	ConcentratorNetworkId     types.String                                `tfsdk:"concentrator_network_id"`
 	ConcentratorVlanId        types.Int64                                 `tfsdk:"concentrator_vlan_id"`
+	ConcentratorName          types.String                                `tfsdk:"concentrator_name"`
 	FailoverHeartbeatInterval types.Int64                                 `tfsdk:"failover_heartbeat_interval"`
 	FailoverIdleTimeout       types.Int64                                 `tfsdk:"failover_idle_timeout"`
 	FailoverRequestIp         types.String                                `tfsdk:"failover_request_ip"`
@@ -83,6 +84,11 @@ func (data *DataSourceWirelessSSIDVPN) fromBody(ctx context.Context, res meraki.
 		data.ConcentratorVlanId = types.Int64Value(value.Int())
 	} else {
 		data.ConcentratorVlanId = types.Int64Null()
+	}
+	if value := res.Get("concentrator.name"); value.Exists() && value.Value() != nil {
+		data.ConcentratorName = types.StringValue(value.String())
+	} else {
+		data.ConcentratorName = types.StringNull()
 	}
 	if value := res.Get("failover.heartbeatInterval"); value.Exists() && value.Value() != nil {
 		data.FailoverHeartbeatInterval = types.Int64Value(value.Int())

@@ -79,7 +79,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				Computed:            true,
 			},
 			"auth_mode": schema.StringAttribute{
-				MarkdownDescription: "The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius` or `ipsk-with-nac`)",
+				MarkdownDescription: "The association control method for the SSID (`open`, `open-enhanced`, `psk`, `open-with-radius`, `open-enhanced-with-radius`, `open-with-nac`, `8021x-meraki`, `8021x-nac`, `8021x-radius`, `8021x-google`, `8021x-entra`, `8021x-localradius`, `ipsk-with-radius`, `ipsk-without-radius`, `ipsk-with-nac` or `ipsk-with-radius-easy-psk`)",
 				Computed:            true,
 			},
 			"available_on_all_aps": schema.BoolAttribute{
@@ -115,7 +115,7 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 				Computed:            true,
 			},
 			"ip_assignment_mode": schema.StringAttribute{
-				MarkdownDescription: "The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator` or `VPN`)",
+				MarkdownDescription: "The client IP assignment mode (`NAT mode`, `Bridge mode`, `Layer 3 roaming`, `Ethernet over GRE`, `Layer 3 roaming with a concentrator`, `VPN` or `Campus Gateway`)",
 				Computed:            true,
 			},
 			"lan_isolation_enabled": schema.BoolAttribute{
@@ -241,6 +241,10 @@ func (d *WirelessSSIDDataSource) Schema(ctx context.Context, req datasource.Sche
 			},
 			"use_vlan_tagging": schema.BoolAttribute{
 				MarkdownDescription: "Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is `Bridge mode` or `Layer 3 roaming`",
+				Computed:            true,
+			},
+			"ssid_admin_accessible": schema.BoolAttribute{
+				MarkdownDescription: "SSID Administrator access status",
 				Computed:            true,
 			},
 			"visible": schema.BoolAttribute{

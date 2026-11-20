@@ -40,6 +40,25 @@ attributes:
         type: Bool
         description: Only valid in `spoke` mode. Indicates whether default route traffic should be sent to this hub.
         example: "true"
+  - model_name: hostTranslations
+    type: List
+    exclude_test: true
+    description: The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2
+    attributes:
+      - model_name: name
+        type: String
+        description: The name of the translated host.
+        example: Host 1
+      - model_name: address
+        type: String
+        data_path: [local]
+        description: The local IP address of the translated host.
+        example: 192.168.1.10
+      - model_name: address
+        type: String
+        data_path: [remote]
+        description: The remote IP address of the translated host.
+        example: 72.168.2.10
   - model_name: subnets
     type: List
     description: The list of subnets and their VPN presence.

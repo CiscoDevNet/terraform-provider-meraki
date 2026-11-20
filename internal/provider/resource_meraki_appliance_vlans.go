@@ -164,6 +164,22 @@ func (r *ApplianceVLANsResource) Schema(ctx context.Context, req resource.Schema
 							MarkdownDescription: helpers.NewAttributeDescription("The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN").String,
 							Optional:            true,
 						},
+						"uplinks": schema.ListNestedAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Per-uplink NAT exception override configuration on the VLAN. Applicable only for networks that support NAT exceptions.").String,
+							Optional:            true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"interface": schema.StringAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Interface name of the uplink").String,
+										Required:            true,
+									},
+									"nat_enabled": schema.BoolAttribute{
+										MarkdownDescription: helpers.NewAttributeDescription("Whether NAT is enabled on the uplink").String,
+										Required:            true,
+									},
+								},
+							},
+						},
 						"fixed_ip_assignments": schema.MapNestedAttribute{
 							MarkdownDescription: helpers.NewAttributeDescription("The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address.").String,
 							Optional:            true,

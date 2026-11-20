@@ -77,6 +77,10 @@ func (d *WirelessNetworkElectronicShelfLabelDataSource) Schema(ctx context.Conte
 				MarkdownDescription: "Electronic shelf label mode of the network. Valid options are `Bluetooth`, `high frequency`",
 				Computed:            true,
 			},
+			"sepioo_hostname": schema.StringAttribute{
+				MarkdownDescription: "Desired sepioo hostname of the network",
+				Computed:            true,
+			},
 		},
 	}
 }

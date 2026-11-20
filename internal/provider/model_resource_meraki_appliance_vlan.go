@@ -55,6 +55,7 @@ type ApplianceVLAN struct {
 	Subnet                 types.String                               `tfsdk:"subnet"`
 	TemplateVlanType       types.String                               `tfsdk:"template_vlan_type"`
 	VpnNatSubnet           types.String                               `tfsdk:"vpn_nat_subnet"`
+	Uplinks                []ApplianceVLANUplinks                     `tfsdk:"uplinks"`
 	FixedIpAssignments     map[string]ApplianceVLANFixedIpAssignments `tfsdk:"fixed_ip_assignments"`
 	Ipv6Enabled            types.Bool                                 `tfsdk:"ipv6_enabled"`
 	Ipv6PrefixAssignments  []ApplianceVLANIpv6PrefixAssignments       `tfsdk:"ipv6_prefix_assignments"`
@@ -65,6 +66,11 @@ type ApplianceVLAN struct {
 	DhcpRelayServerIps     types.List                                 `tfsdk:"dhcp_relay_server_ips"`
 	ReservedIpRanges       []ApplianceVLANReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
 	Uplinks                []ApplianceVLANUplinks                     `tfsdk:"uplinks"`
+}
+
+type ApplianceVLANUplinks struct {
+	Interface  types.String `tfsdk:"interface"`
+	NatEnabled types.Bool   `tfsdk:"nat_enabled"`
 }
 
 type ApplianceVLANFixedIpAssignments struct {
@@ -163,6 +169,19 @@ func (data ApplianceVLAN) toBody(ctx context.Context, state ApplianceVLAN) strin
 	}
 	if !data.VpnNatSubnet.IsNull() {
 		body, _ = sjson.Set(body, "vpnNatSubnet", data.VpnNatSubnet.ValueString())
+	}
+	if len(data.Uplinks) > 0 {
+		body, _ = sjson.Set(body, "uplinks", []interface{}{})
+		for _, item := range data.Uplinks {
+			itemBody := ""
+			if !item.Interface.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "interface", item.Interface.ValueString())
+			}
+			if !item.NatEnabled.IsNull() {
+				itemBody, _ = sjson.Set(itemBody, "nat.enabled", item.NatEnabled.ValueBool())
+			}
+			body, _ = sjson.SetRaw(body, "uplinks.-1", itemBody)
+		}
 	}
 	if len(data.FixedIpAssignments) > 0 {
 		body, _ = sjson.Set(body, "fixedIpAssignments", map[string]interface{}{})

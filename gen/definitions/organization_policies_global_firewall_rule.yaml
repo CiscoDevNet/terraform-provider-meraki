@@ -1,0 +1,223 @@
+name: Organization Policies Global Firewall Rule
+spec_endpoint: /organizations/{organizationId}/policies/global/firewall/rulesets/rules/{ruleId}
+rest_endpoint: /organizations/%v/policies/global/firewall/rulesets/rules
+bulk_data_source: true
+get_from_all: true
+id_name: ruleId
+data_source_name_query: false
+doc_category: Organizations
+skip_minimum_test: true
+test_tags: [ORGANIZATION_POLICIES_GLOBAL]
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: Description of the firewall rule
+    example: This is rule 1
+  - model_name: enabled
+    type: Bool
+    description: Whether the rule is enabled
+    example: "true"
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the firewall rule
+    example: Allow developers
+  - model_name: policy
+    type: String
+    mandatory: true
+    description: Rule policy - allow or deny traffic
+    example: deny
+    enum_values: [allow, deny]
+  - model_name: priority
+    type: Int64
+    mandatory: true
+    description: Rule priority (lower numbers = higher priority)
+    example: "1"
+  - model_name: rulesetId
+    type: String
+    mandatory: true
+    description: Firewall ruleset ID to associate the rule with
+    example: "32"
+    test_value: meraki_organization_policies_global_firewall_ruleset.test.id
+  - model_name: addressRanges
+    type: List
+    element_type: String
+    data_path: [destinations, criteria]
+    description: Address ranges or addresses
+    example: 1.1.1.1
+  - model_name: applianceVlans
+    type: List
+    data_path: [destinations, criteria]
+    exclude_test: true
+    description: Appliance VLANs
+    attributes:
+      - model_name: interfaceId
+        type: String
+        mandatory: true
+        description: Interface ID
+        example: L_123456789012345678_vlan_200
+  - model_name: applicationCategories
+    type: List
+    data_path: [destinations, criteria]
+    exclude_test: true
+    description: Application categories
+    attributes:
+      - model_name: id
+        type: String
+        mandatory: true
+        description: Category ID
+        example: meraki:layer7/category/24
+      - model_name: name
+        type: String
+        data_source_only: true
+        description: Category name
+        example: Advertising
+      - model_name: applications
+        type: List
+        data_source_only: true
+        description: Applications in this category
+        attributes:
+          - model_name: id
+            type: String
+            mandatory: false
+            description: Application ID
+            example: meraki:layer7/application/5
+          - model_name: name
+            type: String
+            description: Application name
+            example: Advertising.com
+  - model_name: applications
+    type: List
+    data_path: [destinations, criteria]
+    exclude_test: true
+    description: Applications
+    attributes:
+      - model_name: id
+        type: String
+        mandatory: true
+        description: Application ID
+        example: meraki:layer7/application/5
+      - model_name: name
+        type: String
+        data_source_only: true
+        description: Application name
+        example: Advertising.com
+  - model_name: policyObjectGroups
+    type: List
+    data_path: [destinations, criteria]
+    exclude_test: true
+    description: Policy object groups
+    attributes:
+      - model_name: id
+        type: String
+        mandatory: true
+        description: Policy object group ID
+        example: "45"
+  - model_name: policyObjects
+    type: List
+    data_path: [destinations, criteria]
+    exclude_test: true
+    description: Policy objects
+    attributes:
+      - model_name: id
+        type: String
+        mandatory: true
+        description: Policy object ID
+        example: "23"
+  - model_name: ports
+    type: List
+    element_type: String
+    data_path: [destinations, criteria]
+    exclude_test: true
+    description: Port numbers or ranges
+    example: "22"
+  - model_name: services
+    type: List
+    data_path: [destinations, criteria]
+    exclude_test: true
+    description: Protocol and port services
+    attributes:
+      - model_name: protocol
+        type: String
+        mandatory: true
+        description: Protocol (tcp, udp, etc)
+        example: tcp
+      - model_name: ports
+        type: List
+        element_type: String
+        mandatory: true
+        description: Port numbers or ranges
+        example: "80"
+  - model_name: matchCriteria
+    type: Set
+    element_type: String
+    data_path: [destinations]
+    description: Destination match criteria types
+    example: addressRanges
+  - model_name: addressRanges
+    type: List
+    element_type: String
+    data_path: [sources, criteria]
+    description: Address ranges or addresses
+    example: 1.1.1.1
+  - model_name: applianceVlans
+    type: List
+    data_path: [sources, criteria]
+    exclude_test: true
+    description: Appliance VLANs
+    attributes:
+      - model_name: interfaceId
+        type: String
+        mandatory: true
+        description: Interface ID
+        example: L_123456789012345678_vlan_200
+  - model_name: policyObjectGroups
+    type: List
+    data_path: [sources, criteria]
+    exclude_test: true
+    description: Policy object groups
+    attributes:
+      - model_name: id
+        type: String
+        mandatory: true
+        description: Policy object group ID
+        example: "45"
+  - model_name: policyObjects
+    type: List
+    data_path: [sources, criteria]
+    exclude_test: true
+    description: Policy objects
+    attributes:
+      - model_name: id
+        type: String
+        mandatory: true
+        description: Policy object ID
+        example: "23"
+  - model_name: ports
+    type: List
+    element_type: String
+    data_path: [sources, criteria]
+    exclude_test: true
+    description: Port numbers or ranges
+    example: "22"
+  - model_name: matchCriteria
+    type: Set
+    element_type: String
+    data_path: [sources]
+    description: Source match criteria types
+    example: addressRanges
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }
+  resource "meraki_organization_policies_global_firewall_ruleset" "test" {
+    organization_id = data.meraki_organization.test.id
+    name            = "Terraform Test Ruleset"
+  }

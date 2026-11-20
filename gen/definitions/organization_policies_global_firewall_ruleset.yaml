@@ -1,0 +1,30 @@
+name: Organization Policies Global Firewall Ruleset
+spec_endpoint: /organizations/{organizationId}/policies/global/firewall/rulesets/{rulesetId}
+rest_endpoint: /organizations/%v/policies/global/firewall/rulesets
+bulk_data_source: true
+get_from_all: true
+id_name: rulesetId
+data_source_name_query: false
+doc_category: Organizations
+test_tags: [ORGANIZATION_POLICIES_GLOBAL]
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: Description of the firewall ruleset
+    example: Block all Social Media
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the firewall ruleset
+    example: Block Social Media
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

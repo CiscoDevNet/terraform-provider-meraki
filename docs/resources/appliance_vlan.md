@@ -134,9 +134,6 @@ Required:
 Required:
 
 - `interface` (String) Interface name of the uplink
-
-Optional:
-
 - `nat_enabled` (Boolean) Whether NAT is enabled on the uplink
 
 ## Import

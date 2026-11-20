@@ -52,6 +52,7 @@ resource "meraki_appliance_vpn_bgp" "example" {
 - `as_number` (Number) An Autonomous System Number (ASN) is required if you are to run BGP and peer with another BGP Speaker outside of the Auto VPN domain. This ASN will be applied to the entire Auto VPN domain. The entire 4-byte ASN range is supported. So, the ASN must be an integer between 1 and 4294967295. When absent, this field is not updated. If no value exists then it defaults to 64512.
 - `ibgp_hold_timer` (Number) The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer between 12 and 240. When absent, this field is not updated. If no value exists then it defaults to 240.
 - `neighbors` (Attributes List) List of BGP neighbors. This list replaces the existing set of neighbors. When absent, this field is not updated. (see [below for nested schema](#nestedatt--neighbors))
+- `router_id` (String) The router ID of the appliance
 
 ### Read-Only
 
@@ -73,6 +74,8 @@ Optional:
 - `authentication_password` (String, Sensitive) Password to configure MD5 authentication between BGP peers.
 - `authentication_password_wo` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Write-only variant of `authentication_password`, which is never stored in the plan or state. Requires Terraform 1.11 or later. Conflicts with `authentication_password`. Must be used together with `authentication_password_wo_version`.
 - `authentication_password_wo_version` (Number) Version of `authentication_password_wo`. As changes to write-only values are not detected, increment this value to update `authentication_password_wo`. Must be used together with `authentication_password_wo`.
+- `community_out` (List of String) List of BGP communities tagged to the routes advertised to an eBGP neighbor.
+- `filter_in` (List of String) Filters routes received from an eBGP neighbor. Each entry must be an IPv4 CIDR string (e.g., `10.0.0.0/8` or `10.0.0.5/32`).
 - `ipv6_address` (String) The IPv6 address of the neighbor.
 - `multi_exit_discriminator` (Number) Configures the local metric associated with routes received from the remote peer. Routes from peers with lower metrics are will be preferred. Must be an integer between 0 and 4294967295. MED is 6th in the decision tree when identical routes from multiple peers exist.
 - `next_hop_ip` (String) The IPv4 address of the remote BGP peer that will establish a TCP session with the local MX.

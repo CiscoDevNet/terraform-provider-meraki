@@ -1,0 +1,37 @@
+name: Organization Policies Global Group Policy
+spec_endpoint: /organizations/{organizationId}/policies/global/group/policies/{policyId}
+rest_endpoint: /organizations/%v/policies/global/group/policies
+bulk_data_source: true
+get_from_all: true
+id_name: policyId
+data_source_name_query: false
+doc_category: Organizations
+test_tags: [ORGANIZATION_POLICIES_GLOBAL]
+test_variables: [test_org]
+attributes:
+  - tf_name: organization_id
+    type: String
+    reference: true
+    description: Organization ID
+    example: "123456"
+    test_value: data.meraki_organization.test.id
+  - model_name: description
+    type: String
+    description: Description of the policy
+    example: My policy description
+  - model_name: name
+    type: String
+    mandatory: true
+    description: Name of the policy
+    example: My policy
+  - model_name: number
+    type: Int64
+    data_path: [group]
+    data_source_only: true
+    exclude_test: true
+    description: Group number used to track the policy across different networks and devices in the organization
+    example: "1"
+test_prerequisites: |
+  data "meraki_organization" "test" {
+    name = var.test_org
+  }

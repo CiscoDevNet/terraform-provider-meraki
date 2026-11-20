@@ -1,0 +1,1 @@
+terraform import meraki_organization_policies_global_group_policy_appliance_vlan_assignment.example "<organization_id>,<id>"

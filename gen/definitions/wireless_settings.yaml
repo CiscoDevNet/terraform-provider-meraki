@@ -37,6 +37,11 @@ attributes:
     enum_values: [minimizeClientDowntime, minimizeUpgradeTime]
   - model_name: enabled
     type: Bool
+    data_path: [upgrade, predownload]
+    description: The default setting for upgrade firmware predownload. Only applies to devices running MR 32 or higher.
+    example: "true"
+  - model_name: enabled
+    type: Bool
     data_path: [multicastToUnicastConversion]
     description: Toggle for enabling or disabling multicast-to-unicast conversion across the network
     example: "true"

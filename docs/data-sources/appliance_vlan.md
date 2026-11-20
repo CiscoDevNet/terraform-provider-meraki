@@ -45,6 +45,7 @@ data "meraki_appliance_vlan" "example" {
 - `dns_nameservers` (String) The DNS nameservers used for DHCP responses, either 'upstream_dns', 'google_dns', 'opendns', or a newline seperated string of IP addresses or domain names
 - `fixed_ip_assignments` (Attributes Map) The DHCP fixed IP assignments on the VLAN. Thekey of this map is a MAC address. (see [below for nested schema](#nestedatt--fixed_ip_assignments))
 - `group_policy_id` (String) The id of the desired group policy to apply to the VLAN
+- `interface_id` (String) The interface ID of the VLAN, assigned by the API
 - `ipv6_enabled` (Boolean) Enable IPv6 on VLAN.
 - `ipv6_prefix_assignments` (Attributes List) Prefix assignments on the VLAN (see [below for nested schema](#nestedatt--ipv6_prefix_assignments))
 - `mandatory_dhcp_enabled` (Boolean) Enable Mandatory DHCP on VLAN.
