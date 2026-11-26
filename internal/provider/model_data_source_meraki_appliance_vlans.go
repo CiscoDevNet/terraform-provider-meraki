@@ -56,7 +56,6 @@ type DataSourceApplianceVLANsItems struct {
 	Subnet                 types.String                                          `tfsdk:"subnet"`
 	TemplateVlanType       types.String                                          `tfsdk:"template_vlan_type"`
 	VpnNatSubnet           types.String                                          `tfsdk:"vpn_nat_subnet"`
-	Uplinks                []DataSourceApplianceVLANsUplinks                     `tfsdk:"uplinks"`
 	FixedIpAssignments     map[string]DataSourceApplianceVLANsFixedIpAssignments `tfsdk:"fixed_ip_assignments"`
 	Ipv6Enabled            types.Bool                                            `tfsdk:"ipv6_enabled"`
 	Ipv6PrefixAssignments  []DataSourceApplianceVLANsIpv6PrefixAssignments       `tfsdk:"ipv6_prefix_assignments"`
@@ -67,11 +66,6 @@ type DataSourceApplianceVLANsItems struct {
 	DhcpRelayServerIps     types.List                                            `tfsdk:"dhcp_relay_server_ips"`
 	ReservedIpRanges       []DataSourceApplianceVLANsReservedIpRanges            `tfsdk:"reserved_ip_ranges"`
 	Uplinks                []DataSourceApplianceVLANsUplinks                     `tfsdk:"uplinks"`
-}
-
-type DataSourceApplianceVLANsUplinks struct {
-	Interface  types.String `tfsdk:"interface"`
-	NatEnabled types.Bool   `tfsdk:"nat_enabled"`
 }
 
 type DataSourceApplianceVLANsFixedIpAssignments struct {

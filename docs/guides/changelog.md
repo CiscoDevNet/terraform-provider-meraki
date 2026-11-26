@@ -19,7 +19,6 @@ description: |-
 - Add `meraki_appliance_uplinks_nat` resource
 - Add `meraki_organization_sase_site_attachment` resource and data source
 - Add `host_translations` attribute to `meraki_appliance_site_to_site_vpn` resource and data source
-- Add `uplinks` attribute to `meraki_appliance_vlan` and `meraki_appliance_vlans` resources
 - Add `interface_id` attribute to `meraki_appliance_vlan` and `meraki_appliance_vlans` data sources
 - Add `router_id`, `neighbors.community_out` and `neighbors.filter_in` attributes to `meraki_appliance_vpn_bgp` resource and data source
 - Add `upgrade_predownload_enabled` attribute to `meraki_wireless_settings` resource and data source
