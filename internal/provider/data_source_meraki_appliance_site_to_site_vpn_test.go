@@ -30,14 +30,23 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiApplianceSiteToSiteVPN(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "mode", "hub"))
-	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnet_nat_is_allowed", "false"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "nat_traversal_mode", "manual"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "nat_traversal_public_ip", "203.0.113.8"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "nat_traversal_public_port", "4500"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "sgt_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnet_nat_is_allowed", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "host_translations.0.name", "Host 1"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "host_translations.0.local_address", "192.168.128.10"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "host_translations.0.remote_address", "10.128.0.10"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.local_subnet", "192.168.128.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.use_vpn", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.nat_enabled", "true"))
+	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "subnets.0.nat_remote_subnet", "10.128.0.0/24"))
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -57,6 +66,7 @@ func TestAccDataSourceMerakiApplianceSiteToSiteVPN(t *testing.T) {
 const testAccDataSourceMerakiApplianceSiteToSiteVPNPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
+variable "test_appliance_1_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
@@ -65,7 +75,17 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["switch", "wireless", "appliance"]
 }
-
+resource "meraki_network_device_claim" "test" {
+  network_id = meraki_network.test.id
+  serials    = [var.test_appliance_1_serial]
+}
+resource "meraki_organization_adaptive_policy_settings" "test" {
+  organization_id  = data.meraki_organization.test.id
+  enabled_networks = [meraki_network.test.id]
+  depends_on       = [
+    meraki_network_device_claim.test,
+  ]
+}
 `
 
 // End of section. //template:end testPrerequisites
@@ -74,18 +94,30 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceSiteToSiteVPNConfig() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
-	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  network_id = tolist(meraki_organization_adaptive_policy_settings.test.enabled_networks)[0]` + "\n"
+	config += `  confirmed = true` + "\n"
 	config += `  mode = "hub"` + "\n"
-	config += `  subnet_nat_is_allowed = false` + "\n"
+	config += `  nat_traversal_mode = "manual"` + "\n"
+	config += `  nat_traversal_public_ip = "203.0.113.8"` + "\n"
+	config += `  nat_traversal_public_port = 4500` + "\n"
+	config += `  sgt_enabled = true` + "\n"
+	config += `  subnet_nat_is_allowed = true` + "\n"
+	config += `  host_translations = [{` + "\n"
+	config += `    name = "Host 1"` + "\n"
+	config += `    local_address = "192.168.128.10"` + "\n"
+	config += `    remote_address = "10.128.0.10"` + "\n"
+	config += `  }]` + "\n"
 	config += `  subnets = [{` + "\n"
 	config += `    local_subnet = "192.168.128.0/24"` + "\n"
 	config += `    use_vpn = true` + "\n"
+	config += `    nat_enabled = true` + "\n"
+	config += `    nat_remote_subnet = "10.128.0.0/24"` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 
 	config += `
 		data "meraki_appliance_site_to_site_vpn" "test" {
-			network_id = meraki_network.test.id
+			network_id = tolist(meraki_organization_adaptive_policy_settings.test.enabled_networks)[0]
 			depends_on = [meraki_appliance_site_to_site_vpn.test]
 		}
 	`

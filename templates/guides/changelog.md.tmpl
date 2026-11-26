@@ -18,6 +18,8 @@ description: |-
 - Add `vrf_id` attribute to `meraki_appliance_static_route` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
 - Add `vpn_traffic_uplink_preferences[].vrf_id`, `wan_traffic_uplink_preferences[].vrf_id` attributes to `meraki_appliance_traffic_shaping_uplink_selection` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/292)
 - Add early-access `applications`, `custom[].source_cidr`, `custom[].source_port`, `custom[].source_vlan_id`, `major_applications[].protocol`, `major_applications[].source_cidr`, `major_applications[].source_port`, `major_applications[].source_vlan_id` attributes to `meraki_appliance_traffic_shaping_vpn_exclusions` resource and data source.
+- Add `host_translations`, `nat_traversal_mode`, `nat_traversal_public_ip`, `nat_traversal_public_port`, `sgt_enabled` attributes to `meraki_appliance_site_to_site_vpn` resource and data source, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/319)
+- Add `confirmed` attribute to `meraki_appliance_site_to_site_vpn` resource, [link](https://github.com/CiscoDevNet/terraform-provider-meraki/pull/319)
 
 ## 1.15.0
 

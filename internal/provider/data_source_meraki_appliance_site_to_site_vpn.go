@@ -65,13 +65,53 @@ func (d *ApplianceSiteToSiteVPNDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
+			"confirmed": schema.BoolAttribute{
+				MarkdownDescription: "Whether to accept the confirmation warnings for these changes. Defaults to true, which accepts confirmation warnings and preserves the existing update behavior. Set to false to opt in to confirmation warnings. Review the warnings returned in confirmations, then retry with confirmed: true to accept them. Fatal errors must be corrected before retrying.",
+				Computed:            true,
+			},
 			"mode": schema.StringAttribute{
 				MarkdownDescription: "The site-to-site VPN mode. Can be one of `none`, `spoke` or `hub`",
+				Computed:            true,
+			},
+			"nat_traversal_mode": schema.StringAttribute{
+				MarkdownDescription: "Whether NAT traversal is automatic or manually configured.",
+				Computed:            true,
+			},
+			"nat_traversal_public_ip": schema.StringAttribute{
+				MarkdownDescription: "The public IP address used for manual NAT traversal.",
+				Computed:            true,
+			},
+			"nat_traversal_public_port": schema.Int64Attribute{
+				MarkdownDescription: "The public port used for manual NAT traversal. Must be between 1024 and 65535.",
+				Computed:            true,
+			},
+			"sgt_enabled": schema.BoolAttribute{
+				MarkdownDescription: "Whether or not Peer SGT is enabled for traffic to this VPN peer.",
 				Computed:            true,
 			},
 			"subnet_nat_is_allowed": schema.BoolAttribute{
 				MarkdownDescription: "If enabled, VPN subnet translation can be used to translate any local subnets that are allowed to use the VPN into a new subnet with the same number of addresses.",
 				Computed:            true,
+			},
+			"host_translations": schema.ListNestedAttribute{
+				MarkdownDescription: "The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2",
+				Computed:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							MarkdownDescription: "The name of the translated host.",
+							Computed:            true,
+						},
+						"local_address": schema.StringAttribute{
+							MarkdownDescription: "The local IP address of the translated host.",
+							Computed:            true,
+						},
+						"remote_address": schema.StringAttribute{
+							MarkdownDescription: "The remote IP address of the translated host.",
+							Computed:            true,
+						},
+					},
+				},
 			},
 			"hubs": schema.ListNestedAttribute{
 				MarkdownDescription: "The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.",
