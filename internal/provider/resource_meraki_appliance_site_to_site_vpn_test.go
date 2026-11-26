@@ -38,7 +38,6 @@ func TestAccMerakiApplianceSiteToSiteVPN(t *testing.T) {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
 	var checks []resource.TestCheckFunc
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "confirmed", "false"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "mode", "hub"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "nat_traversal_mode", "manual"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "nat_traversal_public_ip", "203.0.113.8"))
@@ -62,7 +61,7 @@ func TestAccMerakiApplianceSiteToSiteVPN(t *testing.T) {
 		Config: testAccMerakiApplianceSiteToSiteVPNPrerequisitesConfig + testAccMerakiApplianceSiteToSiteVPNConfig_all(),
 		Check:  resource.ComposeTestCheckFunc(checks...),
 	})
-	importStateVerifyIgnore := []string{}
+	importStateVerifyIgnore := []string{"confirmed"}
 	steps = append(steps, resource.TestStep{
 		ResourceName:            "meraki_appliance_site_to_site_vpn.test",
 		ImportState:             true,
@@ -131,7 +130,7 @@ func testAccMerakiApplianceSiteToSiteVPNConfig_minimum() string {
 func testAccMerakiApplianceSiteToSiteVPNConfig_all() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
 	config += `  network_id = meraki_network.test.id` + "\n"
-	config += `  confirmed = false` + "\n"
+	config += `  confirmed = true` + "\n"
 	config += `  mode = "hub"` + "\n"
 	config += `  nat_traversal_mode = "manual"` + "\n"
 	config += `  nat_traversal_public_ip = "203.0.113.8"` + "\n"

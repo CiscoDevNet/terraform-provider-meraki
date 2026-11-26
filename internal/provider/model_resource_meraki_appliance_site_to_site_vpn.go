@@ -172,13 +172,6 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 // `.Attributes` schema and must agree on which fields are writable.
 func (data ApplianceSiteToSiteVPN) toBodyPreservingNulls(ctx context.Context, res meraki.Res) string {
 	body := ""
-	if value := res.Get("confirmed"); value.Exists() {
-		if value.Value() == nil {
-			body, _ = sjson.SetRaw(body, "confirmed", "null")
-		} else {
-			body, _ = sjson.Set(body, "confirmed", value.Bool())
-		}
-	}
 	if value := res.Get("mode"); value.Exists() {
 		if value.Value() == nil {
 			body, _ = sjson.SetRaw(body, "mode", "null")
@@ -331,11 +324,6 @@ func (data ApplianceSiteToSiteVPN) toBodyPreservingNulls(ctx context.Context, re
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("confirmed"); value.Exists() && value.Value() != nil {
-		data.Confirmed = types.BoolValue(value.Bool())
-	} else {
-		data.Confirmed = types.BoolNull()
-	}
 	if value := res.Get("mode"); value.Exists() && value.Value() != nil {
 		data.Mode = types.StringValue(value.String())
 	} else {
@@ -449,11 +437,6 @@ func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res
 // easily change across versions of the backend API.) For List/Set/Map attributes, the func only updates the
 // "managed" elements, instead of all elements.
 func (data *ApplianceSiteToSiteVPN) fromBodyPartial(ctx context.Context, res meraki.Res) {
-	if value := res.Get("confirmed"); value.Exists() && !data.Confirmed.IsNull() {
-		data.Confirmed = types.BoolValue(value.Bool())
-	} else {
-		data.Confirmed = types.BoolNull()
-	}
 	if value := res.Get("mode"); value.Exists() && !data.Mode.IsNull() {
 		data.Mode = types.StringValue(value.String())
 	} else {

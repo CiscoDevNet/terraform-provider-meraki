@@ -86,11 +86,6 @@ func (data DataSourceApplianceSiteToSiteVPN) getPath() string {
 // Section below is generated&owned by "gen/generator.go". //template:begin fromBody
 
 func (data *DataSourceApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res) {
-	if value := res.Get("confirmed"); value.Exists() && value.Value() != nil {
-		data.Confirmed = types.BoolValue(value.Bool())
-	} else {
-		data.Confirmed = types.BoolNull()
-	}
 	if value := res.Get("mode"); value.Exists() && value.Value() != nil {
 		data.Mode = types.StringValue(value.String())
 	} else {

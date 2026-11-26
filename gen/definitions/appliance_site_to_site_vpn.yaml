@@ -15,8 +15,9 @@ attributes:
     test_value: meraki_network.test.id
   - model_name: confirmed
     type: Bool
+    write_only: true
     description: 'Whether to accept the confirmation warnings for these changes. Defaults to true, which accepts confirmation warnings and preserves the existing update behavior. Set to false to opt in to confirmation warnings. Review the warnings returned in confirmations, then retry with confirmed: true to accept them. Fatal errors must be corrected before retrying.'
-    example: "false"
+    example: "true"
   - model_name: mode
     type: String
     mandatory: true

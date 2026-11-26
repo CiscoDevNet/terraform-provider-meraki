@@ -1,6 +1,6 @@
 resource "meraki_appliance_site_to_site_vpn" "example" {
   network_id                = "L_123456"
-  confirmed                 = false
+  confirmed                 = true
   mode                      = "hub"
   nat_traversal_mode        = "manual"
   nat_traversal_public_ip   = "203.0.113.8"
