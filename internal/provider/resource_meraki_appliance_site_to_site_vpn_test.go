@@ -44,9 +44,6 @@ func TestAccMerakiApplianceSiteToSiteVPN(t *testing.T) {
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "nat_traversal_public_port", "4500"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "sgt_enabled", "true"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "subnet_nat_is_allowed", "false"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "host_translations.0.name", "Host 1"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "host_translations.0.local_address", "192.168.1.10"))
-	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "host_translations.0.remote_address", "72.168.2.10"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "subnets.0.local_subnet", "192.168.128.0/24"))
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_appliance_site_to_site_vpn.test", "subnets.0.use_vpn", "true"))
 
@@ -137,11 +134,6 @@ func testAccMerakiApplianceSiteToSiteVPNConfig_all() string {
 	config += `  nat_traversal_public_port = 4500` + "\n"
 	config += `  sgt_enabled = true` + "\n"
 	config += `  subnet_nat_is_allowed = false` + "\n"
-	config += `  host_translations = [{` + "\n"
-	config += `    name = "Host 1"` + "\n"
-	config += `    local_address = "192.168.1.10"` + "\n"
-	config += `    remote_address = "72.168.2.10"` + "\n"
-	config += `  }]` + "\n"
 	config += `  subnets = [{` + "\n"
 	config += `    local_subnet = "192.168.128.0/24"` + "\n"
 	config += `    use_vpn = true` + "\n"

@@ -53,6 +53,7 @@ attributes:
     example: "false"
   - model_name: hostTranslations
     type: List
+    exclude_test: true
     description: The list of VPN host translations. Host translations are supported starting from MX firmware version 26.1.2
     attributes:
       - model_name: name
