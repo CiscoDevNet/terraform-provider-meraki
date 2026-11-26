@@ -30,8 +30,8 @@ import (
 // Section below is generated&owned by "gen/generator.go". //template:begin testAccDataSource
 
 func TestAccDataSourceMerakiApplianceSiteToSiteVPN(t *testing.T) {
-	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
-		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
+	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" || os.Getenv("TF_VAR_test_appliance_1_serial") == "" {
+		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network and TF_VAR_test_appliance_1_serial")
 	}
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("data.meraki_appliance_site_to_site_vpn.test", "mode", "hub"))
@@ -61,6 +61,7 @@ func TestAccDataSourceMerakiApplianceSiteToSiteVPN(t *testing.T) {
 const testAccDataSourceMerakiApplianceSiteToSiteVPNPrerequisitesConfig = `
 variable "test_org" {}
 variable "test_network" {}
+variable "test_appliance_1_serial" {}
 data "meraki_organization" "test" {
   name = var.test_org
 }
@@ -69,7 +70,17 @@ resource "meraki_network" "test" {
   name            = var.test_network
   product_types   = ["switch", "wireless", "appliance"]
 }
-
+resource "meraki_network_device_claim" "test" {
+  network_id = meraki_network.test.id
+  serials    = [var.test_appliance_1_serial]
+}
+resource "meraki_organization_adaptive_policy_settings" "test" {
+  organization_id  = data.meraki_organization.test.id
+  enabled_networks = [meraki_network.test.id]
+  depends_on       = [
+    meraki_network_device_claim.test,
+  ]
+}
 `
 
 // End of section. //template:end testPrerequisites
@@ -78,7 +89,7 @@ resource "meraki_network" "test" {
 
 func testAccDataSourceMerakiApplianceSiteToSiteVPNConfig() string {
 	config := `resource "meraki_appliance_site_to_site_vpn" "test" {` + "\n"
-	config += `  network_id = meraki_network.test.id` + "\n"
+	config += `  network_id = tolist(meraki_organization_adaptive_policy_settings.test.enabled_networks)[0]` + "\n"
 	config += `  confirmed = true` + "\n"
 	config += `  mode = "hub"` + "\n"
 	config += `  nat_traversal_mode = "manual"` + "\n"
@@ -94,7 +105,7 @@ func testAccDataSourceMerakiApplianceSiteToSiteVPNConfig() string {
 
 	config += `
 		data "meraki_appliance_site_to_site_vpn" "test" {
-			network_id = meraki_network.test.id
+			network_id = tolist(meraki_organization_adaptive_policy_settings.test.enabled_networks)[0]
 			depends_on = [meraki_appliance_site_to_site_vpn.test]
 		}
 	`
