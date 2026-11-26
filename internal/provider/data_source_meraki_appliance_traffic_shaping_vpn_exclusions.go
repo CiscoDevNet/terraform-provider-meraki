@@ -66,6 +66,38 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Schema(ctx context.Cont
 				MarkdownDescription: "Network ID",
 				Required:            true,
 			},
+			"applications": schema.ListNestedAttribute{
+				MarkdownDescription: "NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware",
+				Computed:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: "Application`s Meraki ID.",
+							Computed:            true,
+						},
+						"name": schema.StringAttribute{
+							MarkdownDescription: "Application`s name.",
+							Computed:            true,
+						},
+						"protocol": schema.StringAttribute{
+							MarkdownDescription: "Protocol.",
+							Computed:            true,
+						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: "IP address of the source in CIDR format",
+							Computed:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: "Port for the source",
+							Computed:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: "Vlan Id for the source of the rule",
+							Computed:            true,
+						},
+					},
+				},
+			},
 			"custom": schema.ListNestedAttribute{
 				MarkdownDescription: "Custom VPN exclusion rules. Pass an empty array to clear existing rules.",
 				Computed:            true,
@@ -83,6 +115,18 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Schema(ctx context.Cont
 							MarkdownDescription: "Protocol.",
 							Computed:            true,
 						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: "IP address of the source in CIDR format",
+							Computed:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: "Port for the source",
+							Computed:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: "Vlan Id for the source of the rule",
+							Computed:            true,
+						},
 					},
 				},
 			},
@@ -97,6 +141,22 @@ func (d *ApplianceTrafficShapingVPNExclusionsDataSource) Schema(ctx context.Cont
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: "Application`s name.",
+							Computed:            true,
+						},
+						"protocol": schema.StringAttribute{
+							MarkdownDescription: "Protocol.",
+							Computed:            true,
+						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: "IP address of the source in CIDR format",
+							Computed:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: "Port for the source",
+							Computed:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: "Vlan Id for the source of the rule",
 							Computed:            true,
 						},
 					},

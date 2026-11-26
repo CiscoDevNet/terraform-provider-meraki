@@ -27,9 +27,23 @@ data "meraki_appliance_traffic_shaping_vpn_exclusions" "example" {
 
 ### Read-Only
 
+- `applications` (Attributes List) NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware (see [below for nested schema](#nestedatt--applications))
 - `custom` (Attributes List) Custom VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--custom))
 - `id` (String) The id of the object
 - `major_applications` (Attributes List) Major Application based VPN exclusion rules. Pass an empty array to clear existing rules. (see [below for nested schema](#nestedatt--major_applications))
+
+<a id="nestedatt--applications"></a>
+### Nested Schema for `applications`
+
+Read-Only:
+
+- `id` (String) Application`s Meraki ID.
+- `name` (String) Application`s name.
+- `protocol` (String) Protocol.
+- `source_cidr` (String) IP address of the source in CIDR format
+- `source_port` (String) Port for the source
+- `source_vlan_id` (String) Vlan Id for the source of the rule
+
 
 <a id="nestedatt--custom"></a>
 ### Nested Schema for `custom`
@@ -39,6 +53,9 @@ Read-Only:
 - `destination` (String) Destination address; hostname required for DNS, IPv4 otherwise.
 - `port` (String) Destination port.
 - `protocol` (String) Protocol.
+- `source_cidr` (String) IP address of the source in CIDR format
+- `source_port` (String) Port for the source
+- `source_vlan_id` (String) Vlan Id for the source of the rule
 
 
 <a id="nestedatt--major_applications"></a>
@@ -48,3 +65,7 @@ Read-Only:
 
 - `id` (String) Application`s Meraki ID.
 - `name` (String) Application`s name.
+- `protocol` (String) Protocol.
+- `source_cidr` (String) IP address of the source in CIDR format
+- `source_port` (String) Port for the source
+- `source_vlan_id` (String) Vlan Id for the source of the rule

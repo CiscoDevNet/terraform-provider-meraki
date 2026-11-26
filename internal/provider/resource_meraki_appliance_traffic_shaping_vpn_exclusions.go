@@ -80,6 +80,41 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"applications": schema.ListNestedAttribute{
+				MarkdownDescription: helpers.NewAttributeDescription("NBAR Application based VPN exclusion rules. Available for networks on >=19.2 firmware").AddAttributeEarlyAccessDescription(true).String,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Application`s Meraki ID.").AddAttributeEarlyAccessDescription(false).String,
+							Required:            true,
+						},
+						"name": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Application`s name.").AddAttributeEarlyAccessDescription(false).String,
+							Required:            true,
+						},
+						"protocol": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Protocol.").AddStringEnumDescription("any", "dns", "icmp", "tcp", "udp").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("any", "dns", "icmp", "tcp", "udp"),
+							},
+						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IP address of the source in CIDR format").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Port for the source").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Vlan Id for the source of the rule").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+						},
+					},
+				},
+			},
 			"custom": schema.ListNestedAttribute{
 				MarkdownDescription: helpers.NewAttributeDescription("Custom VPN exclusion rules. Pass an empty array to clear existing rules.").String,
 				Optional:            true,
@@ -100,6 +135,18 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 								stringvalidator.OneOf("any", "dns", "icmp", "tcp", "udp"),
 							},
 						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IP address of the source in CIDR format").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Port for the source").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Vlan Id for the source of the rule").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+						},
 					},
 				},
 			},
@@ -118,6 +165,25 @@ func (r *ApplianceTrafficShapingVPNExclusionsResource) Schema(ctx context.Contex
 							Validators: []validator.String{
 								stringvalidator.OneOf("AWS", "Box", "Office 365 Sharepoint", "Office 365 Suite", "Oracle", "SAP", "Salesforce", "Skype & Teams", "Slack", "Webex", "Webex Calling", "Webex Meetings", "Zoom"),
 							},
+						},
+						"protocol": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Protocol.").AddStringEnumDescription("any", "dns", "icmp", "tcp", "udp").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf("any", "dns", "icmp", "tcp", "udp"),
+							},
+						},
+						"source_cidr": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("IP address of the source in CIDR format").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+						},
+						"source_port": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Port for the source").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
+						},
+						"source_vlan_id": schema.StringAttribute{
+							MarkdownDescription: helpers.NewAttributeDescription("Vlan Id for the source of the rule").AddAttributeEarlyAccessDescription(false).String,
+							Optional:            true,
 						},
 					},
 				},

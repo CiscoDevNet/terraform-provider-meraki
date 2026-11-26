@@ -75,6 +75,9 @@ func (a *{{camelCase .Name}}Action) Schema(ctx context.Context, req action.Schem
 					{{- if len .EnumValues -}}
 					.AddStringEnumDescription({{range .EnumValues}}"{{.}}", {{end}})
 					{{- end -}}
+					{{- if .EarlyAccess -}}
+					.AddAttributeEarlyAccessDescription({{if isNestedListSetMap .}}true{{else}}false{{end}})
+					{{- end -}}
 					.String,
 				{{- if isListSet .}}
 				ElementType:         types.{{.ElementType}}Type,

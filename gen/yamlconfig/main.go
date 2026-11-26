@@ -104,6 +104,7 @@ type YamlConfigAttribute struct {
 	Reference          bool                  `yaml:"reference,omitempty"`
 	RequiresReplace    bool                  `yaml:"requires_replace,omitempty"`
 	Mandatory          bool                  `yaml:"mandatory,omitempty"`
+	EarlyAccess        bool                  `yaml:"early_access,omitempty"`
 	WriteOnly          bool                  `yaml:"write_only,omitempty"`
 	DataSourceOnly     bool                  `yaml:"data_source_only,omitempty"`
 	WriteChangesOnly   bool                  `yaml:"write_changes_only,omitempty"`
@@ -151,6 +152,7 @@ type YamlConfigAttributeP struct {
 	Reference          *bool                   `yaml:"reference,omitempty"`
 	RequiresReplace    *bool                   `yaml:"requires_replace,omitempty"`
 	Mandatory          *bool                   `yaml:"mandatory,omitempty"`
+	EarlyAccess        *bool                   `yaml:"early_access,omitempty"`
 	WriteOnly          *bool                   `yaml:"write_only,omitempty"`
 	DataSourceOnly     *bool                   `yaml:"data_source_only,omitempty"`
 	WriteChangesOnly   *bool                   `yaml:"write_changes_only,omitempty"`
