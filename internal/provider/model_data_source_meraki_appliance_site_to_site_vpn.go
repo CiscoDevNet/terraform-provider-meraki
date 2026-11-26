@@ -67,14 +67,10 @@ type DataSourceApplianceSiteToSiteVPNHubs struct {
 }
 
 type DataSourceApplianceSiteToSiteVPNSubnets struct {
-	LocalSubnet     types.String                                                `tfsdk:"local_subnet"`
-	UseVpn          types.Bool                                                  `tfsdk:"use_vpn"`
-	NatEnabled      types.Bool                                                  `tfsdk:"nat_enabled"`
-	NatRemoteSubnet types.String                                                `tfsdk:"nat_remote_subnet"`
-	NatLegacy       map[string]DataSourceApplianceSiteToSiteVPNSubnetsNatLegacy `tfsdk:"nat_legacy"`
-}
-
-type DataSourceApplianceSiteToSiteVPNSubnetsNatLegacy struct {
+	LocalSubnet     types.String `tfsdk:"local_subnet"`
+	UseVpn          types.Bool   `tfsdk:"use_vpn"`
+	NatEnabled      types.Bool   `tfsdk:"nat_enabled"`
+	NatRemoteSubnet types.String `tfsdk:"nat_remote_subnet"`
 }
 
 // End of section. //template:end types
@@ -192,15 +188,6 @@ func (data *DataSourceApplianceSiteToSiteVPN) fromBody(ctx context.Context, res 
 				data.NatRemoteSubnet = types.StringValue(value.String())
 			} else {
 				data.NatRemoteSubnet = types.StringNull()
-			}
-			if value := res.Get("nat.legacy"); value.Exists() && value.Value() != nil {
-				data.NatLegacy = make(map[string]DataSourceApplianceSiteToSiteVPNSubnetsNatLegacy)
-				value.ForEach(func(k, res gjson.Result) bool {
-					parent := &data
-					data := DataSourceApplianceSiteToSiteVPNSubnetsNatLegacy{}
-					(*parent).NatLegacy[k.String()] = data
-					return true
-				})
 			}
 			(*parent).Subnets = append((*parent).Subnets, data)
 			return true

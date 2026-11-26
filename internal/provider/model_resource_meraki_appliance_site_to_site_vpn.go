@@ -62,14 +62,10 @@ type ApplianceSiteToSiteVPNHubs struct {
 }
 
 type ApplianceSiteToSiteVPNSubnets struct {
-	LocalSubnet     types.String                                      `tfsdk:"local_subnet"`
-	UseVpn          types.Bool                                        `tfsdk:"use_vpn"`
-	NatEnabled      types.Bool                                        `tfsdk:"nat_enabled"`
-	NatRemoteSubnet types.String                                      `tfsdk:"nat_remote_subnet"`
-	NatLegacy       map[string]ApplianceSiteToSiteVPNSubnetsNatLegacy `tfsdk:"nat_legacy"`
-}
-
-type ApplianceSiteToSiteVPNSubnetsNatLegacy struct {
+	LocalSubnet     types.String `tfsdk:"local_subnet"`
+	UseVpn          types.Bool   `tfsdk:"use_vpn"`
+	NatEnabled      types.Bool   `tfsdk:"nat_enabled"`
+	NatRemoteSubnet types.String `tfsdk:"nat_remote_subnet"`
 }
 
 type ApplianceSiteToSiteVPNIdentity struct {
@@ -155,13 +151,6 @@ func (data ApplianceSiteToSiteVPN) toBody(ctx context.Context, state ApplianceSi
 			}
 			if !item.NatRemoteSubnet.IsNull() {
 				itemBody, _ = sjson.Set(itemBody, "nat.remoteSubnet", item.NatRemoteSubnet.ValueString())
-			}
-			if len(item.NatLegacy) > 0 {
-				itemBody, _ = sjson.Set(itemBody, "nat.legacy", map[string]interface{}{})
-				for key, childItem := range item.NatLegacy {
-					itemChildBody := ""
-					itemBody, _ = sjson.SetRaw(itemBody, "nat.legacy."+key, itemChildBody)
-				}
 			}
 			body, _ = sjson.SetRaw(body, "subnets.-1", itemBody)
 		}
@@ -329,19 +318,6 @@ func (data ApplianceSiteToSiteVPN) toBodyPreservingNulls(ctx context.Context, re
 						body, _ = sjson.Set(body, "nat.remoteSubnet", value.String())
 					}
 				}
-				if value := res.Get("nat.legacy"); value.Exists() {
-					if value.Value() == nil {
-						body, _ = sjson.SetRaw(body, "nat.legacy", "null")
-					} else {
-						body, _ = sjson.Set(body, "nat.legacy", map[string]interface{}{})
-						parent := &body
-						value.ForEach(func(k, res gjson.Result) bool {
-							body := ""
-							*parent, _ = sjson.SetRaw(*parent, "nat.legacy."+k.String(), body)
-							return true
-						})
-					}
-				}
 				*parent, _ = sjson.SetRaw(*parent, "subnets.-1", body)
 				return true
 			})
@@ -457,15 +433,6 @@ func (data *ApplianceSiteToSiteVPN) fromBody(ctx context.Context, res meraki.Res
 				data.NatRemoteSubnet = types.StringValue(value.String())
 			} else {
 				data.NatRemoteSubnet = types.StringNull()
-			}
-			if value := res.Get("nat.legacy"); value.Exists() && value.Value() != nil {
-				data.NatLegacy = make(map[string]ApplianceSiteToSiteVPNSubnetsNatLegacy)
-				value.ForEach(func(k, res gjson.Result) bool {
-					parent := &data
-					data := ApplianceSiteToSiteVPNSubnetsNatLegacy{}
-					(*parent).NatLegacy[k.String()] = data
-					return true
-				})
 			}
 			(*parent).Subnets = append((*parent).Subnets, data)
 			return true
@@ -673,13 +640,6 @@ func (data *ApplianceSiteToSiteVPN) fromBodyPartial(ctx context.Context, res mer
 			data.NatRemoteSubnet = types.StringValue(value.String())
 		} else {
 			data.NatRemoteSubnet = types.StringNull()
-		}
-		for i, item := range data.NatLegacy {
-			parent := &data
-			data := item
-			parentRes := &res
-			res := parentRes.Get(fmt.Sprintf("nat.legacy.%s", i))
-			(*parent).NatLegacy[i] = data
 		}
 		(*parent).Subnets[i] = data
 	}

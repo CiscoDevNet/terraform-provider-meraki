@@ -109,10 +109,6 @@ attributes:
         exclude_test: true
         description: The translated subnet to be used in the VPN
         example: 192.168.2.0/24
-      - model_name: legacy
-        type: Map
-        data_path: [nat]
-        description: 'DEPRECATED: Legacy VPN NAT settings. For VLAN entries, when the corresponding NFO is enabled, the related field is returned for every VLAN, including false values.'
 test_prerequisites: |
   data "meraki_organization" "test" {
     name = var.test_org

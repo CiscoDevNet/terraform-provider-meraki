@@ -98,8 +98,6 @@ func testAccDataSourceMerakiApplianceSiteToSiteVPNConfig() string {
 	config += `  subnets = [{` + "\n"
 	config += `    local_subnet = "192.168.128.0/24"` + "\n"
 	config += `    use_vpn = true` + "\n"
-	config += `    nat_legacy = {"" = {` + "\n"
-	config += `    }}` + "\n"
 	config += `  }]` + "\n"
 	config += `}` + "\n"
 

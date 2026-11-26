@@ -150,13 +150,6 @@ func (d *ApplianceSiteToSiteVPNDataSource) Schema(ctx context.Context, req datas
 							MarkdownDescription: "The translated subnet to be used in the VPN",
 							Computed:            true,
 						},
-						"nat_legacy": schema.MapNestedAttribute{
-							MarkdownDescription: "DEPRECATED: Legacy VPN NAT settings. For VLAN entries, when the corresponding NFO is enabled, the related field is returned for every VLAN, including false values.",
-							Computed:            true,
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: map[string]schema.Attribute{},
-							},
-						},
 					},
 				},
 			},
