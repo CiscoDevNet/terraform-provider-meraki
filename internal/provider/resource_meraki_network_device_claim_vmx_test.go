@@ -40,6 +40,8 @@ func TestAccMerakiNetworkDeviceClaimVMX(t *testing.T) {
 	if os.Getenv("TF_VAR_test_org") == "" || os.Getenv("TF_VAR_test_network") == "" {
 		t.Skip("skipping test, set environment variable TF_VAR_test_org and TF_VAR_test_network")
 	}
+	// Do not retry on error codes (e.g. 404), so that eventual-consistency errors are not masked
+	t.Setenv("MERAKI_RETRY_ON_ERROR_CODES", "")
 	var checks []resource.TestCheckFunc
 	checks = append(checks, resource.TestCheckResourceAttr("meraki_network_device_claim_vmx.test", "size", "small"))
 

@@ -28,6 +28,7 @@ skip_bulk_resource_test: bool(required=False) # Do not generate bulk resource ac
 skip_bulk_data_source_test: bool(required=False) # Do not generate bulk data source acceptance test
 test_tags: list(str(), required=False) # List of test tags, tests are only executed if an environment variable with for each of these tags is configured
 test_variables: list(str(), required=False) # List of Terraform test variables, which need to be configured as env vars (TF_VAR_<var_name>)
+test_disable_retry: bool(required=False) # Clear MERAKI_RETRY_ON_ERROR_CODES for the acceptance test, so errors that are normally retried (e.g. 404) surface
 test_prerequisites: str(required=False) # HCL code that is included in the acceptance tests to define prerequisites
 id_name: str(required=False) # the identifier field name of the resource as seen in the request body
 early_access: bool(required=False) # indicates this is using an early access API endpoint

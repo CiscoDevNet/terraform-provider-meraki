@@ -47,6 +47,7 @@ type YamlConfig struct {
 	SkipBulkDataSourceTest bool                  `yaml:"skip_bulk_data_source_test,omitempty"`
 	TestTags               []string              `yaml:"test_tags,omitempty,flow"`
 	TestVariables          []string              `yaml:"test_variables,omitempty,flow"`
+	TestDisableRetry       bool                  `yaml:"test_disable_retry,omitempty"`
 	IgnoreAttributes       []string              `yaml:"ignore_attributes,omitempty,flow"`
 	Attributes             []YamlConfigAttribute `yaml:"attributes,omitempty"`
 	TestPrerequisites      string                `yaml:"test_prerequisites,omitempty"`
@@ -87,6 +88,7 @@ type YamlConfigP struct {
 	SkipBulkDataSourceTest *bool                   `yaml:"skip_bulk_data_source_test,omitempty"`
 	TestTags               *[]string               `yaml:"test_tags,omitempty,flow"`
 	TestVariables          *[]string               `yaml:"test_variables,omitempty,flow"`
+	TestDisableRetry       *bool                   `yaml:"test_disable_retry,omitempty"`
 	IgnoreAttributes       *[]string               `yaml:"ignore_attributes,omitempty,flow"`
 	Attributes             *[]YamlConfigAttributeP `yaml:"attributes,omitempty"`
 	TestPrerequisites      *string                 `yaml:"test_prerequisites,omitempty"`

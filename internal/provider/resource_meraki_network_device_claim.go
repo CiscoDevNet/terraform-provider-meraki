@@ -21,7 +21,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
+	"time"
 
 	"github.com/CiscoDevNet/terraform-provider-meraki/internal/provider/helpers"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
@@ -42,6 +44,11 @@ import (
 )
 
 // End of section. //template:end imports
+
+const (
+	claimWaitTimeout  = 5 * time.Minute
+	claimWaitInterval = 3 * time.Second
+)
 
 // Section below is generated&owned by "gen/generator.go". //template:begin model
 
@@ -158,8 +165,6 @@ func (r *NetworkDeviceClaimResource) Configure(_ context.Context, req resource.C
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan NetworkDeviceClaim
 	var identity NetworkDeviceClaimIdentity
@@ -191,6 +196,14 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	plan.fromBodyUnknowns(ctx, res)
 	identity.toIdentity(ctx, &plan)
 
+	// The claim is completed asynchronously by the Dashboard; wait until the serials are reachable
+	var claimedSerials []string
+	plan.Serials.ElementsAs(ctx, &claimedSerials, false)
+	if err := waitForClaimedSerials(ctx, r.client, claimedSerials); err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Devices were claimed but did not become available in the network: %s", err))
+		return
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -201,7 +214,42 @@ func (r *NetworkDeviceClaimResource) Create(ctx context.Context, req resource.Cr
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
 
-// End of section. //template:end create
+// waitForClaimedSerials polls GET /devices/{serial} until none of the serials returns 404.
+// POST /networks/{networkId}/devices/claim returns before the claim has completed, and the
+// network device list is updated before the per-device endpoint (used by device resources)
+// resolves, so dependent device resources would otherwise fail with 404 in the same apply.
+// Only 404 is treated as "not ready yet": any other response means the device endpoint now
+// resolves the serial (for example a shard redirect) and errors surface in the dependent resource.
+func waitForClaimedSerials(ctx context.Context, client *meraki.Client, serials []string) error {
+	if len(serials) == 0 {
+		return nil
+	}
+	ctx, cancel := context.WithTimeout(ctx, claimWaitTimeout)
+	defer cancel()
+
+	var missing []string
+	for {
+		missing = missing[:0]
+		for _, serial := range serials {
+			path := "/devices/" + url.PathEscape(serial)
+			_, err := client.Get(path)
+			if err != nil && strings.Contains(err.Error(), "StatusCode 404") {
+				missing = append(missing, serial)
+			} else if err != nil {
+				tflog.Debug(ctx, fmt.Sprintf("Waiting for claimed serials, GET %s returned non-404 error, treating as available: %s", path, err))
+			}
+		}
+		if len(missing) == 0 {
+			return nil
+		}
+		tflog.Debug(ctx, fmt.Sprintf("Waiting for claimed serials to become available: %v", missing))
+		select {
+		case <-ctx.Done():
+			return fmt.Errorf("timed out after %s waiting for serials %v", claimWaitTimeout, missing)
+		case <-time.After(claimWaitInterval):
+		}
+	}
+}
 
 func (r *NetworkDeviceClaimResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state NetworkDeviceClaim
@@ -351,6 +399,14 @@ func (r *NetworkDeviceClaimResource) Update(ctx context.Context, req resource.Up
 		res, err := r.client.Post(plan.getPath(), claimBody)
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Failed to claim devices to network, got error: %s, %s", err, res.String()))
+			return
+		}
+		var claimed []string
+		for _, s := range gjson.Get(claimBody, "serials").Array() {
+			claimed = append(claimed, s.String())
+		}
+		if err := waitForClaimedSerials(ctx, r.client, claimed); err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Devices were claimed but did not become available in the network: %s", err))
 			return
 		}
 	}

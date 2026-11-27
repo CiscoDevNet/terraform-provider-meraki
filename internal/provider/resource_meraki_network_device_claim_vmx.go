@@ -114,8 +114,6 @@ func (r *NetworkDeviceClaimVMXResource) Configure(_ context.Context, req resourc
 
 // End of section. //template:end model
 
-// Section below is generated&owned by "gen/generator.go". //template:begin create
-
 func (r *NetworkDeviceClaimVMXResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan NetworkDeviceClaimVMX
 	var identity NetworkDeviceClaimVMXIdentity
@@ -139,6 +137,14 @@ func (r *NetworkDeviceClaimVMXResource) Create(ctx context.Context, req resource
 	plan.fromBodyUnknowns(ctx, res)
 	identity.toIdentity(ctx, &plan)
 
+	// The claim is completed asynchronously by the Dashboard; wait until the vMX is reachable
+	if !plan.Serial.IsNull() && !plan.Serial.IsUnknown() {
+		if err := waitForClaimedSerials(ctx, r.client, []string{plan.Serial.ValueString()}); err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("vMX was claimed but did not become available in the network: %s", err))
+			return
+		}
+	}
+
 	tflog.Debug(ctx, fmt.Sprintf("%s: Create finished successfully", plan.Id.ValueString()))
 
 	diags = resp.State.Set(ctx, &plan)
@@ -148,8 +154,6 @@ func (r *NetworkDeviceClaimVMXResource) Create(ctx context.Context, req resource
 
 	helpers.SetFlagImporting(ctx, false, resp.Private, &resp.Diagnostics)
 }
-
-// End of section. //template:end create
 
 // Section below is generated&owned by "gen/generator.go". //template:begin read
 
